@@ -225,6 +225,8 @@ public interface FPlayer extends EconomyParticipator {
 
     public boolean canClaimForFactionAtLocation(Faction forFaction, Location location, boolean notifyFailure);
 
+    public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation location, boolean notifyFailure);
+
     public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure);
 
     public void msg(String str, Object... args);

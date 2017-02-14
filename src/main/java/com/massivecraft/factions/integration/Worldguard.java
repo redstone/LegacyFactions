@@ -1,5 +1,6 @@
 package com.massivecraft.factions.integration;
 
+import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.P;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.Vector;
@@ -27,6 +28,7 @@ import static com.sk89q.worldguard.bukkit.BukkitUtil.toVector;
  *  Author: Spathizilla
  */
 
+// TODO: use newer faster method, rewrite entire class
 public class Worldguard {
 
     private static WorldGuardPlugin wg;
@@ -65,6 +67,7 @@ public class Worldguard {
 
         RegionManager regionManager = wg.getRegionManager(world);
         ApplicableRegionSet set = regionManager.getApplicableRegions(pt);
+        
         return set.allows(DefaultFlag.PVP);
     }
 
@@ -91,14 +94,22 @@ public class Worldguard {
     // Returns:
     //   True: Regions found within chunk
     //   False: No regions found within chunk
+    
     public static boolean checkForRegionsInChunk(Location loc) {
+    	return checkForRegionsInChunk(loc.getChunk());	
+    }
+    
+    public static boolean checkForRegionsInChunk(FLocation loc) {
+    	return checkForRegionsInChunk(loc.getChunk());	
+    }
+    
+    public static boolean checkForRegionsInChunk(Chunk chunk) {
         if (!enabled) {
             // No WG hooks so we'll always bypass this check.
             return false;
         }
 
-        World world = loc.getWorld();
-        Chunk chunk = world.getChunkAt(loc);
+        World world = chunk.getWorld();
         int minChunkX = chunk.getX() << 4;
         int minChunkZ = chunk.getZ() << 4;
         int maxChunkX = minChunkX + 15;
