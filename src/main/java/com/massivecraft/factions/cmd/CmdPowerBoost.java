@@ -1,9 +1,9 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdPowerBoost extends FCommand {
@@ -76,7 +76,7 @@ public class CmdPowerBoost extends FCommand {
         int roundedPower = (int) Math.round(targetPower);
         msg(TL.COMMAND_POWERBOOST_BOOST, target, roundedPower);
         if (!senderIsConsole) {
-            P.get().log(TL.COMMAND_POWERBOOST_BOOSTLOG.toString(), fme.getName(), target, roundedPower);
+            Factions.get().log(TL.COMMAND_POWERBOOST_BOOSTLOG.toString(), fme.getName(), target, roundedPower);
         }
     }
 

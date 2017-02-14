@@ -1,7 +1,7 @@
 package com.massivecraft.factions.integration.worldguard;
 
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.integration.IntegrationEngine;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.Vector;
@@ -40,11 +40,11 @@ public class WorldGuardEngine extends IntegrationEngine {
         if (wgplug == null || !(wgplug instanceof WorldGuardPlugin)) {
             enabled = false;
             wg = null;
-            P.get().log("Could not hook to WorldGuard. WorldGuard checks are disabled.");
+            Factions.get().log("Could not hook to WorldGuard. WorldGuard checks are disabled.");
         } else {
             wg = (WorldGuardPlugin) wgplug;
             enabled = true;
-            P.get().log("Successfully hooked to WorldGuard.");
+            Factions.get().log("Successfully hooked to WorldGuard.");
         }
     }
 

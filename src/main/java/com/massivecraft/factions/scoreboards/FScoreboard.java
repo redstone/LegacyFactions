@@ -1,8 +1,9 @@
 package com.massivecraft.factions.scoreboards;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -53,7 +54,7 @@ public class FScoreboard {
     }
 
     public static FScoreboard get(Player player) {
-        return fscoreboards.get(FPlayers.getInstance().getByPlayer(player));
+        return fscoreboards.get(FPlayerColl.getInstance().getByPlayer(player));
     }
 
     private FScoreboard(FPlayer fplayer) {
@@ -109,7 +110,7 @@ public class FScoreboard {
                     updateObjective();
                 }
             }
-        }.runTaskTimer(P.get(), updateInterval, updateInterval);
+        }.runTaskTimer(Factions.get(), updateInterval, updateInterval);
     }
 
     public void setTemporarySidebar(final FSidebarProvider provider) {
@@ -132,7 +133,7 @@ public class FScoreboard {
                     updateObjective();
                 }
             }
-        }.runTaskLater(P.get(), P.get().getConfig().getInt("scoreboard.expiration", 7) * 20);
+        }.runTaskLater(Factions.get(), Factions.get().getConfig().getInt("scoreboard.expiration", 7) * 20);
     }
 
     private void updateObjective() {

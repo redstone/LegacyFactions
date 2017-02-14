@@ -1,9 +1,9 @@
 package com.massivecraft.factions.zcore.persist;
 
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.MPlugin;
 
 public class SaveTask implements Runnable {
@@ -21,11 +21,11 @@ public class SaveTask implements Runnable {
             return;
         }
         running = true;
-        P.get().preAutoSave();
-        Factions.getInstance().forceSave(false);
-        FPlayers.getInstance().forceSave(false);
+        Factions.get().preAutoSave();
+        FactionColl.getInstance().forceSave(false);
+        FPlayerColl.getInstance().forceSave(false);
         Board.getInstance().forceSave(false);
-        P.get().postAutoSave();
+        Factions.get().postAutoSave();
         running = false;
     }
 }

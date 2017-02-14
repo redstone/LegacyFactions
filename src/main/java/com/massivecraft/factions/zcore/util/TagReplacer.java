@@ -1,8 +1,12 @@
 package com.massivecraft.factions.zcore.util;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.struct.Relation;
+
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -106,19 +110,19 @@ public enum TagReplacer {
             case TOTAL_ONLINE:
                 return String.valueOf(Bukkit.getOnlinePlayers().size());
             case FACTIONLESS:
-                return String.valueOf(Factions.getInstance().getWilderness().getFPlayersWhereOnline(true).size());
+                return String.valueOf(FactionColl.getInstance().getWilderness().getFPlayersWhereOnline(true).size());
             case MAX_ALLIES:
-                if (P.get().getConfig().getBoolean("max-relations.enabled", true)) {
-                    return String.valueOf(P.get().getConfig().getInt("max-relations.ally", 10));
+                if (Factions.get().getConfig().getBoolean("max-relations.enabled", true)) {
+                    return String.valueOf(Factions.get().getConfig().getInt("max-relations.ally", 10));
                 }
                 return TL.GENERIC_INFINITY.toString();
             case MAX_ENEMIES:
-                if (P.get().getConfig().getBoolean("max-relations.enabled", true)) {
-                    return String.valueOf(P.get().getConfig().getInt("max-relations.enemy", 10));
+                if (Factions.get().getConfig().getBoolean("max-relations.enabled", true)) {
+                    return String.valueOf(Factions.get().getConfig().getInt("max-relations.enemy", 10));
                 }
                 return TL.GENERIC_INFINITY.toString();
             case MAX_WARPS:
-                return String.valueOf(P.get().getConfig().getInt("max-warps", 5));
+                return String.valueOf(Factions.get().getConfig().getInt("max-warps", 5));
             default:
             	return null;
         }
@@ -137,12 +141,12 @@ public enum TagReplacer {
             return getValue();
         }
 
-        boolean minimal = P.get().getConfig().getBoolean("minimal-show", false);
+        boolean minimal = Factions.get().getConfig().getBoolean("minimal-show", false);
 
         if (fp != null) {
             switch (this) {
                 case HEADER:
-                    return P.get().txt.titleize(fac.getTag(fp));
+                    return Factions.get().txt.titleize(fac.getTag(fp));
                 case PLAYER_NAME:
                     return fp.getName();
                 case FACTION:
@@ -151,7 +155,7 @@ public enum TagReplacer {
                     String humanized = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - fp.getLastLoginTime(), true, true) + TL.COMMAND_STATUS_AGOSUFFIX;
                     return fp.isOnline() ? ChatColor.GREEN + TL.COMMAND_STATUS_ONLINE.toString() : (System.currentTimeMillis() - fp.getLastLoginTime() < 432000000 ? ChatColor.YELLOW + humanized : ChatColor.RED + humanized);
                 case PLAYER_GROUP:
-                    return P.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fp.getId())));
+                    return Factions.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fp.getId())));
                 case PLAYER_BALANCE:
                     return VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(fp) : TL.ECON_OFF.format("balance");
                 case PLAYER_POWER:
@@ -193,7 +197,7 @@ public enum TagReplacer {
             case CREATE_DATE:
                 return TL.sdf.format(fac.getFoundedDate());
             case RAIDABLE:
-                boolean raid = P.get().getConfig().getBoolean("hcf.raidable", false) && fac.getLandRounded() >= fac.getPowerRounded();
+                boolean raid = Factions.get().getConfig().getBoolean("hcf.raidable", false) && fac.getLandRounded() >= fac.getPowerRounded();
                 return raid ? TL.RAIDABLE_TRUE.toString() : TL.RAIDABLE_FALSE.toString();
             case HOME_WORLD:
                 return fac.hasHome() ? fac.getHome().getWorld().getName() : minimal ? null : "{ig}";

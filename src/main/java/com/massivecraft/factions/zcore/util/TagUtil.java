@@ -1,10 +1,10 @@
 package com.massivecraft.factions.zcore.util;
 
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.util.MiscUtil;
 import mkremins.fanciful.FancyMessage;
 import org.bukkit.ChatColor;
@@ -125,13 +125,13 @@ public class TagUtil {
      */
     protected static List<FancyMessage> getFancy(Faction target, FPlayer fme, TagReplacer type, String prefix) {
         List<FancyMessage> fancyMessages = new ArrayList<FancyMessage>();
-        boolean minimal = P.get().getConfig().getBoolean("minimal-show", false);
+        boolean minimal = Factions.get().getConfig().getBoolean("minimal-show", false);
 
         switch (type) {
             case ALLIES_LIST:
-                FancyMessage currentAllies = P.get().txt.parseFancy(prefix);
+                FancyMessage currentAllies = Factions.get().txt.parseFancy(prefix);
                 boolean firstAlly = true;
-                for (Faction otherFaction : Factions.getInstance().getAllFactions()) {
+                for (Faction otherFaction : FactionColl.getInstance().getAllFactions()) {
                     if (otherFaction == target) {
                         continue;
                     }
@@ -149,9 +149,9 @@ public class TagUtil {
                 fancyMessages.add(currentAllies);
                 return firstAlly && minimal ? null : fancyMessages; // we must return here and not outside the switch
             case ENEMIES_LIST:
-                FancyMessage currentEnemies = P.get().txt.parseFancy(prefix);
+                FancyMessage currentEnemies = Factions.get().txt.parseFancy(prefix);
                 boolean firstEnemy = true;
-                for (Faction otherFaction : Factions.getInstance().getAllFactions()) {
+                for (Faction otherFaction : FactionColl.getInstance().getAllFactions()) {
                     if (otherFaction == target) {
                         continue;
                     }
@@ -169,7 +169,7 @@ public class TagUtil {
                 fancyMessages.add(currentEnemies);
                 return firstEnemy && minimal ? null : fancyMessages; // we must return here and not outside the switch
             case ONLINE_LIST:
-                FancyMessage currentOnline = P.get().txt.parseFancy(prefix);
+                FancyMessage currentOnline = Factions.get().txt.parseFancy(prefix);
                 boolean firstOnline = true;
                 for (FPlayer p : MiscUtil.rankOrder(target.getFPlayersWhereOnline(true))) {
                     String name = p.getNameAndTitle();
@@ -184,7 +184,7 @@ public class TagUtil {
                 fancyMessages.add(currentOnline);
                 return firstOnline && minimal ? null : fancyMessages; // we must return here and not outside the switch
             case OFFLINE_LIST:
-                FancyMessage currentOffline = P.get().txt.parseFancy(prefix);
+                FancyMessage currentOffline = Factions.get().txt.parseFancy(prefix);
                 boolean firstOffline = true;
                 for (FPlayer p : MiscUtil.rankOrder(target.getFPlayers())) {
                     String name = p.getNameAndTitle();
@@ -213,7 +213,7 @@ public class TagUtil {
      */
     private static List<String> tipFaction(Faction faction) {
         List<String> lines = new ArrayList<String>();
-        for (String line : P.get().getConfig().getStringList("tooltips.list")) {
+        for (String line : Factions.get().getConfig().getStringList("tooltips.list")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', TagUtil.parsePlain(faction, line)));
         }
         return lines;
@@ -228,7 +228,7 @@ public class TagUtil {
      */
     private static List<String> tipPlayer(FPlayer fplayer) {
         List<String> lines = new ArrayList<String>();
-        for (String line : P.get().getConfig().getStringList("tooltips.show")) {
+        for (String line : Factions.get().getConfig().getStringList("tooltips.show")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', TagUtil.parsePlain(fplayer, line)));
         }
         return lines;

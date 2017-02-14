@@ -1,8 +1,9 @@
 package com.massivecraft.factions.event;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.Faction;
 import org.bukkit.event.Cancellable;
+
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
 
 public class FPlayerLeaveEvent extends FactionPlayerEvent implements Cancellable {
 

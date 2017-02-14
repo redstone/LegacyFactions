@@ -1,6 +1,6 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Conf;
+import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.integration.playervaults.PlayerVaultsIntegration;
 import com.massivecraft.factions.zcore.util.TL;
 

@@ -1,4 +1,4 @@
-package com.massivecraft.factions.iface;
+package com.massivecraft.factions;
 
 import com.massivecraft.factions.zcore.util.TL;
 

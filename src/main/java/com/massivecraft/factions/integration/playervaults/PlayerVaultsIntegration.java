@@ -2,7 +2,7 @@ package com.massivecraft.factions.integration.playervaults;
 
 import org.bukkit.Bukkit;
 
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.cmd.FCommand;
 import com.massivecraft.factions.integration.Integration;
 import com.massivecraft.factions.integration.playervaults.cmd.CmdSetMaxVaults;
@@ -26,7 +26,7 @@ public class PlayerVaultsIntegration extends Integration {
 	}
 	
 	public void injectCommands(FCommand onto) {
-        P.get().log("Found playervaults hook, adding /f vault and /f setmaxvault commands.");
+        Factions.get().log("Found playervaults hook, adding /f vault and /f setmaxvault commands.");
         onto.addSubCommand(new CmdSetMaxVaults());
         onto.addSubCommand(new CmdVault());
 

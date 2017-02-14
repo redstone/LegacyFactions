@@ -1,10 +1,10 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.util.TL;
 import com.massivecraft.factions.zcore.util.TagUtil;
 
@@ -44,14 +44,14 @@ public class CmdList extends FCommand {
             return;
         }
 
-        ArrayList<Faction> factionList = Factions.getInstance().getAllFactions();
-        factionList.remove(Factions.getInstance().getNone());
-        factionList.remove(Factions.getInstance().getSafeZone());
-        factionList.remove(Factions.getInstance().getWarZone());
+        ArrayList<Faction> factionList = FactionColl.getInstance().getAllFactions();
+        factionList.remove(FactionColl.getInstance().getNone());
+        factionList.remove(FactionColl.getInstance().getSafeZone());
+        factionList.remove(FactionColl.getInstance().getWarZone());
 
         // remove exempt factions
         if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")) {
-            List<String> exemptFactions = P.get().getConfig().getStringList("show-exempt");
+            List<String> exemptFactions = Factions.get().getConfig().getStringList("show-exempt");
             Iterator<Faction> factionIterator = factionList.iterator();
             while (factionIterator.hasNext()) {
                 Faction next = factionIterator.next();
@@ -93,7 +93,7 @@ public class CmdList extends FCommand {
 
         ArrayList<String> lines = new ArrayList<String>();
 
-        factionList.add(0, Factions.getInstance().getNone());
+        factionList.add(0, FactionColl.getInstance().getNone());
 
         final int pageheight = 9;
         int pagenumber = this.argAsInt(0, 1);

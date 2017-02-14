@@ -1,8 +1,9 @@
 package com.massivecraft.factions.event;
 
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 

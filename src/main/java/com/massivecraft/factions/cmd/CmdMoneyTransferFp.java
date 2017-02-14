@@ -1,10 +1,10 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.iface.EconomyParticipator;
+import com.massivecraft.factions.EconomyParticipator;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.ChatColor;
 
@@ -43,7 +43,7 @@ public class CmdMoneyTransferFp extends FCommand {
         boolean success = VaultEngine.transferMoney(fme, from, to, amount);
 
         if (success && Conf.logMoneyTransactions) {
-            P.get().log(ChatColor.stripColor(P.get().txt.parse(TL.COMMAND_MONEYTRANSFERFP_TRANSFER.toString(), fme.getName(), VaultEngine.moneyString(amount), from.describeTo(null), to.describeTo(null))));
+            Factions.get().log(ChatColor.stripColor(Factions.get().txt.parse(TL.COMMAND_MONEYTRANSFERFP_TRANSFER.toString(), fme.getName(), VaultEngine.moneyString(amount), from.describeTo(null), to.describeTo(null))));
         }
     }
 

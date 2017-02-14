@@ -4,9 +4,9 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.zcore.persist.MemoryFPlayer;
 import com.massivecraft.factions.zcore.persist.MemoryFPlayers;
 import com.massivecraft.factions.zcore.util.DiscUtil;
@@ -35,8 +35,8 @@ public class JSONFPlayers extends MemoryFPlayers {
     private File file;
 
     public JSONFPlayers() {
-        file = new File(P.get().getDataFolder(), "players.json");
-        gson = P.get().gson;
+        file = new File(Factions.get().getDataFolder(), "players.json");
+        gson = Factions.get().gson;
     }
 
     public void convertFrom(MemoryFPlayers old) {
@@ -47,7 +47,7 @@ public class JSONFPlayers extends MemoryFPlayers {
             }
         }));
         forceSave();
-        FPlayers.instance = this;
+        FPlayerColl.instance = this;
     }
 
     public void forceSave() {
@@ -76,7 +76,7 @@ public class JSONFPlayers extends MemoryFPlayers {
         }
         this.fPlayers.clear();
         this.fPlayers.putAll(fplayers);
-        P.get().log("Loaded " + fPlayers.size() + " players");
+        Factions.get().log("Loaded " + fPlayers.size() + " players");
     }
 
     private Map<String, JSONFPlayer> loadCore() {

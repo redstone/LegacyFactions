@@ -1,9 +1,9 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.zcore.util.TL;
 import com.massivecraft.factions.zcore.util.TagReplacer;
 import com.massivecraft.factions.zcore.util.TagUtil;
@@ -55,7 +55,7 @@ public class CmdShow extends FCommand {
         }
 
         if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")
-                && P.get().getConfig().getStringList("show-exempt").contains(faction.getTag())) {
+                && Factions.get().getConfig().getStringList("show-exempt").contains(faction.getTag())) {
             msg(TL.COMMAND_SHOW_EXEMPT);
             return;
         }
@@ -65,7 +65,7 @@ public class CmdShow extends FCommand {
             return;
         }
 
-        List<String> show = P.get().getConfig().getStringList("show");
+        List<String> show = Factions.get().getConfig().getStringList("show");
         if (show == null || show.isEmpty()) {
             show = defaults;
         }

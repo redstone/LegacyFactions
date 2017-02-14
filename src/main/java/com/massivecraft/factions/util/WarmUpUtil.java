@@ -1,7 +1,7 @@
 package com.massivecraft.factions.util;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class WarmUpUtil {
@@ -21,7 +21,7 @@ public class WarmUpUtil {
                 player.msg(TL.WARMUPS_ALREADY);
             } else {
                 player.msg(translationKey.format(action, delay));
-                int id = P.get().getServer().getScheduler().runTaskLater(P.get(), new Runnable() {
+                int id = Factions.get().getServer().getScheduler().runTaskLater(Factions.get(), new Runnable() {
                     @Override
                     public void run() {
                         player.stopWarmup();

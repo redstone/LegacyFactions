@@ -1,6 +1,10 @@
 package com.massivecraft.factions.scoreboards;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -29,13 +33,13 @@ public class FTeamWrapper {
             return;
         }
 
-        if (!P.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
+        if (!Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
             return;
         }
 
 
         if (updating.add(faction)) {
-            Bukkit.getScheduler().runTask(P.get(), new Runnable() {
+            Bukkit.getScheduler().runTask(Factions.get(), new Runnable() {
                 @Override
                 public void run() {
                     updating.remove(faction);
@@ -54,7 +58,7 @@ public class FTeamWrapper {
             return;
         }
 
-        if (!P.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
+        if (!Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
             return;
         }
 
@@ -66,7 +70,7 @@ public class FTeamWrapper {
         FTeamWrapper wrapper = wrappers.get(faction);
         Set<FPlayer> factionMembers = faction.getFPlayers();
 
-        if (wrapper != null && Factions.getInstance().getFactionById(faction.getId()) == null) {
+        if (wrapper != null && FactionColl.getInstance().getFactionById(faction.getId()) == null) {
             // Faction was disbanded
             wrapper.unregister();
             wrappers.remove(faction);
@@ -79,7 +83,7 @@ public class FTeamWrapper {
         }
 
         for (OfflinePlayer player : wrapper.getPlayers()) {
-            if (!player.isOnline() || !factionMembers.contains(FPlayers.getInstance().getByOfflinePlayer(player))) {
+            if (!player.isOnline() || !factionMembers.contains(FPlayerColl.getInstance().getByOfflinePlayer(player))) {
                 // Player is offline or no longer in faction
                 wrapper.removePlayer(player);
             }
@@ -156,7 +160,7 @@ public class FTeamWrapper {
     }
 
     private void updatePrefixes() {
-        if (P.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
+        if (Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
             for (FScoreboard fboard : teams.keySet()) {
                 updatePrefix(fboard);
             }
@@ -164,7 +168,7 @@ public class FTeamWrapper {
     }
 
     private void updatePrefix(FScoreboard fboard) {
-        if (P.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
+        if (Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", false)) {
             FPlayer fplayer = fboard.getFPlayer();
             Team team = teams.get(fboard);
 

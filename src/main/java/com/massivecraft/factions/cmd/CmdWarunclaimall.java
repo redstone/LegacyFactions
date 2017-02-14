@@ -1,10 +1,10 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdWarunclaimall extends FCommand {
@@ -27,11 +27,11 @@ public class CmdWarunclaimall extends FCommand {
 
     @Override
     public void perform() {
-        Board.getInstance().unclaimAll(Factions.getInstance().getWarZone().getId());
+        Board.getInstance().unclaimAll(FactionColl.getInstance().getWarZone().getId());
         msg(TL.COMMAND_WARUNCLAIMALL_SUCCESS);
 
         if (Conf.logLandUnclaims) {
-            P.get().log(TL.COMMAND_WARUNCLAIMALL_LOG.format(fme.getName()));
+            Factions.get().log(TL.COMMAND_WARUNCLAIMALL_LOG.format(fme.getName()));
         }
     }
 

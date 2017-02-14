@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Permission;
 import com.massivecraft.factions.util.VisualizeUtil;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.Location;

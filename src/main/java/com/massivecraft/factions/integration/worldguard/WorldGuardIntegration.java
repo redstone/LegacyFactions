@@ -2,7 +2,7 @@ package com.massivecraft.factions.integration.worldguard;
 
 import org.bukkit.Bukkit;
 
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.integration.Integration;
 
 public class WorldGuardIntegration extends Integration {
@@ -19,7 +19,7 @@ public class WorldGuardIntegration extends Integration {
 
 	@Override
 	public void init() {
-		WorldGuardEngine.init(P.get());
+		WorldGuardEngine.init(Factions.get());
 	}
 	
 }

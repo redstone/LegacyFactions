@@ -1,10 +1,12 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.integration.essentials.EssentialsEngine;
-import com.massivecraft.factions.struct.Permission;
-import com.massivecraft.factions.struct.Relation;
-import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.WarmUpUtil;
 import com.massivecraft.factions.zcore.util.SmokeUtil;
 import com.massivecraft.factions.zcore.util.TL;
@@ -80,7 +82,7 @@ public class CmdHome extends FCommand {
                     continue;
                 }
 
-                FPlayer fp = FPlayers.getInstance().getByPlayer(p);
+                FPlayer fp = FPlayerColl.getInstance().getByPlayer(p);
                 if (fme.getRelationTo(fp) != Relation.ENEMY || fp.isVanished()) {
                     continue;
                 }

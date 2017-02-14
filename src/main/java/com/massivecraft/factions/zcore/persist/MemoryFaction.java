@@ -1,12 +1,13 @@
 package com.massivecraft.factions.zcore.persist;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.iface.EconomyParticipator;
-import com.massivecraft.factions.iface.RelationParticipator;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.struct.Permission;
-import com.massivecraft.factions.struct.Relation;
-import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.LazyLocation;
 import com.massivecraft.factions.util.MiscUtil;
 import com.massivecraft.factions.util.RelationUtil;
@@ -279,7 +280,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public boolean isPowerFrozen() {
-        int freezeSeconds = P.get().getConfig().getInt("hcf.powerfreeze", 0);
+        int freezeSeconds = Factions.get().getConfig().getInt("hcf.powerfreeze", 0);
         if (freezeSeconds == 0) {
             return false;
         }
@@ -427,7 +428,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         if (this.relationWish.containsKey(otherFaction.getId())) {
             return this.relationWish.get(otherFaction.getId());
         }
-        return Relation.fromString(P.get().getConfig().getString("default-relation", "neutral")); // Always default to old behavior.
+        return Relation.fromString(Factions.get().getConfig().getString("default-relation", "neutral")); // Always default to old behavior.
     }
 
     public void setRelationWish(Faction otherFaction, Relation relation) {
@@ -440,7 +441,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
     public int getRelationCount(Relation relation) {
         int count = 0;
-        for (Faction faction : Factions.getInstance().getAllFactions()) {
+        for (Faction faction : FactionColl.getInstance().getAllFactions()) {
             if (faction.getRelationTo(this) == relation) {
                 count++;
             }
@@ -512,7 +513,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
             return;
         }
 
-        for (FPlayer fplayer : FPlayers.getInstance().getAllFPlayers()) {
+        for (FPlayer fplayer : FPlayerColl.getInstance().getAllFPlayers()) {
             if (fplayer.getFactionId().equalsIgnoreCase(id)) {
                 fplayers.add(fplayer);
             }
@@ -588,8 +589,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
             return ret;
         }
 
-        for (Player player : P.get().getServer().getOnlinePlayers()) {
-            FPlayer fplayer = FPlayers.getInstance().getByPlayer(player);
+        for (Player player : Factions.get().getServer().getOnlinePlayers()) {
+            FPlayer fplayer = FPlayerColl.getInstance().getByPlayer(player);
             if (fplayer.getFaction() == this) {
                 ret.add(player);
             }
@@ -606,8 +607,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
             return false;
         }
 
-        for (Player player : P.get().getServer().getOnlinePlayers()) {
-            FPlayer fplayer = FPlayers.getInstance().getByPlayer(player);
+        for (Player player : Factions.get().getServer().getOnlinePlayers()) {
+            FPlayer fplayer = FPlayerColl.getInstance().getByPlayer(player);
             if (fplayer != null && fplayer.getFaction() == this) {
                 return true;
             }
@@ -652,14 +653,14 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
             // no members left and faction isn't permanent, so disband it
             if (Conf.logFactionDisband) {
-                P.get().log("The faction " + this.getTag() + " (" + this.getId() + ") has been disbanded since it has no members left.");
+                Factions.get().log("The faction " + this.getTag() + " (" + this.getId() + ") has been disbanded since it has no members left.");
             }
 
-            for (FPlayer fplayer : FPlayers.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
                 fplayer.msg("The faction %s<i> was disbanded.", this.getTag(fplayer));
             }
 
-            Factions.getInstance().removeFaction(getId());
+            FactionColl.getInstance().removeFaction(getId());
         } else { // promote new faction admin
             if (oldLeader != null) {
                 oldLeader.setRole(Role.NORMAL);
@@ -667,7 +668,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
             replacements.get(0).setRole(Role.ADMIN);
             //TODO:TL
             this.msg("<i>Faction admin <h>%s<i> has been removed. %s<i> has been promoted as the new faction admin.", oldLeader == null ? "" : oldLeader.getName(), replacements.get(0).getName());
-            P.get().log("Faction " + this.getTag() + " (" + this.getId() + ") admin was removed. Replacement admin: " + replacements.get(0).getName());
+            Factions.get().log("Faction " + this.getTag() + " (" + this.getId() + ") admin was removed. Replacement admin: " + replacements.get(0).getName());
         }
     }
 
@@ -675,7 +676,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     // Messages
     // ----------------------------------------------//
     public void msg(String message, Object... args) {
-        message = P.get().txt.parse(message, args);
+        message = Factions.get().txt.parse(message, args);
 
         for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
             fplayer.sendMessage(message);

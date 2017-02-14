@@ -1,5 +1,6 @@
 package com.massivecraft.factions;
 
+import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.util.MiscUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;

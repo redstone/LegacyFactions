@@ -1,6 +1,6 @@
-package com.massivecraft.factions.struct;
+package com.massivecraft.factions;
 
-import com.massivecraft.factions.Conf;
+import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.zcore.util.TL;
 
 public enum Role {
@@ -46,4 +46,5 @@ public enum Role {
 
         return "";
     }
+    
 }

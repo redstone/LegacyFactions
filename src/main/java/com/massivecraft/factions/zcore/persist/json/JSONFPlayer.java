@@ -1,7 +1,7 @@
 package com.massivecraft.factions.zcore.persist.json;
 
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.zcore.persist.MemoryFPlayer;
 
 public class JSONFPlayer extends MemoryFPlayer {
@@ -16,7 +16,7 @@ public class JSONFPlayer extends MemoryFPlayer {
 
     @Override
     public void remove() {
-        ((JSONFPlayers) FPlayers.getInstance()).fPlayers.remove(getId());
+        ((JSONFPlayers) FPlayerColl.getInstance()).fPlayers.remove(getId());
     }
 
     public boolean shouldBeSaved() {

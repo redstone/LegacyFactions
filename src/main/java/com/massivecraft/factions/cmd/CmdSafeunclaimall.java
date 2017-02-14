@@ -1,10 +1,10 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdSafeunclaimall extends FCommand {
@@ -28,11 +28,11 @@ public class CmdSafeunclaimall extends FCommand {
 
     @Override
     public void perform() {
-        Board.getInstance().unclaimAll(Factions.getInstance().getSafeZone().getId());
+        Board.getInstance().unclaimAll(FactionColl.getInstance().getSafeZone().getId());
         msg(TL.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
 
         if (Conf.logLandUnclaims) {
-            P.get().log(TL.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
+            Factions.get().log(TL.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
         }
     }
 

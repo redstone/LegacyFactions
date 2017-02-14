@@ -1,20 +1,20 @@
 package com.massivecraft.factions.zcore.persist;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.event.FPlayerLeaveEvent;
 import com.massivecraft.factions.event.LandClaimEvent;
-import com.massivecraft.factions.iface.EconomyParticipator;
-import com.massivecraft.factions.iface.RelationParticipator;
 import com.massivecraft.factions.integration.essentials.EssentialsEngine;
 import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.integration.worldguard.WorldGuardEngine;
 import com.massivecraft.factions.integration.worldguard.WorldGuardIntegration;
 import com.massivecraft.factions.scoreboards.FScoreboard;
 import com.massivecraft.factions.scoreboards.sidebar.FInfoSidebar;
-import com.massivecraft.factions.struct.ChatMode;
-import com.massivecraft.factions.struct.Permission;
-import com.massivecraft.factions.struct.Relation;
-import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.RelationUtil;
 import com.massivecraft.factions.util.WarmUpUtil;
 import com.massivecraft.factions.zcore.util.TL;
@@ -83,7 +83,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (this.factionId == null) {
             this.factionId = "0";
         }
-        return Factions.getInstance().getFactionById(this.factionId);
+        return FactionColl.getInstance().getFactionById(this.factionId);
     }
 
     public String getFactionId() {
@@ -133,7 +133,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
     public void setAutoLeave(boolean willLeave) {
         this.willAutoLeave = willLeave;
-        P.get().debug(name + " set autoLeave to " + willLeave);
+        Factions.get().debug(name + " set autoLeave to " + willLeave);
     }
 
     public long getLastFrostwalkerMessage() {
@@ -240,11 +240,11 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.autoWarZoneEnabled = false;
         this.loginPvpDisabled = Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0;
         this.powerBoost = 0.0;
-        this.showScoreboard = P.get().getConfig().getBoolean("scoreboard.default-enabled", false);
+        this.showScoreboard = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", false);
         this.kills = 0;
         this.deaths = 0;
 
-        if (!Conf.newPlayerStartingFactionID.equals("0") && Factions.getInstance().isValidFactionId(Conf.newPlayerStartingFactionID)) {
+        if (!Conf.newPlayerStartingFactionID.equals("0") && FactionColl.getInstance().isValidFactionId(Conf.newPlayerStartingFactionID)) {
             this.factionId = Conf.newPlayerStartingFactionID;
         }
     }
@@ -266,14 +266,14 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.spyingChat = other.spyingChat;
         this.lastStoodAt = other.lastStoodAt;
         this.isAdminBypassing = other.isAdminBypassing;
-        this.showScoreboard = P.get().getConfig().getBoolean("scoreboard.default-enabled", true);
+        this.showScoreboard = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", true);
         this.kills = other.kills;
         this.deaths = other.deaths;
     }
 
     public void resetFactionData(boolean doSpoutUpdate) {
         // clean up any territory ownership in old faction, if there is one
-        if (factionId != null && Factions.getInstance().isValidFactionId(this.getFactionId())) {
+        if (factionId != null && FactionColl.getInstance().isValidFactionId(this.getFactionId())) {
             Faction currentFaction = this.getFaction();
             currentFaction.removeFPlayer(this);
             if (currentFaction.isNormal()) {
@@ -585,10 +585,10 @@ public abstract class MemoryFPlayer implements FPlayer {
         boolean showChat = true;
         if (showInfoBoard(toShow)) {
             FScoreboard.get(this).setTemporarySidebar(new FInfoSidebar(toShow));
-            showChat = P.get().getConfig().getBoolean("scoreboard.also-send-chat", true);
+            showChat = Factions.get().getConfig().getBoolean("scoreboard.also-send-chat", true);
         }
         if (showChat) {
-            this.sendMessage(P.get().txt.parse(TL.FACTION_LEAVE.format(from.getTag(this), toShow.getTag(this))));
+            this.sendMessage(Factions.get().txt.parse(TL.FACTION_LEAVE.format(from.getTag(this), toShow.getTag(this))));
         }
     }
 
@@ -600,7 +600,7 @@ public abstract class MemoryFPlayer implements FPlayer {
      * @return true if should show, otherwise false.
      */
     public boolean showInfoBoard(Faction toShow) {
-        return showScoreboard && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && P.get().getConfig().contains("scoreboard.finfo") && P.get().getConfig().getBoolean("scoreboard.finfo-enabled", false) && FScoreboard.get(this) != null;
+        return showScoreboard && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && Factions.get().getConfig().contains("scoreboard.finfo") && Factions.get().getConfig().getBoolean("scoreboard.finfo-enabled", false) && FScoreboard.get(this) != null;
     }
 
     @Override
@@ -668,7 +668,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             }
 
             if (Conf.logFactionLeave) {
-                P.get().log(TL.LEAVE_LEFT.format(this.getName(), myFaction.getTag()));
+                Factions.get().log(TL.LEAVE_LEFT.format(this.getName(), myFaction.getTag()));
             }
         }
 
@@ -677,13 +677,13 @@ public abstract class MemoryFPlayer implements FPlayer {
 
         if (myFaction.isNormal() && !perm && myFaction.getFPlayers().isEmpty()) {
             // Remove this faction
-            for (FPlayer fplayer : FPlayers.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
                 fplayer.msg(TL.LEAVE_DISBANDED, myFaction.describeTo(fplayer, true));
             }
 
-            Factions.getInstance().removeFaction(myFaction.getId());
+            FactionColl.getInstance().removeFaction(myFaction.getId());
             if (Conf.logFactionDisband) {
-                P.get().log(TL.LEAVE_DISBANDEDLOG.format(myFaction.getTag(), myFaction.getId(), this.getName()));
+                Factions.get().log(TL.LEAVE_DISBANDEDLOG.format(myFaction.getTag(), myFaction.getId(), this.getName()));
             }
         }
     }
@@ -703,8 +703,8 @@ public abstract class MemoryFPlayer implements FPlayer {
         Faction myFaction = getFaction();
         Faction currentFaction = Board.getInstance().getFactionAt(flocation);
         int ownedLand = forFaction.getLandRounded();
-        int factionBuffer = P.get().getConfig().getInt("hcf.buffer-zone", 0);
-        int worldBuffer = P.get().getConfig().getInt("world-border.buffer", 0);
+        int factionBuffer = Factions.get().getConfig().getInt("hcf.buffer-zone", 0);
+        int worldBuffer = Factions.get().getConfig().getInt("world-border.buffer", 0);
 
         // Admin Bypass needs no further checks
         if (this.isAdminBypassing()) {
@@ -722,88 +722,88 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(flocation)) {
             // Checks for WorldGuard regions in the chunk attempting to be claimed
         	
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_PROTECTED.toString()));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_PROTECTED.toString()));
         	return false;
         }
         
         if (Conf.worldsNoClaiming.contains(flocation.getWorldName())) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_DISABLED.toString()));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_DISABLED.toString()));
         	return false;
         } 
         
         if (myFaction != forFaction) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_CANTCLAIM.toString(), forFaction.describeTo(this)));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_CANTCLAIM.toString(), forFaction.describeTo(this)));
         	return false;
         }
         
         if (forFaction == currentFaction) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_ALREADYOWN.toString(), forFaction.describeTo(this, true)));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_ALREADYOWN.toString(), forFaction.describeTo(this, true)));
         	return false;
         }
         
         if (this.getRole().value < Role.MODERATOR.value) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_MUSTBE.toString(), Role.MODERATOR.getTranslation()));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_MUSTBE.toString(), Role.MODERATOR.getTranslation()));
         	return false;
         }
         
         if (forFaction.getFPlayers().size() < Conf.claimsRequireMinFactionMembers) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_MEMBERS.toString(), Conf.claimsRequireMinFactionMembers));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_MEMBERS.toString(), Conf.claimsRequireMinFactionMembers));
         	return false;
         }
         
         if (currentFaction.isSafeZone()) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_SAFEZONE.toString()));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_SAFEZONE.toString()));
         	return false;
         }
         
         if (currentFaction.isWarZone()) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_WARZONE.toString()));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_WARZONE.toString()));
         	return false;
         } 
         
-        if (P.get().getConfig().getBoolean("hcf.allow-overclaim", true) && ownedLand >= forFaction.getPowerRounded()) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_POWER.toString()));
+        if (Factions.get().getConfig().getBoolean("hcf.allow-overclaim", true) && ownedLand >= forFaction.getPowerRounded()) {
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_POWER.toString()));
         	return false;
         }
         
         if (Conf.claimedLandsMax != 0 && ownedLand >= Conf.claimedLandsMax && forFaction.isNormal()) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_LIMIT.toString()));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_LIMIT.toString()));
         	return false;
         }
         
         if (currentFaction.getRelationTo(forFaction) == Relation.ALLY) {
-        	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_ALLY.toString()));
+        	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_ALLY.toString()));
         	return false;
         } 
 
         if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.getInstance().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
             if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
-            	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_CONTIGIOUS.toString()));
+            	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_CONTIGIOUS.toString()));
             } else {
-            	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_FACTIONCONTIGUOUS.toString()));
+            	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_FACTIONCONTIGUOUS.toString()));
             }
             return false;
         } else if (factionBuffer > 0 && Board.getInstance().hasFactionWithin(flocation, myFaction, factionBuffer)) {
-            error = P.get().txt.parse(TL.CLAIM_TOOCLOSETOOTHERFACTION.format(factionBuffer));
+            error = Factions.get().txt.parse(TL.CLAIM_TOOCLOSETOOTHERFACTION.format(factionBuffer));
         } else if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(worldBuffer)) {
             if (worldBuffer > 0) {
-                error = P.get().txt.parse(TL.CLAIM_OUTSIDEBORDERBUFFER.format(worldBuffer));
+                error = Factions.get().txt.parse(TL.CLAIM_OUTSIDEBORDERBUFFER.format(worldBuffer));
             } else {
-                error = P.get().txt.parse(TL.CLAIM_OUTSIDEWORLDBORDER.toString());
+                error = Factions.get().txt.parse(TL.CLAIM_OUTSIDEWORLDBORDER.toString());
             }
         } else if (currentFaction.isNormal()) {
             if (myFaction.isPeaceful()) {
-                error = P.get().txt.parse(TL.CLAIM_PEACEFUL.toString(), currentFaction.getTag(this));
+                error = Factions.get().txt.parse(TL.CLAIM_PEACEFUL.toString(), currentFaction.getTag(this));
             } else if (currentFaction.isPeaceful()) {
-                error = P.get().txt.parse(TL.CLAIM_PEACEFULTARGET.toString(), currentFaction.getTag(this));
+                error = Factions.get().txt.parse(TL.CLAIM_PEACEFULTARGET.toString(), currentFaction.getTag(this));
             } else if (!currentFaction.hasLandInflation()) {
                 // TODO more messages WARN current faction most importantly
-                error = P.get().txt.parse(TL.CLAIM_THISISSPARTA.toString(), currentFaction.getTag(this));
-            } else if (currentFaction.hasLandInflation() && !P.get().getConfig().getBoolean("hcf.allow-overclaim", true)) {
+                error = Factions.get().txt.parse(TL.CLAIM_THISISSPARTA.toString(), currentFaction.getTag(this));
+            } else if (currentFaction.hasLandInflation() && !Factions.get().getConfig().getBoolean("hcf.allow-overclaim", true)) {
                 // deny over claim when it normally would be allowed.
-                error = P.get().txt.parse(TL.CLAIM_OVERCLAIM_DISABLED.toString());
+                error = Factions.get().txt.parse(TL.CLAIM_OVERCLAIM_DISABLED.toString());
             } else if (!Board.getInstance().isBorderLocation(flocation)) {
-                error = P.get().txt.parse(TL.CLAIM_BORDER.toString());
+                error = Factions.get().txt.parse(TL.CLAIM_BORDER.toString());
             }
         }
         // TODO: Add more else if statements.
@@ -881,7 +881,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         Board.getInstance().setFactionAt(forFaction, flocation);
 
         if (Conf.logLandClaims) {
-            P.get().log(TL.CLAIM_CLAIMEDLOG.toString(), this.getName(), flocation.getCoordString(), forFaction.getTag());
+            Factions.get().log(TL.CLAIM_CLAIMEDLOG.toString(), this.getName(), flocation.getCoordString(), forFaction.getTag());
         }
 
         return true;
@@ -895,7 +895,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
 
     public void msg(String str, Object... args) {
-        this.sendMessage(P.get().txt.parse(str, args));
+        this.sendMessage(Factions.get().txt.parse(str, args));
     }
 
     public void msg(TL translation, Object... args) {

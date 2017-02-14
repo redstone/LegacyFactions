@@ -1,9 +1,10 @@
 package com.massivecraft.factions.zcore.persist;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.FactionColl;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -11,13 +12,13 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-public abstract class MemoryFPlayers extends FPlayers {
+public abstract class MemoryFPlayers extends FPlayerColl {
     public Map<String, FPlayer> fPlayers = new ConcurrentSkipListMap<String, FPlayer>(String.CASE_INSENSITIVE_ORDER);
 
     public void clean() {
         for (FPlayer fplayer : this.fPlayers.values()) {
-            if (!Factions.getInstance().isValidFactionId(fplayer.getFactionId())) {
-                P.get().log("Reset faction data (invalid faction:" + fplayer.getFactionId() + ") for player " + fplayer.getName());
+            if (!FactionColl.getInstance().isValidFactionId(fplayer.getFactionId())) {
+                Factions.get().log("Reset faction data (invalid faction:" + fplayer.getFactionId() + ") for player " + fplayer.getName());
                 fplayer.resetFactionData(false);
             }
         }

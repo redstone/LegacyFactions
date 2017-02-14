@@ -1,10 +1,13 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.event.FPlayerJoinEvent;
 import com.massivecraft.factions.event.FactionCreateEvent;
-import com.massivecraft.factions.struct.Permission;
-import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.MiscUtil;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.Bukkit;
@@ -39,7 +42,7 @@ public class CmdCreate extends FCommand {
             return;
         }
 
-        if (Factions.getInstance().isTagTaken(tag)) {
+        if (FactionColl.getInstance().isTagTaken(tag)) {
             msg(TL.COMMAND_CREATE_INUSE);
             return;
         }
@@ -69,7 +72,7 @@ public class CmdCreate extends FCommand {
             return;
         }
 
-        Faction faction = Factions.getInstance().createFaction();
+        Faction faction = FactionColl.getInstance().createFaction();
 
         // TODO: Why would this even happen??? Auto increment clash??
         if (faction == null) {
@@ -81,7 +84,7 @@ public class CmdCreate extends FCommand {
         faction.setTag(tag);
 
         // trigger the faction join event for the creator
-        FPlayerJoinEvent joinEvent = new FPlayerJoinEvent(FPlayers.getInstance().getByPlayer(me), faction, FPlayerJoinEvent.PlayerJoinReason.CREATE);
+        FPlayerJoinEvent joinEvent = new FPlayerJoinEvent(FPlayerColl.getInstance().getByPlayer(me), faction, FPlayerJoinEvent.PlayerJoinReason.CREATE);
         Bukkit.getServer().getPluginManager().callEvent(joinEvent);
         // join event cannot be cancelled or you'll have an empty faction
 
@@ -89,14 +92,14 @@ public class CmdCreate extends FCommand {
         fme.setRole(Role.ADMIN);
         fme.setFaction(faction);
 
-        for (FPlayer follower : FPlayers.getInstance().getOnlinePlayers()) {
+        for (FPlayer follower : FPlayerColl.getInstance().getOnlinePlayers()) {
             follower.msg(TL.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
         }
 
         msg(TL.COMMAND_CREATE_YOUSHOULD, p.cmdBase.cmdDescription.getUseageTemplate());
 
         if (Conf.logFactionCreate) {
-            P.get().log(fme.getName() + TL.COMMAND_CREATE_CREATEDLOG.toString() + tag);
+            Factions.get().log(fme.getName() + TL.COMMAND_CREATE_CREATEDLOG.toString() + tag);
         }
     }
 

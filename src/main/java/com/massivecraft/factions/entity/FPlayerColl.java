@@ -1,4 +1,4 @@
-package com.massivecraft.factions;
+package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.zcore.persist.json.JSONFPlayers;
 import org.bukkit.OfflinePlayer;
@@ -6,16 +6,16 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 
-public abstract class FPlayers {
-    protected static FPlayers instance = getFPlayersImpl();
+public abstract class FPlayerColl {
+    protected static FPlayerColl instance = getFPlayersImpl();
 
     public abstract void clean();
 
-    public static FPlayers getInstance() {
+    public static FPlayerColl getInstance() {
         return instance;
     }
 
-    private static FPlayers getFPlayersImpl() {
+    private static FPlayerColl getFPlayersImpl() {
         switch (Conf.backEnd) {
             case JSON:
                 return new JSONFPlayers();

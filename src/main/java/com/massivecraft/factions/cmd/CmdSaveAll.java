@@ -1,10 +1,10 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdSaveAll extends FCommand {
@@ -28,8 +28,8 @@ public class CmdSaveAll extends FCommand {
 
     @Override
     public void perform() {
-        FPlayers.getInstance().forceSave(false);
-        Factions.getInstance().forceSave(false);
+        FPlayerColl.getInstance().forceSave(false);
+        FactionColl.getInstance().forceSave(false);
         Board.getInstance().forceSave(false);
         Conf.save();
         msg(TL.COMMAND_SAVEALL_SUCCESS);

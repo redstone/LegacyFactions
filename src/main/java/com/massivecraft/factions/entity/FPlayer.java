@@ -1,10 +1,11 @@
-package com.massivecraft.factions;
+package com.massivecraft.factions.entity;
 
-import com.massivecraft.factions.iface.EconomyParticipator;
-import com.massivecraft.factions.iface.RelationParticipator;
-import com.massivecraft.factions.struct.ChatMode;
-import com.massivecraft.factions.struct.Relation;
-import com.massivecraft.factions.struct.Role;
+import com.massivecraft.factions.ChatMode;
+import com.massivecraft.factions.EconomyParticipator;
+import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.Relation;
+import com.massivecraft.factions.RelationParticipator;
+import com.massivecraft.factions.Role;
 import com.massivecraft.factions.util.WarmUpUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

@@ -1,6 +1,6 @@
 package com.massivecraft.factions.zcore;
 
-import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.listeners.FactionsPlayerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -47,6 +47,6 @@ public class MPluginSecretPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerPreLogin(PlayerLoginEvent event) {
-        FPlayers.getInstance().getByPlayer(event.getPlayer());
+        FPlayerColl.getInstance().getByPlayer(event.getPlayer());
     }
 }

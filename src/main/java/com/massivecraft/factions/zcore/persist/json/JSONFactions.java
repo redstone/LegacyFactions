@@ -5,9 +5,9 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.persist.MemoryFaction;
 import com.massivecraft.factions.zcore.persist.MemoryFactions;
 import com.massivecraft.factions.zcore.util.DiscUtil;
@@ -47,8 +47,8 @@ public class JSONFactions extends MemoryFactions {
     // -------------------------------------------- //
 
     public JSONFactions() {
-        this.file = new File(P.get().getDataFolder(), "factions.json");
-        this.gson = P.get().gson;
+        this.file = new File(Factions.get().getDataFolder(), "factions.json");
+        this.gson = Factions.get().gson;
         this.nextId = 1;
     }
 
@@ -77,7 +77,7 @@ public class JSONFactions extends MemoryFactions {
         this.factions.putAll(factions);
 
         super.load();
-        P.get().log("Loaded " + factions.size() + " Factions");
+        Factions.get().log("Loaded " + factions.size() + " Factions");
     }
 
     private Map<String, JSONFaction> loadCore() {
@@ -258,6 +258,6 @@ public class JSONFactions extends MemoryFactions {
         }));
         this.nextId = old.nextId;
         forceSave();
-        Factions.instance = this;
+        FactionColl.instance = this;
     }
 }

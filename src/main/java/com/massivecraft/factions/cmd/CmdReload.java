@@ -1,8 +1,8 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdReload extends FCommand {
@@ -27,8 +27,8 @@ public class CmdReload extends FCommand {
     public void perform() {
         long timeInitStart = System.currentTimeMillis();
         Conf.load();
-        P.get().reloadConfig();
-        P.get().loadLang();
+        Factions.get().reloadConfig();
+        Factions.get().loadLang();
         long timeReload = (System.currentTimeMillis() - timeInitStart);
 
         msg(TL.COMMAND_RELOAD_TIME, timeReload);

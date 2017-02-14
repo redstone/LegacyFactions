@@ -1,6 +1,7 @@
-package com.massivecraft.factions;
+package com.massivecraft.factions.entity;
 
 import com.google.common.collect.ImmutableMap;
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.integration.dynmap.DynmapStyle;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -454,11 +455,11 @@ public class Conf {
     private static transient Conf i = new Conf();
 
     public static void load() {
-        P.get().persist.loadOrSaveDefault(i, Conf.class, "conf");
+        Factions.get().persist.loadOrSaveDefault(i, Conf.class, "conf");
     }
 
     public static void save() {
-        P.get().persist.save(i);
+        Factions.get().persist.save(i);
     }
 
     public enum Backend {

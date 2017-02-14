@@ -1,6 +1,11 @@
 package com.massivecraft.factions.zcore.persist.json;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.zcore.persist.MemoryBoard;
 import com.massivecraft.factions.zcore.persist.MemoryFPlayers;
 import com.massivecraft.factions.zcore.persist.MemoryFactions;
@@ -11,10 +16,10 @@ import java.util.logging.Logger;
 public class FactionsJSON {
 
     public static void convertTo() {
-        if (!(Factions.getInstance() instanceof MemoryFactions)) {
+        if (!(FactionColl.getInstance() instanceof MemoryFactions)) {
             return;
         }
-        if (!(FPlayers.getInstance() instanceof MemoryFPlayers)) {
+        if (!(FPlayerColl.getInstance() instanceof MemoryFPlayers)) {
             return;
         }
         if (!(Board.getInstance() instanceof MemoryBoard)) {
@@ -23,23 +28,23 @@ public class FactionsJSON {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Logger logger = P.get().getLogger();
+                Logger logger = Factions.get().getLogger();
                 logger.info("Beginning Board conversion to JSON");
                 new JSONBoard().convertFrom((MemoryBoard) Board.getInstance());
                 logger.info("Board Converted");
                 logger.info("Beginning FPlayers conversion to JSON");
-                new JSONFPlayers().convertFrom((MemoryFPlayers) FPlayers.getInstance());
+                new JSONFPlayers().convertFrom((MemoryFPlayers) FPlayerColl.getInstance());
                 logger.info("FPlayers Converted");
                 logger.info("Beginning Factions conversion to JSON");
-                new JSONFactions().convertFrom((MemoryFactions) Factions.getInstance());
+                new JSONFactions().convertFrom((MemoryFactions) FactionColl.getInstance());
                 logger.info("Factions Converted");
                 logger.info("Refreshing object caches");
-                for (FPlayer fPlayer : FPlayers.getInstance().getAllFPlayers()) {
-                    Faction faction = Factions.getInstance().getFactionById(fPlayer.getFactionId());
+                for (FPlayer fPlayer : FPlayerColl.getInstance().getAllFPlayers()) {
+                    Faction faction = FactionColl.getInstance().getFactionById(fPlayer.getFactionId());
                     faction.addFPlayer(fPlayer);
                 }
                 logger.info("Conversion Complete");
             }
-        }.runTaskAsynchronously(P.get());
+        }.runTaskAsynchronously(Factions.get());
     }
 }

@@ -1,14 +1,14 @@
 package com.massivecraft.factions.event;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Factions;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 
 /**
  * Event called when a Faction is created.
@@ -28,7 +28,7 @@ public class FactionCreateEvent extends Event implements Cancellable {
     }
 
     public FPlayer getFPlayer() {
-        return FPlayers.getInstance().getByPlayer(sender);
+        return FPlayerColl.getInstance().getByPlayer(sender);
     }
 
     public String getFactionTag() {
@@ -41,7 +41,7 @@ public class FactionCreateEvent extends Event implements Cancellable {
      * @return false if tag is taken
      */
     public Boolean setFactionTag(String tag) {
-    	Faction check = Factions.getInstance().getByTag(tag);
+    	Faction check = FactionColl.getInstance().getByTag(tag);
     	if (check == null) {
     		this.factionTag = tag;
     		return true;

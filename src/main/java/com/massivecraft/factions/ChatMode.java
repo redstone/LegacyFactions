@@ -1,4 +1,4 @@
-package com.massivecraft.factions.struct;
+package com.massivecraft.factions;
 
 import com.massivecraft.factions.zcore.util.TL;
 

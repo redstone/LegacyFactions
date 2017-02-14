@@ -3,7 +3,10 @@ package com.massivecraft.factions.zcore.persist;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.struct.Relation;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.util.AsciiCompass;
 import com.massivecraft.factions.util.LazyLocation;
 import org.bukkit.ChatColor;
@@ -73,7 +76,7 @@ public abstract class MemoryBoard extends Board {
     }
 
     public Faction getFactionAt(FLocation flocation) {
-        return Factions.getInstance().getFactionById(getIdAt(flocation));
+        return FactionColl.getInstance().getFactionById(getIdAt(flocation));
     }
 
     public void setIdAt(String id, FLocation flocation) {
@@ -127,7 +130,7 @@ public abstract class MemoryBoard extends Board {
     }
 
     public void unclaimAll(String factionId) {
-        Faction faction = Factions.getInstance().getFactionById(factionId);
+        Faction faction = FactionColl.getInstance().getFactionById(factionId);
         if (faction != null && faction.isNormal()) {
             faction.clearAllClaimOwnership();
             faction.clearWarps();
@@ -196,8 +199,8 @@ public abstract class MemoryBoard extends Board {
         Iterator<Entry<FLocation, String>> iter = flocationIds.entrySet().iterator();
         while (iter.hasNext()) {
             Entry<FLocation, String> entry = iter.next();
-            if (!Factions.getInstance().isValidFactionId(entry.getValue())) {
-                P.get().log("Board cleaner removed " + entry.getValue() + " from " + entry.getKey());
+            if (!FactionColl.getInstance().isValidFactionId(entry.getValue())) {
+                Factions.get().log("Board cleaner removed " + entry.getValue() + " from " + entry.getKey());
                 iter.remove();
             }
         }
@@ -239,7 +242,7 @@ public abstract class MemoryBoard extends Board {
     public ArrayList<String> getMap(Faction faction, FLocation flocation, double inDegrees) {
         ArrayList<String> ret = new ArrayList<String>();
         Faction factionLoc = getFactionAt(flocation);
-        ret.add(P.get().txt.titleize("(" + flocation.getCoordString() + ") " + factionLoc.getTag(faction)));
+        ret.add(Factions.get().txt.titleize("(" + flocation.getCoordString() + ") " + factionLoc.getTag(faction)));
 
         int halfWidth = Conf.mapWidth / 2;
         int halfHeight = Conf.mapHeight / 2;
@@ -290,7 +293,7 @@ public abstract class MemoryBoard extends Board {
         }
 
         // Get the compass
-        ArrayList<String> asciiCompass = AsciiCompass.getAsciiCompass(inDegrees, ChatColor.RED, P.get().txt.parse("<a>"));
+        ArrayList<String> asciiCompass = AsciiCompass.getAsciiCompass(inDegrees, ChatColor.RED, Factions.get().txt.parse("<a>"));
 
         // Add the compass
         ret.set(1, asciiCompass.get(0) + ret.get(1).substring(3 * 3));

@@ -2,7 +2,7 @@ package com.massivecraft.factions.integration.vault;
 
 import org.bukkit.Bukkit;
 
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.integration.Integration;
 
 
@@ -24,7 +24,7 @@ public class VaultIntegration  extends Integration {
 	}
 	
 	public Boolean hasPermissions() {
-		return P.get().perms != null;
+		return Factions.get().perms != null;
 	}
 
 }

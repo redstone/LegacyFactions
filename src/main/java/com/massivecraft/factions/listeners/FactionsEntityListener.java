@@ -1,8 +1,12 @@
 package com.massivecraft.factions.listeners;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.PowerLossEvent;
-import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.util.MiscUtil;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.Bukkit;
@@ -29,9 +33,9 @@ import java.util.*;
 
 public class FactionsEntityListener implements Listener {
 
-    public P p;
+    public Factions p;
 
-    public FactionsEntityListener(P p) {
+    public FactionsEntityListener(Factions p) {
         this.p = p;
     }
 
@@ -43,7 +47,7 @@ public class FactionsEntityListener implements Listener {
         }
 
         Player player = (Player) entity;
-        FPlayer fplayer = FPlayers.getInstance().getByPlayer(player);
+        FPlayer fplayer = FPlayerColl.getInstance().getByPlayer(player);
         Faction faction = Board.getInstance().getFactionAt(new FLocation(player.getLocation()));
 
         PowerLossEvent powerLossEvent = new PowerLossEvent(faction, fplayer, Conf.powerPerDeath);
@@ -115,7 +119,7 @@ public class FactionsEntityListener implements Listener {
         Entity entity = event.getEntity();
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            FPlayer me = FPlayers.getInstance().getByPlayer(player);
+            FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
             cancelFStuckTeleport(player);
             if (me.isWarmingUp()) {
                 me.clearWarmup();
@@ -129,9 +133,9 @@ public class FactionsEntityListener implements Listener {
             return;
         }
         UUID uuid = player.getUniqueId();
-        if (P.get().getStuckMap().containsKey(uuid)) {
-            FPlayers.getInstance().getByPlayer(player).msg(TL.COMMAND_STUCK_CANCELLED);
-            P.get().getStuckMap().remove(uuid);
+        if (Factions.get().getStuckMap().containsKey(uuid)) {
+            FPlayerColl.getInstance().getByPlayer(player).msg(TL.COMMAND_STUCK_CANCELLED);
+            Factions.get().getStuckMap().remove(uuid);
         }
     }
 
@@ -234,7 +238,7 @@ public class FactionsEntityListener implements Listener {
 
         if (thrower instanceof Player) {
             Player player = (Player) thrower;
-            FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
+            FPlayer fPlayer = FPlayerColl.getInstance().getByPlayer(player);
             if (badjuju && fPlayer.getFaction().isPeaceful()) {
                 event.setCancelled(true);
                 return;
@@ -275,7 +279,7 @@ public class FactionsEntityListener implements Listener {
             return true;
         }
 
-        FPlayer defender = FPlayers.getInstance().getByPlayer((Player) damagee);
+        FPlayer defender = FPlayerColl.getInstance().getByPlayer((Player) damagee);
 
         if (defender == null || defender.getPlayer() == null) {
             return true;
@@ -304,7 +308,7 @@ public class FactionsEntityListener implements Listener {
         if (defLocFaction.noPvPInTerritory()) {
             if (damager instanceof Player) {
                 if (notify) {
-                    FPlayer attacker = FPlayers.getInstance().getByPlayer((Player) damager);
+                    FPlayer attacker = FPlayerColl.getInstance().getByPlayer((Player) damager);
                     attacker.msg(TL.PLAYER_CANTHURT, (defLocFaction.isSafeZone() ? TL.REGION_SAFEZONE.toString() : TL.REGION_PEACEFUL.toString()));
                 }
                 return false;
@@ -316,7 +320,7 @@ public class FactionsEntityListener implements Listener {
             return true;
         }
 
-        FPlayer attacker = FPlayers.getInstance().getByPlayer((Player) damager);
+        FPlayer attacker = FPlayerColl.getInstance().getByPlayer((Player) damager);
 
         if (attacker == null || attacker.getPlayer() == null) {
             return true;
@@ -535,7 +539,7 @@ public class FactionsEntityListener implements Listener {
 
     @EventHandler
     public void onTravel(PlayerPortalEvent event) {
-        if (!P.get().getConfig().getBoolean("portals.limit", false)) {
+        if (!Factions.get().getConfig().getBoolean("portals.limit", false)) {
             return; // Don't do anything if they don't want us to.
         }
 
@@ -553,8 +557,8 @@ public class FactionsEntityListener implements Listener {
                 return;
             }
 
-            FPlayer fp = FPlayers.getInstance().getByPlayer(event.getPlayer());
-            String mininumRelation = P.get().getConfig().getString("portals.minimum-relation", "MEMBER"); // Defaults to Neutral if typed wrong.
+            FPlayer fp = FPlayerColl.getInstance().getByPlayer(event.getPlayer());
+            String mininumRelation = Factions.get().getConfig().getString("portals.minimum-relation", "MEMBER"); // Defaults to Neutral if typed wrong.
             if (!fp.getFaction().getRelationTo(faction).isAtLeast(Relation.fromString(mininumRelation))) {
                 event.setCancelled(true);
             }

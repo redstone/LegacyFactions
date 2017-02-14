@@ -1,8 +1,11 @@
 package com.massivecraft.factions.listeners;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.struct.ChatMode;
-import com.massivecraft.factions.struct.Relation;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,9 +20,9 @@ import java.util.logging.Level;
 
 public class FactionsChatListener implements Listener {
 
-    public P p;
+    public Factions p;
 
-    public FactionsChatListener(P p) {
+    public FactionsChatListener(Factions p) {
         this.p = p;
     }
 
@@ -28,7 +31,7 @@ public class FactionsChatListener implements Listener {
     public void onPlayerEarlyChat(AsyncPlayerChatEvent event) {
         Player talkingPlayer = event.getPlayer();
         String msg = event.getMessage();
-        FPlayer me = FPlayers.getInstance().getByPlayer(talkingPlayer);
+        FPlayer me = FPlayerColl.getInstance().getByPlayer(talkingPlayer);
         ChatMode chat = me.getChatMode();
 
         // Is it a faction chat message?
@@ -41,7 +44,7 @@ public class FactionsChatListener implements Listener {
             Bukkit.getLogger().log(Level.INFO, ChatColor.stripColor("FactionChat " + myFaction.getTag() + ": " + message));
 
             //Send to any players who are spying chat
-            for (FPlayer fplayer : FPlayers.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
                 if (fplayer.isSpyingChat() && fplayer.getFaction() != myFaction && me != fplayer) {
                     fplayer.sendMessage("[FCspy] " + myFaction.getTag() + ": " + message);
                 }
@@ -57,7 +60,7 @@ public class FactionsChatListener implements Listener {
             myFaction.sendMessage(message);
 
             //Send to all our allies
-            for (FPlayer fplayer : FPlayers.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
                 if (myFaction.getRelationTo(fplayer) == Relation.ALLY && !fplayer.isIgnoreAllianceChat()) {
                     fplayer.sendMessage(message);
                 } else if (fplayer.isSpyingChat() && me != fplayer) {
@@ -77,7 +80,7 @@ public class FactionsChatListener implements Listener {
             myFaction.sendMessage(message);
 
             //Send to all our truces
-            for (FPlayer fplayer : FPlayers.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
                 if (myFaction.getRelationTo(fplayer) == Relation.TRUCE) {
                     fplayer.sendMessage(message);
                 } else if (fplayer.isSpyingChat() && fplayer != me) {
@@ -102,7 +105,7 @@ public class FactionsChatListener implements Listener {
         Player talkingPlayer = event.getPlayer();
         String msg = event.getMessage();
         String eventFormat = event.getFormat();
-        FPlayer me = FPlayers.getInstance().getByPlayer(talkingPlayer);
+        FPlayer me = FPlayerColl.getInstance().getByPlayer(talkingPlayer);
         int InsertIndex;
 
         if (!Conf.chatTagReplaceString.isEmpty() && eventFormat.contains(Conf.chatTagReplaceString)) {
@@ -140,15 +143,15 @@ public class FactionsChatListener implements Listener {
             event.setCancelled(true);
 
             for (Player listeningPlayer : event.getRecipients()) {
-                FPlayer you = FPlayers.getInstance().getByPlayer(listeningPlayer);
+                FPlayer you = FPlayerColl.getInstance().getByPlayer(listeningPlayer);
                 String yourFormat = formatStart + me.getChatTag(you).trim() + formatEnd;
                 try {
                     listeningPlayer.sendMessage(String.format(yourFormat, talkingPlayer.getDisplayName(), msg));
                 } catch (UnknownFormatConversionException ex) {
                     Conf.chatTagInsertIndex = 0;
-                    P.get().error("Critical error in chat message formatting!");
-                    P.get().error("NOTE: This has been automatically fixed right now by setting chatTagInsertIndex to 0.");
-                    P.get().error("For a more proper fix, please read this regarding chat configuration: http://massivecraft.com/plugins/factions/config#Chat_configuration");
+                    Factions.get().error("Critical error in chat message formatting!");
+                    Factions.get().error("NOTE: This has been automatically fixed right now by setting chatTagInsertIndex to 0.");
+                    Factions.get().error("For a more proper fix, please read this regarding chat configuration: http://massivecraft.com/plugins/factions/config#Chat_configuration");
                     return;
                 }
             }

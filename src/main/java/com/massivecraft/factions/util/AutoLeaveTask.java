@@ -1,7 +1,7 @@
 package com.massivecraft.factions.util;
 
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.Conf;
 
 public class AutoLeaveTask implements Runnable {
 
@@ -18,11 +18,11 @@ public class AutoLeaveTask implements Runnable {
         }
 
         task = new AutoLeaveProcessTask();
-        task.runTaskTimer(P.get(), 1, 1);
+        task.runTaskTimer(Factions.get(), 1, 1);
 
         // maybe setting has been changed? if so, restart this task at new rate
         if (this.rate != Conf.autoLeaveRoutineRunsEveryXMinutes) {
-            P.get().startAutoLeaveTask(true);
+            Factions.get().startAutoLeaveTask(true);
         }
     }
 }

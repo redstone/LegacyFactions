@@ -1,6 +1,6 @@
 package com.massivecraft.factions.zcore.util;
 
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
 import org.bukkit.Bukkit;
 
 import java.io.*;
@@ -84,7 +84,7 @@ public class DiscUtil {
                 lock.unlock();
             }
         } else {
-            Bukkit.getScheduler().runTaskAsynchronously(P.get(), new Runnable() {
+            Bukkit.getScheduler().runTaskAsynchronously(Factions.get(), new Runnable() {
                 @Override
                 public void run() {
                     lock.lock();

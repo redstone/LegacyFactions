@@ -1,10 +1,14 @@
 package com.massivecraft.factions.listeners;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.integration.worldguard.WorldGuardEngine;
 import com.massivecraft.factions.integration.worldguard.WorldGuardIntegration;
-import com.massivecraft.factions.struct.Permission;
-import com.massivecraft.factions.struct.Relation;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,9 +22,9 @@ import org.bukkit.event.block.*;
 
 public class FactionsBlockListener implements Listener {
 
-    public P p;
+    public Factions p;
 
-    public FactionsBlockListener(P p) {
+    public FactionsBlockListener(Factions p) {
         this.p = p;
     }
 
@@ -113,7 +117,7 @@ public class FactionsBlockListener implements Listener {
         Faction otherFaction = Board.getInstance().getFactionAt(new FLocation(targetLoc));
 
         // Check if the piston is moving in a faction's territory. This disables pistons entirely in faction territory.
-        if (otherFaction.isNormal() && P.get().getConfig().getBoolean("disable-pistons-in-territory", false)) {
+        if (otherFaction.isNormal() && Factions.get().getConfig().getBoolean("disable-pistons-in-territory", false)) {
             event.setCancelled(true);
             return;
         }
@@ -141,7 +145,7 @@ public class FactionsBlockListener implements Listener {
         Location location = event.getBlock().getLocation();
 
         // only notify every 10 seconds
-        FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
+        FPlayer fPlayer = FPlayerColl.getInstance().getByPlayer(player);
         boolean justCheck = fPlayer.getLastFrostwalkerMessage() + 10000 > System.currentTimeMillis();
         if (!justCheck) {
             fPlayer.setLastFrostwalkerMessage();
@@ -196,7 +200,7 @@ public class FactionsBlockListener implements Listener {
             return true;
         }
 
-        FPlayer me = FPlayers.getInstance().getById(player.getUniqueId().toString());
+        FPlayer me = FPlayerColl.getInstance().getById(player.getUniqueId().toString());
         if (me.isAdminBypassing()) {
             return true;
         }
@@ -247,7 +251,7 @@ public class FactionsBlockListener implements Listener {
 
             return false;
         }
-        if (P.get().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+        if (Factions.get().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
             return true;
         }
 

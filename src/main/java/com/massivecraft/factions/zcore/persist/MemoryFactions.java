@@ -1,7 +1,7 @@
 package com.massivecraft.factions.zcore.persist;
 
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.util.MiscUtil;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.ChatColor;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class MemoryFactions extends Factions {
+public abstract class MemoryFactions extends FactionColl {
     public Map<String, Faction> factions = new ConcurrentHashMap<String, Faction>();
     public int nextId = 1;
 

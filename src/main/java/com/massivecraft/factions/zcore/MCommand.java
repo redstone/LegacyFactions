@@ -1,8 +1,8 @@
 package com.massivecraft.factions.zcore;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.zcore.util.TL;
 import com.massivecraft.factions.zcore.util.TextUtil;
@@ -166,7 +166,7 @@ public abstract class MCommand<T extends MPlugin> {
     }
 
     public boolean validSenderPermissions(CommandSender sender, boolean informSenderIfNot) {
-        return this.permission == null || P.get().perm.has(sender, this.permission, informSenderIfNot);
+        return this.permission == null || Factions.get().perm.has(sender, this.permission, informSenderIfNot);
     }
 
     public boolean validArgs(List<String> args, CommandSender sender) {
@@ -310,7 +310,7 @@ public abstract class MCommand<T extends MPlugin> {
             s = s.replace("{power}", power);
         }
         if (s.contains("{group}")) {
-            String group = P.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(player.getId())));
+            String group = Factions.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(player.getId())));
             s = s.replace("{group}", group);
         }
         return s;

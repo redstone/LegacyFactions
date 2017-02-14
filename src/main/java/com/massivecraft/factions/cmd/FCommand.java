@@ -1,8 +1,12 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.WarmUpUtil;
 import com.massivecraft.factions.zcore.MCommand;
 import com.massivecraft.factions.zcore.util.TL;
@@ -13,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public abstract class FCommand extends MCommand<P> {
+public abstract class FCommand extends MCommand<Factions> {
 
     public SimpleDateFormat sdf = new SimpleDateFormat(TL.DATE_FORMAT.toString());
 
@@ -28,7 +32,7 @@ public abstract class FCommand extends MCommand<P> {
     public boolean isMoneyCommand;
 
     public FCommand() {
-        super(P.get());
+        super(Factions.get());
 
         // Due to safety reasons it defaults to disable on lock.
         disableOnLock = true;
@@ -44,7 +48,7 @@ public abstract class FCommand extends MCommand<P> {
     @Override
     public void execute(CommandSender sender, List<String> args, List<MCommand<?>> commandChain) {
         if (sender instanceof Player) {
-            this.fme = FPlayers.getInstance().getByPlayer((Player) sender);
+            this.fme = FPlayerColl.getInstance().getByPlayer((Player) sender);
             this.myFaction = this.fme.getFaction();
         } else {
             this.fme = null;
@@ -143,7 +147,7 @@ public abstract class FCommand extends MCommand<P> {
         FPlayer ret = def;
 
         if (name != null) {
-            for (FPlayer fplayer : FPlayers.getInstance().getAllFPlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getInstance().getAllFPlayers()) {
                 if (fplayer.getName().equalsIgnoreCase(name)) {
                     ret = fplayer;
                     break;
@@ -193,22 +197,22 @@ public abstract class FCommand extends MCommand<P> {
 
         if (name != null) {
             // First we try an exact match
-            Faction faction = Factions.getInstance().getByTag(name); // Checks for faction name match.
+            Faction faction = FactionColl.getInstance().getByTag(name); // Checks for faction name match.
 
             // Now lets try for warzone / safezone. Helpful for custom warzone / safezone names.
             // Do this after we check for an exact match in case they rename the warzone / safezone
             // and a player created faction took one of the names.
             if (faction == null) {
                 if (name.equalsIgnoreCase("warzone")) {
-                    faction = Factions.getInstance().getWarZone();
+                    faction = FactionColl.getInstance().getWarZone();
                 } else if (name.equalsIgnoreCase("safezone")) {
-                    faction = Factions.getInstance().getSafeZone();
+                    faction = FactionColl.getInstance().getSafeZone();
                 }
             }
 
             // Next we match faction tags
             if (faction == null) {
-                faction = Factions.getInstance().getBestTagMatch(name);
+                faction = FactionColl.getInstance().getBestTagMatch(name);
             }
 
             // Next we match player names

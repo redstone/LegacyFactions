@@ -1,8 +1,8 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.struct.Permission;
-import com.massivecraft.factions.struct.Role;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.Role;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdAutoClaim extends FCommand {

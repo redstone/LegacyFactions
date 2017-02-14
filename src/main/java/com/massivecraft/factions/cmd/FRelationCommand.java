@@ -1,13 +1,13 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.Relation;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.FactionRelationEvent;
 import com.massivecraft.factions.event.FactionRelationWishEvent;
 import com.massivecraft.factions.scoreboards.FTeamWrapper;
-import com.massivecraft.factions.struct.Permission;
-import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -103,8 +103,8 @@ public abstract class FRelationCommand extends FCommand {
     }
 
     private boolean hasMaxRelations(Faction them, Relation targetRelation) {
-        int max = P.get().getConfig().getInt("max-relations." + targetRelation.toString(), -1);
-        if (P.get().getConfig().getBoolean("max-relations.enabled", false)) {
+        int max = Factions.get().getConfig().getInt("max-relations." + targetRelation.toString(), -1);
+        if (Factions.get().getConfig().getBoolean("max-relations.enabled", false)) {
             if (max != -1) {
                 if (myFaction.getRelationCount(targetRelation) >= max) {
                     msg(TL.COMMAND_RELATIONS_EXCEEDS_ME, max, targetRelation.getPluralTranslation());

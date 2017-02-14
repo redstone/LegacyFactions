@@ -1,10 +1,10 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.entity.Player;
 
@@ -36,10 +36,10 @@ public class CmdTop extends FCommand {
     public void perform() {
         // Can sort by: money, members, online, allies, enemies, power, land.
         // Get all Factions and remove non player ones.
-        ArrayList<Faction> factionList = Factions.getInstance().getAllFactions();
-        factionList.remove(Factions.getInstance().getWilderness());
-        factionList.remove(Factions.getInstance().getSafeZone());
-        factionList.remove(Factions.getInstance().getWarZone());
+        ArrayList<Faction> factionList = FactionColl.getInstance().getAllFactions();
+        factionList.remove(FactionColl.getInstance().getWilderness());
+        factionList.remove(FactionColl.getInstance().getSafeZone());
+        factionList.remove(FactionColl.getInstance().getWarZone());
 
         String criteria = argAsString(0);
 

@@ -1,6 +1,6 @@
 package com.massivecraft.factions.integration.dynmap;
 
-import com.massivecraft.factions.Conf;
+import com.massivecraft.factions.entity.Conf;
 
 public class DynmapStyle {
     // -------------------------------------------- //

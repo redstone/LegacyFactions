@@ -1,9 +1,9 @@
 package com.massivecraft.factions.zcore.persist.json;
 
 import com.google.gson.reflect.TypeToken;
-import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.zcore.persist.MemoryBoard;
 import com.massivecraft.factions.zcore.util.DiscUtil;
 
@@ -16,7 +16,7 @@ import java.util.TreeMap;
 
 
 public class JSONBoard extends MemoryBoard {
-    private static transient File file = new File(P.get().getDataFolder(), "board.json");
+    private static transient File file = new File(Factions.get().getDataFolder(), "board.json");
 
     // -------------------------------------------- //
     // Persistance
@@ -67,14 +67,14 @@ public class JSONBoard extends MemoryBoard {
     }
 
     public void forceSave(boolean sync) {
-        DiscUtil.writeCatch(file, P.get().gson.toJson(dumpAsSaveFormat()), sync);
+        DiscUtil.writeCatch(file, Factions.get().gson.toJson(dumpAsSaveFormat()), sync);
     }
 
     public boolean load() {
-        P.get().log("Loading board from disk");
+        Factions.get().log("Loading board from disk");
 
         if (!file.exists()) {
-            P.get().log("No board to load from disk. Creating new file.");
+            Factions.get().log("No board to load from disk. Creating new file.");
             forceSave();
             return true;
         }
@@ -82,12 +82,12 @@ public class JSONBoard extends MemoryBoard {
         try {
             Type type = new TypeToken<Map<String, Map<String, String>>>() {
             }.getType();
-            Map<String, Map<String, String>> worldCoordIds = P.get().gson.fromJson(DiscUtil.read(file), type);
+            Map<String, Map<String, String>> worldCoordIds = Factions.get().gson.fromJson(DiscUtil.read(file), type);
             loadFromSaveFormat(worldCoordIds);
-            P.get().log("Loaded " + flocationIds.size() + " board locations");
+            Factions.get().log("Loaded " + flocationIds.size() + " board locations");
         } catch (Exception e) {
             e.printStackTrace();
-            P.get().log("Failed to load the board from disk.");
+            Factions.get().log("Failed to load the board from disk.");
             return false;
         }
 

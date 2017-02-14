@@ -1,6 +1,5 @@
-package com.massivecraft.factions.struct;
+package com.massivecraft.factions;
 
-import com.massivecraft.factions.P;
 import org.bukkit.command.CommandSender;
 
 public enum Permission {
@@ -89,7 +88,7 @@ public enum Permission {
     }
 
     public boolean has(CommandSender sender, boolean informSenderIfNot) {
-        return P.get().perm.has(sender, this.node, informSenderIfNot);
+        return Factions.get().perm.has(sender, this.node, informSenderIfNot);
     }
 
     public boolean has(CommandSender sender) {

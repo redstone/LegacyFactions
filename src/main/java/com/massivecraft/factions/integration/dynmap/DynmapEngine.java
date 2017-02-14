@@ -1,9 +1,13 @@
 package com.massivecraft.factions.integration.dynmap;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.entity.Board;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.integration.IntegrationEngine;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.zcore.persist.MemoryBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -72,7 +76,7 @@ public class DynmapEngine extends IntegrationEngine {
         }
 
         // Shedule non thread safe sync at the end!
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(P.get(), new Runnable() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Factions.get(), new Runnable() {
             @Override
             public void run() {
 
@@ -149,7 +153,7 @@ public class DynmapEngine extends IntegrationEngine {
         Map<String, TempMarker> ret = new HashMap<String, TempMarker>();
 
         // Loop current factions
-        for (Faction faction : Factions.getInstance().getAllFactions()) {
+        for (Faction faction : FactionColl.getInstance().getAllFactions()) {
             Location ps = faction.getHome();
             if (ps == null) {
                 continue;
@@ -229,7 +233,7 @@ public class DynmapEngine extends IntegrationEngine {
 
         for (Entry<FLocation, String> entry : board.flocationIds.entrySet()) {
             String world = entry.getKey().getWorldName();
-            Faction chunkOwner = Factions.getInstance().getFactionById(entry.getValue());
+            Faction chunkOwner = FactionColl.getInstance().getFactionById(entry.getValue());
 
             Map<Faction, Set<FLocation>> factionChunks = worldFactionChunks.get(world);
             if (factionChunks == null) {
@@ -531,7 +535,7 @@ public class DynmapEngine extends IntegrationEngine {
 
         Map<String, Set<String>> ret = new HashMap<String, Set<String>>();
 
-        for (Faction faction : Factions.getInstance().getAllFactions()) {
+        for (Faction faction : FactionColl.getInstance().getAllFactions()) {
             String playersetId = createPlayersetId(faction);
             if (playersetId == null) {
                 continue;

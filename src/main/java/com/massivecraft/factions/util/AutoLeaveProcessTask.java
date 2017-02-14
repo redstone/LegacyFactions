@@ -1,7 +1,11 @@
 package com.massivecraft.factions.util;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.struct.Role;
+import com.massivecraft.factions.entity.Conf;
+import com.massivecraft.factions.entity.FPlayer;
+import com.massivecraft.factions.entity.FPlayerColl;
+import com.massivecraft.factions.entity.Faction;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -16,7 +20,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
     private transient double toleranceMillis;
 
     public AutoLeaveProcessTask() {
-        ArrayList<FPlayer> fplayers = (ArrayList<FPlayer>) FPlayers.getInstance().getAllFPlayers();
+        ArrayList<FPlayer> fplayers = (ArrayList<FPlayer>) FPlayerColl.getInstance().getAllFPlayers();
         this.iterator = fplayers.listIterator();
         this.toleranceMillis = Conf.autoLeaveAfterDaysOfInactivity * 24 * 60 * 60 * 1000;
         this.readyToGo = true;
@@ -50,13 +54,13 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 
             // Check if they should be exempt from this.
             if (!fplayer.willAutoLeave()) {
-                P.get().debug(Level.INFO, fplayer.getName() + " was going to be auto-removed but was set not to.");
+                Factions.get().debug(Level.INFO, fplayer.getName() + " was going to be auto-removed but was set not to.");
                 continue;
             }
 
             if (fplayer.isOffline() && now - fplayer.getLastLoginTime() > toleranceMillis) {
                 if (Conf.logFactionLeave || Conf.logFactionKick) {
-                    P.get().log("Player " + fplayer.getName() + " was auto-removed due to inactivity.");
+                    Factions.get().log("Player " + fplayer.getName() + " was auto-removed due to inactivity.");
                 }
 
                 // if player is faction admin, sort out the faction since he's going away

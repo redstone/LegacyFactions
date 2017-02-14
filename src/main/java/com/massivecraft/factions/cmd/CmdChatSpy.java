@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
-import com.massivecraft.factions.P;
-import com.massivecraft.factions.struct.Permission;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.Permission;
 import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdChatSpy extends FCommand {
@@ -27,10 +27,10 @@ public class CmdChatSpy extends FCommand {
 
         if (fme.isSpyingChat()) {
             fme.msg(TL.COMMAND_CHATSPY_ENABLE);
-            P.get().log(fme.getName() + TL.COMMAND_CHATSPY_ENABLELOG.toString());
+            Factions.get().log(fme.getName() + TL.COMMAND_CHATSPY_ENABLELOG.toString());
         } else {
             fme.msg(TL.COMMAND_CHATSPY_DISABLE);
-            P.get().log(fme.getName() + TL.COMMAND_CHATSPY_DISABLELOG.toString());
+            Factions.get().log(fme.getName() + TL.COMMAND_CHATSPY_DISABLELOG.toString());
         }
     }
 
