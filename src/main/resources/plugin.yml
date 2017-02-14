@@ -1,8 +1,8 @@
-name: Factions
-version: ${project.version}
+name: FactionsUUID
+version: ${version}
 main: com.massivecraft.factions.P
-authors: [Olof Larsson, Brett Flannigan, drtshock]
-softdepend: [PlayerVaults, PermissionsEx, Permissions, Essentials, EssentialsChat, HeroChat, iChat, LocalAreaChat, LWC, nChat, ChatManager, CAPI, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, dynmap]
+authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, drtshock]
+softdepend: [Factions, PlayerVaults, PermissionsEx, Permissions, Essentials, EssentialsChat, HeroChat, iChat, LocalAreaChat, LWC, nChat, ChatManager, CAPI, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, dynmap]
 commands:
   factions:
     description: Reference command for Factions.
