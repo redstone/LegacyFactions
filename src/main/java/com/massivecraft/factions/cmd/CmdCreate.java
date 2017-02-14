@@ -61,6 +61,8 @@ public class CmdCreate extends FCommand {
         if (createEvent.isCancelled()) {
             return;
         }
+        // update here incase it was changed
+        tag = createEvent.getFactionTag();
 
         // then make 'em pay (if applicable)
         if (!payForCommand(Conf.econCostCreate, TL.COMMAND_CREATE_TOCREATE, TL.COMMAND_CREATE_FORCREATE)) {
