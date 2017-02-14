@@ -11,29 +11,45 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class FLocation implements Serializable {
+
+	// ----------------------------------------
+	// STATIC
+	// ----------------------------------------
+	
     private static final long serialVersionUID = -8292915234027387983L;
-    private static final boolean worldBorderSupport;
+    private static boolean worldBorderSupport;
+    
+    static {
+    	worldBorderSupport = false;
+        
+        try {
+            Class.forName("org.bukkit.WorldBorder");
+            worldBorderSupport = true;
+        } catch (ClassNotFoundException ignored) {}
+    }
+    
+    public static FLocation valueOf(Location location) {
+    	return new FLocation(location);
+    }
+    
+    public static FLocation valueOf(Chunk chunk) {
+    	return new FLocation(chunk);
+    }
+
+	// ----------------------------------------
+	// FIELDS
+	// ----------------------------------------
+
     private String worldName = "world";
     private int x = 0;
     private int z = 0;
 
-    static {
-        boolean worldBorderClassPresent = false;
-        try {
-            Class.forName("org.bukkit.WorldBorder");
-            worldBorderClassPresent = true;
-        } catch (ClassNotFoundException ignored) {}
 
-        worldBorderSupport = worldBorderClassPresent;
-    }
-
-    //----------------------------------------------//
-    // Constructors
-    //----------------------------------------------//
-
-    public FLocation() {
-
-    }
+	// ----------------------------------------
+	// CONSTRUCT
+	// ----------------------------------------
+    
+    protected FLocation() { }
 
     public FLocation(String worldName, int x, int z) {
         this.worldName = worldName;
@@ -42,7 +58,7 @@ public class FLocation implements Serializable {
     }
 
     public FLocation(Location location) {
-        this(location.getWorld().getName(), blockToChunk(location.getBlockX()), blockToChunk(location.getBlockZ()));
+        this(location.getChunk());
     }
 
     public FLocation(Player player) {
@@ -56,10 +72,15 @@ public class FLocation implements Serializable {
     public FLocation(Block block) {
         this(block.getLocation());
     }
+    
+    public FLocation(Chunk chunk) {
+        this(chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
+    }
+    
 
-    //----------------------------------------------//
-    // Getters and Setters
-    //----------------------------------------------//
+	// ----------------------------------------
+	// GETTERS & SETTERS
+	// ----------------------------------------
 
     public String getWorldName() {
         return worldName;
@@ -248,4 +269,5 @@ public class FLocation implements Serializable {
         FLocation that = (FLocation) obj;
         return this.x == that.x && this.z == that.z && (this.worldName == null ? that.worldName == null : this.worldName.equals(that.worldName));
     }
+    
 }

@@ -59,7 +59,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     protected int kills, deaths;
     protected boolean willAutoLeave = true;
 
-    protected transient FLocation lastStoodAt = new FLocation(); // Where did this player stand the last time we checked?
+    protected transient FLocation lastStoodAt = new FLocation("world", 0, 0); // Where did this player stand the last time we checked?
     protected transient boolean mapAutoUpdating;
     protected transient Faction autoClaimFor;
     protected transient boolean autoSafeZoneEnabled;
