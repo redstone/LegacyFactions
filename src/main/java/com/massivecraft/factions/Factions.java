@@ -45,7 +45,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -72,7 +71,6 @@ public class Factions extends MPlugin {
     public Permission perms = null;
     private boolean locked = false;
     private Integer AutoLeaveTask = null;
-    private boolean hookedPlayervaults;
     public FCmdRoot cmdBase;
     public CmdAutoHelp cmdAutoHelp;
     private GsonBuilder gsonBuilder = null;
@@ -102,7 +100,6 @@ public class Factions extends MPlugin {
         // Load Conf from disk
         Conf.load();
         
-        hookedPlayervaults = setupPlayervaults();
         FPlayerColl.getInstance().load();
         FactionColl.getInstance().load();
         for (FPlayer fPlayer : FPlayerColl.getInstance().getAllFPlayers()) {
@@ -146,12 +143,7 @@ public class Factions extends MPlugin {
         postEnable();
         this.loadSuccessful = true;
     }
-
-    private boolean setupPlayervaults() {
-        Plugin plugin = getServer().getPluginManager().getPlugin("PlayerVaults");
-        return plugin != null && plugin.isEnabled();
-    }
-
+    
     @Override
     public GsonBuilder getGsonBuilder() {
     	if (this.gsonBuilder == null) {
@@ -341,10 +333,7 @@ public class Factions extends MPlugin {
         return players;
     }
 
-    public boolean isHookedPlayervaults() {
-        return hookedPlayervaults;
-    }
-
+    
     public String getPrimaryGroup(OfflinePlayer player) {
         return perms == null || !perms.hasGroupSupport() ? " " : perms.getPrimaryGroup(Bukkit.getWorlds().get(0).toString(), player);
     }
