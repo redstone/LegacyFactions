@@ -1,10 +1,11 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.FPlayerColl;
-import com.massivecraft.factions.zcore.util.TL;
+
 import mkremins.fanciful.FancyMessage;
 import org.bukkit.ChatColor;
 

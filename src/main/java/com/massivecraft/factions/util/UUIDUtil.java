@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.util;
+package com.massivecraft.factions.util;
 
 import com.google.common.collect.ImmutableList;
 import org.json.simple.JSONArray;
@@ -17,19 +17,19 @@ import java.util.concurrent.Callable;
  * @author evilmidget38
  */
 
-public class UUIDFetcher implements Callable<Map<String, UUID>> {
+public class UUIDUtil implements Callable<Map<String, UUID>> {
     private static final double PROFILES_PER_REQUEST = 100;
     private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
     private final JSONParser jsonParser = new JSONParser();
     private final List<String> names;
     private final boolean rateLimiting;
 
-    public UUIDFetcher(List<String> names, boolean rateLimiting) {
+    public UUIDUtil(List<String> names, boolean rateLimiting) {
         this.names = ImmutableList.copyOf(names);
         this.rateLimiting = rateLimiting;
     }
 
-    public UUIDFetcher(List<String> names) {
+    public UUIDUtil(List<String> names) {
         this(names, true);
     }
 
@@ -45,7 +45,7 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
                 JSONObject jsonProfile = (JSONObject) profile;
                 String id = (String) jsonProfile.get("id");
                 String name = (String) jsonProfile.get("name");
-                UUID uuid = UUIDFetcher.getUUID(id);
+                UUID uuid = UUIDUtil.getUUID(id);
                 uuidMap.put(name, uuid);
             }
             if (rateLimiting && i != requests - 1) {
@@ -95,6 +95,6 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
     }
 
     public static UUID getUUIDOf(String name) throws Exception {
-        return new UUIDFetcher(Arrays.asList(name)).call().get(name);
+        return new UUIDUtil(Arrays.asList(name)).call().get(name);
     }
 }

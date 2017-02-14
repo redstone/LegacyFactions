@@ -9,7 +9,7 @@ import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.event.FPlayerJoinEvent;
 import com.massivecraft.factions.event.FactionCreateEvent;
 import com.massivecraft.factions.util.MiscUtil;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;

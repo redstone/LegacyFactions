@@ -1,7 +1,8 @@
 package com.massivecraft.factions.util;
 
-import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.ChatColor;
+
+import com.massivecraft.factions.TL;
 
 import java.util.ArrayList;
 

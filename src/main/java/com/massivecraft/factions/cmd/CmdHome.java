@@ -7,9 +7,9 @@ import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.integration.essentials.EssentialsEngine;
+import com.massivecraft.factions.util.SmokeUtil;
 import com.massivecraft.factions.util.WarmUpUtil;
-import com.massivecraft.factions.zcore.util.SmokeUtil;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

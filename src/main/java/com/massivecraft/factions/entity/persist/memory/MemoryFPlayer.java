@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.persist;
+package com.massivecraft.factions.entity.persist.memory;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.entity.Board;
@@ -17,7 +17,7 @@ import com.massivecraft.factions.scoreboards.FScoreboard;
 import com.massivecraft.factions.scoreboards.sidebar.FInfoSidebar;
 import com.massivecraft.factions.util.RelationUtil;
 import com.massivecraft.factions.util.WarmUpUtil;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 

@@ -1,11 +1,13 @@
-package com.massivecraft.factions.zcore;
+package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.zcore.util.TL;
-import com.massivecraft.factions.zcore.util.TextUtil;
+import com.massivecraft.factions.util.TextUtil;
+import com.massivecraft.factions.zcore.MPlugin;
+
 import mkremins.fanciful.FancyMessage;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;

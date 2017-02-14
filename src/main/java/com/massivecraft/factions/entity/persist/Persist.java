@@ -1,5 +1,6 @@
-package com.massivecraft.factions.zcore.util;
+package com.massivecraft.factions.entity.persist;
 
+import com.massivecraft.factions.util.DiscUtil;
 import com.massivecraft.factions.zcore.MPlugin;
 
 import java.io.File;

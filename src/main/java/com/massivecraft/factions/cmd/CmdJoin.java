@@ -6,7 +6,7 @@ import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.FPlayerJoinEvent;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Bukkit;
 
 public class CmdJoin extends FCommand {

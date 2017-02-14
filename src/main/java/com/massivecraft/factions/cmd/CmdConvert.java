@@ -1,9 +1,10 @@
 package com.massivecraft.factions.cmd;
 
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.Conf.Backend;
-import com.massivecraft.factions.zcore.persist.json.FactionsJSON;
-import com.massivecraft.factions.zcore.util.TL;
+import com.massivecraft.factions.entity.persist.json.FactionsJSON;
+
 import org.bukkit.command.ConsoleCommandSender;
 
 public class CmdConvert extends FCommand {

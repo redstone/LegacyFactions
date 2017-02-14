@@ -5,7 +5,7 @@ import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.Scoreboard;

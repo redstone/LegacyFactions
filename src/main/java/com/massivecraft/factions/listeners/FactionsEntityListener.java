@@ -8,7 +8,7 @@ import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.PowerLossEvent;
 import com.massivecraft.factions.util.MiscUtil;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.TravelAgent;

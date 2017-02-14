@@ -1,7 +1,8 @@
-package com.massivecraft.factions.zcore;
+package com.massivecraft.factions.listeners;
 
 import com.massivecraft.factions.entity.FPlayerColl;
-import com.massivecraft.factions.listeners.FactionsPlayerListener;
+import com.massivecraft.factions.zcore.MPlugin;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,11 +11,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-public class MPluginSecretPlayerListener implements Listener {
+public class FactionsCommandsListener implements Listener {
 
     private MPlugin p;
 
-    public MPluginSecretPlayerListener(MPlugin p) {
+    public FactionsCommandsListener(MPlugin p) {
         this.p = p;
     }
 
@@ -36,13 +37,6 @@ public class MPluginSecretPlayerListener implements Listener {
             }
             event.setCancelled(true);
         }
-
-        /* Should be handled by stuff in FactionsChatListener
-        Player speaker = event.getPlayer();
-        String format = event.getFormat();
-        format = format.replace(Conf.chatTagReplaceString, P.get().getPlayerFactionTag(speaker)).replace("[FACTION_TITLE]", P.get().getPlayerTitle(speaker));
-        event.setFormat(format);
-        */
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.persist.json;
+package com.massivecraft.factions.entity.persist.json;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.entity.Board;
@@ -6,9 +6,10 @@ import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.zcore.persist.MemoryBoard;
-import com.massivecraft.factions.zcore.persist.MemoryFPlayers;
-import com.massivecraft.factions.zcore.persist.MemoryFactions;
+import com.massivecraft.factions.entity.persist.memory.MemoryBoard;
+import com.massivecraft.factions.entity.persist.memory.MemoryFPlayers;
+import com.massivecraft.factions.entity.persist.memory.MemoryFactions;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.logging.Logger;

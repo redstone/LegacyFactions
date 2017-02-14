@@ -2,11 +2,11 @@ package com.massivecraft.factions.util;
 
 import com.massivecraft.factions.Relation;
 import com.massivecraft.factions.RelationParticipator;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.zcore.util.TL;
-import com.massivecraft.factions.zcore.util.TextUtil;
+
 import org.bukkit.ChatColor;
 
 public class RelationUtil {

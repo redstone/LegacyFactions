@@ -1,8 +1,8 @@
-package com.massivecraft.factions.zcore.persist.json;
+package com.massivecraft.factions.entity.persist.json;
 
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.FPlayerColl;
-import com.massivecraft.factions.zcore.persist.MemoryFPlayer;
+import com.massivecraft.factions.entity.persist.memory.MemoryFPlayer;
 
 public class JSONFPlayer extends MemoryFPlayer {
 

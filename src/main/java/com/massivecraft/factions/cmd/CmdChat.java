@@ -2,8 +2,8 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.ChatMode;
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Conf;
-import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdChat extends FCommand {
 

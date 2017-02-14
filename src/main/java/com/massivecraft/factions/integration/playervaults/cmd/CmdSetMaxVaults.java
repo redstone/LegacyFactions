@@ -1,9 +1,10 @@
 package com.massivecraft.factions.integration.playervaults.cmd;
 
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.cmd.FCommand;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.ChatColor;
 
 public class CmdSetMaxVaults extends FCommand {

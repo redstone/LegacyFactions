@@ -1,9 +1,10 @@
 package com.massivecraft.factions.util;
 
 import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.FPlayer;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;

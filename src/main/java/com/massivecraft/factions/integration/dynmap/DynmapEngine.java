@@ -6,9 +6,10 @@ import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
+import com.massivecraft.factions.entity.persist.memory.MemoryBoard;
 import com.massivecraft.factions.integration.IntegrationEngine;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.zcore.persist.MemoryBoard;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

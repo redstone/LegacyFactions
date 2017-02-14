@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.persist.json;
+package com.massivecraft.factions.entity.persist.json;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -8,10 +8,11 @@ import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.zcore.persist.MemoryFaction;
-import com.massivecraft.factions.zcore.persist.MemoryFactions;
-import com.massivecraft.factions.zcore.util.DiscUtil;
-import com.massivecraft.factions.zcore.util.UUIDFetcher;
+import com.massivecraft.factions.entity.persist.memory.MemoryFaction;
+import com.massivecraft.factions.entity.persist.memory.MemoryFactions;
+import com.massivecraft.factions.util.DiscUtil;
+import com.massivecraft.factions.util.UUIDUtil;
+
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -136,7 +137,7 @@ public class JSONFactions extends MemoryFactions {
                     Set<String> list = whichKeysNeedMigration(set);
 
                     if (list.size() > 0) {
-                        UUIDFetcher fetcher = new UUIDFetcher(new ArrayList<String>(list));
+                        UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
                         try {
                             Map<String, UUID> response = fetcher.call();
                             for (String value : response.keySet()) {
@@ -163,7 +164,7 @@ public class JSONFactions extends MemoryFactions {
                 Set<String> list = whichKeysNeedMigration(invites);
 
                 if (list.size() > 0) {
-                    UUIDFetcher fetcher = new UUIDFetcher(new ArrayList<String>(list));
+                    UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
                     try {
                         Map<String, UUID> response = fetcher.call();
                         for (String value : response.keySet()) {

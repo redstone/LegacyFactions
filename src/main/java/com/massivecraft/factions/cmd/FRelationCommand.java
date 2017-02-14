@@ -3,12 +3,13 @@ package com.massivecraft.factions.cmd;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Permission;
 import com.massivecraft.factions.Relation;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.FactionRelationEvent;
 import com.massivecraft.factions.event.FactionRelationWishEvent;
 import com.massivecraft.factions.scoreboards.FTeamWrapper;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 

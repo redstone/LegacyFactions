@@ -6,9 +6,10 @@ import com.drtshock.playervaults.vaultmanagement.UUIDVaultManager;
 import com.drtshock.playervaults.vaultmanagement.VaultOperations;
 import com.drtshock.playervaults.vaultmanagement.VaultViewInfo;
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.cmd.FCommand;
 import com.massivecraft.factions.entity.Conf;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 

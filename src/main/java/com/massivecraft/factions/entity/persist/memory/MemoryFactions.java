@@ -1,9 +1,10 @@
-package com.massivecraft.factions.zcore.persist;
+package com.massivecraft.factions.entity.persist.memory;
 
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.util.MiscUtil;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;

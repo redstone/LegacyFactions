@@ -1,8 +1,10 @@
-package com.massivecraft.factions.zcore.util;
+package com.massivecraft.factions.util;
 
 import mkremins.fanciful.FancyMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
+import com.massivecraft.factions.TL;
 
 import java.util.*;
 import java.util.regex.Matcher;

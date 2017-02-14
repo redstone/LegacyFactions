@@ -1,8 +1,8 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.FPlayer;
-import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdModifyPower extends FCommand {
 

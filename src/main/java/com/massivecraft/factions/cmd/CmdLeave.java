@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Permission;
-import com.massivecraft.factions.zcore.util.TL;
+import com.massivecraft.factions.TL;
 
 public class CmdLeave extends FCommand {
 

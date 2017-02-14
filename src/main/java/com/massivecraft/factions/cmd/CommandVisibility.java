@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore;
+package com.massivecraft.factions.cmd;
 
 public enum CommandVisibility {
     VISIBLE, // Visible commands are visible to anyone. Even those who don't have permission to use it or is of invalid sender type.

@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.persist.json;
+package com.massivecraft.factions.entity.persist.json;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -7,10 +7,11 @@ import com.google.gson.reflect.TypeToken;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.FPlayerColl;
-import com.massivecraft.factions.zcore.persist.MemoryFPlayer;
-import com.massivecraft.factions.zcore.persist.MemoryFPlayers;
-import com.massivecraft.factions.zcore.util.DiscUtil;
-import com.massivecraft.factions.zcore.util.UUIDFetcher;
+import com.massivecraft.factions.entity.persist.memory.MemoryFPlayer;
+import com.massivecraft.factions.entity.persist.memory.MemoryFPlayers;
+import com.massivecraft.factions.util.DiscUtil;
+import com.massivecraft.factions.util.UUIDUtil;
+
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 
@@ -122,7 +123,7 @@ public class JSONFPlayers extends MemoryFPlayers {
 
             // Start fetching those UUIDs
             Bukkit.getLogger().log(Level.INFO, "Please wait while Factions converts " + list.size() + " old player names to UUID. This may take a while.");
-            UUIDFetcher fetcher = new UUIDFetcher(new ArrayList<String>(list));
+            UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
             try {
                 Map<String, UUID> response = fetcher.call();
                 for (String s : list) {

@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.persist;
+package com.massivecraft.factions.entity.persist;
 
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.entity.Board;

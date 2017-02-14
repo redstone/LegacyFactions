@@ -1,7 +1,7 @@
 package com.massivecraft.factions.entity;
 
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.zcore.persist.json.JSONBoard;
+import com.massivecraft.factions.entity.persist.json.JSONBoard;
 
 import java.util.ArrayList;
 import java.util.Set;

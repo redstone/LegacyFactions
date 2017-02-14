@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.util;
+package com.massivecraft.factions.util;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.entity.Conf;

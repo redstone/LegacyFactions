@@ -2,11 +2,12 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.zcore.util.TL;
-import com.massivecraft.factions.zcore.util.TagReplacer;
-import com.massivecraft.factions.zcore.util.TagUtil;
+import com.massivecraft.factions.util.TagReplacer;
+import com.massivecraft.factions.util.TagUtil;
+
 import mkremins.fanciful.FancyMessage;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package com.massivecraft.factions;
 
 import com.massivecraft.factions.entity.Conf;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.ChatColor;
 
 

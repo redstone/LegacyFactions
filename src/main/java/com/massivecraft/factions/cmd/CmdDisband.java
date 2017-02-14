@@ -10,7 +10,7 @@ import com.massivecraft.factions.event.FPlayerLeaveEvent;
 import com.massivecraft.factions.event.FactionDisbandEvent;
 import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.scoreboards.FTeamWrapper;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Bukkit;
 
 

@@ -1,6 +1,8 @@
-package com.massivecraft.factions.zcore.util;
+package com.massivecraft.factions.util;
 
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.zcore.MPlugin;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;

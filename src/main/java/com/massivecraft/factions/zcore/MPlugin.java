@@ -3,15 +3,18 @@ package com.massivecraft.factions.zcore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.massivecraft.factions.TL;
+import com.massivecraft.factions.cmd.MCommand;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.zcore.persist.SaveTask;
-import com.massivecraft.factions.zcore.util.PermUtil;
-import com.massivecraft.factions.zcore.util.Persist;
-import com.massivecraft.factions.zcore.util.TL;
-import com.massivecraft.factions.zcore.util.TextUtil;
+import com.massivecraft.factions.entity.persist.Persist;
+import com.massivecraft.factions.entity.persist.SaveTask;
+import com.massivecraft.factions.listeners.FactionsCommandsListener;
+import com.massivecraft.factions.util.PermUtil;
+import com.massivecraft.factions.util.TextUtil;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +35,8 @@ public abstract class MPlugin extends JavaPlugin {
 	public static final String LOG_PREFIX = ChatColor.AQUA+""+ ChatColor.BOLD + "[FactionsUUID] " + ChatColor.RESET;
 	public static final String WARN_PREFIX = ChatColor.GOLD+""+ ChatColor.BOLD + "[WARN] " + ChatColor.RESET;
 	public static final String ERROR_PREFIX = ChatColor.RED+""+ ChatColor.BOLD + "[ERROR] " + ChatColor.RESET;
-	   
+	public static final String DEBUG_PREFIX = ChatColor.LIGHT_PURPLE+""+ ChatColor.BOLD + "[DEBUG] " + ChatColor.RESET;
+	  
 	// Some utils
     public Persist persist;
     public TextUtil txt;
@@ -55,7 +59,7 @@ public abstract class MPlugin extends JavaPlugin {
     public String refCommand = "";
 
     // Listeners
-    private MPluginSecretPlayerListener mPluginSecretPlayerListener;
+    private FactionsCommandsListener mPluginSecretPlayerListener;
 
     // Our stored base commands
     private List<MCommand<?>> baseCommands = new ArrayList<MCommand<?>>();
@@ -86,8 +90,6 @@ public abstract class MPlugin extends JavaPlugin {
         this.perm = new PermUtil(this);
         this.persist = new Persist(this);
 
-        // GSON 2.1 is now embedded in CraftBukkit, used by the auto-updater: https://github.com/Bukkit/CraftBukkit/commit/0ed1d1fdbb1e0bc09a70bc7bfdf40c1de8411665
-//		if ( ! lib.require("gson.jar", "http://search.maven.org/remotecontent?filepath=com/google/code/gson/gson/2.1/gson-2.1.jar")) return false;
         this.gson = this.getGsonBuilder().create();
 
         this.txt = new TextUtil();
@@ -104,7 +106,7 @@ public abstract class MPlugin extends JavaPlugin {
         }
 
         // Create and register player command listener
-        this.mPluginSecretPlayerListener = new MPluginSecretPlayerListener(this);
+        this.mPluginSecretPlayerListener = new FactionsCommandsListener(this);
         getServer().getPluginManager().registerEvents(this.mPluginSecretPlayerListener, this);
 
         // Register recurring tasks
@@ -355,7 +357,10 @@ public abstract class MPlugin extends JavaPlugin {
     public void error(String str, Object... args) {
     	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + ERROR_PREFIX + this.txt.parse(str, args));
     }
-    
+
+	public void debug(String s) {
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + DEBUG_PREFIX + s);
+	}
     
 
 }

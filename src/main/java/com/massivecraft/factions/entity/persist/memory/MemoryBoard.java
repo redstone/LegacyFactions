@@ -1,4 +1,4 @@
-package com.massivecraft.factions.zcore.persist;
+package com.massivecraft.factions.entity.persist.memory;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;

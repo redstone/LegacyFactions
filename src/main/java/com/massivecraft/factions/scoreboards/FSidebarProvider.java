@@ -1,10 +1,10 @@
 package com.massivecraft.factions.scoreboards;
 
 import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.zcore.util.TL;
-import com.massivecraft.factions.zcore.util.TagUtil;
+import com.massivecraft.factions.util.TagUtil;
 
 import java.util.List;
 

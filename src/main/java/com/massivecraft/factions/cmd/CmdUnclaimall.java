@@ -2,11 +2,12 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.event.LandUnclaimAllEvent;
 import com.massivecraft.factions.integration.vault.VaultEngine;
-import com.massivecraft.factions.zcore.util.TL;
+
 import org.bukkit.Bukkit;
 
 public class CmdUnclaimall extends FCommand {

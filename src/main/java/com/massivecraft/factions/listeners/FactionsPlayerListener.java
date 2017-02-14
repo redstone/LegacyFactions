@@ -7,15 +7,15 @@ import com.massivecraft.factions.entity.FPlayer;
 import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
+import com.massivecraft.factions.entity.persist.memory.MemoryFPlayer;
 import com.massivecraft.factions.event.FPlayerJoinEvent;
 import com.massivecraft.factions.event.FPlayerLeaveEvent;
 import com.massivecraft.factions.scoreboards.FScoreboard;
 import com.massivecraft.factions.scoreboards.FTeamWrapper;
 import com.massivecraft.factions.scoreboards.sidebar.FDefaultSidebar;
+import com.massivecraft.factions.util.TextUtil;
 import com.massivecraft.factions.util.VisualizeUtil;
-import com.massivecraft.factions.zcore.persist.MemoryFPlayer;
-import com.massivecraft.factions.zcore.util.TL;
-import com.massivecraft.factions.zcore.util.TextUtil;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

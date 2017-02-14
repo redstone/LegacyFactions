@@ -1,11 +1,11 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Permission;
+import com.massivecraft.factions.TL;
 import com.massivecraft.factions.entity.Board;
 import com.massivecraft.factions.entity.Conf;
 import com.massivecraft.factions.entity.FPlayerColl;
 import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.zcore.util.TL;
 
 public class CmdSaveAll extends FCommand {
 
