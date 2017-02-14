@@ -10,11 +10,22 @@ import org.bukkit.event.Cancellable;
  */
 public class PowerLossEvent extends FactionPlayerEvent implements Cancellable {
 
+    
+    public PowerLossEvent(Faction f, FPlayer p, double powerLoss) {
+        super(f, p);
+    }
+    
     private boolean cancelled = false;
     private String message;
-
-    public PowerLossEvent(Faction f, FPlayer p) {
-        super(f, p);
+    private double powerLoss;
+    
+    
+    public double getPowerLoss() {
+    	return this.powerLoss;
+    }
+    
+    public void setPowerLoss(double powerLoss) {
+    	this.powerLoss = powerLoss;
     }
 
     /**

@@ -46,7 +46,7 @@ public class FactionsEntityListener implements Listener {
         FPlayer fplayer = FPlayers.getInstance().getByPlayer(player);
         Faction faction = Board.getInstance().getFactionAt(new FLocation(player.getLocation()));
 
-        PowerLossEvent powerLossEvent = new PowerLossEvent(faction, fplayer);
+        PowerLossEvent powerLossEvent = new PowerLossEvent(faction, fplayer, Conf.powerPerDeath);
         // Check for no power loss conditions
         if (faction.isWarZone()) {
             // war zones always override worldsNoPowerLoss either way, thus this layout
@@ -75,7 +75,7 @@ public class FactionsEntityListener implements Listener {
 
         // Call player onDeath if the event is not cancelled
         if (!powerLossEvent.isCancelled()) {
-            fplayer.onDeath();
+            fplayer.onDeath(powerLossEvent.getPowerLoss());
         }
         // Send the message from the powerLossEvent
         final String msg = powerLossEvent.getMessage();

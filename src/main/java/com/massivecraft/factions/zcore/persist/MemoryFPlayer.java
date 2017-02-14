@@ -544,8 +544,12 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
 
     public void onDeath() {
+    	this.onDeath(Conf.powerPerDeath);
+    }
+    
+    public void onDeath(double powerLoss) {
         this.updatePower();
-        this.alterPower(-Conf.powerPerDeath);
+        this.alterPower(-powerLoss);
         if (hasFaction()) {
             getFaction().setLastDeath(System.currentTimeMillis());
         }

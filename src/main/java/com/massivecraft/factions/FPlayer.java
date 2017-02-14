@@ -199,6 +199,7 @@ public interface FPlayer extends EconomyParticipator {
     public void losePowerFromBeingOffline();
 
     public void onDeath();
+    public void onDeath(double powerLoss);
 
     //----------------------------------------------//
     // Territory
