@@ -47,8 +47,8 @@ public class JSONFactions extends MemoryFactions {
     // -------------------------------------------- //
 
     public JSONFactions() {
-        this.file = new File(P.p.getDataFolder(), "factions.json");
-        this.gson = P.p.gson;
+        this.file = new File(P.get().getDataFolder(), "factions.json");
+        this.gson = P.get().gson;
         this.nextId = 1;
     }
 
@@ -77,7 +77,7 @@ public class JSONFactions extends MemoryFactions {
         this.factions.putAll(factions);
 
         super.load();
-        P.p.log("Loaded " + factions.size() + " Factions");
+        P.get().log("Loaded " + factions.size() + " Factions");
     }
 
     private Map<String, JSONFaction> loadCore() {

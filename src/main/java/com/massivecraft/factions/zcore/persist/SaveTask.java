@@ -3,6 +3,7 @@ package com.massivecraft.factions.zcore.persist;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.P;
 import com.massivecraft.factions.zcore.MPlugin;
 
 public class SaveTask implements Runnable {
@@ -20,11 +21,11 @@ public class SaveTask implements Runnable {
             return;
         }
         running = true;
-        p.preAutoSave();
+        P.get().preAutoSave();
         Factions.getInstance().forceSave(false);
         FPlayers.getInstance().forceSave(false);
         Board.getInstance().forceSave(false);
-        p.postAutoSave();
+        P.get().postAutoSave();
         running = false;
     }
 }

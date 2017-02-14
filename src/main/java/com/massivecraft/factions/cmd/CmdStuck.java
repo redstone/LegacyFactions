@@ -34,11 +34,11 @@ public class CmdStuck extends FCommand {
         final Player player = fme.getPlayer();
         final Location sentAt = player.getLocation();
         final FLocation chunk = fme.getLastStoodAt();
-        final long delay = P.p.getConfig().getLong("hcf.stuck.delay", 30);
-        final int radius = P.p.getConfig().getInt("hcf.stuck.radius", 10);
+        final long delay = P.get().getConfig().getLong("hcf.stuck.delay", 30);
+        final int radius = P.get().getConfig().getInt("hcf.stuck.radius", 10);
 
-        if (P.p.getStuckMap().containsKey(player.getUniqueId())) {
-            long wait = P.p.getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
+        if (P.get().getStuckMap().containsKey(player.getUniqueId())) {
+            long wait = P.get().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
             String time = DurationFormatUtils.formatDuration(wait, TL.COMMAND_STUCK_TIMEFORMAT.toString(), true);
             msg(TL.COMMAND_STUCK_EXISTS, time);
         } else {
@@ -48,11 +48,11 @@ public class CmdStuck extends FCommand {
                 return;
             }
 
-            final int id = Bukkit.getScheduler().runTaskLater(P.p, new BukkitRunnable() {
+            final int id = Bukkit.getScheduler().runTaskLater(P.get(), new BukkitRunnable() {
 
                 @Override
                 public void run() {
-                    if (!P.p.getStuckMap().containsKey(player.getUniqueId())) {
+                    if (!P.get().getStuckMap().containsKey(player.getUniqueId())) {
                         return;
                     }
 
@@ -60,8 +60,8 @@ public class CmdStuck extends FCommand {
                     final World world = chunk.getWorld();
                     if (world.getUID() != player.getWorld().getUID() || sentAt.distance(player.getLocation()) > radius) {
                         msg(TL.COMMAND_STUCK_OUTSIDE.format(radius));
-                        P.p.getTimers().remove(player.getUniqueId());
-                        P.p.getStuckMap().remove(player.getUniqueId());
+                        P.get().getTimers().remove(player.getUniqueId());
+                        P.get().getStuckMap().remove(player.getUniqueId());
                         return;
                     }
 
@@ -79,11 +79,11 @@ public class CmdStuck extends FCommand {
                                 int y = world.getHighestBlockYAt(cx, cz);
                                 Location tp = new Location(world, cx, y, cz);
                                 msg(TL.COMMAND_STUCK_TELEPORT, tp.getBlockX(), tp.getBlockY(), tp.getBlockZ());
-                                P.p.getTimers().remove(player.getUniqueId());
-                                P.p.getStuckMap().remove(player.getUniqueId());
+                                P.get().getTimers().remove(player.getUniqueId());
+                                P.get().getStuckMap().remove(player.getUniqueId());
                                 if (!Essentials.handleTeleport(player, tp)) {
                                     player.teleport(tp);
-                                    P.p.debug("/f stuck used regular teleport, not essentials!");
+                                    P.get().debug("/f stuck used regular teleport, not essentials!");
                                 }
                                 this.stop();
                                 return false;
@@ -94,11 +94,11 @@ public class CmdStuck extends FCommand {
                 }
             }, delay * 20).getTaskId();
 
-            P.p.getTimers().put(player.getUniqueId(), System.currentTimeMillis() + (delay * 1000));
-            long wait = P.p.getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
+            P.get().getTimers().put(player.getUniqueId(), System.currentTimeMillis() + (delay * 1000));
+            long wait = P.get().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
             String time = DurationFormatUtils.formatDuration(wait, TL.COMMAND_STUCK_TIMEFORMAT.toString(), true);
             msg(TL.COMMAND_STUCK_START, time);
-            P.p.getStuckMap().put(player.getUniqueId(), id);
+            P.get().getStuckMap().put(player.getUniqueId(), id);
         }
     }
 

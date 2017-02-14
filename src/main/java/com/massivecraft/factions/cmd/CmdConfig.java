@@ -230,10 +230,10 @@ public class CmdConfig extends FCommand {
         if (!success.isEmpty()) {
             if (sender instanceof Player) {
                 sendMessage(success);
-                P.p.log(success + TL.COMMAND_CONFIG_LOG.format((Player) sender));
-            } else  // using P.p.log() instead of sendMessage if run from server console so that "[Factions v#.#.#]" is prepended in server log
+                P.get().log(success + TL.COMMAND_CONFIG_LOG.format((Player) sender));
+            } else  // using P.get().log() instead of sendMessage if run from server console so that "[Factions v#.#.#]" is prepended in server log
             {
-                P.p.log(success);
+                P.get().log(success);
             }
         }
         // save change to disk

@@ -109,7 +109,7 @@ public class FScoreboard {
                     updateObjective();
                 }
             }
-        }.runTaskTimer(P.p, updateInterval, updateInterval);
+        }.runTaskTimer(P.get(), updateInterval, updateInterval);
     }
 
     public void setTemporarySidebar(final FSidebarProvider provider) {
@@ -132,7 +132,7 @@ public class FScoreboard {
                     updateObjective();
                 }
             }
-        }.runTaskLater(P.p, P.p.getConfig().getInt("scoreboard.expiration", 7) * 20);
+        }.runTaskLater(P.get(), P.get().getConfig().getInt("scoreboard.expiration", 7) * 20);
     }
 
     private void updateObjective() {

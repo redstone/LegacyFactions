@@ -65,7 +65,7 @@ public class CmdFWarp extends FCommand {
     }
 
     private boolean transact(FPlayer player) {
-        return !P.p.getConfig().getBoolean("warp-cost.enabled", false) || player.isAdminBypassing() || payForCommand(P.p.getConfig().getDouble("warp-cost.warp", 5), TL.COMMAND_FWARP_TOWARP.toString(), TL.COMMAND_FWARP_FORWARPING.toString());
+        return !P.get().getConfig().getBoolean("warp-cost.enabled", false) || player.isAdminBypassing() || payForCommand(P.get().getConfig().getDouble("warp-cost.warp", 5), TL.COMMAND_FWARP_TOWARP.toString(), TL.COMMAND_FWARP_FORWARPING.toString());
     }
 
     @Override

@@ -55,14 +55,26 @@ public class P extends MPlugin {
 	// INSTANCE & CONSTRUCT
 	// ----------------------------------------
 	
+	@Deprecated
+	public static P p;
     private static P instance;
-    public P() { instance = this; }
+    public P() { instance = this; p = instance; }
     public static P get() { return instance; }
     
-    private static Permission perms = null;
+	// ----------------------------------------
+	// FIELDS
+	// ----------------------------------------
 
-    // Persistence related
+    public Permission perms = null;
     private boolean locked = false;
+    private Integer AutoLeaveTask = null;
+    private boolean hookedPlayervaults;
+    public FCmdRoot cmdBase;
+    public CmdAutoHelp cmdAutoHelp;
+    
+	// ----------------------------------------
+	// METHODS
+	// ----------------------------------------
 
     public boolean getLocked() {
         return this.locked;
@@ -73,13 +85,8 @@ public class P extends MPlugin {
         this.setAutoSave(val);
     }
 
-    private Integer AutoLeaveTask = null;
 
     // Commands
-    public FCmdRoot cmdBase;
-    public CmdAutoHelp cmdAutoHelp;
-
-    private boolean hookedPlayervaults;
 
     @Override
     public void onEnable() {

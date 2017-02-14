@@ -55,7 +55,7 @@ public class CmdShow extends FCommand {
         }
 
         if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")
-                && P.p.getConfig().getStringList("show-exempt").contains(faction.getTag())) {
+                && P.get().getConfig().getStringList("show-exempt").contains(faction.getTag())) {
             msg(TL.COMMAND_SHOW_EXEMPT);
             return;
         }
@@ -65,7 +65,7 @@ public class CmdShow extends FCommand {
             return;
         }
 
-        List<String> show = P.p.getConfig().getStringList("show");
+        List<String> show = P.get().getConfig().getStringList("show");
         if (show == null || show.isEmpty()) {
             show = defaults;
         }

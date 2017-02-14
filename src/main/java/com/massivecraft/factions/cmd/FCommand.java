@@ -28,7 +28,7 @@ public abstract class FCommand extends MCommand<P> {
     public boolean isMoneyCommand;
 
     public FCommand() {
-        super(P.p);
+        super(P.get());
 
         // Due to safety reasons it defaults to disable on lock.
         disableOnLock = true;

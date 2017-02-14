@@ -84,7 +84,7 @@ public class DiscUtil {
                 lock.unlock();
             }
         } else {
-            Bukkit.getScheduler().runTaskAsynchronously(P.p, new Runnable() {
+            Bukkit.getScheduler().runTaskAsynchronously(P.get(), new Runnable() {
                 @Override
                 public void run() {
                     lock.lock();

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class CmdAutoHelp extends MCommand<P> {
 
     public CmdAutoHelp() {
-        super(P.p);
+        super(P.get());
         this.aliases.add("?");
         this.aliases.add("h");
         this.aliases.add("help");

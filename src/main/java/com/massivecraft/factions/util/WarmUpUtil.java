@@ -21,7 +21,7 @@ public class WarmUpUtil {
                 player.msg(TL.WARMUPS_ALREADY);
             } else {
                 player.msg(translationKey.format(action, delay));
-                int id = P.p.getServer().getScheduler().runTaskLater(P.p, new Runnable() {
+                int id = P.get().getServer().getScheduler().runTaskLater(P.get(), new Runnable() {
                     @Override
                     public void run() {
                         player.stopWarmup();

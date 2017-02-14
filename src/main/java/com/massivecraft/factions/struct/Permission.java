@@ -89,7 +89,7 @@ public enum Permission {
     }
 
     public boolean has(CommandSender sender, boolean informSenderIfNot) {
-        return P.p.perm.has(sender, this.node, informSenderIfNot);
+        return P.get().perm.has(sender, this.node, informSenderIfNot);
     }
 
     public boolean has(CommandSender sender) {

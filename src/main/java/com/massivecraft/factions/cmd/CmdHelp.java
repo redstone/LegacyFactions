@@ -33,7 +33,7 @@ public class CmdHelp extends FCommand {
 
     @Override
     public void perform() {
-        if (P.p.getConfig().getBoolean("use-old-help", true)) {
+        if (P.get().getConfig().getBoolean("use-old-help", true)) {
             if (helpPages == null) {
                 updateHelp();
             }
@@ -50,9 +50,9 @@ public class CmdHelp extends FCommand {
             sendMessage(helpPages.get(page));
             return;
         }
-        ConfigurationSection help = P.p.getConfig().getConfigurationSection("help");
+        ConfigurationSection help = P.get().getConfig().getConfigurationSection("help");
         if (help == null) {
-            help = P.p.getConfig().createSection("help"); // create new help section
+            help = P.get().getConfig().createSection("help"); // create new help section
             List<String> error = new ArrayList<String>();
             error.add("&cUpdate help messages in config.yml!");
             error.add("&cSet use-old-help for legacy help messages");
@@ -65,7 +65,7 @@ public class CmdHelp extends FCommand {
             return;
         }
         for (String helpLine : page) {
-            sendMessage(P.p.txt.parse(helpLine));
+            sendMessage(P.get().txt.parse(helpLine));
         }
     }
 
@@ -188,7 +188,7 @@ public class CmdHelp extends FCommand {
         pageLines.add(p.cmdBase.cmdSafeunclaimall.getUseageTemplate(true));
         pageLines.add(p.cmdBase.cmdWarunclaimall.getUseageTemplate(true));
         //TODO:TL
-        pageLines.add(p.txt.parse("<i>Note: " + p.cmdBase.cmdUnclaim.getUseageTemplate(false) + P.p.txt.parse("<i>") + " works on safe/war zones as well."));
+        pageLines.add(p.txt.parse("<i>Note: " + p.cmdBase.cmdUnclaim.getUseageTemplate(false) + P.get().txt.parse("<i>") + " works on safe/war zones as well."));
         pageLines.add(p.cmdBase.cmdPeaceful.getUseageTemplate(true));
         helpPages.add(pageLines);
 

@@ -112,7 +112,7 @@ public class FactionsBlockListener implements Listener {
         Faction otherFaction = Board.getInstance().getFactionAt(new FLocation(targetLoc));
 
         // Check if the piston is moving in a faction's territory. This disables pistons entirely in faction territory.
-        if (otherFaction.isNormal() && P.p.getConfig().getBoolean("disable-pistons-in-territory", false)) {
+        if (otherFaction.isNormal() && P.get().getConfig().getBoolean("disable-pistons-in-territory", false)) {
             event.setCancelled(true);
             return;
         }
@@ -246,7 +246,7 @@ public class FactionsBlockListener implements Listener {
 
             return false;
         }
-        if (P.p.getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+        if (P.get().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
             return true;
         }
 

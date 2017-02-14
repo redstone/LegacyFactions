@@ -37,11 +37,11 @@ public class Worldguard {
         if (wgplug == null || !(wgplug instanceof WorldGuardPlugin)) {
             enabled = false;
             wg = null;
-            P.p.log("Could not hook to WorldGuard. WorldGuard checks are disabled.");
+            P.get().log("Could not hook to WorldGuard. WorldGuard checks are disabled.");
         } else {
             wg = (WorldGuardPlugin) wgplug;
             enabled = true;
-            P.p.log("Successfully hooked to WorldGuard.");
+            P.get().log("Successfully hooked to WorldGuard.");
         }
     }
 

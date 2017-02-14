@@ -70,7 +70,7 @@ public class EngineDynmap {
         }
 
         // Shedule non thread safe sync at the end!
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(P.p, new Runnable() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(P.get(), new Runnable() {
             @Override
             public void run() {
 
