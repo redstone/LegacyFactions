@@ -61,6 +61,8 @@ public interface Faction extends EconomyParticipator {
 
     public boolean noExplosionsInTerritory();
 
+    public boolean noCreeperExplosions(Location location);
+    
     public boolean isPermanent();
 
     public void setPermanent(boolean isPermanent);

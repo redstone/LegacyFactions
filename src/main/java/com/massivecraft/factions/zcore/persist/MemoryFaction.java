@@ -153,7 +153,16 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public boolean noExplosionsInTerritory() {
-        return this.peaceful && !peacefulExplosionsEnabled;
+        return (this.peaceful && !peacefulExplosionsEnabled) || this.isSafeZone();
+    }
+    
+    public boolean noCreeperExplosions(Location location) {
+    	return (
+    		this.isWilderness() && Conf.wildernessBlockCreepers && !Conf.worldsNoWildernessProtection.contains(location.getWorld().getName()) ||
+    		this.isNormal() && (this.hasPlayersOnline() ? Conf.territoryBlockCreepers : Conf.territoryBlockCreepersWhenOffline) ||
+    		this.isWarZone() && Conf.warZoneBlockCreepers ||
+    		this.isSafeZone()
+    	);
     }
 
     public boolean isPermanent() {
