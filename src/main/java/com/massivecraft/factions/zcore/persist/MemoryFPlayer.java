@@ -807,6 +807,8 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (claimEvent.isCancelled()) {
             return false;
         }
+        // in case it was updated in the event 
+        flocation = claimEvent.getLocation();
 
         // then make 'em pay (if applicable)
         if (mustPay && !Econ.modifyMoney(payee, -cost, TL.CLAIM_TOCLAIM.toString(), TL.CLAIM_FORCLAIM.toString())) {

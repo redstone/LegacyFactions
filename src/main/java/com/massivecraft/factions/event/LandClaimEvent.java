@@ -28,6 +28,19 @@ public class LandClaimEvent extends FactionPlayerEvent implements Cancellable {
     public FLocation getLocation() {
         return this.location;
     }
+    
+    /**
+     * Changes the location of the claim
+     * @param new location
+     * @return false if can't calim there
+     */
+    public Boolean setLocation(FLocation newLocation) {
+    	if (this.getfPlayer().canClaimForFactionAtLocation(this.getFaction(), newLocation, false)) {
+    		this.location = newLocation;
+    		return true;
+    	}
+    	return false;
+    }
 
     /**
      * Get the id of the faction.
