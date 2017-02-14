@@ -82,6 +82,10 @@ public class FLocation implements Serializable {
 	// GETTERS & SETTERS
 	// ----------------------------------------
 
+    
+    public Chunk getChunk() {
+    	return this.getWorld().getChunkAt(this.x, this.z);
+    }
     public String getWorldName() {
         return worldName;
     }
