@@ -25,6 +25,7 @@ import java.util.List;
  */
 
 public interface FPlayer extends EconomyParticipator {
+	
     public void login();
 
     public void logout();

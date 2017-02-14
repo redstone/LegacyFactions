@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.integration.Essentials;
+import com.massivecraft.factions.integration.essentials.EssentialsEngine;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.struct.Role;
@@ -107,7 +107,7 @@ public class CmdHome extends FCommand {
         }
 
         // if Essentials teleport handling is enabled and available, pass the teleport off to it (for delay and cooldown)
-        if (Essentials.handleTeleport(me, myFaction.getHome())) {
+        if (EssentialsEngine.handleTeleport(me, myFaction.getHome())) {
             return;
         }
 

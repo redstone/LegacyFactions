@@ -3,7 +3,7 @@ package com.massivecraft.factions.cmd;
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.event.FPlayerLeaveEvent;
 import com.massivecraft.factions.event.FactionDisbandEvent;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.scoreboards.FTeamWrapper;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Role;
@@ -83,13 +83,13 @@ public class CmdDisband extends FCommand {
             P.get().log("The faction " + faction.getTag() + " (" + faction.getId() + ") was disbanded by " + (senderIsConsole ? "console command" : fme.getName()) + ".");
         }
 
-        if (Econ.shouldBeUsed() && !senderIsConsole) {
+        if (VaultEngine.shouldBeUsed() && !senderIsConsole) {
             //Give all the faction's money to the disbander
-            double amount = Econ.getBalance(faction.getAccountId());
-            Econ.transferMoney(fme, faction, fme, amount, false);
+            double amount = VaultEngine.getBalance(faction.getAccountId());
+            VaultEngine.transferMoney(fme, faction, fme, amount, false);
 
             if (amount > 0.0) {
-                String amountString = Econ.moneyString(amount);
+                String amountString = VaultEngine.moneyString(amount);
                 msg(TL.COMMAND_DISBAND_HOLDINGS, amountString);
                 //TODO: Format this correctly and translate
                 P.get().log(fme.getName() + " has been given bank holdings of " + amountString + " from disbanding " + faction.getTag() + ".");

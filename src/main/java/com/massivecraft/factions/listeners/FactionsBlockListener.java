@@ -1,7 +1,8 @@
 package com.massivecraft.factions.listeners;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.integration.Worldguard;
+import com.massivecraft.factions.integration.worldguard.WorldGuardEngine;
+import com.massivecraft.factions.integration.worldguard.WorldGuardIntegration;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Relation;
 import org.bukkit.Location;
@@ -204,7 +205,7 @@ public class FactionsBlockListener implements Listener {
         Faction otherFaction = Board.getInstance().getFactionAt(loc);
 
         if (otherFaction.isWilderness()) {
-            if (Conf.worldGuardBuildPriority && Worldguard.playerCanBuild(player, location)) {
+            if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
                 return true;
             }
 
@@ -218,7 +219,7 @@ public class FactionsBlockListener implements Listener {
 
             return false;
         } else if (otherFaction.isSafeZone()) {
-            if (Conf.worldGuardBuildPriority && Worldguard.playerCanBuild(player, location)) {
+            if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
                 return true;
             }
 
@@ -232,7 +233,7 @@ public class FactionsBlockListener implements Listener {
 
             return false;
         } else if (otherFaction.isWarZone()) {
-            if (Conf.worldGuardBuildPriority && Worldguard.playerCanBuild(player, location)) {
+            if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
                 return true;
             }
 

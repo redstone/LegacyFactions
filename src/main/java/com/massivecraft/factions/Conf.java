@@ -450,6 +450,7 @@ public class Conf {
     // -------------------------------------------- //
     // Persistance
     // -------------------------------------------- //
+    
     private static transient Conf i = new Conf();
 
     public static void load() {

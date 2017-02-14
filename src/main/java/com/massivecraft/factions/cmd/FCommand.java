@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.WarmUpUtil;
 import com.massivecraft.factions.zcore.MCommand;
@@ -274,14 +274,14 @@ public abstract class FCommand extends MCommand<P> {
 
     // if economy is enabled and they're not on the bypass list, make 'em pay; returns true unless person can't afford the cost
     public boolean payForCommand(double cost, String toDoThis, String forDoingThis) {
-        if (!Econ.shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
+        if (!VaultEngine.shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
             return true;
         }
 
         if (Conf.bankEnabled && Conf.bankFactionPaysCosts && fme.hasFaction()) {
-            return Econ.modifyMoney(myFaction, -cost, toDoThis, forDoingThis);
+            return VaultEngine.modifyMoney(myFaction, -cost, toDoThis, forDoingThis);
         } else {
-            return Econ.modifyMoney(fme, -cost, toDoThis, forDoingThis);
+            return VaultEngine.modifyMoney(fme, -cost, toDoThis, forDoingThis);
         }
     }
 
@@ -291,14 +291,14 @@ public abstract class FCommand extends MCommand<P> {
 
     // like above, but just make sure they can pay; returns true unless person can't afford the cost
     public boolean canAffordCommand(double cost, String toDoThis) {
-        if (!Econ.shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
+        if (!VaultEngine.shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
             return true;
         }
 
         if (Conf.bankEnabled && Conf.bankFactionPaysCosts && fme.hasFaction()) {
-            return Econ.hasAtLeast(myFaction, cost, toDoThis);
+            return VaultEngine.hasAtLeast(myFaction, cost, toDoThis);
         } else {
-            return Econ.hasAtLeast(fme, cost, toDoThis);
+            return VaultEngine.hasAtLeast(fme, cost, toDoThis);
         }
     }
 

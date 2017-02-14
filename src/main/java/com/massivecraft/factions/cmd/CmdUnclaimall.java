@@ -4,7 +4,7 @@ import com.massivecraft.factions.Board;
 import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.P;
 import com.massivecraft.factions.event.LandUnclaimAllEvent;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.Bukkit;
@@ -29,14 +29,14 @@ public class CmdUnclaimall extends FCommand {
 
     @Override
     public void perform() {
-        if (Econ.shouldBeUsed()) {
-            double refund = Econ.calculateTotalLandRefund(myFaction.getLandRounded());
+        if (VaultEngine.shouldBeUsed()) {
+            double refund = VaultEngine.calculateTotalLandRefund(myFaction.getLandRounded());
             if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
-                if (!Econ.modifyMoney(myFaction, refund, TL.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
+                if (!VaultEngine.modifyMoney(myFaction, refund, TL.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
                     return;
                 }
             } else {
-                if (!Econ.modifyMoney(fme, refund, TL.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
+                if (!VaultEngine.modifyMoney(fme, refund, TL.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
                     return;
                 }
             }

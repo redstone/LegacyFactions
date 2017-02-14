@@ -3,7 +3,7 @@ package com.massivecraft.factions.zcore;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.P;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.zcore.util.TL;
 import com.massivecraft.factions.zcore.util.TextUtil;
 import mkremins.fanciful.FancyMessage;
@@ -297,7 +297,7 @@ public abstract class MCommand<T extends MPlugin> {
 
     public String replaceFPlayerTags(String s, FPlayer player) {
         if (s.contains("{balance}")) {
-            String balance = Econ.isSetup() ? Econ.getFriendlyBalance(player) : "no balance";
+            String balance = VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(player) : "no balance";
             s = s.replace("{balance}", balance);
         }
         if (s.contains("{lastSeen}")) {

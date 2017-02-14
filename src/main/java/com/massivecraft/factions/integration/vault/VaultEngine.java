@@ -1,10 +1,11 @@
-package com.massivecraft.factions.integration;
+package com.massivecraft.factions.integration.vault;
 
 import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.P;
 import com.massivecraft.factions.iface.EconomyParticipator;
+import com.massivecraft.factions.integration.IntegrationEngine;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.RelationUtil;
@@ -18,17 +19,24 @@ import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 
-public class Econ {
+public class VaultEngine extends IntegrationEngine {
 
-    private static Economy econ = null;
-
+    protected static Economy econ = null;
+    
     public static void setup() {
         if (isSetup()) {
             return;
         }
 
+        try {
+            RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> rsp = P.get().getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+            if (rsp != null) {
+        	    P.get().perms = rsp.getProvider();
+            }
+        } catch (NoClassDefFoundError ex) {
+        }
+                
         String integrationFail = "Economy integration is " + (Conf.econEnabled ? "enabled, but" : "disabled, and") + " the plugin \"Vault\" ";
 
         if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
@@ -81,10 +89,10 @@ public class Econ {
 
     public static void sendBalanceInfo(FPlayer to, EconomyParticipator about) {
         if (!shouldBeUsed()) {
-            P.get().log(Level.WARNING, "Vault does not appear to be hooked into an economy plugin.");
+            P.get().warn("Vault does not appear to be hooked into an economy plugin.");
             return;
         }
-        to.msg("<a>%s's<i> balance is <h>%s<i>.", about.describeTo(to, true), Econ.moneyString(econ.getBalance(about.getAccountId())));
+        to.msg("<a>%s's<i> balance is <h>%s<i>.", about.describeTo(to, true), VaultEngine.moneyString(econ.getBalance(about.getAccountId())));
     }
 
     public static boolean canIControllYou(EconomyParticipator i, EconomyParticipator you) {

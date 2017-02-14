@@ -1,7 +1,7 @@
 package com.massivecraft.factions.zcore.util;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.struct.Relation;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
@@ -106,7 +106,7 @@ public enum TagReplacer {
             case TOTAL_ONLINE:
                 return String.valueOf(Bukkit.getOnlinePlayers().size());
             case FACTIONLESS:
-                return String.valueOf(Factions.getInstance().getNone().getFPlayersWhereOnline(true).size());
+                return String.valueOf(Factions.getInstance().getWilderness().getFPlayersWhereOnline(true).size());
             case MAX_ALLIES:
                 if (P.get().getConfig().getBoolean("max-relations.enabled", true)) {
                     return String.valueOf(P.get().getConfig().getInt("max-relations.ally", 10));
@@ -119,8 +119,9 @@ public enum TagReplacer {
                 return TL.GENERIC_INFINITY.toString();
             case MAX_WARPS:
                 return String.valueOf(P.get().getConfig().getInt("max-warps", 5));
+            default:
+            	return null;
         }
-        return null;
     }
 
     /**
@@ -152,7 +153,7 @@ public enum TagReplacer {
                 case PLAYER_GROUP:
                     return P.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fp.getId())));
                 case PLAYER_BALANCE:
-                    return Econ.isSetup() ? Econ.getFriendlyBalance(fp) : TL.ECON_OFF.format("balance");
+                    return VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(fp) : TL.ECON_OFF.format("balance");
                 case PLAYER_POWER:
                     return String.valueOf(fp.getPowerRounded());
                 case PLAYER_MAXPOWER:
@@ -161,6 +162,7 @@ public enum TagReplacer {
                     return String.valueOf(fp.getKills());
                 case PLAYER_DEATHS:
                     return String.valueOf(fp.getDeaths());
+                default:
             }
         }
         switch (this) {
@@ -202,12 +204,12 @@ public enum TagReplacer {
             case HOME_Z:
                 return fac.hasHome() ? String.valueOf(fac.getHome().getBlockZ()) : minimal ? null : "{ig}";
             case LAND_VALUE:
-                return Econ.shouldBeUsed() ? Econ.moneyString(Econ.calculateTotalLandValue(fac.getLandRounded())) : minimal ? null : TL.ECON_OFF.format("value");
+                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandValue(fac.getLandRounded())) : minimal ? null : TL.ECON_OFF.format("value");
             case LAND_REFUND:
-                return Econ.shouldBeUsed() ? Econ.moneyString(Econ.calculateTotalLandRefund(fac.getLandRounded())) : minimal ? null : TL.ECON_OFF.format("refund");
+                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandRefund(fac.getLandRounded())) : minimal ? null : TL.ECON_OFF.format("refund");
             case BANK_BALANCE:
-                if (Econ.shouldBeUsed()) {
-                    return Conf.bankEnabled ? Econ.moneyString(Econ.getBalance(fac.getAccountId())) : minimal ? null : TL.ECON_OFF.format("balance");
+                if (VaultEngine.shouldBeUsed()) {
+                    return Conf.bankEnabled ? VaultEngine.moneyString(VaultEngine.getBalance(fac.getAccountId())) : minimal ? null : TL.ECON_OFF.format("balance");
                 }
                 return minimal ? null : TL.ECON_OFF.format("balance");
             case ALLIES_COUNT:
@@ -224,8 +226,9 @@ public enum TagReplacer {
                 return String.valueOf(fac.getKills());
             case FACTION_DEATHS:
                 return String.valueOf(fac.getDeaths());
+            default:
+            	return null;
         }
-        return null;
     }
 
     /**

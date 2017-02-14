@@ -2,7 +2,7 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.P;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.configuration.ConfigurationSection;
@@ -104,7 +104,7 @@ public class CmdHelp extends FCommand {
         pageLines.add(p.cmdBase.cmdSethome.getUseageTemplate(true));
         helpPages.add(pageLines);
 
-        if (Econ.isSetup() && Conf.econEnabled && Conf.bankEnabled) {
+        if (VaultEngine.isSetup() && Conf.econEnabled && Conf.bankEnabled) {
             pageLines = new ArrayList<String>();
             pageLines.add("");
             pageLines.add(p.txt.parse(TL.COMMAND_HELP_BANK_1.toString()));

@@ -1,7 +1,7 @@
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Conf;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.integration.playervaults.PlayerVaultsIntegration;
 import com.massivecraft.factions.zcore.util.TL;
 
 import java.util.Collections;
@@ -152,10 +152,9 @@ public class FCmdRoot extends FCommand {
         this.addSubCommand(this.cmdClaimLine);
         this.addSubCommand(this.cmdTop);
         this.addSubCommand(this.cmdAHome);
-        if (P.get().isHookedPlayervaults()) {
-            P.get().log("Found playervaults hook, adding /f vault and /f setmaxvault commands.");
-            this.addSubCommand(new CmdSetMaxVaults());
-            this.addSubCommand(new CmdVault());
+
+        if(PlayerVaultsIntegration.get().isEnabled()) {
+        	PlayerVaultsIntegration.get().injectCommands(this);
         }
     }
 

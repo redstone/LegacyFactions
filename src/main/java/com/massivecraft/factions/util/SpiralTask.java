@@ -6,8 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import java.util.logging.Level;
-
 
 /*
  * reference diagram, task should move in this pattern out from chunk 0 in the center.
@@ -38,14 +36,13 @@ public abstract class SpiralTask implements Runnable {
     private transient int length = -1;
     private transient int current = 0;
 
-    @SuppressWarnings("LeakingThisInConstructor")
     public SpiralTask(FLocation fLocation, int radius) {
         // limit is determined based on spiral leg length for given radius; see insideRadius()
         this.limit = (radius - 1) * 2;
 
         this.world = Bukkit.getWorld(fLocation.getWorldName());
         if (this.world == null) {
-            P.get().log(Level.WARNING, "[SpiralTask] A valid world must be specified!");
+            P.get().warn("[SpiralTask] A valid world must be specified!");
             this.stop();
             return;
         }

@@ -1,7 +1,8 @@
 package com.massivecraft.factions.integration.dynmap;
 
 import com.massivecraft.factions.*;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.IntegrationEngine;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.zcore.persist.MemoryBoard;
 import org.bukkit.Bukkit;
@@ -16,7 +17,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 // This source code is a heavily modified version of mikeprimms plugin Dynmap-Factions.
-public class EngineDynmap {
+public class DynmapEngine extends IntegrationEngine {
+	
     // -------------------------------------------- //
     // CONSTANTS
     // -------------------------------------------- //
@@ -40,13 +42,13 @@ public class EngineDynmap {
     // INSTANCE & CONSTRUCT
     // -------------------------------------------- //
 
-    private static EngineDynmap i = new EngineDynmap();
+    private static DynmapEngine i = new DynmapEngine();
 
-    public static EngineDynmap getInstance() {
+    public static DynmapEngine getInstance() {
         return i;
     }
 
-    private EngineDynmap() {
+    private DynmapEngine() {
     }
 
     public DynmapAPI dynmapApi;
@@ -193,7 +195,7 @@ public class EngineDynmap {
             if (marker == null) {
                 marker = temp.create(this.markerApi, this.markerset, markerId);
                 if (marker == null) {
-                    EngineDynmap.severe("Could not get/create the home marker " + markerId);
+                    DynmapEngine.severe("Could not get/create the home marker " + markerId);
                 }
             } else {
                 temp.update(this.markerApi, marker);
@@ -613,7 +615,7 @@ public class EngineDynmap {
 
         String money = "unavailable";
         if (Conf.bankEnabled && Conf.dynmapDescriptionMoney) {
-            money = String.format("%.2f", Econ.getBalance(faction.getAccountId()));
+            money = String.format("%.2f", VaultEngine.getBalance(faction.getAccountId()));
         }
         ret = ret.replace("%money%", money);
 

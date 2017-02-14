@@ -7,24 +7,22 @@ import java.util.Set;
 
 
 public abstract class Board {
-    protected static Board instance = getBoardImpl();
-
-    //----------------------------------------------//
-    // Get and Set
-    //----------------------------------------------//
-    public abstract String getIdAt(FLocation flocation);
-
-    private static Board getBoardImpl() {
+	
+    protected static Board instance = getImpl();
+    private static Board getImpl() {
         switch (Conf.backEnd) {
             case JSON:
                 return new JSONBoard();
         }
         return null;
     }
-
-    public static Board getInstance() {
-        return instance;
-    }
+    public static Board getInstance() { return instance; }
+    
+    //----------------------------------------------//
+    // Get and Set
+    //----------------------------------------------//
+    
+    public abstract String getIdAt(FLocation flocation);
 
     public abstract Faction getFactionAt(FLocation flocation);
 

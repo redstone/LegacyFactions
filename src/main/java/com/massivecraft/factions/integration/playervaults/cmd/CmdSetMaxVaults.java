@@ -1,7 +1,7 @@
-package com.massivecraft.factions.cmd;
+package com.massivecraft.factions.integration.playervaults.cmd;
 
 import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.cmd.FCommand;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.zcore.util.TL;
 import org.bukkit.ChatColor;

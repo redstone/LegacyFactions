@@ -2,7 +2,7 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.event.LandUnclaimEvent;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Role;
 import com.massivecraft.factions.util.SpiralTask;
@@ -137,15 +137,15 @@ public class CmdUnclaim extends FCommand {
             return false;
         }
 
-        if (Econ.shouldBeUsed()) {
-            double refund = Econ.calculateClaimRefund(myFaction.getLandRounded());
+        if (VaultEngine.shouldBeUsed()) {
+            double refund = VaultEngine.calculateClaimRefund(myFaction.getLandRounded());
 
             if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
-                if (!Econ.modifyMoney(myFaction, refund, TL.COMMAND_UNCLAIM_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
+                if (!VaultEngine.modifyMoney(myFaction, refund, TL.COMMAND_UNCLAIM_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
                     return false;
                 }
             } else {
-                if (!Econ.modifyMoney(fme, refund, TL.COMMAND_UNCLAIM_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
+                if (!VaultEngine.modifyMoney(fme, refund, TL.COMMAND_UNCLAIM_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
                     return false;
                 }
             }

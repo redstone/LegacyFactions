@@ -3,7 +3,7 @@ package com.massivecraft.factions.zcore.persist;
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.iface.EconomyParticipator;
 import com.massivecraft.factions.iface.RelationParticipator;
-import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.integration.vault.VaultEngine;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.struct.Role;
@@ -251,8 +251,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         String aid = "faction-" + this.getId();
 
         // We need to override the default money given to players.
-        if (!Econ.hasAccount(aid)) {
-            Econ.setBalance(aid, 0);
+        if (!VaultEngine.hasAccount(aid)) {
+            VaultEngine.setBalance(aid, 0);
         }
 
         return aid;
@@ -831,8 +831,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     // Persistance and entity management
     // ----------------------------------------------//
     public void remove() {
-        if (Econ.shouldBeUsed()) {
-            Econ.setBalance(getAccountId(), 0);
+        if (VaultEngine.shouldBeUsed()) {
+            VaultEngine.setBalance(getAccountId(), 0);
         }
 
         // Clean the board

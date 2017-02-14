@@ -146,9 +146,9 @@ public class FactionsChatListener implements Listener {
                     listeningPlayer.sendMessage(String.format(yourFormat, talkingPlayer.getDisplayName(), msg));
                 } catch (UnknownFormatConversionException ex) {
                     Conf.chatTagInsertIndex = 0;
-                    P.get().log(Level.SEVERE, "Critical error in chat message formatting!");
-                    P.get().log(Level.SEVERE, "NOTE: This has been automatically fixed right now by setting chatTagInsertIndex to 0.");
-                    P.get().log(Level.SEVERE, "For a more proper fix, please read this regarding chat configuration: http://massivecraft.com/plugins/factions/config#Chat_configuration");
+                    P.get().error("Critical error in chat message formatting!");
+                    P.get().error("NOTE: This has been automatically fixed right now by setting chatTagInsertIndex to 0.");
+                    P.get().error("For a more proper fix, please read this regarding chat configuration: http://massivecraft.com/plugins/factions/config#Chat_configuration");
                     return;
                 }
             }

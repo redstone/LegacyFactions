@@ -1,4 +1,4 @@
-package com.massivecraft.factions.integration;
+package com.massivecraft.factions.integration.essentials;
 
 import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.Teleport;
@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class Essentials {
+public class EssentialsEngine {
 
     private static IEssentials essentials;
 

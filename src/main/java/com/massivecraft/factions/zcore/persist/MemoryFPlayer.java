@@ -5,9 +5,10 @@ import com.massivecraft.factions.event.FPlayerLeaveEvent;
 import com.massivecraft.factions.event.LandClaimEvent;
 import com.massivecraft.factions.iface.EconomyParticipator;
 import com.massivecraft.factions.iface.RelationParticipator;
-import com.massivecraft.factions.integration.Econ;
-import com.massivecraft.factions.integration.Essentials;
-import com.massivecraft.factions.integration.Worldguard;
+import com.massivecraft.factions.integration.essentials.EssentialsEngine;
+import com.massivecraft.factions.integration.vault.VaultEngine;
+import com.massivecraft.factions.integration.worldguard.WorldGuardEngine;
+import com.massivecraft.factions.integration.worldguard.WorldGuardIntegration;
 import com.massivecraft.factions.scoreboards.FScoreboard;
 import com.massivecraft.factions.scoreboards.sidebar.FInfoSidebar;
 import com.massivecraft.factions.struct.ChatMode;
@@ -185,7 +186,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
 
     public boolean isVanished() {
-        return Essentials.isVanished(getPlayer());
+        return EssentialsEngine.isVanished(getPlayer());
     }
 
     public void setIsAdminBypassing(boolean val) {
@@ -618,7 +619,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
     public void leave(boolean makePay) {
         Faction myFaction = this.getFaction();
-        makePay = makePay && Econ.shouldBeUsed() && !this.isAdminBypassing();
+        makePay = makePay && VaultEngine.shouldBeUsed() && !this.isAdminBypassing();
 
         if (myFaction == null) {
             resetFactionData();
@@ -638,7 +639,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         // if economy is enabled and they're not on the bypass list, make sure they can pay
-        if (makePay && !Econ.hasAtLeast(this, Conf.econCostLeave, TL.LEAVE_TOLEAVE.toString())) {
+        if (makePay && !VaultEngine.hasAtLeast(this, Conf.econCostLeave, TL.LEAVE_TOLEAVE.toString())) {
             return;
         }
 
@@ -649,15 +650,15 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         // then make 'em pay (if applicable)
-        if (makePay && !Econ.modifyMoney(this, -Conf.econCostLeave, TL.LEAVE_TOLEAVE.toString(), TL.LEAVE_FORLEAVE.toString())) {
+        if (makePay && !VaultEngine.modifyMoney(this, -Conf.econCostLeave, TL.LEAVE_TOLEAVE.toString(), TL.LEAVE_FORLEAVE.toString())) {
             return;
         }
 
         // Am I the last one in the faction?
         if (myFaction.getFPlayers().size() == 1) {
             // Transfer all money
-            if (Econ.shouldBeUsed()) {
-                Econ.transferMoney(this, myFaction, this, Econ.getBalance(myFaction.getAccountId()));
+            if (VaultEngine.shouldBeUsed()) {
+                VaultEngine.transferMoney(this, myFaction, this, VaultEngine.getBalance(myFaction.getAccountId()));
             }
         }
 
@@ -718,7 +719,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             return true;
         }
         
-        if (Conf.worldGuardChecking && Worldguard.checkForRegionsInChunk(flocation)) {
+        if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(flocation)) {
             // Checks for WorldGuard regions in the chunk attempting to be claimed
         	
         	if (notifyFailure) msg(P.get().txt.parse(TL.CLAIM_PROTECTED.toString()));
@@ -829,11 +830,11 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         // if economy is enabled and they're not on the bypass list, make sure they can pay
-        boolean mustPay = Econ.shouldBeUsed() && !this.isAdminBypassing() && !forFaction.isSafeZone() && !forFaction.isWarZone();
+        boolean mustPay = VaultEngine.shouldBeUsed() && !this.isAdminBypassing() && !forFaction.isSafeZone() && !forFaction.isWarZone();
         double cost = 0.0;
         EconomyParticipator payee = null;
         if (mustPay) {
-            cost = Econ.calculateClaimCost(ownedLand, currentFaction.isNormal());
+            cost = VaultEngine.calculateClaimCost(ownedLand, currentFaction.isNormal());
 
             if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.getInstance().isConnectedLocation(flocation, forFaction)) {
                 cost += Conf.econClaimUnconnectedFee;
@@ -845,7 +846,7 @@ public abstract class MemoryFPlayer implements FPlayer {
                 payee = this;
             }
 
-            if (!Econ.hasAtLeast(payee, cost, TL.CLAIM_TOCLAIM.toString())) {
+            if (!VaultEngine.hasAtLeast(payee, cost, TL.CLAIM_TOCLAIM.toString())) {
                 return false;
             }
         }
@@ -859,14 +860,14 @@ public abstract class MemoryFPlayer implements FPlayer {
         flocation = claimEvent.getLocation();
 
         // then make 'em pay (if applicable)
-        if (mustPay && !Econ.modifyMoney(payee, -cost, TL.CLAIM_TOCLAIM.toString(), TL.CLAIM_FORCLAIM.toString())) {
+        if (mustPay && !VaultEngine.modifyMoney(payee, -cost, TL.CLAIM_TOCLAIM.toString(), TL.CLAIM_FORCLAIM.toString())) {
             return false;
         }
 
         // Was an over claim
         if (currentFaction.isNormal() && currentFaction.hasLandInflation()) {
             // Give them money for over claiming.
-            Econ.modifyMoney(payee, Conf.econOverclaimRewardMultiplier, TL.CLAIM_TOOVERCLAIM.toString(), TL.CLAIM_FOROVERCLAIM.toString());
+            VaultEngine.modifyMoney(payee, Conf.econOverclaimRewardMultiplier, TL.CLAIM_TOOVERCLAIM.toString(), TL.CLAIM_FOROVERCLAIM.toString());
         }
 
         // announce success

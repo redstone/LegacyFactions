@@ -1,7 +1,8 @@
-package com.massivecraft.factions.integration;
+package com.massivecraft.factions.integration.worldguard;
 
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.P;
+import com.massivecraft.factions.integration.IntegrationEngine;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -29,7 +30,7 @@ import static com.sk89q.worldguard.bukkit.BukkitUtil.toVector;
  */
 
 // TODO: use newer faster method, rewrite entire class
-public class Worldguard {
+public class WorldGuardEngine extends IntegrationEngine {
 
     private static WorldGuardPlugin wg;
     private static boolean enabled = false;

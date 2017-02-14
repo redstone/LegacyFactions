@@ -22,10 +22,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.massivecraft.factions.cmd.CmdAutoHelp;
 import com.massivecraft.factions.cmd.FCmdRoot;
-import com.massivecraft.factions.integration.Econ;
-import com.massivecraft.factions.integration.Essentials;
-import com.massivecraft.factions.integration.Worldguard;
-import com.massivecraft.factions.integration.dynmap.EngineDynmap;
+import com.massivecraft.factions.integration.Integrations;
+import com.massivecraft.factions.integration.dynmap.DynmapIntegration;
+import com.massivecraft.factions.integration.essentials.EssentialsIntegration;
+import com.massivecraft.factions.integration.playervaults.PlayerVaultsIntegration;
+import com.massivecraft.factions.integration.vault.VaultIntegration;
+import com.massivecraft.factions.integration.worldguard.WorldGuardIntegration;
 import com.massivecraft.factions.listeners.*;
 import com.massivecraft.factions.struct.ChatMode;
 import com.massivecraft.factions.util.*;
@@ -39,7 +41,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -71,6 +72,7 @@ public class P extends MPlugin {
     private boolean hookedPlayervaults;
     public FCmdRoot cmdBase;
     public CmdAutoHelp cmdAutoHelp;
+    private GsonBuilder gsonBuilder = null;
     
 	// ----------------------------------------
 	// METHODS
@@ -84,21 +86,19 @@ public class P extends MPlugin {
         this.locked = val;
         this.setAutoSave(val);
     }
-
-
-    // Commands
-
+    
     @Override
     public void onEnable() {
         if (!preEnable()) {
             return;
         }
+        
         this.loadSuccessful = false;
         saveDefaultConfig();
 
         // Load Conf from disk
         Conf.load();
-        Essentials.setup();
+        
         hookedPlayervaults = setupPlayervaults();
         FPlayers.getInstance().load();
         Factions.getInstance().load();
@@ -114,20 +114,19 @@ public class P extends MPlugin {
         Board.getInstance().load();
         Board.getInstance().clean();
 
-        // Add Base Commands
+        // Add base commands.
         this.cmdBase = new FCmdRoot();
         this.cmdAutoHelp = new CmdAutoHelp();
         this.getBaseCommands().add(cmdBase);
 
-        Econ.setup();
-        setupPermissions();
+        // Add our integrations.
+        Integrations.add(VaultIntegration.get());
+        Integrations.add(WorldGuardIntegration.get());
+        Integrations.add(DynmapIntegration.get());
+        Integrations.add(EssentialsIntegration.get());
+        Integrations.add(PlayerVaultsIntegration.get());
 
-        if (Conf.worldGuardChecking || Conf.worldGuardBuildPriority) {
-            Worldguard.init(this);
-        }
-
-        EngineDynmap.getInstance().init();
-
+        
         // start up task which runs the autoLeaveAfterDaysOfInactivity routine
         startAutoLeaveTask(false);
 
@@ -145,18 +144,6 @@ public class P extends MPlugin {
         this.loadSuccessful = true;
     }
 
-    private boolean setupPermissions() {
-        try {
-            RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-            if (rsp != null) {
-        	    perms = rsp.getProvider();
-            }
-        } catch (NoClassDefFoundError ex) {
-            return false;
-        }
-        return perms != null;
-    }
-
     private boolean setupPlayervaults() {
         Plugin plugin = getServer().getPluginManager().getPlugin("PlayerVaults");
         return plugin != null && plugin.isEnabled();
@@ -164,10 +151,16 @@ public class P extends MPlugin {
 
     @Override
     public GsonBuilder getGsonBuilder() {
-        Type mapFLocToStringSetType = new TypeToken<Map<FLocation, Set<String>>>() {
-        }.getType();
+    	if (this.gsonBuilder == null) {
+    		Type mapFLocToStringSetType = new TypeToken<Map<FLocation, Set<String>>>() { }.getType();
+    		
+    		this.gsonBuilder = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
+    				.registerTypeAdapter(LazyLocation.class, new MyLocationTypeAdapter())
+    				.registerTypeAdapter(mapFLocToStringSetType, new MapFLocToStringSetTypeAdapter())
+    				.registerTypeAdapterFactory(EnumTypeAdapter.ENUM_FACTORY);
+    	}
 
-        return new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE).registerTypeAdapter(LazyLocation.class, new MyLocationTypeAdapter()).registerTypeAdapter(mapFLocToStringSetType, new MapFLocToStringSetTypeAdapter()).registerTypeAdapterFactory(EnumTypeAdapter.ENUM_FACTORY);
+        return this.gsonBuilder;
     }
 
     @Override
@@ -200,7 +193,6 @@ public class P extends MPlugin {
 
     @Override
     public void postAutoSave() {
-        //Board.getInstance().forceSave(); Not sure why this was there as it's called after the board is already saved.
         Conf.save();
     }
 

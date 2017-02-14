@@ -88,12 +88,12 @@ public class FactionsPlayerListener implements Listener {
 
         if (me.isSpyingChat() && !player.hasPermission(Permission.CHATSPY.node)) {
             me.setSpyingChat(false);
-            P.get().log(Level.INFO, "Found %s spying chat without permission on login. Disabled their chat spying.", player.getName());
+            P.get().log("Found %s spying chat without permission on login. Disabled their chat spying.", player.getName());
         }
 
         if (me.isAdminBypassing() && !player.hasPermission(Permission.BYPASS.node)) {
             me.setIsAdminBypassing(false);
-            P.get().log(Level.INFO, "Found %s on admin Bypass without permission on login. Disabled it for them.", player.getName());
+            P.get().log("Found %s on admin Bypass without permission on login. Disabled it for them.", player.getName());
         }
 
         // If they have the permission, don't let them autoleave. Bad inverted setter :\
@@ -176,7 +176,7 @@ public class FactionsPlayerListener implements Listener {
         if (me.isMapAutoUpdating()) {
             if (showTimes.containsKey(player.getUniqueId()) && (showTimes.get(player.getUniqueId()) > System.currentTimeMillis())) {
                 if (P.get().getConfig().getBoolean("findfactionsexploit.log", false)) {
-                    P.get().log(Level.WARNING, "%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
+                    P.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
                 }
             } else {
                 me.sendMessage(Board.getInstance().getMap(me.getFaction(), to, player.getLocation().getYaw()));

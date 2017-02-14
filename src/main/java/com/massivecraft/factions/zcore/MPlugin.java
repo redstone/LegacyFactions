@@ -13,6 +13,7 @@ import com.massivecraft.factions.zcore.util.Persist;
 import com.massivecraft.factions.zcore.util.TL;
 import com.massivecraft.factions.zcore.util.TextUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +28,12 @@ import java.util.logging.Level;
 
 public abstract class MPlugin extends JavaPlugin {
 
-    // Some utils
+	
+	public static final String LOG_PREFIX = ChatColor.AQUA+""+ ChatColor.BOLD + "[FactionsUUID] " + ChatColor.RESET;
+	public static final String WARN_PREFIX = ChatColor.GOLD+""+ ChatColor.BOLD + "[WARN] " + ChatColor.RESET;
+	public static final String ERROR_PREFIX = ChatColor.RED+""+ ChatColor.BOLD + "[ERROR] " + ChatColor.RESET;
+	   
+	// Some utils
     public Persist persist;
     public TextUtil txt;
     public PermUtil perm;
@@ -133,6 +139,7 @@ public abstract class MPlugin extends JavaPlugin {
                     while ((read = defLangStream.read(bytes)) != -1) {
                         out.write(bytes, 0, read);
                     }
+                    
                     YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defLangStream);
                     TL.setFile(defConfig);
                 }
@@ -170,7 +177,7 @@ public abstract class MPlugin extends JavaPlugin {
         // Remove this here because I'm sick of dealing with bug reports due to bad decisions on my part.
         if (conf.getString(TL.COMMAND_SHOW_POWER.getPath(), "").contains("%5$s")) {
             conf.set(TL.COMMAND_SHOW_POWER.getPath(), TL.COMMAND_SHOW_POWER.getDefault());
-            log(Level.INFO, "Removed errant format specifier from f show power.");
+            log("Removed errant format specifier from f show power.");
         }
 
         TL.setFile(conf);
@@ -332,19 +339,23 @@ public abstract class MPlugin extends JavaPlugin {
     // -------------------------------------------- //
     // LOGGING
     // -------------------------------------------- //
+    
     public void log(Object msg) {
-        log(Level.INFO, msg);
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + msg);
     }
 
     public void log(String str, Object... args) {
-        log(Level.INFO, this.txt.parse(str, args));
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + this.txt.parse(str, args));
     }
+    
+    public void warn(String str, Object... args) {
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + WARN_PREFIX + this.txt.parse(str, args));
+    }
+    
+    public void error(String str, Object... args) {
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + ERROR_PREFIX + this.txt.parse(str, args));
+    }
+    
+    
 
-    public void log(Level level, String str, Object... args) {
-        log(level, this.txt.parse(str, args));
-    }
-
-    public void log(Level level, Object msg) {
-        Bukkit.getLogger().log(level, "[" + this.getDescription().getFullName() + "] " + msg);
-    }
 }
