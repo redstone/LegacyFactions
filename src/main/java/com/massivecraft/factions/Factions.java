@@ -11,7 +11,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public abstract class Factions {
-    private static Factions instance = getImpl();
+    protected static Factions instance = getImpl();
     
     private static Factions getImpl() {
         switch (Conf.backEnd) {
