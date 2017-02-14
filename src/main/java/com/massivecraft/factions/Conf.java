@@ -131,6 +131,8 @@ public class Conf {
 
     public static boolean permanentFactionsDisableLeaderPromotion = false;
 
+
+    public static boolean claimsCanBeOutsideBorder = false;
     public static boolean claimsMustBeConnected = false;
     public static boolean claimsCanBeUnconnectedIfOwnedByOtherFaction = true;
     public static int claimsRequireMinFactionMembers = 1;
