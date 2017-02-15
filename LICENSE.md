@@ -7,8 +7,8 @@ when possible.
 * [GNU General Public License v3.0](https://github.com/MarkehMe/FactionsUUID/blob/master/licenses/lgpl-3.0.txt)
 * [Apache License 2.0](https://github.com/MarkehMe/FactionsUUID/blob/master/licenses/apache-2.0.txt)
 
-## FactionsUUID
-FactionsUUID is fork of Factions 1.6.9.5-U0.1.20 by drtshock, which is a fork of 
+## LegacyFactions
+LegacyFactions is fork of Factions 1.6.9.5-U0.1.20 by drtshock, which is a fork of 
 Factions 1.6.9.5 by MassiveCraft. These are all licensed under GNU General Public License v3.0.
 
 GNU General Public License v3.0 permits:
