@@ -138,7 +138,9 @@ public class Factions extends FactionsPluginBase {
 		getServer().getPluginManager().registerEvents(new FactionsBlockListener(), this);
 
 		// since some other plugins execute commands directly through this command interface, provide it
-		this.getCommand(this.refCommand).setExecutor(this);
+		for(String refCommand : Conf.baseCommandAliases) {
+			this.getCommand(refCommand).setExecutor(this);
+		}
 
 		postEnable();
 		this.loadSuccessful = true;

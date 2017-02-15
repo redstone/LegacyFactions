@@ -53,9 +53,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     public void setAutoSave(boolean val) {
         this.autoSave = val;
     }
-
-    public String refCommand = "";
-
+    
     // Listeners
     private FactionsCommandsListener mPluginSecretPlayerListener;
 
@@ -78,8 +76,11 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     private long timeEnableStart;
 
     public boolean preEnable() {
+    	this.initTXT();
+    	
         log("=== ENABLE START ===");
-        timeEnableStart = System.currentTimeMillis();
+        
+        this.timeEnableStart = System.currentTimeMillis();
 
         // Ensure basefolder exists!
         this.getDataFolder().mkdirs();
@@ -90,22 +91,9 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 
         this.gson = this.getGsonBuilder().create();
 
-        this.txt = new TextUtil();
-        initTXT();
-
-        // attempt to get first command defined in plugin.yml as reference command, if any commands are defined in there
-        // reference command will be used to prevent "unknown command" console messages
-        try {
-            Map<String, Map<String, Object>> refCmd = this.getDescription().getCommands();
-            if (refCmd != null && !refCmd.isEmpty()) {
-                this.refCommand = (String) (refCmd.keySet().toArray()[0]);
-            }
-        } catch (ClassCastException ex) {
-        }
-
         // Create and register player command listener
         this.mPluginSecretPlayerListener = new FactionsCommandsListener(this);
-        getServer().getPluginManager().registerEvents(this.mPluginSecretPlayerListener, this);
+        this.getServer().getPluginManager().registerEvents(this.mPluginSecretPlayerListener, this);
 
         // Register recurring tasks
         if (saveTask == null && Conf.saveToFileEveryXMinutes > 0.0) {
@@ -113,9 +101,10 @@ public abstract class FactionsPluginBase extends JavaPlugin {
             saveTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveTask(this), saveTicks, saveTicks);
         }
 
-        loadLang();
+        this.loadLang();
 
-        loadSuccessful = true;
+        this.loadSuccessful = true;
+        
         return true;
     }
 
@@ -240,10 +229,13 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     }
 
     public void initTXT() {
+    	if (this.txt == null) {
+    		this.txt = new TextUtil();
+    	}
+    	
         this.addRawTags();
 
-        Type type = new TypeToken<Map<String, String>>() {
-        }.getType();
+        Type type = new TypeToken<Map<String, String>>() { }.getType();
 
         Map<String, String> tagsFromFile = this.persist.load(type, "tags");
         if (tagsFromFile != null) {
