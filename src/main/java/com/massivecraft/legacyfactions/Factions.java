@@ -31,6 +31,7 @@ import com.massivecraft.legacyfactions.entity.FactionColl;
 import com.massivecraft.legacyfactions.integration.Integrations;
 import com.massivecraft.legacyfactions.integration.dynmap.DynmapIntegration;
 import com.massivecraft.legacyfactions.integration.essentials.EssentialsIntegration;
+import com.massivecraft.legacyfactions.integration.metrics.MetricsIntegration;
 import com.massivecraft.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
 import com.massivecraft.legacyfactions.integration.vault.VaultIntegration;
 import com.massivecraft.legacyfactions.integration.worldguard.WorldGuardIntegration;
@@ -124,16 +125,17 @@ public class Factions extends FactionsPluginBase {
 		Integrations.add(DynmapIntegration.get());
 		Integrations.add(EssentialsIntegration.get());
 		Integrations.add(PlayerVaultsIntegration.get());
+		Integrations.add(MetricsIntegration.get());
 
 		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
 		startAutoLeaveTask(false);
 
 		// Register Event Handlers
-		getServer().getPluginManager().registerEvents(new FactionsPlayerListener(this), this);
-		getServer().getPluginManager().registerEvents(new FactionsChatListener(this), this);
-		getServer().getPluginManager().registerEvents(new FactionsEntityListener(this), this);
+		getServer().getPluginManager().registerEvents(new FactionsPlayerListener(), this);
+		getServer().getPluginManager().registerEvents(new FactionsChatListener(), this);
+		getServer().getPluginManager().registerEvents(new FactionsEntityListener(), this);
 		getServer().getPluginManager().registerEvents(new FactionsExploitListener(), this);
-		getServer().getPluginManager().registerEvents(new FactionsBlockListener(this), this);
+		getServer().getPluginManager().registerEvents(new FactionsBlockListener(), this);
 
 		// since some other plugins execute commands directly through this command interface, provide it
 		this.getCommand(this.refCommand).setExecutor(this);

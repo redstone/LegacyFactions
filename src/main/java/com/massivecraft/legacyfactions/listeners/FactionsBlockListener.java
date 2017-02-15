@@ -21,13 +21,7 @@ import com.massivecraft.legacyfactions.integration.worldguard.WorldGuardIntegrat
 
 
 public class FactionsBlockListener implements Listener {
-
-    public Factions p;
-
-    public FactionsBlockListener(Factions p) {
-        this.p = p;
-    }
-
+	
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         if (!event.canBuild()) {

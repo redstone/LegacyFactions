@@ -11,7 +11,9 @@ import org.bukkit.entity.EntityType;
 import java.util.*;
 
 public class Conf {
-
+	
+	public static boolean enableMetrics = true;
+	
     public static List<String> baseCommandAliases = new ArrayList<String>();
     public static boolean allowNoSlashCommand = true;
 

@@ -32,16 +32,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-
 
 public class FactionsPlayerListener implements Listener {
-
-    public Factions p;
-
-    public FactionsPlayerListener(Factions p) {
-        this.p = p;
-        for (Player player : p.getServer().getOnlinePlayers()) {
+	
+    public FactionsPlayerListener() {
+        for (Player player : Factions.get().getServer().getOnlinePlayers()) {
             initPlayer(player);
         }
     }
