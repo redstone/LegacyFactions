@@ -999,4 +999,10 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.warmup = warmup;
         this.warmupTask = taskId;
     }
+    
+    @Override
+    public MemoryFPlayer asMemoryFPlayer() {
+    	return (MemoryFPlayer) this;
+    }
+    
 }

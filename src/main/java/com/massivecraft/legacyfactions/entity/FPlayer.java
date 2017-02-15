@@ -10,6 +10,7 @@ import com.massivecraft.legacyfactions.FLocation;
 import com.massivecraft.legacyfactions.Relation;
 import com.massivecraft.legacyfactions.RelationParticipator;
 import com.massivecraft.legacyfactions.Role;
+import com.massivecraft.legacyfactions.entity.persist.memory.MemoryFPlayer;
 import com.massivecraft.legacyfactions.util.WarmUpUtil;
 
 import java.util.List;
@@ -266,5 +267,7 @@ public interface FPlayer extends EconomyParticipator {
     public void stopWarmup();
 
     public void clearWarmup();
+    
+    public MemoryFPlayer asMemoryFPlayer();
 
 }
