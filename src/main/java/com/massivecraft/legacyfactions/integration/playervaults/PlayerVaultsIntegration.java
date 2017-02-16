@@ -13,16 +13,20 @@ public class PlayerVaultsIntegration extends Integration {
 	private static PlayerVaultsIntegration i = new PlayerVaultsIntegration();
 	public static PlayerVaultsIntegration get() { return i; }
 	
-	private String pluginName = "PlayerVaults";
+	@Override
+	public String getName() {
+		return "PlayerVaults";
+	}
 	
 	@Override
 	public boolean isEnabled() {
-		return Bukkit.getPluginManager().isPluginEnabled(this.pluginName);
+		return Bukkit.getPluginManager().isPluginEnabled(this.getName());
 	}
 
 	@Override
 	public void init() {
-		// do nothing
+		// Just notify we're here
+		this.notifyEnabled();
 	}
 	
 	public void injectCommands(FCommand onto) {

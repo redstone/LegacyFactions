@@ -1,13 +1,13 @@
 package com.massivecraft.legacyfactions.integration.worldguard;
 
 import com.massivecraft.legacyfactions.FLocation;
-import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.integration.IntegrationEngine;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -15,7 +15,6 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,33 +31,19 @@ import static com.sk89q.worldguard.bukkit.BukkitUtil.toVector;
 // TODO: use newer faster method, rewrite entire class
 public class WorldGuardEngine extends IntegrationEngine {
 
-    private static WorldGuardPlugin wg;
-    private static boolean enabled = false;
-
-    public static void init(Plugin plugin) {
-        Plugin wgplug = plugin.getServer().getPluginManager().getPlugin("WorldGuard");
-        if (wgplug == null || !(wgplug instanceof WorldGuardPlugin)) {
-            enabled = false;
-            wg = null;
-            Factions.get().log("Could not hook to WorldGuard. WorldGuard checks are disabled.");
-        } else {
-            wg = (WorldGuardPlugin) wgplug;
-            enabled = true;
-            Factions.get().log("Successfully hooked to WorldGuard.");
-        }
-    }
-
-    public static boolean isEnabled() {
-        return enabled;
-    }
+	private static WorldGuardPlugin wg;
+    
+	public static void init() {
+		wg = WorldGuardPlugin.inst();
+	}
 
     // PVP Flag check
     // Returns:
     //   True: PVP is allowed
     //   False: PVP is disallowed
     public static boolean isPVP(Player player) {
-        if (!enabled) {
-            // No WG hooks so we'll always bypass this check.
+    	// Check for enabled integration
+        if ( ! WorldGuardIntegration.get().isEnabled()) {
             return true;
         }
 
@@ -69,7 +54,7 @@ public class WorldGuardEngine extends IntegrationEngine {
         RegionManager regionManager = wg.getRegionManager(world);
         ApplicableRegionSet set = regionManager.getApplicableRegions(pt);
         
-        return set.allows(DefaultFlag.PVP);
+        return set.queryValue(null, DefaultFlag.PVP) == State.ALLOW;
     }
 
     // Check if player can build at location by worldguards rules.
@@ -77,10 +62,8 @@ public class WorldGuardEngine extends IntegrationEngine {
     //	True: Player can build in the region.
     //	False: Player can not build in the region.
     public static boolean playerCanBuild(Player player, Location loc) {
-        if (!enabled) {
-            // No WG hooks so we'll always bypass this check.
-            return false;
-        }
+        if ( ! WorldGuardIntegration.get().isEnabled())  return false;
+
 
         World world = loc.getWorld();
         Vector pt = toVector(loc);
@@ -105,11 +88,8 @@ public class WorldGuardEngine extends IntegrationEngine {
     }
     
     public static boolean checkForRegionsInChunk(Chunk chunk) {
-        if (!enabled) {
-            // No WG hooks so we'll always bypass this check.
-            return false;
-        }
-
+        if (!WorldGuardIntegration.get().isEnabled()) return false;
+        
         World world = chunk.getWorld();
         int minChunkX = chunk.getX() << 4;
         int minChunkZ = chunk.getZ() << 4;
@@ -125,20 +105,19 @@ public class WorldGuardEngine extends IntegrationEngine {
         ProtectedCuboidRegion region = new ProtectedCuboidRegion("wgfactionoverlapcheck", minChunk, maxChunk);
         Map<String, ProtectedRegion> allregions = regionManager.getRegions();
         Collection<ProtectedRegion> allregionslist = new ArrayList<ProtectedRegion>(allregions.values());
-        List<ProtectedRegion> overlaps;
-        boolean foundregions = false;
-
+        
         try {
-            overlaps = region.getIntersectingRegions(allregionslist);
+        	List<ProtectedRegion> overlaps = region.getIntersectingRegions(allregionslist);
             if (overlaps == null || overlaps.isEmpty()) {
-                foundregions = false;
+               return false;
             } else {
-                foundregions = true;
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return foundregions;
+        return false;
     }
+
 }

@@ -8,6 +8,11 @@ public class MetricsIntegration extends Integration {
 	public static MetricsIntegration get() { return i; }
 		
 	@Override
+	public String getName() {
+		return "Metrics";
+	}
+	
+	@Override
 	public boolean isEnabled() {
 		return Conf.enableMetrics;
 	}
@@ -15,6 +20,7 @@ public class MetricsIntegration extends Integration {
 	@Override
 	public void init() {
 		MetricsEngine.start();
+		this.notifyEnabled();
 	}
 
 }
