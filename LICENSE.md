@@ -4,8 +4,8 @@ this file is considered insight only, and you should do your full research and g
 when possible.
 
 ## Licenses:
-* [GNU General Public License v3.0](https://github.com/MarkehMe/FactionsUUID/blob/master/licenses/lgpl-3.0.txt)
-* [Apache License 2.0](https://github.com/MarkehMe/FactionsUUID/blob/master/licenses/apache-2.0.txt)
+* [GNU General Public License v3.0](https://github.com/MarkehMe/FactionsUUID/blob/master/licenses/lgpl-3.0.txt) (LegacyFactions)
+* [Apache License 2.0](https://github.com/MarkehMe/FactionsUUID/blob/master/licenses/apache-2.0.txt) (Gson)
 
 ## LegacyFactions
 LegacyFactions is fork of Factions 1.6.9.5-U0.1.20 by drtshock, which is a fork of 
@@ -24,22 +24,27 @@ With some conditions:
 * Same License: Modifications must be released under the same license when distributing the software. In some cases a similar or related license may be used.
 * State Changes: Indicate changes made to the code.
 
-*However* we do not provide liability or warranity. 
+*However* it does not provide liability or warranty. 
 
 This information is taken from [Choose a License](https://choosealicense.com/licenses/gpl-3.0/).
 
 ## Gson
 
-Copyright (c) 2008-2009 Google Inc. 
+Gson is an internal library created by Google licensed under the Apache License 2.0. The Apache License 2.0 is compaitable
+with GNU General Public License v3.0. However when compiled with LegacyFactions it is automatically under
+the GNU General Public License v3.0.
 
-Licensed under the Apache License, Version 2.0 (the "License"); 
-you may not use this file except in compliance with the License. 
-You may obtain a copy of the License at 
+Apache License 2.0 permits:
+* Commercial Use: This software and derivatives may be used for commercial purposes.
+* Distribution: You may distribute this software.
+* Modification: This software may be modified
+* Patent Use: This license provides an express grant of patent rights from the contributor to the recipient.
+* Private Use: You may use and modify the software without distributing it (however, you MUST disclose the source - see Disclose Source)
 
-  http://www.apache.org/licenses/LICENSE-2.0 
+With some conditions:
+* License and Copyright Notice: Include a copy of the license and copyright notice with the software.
+* State Changes: Indicate changes made to the code.
 
-Unless required by applicable law or agreed to in writing, software 
-distributed under the License is distributed on an "AS IS" BASIS, 
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-See the License for the specific language governing permissions and 
-limitations under the License.
+*However* it does not provide liability, warranty, or trademark rights.
+
+This information is taken from [Choose a License](https://choosealicense.com/licenses/apache-2.0/).
