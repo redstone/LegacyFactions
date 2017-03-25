@@ -1,4 +1,4 @@
-name: FactionsUUID
+name: LegacyFactions
 version: ${version}
 main: com.massivecraft.legacyfactions.Factions
 authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, drtshock]
