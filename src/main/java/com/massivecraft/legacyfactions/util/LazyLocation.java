@@ -40,9 +40,24 @@ public class LazyLocation implements Serializable {
 
     // This returns the actual Location
     public final Location getLocation() {
-        // make sure Location is initialized before returning it
-        initLocation();
-        return location;
+        // if location is already initialized, simply return
+        if (location != null) {
+            return this.location;
+        }
+
+        // get World; hopefully it's initialized at this point
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) {
+            return null;
+        }
+
+        // store the Location for future calls, and pass it on
+        location = new Location(world, x, y, z, yaw, pitch);
+        if (location == null) {
+        	return null;
+        }
+        
+        return this.location;
     }
 
     // change the Location
@@ -54,24 +69,6 @@ public class LazyLocation implements Serializable {
         this.z = loc.getZ();
         this.yaw = loc.getYaw();
         this.pitch = loc.getPitch();
-    }
-
-
-    // This initializes the Location
-    private void initLocation() {
-        // if location is already initialized, simply return
-        if (location != null) {
-            return;
-        }
-
-        // get World; hopefully it's initialized at this point
-        World world = Bukkit.getWorld(worldName);
-        if (world == null) {
-            return;
-        }
-
-        // store the Location for future calls, and pass it on
-        location = new Location(world, x, y, z, yaw, pitch);
     }
 
 
