@@ -35,7 +35,7 @@ public class Conf {
 	// COMMANDS
 	// ----------------------------------------
 	
-    public static List<String> baseCommandAliases = Lists.newArrayList("f", "factions");
+    public static List<String> baseCommandAliases = Lists.newArrayList("f");
     public static boolean allowNoSlashCommand = true;
 
 	// ----------------------------------------
