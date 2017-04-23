@@ -210,6 +210,26 @@ public class Conf {
     	"{chunks}"
     );
     
+    public static boolean scoreboardDefaultEnabled = false;
+    public static String scoreboardDefaultTitle = "Default Title";
+    public static int scoreboardDefaultUpdateInterval = 2;
+    public static boolean scoreboardDefaultPrefixes = true;
+    
+    public static List<String> scoreboardDefault = Lists.newArrayList(
+    	"&6Your Faction",
+    	"{faction}",
+    	"&3Your Power",
+    	"{power}",
+    	"&aBalance",
+    	"${balance}"
+    );
+    
+    public static boolean scoreboardFactionlessEnabled = false;
+    public static List<String> scoreboardFactionless = Lists.newArrayList(
+    	"&6Factionless",
+    	"Join a faction!"
+    );
+    
 	// ----------------------------------------
 	// WARPS
 	// ----------------------------------------

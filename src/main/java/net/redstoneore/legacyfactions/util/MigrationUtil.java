@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Conf;
 
@@ -84,6 +86,15 @@ public class MigrationUtil {
 		Conf.scoreboardExpires =  Factions.get().getConfig().getLong("scoreboard.expiration", 6);
 		Conf.scoreboardInfoEnabled = Factions.get().getConfig().getBoolean("scoreboard.finfo-enabled", false);
 		Conf.scoreboardInfo = Factions.get().getConfig().getStringList("scoreboard.finfo");
+		
+		Conf.scoreboardDefaultEnabled = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", false);
+		Conf.scoreboardDefaultTitle = Factions.get().getConfig().getString("scoreboard.default-title", "Default title");
+		Conf.scoreboardDefaultUpdateInterval = Factions.get().getConfig().getInt("scoreboard.default-update-interval", 2);
+		Conf.scoreboardDefaultPrefixes = Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", true);
+		Conf.scoreboardDefault = Factions.get().getConfig().getStringList("scoreboard.default");
+		
+		Conf.scoreboardFactionlessEnabled = Factions.get().getConfig().getBoolean("scoreboard.factionless-enabled", false);
+		Conf.scoreboardFactionless = Factions.get().getConfig().getStringList("scoreboard.factionless");
 		
 		Conf.save();
 		
