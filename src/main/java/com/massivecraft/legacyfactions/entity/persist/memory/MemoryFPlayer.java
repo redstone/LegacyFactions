@@ -79,8 +79,38 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
 
     public void logout() {
+        // Ensure power is up to date
+        this.getPower();
+        
+        // Update last login time
+        this.setLastLoginTime(System.currentTimeMillis());
+        
+        // Store statistics 
         this.kills = getPlayer().getStatistic(Statistic.PLAYER_KILLS);
         this.deaths = getPlayer().getStatistic(Statistic.DEATHS);
+        
+        // Remove from stuck map
+        if (Factions.get().getStuckMap().containsKey(this.getPlayer().getUniqueId())) {
+            Factions.get().getStuckMap().remove(this.getPlayer().getUniqueId());
+            Factions.get().getTimers().remove(this.getPlayer().getUniqueId());
+        }
+        
+        if (!this.getFaction().isWilderness()) {
+        	// Toggle
+        	this.getFaction().memberLoggedOff();
+            
+        	// Notify members if required
+            this.getFaction().getFPlayersWhereOnline(true)
+            	.stream()
+            	.forEach(fplayer -> {
+            		if (fplayer == this || !fplayer.isMonitoringJoins()) return;
+            		
+                    fplayer.msg(TL.FACTION_LOGOUT, this.getName());
+            	});
+
+        }
+
+        
     }
 
     public Faction getFaction() {

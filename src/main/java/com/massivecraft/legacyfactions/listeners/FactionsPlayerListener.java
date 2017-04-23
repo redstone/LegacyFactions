@@ -36,18 +36,34 @@ import java.util.Map.Entry;
 
 public class FactionsPlayerListener implements Listener {
 	
-    public FactionsPlayerListener() {
-        for (Player player : Factions.get().getServer().getOnlinePlayers()) {
-            initPlayer(player);
-        }
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static FactionsPlayerListener i = new FactionsPlayerListener();
+	public static FactionsPlayerListener get() { return i; }
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+	
+    private FactionsPlayerListener() {
+    	// When initialised we want to init all players that are already online.
+    	Factions.get().getServer().getOnlinePlayers()
+    		.stream()
+    		.forEach(player -> this.initPlayer(player));
     }
 
+	// -------------------------------------------------- //
+	// INIT PLAYER
+	// -------------------------------------------------- //
+    
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        initPlayer(event.getPlayer());
+    public void initPlayer(PlayerJoinEvent event) {
+        this.initPlayer(event.getPlayer());
     }
 
-    private void initPlayer(Player player) {
+    public void initPlayer(Player player) {
         // Make sure that all online players do have a fplayer.
         final FPlayer me = FPlayerColl.get(player);
         
@@ -100,40 +116,18 @@ public class FactionsPlayerListener implements Listener {
         me.setAutoLeave(!player.hasPermission(Permission.AUTO_LEAVE_BYPASS.node));
     }
 
+	// -------------------------------------------------- //
+	// PLAYER LOGOUT
+	// -------------------------------------------------- //
+
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        FPlayer me = FPlayerColl.get(event.getPlayer());
-
-        // Make sure player's power is up to date when they log off.
-        me.getPower();
-        // and update their last login time to point to when the logged off, for auto-remove routine
-        me.setLastLoginTime(System.currentTimeMillis());
-
-        me.logout(); // cache kills / deaths
-
-        // if player is waiting for fstuck teleport but leaves, remove
-        if (Factions.get().getStuckMap().containsKey(me.getPlayer().getUniqueId())) {
-        	// TODO: Why does the stuck command have to do this? check .logout
-            FPlayerColl.get(me.getPlayer()).msg(TL.COMMAND_STUCK_CANCELLED);
-            Factions.get().getStuckMap().remove(me.getPlayer().getUniqueId());
-            Factions.get().getTimers().remove(me.getPlayer().getUniqueId());
-        }
-
-        Faction myFaction = me.getFaction();
-        if (!myFaction.isWilderness()) {
-            myFaction.memberLoggedOff();
-        }
-
-        if (!myFaction.isWilderness()) {
-            for (FPlayer player : myFaction.getFPlayersWhereOnline(true)) {
-                if (player != me && player.isMonitoringJoins()) {
-                    player.msg(TL.FACTION_LOGOUT, me.getName());
-                }
-            }
-        }
-
-        FScoreboard.remove(me);
+    public void playerLogout(PlayerQuitEvent event) {
+    	FPlayerColl.get(event.getPlayer()).logout();
     }
+
+	// -------------------------------------------------- //
+	// PLAYER MOVE
+	// -------------------------------------------------- //
 
     // Holds the next time a player can have a map shown.
     private HashMap<UUID, Long> showTimes = new HashMap<UUID, Long>();
@@ -161,9 +155,7 @@ public class FactionsPlayerListener implements Listener {
         FLocation from = me.getLastStoodAt();
         FLocation to = new FLocation(event.getTo());
 
-        if (from.equals(to)) {
-            return;
-        }
+        if (from.equals(to)) return;
 
         // Yes we did change coord (:
 
@@ -240,6 +232,10 @@ public class FactionsPlayerListener implements Listener {
         }
     }
 
+	// -------------------------------------------------- //
+	// INTERACT CHECK
+	// -------------------------------------------------- //
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
         // only need to check right-clicks and physical as of MC 1.4+; good performance boost
@@ -249,10 +245,8 @@ public class FactionsPlayerListener implements Listener {
 
         Block block = event.getClickedBlock();
         Player player = event.getPlayer();
-
-        if (block == null) {
-            return;  // clicked in air, apparently
-        }
+        
+        if (block == null || block.getType() == Material.AIR) return;
 
         if (!canPlayerUseBlock(player, block, false)) {
             event.setCancelled(true);
@@ -272,12 +266,9 @@ public class FactionsPlayerListener implements Listener {
             }
             return;
         }
-
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;  // only interested on right-clicks for below
-        }
-
-        if (!playerCanUseItemHere(player, block.getLocation(), event.getMaterial(), false)) {
+        
+        // Check they can use this here
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !playerCanUseItemHere(player, block.getLocation(), event.getMaterial(), false)) {
             event.setCancelled(true);
         }
     }
@@ -572,13 +563,14 @@ public class FactionsPlayerListener implements Listener {
         return false;
     }
 
+    // TODO: hook into plugins instead of this method
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPlayerKick(PlayerKickEvent event) {
         FPlayer badGuy = FPlayerColl.get(event.getPlayer());
         if (badGuy == null) {
             return;
         }
-
+        
         // if player was banned (not just kicked), get rid of their stored info
         if (Conf.removePlayerDataWhenBanned && event.getReason().equals("Banned by admin.")) {
             if (badGuy.getRole() == Role.ADMIN) {

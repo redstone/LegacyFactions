@@ -141,14 +141,14 @@ public class Factions extends FactionsPluginBase {
 		startAutoLeaveTask(false);
 
 		// Register Event Handlers
-		getServer().getPluginManager().registerEvents(new FactionsPlayerListener(), this);
-		getServer().getPluginManager().registerEvents(new FactionsChatListener(), this);
-		getServer().getPluginManager().registerEvents(new FactionsEntityListener(), this);
-		getServer().getPluginManager().registerEvents(new FactionsExploitListener(), this);
-		getServer().getPluginManager().registerEvents(new FactionsBlockListener(), this);
+		getServer().getPluginManager().registerEvents(FactionsPlayerListener.get(), this);
+		getServer().getPluginManager().registerEvents(FactionsChatListener.get(), this);
+		getServer().getPluginManager().registerEvents(FactionsEntityListener.get(), this);
+		getServer().getPluginManager().registerEvents(FactionsExploitListener.get(), this);
+		getServer().getPluginManager().registerEvents(FactionsBlockListener.get(), this);
 
 		// since some other plugins execute commands directly through this command interface, provide it
-		for(String refCommand : Conf.baseCommandAliases) {
+		for (String refCommand : Conf.baseCommandAliases) {
 			this.getCommand(refCommand).setExecutor(this);
 		}
 

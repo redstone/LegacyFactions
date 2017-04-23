@@ -33,6 +33,13 @@ import java.util.*;
 
 public class FactionsEntityListener implements Listener {
 
+	// ----------------------------------------
+	// INSTANCE
+	// ----------------------------------------
+
+	private static FactionsEntityListener i = new FactionsEntityListener();
+	public static FactionsEntityListener get() { return i; }
+	
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();

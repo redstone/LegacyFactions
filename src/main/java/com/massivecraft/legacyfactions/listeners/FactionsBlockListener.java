@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,85 +20,49 @@ import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.integration.worldguard.WorldGuardEngine;
 import com.massivecraft.legacyfactions.integration.worldguard.WorldGuardIntegration;
 
-
 public class FactionsBlockListener implements Listener {
+	
+	private static FactionsBlockListener i = new FactionsBlockListener();
+	public static FactionsBlockListener get() { return i; }
+	private FactionsBlockListener() { }
 	
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (!event.canBuild()) {
-            return;
-        }
-
+        if (!event.canBuild()) return;
+        
         // special case for flint&steel, which should only be prevented by DenyUsage list
-        if (event.getBlockPlaced().getType() == Material.FIRE) {
-            return;
-        }
-
-        if (!playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "build", false)) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onBlockFromTo(BlockFromToEvent event) {
-        if (!Conf.handleExploitLiquidFlow) {
-            return;
-        }
-        if (event.getBlock().isLiquid()) {
-            if (event.getToBlock().isEmpty()) {
-                Faction from = Board.getInstance().getFactionAt(new FLocation(event.getBlock()));
-                Faction to = Board.getInstance().getFactionAt(new FLocation(event.getToBlock()));
-                if (from == to) {
-                    // not concerned with inter-faction events
-                    return;
-                }
-                // from faction != to faction
-                if (to.isNormal()) {
-                    if (from.isNormal() && from.getRelationTo(to).isAlly()) {
-                        return;
-                    }
-                    event.setCancelled(true);
-                }
-            }
-        }
+        if (event.getBlockPlaced().getType() == Material.FIRE) return;
+        
+        playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "build", false, event);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
-        if (!playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "destroy", false)) {
-            event.setCancelled(true);
-        }
+        playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "destroy", false, event);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockDamage(BlockDamageEvent event) {
-        if (event.getInstaBreak() && !playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "destroy", false)) {
-            event.setCancelled(true);
-        }
+        if (!event.getInstaBreak()) return;
+        
+        playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "destroy", false, event);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockPistonExtend(BlockPistonExtendEvent event) {
-        if (!Conf.pistonProtectionThroughDenyBuild) {
-            return;
-        }
+        if (Conf.pistonProtectionThroughDenyBuild) return;
 
         Faction pistonFaction = Board.getInstance().getFactionAt(new FLocation(event.getBlock()));
 
         // target end-of-the-line empty (air) block which is being pushed into, including if piston itself would extend into air
-        Block targetBlock = event.getBlock().getRelative(event.getDirection(), event.getLength() + 1);
+        @SuppressWarnings("deprecation")
+		Block targetBlock = event.getBlock().getRelative(event.getDirection(), event.getLength() + 1);
 
         // if potentially pushing into air/water/lava in another territory, we need to check it out
         if ((targetBlock.isEmpty() || targetBlock.isLiquid()) && !canPistonMoveBlock(pistonFaction, targetBlock.getLocation())) {
             event.setCancelled(true);
             return;
         }
-
-		/*
-         * note that I originally was testing the territory of each affected block, but since I found that pistons can only push
-		 * up to 12 blocks and the width of any territory is 16 blocks, it should be safe (and much more lightweight) to test
-		 * only the final target block as done above
-		 */
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -188,17 +153,23 @@ public class FactionsBlockListener implements Listener {
         return true;
     }
 
+    public static boolean playerCanBuildDestroyBlock(Player player, Location location, String action, boolean justCheck, Cancellable event) {
+    	Boolean result = playerCanBuildDestroyBlock(player, location, action, justCheck);
+    		
+    	if (!result) event.setCancelled(true);
+    	
+    	return result;
+    }
+    
     public static boolean playerCanBuildDestroyBlock(Player player, Location location, String action, boolean justCheck) {
         String name = player.getName();
-        if (Conf.playersWhoBypassAllProtection.contains(name)) {
-            return true;
-        }
+        
+        if (Conf.playersWhoBypassAllProtection.contains(name)) return true;
+        
 
         FPlayer me = FPlayerColl.get(player);
-        if (me.isAdminBypassing()) {
-            return true;
-        }
-
+        if (me.isAdminBypassing()) return true;
+        
         FLocation loc = new FLocation(location);
         Faction otherFaction = Board.getInstance().getFactionAt(loc);
 
