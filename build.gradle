@@ -19,7 +19,6 @@ buildscript {
     }
 }
 
-
 repositories {
     maven { url "http://nexus.hc.to/content/repositories/pub_releases" }
     maven { url "http://repo.ess3.net/content/groups/essentials" }
@@ -34,7 +33,7 @@ dependencies {
 	compile 	group: "com.google.code.gson", name: "gson", version:"2.6.2";
 
 	compileOnly group: "org.spigotmc", name: "spigot-api", version:"1.11-R0.1-SNAPSHOT";
-    compile group: "mkremins", name: "fanciful", version:"0.3.5-SNAPSHOT";
+    compile     group: "mkremins", name: "fanciful", version:"0.3.5-SNAPSHOT";
 
     compileOnly group: "net.milkbowl.vault", name: "VaultAPI", version:"1.6";
     compileOnly group: "com.sk89q", name: "worldguard", version:"6.1.1-SNAPSHOT";
@@ -54,14 +53,14 @@ processResources {
 
     // Replace stuff in plugin.yml, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'plugin.yml'
+        include "plugin.yml"
 
         // Replace version
-        expand 'version': project.version
+        expand "version": project.version
     }
 
     // Copy everything else, that's not the plugin.yml
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'plugin.yml'
+        exclude "plugin.yml"
     }
 }
