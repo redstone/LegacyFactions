@@ -361,13 +361,13 @@ public enum TL {
     COMMAND_PEACEFUL_GRANT("granted peaceful status to"),
     COMMAND_PEACEFUL_REVOKE("removed peaceful status from"),
 
-    COMMAND_PERMANENT_DESCRIPTION("Toggles a faction's permanence"), //TODO: Real word?
+    COMMAND_PERMANENT_DESCRIPTION("Toggles a faction's permanence"), 
     COMMAND_PERMANENT_GRANT("added permanent status to"),
     COMMAND_PERMANENT_REVOKE("removed permanent status from"),
     COMMAND_PERMANENT_YOURS("%1$s has %2$s your faction"),
     COMMAND_PERMANENT_OTHER("%s<i> has %s the faction '%s<i>'."),
 
-    COMMAND_PERMANENTPOWER_DESCRIPTION("Toggle faction power permanence"), //TODO: This a real word?
+    COMMAND_PERMANENTPOWER_DESCRIPTION("Toggle faction power permanence"),
     COMMAND_PERMANENTPOWER_GRANT("added permanentpower status to"),
     COMMAND_PERMANENTPOWER_REVOKE("removed permanentpower status from"),
     COMMAND_PERMANENTPOWER_SUCCESS("<i>You %s <h>%s<i>."),
