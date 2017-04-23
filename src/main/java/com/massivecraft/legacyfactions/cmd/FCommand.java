@@ -18,9 +18,6 @@ import java.util.List;
 
 
 public abstract class FCommand extends MCommand<Factions> {
-
-	@Deprecated
-	public Factions p = Factions.get();
 	
     public SimpleDateFormat sdf = new SimpleDateFormat(TL.DATE_FORMAT.toString());
 
