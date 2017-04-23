@@ -25,7 +25,7 @@ import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.FPlayerColl;
 import com.massivecraft.legacyfactions.entity.Faction;
-import com.massivecraft.legacyfactions.event.PowerLossEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsPowerLoss;
 import com.massivecraft.legacyfactions.util.MiscUtil;
 
 import java.util.*;
@@ -41,10 +41,10 @@ public class FactionsEntityListener implements Listener {
         }
 
         Player player = (Player) entity;
-        FPlayer fplayer = FPlayerColl.getInstance().getByPlayer(player);
+        FPlayer fplayer = FPlayerColl.get(player);
         Faction faction = Board.getInstance().getFactionAt(new FLocation(player.getLocation()));
 
-        PowerLossEvent powerLossEvent = new PowerLossEvent(faction, fplayer, Conf.powerPerDeath);
+        EventFactionsPowerLoss powerLossEvent = new EventFactionsPowerLoss(faction, fplayer, Conf.powerPerDeath);
         // Check for no power loss conditions
         if (faction.isWarZone()) {
             // war zones always override worldsNoPowerLoss either way, thus this layout
@@ -113,7 +113,7 @@ public class FactionsEntityListener implements Listener {
         Entity entity = event.getEntity();
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+            FPlayer me = FPlayerColl.get(player);
             cancelFStuckTeleport(player);
             if (me.isWarmingUp()) {
                 me.clearWarmup();
@@ -128,7 +128,7 @@ public class FactionsEntityListener implements Listener {
         }
         UUID uuid = player.getUniqueId();
         if (Factions.get().getStuckMap().containsKey(uuid)) {
-            FPlayerColl.getInstance().getByPlayer(player).msg(TL.COMMAND_STUCK_CANCELLED);
+            FPlayerColl.get(player).msg(TL.COMMAND_STUCK_CANCELLED);
             Factions.get().getStuckMap().remove(uuid);
         }
     }
@@ -141,34 +141,37 @@ public class FactionsEntityListener implements Listener {
         Faction faction = Board.getInstance().getFactionAt(FLocation.valueOf(loc));
         
         boolean online = faction.hasPlayersOnline();
-        boolean allowed = true;
 
         if (faction.noExplosionsInTerritory() || (faction.isPeaceful() && Conf.peacefulTerritoryDisableBoom)) {
-            allowed = false;
+        	event.setCancelled(true);
+        	return;
         }
 
-        if (allowed && entity instanceof Creeper && faction.noCreeperExplosions(loc)) {
-        	allowed = false;
+        if (entity instanceof Creeper && faction.noCreeperExplosions(loc)) {
+        	event.setCancelled(true);
+        	return;
         } 
         
-        if (allowed &&
-            // it's a bit crude just using fireball protection for Wither boss too, but I'd rather not add in a whole new set of xxxBlockWitherExplosion or whatever
-                       (entity instanceof Fireball || entity instanceof WitherSkull || entity instanceof Wither) && ((faction.isWilderness() && Conf.wildernessBlockFireballs && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName())) ||
-                                                                                                                             (faction.isNormal() && (online ? Conf.territoryBlockFireballs : Conf.territoryBlockFireballsWhenOffline)) ||
-                                                                                                                             (faction.isWarZone() && Conf.warZoneBlockFireballs) ||
-                                                                                                                             faction.isSafeZone())) {
-            // ghast fireball which needs prevention
-        	allowed = false;
+        if ((entity instanceof Fireball || entity instanceof WitherSkull || entity instanceof Wither) &&
+        	((faction.isWilderness() && Conf.wildernessBlockFireballs && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName()))
+        	  || (faction.isNormal() && (online ? Conf.territoryBlockFireballs : Conf.territoryBlockFireballsWhenOffline)) 
+        	  || (faction.isWarZone() && Conf.warZoneBlockFireballs) 
+        	  || faction.isSafeZone())) {
+           
+        	event.setCancelled(true);
+        	return;
         }
-        if ( allowed &&
-        		(entity instanceof TNTPrimed || entity instanceof ExplosiveMinecart) && ((faction.isWilderness() && Conf.wildernessBlockTNT && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName())) ||
-                                                                                                    (faction.isNormal() && (online ? Conf.territoryBlockTNT : Conf.territoryBlockTNTWhenOffline)) ||
-                                                                                                    (faction.isWarZone() && Conf.warZoneBlockTNT) ||
-                                                                                                    (faction.isSafeZone() && Conf.safeZoneBlockTNT))) {
+        
+        if ((entity instanceof TNTPrimed || entity instanceof ExplosiveMinecart) &&
+        	((faction.isWilderness() && Conf.wildernessBlockTNT && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName()))
+        	 || (faction.isNormal() && (online ? Conf.territoryBlockTNT : Conf.territoryBlockTNTWhenOffline)) 
+        	 || (faction.isWarZone() && Conf.warZoneBlockTNT)
+        	 || (faction.isSafeZone() && Conf.safeZoneBlockTNT))) {
             // TNT which needs prevention
-        	allowed = false;
+        	event.setCancelled(true);
+        	return;
         }
-        if (allowed && 
+        if ( 
         		(entity instanceof TNTPrimed || entity instanceof ExplosiveMinecart) && Conf.handleExploitTNTWaterlog) {
             // TNT in water/lava doesn't normally destroy any surrounding blocks, which is usually desired behavior, but...
             // this change below provides workaround for waterwalling providing perfect protection,
@@ -184,17 +187,25 @@ public class FactionsEntityListener implements Listener {
                 targets.add(center.getRelative(1, 0, 0));
                 targets.add(center.getRelative(-1, 0, 0));
                 for (Block target : targets) {
-                    int id = target.getTypeId();
-                    // ignore air, bedrock, water, lava, obsidian, enchanting table, etc.... too bad we can't get a blast resistance value through Bukkit yet
-                    if (id != 0 && (id < 7 || id > 11) && id != 49 && id != 90 && id != 116 && id != 119 && id != 120 && id != 130) {
-                        target.breakNaturally();
-                    }
+                	// Switches are a lot faster than if statements
+                	switch (target.getType()) {
+                	case AIR:
+                	case WATER:
+                	case STATIONARY_WATER:
+                	case LAVA:
+                	case STATIONARY_LAVA:
+                	case OBSIDIAN:
+                	case PORTAL:
+                	case ENDER_PORTAL:
+                	case ENDER_PORTAL_FRAME:
+                	case ENCHANTMENT_TABLE:
+                	case ENDER_CHEST:
+                		break;
+                	default:
+                		target.breakNaturally();
+                	}
                 }
             }
-        }
-        
-        if ( ! allowed) {
-        	event.setCancelled(true);
         }
     }
 
@@ -232,7 +243,7 @@ public class FactionsEntityListener implements Listener {
 
         if (thrower instanceof Player) {
             Player player = (Player) thrower;
-            FPlayer fPlayer = FPlayerColl.getInstance().getByPlayer(player);
+            FPlayer fPlayer = FPlayerColl.get(player);
             if (badjuju && fPlayer.getFaction().isPeaceful()) {
                 event.setCancelled(true);
                 return;
@@ -243,7 +254,8 @@ public class FactionsEntityListener implements Listener {
         Iterator<LivingEntity> iter = event.getAffectedEntities().iterator();
         while (iter.hasNext()) {
             LivingEntity target = iter.next();
-            EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent((Entity) thrower, target, EntityDamageEvent.DamageCause.CUSTOM, 0);
+            @SuppressWarnings("deprecation")
+			EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent((Entity) thrower, target, EntityDamageEvent.DamageCause.CUSTOM, 0);
             if (!this.canDamagerHurtDamagee(sub, true)) {
                 event.setIntensity(target, 0.0);  // affected entity list doesn't accept modification (so no iter.remove()), but this works
             }
@@ -273,7 +285,7 @@ public class FactionsEntityListener implements Listener {
             return true;
         }
 
-        FPlayer defender = FPlayerColl.getInstance().getByPlayer((Player) damagee);
+        FPlayer defender = FPlayerColl.get(damagee);
 
         if (defender == null || defender.getPlayer() == null) {
             return true;
@@ -302,7 +314,7 @@ public class FactionsEntityListener implements Listener {
         if (defLocFaction.noPvPInTerritory()) {
             if (damager instanceof Player) {
                 if (notify) {
-                    FPlayer attacker = FPlayerColl.getInstance().getByPlayer((Player) damager);
+                    FPlayer attacker = FPlayerColl.get((Player) damager);
                     attacker.msg(TL.PLAYER_CANTHURT, (defLocFaction.isSafeZone() ? TL.REGION_SAFEZONE.toString() : TL.REGION_PEACEFUL.toString()));
                 }
                 return false;
@@ -314,7 +326,7 @@ public class FactionsEntityListener implements Listener {
             return true;
         }
 
-        FPlayer attacker = FPlayerColl.getInstance().getByPlayer((Player) damager);
+        FPlayer attacker = FPlayerColl.get(damager);
 
         if (attacker == null || attacker.getPlayer() == null) {
             return true;
@@ -533,7 +545,7 @@ public class FactionsEntityListener implements Listener {
 
     @EventHandler
     public void onTravel(PlayerPortalEvent event) {
-        if (!Factions.get().getConfig().getBoolean("portals.limit", false)) {
+        if (!Conf.portalsLimit) {
             return; // Don't do anything if they don't want us to.
         }
 
@@ -551,9 +563,9 @@ public class FactionsEntityListener implements Listener {
                 return;
             }
 
-            FPlayer fp = FPlayerColl.getInstance().getByPlayer(event.getPlayer());
-            String mininumRelation = Factions.get().getConfig().getString("portals.minimum-relation", "MEMBER"); // Defaults to Neutral if typed wrong.
-            if (!fp.getFaction().getRelationTo(faction).isAtLeast(Relation.fromString(mininumRelation))) {
+            FPlayer fp = FPlayerColl.get(event.getPlayer());
+            Relation mininumRelation = Relation.fromString(Conf.portalsMinimumRelation);
+            if (!fp.getFaction().getRelationTo(faction).isAtLeast(mininumRelation)) {
                 event.setCancelled(true);
             }
         }

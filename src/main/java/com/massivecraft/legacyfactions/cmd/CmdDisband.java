@@ -8,11 +8,11 @@ import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.FPlayerColl;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.entity.FactionColl;
-import com.massivecraft.legacyfactions.event.FPlayerLeaveEvent;
-import com.massivecraft.legacyfactions.event.FactionDisbandEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsChange.ChangeReason;
+import com.massivecraft.legacyfactions.event.EventFactionsChange;
+import com.massivecraft.legacyfactions.event.EventFactionsDisband;
 import com.massivecraft.legacyfactions.integration.vault.VaultEngine;
 import com.massivecraft.legacyfactions.scoreboards.FTeamWrapper;
-
 
 public class CmdDisband extends FCommand {
 
@@ -61,19 +61,19 @@ public class CmdDisband extends FCommand {
             return;
         }
 
-        FactionDisbandEvent disbandEvent = new FactionDisbandEvent(me, faction.getId());
+        EventFactionsDisband disbandEvent = new EventFactionsDisband(me, faction.getId());
         Bukkit.getServer().getPluginManager().callEvent(disbandEvent);
         if (disbandEvent.isCancelled()) {
             return;
         }
 
-        // Send FPlayerLeaveEvent for each player in the faction
+        // Send event for each player in the faction
         for (FPlayer fplayer : faction.getFPlayers()) {
-            Bukkit.getServer().getPluginManager().callEvent(new FPlayerLeaveEvent(fplayer, faction, FPlayerLeaveEvent.PlayerLeaveReason.DISBAND));
+            Bukkit.getServer().getPluginManager().callEvent(new EventFactionsChange(fplayer, faction, FactionColl.getInstance().getWilderness(), false, ChangeReason.DISBAND));
         }
 
         // Inform all players
-        for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+        for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
             String who = senderIsConsole ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer);
             if (fplayer.getFaction() == faction) {
                 fplayer.msg(TL.COMMAND_DISBAND_BROADCAST_YOURS, who);

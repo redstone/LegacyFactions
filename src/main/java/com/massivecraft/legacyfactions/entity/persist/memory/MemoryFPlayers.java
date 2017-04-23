@@ -45,7 +45,7 @@ public abstract class MemoryFPlayers extends FPlayerColl {
     @Override
     public abstract void forceSave();
 
-    public abstract void load();
+    public abstract void loadColl();
 
     @Override
     public FPlayer getByOfflinePlayer(OfflinePlayer player) {

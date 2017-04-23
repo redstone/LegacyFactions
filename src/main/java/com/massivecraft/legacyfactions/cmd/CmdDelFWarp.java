@@ -1,9 +1,12 @@
 package com.massivecraft.legacyfactions.cmd;
 
-import com.massivecraft.legacyfactions.Factions;
+import java.util.Optional;
+
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
+import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
+import com.massivecraft.legacyfactions.warp.FactionWarp;
 
 public class CmdDelFWarp extends FCommand {
 
@@ -21,20 +24,21 @@ public class CmdDelFWarp extends FCommand {
 
     @Override
     public void perform() {
-        String warp = argAsString(0);
-        if (myFaction.isWarp(warp)) {
+        String name = argAsString(0);
+        Optional<FactionWarp> owarp = myFaction.warps().get(name);
+        if (owarp.isPresent()) {
             if (!transact(fme)) {
                 return;
             }
-            myFaction.removeWarp(warp);
-            fme.msg(TL.COMMAND_DELFWARP_DELETED, warp);
+            owarp.get().delete();
+            fme.msg(TL.COMMAND_DELFWARP_DELETED, name);
         } else {
-            fme.msg(TL.COMMAND_DELFWARP_INVALID, warp);
+            fme.msg(TL.COMMAND_DELFWARP_INVALID, name);
         }
     }
 
     private boolean transact(FPlayer player) {
-        return !Factions.get().getConfig().getBoolean("warp-cost.enabled", false) || player.isAdminBypassing() || payForCommand(Factions.get().getConfig().getDouble("warp-cost.delwarp", 5), TL.COMMAND_DELFWARP_TODELETE.toString(), TL.COMMAND_DELFWARP_FORDELETE.toString());
+        return Conf.warpCost.get("delete") == 0 || player.isAdminBypassing() || payForCommand(Conf.warpCost.get("delete"), TL.COMMAND_DELFWARP_TODELETE.toString(), TL.COMMAND_DELFWARP_FORDELETE.toString());
     }
 
     @Override

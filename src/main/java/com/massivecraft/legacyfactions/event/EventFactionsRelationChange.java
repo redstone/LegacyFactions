@@ -6,14 +6,14 @@ import com.massivecraft.legacyfactions.Relation;
 import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.Faction;
 
-public class FactionRelationWishEvent extends FactionPlayerEvent implements Cancellable {
+public class EventFactionsRelationChange extends AbstractFactionsPlayerEvent implements Cancellable {
     private final Faction targetFaction;
     private final Relation currentRelation;
     private final Relation targetRelation;
 
     private boolean cancelled;
 
-    public FactionRelationWishEvent(FPlayer caller, Faction sender, Faction targetFaction, Relation currentRelation, Relation targetRelation) {
+    public EventFactionsRelationChange(FPlayer caller, Faction sender, Faction targetFaction, Relation currentRelation, Relation targetRelation) {
         super(sender, caller);
 
         this.targetFaction = targetFaction;

@@ -10,10 +10,10 @@ import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
-import com.massivecraft.legacyfactions.util.LazyLocation;
 import com.massivecraft.legacyfactions.util.WarmUpUtil;
+import com.massivecraft.legacyfactions.warp.FactionWarp;
 
-import java.util.Map;
+import java.util.Collection;
 import java.util.UUID;
 
 public class CmdFWarp extends FCommand {
@@ -34,16 +34,16 @@ public class CmdFWarp extends FCommand {
         //TODO: check if in combat.
         if (args.size() == 0) {
             FancyMessage msg = new FancyMessage(TL.COMMAND_FWARP_WARPS.toString()).color(ChatColor.GOLD);
-            Map<String, LazyLocation> warps = myFaction.getWarps();
-            for (String s : warps.keySet()) {
-                msg.then(s + " ").tooltip(TL.COMMAND_FWARP_CLICKTOWARP.toString()).command("/" + Conf.baseCommandAliases.get(0) + " warp " + s).color(ChatColor.WHITE);
+            Collection<FactionWarp> warps = myFaction.warps().getAll();
+            for (FactionWarp warp : warps) {
+                msg.then(warp.getName() + " ").tooltip(TL.COMMAND_FWARP_CLICKTOWARP.toString()).command("/" + Conf.baseCommandAliases.get(0) + " warp " + warp.getName()).color(ChatColor.WHITE);
             }
             sendFancyMessage(msg);
         } else if (args.size() > 1) {
             fme.msg(TL.COMMAND_FWARP_COMMANDFORMAT);
         } else {
             final String warpName = argAsString(0);
-            if (myFaction.isWarp(argAsString(0))) {
+            if (myFaction.warps().get(warpName).isPresent()) {
                 if (!transact(fme)) {
                     return;
                 }
@@ -54,11 +54,11 @@ public class CmdFWarp extends FCommand {
                     public void run() {
                         Player player = Bukkit.getPlayer(uuid);
                         if (player != null) {
-                            player.teleport(fPlayer.getFaction().getWarp(warpName).getLocation());
+                            player.teleport(fPlayer.getFaction().warps().get(warpName).get().getLocation());
                             fPlayer.msg(TL.COMMAND_FWARP_WARPED, warpName);
                         }
                     }
-                }, this.p.getConfig().getLong("warmups.f-warp", 0));
+                }, Factions.get().getConfig().getLong("warmups.f-warp", 0));
             } else {
                 fme.msg(TL.COMMAND_FWARP_INVALID, warpName);
             }
@@ -66,7 +66,7 @@ public class CmdFWarp extends FCommand {
     }
 
     private boolean transact(FPlayer player) {
-        return !Factions.get().getConfig().getBoolean("warp-cost.enabled", false) || player.isAdminBypassing() || payForCommand(Factions.get().getConfig().getDouble("warp-cost.warp", 5), TL.COMMAND_FWARP_TOWARP.toString(), TL.COMMAND_FWARP_FORWARPING.toString());
+        return Conf.warpCost.get("use") == 0 || player.isAdminBypassing() || payForCommand(Conf.warpCost.get("use"), TL.COMMAND_FWARP_TOWARP.toString(), TL.COMMAND_FWARP_FORWARPING.toString());
     }
 
     @Override

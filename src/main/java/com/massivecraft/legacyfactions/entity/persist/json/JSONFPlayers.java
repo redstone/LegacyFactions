@@ -70,7 +70,7 @@ public class JSONFPlayers extends MemoryFPlayers {
         return DiscUtil.writeCatch(target, this.gson.toJson(data), sync);
     }
 
-    public void load() {
+    public void loadColl() {
         Map<String, JSONFPlayer> fplayers = this.loadCore();
         if (fplayers == null) {
             return;

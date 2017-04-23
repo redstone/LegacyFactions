@@ -8,12 +8,12 @@ import com.massivecraft.legacyfactions.entity.Faction;
 /**
  * Represents an event involving a Faction.
  */
-public class FactionEvent extends Event {
+public abstract class AbstractFactionsEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private final Faction faction;
 
-    public FactionEvent(Faction faction) {
+    public AbstractFactionsEvent(Faction faction) {
         this.faction = faction;
     }
 

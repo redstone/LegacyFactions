@@ -45,7 +45,7 @@ public class CmdDescription extends FCommand {
         }
 
         // Broadcast the description to everyone
-        for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+        for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
             fplayer.msg(TL.COMMAND_DESCRIPTION_CHANGES, myFaction.describeTo(fplayer));
             fplayer.sendMessage(myFaction.getDescription());  // players can inject "&" or "`" or "<i>" or whatever in their description; &k is particularly interesting looking
         }

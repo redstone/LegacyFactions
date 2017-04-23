@@ -25,7 +25,7 @@ public class FactionsChatListener implements Listener {
     public void onPlayerEarlyChat(AsyncPlayerChatEvent event) {
         Player talkingPlayer = event.getPlayer();
         String msg = event.getMessage();
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(talkingPlayer);
+        FPlayer me = FPlayerColl.get(talkingPlayer);
         ChatMode chat = me.getChatMode();
 
         // Is it a faction chat message?
@@ -38,7 +38,7 @@ public class FactionsChatListener implements Listener {
             Bukkit.getLogger().log(Level.INFO, ChatColor.stripColor("FactionChat " + myFaction.getTag() + ": " + message));
 
             //Send to any players who are spying chat
-            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getAll()) {
                 if (fplayer.isSpyingChat() && fplayer.getFaction() != myFaction && me != fplayer) {
                     fplayer.sendMessage("[FCspy] " + myFaction.getTag() + ": " + message);
                 }
@@ -54,7 +54,7 @@ public class FactionsChatListener implements Listener {
             myFaction.sendMessage(message);
 
             //Send to all our allies
-            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
                 if (myFaction.getRelationTo(fplayer) == Relation.ALLY && !fplayer.isIgnoreAllianceChat()) {
                     fplayer.sendMessage(message);
                 } else if (fplayer.isSpyingChat() && me != fplayer) {
@@ -74,7 +74,7 @@ public class FactionsChatListener implements Listener {
             myFaction.sendMessage(message);
 
             //Send to all our truces
-            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
                 if (myFaction.getRelationTo(fplayer) == Relation.TRUCE) {
                     fplayer.sendMessage(message);
                 } else if (fplayer.isSpyingChat() && fplayer != me) {
@@ -99,7 +99,7 @@ public class FactionsChatListener implements Listener {
         Player talkingPlayer = event.getPlayer();
         String msg = event.getMessage();
         String eventFormat = event.getFormat();
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(talkingPlayer);
+        FPlayer me = FPlayerColl.get(talkingPlayer);
         int InsertIndex;
 
         if (!Conf.chatTagReplaceString.isEmpty() && eventFormat.contains(Conf.chatTagReplaceString)) {
@@ -137,7 +137,7 @@ public class FactionsChatListener implements Listener {
             event.setCancelled(true);
 
             for (Player listeningPlayer : event.getRecipients()) {
-                FPlayer you = FPlayerColl.getInstance().getByPlayer(listeningPlayer);
+                FPlayer you = FPlayerColl.get(listeningPlayer);
                 String yourFormat = formatStart + me.getChatTag(you).trim() + formatEnd;
                 try {
                     listeningPlayer.sendMessage(String.format(yourFormat, talkingPlayer.getDisplayName(), msg));

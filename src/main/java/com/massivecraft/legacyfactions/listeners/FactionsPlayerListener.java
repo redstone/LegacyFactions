@@ -19,9 +19,9 @@ import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.FPlayerColl;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.entity.FactionColl;
-import com.massivecraft.legacyfactions.entity.persist.memory.MemoryFPlayer;
-import com.massivecraft.legacyfactions.event.FPlayerJoinEvent;
-import com.massivecraft.legacyfactions.event.FPlayerLeaveEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsChange;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import com.massivecraft.legacyfactions.scoreboards.FScoreboard;
 import com.massivecraft.legacyfactions.scoreboards.FTeamWrapper;
 import com.massivecraft.legacyfactions.scoreboards.sidebar.FDefaultSidebar;
@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Map.Entry;
 
 public class FactionsPlayerListener implements Listener {
 	
@@ -48,9 +49,10 @@ public class FactionsPlayerListener implements Listener {
 
     private void initPlayer(Player player) {
         // Make sure that all online players do have a fplayer.
-        final FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
-        ((MemoryFPlayer) me).setName(player.getName());
-
+        final FPlayer me = FPlayerColl.get(player);
+        
+        me.asMemoryFPlayer().setName(player.getName());
+        
         // Update the lastLoginTime for this fplayer
         me.setLastLoginTime(System.currentTimeMillis());
 
@@ -100,7 +102,7 @@ public class FactionsPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(event.getPlayer());
+        FPlayer me = FPlayerColl.get(event.getPlayer());
 
         // Make sure player's power is up to date when they log off.
         me.getPower();
@@ -111,7 +113,8 @@ public class FactionsPlayerListener implements Listener {
 
         // if player is waiting for fstuck teleport but leaves, remove
         if (Factions.get().getStuckMap().containsKey(me.getPlayer().getUniqueId())) {
-            FPlayerColl.getInstance().getByPlayer(me.getPlayer()).msg(TL.COMMAND_STUCK_CANCELLED);
+        	// TODO: Why does the stuck command have to do this? check .logout
+            FPlayerColl.get(me.getPlayer()).msg(TL.COMMAND_STUCK_CANCELLED);
             Factions.get().getStuckMap().remove(me.getPlayer().getUniqueId());
             Factions.get().getTimers().remove(me.getPlayer().getUniqueId());
         }
@@ -138,7 +141,7 @@ public class FactionsPlayerListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+        FPlayer me = FPlayerColl.get(player);
 
         // clear visualization
         if (event.getFrom().getBlockX() != event.getTo().getBlockX() || event.getFrom().getBlockY() != event.getTo().getBlockY() || event.getFrom().getBlockZ() != event.getTo().getBlockZ()) {
@@ -173,12 +176,12 @@ public class FactionsPlayerListener implements Listener {
 
         if (me.isMapAutoUpdating()) {
             if (showTimes.containsKey(player.getUniqueId()) && (showTimes.get(player.getUniqueId()) > System.currentTimeMillis())) {
-                if (Factions.get().getConfig().getBoolean("findfactionsexploit.log", false)) {
+                if (Conf.findFactionsExploitLog) {
                     Factions.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
                 }
             } else {
                 me.sendMessage(Board.getInstance().getMap(me.getFaction(), to, player.getLocation().getYaw()));
-                showTimes.put(player.getUniqueId(), System.currentTimeMillis() + Factions.get().getConfig().getLong("findfactionsexploit.cooldown", 2000));
+                showTimes.put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldown);
             }
         } else {
             Faction myFaction = me.getFaction();
@@ -202,7 +205,20 @@ public class FactionsPlayerListener implements Listener {
         }
 
         if (me.getAutoClaimFor() != null) {
-            me.attemptClaim(me.getAutoClaimFor(), event.getTo(), true);
+            Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+
+            transactions.put(FLocation.valueOf(event.getTo()), me.getAutoClaimFor());
+           
+            EventFactionsLandChange landChangeEvent = new EventFactionsLandChange(me, transactions, LandChangeCause.Claim);
+            Bukkit.getServer().getPluginManager().callEvent(landChangeEvent);
+            if (landChangeEvent.isCancelled()) return;
+            
+            for(Entry<FLocation, Faction> claimLocation : landChangeEvent.getTransactions().entrySet()) {
+            	if ( ! me.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, landChangeEvent)) {
+            		return;
+            	}
+            }
+            
         } else if (me.isAutoSafeClaimEnabled()) {
             if (!Permission.MANAGE_SAFE_ZONE.has(player)) {
                 me.setIsAutoSafeClaimEnabled(false);
@@ -249,7 +265,7 @@ public class FactionsPlayerListener implements Listener {
                 }
                 int count = attempt.increment();
                 if (count >= 10) {
-                    FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+                    FPlayer me = FPlayerColl.get(player);
                     me.msg(TL.PLAYER_OUCH);
                     player.damage(NumberConversions.floor((double) count / 10));
                 }
@@ -294,7 +310,7 @@ public class FactionsPlayerListener implements Listener {
             return true;
         }
 
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+        FPlayer me = FPlayerColl.get(player);
         if (me.isAdminBypassing()) {
             return true;
         }
@@ -377,7 +393,7 @@ public class FactionsPlayerListener implements Listener {
             return true;
         }
 
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+        FPlayer me = FPlayerColl.get(player);
         if (me.isAdminBypassing()) {
             return true;
         }
@@ -398,8 +414,8 @@ public class FactionsPlayerListener implements Listener {
         // Dupe fix.
         Faction myFaction = me.getFaction();
         Relation rel = myFaction.getRelationTo(otherFaction);
-        if (!rel.isMember() || !otherFaction.playerHasOwnershipRights(me, loc) && player.getItemInHand() != null) {
-            switch (player.getItemInHand().getType()) {
+        if (!rel.isMember() || !otherFaction.playerHasOwnershipRights(me, loc) && player.getInventory().getItemInMainHand() != null) {
+            switch (player.getInventory().getItemInMainHand().getType()) {
                 case CHEST:
                 case SIGN_POST:
                 case TRAPPED_CHEST:
@@ -446,7 +462,7 @@ public class FactionsPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(event.getPlayer());
+        FPlayer me = FPlayerColl.get(event.getPlayer());
 
         me.getPower();  // update power, so they won't have gained any while dead
 
@@ -490,7 +506,7 @@ public class FactionsPlayerListener implements Listener {
 
         fullCmd = fullCmd.toLowerCase();
 
-        FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+        FPlayer me = FPlayerColl.get(player);
 
         String shortCmd;  // command without the slash at the beginning
         if (fullCmd.startsWith("/")) {
@@ -558,7 +574,7 @@ public class FactionsPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPlayerKick(PlayerKickEvent event) {
-        FPlayer badGuy = FPlayerColl.getInstance().getByPlayer(event.getPlayer());
+        FPlayer badGuy = FPlayerColl.get(event.getPlayer());
         if (badGuy == null) {
             return;
         }
@@ -575,12 +591,8 @@ public class FactionsPlayerListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    final public void onFactionJoin(FPlayerJoinEvent event) {
-        FTeamWrapper.applyUpdatesLater(event.getFaction());
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onFactionLeave(FPlayerLeaveEvent event) {
-        FTeamWrapper.applyUpdatesLater(event.getFaction());
+    public void onFactionLeave(EventFactionsChange event) {
+        FTeamWrapper.applyUpdatesLater(event.getFactionNew());
+        FTeamWrapper.applyUpdatesLater(event.getFactionOld());
     }
 }

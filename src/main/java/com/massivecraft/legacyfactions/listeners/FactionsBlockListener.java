@@ -111,7 +111,7 @@ public class FactionsBlockListener implements Listener {
         Faction otherFaction = Board.getInstance().getFactionAt(new FLocation(targetLoc));
 
         // Check if the piston is moving in a faction's territory. This disables pistons entirely in faction territory.
-        if (otherFaction.isNormal() && Factions.get().getConfig().getBoolean("disable-pistons-in-territory", false)) {
+        if (otherFaction.isNormal() && Conf.disablePistonsInTerritory) {
             event.setCancelled(true);
             return;
         }
@@ -139,7 +139,7 @@ public class FactionsBlockListener implements Listener {
         Location location = event.getBlock().getLocation();
 
         // only notify every 10 seconds
-        FPlayer fPlayer = FPlayerColl.getInstance().getByPlayer(player);
+        FPlayer fPlayer = FPlayerColl.get(player);
         boolean justCheck = fPlayer.getLastFrostwalkerMessage() + 10000 > System.currentTimeMillis();
         if (!justCheck) {
             fPlayer.setLastFrostwalkerMessage();
@@ -194,7 +194,7 @@ public class FactionsBlockListener implements Listener {
             return true;
         }
 
-        FPlayer me = FPlayerColl.getInstance().getById(player.getUniqueId().toString());
+        FPlayer me = FPlayerColl.get(player);
         if (me.isAdminBypassing()) {
             return true;
         }

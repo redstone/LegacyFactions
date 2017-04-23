@@ -28,7 +28,7 @@ public class CmdSaveAll extends FCommand {
 
     @Override
     public void perform() {
-        FPlayerColl.getInstance().forceSave(false);
+        FPlayerColl.save(false);
         FactionColl.getInstance().forceSave(false);
         Board.getInstance().forceSave(false);
         Conf.save();

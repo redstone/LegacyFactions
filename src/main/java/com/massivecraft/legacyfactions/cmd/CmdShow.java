@@ -10,7 +10,7 @@ import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.Faction;
-import com.massivecraft.legacyfactions.util.TagReplacer;
+import com.massivecraft.legacyfactions.util.TagReplacerUtil;
 import com.massivecraft.legacyfactions.util.TagUtil;
 
 public class CmdShow extends FCommand {
@@ -75,10 +75,10 @@ public class CmdShow extends FCommand {
             String tag = faction.getTag(fme);
             // send header and that's all
             String header = show.get(0);
-            if (TagReplacer.HEADER.contains(header)) {
-                msg(p.txt.titleize(tag));
+            if (TagReplacerUtil.HEADER.contains(header)) {
+                msg(Factions.get().txt.titleize(tag));
             } else {
-                msg(p.txt.parse(TagReplacer.FACTION.replace(header, tag)));
+                msg(Factions.get().txt.parse(TagReplacerUtil.FACTION.replace(header, tag)));
             }
             return; // we only show header for non-normal factions
         }
@@ -103,7 +103,7 @@ public class CmdShow extends FCommand {
                 if (parsed.contains("%")) {
                     parsed = parsed.replaceAll("%", ""); // Just in case it got in there before we disallowed it.
                 }
-                msg(p.txt.parse(parsed));
+                msg(Factions.get().txt.parse(parsed));
             }
         }
     }

@@ -17,15 +17,6 @@ import java.util.logging.Logger;
 public class FactionsJSON {
 
     public static void convertTo() {
-        if (!(FactionColl.getInstance() instanceof MemoryFactions)) {
-            return;
-        }
-        if (!(FPlayerColl.getInstance() instanceof MemoryFPlayers)) {
-            return;
-        }
-        if (!(Board.getInstance() instanceof MemoryBoard)) {
-            return;
-        }
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -34,13 +25,13 @@ public class FactionsJSON {
                 new JSONBoard().convertFrom((MemoryBoard) Board.getInstance());
                 logger.info("Board Converted");
                 logger.info("Beginning FPlayers conversion to JSON");
-                new JSONFPlayers().convertFrom((MemoryFPlayers) FPlayerColl.getInstance());
+                new JSONFPlayers().convertFrom((MemoryFPlayers) FPlayerColl.getUnsafeInstance());
                 logger.info("FPlayers Converted");
                 logger.info("Beginning Factions conversion to JSON");
                 new JSONFactions().convertFrom((MemoryFactions) FactionColl.getInstance());
                 logger.info("Factions Converted");
                 logger.info("Refreshing object caches");
-                for (FPlayer fPlayer : FPlayerColl.getInstance().getAllFPlayers()) {
+                for (FPlayer fPlayer : FPlayerColl.getAll()) {
                     Faction faction = FactionColl.getInstance().getFactionById(fPlayer.getFactionId());
                     faction.addFPlayer(fPlayer);
                 }

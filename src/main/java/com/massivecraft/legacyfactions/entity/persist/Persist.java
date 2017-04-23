@@ -2,20 +2,13 @@ package com.massivecraft.legacyfactions.entity.persist;
 
 import java.io.File;
 import java.lang.reflect.Type;
-import java.util.logging.Level;
 
-import com.massivecraft.legacyfactions.FactionsPluginBase;
+import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.util.DiscUtil;
 
 // TODO: Give better name and place to differentiate from the entity-orm-ish system in "com.massivecraft.core.persist".
 
 public class Persist {
-
-    private FactionsPluginBase p;
-
-    public Persist(FactionsPluginBase p) {
-        this.p = p;
-    }
 
     // ------------------------------------------------------------ //
     // GET NAME - What should we call this type of object?
@@ -38,7 +31,7 @@ public class Persist {
     // ------------------------------------------------------------ //
 
     public File getFile(String name) {
-        return new File(p.getDataFolder(), name + ".json");
+        return new File(Factions.get().getDataFolder(), name + ".json");
     }
 
     public File getFile(Class<?> clazz) {
@@ -66,7 +59,7 @@ public class Persist {
 
     public <T> T loadOrSaveDefault(T def, Class<T> clazz, File file) {
         if (!file.exists()) {
-            p.log("Creating default: " + file);
+        	Factions.get().log("Creating default: " + file);
             this.save(def, file);
             return def;
         }
@@ -74,14 +67,14 @@ public class Persist {
         T loaded = this.load(clazz, file);
 
         if (loaded == null) {
-            p.warn("Using default as I failed to load: " + file);
+        	Factions.get().warn("Using default as I failed to load: " + file);
 
             // backup bad file, so user can attempt to recover their changes from it
             File backup = new File(file.getPath() + "_bad");
             if (backup.exists()) {
                 backup.delete();
             }
-            p.warn("Backing up copy of bad file to: " + backup);
+            Factions.get().warn("Backing up copy of bad file to: " + backup);
             file.renameTo(backup);
 
             return def;
@@ -101,7 +94,11 @@ public class Persist {
     }
 
     public boolean save(Object instance, File file) {
-        return DiscUtil.writeCatch(file, p.gson.toJson(instance), true);
+    	assert instance != null;
+    	assert file != null;
+    	assert Factions.get().gson != null;
+    	
+        return DiscUtil.writeCatch(file, Factions.get().gson.toJson(instance), true);
     }
 
     // LOAD BY CLASS
@@ -121,10 +118,10 @@ public class Persist {
         }
 
         try {
-            T instance = p.gson.fromJson(content, clazz);
+            T instance = Factions.get().gson.fromJson(content, clazz);
             return instance;
         } catch (Exception ex) {    // output the error message rather than full stack trace; error parsing the file, most likely
-            p.warn(ex.getMessage());
+        	Factions.get().warn(ex.getMessage());
         }
 
         return null;
@@ -145,9 +142,9 @@ public class Persist {
         }
 
         try {
-            return (T) p.gson.fromJson(content, typeOfT);
+            return (T) Factions.get().gson.fromJson(content, typeOfT);
         } catch (Exception ex) {    // output the error message rather than full stack trace; error parsing the file, most likely
-            p.warn(ex.getMessage());
+        	Factions.get().warn(ex.getMessage());
         }
 
         return null;

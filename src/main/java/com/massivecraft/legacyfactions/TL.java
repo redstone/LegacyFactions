@@ -21,10 +21,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.text.SimpleDateFormat;
 
-/**
- * An enum for requesting strings from the language file. The contents of this enum file may be subject to frequent
- * changes.
- */
+// TODO: triggered so bad, create a new language system
 public enum TL {
     /**
      * Translation meta

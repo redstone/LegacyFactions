@@ -5,12 +5,12 @@ import org.bukkit.event.Cancellable;
 
 import com.massivecraft.legacyfactions.entity.FPlayer;
 
-public class FactionRenameEvent extends FactionPlayerEvent implements Cancellable {
+public class EventFactionsNameChange extends AbstractFactionsPlayerEvent implements Cancellable {
 
     private boolean cancelled = false;
     private String tag;
 
-    public FactionRenameEvent(FPlayer sender, String newTag) {
+    public EventFactionsNameChange(FPlayer sender, String newTag) {
         super(sender.getFaction(), sender);
         tag = newTag;
     }

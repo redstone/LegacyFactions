@@ -1,9 +1,18 @@
 package com.massivecraft.legacyfactions.cmd;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.bukkit.Bukkit;
+
+import com.massivecraft.legacyfactions.FLocation;
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.Role;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Faction;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 
 public class CmdAutoClaim extends FCommand {
 
@@ -45,7 +54,20 @@ public class CmdAutoClaim extends FCommand {
         fme.setAutoClaimFor(forFaction);
 
         msg(TL.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
-        fme.attemptClaim(forFaction, me.getLocation(), true);
+        
+        Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+
+        transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
+       
+        EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
+        
+        for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
+        	if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
+        		return;
+        	}
+        }
     }
 
     @Override

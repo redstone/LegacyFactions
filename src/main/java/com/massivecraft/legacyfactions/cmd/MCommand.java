@@ -7,12 +7,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.google.common.collect.Lists;
 import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.FactionsPluginBase;
 import com.massivecraft.legacyfactions.TL;
+import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.integration.vault.VaultEngine;
+import com.massivecraft.legacyfactions.integration.vault.VaultIntegration;
 import com.massivecraft.legacyfactions.util.TextUtil;
 
 import java.util.ArrayList;
@@ -24,10 +27,8 @@ import java.util.UUID;
 
 public abstract class MCommand<T extends FactionsPluginBase> {
 
-    public T p;
-
     // The sub-commands to this command
-    public List<MCommand<?>> subCommands;
+    public List<MCommand<?>> subCommands = Lists.newArrayList();
 
     public void addSubCommand(MCommand<?> subCommand) {
         subCommand.commandChain.addAll(this.commandChain);
@@ -36,18 +37,18 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     }
 
     // The different names this commands will react to
-    public List<String> aliases;
-    public boolean allowNoSlashAccess;
+    public List<String> aliases = Lists.newArrayList();
+    public boolean allowNoSlashAccess = false;
 
     // Information on the args
-    public List<String> requiredArgs;
-    public LinkedHashMap<String, String> optionalArgs;
+    public List<String> requiredArgs = Lists.newArrayList();
+    public LinkedHashMap<String, String> optionalArgs = new LinkedHashMap<String, String>();
     public boolean errorOnToManyArgs = true;
 
     // FIELD: Help Short
     // This field may be left blank and will in such case be loaded from the permissions node instead.
     // Thus make sure the permissions node description is an action description like "eat hamburgers" or "do admin stuff".
-    private String helpShort;
+    private String helpShort = null;
 
     public void setHelpShort(String val) {
         this.helpShort = val;
@@ -63,12 +64,12 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
     public abstract TL getUsageTranslation();
 
-    public List<String> helpLong;
-    public CommandVisibility visibility;
+    public List<String> helpLong = Lists.newArrayList();
+    public CommandVisibility visibility = CommandVisibility.VISIBLE;
 
     // Some information on permissions
     public boolean senderMustBePlayer;
-    public String permission;
+    public String permission = null;
 
     // Information available on execution of the command
     public CommandSender sender; // Will always be set
@@ -76,24 +77,6 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     public boolean senderIsConsole;
     public List<String> args; // Will contain the arguments, or and empty list if there are none.
     public List<MCommand<?>> commandChain = new ArrayList<MCommand<?>>(); // The command chain used to execute this command
-
-    public MCommand(T p) {
-        this.p = p;
-
-        this.permission = null;
-
-        this.allowNoSlashAccess = false;
-
-        this.subCommands = new ArrayList<MCommand<?>>();
-        this.aliases = new ArrayList<String>();
-
-        this.requiredArgs = new ArrayList<String>();
-        this.optionalArgs = new LinkedHashMap<String, String>();
-
-        this.helpShort = null;
-        this.helpLong = new ArrayList<String>();
-        this.visibility = CommandVisibility.VISIBLE;
-    }
 
     // The commandChain is a list of the parent command chain used to get to this command.
     public void execute(CommandSender sender, List<String> args, List<MCommand<?>> commandChain) {
@@ -202,7 +185,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
     public String getUseageTemplate(List<MCommand<?>> commandChain, boolean addShortHelp) {
         StringBuilder ret = new StringBuilder();
-        ret.append(p.txt.parseTags("<c>"));
+        ret.append(Factions.get().txt.parseTags("<c>"));
         ret.append('/');
 
         for (MCommand<?> mc : commandChain) {
@@ -229,12 +212,12 @@ public abstract class MCommand<T extends FactionsPluginBase> {
         }
 
         if (args.size() > 0) {
-            ret.append(p.txt.parseTags("<p> "));
+            ret.append(Factions.get().txt.parseTags("<p> "));
             ret.append(TextUtil.implode(args, " "));
         }
 
         if (addShortHelp) {
-            ret.append(p.txt.parseTags(" <i>"));
+            ret.append(Factions.get().txt.parseTags(" <i>"));
             ret.append(this.getHelpShort());
         }
 
@@ -254,11 +237,11 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     // -------------------------------------------- //
 
     public void msg(String str, Object... args) {
-        sender.sendMessage(p.txt.parse(str, args));
+        sender.sendMessage(Factions.get().txt.parse(str, args));
     }
 
     public void msg(TL translation, Object... args) {
-        sender.sendMessage(p.txt.parse(translation.toString(), args));
+        sender.sendMessage(Factions.get().txt.parse(translation.toString(), args));
     }
 
     public void sendMessage(String msg) {
@@ -283,7 +266,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
     public List<String> getToolTips(FPlayer player) {
         List<String> lines = new ArrayList<String>();
-        for (String s : p.getConfig().getStringList("tooltips.show")) {
+        for (String s : Conf.tooltips.get("show")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', replaceFPlayerTags(s, player)));
         }
         return lines;
@@ -291,7 +274,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
     public List<String> getToolTips(Faction faction) {
         List<String> lines = new ArrayList<String>();
-        for (String s : p.getConfig().getStringList("tooltips.list")) {
+        for (String s : Conf.tooltips.get("list")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', replaceFactionTags(s, faction)));
         }
         return lines;
@@ -312,7 +295,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
             s = s.replace("{power}", power);
         }
         if (s.contains("{group}")) {
-            String group = Factions.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(player.getId())));
+            String group = VaultIntegration.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(player.getId())));
             s = s.replace("{group}", group);
         }
         return s;

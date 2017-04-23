@@ -3,6 +3,7 @@ package com.massivecraft.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import org.bukkit.ChatColor;
 
+import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
@@ -36,7 +37,7 @@ public class CmdInvite extends FCommand {
 
         if (you.getFaction() == myFaction) {
             msg(TL.COMMAND_INVITE_ALREADYMEMBER, you.getName(), myFaction.getTag());
-            msg(TL.GENERIC_YOUMAYWANT.toString() + p.cmdBase.cmdKick.getUseageTemplate(false));
+            msg(TL.GENERIC_YOUMAYWANT.toString() + Factions.get().cmdBase.cmdKick.getUseageTemplate(false));
             return;
         }
 

@@ -1,4 +1,4 @@
-package com.massivecraft.legacyfactions.util;
+package com.massivecraft.legacyfactions.adapter;
 
 import com.google.gson.*;
 import com.massivecraft.legacyfactions.FLocation;
@@ -11,10 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
-
-public class MapFLocToStringSetTypeAdapter implements JsonDeserializer<Map<FLocation, Set<String>>>, JsonSerializer<Map<FLocation, Set<String>>> {
+public class MapFlocationSetAdapter implements JsonDeserializer<Map<FLocation, Set<String>>>, JsonSerializer<Map<FLocation, Set<String>>> {
 
     @Override
     public Map<FLocation, Set<String>> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

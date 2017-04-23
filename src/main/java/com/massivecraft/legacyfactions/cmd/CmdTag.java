@@ -8,7 +8,7 @@ import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.FPlayerColl;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.entity.FactionColl;
-import com.massivecraft.legacyfactions.event.FactionRenameEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsNameChange;
 import com.massivecraft.legacyfactions.scoreboards.FTeamWrapper;
 import com.massivecraft.legacyfactions.util.MiscUtil;
 
@@ -54,7 +54,7 @@ public class CmdTag extends FCommand {
         }
 
         // trigger the faction rename event (cancellable)
-        FactionRenameEvent renameEvent = new FactionRenameEvent(fme, tag);
+        EventFactionsNameChange renameEvent = new EventFactionsNameChange(fme, tag);
         Bukkit.getServer().getPluginManager().callEvent(renameEvent);
         if (renameEvent.isCancelled()) {
             return;
@@ -69,7 +69,7 @@ public class CmdTag extends FCommand {
         myFaction.setTag(tag);
 
         // Inform
-        for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+        for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
             if (fplayer.getFactionId().equals(myFaction.getId())) {
                 fplayer.msg(TL.COMMAND_TAG_FACTION, fme.describeTo(myFaction, true), myFaction.getTag(myFaction));
                 continue;

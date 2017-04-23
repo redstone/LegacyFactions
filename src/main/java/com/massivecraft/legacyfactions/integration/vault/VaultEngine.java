@@ -21,9 +21,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@SuppressWarnings("deprecation")
 public class VaultEngine extends IntegrationEngine {
 
-    protected static Economy econ = null;
+	protected static Economy econ = null;
+	protected static net.milkbowl.vault.permission.Permission perms = null;
     
     public static void setup() {
         if (isSetup()) {
@@ -33,7 +35,7 @@ public class VaultEngine extends IntegrationEngine {
         try {
             RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> rsp = Factions.get().getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
             if (rsp != null) {
-        	    Factions.get().perms = rsp.getProvider();
+        	    perms = rsp.getProvider();
             }
         } catch (NoClassDefFoundError ex) {
         }
@@ -69,8 +71,7 @@ public class VaultEngine extends IntegrationEngine {
         return econ != null;
     }
 
-
-    public static void modifyUniverseMoney(double delta) {
+	public static void modifyUniverseMoney(double delta) {
         if (!shouldBeUsed()) {
             return;
         }
@@ -391,8 +392,8 @@ public class VaultEngine extends IntegrationEngine {
     public static boolean hasAccount(String name) {
         return econ.hasAccount(name);
     }
-
-    public static double getBalance(String account) {
+    
+	public static double getBalance(String account) {
         return econ.getBalance(account);
     }
 

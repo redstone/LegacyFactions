@@ -1,6 +1,7 @@
 package com.massivecraft.legacyfactions.cmd;
 
 import com.massivecraft.legacyfactions.FLocation;
+import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.Role;
 import com.massivecraft.legacyfactions.TL;
@@ -64,7 +65,7 @@ public class CmdSethome extends FCommand {
         faction.setHome(me.getLocation());
 
         faction.msg(TL.COMMAND_SETHOME_SET, fme.describeTo(myFaction, true));
-        faction.sendMessage(p.cmdBase.cmdHome.getUseageTemplate());
+        faction.sendMessage(Factions.get().cmdBase.cmdHome.getUseageTemplate());
         if (faction != myFaction) {
             fme.msg(TL.COMMAND_SETHOME_SETOTHER, faction.getTag(fme));
         }

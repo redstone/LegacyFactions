@@ -13,7 +13,7 @@ import com.massivecraft.legacyfactions.entity.FactionColl;
 /**
  * Event called when a Faction is created.
  */
-public class FactionCreateEvent extends Event implements Cancellable {
+public class EventFactionsCreate extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
@@ -21,14 +21,14 @@ public class FactionCreateEvent extends Event implements Cancellable {
     private Player sender;
     private boolean cancelled;
 
-    public FactionCreateEvent(Player sender, String tag) {
+    public EventFactionsCreate(Player sender, String tag) {
         this.factionTag = tag;
         this.sender = sender;
         this.cancelled = false;
     }
 
     public FPlayer getFPlayer() {
-        return FPlayerColl.getInstance().getByPlayer(sender);
+        return FPlayerColl.get(this.sender);
     }
 
     public String getFactionTag() {
@@ -36,7 +36,7 @@ public class FactionCreateEvent extends Event implements Cancellable {
     }
     
     /**
-     * Change the faction flag
+     * Change the faction tag
      * @param tag
      * @return false if tag is taken
      */

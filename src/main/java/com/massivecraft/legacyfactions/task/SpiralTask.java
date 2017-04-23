@@ -1,4 +1,4 @@
-package com.massivecraft.legacyfactions.util;
+package com.massivecraft.legacyfactions.task;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -2,6 +2,7 @@ package com.massivecraft.legacyfactions.cmd;
 
 import java.util.Collections;
 
+import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
@@ -56,7 +57,7 @@ public class FCmdRoot extends FCommand {
     public CmdUnclaimall cmdUnclaimall = new CmdUnclaimall();
     public CmdVersion cmdVersion = new CmdVersion();
     public CmdWarunclaimall cmdWarunclaimall = new CmdWarunclaimall();
-    public CmdSB cmdSB = new CmdSB();
+    public CmdScoreboard cmdSB = new CmdScoreboard();
     public CmdShowInvites cmdShowInvites = new CmdShowInvites();
     public CmdAnnounce cmdAnnounce = new CmdAnnounce();
     public CmdSeeChunk cmdSeeChunk = new CmdSeeChunk();
@@ -68,7 +69,6 @@ public class FCmdRoot extends FCommand {
     public CmdLogins cmdLogins = new CmdLogins();
     public CmdClaimLine cmdClaimLine = new CmdClaimLine();
     public CmdTop cmdTop = new CmdTop();
-    public CmdAHome cmdAHome = new CmdAHome();
 
     public FCmdRoot() {
         super();
@@ -87,10 +87,8 @@ public class FCmdRoot extends FCommand {
         this.disableOnLock = false;
 
         this.setHelpShort("The faction base command");
-        this.helpLong.add(p.txt.parseTags("<i>This command contains all faction stuff."));
-
-        //this.subCommands.add(p.cmdHelp);
-
+        this.helpLong.add(Factions.get().getTextUtil().parseTags("<i>This command contains all faction stuff."));
+        
         this.addSubCommand(this.cmdAdmin);
         this.addSubCommand(this.cmdAutoClaim);
         this.addSubCommand(this.cmdBoom);
@@ -151,7 +149,6 @@ public class FCmdRoot extends FCommand {
         this.addSubCommand(this.cmdLogins);
         this.addSubCommand(this.cmdClaimLine);
         this.addSubCommand(this.cmdTop);
-        this.addSubCommand(this.cmdAHome);
 
         if(PlayerVaultsIntegration.get().isEnabled()) {
         	PlayerVaultsIntegration.get().injectCommands(this);

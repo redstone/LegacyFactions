@@ -4,9 +4,9 @@ import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.scoreboards.FScoreboard;
 
-public class CmdSB extends FCommand {
+public class CmdScoreboard extends FCommand {
 
-    public CmdSB() {
+    public CmdScoreboard() {
         this.aliases.add("sb");
         this.aliases.add("scoreboard");
         this.permission = Permission.SCOREBOARD.node;

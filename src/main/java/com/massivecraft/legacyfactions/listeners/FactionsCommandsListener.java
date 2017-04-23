@@ -41,6 +41,6 @@ public class FactionsCommandsListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerPreLogin(PlayerLoginEvent event) {
-        FPlayerColl.getInstance().getByPlayer(event.getPlayer());
+        FPlayerColl.get(event.getPlayer());
     }
 }

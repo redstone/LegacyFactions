@@ -83,7 +83,7 @@ public class FTeamWrapper {
         }
 
         for (OfflinePlayer player : wrapper.getPlayers()) {
-            if (!player.isOnline() || !factionMembers.contains(FPlayerColl.getInstance().getByOfflinePlayer(player))) {
+            if (!player.isOnline() || !factionMembers.contains(FPlayerColl.get(player))) {
                 // Player is offline or no longer in faction
                 wrapper.removePlayer(player);
             }
@@ -143,7 +143,8 @@ public class FTeamWrapper {
         }
     }
 
-    private void add(FScoreboard fboard) {
+    @SuppressWarnings("deprecation")
+	private void add(FScoreboard fboard) {
         Scoreboard board = fboard.getScoreboard();
         Team team = board.registerNewTeam(teamName);
         teams.put(fboard, team);
@@ -181,7 +182,8 @@ public class FTeamWrapper {
         }
     }
 
-    private void addPlayer(OfflinePlayer player) {
+    @SuppressWarnings("deprecation")
+	private void addPlayer(OfflinePlayer player) {
         if (members.add(player)) {
             for (Team team : teams.values()) {
                 team.addPlayer(player);
@@ -189,7 +191,8 @@ public class FTeamWrapper {
         }
     }
 
-    private void removePlayer(OfflinePlayer player) {
+    @SuppressWarnings("deprecation")
+	private void removePlayer(OfflinePlayer player) {
         if (members.remove(player)) {
             for (Team team : teams.values()) {
                 team.removePlayer(player);

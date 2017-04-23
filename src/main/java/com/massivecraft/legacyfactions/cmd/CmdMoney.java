@@ -26,7 +26,7 @@ public class CmdMoney extends FCommand {
         senderMustBeModerator = false;
         senderMustBeAdmin = false;
 
-        this.helpLong.add(p.txt.parseTags(TL.COMMAND_MONEY_LONG.toString()));
+        this.helpLong.add(Factions.get().txt.parseTags(TL.COMMAND_MONEY_LONG.toString()));
 
         this.addSubCommand(this.cmdMoneyBalance);
         this.addSubCommand(this.cmdMoneyDeposit);

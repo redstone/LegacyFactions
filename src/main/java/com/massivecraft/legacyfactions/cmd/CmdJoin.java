@@ -5,9 +5,9 @@ import org.bukkit.Bukkit;
 import com.massivecraft.legacyfactions.*;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
-import com.massivecraft.legacyfactions.entity.FPlayerColl;
 import com.massivecraft.legacyfactions.entity.Faction;
-import com.massivecraft.legacyfactions.event.FPlayerJoinEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsChange;
+import com.massivecraft.legacyfactions.event.EventFactionsChange.ChangeReason;
 
 public class CmdJoin extends FCommand {
 
@@ -83,9 +83,9 @@ public class CmdJoin extends FCommand {
         }
 
         // trigger the join event (cancellable)
-        FPlayerJoinEvent joinEvent = new FPlayerJoinEvent(FPlayerColl.getInstance().getByPlayer(me), faction, FPlayerJoinEvent.PlayerJoinReason.COMMAND);
-        Bukkit.getServer().getPluginManager().callEvent(joinEvent);
-        if (joinEvent.isCancelled()) {
+        EventFactionsChange event = new EventFactionsChange(fme, fme.getFaction(), faction, true, ChangeReason.COMMAND);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
             return;
         }
 

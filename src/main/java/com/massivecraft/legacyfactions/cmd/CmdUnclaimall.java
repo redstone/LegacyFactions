@@ -1,13 +1,19 @@
 package com.massivecraft.legacyfactions.cmd;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 
+import com.massivecraft.legacyfactions.FLocation;
 import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
-import com.massivecraft.legacyfactions.entity.Board;
 import com.massivecraft.legacyfactions.entity.Conf;
-import com.massivecraft.legacyfactions.event.LandUnclaimAllEvent;
+import com.massivecraft.legacyfactions.entity.Faction;
+import com.massivecraft.legacyfactions.entity.FactionColl;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import com.massivecraft.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdUnclaimall extends FCommand {
@@ -43,13 +49,20 @@ public class CmdUnclaimall extends FCommand {
             }
         }
 
-        LandUnclaimAllEvent unclaimAllEvent = new LandUnclaimAllEvent(myFaction, fme);
-        Bukkit.getServer().getPluginManager().callEvent(unclaimAllEvent);
-        if (unclaimAllEvent.isCancelled()) {
-            return;
+        Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+        
+        for (FLocation location : myFaction.getAllClaims()) {
+        	transactions.put(location, FactionColl.getInstance().getWilderness());
+        }
+        
+        EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Unclaim);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
+        
+        for (FLocation location : event.getTransactions().keySet()) {
+        	myFaction.clearClaimOwnership(location);
         }
 
-        Board.getInstance().unclaimAll(myFaction.getId());
         myFaction.msg(TL.COMMAND_UNCLAIMALL_UNCLAIMED, fme.describeTo(myFaction, true));
 
         if (Conf.logLandUnclaims) {

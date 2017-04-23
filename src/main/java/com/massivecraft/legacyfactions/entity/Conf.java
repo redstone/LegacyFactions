@@ -1,8 +1,10 @@
 package com.massivecraft.legacyfactions.entity;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.integration.dynmap.DynmapStyle;
+import com.massivecraft.legacyfactions.util.MiscUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,12 +14,34 @@ import java.util.*;
 
 public class Conf {
 	
-	public static boolean enableMetrics = true;
 	
-    public static List<String> baseCommandAliases = new ArrayList<String>();
+	// ----------------------------------------
+	// MISC
+	// ----------------------------------------
+	
+	/**
+	 * Enable debug mode, this will fill your console with lots of debug information 
+	 * @category misc
+	 */
+	public static boolean debug = false;
+	
+	/**
+	 * Enable metrics, this will send useful statistics to MCStats.org 
+	 * @category misc
+	 */
+	public static boolean enableMetrics = true;
+		
+	// ----------------------------------------
+	// COMMANDS
+	// ----------------------------------------
+	
+    public static List<String> baseCommandAliases = Lists.newArrayList("f", "factions");
     public static boolean allowNoSlashCommand = true;
 
-    // Colors
+	// ----------------------------------------
+	// COLOURS
+	// ----------------------------------------
+
     public static ChatColor colorMember = ChatColor.GREEN;
     public static ChatColor colorAlly = ChatColor.LIGHT_PURPLE;
     public static ChatColor colorTruce = ChatColor.DARK_PURPLE;
@@ -27,7 +51,31 @@ public class Conf {
     public static ChatColor colorPeaceful = ChatColor.GOLD;
     public static ChatColor colorWar = ChatColor.DARK_RED;
 
-    // Power
+    // ----------------------------------------
+ 	// TOOLTIPS
+ 	// ----------------------------------------
+
+    public static Map<String, List<String>> tooltips = MiscUtil.map(
+    	"list", Lists.newArrayList(
+    		"&6Leader: &f{leader}",
+    		"&6Claimed: &f{chunks}",
+    		"&6Raidable: &f{raidable}",
+    		"&6Warps: &f{warps}",
+    		"&6Power: &f{power}/{maxPower}",
+    		"&6Members: &f{online}/{members}"
+    	),
+    	"show", Lists.newArrayList(
+    		"&6Last Seen: &f{lastSeen}",
+    		"&6Power: &f{power}",
+    		"&6Rank: &f{group}",
+    		"&6Balance: &a${player-balance}"
+    	)
+    );
+    
+	// ----------------------------------------
+	// POWER
+	// ----------------------------------------
+
     public static double powerPlayerMax = 10.0;
     public static double powerPlayerMin = -10.0;
     public static double powerPlayerStarting = 0.0;
@@ -38,9 +86,19 @@ public class Conf {
     public static double powerOfflineLossLimit = 0.0;  // players will no longer lose power from being offline once their power drops to this amount or less
     public static double powerFactionMax = 0.0;  // if greater than 0, the cap on how much power a faction can have (additional power from players beyond that will act as a "buffer" of sorts)
 
+	// ----------------------------------------
+	// PREFIX
+	// ----------------------------------------
+
     public static String prefixAdmin = "**";
     public static String prefixMod = "*";
 
+	// ----------------------------------------
+	// FACTION
+	// ----------------------------------------
+
+    public static String factionDefaultRelation = "neutral";
+    
     public static int factionTagLengthMin = 3;
     public static int factionTagLengthMax = 10;
     public static boolean factionTagForceUpperCase = false;
@@ -80,6 +138,7 @@ public class Conf {
     public static boolean broadcastDescriptionChanges = false;
     public static boolean broadcastTagChanges = false;
 
+    
     public static double saveToFileEveryXMinutes = 30.0;
 
     public static double autoLeaveAfterDaysOfInactivity = 10.0;
@@ -88,10 +147,19 @@ public class Conf {
     public static boolean removePlayerDataWhenBanned = true;
     public static boolean autoLeaveDeleteFPlayerData = false; // Deletes all player data when they auto leave (odd feature?)
 
+    public static boolean disablePistonsInTerritory = false;
+    
+	// ----------------------------------------
+	// INTEGRATION: WORLD GUARD
+	// ----------------------------------------
+
     public static boolean worldGuardChecking = false;
     public static boolean worldGuardBuildPriority = false;
 
-    // server logging options
+	// ----------------------------------------
+	// SERVER LOGGING
+	// ----------------------------------------
+    
     public static boolean logFactionCreate = true;
     public static boolean logFactionDisband = true;
     public static boolean logFactionJoin = true;
@@ -102,12 +170,59 @@ public class Conf {
     public static boolean logMoneyTransactions = true;
     public static boolean logPlayerCommands = true;
 
-    // prevent some potential exploits
+	// ----------------------------------------
+	// EXPLOIT
+	// ----------------------------------------
+
     public static boolean handleExploitObsidianGenerators = true;
     public static boolean handleExploitEnderPearlClipping = true;
     public static boolean handleExploitInteractionSpam = true;
     public static boolean handleExploitTNTWaterlog = false;
     public static boolean handleExploitLiquidFlow = false;
+
+    public static boolean findFactionsExploitLog = false;
+    public static long findFactionsExploitCooldown = 2000;
+    
+	// ----------------------------------------
+	// PORTALS
+	// ----------------------------------------
+    
+    public static boolean portalsLimit = false;
+    public static String portalsMinimumRelation = "MEMBER";
+    
+	// ----------------------------------------
+	// SCOREBOARD
+	// ----------------------------------------
+
+    public static boolean scoreboardInChat = false;
+    public static long scoreboardExpires = 6;
+    
+    public static boolean scoreboardInfoEnabled = false;
+    public static List<String> scoreboardInfo = Lists.newArrayList(
+    	"&6Power",
+    	"{power}",
+    	"&3Members",
+    	"{online}/{members}",
+    	"&4Leader",
+    	"{leader}",
+    	"&bTerritory",
+    	"{chunks}"
+    );
+    
+	// ----------------------------------------
+	// WARPS
+	// ----------------------------------------
+    
+    public static int warpsMax = 5;
+    public static Map<String, Double> warpCost = MiscUtil.map(
+    	"set", 5.0,
+    	"delete", 5.0,
+    	"use", 5.0
+    );
+    
+	// ----------------------------------------
+	// HOMES
+	// ----------------------------------------
 
     public static boolean homesEnabled = true;
     public static boolean homesMustBeInClaimedTerritory = true;

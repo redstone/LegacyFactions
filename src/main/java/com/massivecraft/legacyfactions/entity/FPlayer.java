@@ -11,6 +11,7 @@ import com.massivecraft.legacyfactions.Relation;
 import com.massivecraft.legacyfactions.RelationParticipator;
 import com.massivecraft.legacyfactions.Role;
 import com.massivecraft.legacyfactions.entity.persist.memory.MemoryFPlayer;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange;
 import com.massivecraft.legacyfactions.util.WarmUpUtil;
 
 import java.util.List;
@@ -154,9 +155,9 @@ public interface FPlayer extends EconomyParticipator {
     public int getDeaths();
 
 
-    // -------------------------------
-    // Relation and relation colors
-    // -------------------------------
+    // ----------------------------------------
+    // RELATION
+    // ----------------------------------------
 
     @Override
     public String describeTo(RelationParticipator that, boolean ucfirst);
@@ -175,15 +176,15 @@ public interface FPlayer extends EconomyParticipator {
     @Override
     public ChatColor getColorTo(RelationParticipator rp);
 
-    //----------------------------------------------//
-    // Health
-    //----------------------------------------------//
+    // ----------------------------------------
+    // HEALTH
+    // ----------------------------------------
     public void heal(int amnt);
 
 
-    //----------------------------------------------//
-    // Power
-    //----------------------------------------------//
+    // ----------------------------------------
+    // POWER
+    // ----------------------------------------
     public double getPower();
 
     public void alterPower(double delta);
@@ -205,9 +206,10 @@ public interface FPlayer extends EconomyParticipator {
     public void onDeath();
     public void onDeath(double powerLoss);
 
-    //----------------------------------------------//
-    // Territory
-    //----------------------------------------------//
+    // ----------------------------------------
+    // TERRITORY
+    // ----------------------------------------
+    
     public boolean isInOwnTerritory();
 
     public boolean isInOthersTerritory();
@@ -220,9 +222,9 @@ public interface FPlayer extends EconomyParticipator {
 
     public void sendFactionHereMessage(Faction from);
 
-    // -------------------------------
-    // Actions
-    // -------------------------------
+    // ----------------------------------------
+    // ACTIONS
+    // ----------------------------------------
 
     public void leave(boolean makePay);
 
@@ -232,7 +234,8 @@ public interface FPlayer extends EconomyParticipator {
 
     public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation location, boolean notifyFailure);
 
-    public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure);
+    public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+    public boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
 
     public void msg(String str, Object... args);
 
@@ -254,9 +257,9 @@ public interface FPlayer extends EconomyParticipator {
 
     public void setId(String id);
 
-    // -------------------------------
-    // Warmups
-    // -------------------------------
+    // ----------------------------------------
+    // WARMUPS
+    // ----------------------------------------
 
     public boolean isWarmingUp();
 
@@ -267,6 +270,10 @@ public interface FPlayer extends EconomyParticipator {
     public void stopWarmup();
 
     public void clearWarmup();
+    
+    // ----------------------------------------
+    // UTIL
+    // ----------------------------------------
     
     public MemoryFPlayer asMemoryFPlayer();
 

@@ -30,7 +30,8 @@ public class CmdVault extends FCommand {
         senderMustBeAdmin = false;
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void perform() {
         /*
              /f vault <number>

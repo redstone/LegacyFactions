@@ -27,21 +27,24 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-
 public abstract class FactionsPluginBase extends JavaPlugin {
 	
-	public static final String LOG_PREFIX = ChatColor.AQUA+""+ ChatColor.BOLD + "[LegacyFactios] " + ChatColor.RESET;
+	public static final String LOG_PREFIX = ChatColor.AQUA+""+ ChatColor.BOLD + "[LegacyFactions] " + ChatColor.RESET;
 	public static final String WARN_PREFIX = ChatColor.GOLD+""+ ChatColor.BOLD + "[WARN] " + ChatColor.RESET;
 	public static final String ERROR_PREFIX = ChatColor.RED+""+ ChatColor.BOLD + "[ERROR] " + ChatColor.RESET;
 	public static final String DEBUG_PREFIX = ChatColor.LIGHT_PURPLE+""+ ChatColor.BOLD + "[DEBUG] " + ChatColor.RESET;
 	  
-	// Some utils
+	// Utils
     public Persist persist;
     public TextUtil txt;
     public PermUtil perm;
 
+    public TextUtil getTextUtil() {
+    	return this.txt;
+    }
+    
     // Persist related
-    public Gson gson;
+    public Gson gson = this.getGsonBuilder().create();
     private Integer saveTask = null;
     private boolean autoSave = true;
     protected boolean loadSuccessful = false;
@@ -76,21 +79,17 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     private long timeEnableStart;
 
     public boolean preEnable() {
-    	this.initTXT();
-    	
+        this.persist = new Persist();
+        this.txt = this.initTXT();
+        this.perm = new PermUtil(this);
+
         log("=== ENABLE START ===");
         
         this.timeEnableStart = System.currentTimeMillis();
 
         // Ensure basefolder exists!
         this.getDataFolder().mkdirs();
-
-        // Create Utility Instances
-        this.perm = new PermUtil(this);
-        this.persist = new Persist(this);
-
-        this.gson = this.getGsonBuilder().create();
-
+        
         // Create and register player command listener
         this.mPluginSecretPlayerListener = new FactionsCommandsListener(this);
         this.getServer().getPluginManager().registerEvents(this.mPluginSecretPlayerListener, this);
@@ -187,14 +186,13 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         // only save data if plugin actually loaded successfully
         if (loadSuccessful) {
             FactionColl.getInstance().forceSave();
-            FPlayerColl.getInstance().forceSave();
+            FPlayerColl.save();
             Board.getInstance().forceSave();
         }
         log("Disabled");
     }
 
     public void suicide() {
-        log("Now I suicide!");
         this.getServer().getPluginManager().disablePlugin(this);
     }
 
@@ -214,9 +212,12 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 
     // These are not supposed to be used directly.
     // They are loaded and used through the TextUtil instance for the plugin.
-    public Map<String, String> rawTags = new LinkedHashMap<String, String>();
+    public Map<String, String> rawTags = new HashMap<String, String>();
 
     public void addRawTags() {
+    	if (this.rawTags == null) {
+    		this.rawTags = new HashMap<String, String>();
+    	}
         this.rawTags.put("l", "<green>"); // logo
         this.rawTags.put("a", "<gold>"); // art
         this.rawTags.put("n", "<silver>"); // notice
@@ -228,11 +229,8 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         this.rawTags.put("p", "<teal>"); // parameter
     }
 
-    public void initTXT() {
-    	if (this.txt == null) {
-    		this.txt = new TextUtil();
-    	}
-    	
+    public TextUtil initTXT() {
+    	TextUtil txt = new TextUtil();
         this.addRawTags();
 
         Type type = new TypeToken<Map<String, String>>() { }.getType();
@@ -244,8 +242,10 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         this.persist.save(this.rawTags, "tags");
 
         for (Entry<String, String> rawTag : this.rawTags.entrySet()) {
-            this.txt.tags.put(rawTag.getKey(), TextUtil.parseColor(rawTag.getValue()));
+            txt.tags.put(rawTag.getKey(), TextUtil.parseColor(rawTag.getValue()));
         }
+        
+        return txt;
     }
 
     // -------------------------------------------- //
@@ -349,6 +349,8 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     }
 
 	public void debug(String msg) {
+		if ( ! Conf.debug) return;
+		
     	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + DEBUG_PREFIX + msg);
 	}
     

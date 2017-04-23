@@ -1,12 +1,20 @@
 package com.massivecraft.legacyfactions.cmd;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 
+import com.massivecraft.legacyfactions.FLocation;
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.Faction;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 
 public class CmdClaimLine extends FCommand {
 
@@ -61,13 +69,25 @@ public class CmdClaimLine extends FCommand {
         }
 
         final Faction forFaction = this.argAsFaction(2, myFaction);
+        
+        Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
         Location location = me.getLocation();
 
-        // TODO: make this a task like claiming a radius?
         for (int i = 0; i < amount; i++) {
-            fme.attemptClaim(forFaction, location, true);
+        	transactions.put(FLocation.valueOf(location), forFaction);
             location = location.add(blockFace.getModX() * 16, 0, blockFace.getModZ() * 16);
         }
+        
+        EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
+        
+        for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
+        	if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
+        		return;
+        	}
+        }
+        
     }
 
     @Override

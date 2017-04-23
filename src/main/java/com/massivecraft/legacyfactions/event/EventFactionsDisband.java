@@ -10,24 +10,20 @@ import com.massivecraft.legacyfactions.entity.FactionColl;
 /**
  * Event called when a faction is disbanded.
  */
-public class FactionDisbandEvent extends FactionEvent implements Cancellable {
+public class EventFactionsDisband extends AbstractFactionsEvent implements Cancellable {
 
     private boolean cancelled = false;
     private Player sender;
 
-    public FactionDisbandEvent(Player sender, String factionId) {
+    public EventFactionsDisband(Player sender, String factionId) {
         super(FactionColl.getInstance().getFactionById(factionId));
         this.sender = sender;
     }
 
     public FPlayer getFPlayer() {
-        return FPlayerColl.getInstance().getByPlayer(sender);
+        return FPlayerColl.get(sender);
     }
-
-    public Player getPlayer() {
-        return sender;
-    }
-
+    
     @Override
     public boolean isCancelled() {
         return cancelled;

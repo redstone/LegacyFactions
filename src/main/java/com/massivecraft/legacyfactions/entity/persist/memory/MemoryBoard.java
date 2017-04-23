@@ -8,7 +8,7 @@ import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.entity.FactionColl;
 import com.massivecraft.legacyfactions.util.AsciiCompass;
-import com.massivecraft.legacyfactions.util.LazyLocation;
+import com.massivecraft.legacyfactions.warp.FactionWarp;
 
 import org.bukkit.ChatColor;
 
@@ -96,12 +96,14 @@ public abstract class MemoryBoard extends Board {
 
     public void removeAt(FLocation flocation) {
         Faction faction = getFactionAt(flocation);
-        Iterator<LazyLocation> it = faction.getWarps().values().iterator();
-        while (it.hasNext()) {
-            if (flocation.isInChunk(it.next().getLocation())) {
-                it.remove();
+        Collection<FactionWarp> warps = faction.warps().getAll();
+        
+        for(FactionWarp warp : warps) {
+            if (flocation.isInChunk(warp.getLocation())) {
+                warp.delete();
             }
         }
+        
         clearOwnershipAt(flocation);
         flocationIds.remove(flocation);
     }
@@ -134,7 +136,7 @@ public abstract class MemoryBoard extends Board {
         Faction faction = FactionColl.getInstance().getFactionById(factionId);
         if (faction != null && faction.isNormal()) {
             faction.clearAllClaimOwnership();
-            faction.clearWarps();
+            faction.warps().deleteAll();
         }
         clean(factionId);
     }

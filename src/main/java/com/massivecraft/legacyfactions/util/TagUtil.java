@@ -5,11 +5,12 @@ import mkremins.fanciful.FancyMessage;
 import org.bukkit.ChatColor;
 
 import com.massivecraft.legacyfactions.Factions;
+import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.entity.FactionColl;
 
-import static com.massivecraft.legacyfactions.util.TagReplacer.TagType;
+import static com.massivecraft.legacyfactions.util.TagReplacerUtil.TagType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class TagUtil {
      * @return clean line
      */
     public static String parsePlain(Faction faction, String line) {
-        for (TagReplacer tagReplacer : TagReplacer.getByType(TagType.FACTION)) {
+        for (TagReplacerUtil tagReplacer : TagReplacerUtil.getByType(TagType.FACTION)) {
             if (tagReplacer.contains(line)) {
                 line = tagReplacer.replace(line, tagReplacer.getValue(faction, null));
             }
@@ -44,7 +45,7 @@ public class TagUtil {
      * @return clean line
      */
     public static String parsePlain(FPlayer fplayer, String line) {
-        for (TagReplacer tagReplacer : TagReplacer.getByType(TagType.PLAYER)) {
+        for (TagReplacerUtil tagReplacer : TagReplacerUtil.getByType(TagType.PLAYER)) {
             if (tagReplacer.contains(line)) {
                 String rep = tagReplacer.getValue(fplayer.getFaction(), fplayer);
                 if (rep == null) {
@@ -66,7 +67,7 @@ public class TagUtil {
      * @return clean line
      */
     public static String parsePlain(Faction faction, FPlayer fplayer, String line) {
-        for (TagReplacer tagReplacer : TagReplacer.getByType(TagType.PLAYER)) {
+        for (TagReplacerUtil tagReplacer : TagReplacerUtil.getByType(TagType.PLAYER)) {
             if (tagReplacer.contains(line)) {
                 String value = tagReplacer.getValue(faction, fplayer);
                 if (value != null) {
@@ -89,7 +90,7 @@ public class TagUtil {
      * @return
      */
     public static List<FancyMessage> parseFancy(Faction faction, FPlayer fme, String line) {
-        for (TagReplacer tagReplacer : TagReplacer.getByType(TagType.FANCY)) {
+        for (TagReplacerUtil tagReplacer : TagReplacerUtil.getByType(TagType.FANCY)) {
             if (tagReplacer.contains(line)) {
                 String clean = line.replace(tagReplacer.getTag(), ""); // remove tag
                 return getFancy(faction, fme, tagReplacer, clean);
@@ -106,7 +107,7 @@ public class TagUtil {
      * @return if the line has fancy variables
      */
     public static boolean hasFancy(String line) {
-        for (TagReplacer tagReplacer : TagReplacer.getByType(TagType.FANCY)) {
+        for (TagReplacerUtil tagReplacer : TagReplacerUtil.getByType(TagType.FANCY)) {
             if (tagReplacer.contains(line)) {
                 return true;
             }
@@ -123,7 +124,7 @@ public class TagUtil {
      *
      * @return list of fancy messages to send
      */
-    protected static List<FancyMessage> getFancy(Faction target, FPlayer fme, TagReplacer type, String prefix) {
+    protected static List<FancyMessage> getFancy(Faction target, FPlayer fme, TagReplacerUtil type, String prefix) {
         List<FancyMessage> fancyMessages = new ArrayList<FancyMessage>();
         boolean minimal = Factions.get().getConfig().getBoolean("minimal-show", false);
 
@@ -200,8 +201,9 @@ public class TagUtil {
                 }
                 fancyMessages.add(currentOffline);
                 return firstOffline && minimal ? null : fancyMessages; // we must return here and not outside the switch
+               default:
+                return null;
         }
-        return null;
     }
 
     /**
@@ -213,7 +215,7 @@ public class TagUtil {
      */
     private static List<String> tipFaction(Faction faction) {
         List<String> lines = new ArrayList<String>();
-        for (String line : Factions.get().getConfig().getStringList("tooltips.list")) {
+        for (String line : Conf.tooltips.get("list")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', TagUtil.parsePlain(faction, line)));
         }
         return lines;
@@ -228,7 +230,7 @@ public class TagUtil {
      */
     private static List<String> tipPlayer(FPlayer fplayer) {
         List<String> lines = new ArrayList<String>();
-        for (String line : Factions.get().getConfig().getStringList("tooltips.show")) {
+        for (String line : Conf.tooltips.get("show")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', TagUtil.parsePlain(fplayer, line)));
         }
         return lines;

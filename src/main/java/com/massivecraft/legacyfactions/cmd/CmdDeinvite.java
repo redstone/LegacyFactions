@@ -3,6 +3,7 @@ package com.massivecraft.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import org.bukkit.ChatColor;
 
+import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
@@ -34,7 +35,7 @@ public class CmdDeinvite extends FCommand {
         if (you == null) {
             FancyMessage msg = new FancyMessage(TL.COMMAND_DEINVITE_CANDEINVITE.toString()).color(ChatColor.GOLD);
             for (String id : myFaction.getInvites()) {
-                FPlayer fp = FPlayerColl.getInstance().getById(id);
+                FPlayer fp = FPlayerColl.get(id);
                 String name = fp != null ? fp.getName() : id;
                 msg.then(name + " ").color(ChatColor.WHITE).tooltip(TL.COMMAND_DEINVITE_CLICKTODEINVITE.format(name)).command("/" + Conf.baseCommandAliases.get(0) + " deinvite " + name);
             }
@@ -44,7 +45,7 @@ public class CmdDeinvite extends FCommand {
 
         if (you.getFaction() == myFaction) {
             msg(TL.COMMAND_DEINVITE_ALREADYMEMBER, you.getName(), myFaction.getTag());
-            msg(TL.COMMAND_DEINVITE_MIGHTWANT, p.cmdBase.cmdKick.getUseageTemplate(false));
+            msg(TL.COMMAND_DEINVITE_MIGHTWANT, Factions.get().cmdBase.cmdKick.getUseageTemplate(false));
             return;
         }
 

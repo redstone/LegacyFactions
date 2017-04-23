@@ -5,14 +5,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.massivecraft.legacyfactions.*;
 import com.massivecraft.legacyfactions.entity.Board;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.integration.essentials.EssentialsEngine;
-import com.massivecraft.legacyfactions.util.SpiralTask;
+import com.massivecraft.legacyfactions.task.SpiralTask;
 
 public class CmdStuck extends FCommand {
 
@@ -50,7 +49,8 @@ public class CmdStuck extends FCommand {
                 return;
             }
 
-            final int id = Bukkit.getScheduler().runTaskLater(Factions.get(), new BukkitRunnable() {
+            
+            final int id = Bukkit.getScheduler().runTaskLater(Factions.get(), new Runnable() {
 
                 @Override
                 public void run() {

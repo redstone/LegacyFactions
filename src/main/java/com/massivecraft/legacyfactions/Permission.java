@@ -26,6 +26,7 @@ public enum Permission {
     DISBAND_ANY("disband.any"),
     HELP("help"),
     HOME("home"),
+    HOME_ANY("home.any"),
     INVITE("invite"),
     JOIN("join"),
     JOIN_ANY("join.any"),

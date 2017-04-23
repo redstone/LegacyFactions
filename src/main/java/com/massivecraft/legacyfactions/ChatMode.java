@@ -4,7 +4,8 @@ public enum ChatMode {
     FACTION(3, TL.CHAT_FACTION),
     ALLIANCE(2, TL.CHAT_ALLIANCE),
     TRUCE(1, TL.CHAT_TRUCE),
-    PUBLIC(0, TL.CHAT_PUBLIC);
+    PUBLIC(0, TL.CHAT_PUBLIC),
+    ;
 
     public final int value;
     public final TL nicename;

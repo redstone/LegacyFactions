@@ -10,8 +10,10 @@ import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.FPlayerColl;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.entity.FactionColl;
-import com.massivecraft.legacyfactions.event.FPlayerLeaveEvent;
-import com.massivecraft.legacyfactions.event.LandClaimEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsChange;
+import com.massivecraft.legacyfactions.event.EventFactionsChange.ChangeReason;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange;
 import com.massivecraft.legacyfactions.integration.essentials.EssentialsEngine;
 import com.massivecraft.legacyfactions.integration.vault.VaultEngine;
 import com.massivecraft.legacyfactions.integration.worldguard.WorldGuardEngine;
@@ -21,8 +23,10 @@ import com.massivecraft.legacyfactions.scoreboards.sidebar.FInfoSidebar;
 import com.massivecraft.legacyfactions.util.RelationUtil;
 import com.massivecraft.legacyfactions.util.WarmUpUtil;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -151,9 +155,13 @@ public abstract class MemoryFPlayer implements FPlayer {
     public void setAutoClaimFor(Faction faction) {
         this.autoClaimFor = faction;
         if (this.autoClaimFor != null) {
-            // TODO: merge these into same autoclaim
-            this.autoSafeZoneEnabled = false;
-            this.autoWarZoneEnabled = false;
+        	if ( ! this.autoClaimFor.isSafeZone()) {
+        		this.autoSafeZoneEnabled = false;
+        	}
+        	
+        	if ( ! this.autoClaimFor.isWarZone()) {
+        		this.autoWarZoneEnabled = false;
+        	}
         }
     }
 
@@ -642,10 +650,10 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (makePay && !VaultEngine.hasAtLeast(this, Conf.econCostLeave, TL.LEAVE_TOLEAVE.toString())) {
             return;
         }
-
-        FPlayerLeaveEvent leaveEvent = new FPlayerLeaveEvent(this, myFaction, FPlayerLeaveEvent.PlayerLeaveReason.LEAVE);
-        Bukkit.getServer().getPluginManager().callEvent(leaveEvent);
-        if (leaveEvent.isCancelled()) {
+        
+        EventFactionsChange event = new EventFactionsChange(this, myFaction, FactionColl.getInstance().getWilderness(), true, ChangeReason.LEAVE);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
             return;
         }
 
@@ -677,7 +685,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
         if (myFaction.isNormal() && !perm && myFaction.getFPlayers().isEmpty()) {
             // Remove this faction
-            for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+            for (FPlayer fplayer : FPlayerColl.getAll()) {
                 fplayer.msg(TL.LEAVE_DISBANDED, myFaction.describeTo(fplayer, true));
             }
 
@@ -813,14 +821,14 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
         return error == null;
     }
-
-    public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure) {
+    
+    public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
     	FLocation flocation = new FLocation(location);
     	
-    	return attemptClaim(forFaction, flocation, notifyFailure);
+    	return attemptClaim(forFaction, flocation, notifyFailure, eventLandChange);
     }
     
-    public boolean attemptClaim(Faction forFaction, FLocation flocation, boolean notifyFailure) {
+    public boolean attemptClaim(Faction forFaction, FLocation flocation, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
         Faction currentFaction = Board.getInstance().getFactionAt(flocation);
         
         int ownedLand = forFaction.getLandRounded();
@@ -850,14 +858,20 @@ public abstract class MemoryFPlayer implements FPlayer {
                 return false;
             }
         }
-
-        LandClaimEvent claimEvent = new LandClaimEvent(flocation, forFaction, this);
-        Bukkit.getServer().getPluginManager().callEvent(claimEvent);
-        if (claimEvent.isCancelled()) {
+        
+        Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+        transactions.put(flocation, forFaction);
+        
+        EventFactionsLandChange event = new EventFactionsLandChange(this, transactions, LandChangeCause.Claim);
+        
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
             return false;
         }
+        
+        
         // in case it was updated in the event 
-        flocation = claimEvent.getLocation();
+        //flocation = event.getLocation();
 
         // then make 'em pay (if applicable)
         if (mustPay && !VaultEngine.modifyMoney(payee, -cost, TL.CLAIM_TOCLAIM.toString(), TL.CLAIM_FORCLAIM.toString())) {

@@ -9,25 +9,15 @@ import com.massivecraft.legacyfactions.FLocation;
 import com.massivecraft.legacyfactions.Relation;
 import com.massivecraft.legacyfactions.RelationParticipator;
 import com.massivecraft.legacyfactions.Role;
-import com.massivecraft.legacyfactions.util.LazyLocation;
+import com.massivecraft.legacyfactions.entity.persist.memory.MemoryFaction;
+import com.massivecraft.legacyfactions.warp.FactionWarps;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public interface Faction extends EconomyParticipator {
     public HashMap<String, List<String>> getAnnouncements();
 
-    public ConcurrentHashMap<String, LazyLocation> getWarps();
-
-    public LazyLocation getWarp(String name);
-
-    public void setWarp(String name, LazyLocation loc);
-
-    public boolean isWarp(String name);
-
-    public boolean removeWarp(String name);
-
-    public void clearWarps();
+    public FactionWarps warps();
 
     public int getMaxVaults();
 
@@ -254,4 +244,11 @@ public interface Faction extends EconomyParticipator {
     public Set<FLocation> getAllClaims();
 
     public void setId(String id);
+    
+    // ----------------------------------------
+    // UTIL
+    // ----------------------------------------
+    
+    public MemoryFaction asMemoryFaction();
+    
 }

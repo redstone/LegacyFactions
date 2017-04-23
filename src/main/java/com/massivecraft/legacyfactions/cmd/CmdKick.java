@@ -11,7 +11,9 @@ import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.Faction;
-import com.massivecraft.legacyfactions.event.FPlayerLeaveEvent;
+import com.massivecraft.legacyfactions.entity.FactionColl;
+import com.massivecraft.legacyfactions.event.EventFactionsChange;
+import com.massivecraft.legacyfactions.event.EventFactionsChange.ChangeReason;
 
 public class CmdKick extends FCommand {
 
@@ -53,7 +55,7 @@ public class CmdKick extends FCommand {
 
         if (fme == toKick) {
             msg(TL.COMMAND_KICK_SELF);
-            msg(TL.GENERIC_YOUMAYWANT.toString() + p.cmdBase.cmdLeave.getUseageTemplate(false));
+            msg(TL.GENERIC_YOUMAYWANT.toString() + Factions.get().cmdBase.cmdLeave.getUseageTemplate(false));
             return;
         }
 
@@ -88,7 +90,7 @@ public class CmdKick extends FCommand {
         }
 
         // trigger the leave event (cancellable) [reason:kicked]
-        FPlayerLeaveEvent event = new FPlayerLeaveEvent(toKick, toKick.getFaction(), FPlayerLeaveEvent.PlayerLeaveReason.KICKED);
+        EventFactionsChange event = new EventFactionsChange(toKick, toKick.getFaction(), FactionColl.getInstance().getWilderness(), true, ChangeReason.KICKED);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return;

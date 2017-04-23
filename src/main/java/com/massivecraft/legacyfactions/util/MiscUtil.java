@@ -12,8 +12,10 @@ import com.massivecraft.legacyfactions.entity.FPlayer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class MiscUtil {
 
@@ -112,6 +114,44 @@ public class MiscUtil {
         ret.addAll(moderators);
         ret.addAll(normal);
         return ret;
+    }
+    
+    public static Map<String, Double> map(String a, Double b, Object... extras) {
+    	Map<String, Double> map = new HashMap<String, Double>();
+    	map.put(a, b);
+    	
+    	String key = null;
+    	
+    	for(Object o : extras) {
+    		if (key == null) {
+    			key = (String) o;
+    		} else {
+    			map.put(key, (Double) o);
+    			key = null;
+    		}
+    	}
+    	
+    	return map;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public static Map<String, List<String>> map(String a, List<String> b, Object... extras) {
+    	 Map<String, List<String>> map = new HashMap<String, List<String>>();
+    	 map.put(a, b);
+    	 
+     	String key = null;
+    	
+     	for(Object o : extras) {
+     		if (key == null) {
+     			key = (String) o;
+     		} else {
+     			map.put(key, (List<String>) o);
+     			key = null;
+     		}
+     	}
+     	
+     	return map;
+
     }
 }
 

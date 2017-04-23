@@ -8,7 +8,6 @@ import com.massivecraft.legacyfactions.TL;
 public class CmdAutoHelp extends MCommand<Factions> {
 
     public CmdAutoHelp() {
-        super(Factions.get());
         this.aliases.add("?");
         this.aliases.add("h");
         this.aliases.add("help");
@@ -35,7 +34,7 @@ public class CmdAutoHelp extends MCommand<Factions> {
             }
         }
 
-        sendMessage(p.txt.getPage(lines, this.argAsInt(0, 1), TL.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
+        sendMessage(Factions.get().txt.getPage(lines, this.argAsInt(0, 1), TL.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
     }
 
     @Override

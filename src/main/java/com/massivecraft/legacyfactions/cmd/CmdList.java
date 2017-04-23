@@ -45,7 +45,7 @@ public class CmdList extends FCommand {
         }
 
         ArrayList<Faction> factionList = FactionColl.getInstance().getAllFactions();
-        factionList.remove(FactionColl.getInstance().getNone());
+        factionList.remove(FactionColl.getInstance().getWilderness());
         factionList.remove(FactionColl.getInstance().getSafeZone());
         factionList.remove(FactionColl.getInstance().getWarZone());
 
@@ -93,7 +93,7 @@ public class CmdList extends FCommand {
 
         ArrayList<String> lines = new ArrayList<String>();
 
-        factionList.add(0, FactionColl.getInstance().getNone());
+        factionList.add(0, FactionColl.getInstance().getWilderness());
 
         final int pageheight = 9;
         int pagenumber = this.argAsInt(0, 1);
@@ -110,16 +110,16 @@ public class CmdList extends FCommand {
         }
 
 
-        String header = p.getConfig().getString("list.header", defaults[0]);
+        String header = Factions.get().getConfig().getString("list.header", defaults[0]);
         header = header.replace("{pagenumber}", String.valueOf(pagenumber)).replace("{pagecount}", String.valueOf(pagecount));
-        lines.add(p.txt.parse(header));
+        lines.add(Factions.get().txt.parse(header));
 
         for (Faction faction : factionList.subList(start, end)) {
             if (faction.isWilderness()) {
-                lines.add(p.txt.parse(TagUtil.parsePlain(faction, p.getConfig().getString("list.factionless", defaults[1]))));
+                lines.add(Factions.get().txt.parse(TagUtil.parsePlain(faction, Factions.get().getConfig().getString("list.factionless", defaults[1]))));
                 continue;
             }
-            lines.add(p.txt.parse(TagUtil.parsePlain(faction, fme, p.getConfig().getString("list.entry", defaults[2]))));
+            lines.add(Factions.get().txt.parse(TagUtil.parsePlain(faction, fme, Factions.get().getConfig().getString("list.entry", defaults[2]))));
         }
         sendMessage(lines);
     }

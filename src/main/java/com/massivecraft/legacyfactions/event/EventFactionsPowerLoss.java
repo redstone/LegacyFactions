@@ -1,6 +1,5 @@
 package com.massivecraft.legacyfactions.event;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 
 import com.massivecraft.legacyfactions.entity.FPlayer;
@@ -9,10 +8,10 @@ import com.massivecraft.legacyfactions.entity.Faction;
 /**
  * Event called when a player loses power.
  */
-public class PowerLossEvent extends FactionPlayerEvent implements Cancellable {
+public class EventFactionsPowerLoss extends AbstractFactionsPlayerEvent implements Cancellable {
 
     
-    public PowerLossEvent(Faction f, FPlayer p, double powerLoss) {
+    public EventFactionsPowerLoss(Faction f, FPlayer p, double powerLoss) {
         super(f, p);
     }
     
@@ -28,43 +27,7 @@ public class PowerLossEvent extends FactionPlayerEvent implements Cancellable {
     public void setPowerLoss(double powerLoss) {
     	this.powerLoss = powerLoss;
     }
-
-    /**
-     * Get the id of the faction.
-     *
-     * @return id of faction as String
-     *
-     * @deprecated use getFaction().getId() instead.
-     */
-    @Deprecated
-    public String getFactionId() {
-        return getFaction().getId();
-    }
-
-    /**
-     * Get the tag of the faction.
-     *
-     * @return tag of faction as String
-     *
-     * @deprecated use getFaction().getTag() instead.
-     */
-    @Deprecated
-    public String getFactionTag() {
-        return getFaction().getTag();
-    }
-
-    /**
-     * Get the Player involved in the event.
-     *
-     * @return Player from FPlayer.
-     *
-     * @deprecated use getfPlayer().getPlayer() instead.
-     */
-    @Deprecated
-    public Player getPlayer() {
-        return getfPlayer().getPlayer();
-    }
-
+    
     /**
      * Get the power loss message.
      *

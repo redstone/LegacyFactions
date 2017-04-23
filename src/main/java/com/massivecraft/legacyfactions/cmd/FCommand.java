@@ -1,5 +1,6 @@
 package com.massivecraft.legacyfactions.cmd;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,36 +19,27 @@ import java.util.List;
 
 public abstract class FCommand extends MCommand<Factions> {
 
+	@Deprecated
+	public Factions p = Factions.get();
+	
     public SimpleDateFormat sdf = new SimpleDateFormat(TL.DATE_FORMAT.toString());
 
-    public boolean disableOnLock;
+    // Due to safety reasons it defaults to disable on lock.
+    public boolean disableOnLock = true;
 
     public FPlayer fme;
     public Faction myFaction;
-    public boolean senderMustBeMember;
-    public boolean senderMustBeModerator;
-    public boolean senderMustBeAdmin;
+    public boolean senderMustBeMember = false;
+    public boolean senderMustBeModerator = false;
+    public boolean senderMustBeAdmin = false;
 
-    public boolean isMoneyCommand;
-
-    public FCommand() {
-        super(Factions.get());
-
-        // Due to safety reasons it defaults to disable on lock.
-        disableOnLock = true;
-
-        // The money commands must be disabled if money should not be used.
-        isMoneyCommand = false;
-
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
-    }
+    // The money commands must be disabled if money should not be used.
+    public boolean isMoneyCommand = false;
 
     @Override
     public void execute(CommandSender sender, List<String> args, List<MCommand<?>> commandChain) {
         if (sender instanceof Player) {
-            this.fme = FPlayerColl.getInstance().getByPlayer((Player) sender);
+            this.fme = FPlayerColl.get(sender);
             this.myFaction = this.fme.getFaction();
         } else {
             this.fme = null;
@@ -58,7 +50,7 @@ public abstract class FCommand extends MCommand<Factions> {
 
     @Override
     public boolean isEnabled() {
-        if (p.getLocked() && this.disableOnLock) {
+        if (Factions.get().isLocked() && this.disableOnLock) {
             msg("<b>Factions was locked by an admin. Please try again later.");
             return false;
         }
@@ -92,17 +84,17 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (!fme.hasFaction()) {
-            sender.sendMessage(p.txt.parse("<b>You are not member of any faction."));
+            sender.sendMessage(Factions.get().txt.parse("<b>You are not member of any faction."));
             return false;
         }
 
         if (this.senderMustBeModerator && !fme.getRole().isAtLeast(Role.MODERATOR)) {
-            sender.sendMessage(p.txt.parse("<b>Only faction moderators can %s.", this.getHelpShort()));
+            sender.sendMessage(Factions.get().txt.parse("<b>Only faction moderators can %s.", this.getHelpShort()));
             return false;
         }
 
         if (this.senderMustBeAdmin && !fme.getRole().isAtLeast(Role.ADMIN)) {
-            sender.sendMessage(p.txt.parse("<b>Only faction admins can %s.", this.getHelpShort()));
+            sender.sendMessage(Factions.get().txt.parse("<b>Only faction admins can %s.", this.getHelpShort()));
             return false;
         }
 
@@ -144,14 +136,16 @@ public abstract class FCommand extends MCommand<Factions> {
     // FPLAYER ======================
     public FPlayer strAsFPlayer(String name, FPlayer def, boolean msg) {
         FPlayer ret = def;
-
+        
         if (name != null) {
-            for (FPlayer fplayer : FPlayerColl.getInstance().getAllFPlayers()) {
-                if (fplayer.getName().equalsIgnoreCase(name)) {
-                    ret = fplayer;
-                    break;
-                }
-            }
+        	// Bukkit.getPlayer is case-insensitive and attempts to match
+        	// so we don't need our own loop for this
+        	Player player = Bukkit.getPlayer(name);
+        	if (player == null) return null;
+        	
+        	String id = player.getUniqueId().toString();
+        	
+        	ret = FPlayerColl.get(id);
         }
 
         if (msg && ret == null) {
@@ -252,7 +246,7 @@ public abstract class FCommand extends MCommand<Factions> {
 
     public boolean canIAdministerYou(FPlayer i, FPlayer you) {
         if (!i.getFaction().equals(you.getFaction())) {
-            i.sendMessage(p.txt.parse("%s <b>is not in the same faction as you.", you.describeTo(i, true)));
+            i.sendMessage(Factions.get().txt.parse("%s <b>is not in the same faction as you.", you.describeTo(i, true)));
             return false;
         }
 
@@ -261,15 +255,15 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (you.getRole().equals(Role.ADMIN)) {
-            i.sendMessage(p.txt.parse("<b>Only the faction admin can do that."));
+            i.sendMessage(Factions.get().txt.parse("<b>Only the faction admin can do that."));
         } else if (i.getRole().equals(Role.MODERATOR)) {
             if (i == you) {
                 return true; //Moderators can control themselves
             } else {
-                i.sendMessage(p.txt.parse("<b>Moderators can't control each other..."));
+                i.sendMessage(Factions.get().txt.parse("<b>Moderators can't control each other..."));
             }
         } else {
-            i.sendMessage(p.txt.parse("<b>You must be a faction moderator to do that."));
+            i.sendMessage(Factions.get().txt.parse("<b>You must be a faction moderator to do that."));
         }
 
         return false;

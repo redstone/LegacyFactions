@@ -1,9 +1,9 @@
 package com.massivecraft.legacyfactions.cmd;
 
-import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.Permission;
 import com.massivecraft.legacyfactions.Relation;
 import com.massivecraft.legacyfactions.TL;
+import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.util.LazyLocation;
 
@@ -27,9 +27,8 @@ public class CmdSetFWarp extends FCommand {
             return;
         }
 
-        int maxWarps = Factions.get().getConfig().getInt("max-warps", 5);
-        if (maxWarps <= myFaction.getWarps().size()) {
-            fme.msg(TL.COMMAND_SETFWARP_LIMIT, maxWarps);
+        if (Conf.warpsMax <= myFaction.warps().size()) {
+            fme.msg(TL.COMMAND_SETFWARP_LIMIT, Conf.warpsMax);
             return;
         }
 
@@ -37,14 +36,14 @@ public class CmdSetFWarp extends FCommand {
             return;
         }
 
-        String warp = argAsString(0);
-        LazyLocation loc = new LazyLocation(fme.getPlayer().getLocation());
-        myFaction.setWarp(warp, loc);
-        fme.msg(TL.COMMAND_SETFWARP_SET, warp);
+        String warpName = argAsString(0);
+        LazyLocation location = new LazyLocation(fme.getPlayer().getLocation());
+        myFaction.warps().setWarp(warpName, location);
+        fme.msg(TL.COMMAND_SETFWARP_SET, warpName);
     }
 
     private boolean transact(FPlayer player) {
-        return !Factions.get().getConfig().getBoolean("warp-cost.enabled", false) || player.isAdminBypassing() || payForCommand(Factions.get().getConfig().getDouble("warp-cost.setwarp", 5), TL.COMMAND_SETFWARP_TOSET.toString(), TL.COMMAND_SETFWARP_FORSET.toString());
+        return Conf.warpCost.get("set") == 0 || player.isAdminBypassing() || payForCommand(Conf.warpCost.get("set"), TL.COMMAND_SETFWARP_TOSET.toString(), TL.COMMAND_SETFWARP_FORSET.toString());
     }
 
     @Override

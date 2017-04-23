@@ -8,7 +8,8 @@ import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.FPlayerColl;
 import com.massivecraft.legacyfactions.entity.Faction;
-import com.massivecraft.legacyfactions.event.FPlayerJoinEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsChange;
+import com.massivecraft.legacyfactions.event.EventFactionsChange.ChangeReason;
 
 public class CmdAdmin extends FCommand {
 
@@ -58,7 +59,7 @@ public class CmdAdmin extends FCommand {
 
         // only perform a FPlayerJoinEvent when newLeader isn't actually in the faction
         if (fyou.getFaction() != targetFaction) {
-            FPlayerJoinEvent event = new FPlayerJoinEvent(FPlayerColl.getInstance().getByPlayer(me), targetFaction, FPlayerJoinEvent.PlayerJoinReason.LEADER);
+        	EventFactionsChange event = new EventFactionsChange(fme, fme.getFaction(), targetFaction, true, ChangeReason.LEADER);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 return;
@@ -83,7 +84,7 @@ public class CmdAdmin extends FCommand {
         msg(TL.COMMAND_ADMIN_PROMOTES, fyou.describeTo(fme, true));
 
         // Inform all players
-        for (FPlayer fplayer : FPlayerColl.getInstance().getOnlinePlayers()) {
+        for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
             fplayer.msg(TL.COMMAND_ADMIN_PROMOTED, senderIsConsole ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), fyou.describeTo(fplayer), targetFaction.describeTo(fplayer));
         }
     }

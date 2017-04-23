@@ -1,14 +1,18 @@
 package com.massivecraft.legacyfactions.cmd;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 
 import com.massivecraft.legacyfactions.*;
 import com.massivecraft.legacyfactions.entity.Board;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.Faction;
-import com.massivecraft.legacyfactions.event.LandUnclaimEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange;
+import com.massivecraft.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import com.massivecraft.legacyfactions.integration.vault.VaultEngine;
-import com.massivecraft.legacyfactions.util.SpiralTask;
+import com.massivecraft.legacyfactions.task.SpiralTask;
 
 public class CmdUnclaim extends FCommand {
 
@@ -32,8 +36,7 @@ public class CmdUnclaim extends FCommand {
     public void perform() {
         // Read and validate input
         int radius = this.argAsInt(0, 1); // Default to 1
-        final Faction forFaction = this.argAsFaction(1, myFaction); // Default to own
-
+        
         if (radius < 1) {
             msg(TL.COMMAND_CLAIM_INVALIDRADIUS);
             return;
@@ -100,14 +103,18 @@ public class CmdUnclaim extends FCommand {
         }
 
         if (fme.isAdminBypassing()) {
-            LandUnclaimEvent unclaimEvent = new LandUnclaimEvent(target, targetFaction, fme);
-            Bukkit.getServer().getPluginManager().callEvent(unclaimEvent);
-            if (unclaimEvent.isCancelled()) {
-                return false;
-            }
+            Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+            
+            transactions.put(target, targetFaction);
 
-            Board.getInstance().removeAt(target);
-
+        	EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Unclaim);
+        	
+        	if (event.isCancelled()) return false;
+        	
+        	for (FLocation location : event.getTransactions().keySet()) {
+                Board.getInstance().removeAt(location);
+        	}
+        	
             targetFaction.msg(TL.COMMAND_UNCLAIM_UNCLAIMED, fme.describeTo(targetFaction, true));
             msg(TL.COMMAND_UNCLAIM_UNCLAIMS);
 
@@ -131,12 +138,14 @@ public class CmdUnclaim extends FCommand {
             msg(TL.COMMAND_UNCLAIM_WRONGFACTION);
             return false;
         }
+        
+        Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
 
-        LandUnclaimEvent unclaimEvent = new LandUnclaimEvent(target, targetFaction, fme);
-        Bukkit.getServer().getPluginManager().callEvent(unclaimEvent);
-        if (unclaimEvent.isCancelled()) {
-            return false;
-        }
+        transactions.put(FLocation.valueOf(me.getLocation()), targetFaction);
+        
+        EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Unclaim);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) return false;
 
         if (VaultEngine.shouldBeUsed()) {
             double refund = VaultEngine.calculateClaimRefund(myFaction.getLandRounded());
@@ -152,13 +161,19 @@ public class CmdUnclaim extends FCommand {
             }
         }
 
-        Board.getInstance().removeAt(target);
-        myFaction.msg(TL.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fme.describeTo(myFaction, true));
+        event.getTransactions().entrySet().stream().forEach(entry -> {
+        	FLocation thisLocation = entry.getKey();
+        	Faction thisFaction = entry.getValue();
+        	
+        	Board.getInstance().removeAt(entry.getKey());
+        	thisFaction.msg(TL.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fme.describeTo(myFaction, true));
+        	
 
-        if (Conf.logLandUnclaims) {
-            Factions.get().log(TL.COMMAND_UNCLAIM_LOG.format(fme.getName(), target.getCoordString(), targetFaction.getTag()));
-        }
-
+            if (!Conf.logLandUnclaims) return;
+            Factions.get().log(TL.COMMAND_UNCLAIM_LOG.format(fme.getName(), thisLocation.getCoordString(), thisFaction.getTag()));
+            
+        });
+        
         return true;
     }
 

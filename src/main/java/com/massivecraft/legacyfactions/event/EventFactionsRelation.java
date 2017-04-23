@@ -9,7 +9,7 @@ import com.massivecraft.legacyfactions.entity.Faction;
 /**
  * Event called when a Faction relation is called.
  */
-public class FactionRelationEvent extends Event {
+public class EventFactionsRelation extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
@@ -18,7 +18,7 @@ public class FactionRelationEvent extends Event {
     private Relation foldrel;
     private Relation frel;
 
-    public FactionRelationEvent(Faction sender, Faction target, Relation oldrel, Relation rel) {
+    public EventFactionsRelation(Faction sender, Faction target, Relation oldrel, Relation rel) {
         fsender = sender;
         ftarget = target;
         foldrel = oldrel;

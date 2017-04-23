@@ -10,6 +10,7 @@ import com.massivecraft.legacyfactions.entity.FPlayer;
 import com.massivecraft.legacyfactions.entity.Faction;
 import com.massivecraft.legacyfactions.entity.FactionColl;
 import com.massivecraft.legacyfactions.integration.vault.VaultEngine;
+import com.massivecraft.legacyfactions.integration.vault.VaultIntegration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.UUID;
  * Link between config and in-game messages<br> Changes based on faction / player<br> Interfaces the config lists with
  * {} variables to plugin
  */
-public enum TagReplacer {
+public enum TagReplacerUtil {
 
     /**
      * Fancy variables, used by f show
@@ -95,7 +96,7 @@ public enum TagReplacer {
         }
     }
 
-    TagReplacer(TagType type, String tag) {
+    TagReplacerUtil(TagType type, String tag) {
         this.type = type;
         this.tag = tag;
     }
@@ -122,7 +123,7 @@ public enum TagReplacer {
                 }
                 return TL.GENERIC_INFINITY.toString();
             case MAX_WARPS:
-                return String.valueOf(Factions.get().getConfig().getInt("max-warps", 5));
+                return String.valueOf(Conf.warpsMax);
             default:
             	return null;
         }
@@ -155,7 +156,7 @@ public enum TagReplacer {
                     String humanized = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - fp.getLastLoginTime(), true, true) + TL.COMMAND_STATUS_AGOSUFFIX;
                     return fp.isOnline() ? ChatColor.GREEN + TL.COMMAND_STATUS_ONLINE.toString() : (System.currentTimeMillis() - fp.getLastLoginTime() < 432000000 ? ChatColor.YELLOW + humanized : ChatColor.RED + humanized);
                 case PLAYER_GROUP:
-                    return Factions.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fp.getId())));
+                    return VaultIntegration.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fp.getId())));
                 case PLAYER_BALANCE:
                     return VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(fp) : TL.ECON_OFF.format("balance");
                 case PLAYER_POWER:
@@ -193,7 +194,7 @@ public enum TagReplacer {
                 FPlayer fAdmin = fac.getFPlayerAdmin();
                 return fAdmin == null ? "Server" : fAdmin.getName().substring(0, fAdmin.getName().length() > 14 ? 13 : fAdmin.getName().length());
             case WARPS:
-                return String.valueOf(fac.getWarps().size());
+                return String.valueOf(fac.warps().size());
             case CREATE_DATE:
                 return TL.sdf.format(fac.getFoundedDate());
             case RAIDABLE:
@@ -242,9 +243,9 @@ public enum TagReplacer {
      *
      * @return a list of all the variables with this type
      */
-    protected static List<TagReplacer> getByType(TagType type) {
-        List<TagReplacer> tagReplacers = new ArrayList<TagReplacer>();
-        for (TagReplacer tagReplacer : TagReplacer.values()) {
+    protected static List<TagReplacerUtil> getByType(TagType type) {
+        List<TagReplacerUtil> tagReplacers = new ArrayList<TagReplacerUtil>();
+        for (TagReplacerUtil tagReplacer : TagReplacerUtil.values()) {
             if (type == TagType.FANCY) {
                 if (tagReplacer.type == TagType.FANCY) {
                     tagReplacers.add(tagReplacer);

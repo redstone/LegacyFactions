@@ -20,6 +20,9 @@ package com.massivecraft.legacyfactions;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.massivecraft.legacyfactions.adapter.EnumAdapter;
+import com.massivecraft.legacyfactions.adapter.MapFlocationSetAdapter;
+import com.massivecraft.legacyfactions.adapter.LazyLocationAdapter;
 import com.massivecraft.legacyfactions.cmd.CmdAutoHelp;
 import com.massivecraft.legacyfactions.cmd.FCmdRoot;
 import com.massivecraft.legacyfactions.entity.Board;
@@ -36,11 +39,9 @@ import com.massivecraft.legacyfactions.integration.playervaults.PlayerVaultsInte
 import com.massivecraft.legacyfactions.integration.vault.VaultIntegration;
 import com.massivecraft.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import com.massivecraft.legacyfactions.listeners.*;
+import com.massivecraft.legacyfactions.task.AutoLeaveTask;
 import com.massivecraft.legacyfactions.util.*;
 
-import net.milkbowl.vault.permission.Permission;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -68,31 +69,40 @@ public class Factions extends FactionsPluginBase {
 	// FIELDS
 	// ----------------------------------------
 
+	private GsonBuilder gsonBuilder = null;
+
 	public Permission perms = null;
+	private Integer taskAutoLeave = null;
+	
 	private boolean locked = false;
-	private Integer AutoLeaveTask = null;
+	
 	public FCmdRoot cmdBase;
 	public CmdAutoHelp cmdAutoHelp;
-	private GsonBuilder gsonBuilder = null;
 	
 	// ----------------------------------------
 	// METHODS
 	// ----------------------------------------
 
-	public boolean getLocked() {
+	/**
+	 * is saving locked
+	 * @return true if locked
+	 */
+	public boolean isLocked() {
 		return this.locked;
 	}
-
-	public void setLocked(boolean val) {
-		this.locked = val;
-		this.setAutoSave(val);
+	
+	/**
+	 * set lock state
+	 * @param val 
+	 */
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+		this.setAutoSave(locked);
 	}
 	
 	@Override
 	public void onEnable() {
-		if (!preEnable()) {
-			return;
-		}
+		if (!preEnable()) return;
 		
 		this.loadSuccessful = false;
 		saveDefaultConfig();
@@ -100,9 +110,9 @@ public class Factions extends FactionsPluginBase {
 		// Load Conf from disk
 		Conf.load();
 		
-		FPlayerColl.getInstance().load();
+		FPlayerColl.load();
 		FactionColl.getInstance().load();
-		for (FPlayer fPlayer : FPlayerColl.getInstance().getAllFPlayers()) {
+		for (FPlayer fPlayer : FPlayerColl.getAll()) {
 			Faction faction = FactionColl.getInstance().getFactionById(fPlayer.getFactionId());
 			if (faction == null) {
 				log("Invalid faction id on " + fPlayer.getName() + ":" + fPlayer.getFactionId());
@@ -152,9 +162,9 @@ public class Factions extends FactionsPluginBase {
 			Type mapFLocToStringSetType = new TypeToken<Map<FLocation, Set<String>>>() { }.getType();
 			
 			this.gsonBuilder = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
-					.registerTypeAdapter(LazyLocation.class, new MyLocationTypeAdapter())
-					.registerTypeAdapter(mapFLocToStringSetType, new MapFLocToStringSetTypeAdapter())
-					.registerTypeAdapterFactory(EnumTypeAdapter.ENUM_FACTORY);
+					.registerTypeAdapter(LazyLocation.class, new LazyLocationAdapter())
+					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter())
+					.registerTypeAdapterFactory(EnumAdapter.ENUM_FACTORY);
 		}
 
 		return this.gsonBuilder;
@@ -166,25 +176,25 @@ public class Factions extends FactionsPluginBase {
 		if (this.loadSuccessful) {
 			Conf.save();
 		}
-		if (AutoLeaveTask != null) {
-			this.getServer().getScheduler().cancelTask(AutoLeaveTask);
-			AutoLeaveTask = null;
+		if (taskAutoLeave != null) {
+			this.getServer().getScheduler().cancelTask(taskAutoLeave);
+			taskAutoLeave = null;
 		}
 
 		super.onDisable();
 	}
 
 	public void startAutoLeaveTask(boolean restartIfRunning) {
-		if (AutoLeaveTask != null) {
+		if (taskAutoLeave != null) {
 			if (!restartIfRunning) {
 				return;
 			}
-			this.getServer().getScheduler().cancelTask(AutoLeaveTask);
+			this.getServer().getScheduler().cancelTask(taskAutoLeave);
 		}
 
 		if (Conf.autoLeaveRoutineRunsEveryXMinutes > 0.0) {
 			long ticks = (long) (20 * 60 * Conf.autoLeaveRoutineRunsEveryXMinutes);
-			AutoLeaveTask = getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoLeaveTask(), ticks, ticks);
+			taskAutoLeave = getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoLeaveTask(), ticks, ticks);
 		}
 	}
 
@@ -237,7 +247,7 @@ public class Factions extends FactionsPluginBase {
 		if (player == null) {
 			return false;
 		}
-		FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+		FPlayer me = FPlayerColl.get(player);
 
 		return me != null && me.getChatMode().isAtLeast(ChatMode.ALLIANCE);
 	}
@@ -263,7 +273,7 @@ public class Factions extends FactionsPluginBase {
 			return tag;
 		}
 
-		FPlayer me = FPlayerColl.getInstance().getByPlayer(speaker);
+		FPlayer me = FPlayerColl.get(speaker);
 		if (me == null) {
 			return tag;
 		}
@@ -272,7 +282,7 @@ public class Factions extends FactionsPluginBase {
 		if (listener == null || !Conf.chatTagRelationColored) {
 			tag = me.getChatTag().trim();
 		} else {
-			FPlayer you = FPlayerColl.getInstance().getByPlayer(listener);
+			FPlayer you = FPlayerColl.get(listener);
 			if (you == null) {
 				tag = me.getChatTag().trim();
 			} else  // everything checks out, give the colored tag
@@ -293,7 +303,7 @@ public class Factions extends FactionsPluginBase {
 			return "";
 		}
 
-		FPlayer me = FPlayerColl.getInstance().getByPlayer(player);
+		FPlayer me = FPlayerColl.get(player);
 		if (me == null) {
 			return "";
 		}
@@ -330,10 +340,6 @@ public class Factions extends FactionsPluginBase {
 		return players;
 	}
 	
-	public String getPrimaryGroup(OfflinePlayer player) {
-		return perms == null || !perms.hasGroupSupport() ? " " : perms.getPrimaryGroup(Bukkit.getWorlds().get(0).toString(), player);
-	}
-
 	public void debug(Level level, String s) {
 		if (getConfig().getBoolean("debug", false)) {
 			getLogger().log(level, s);

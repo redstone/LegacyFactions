@@ -30,11 +30,11 @@ public abstract class FactionColl {
     	
     	// Quick conversions
     	if (o instanceof Player) {
-    		o = FPlayerColl.getInstance().getByPlayer((Player) o);
+    		o = FPlayerColl.instance.getByPlayer((Player) o);
     	}
     	
     	if (o instanceof OfflinePlayer) {
-    		o = FPlayerColl.getInstance().getByOfflinePlayer((OfflinePlayer) o);
+    		o = FPlayerColl.instance.getByOfflinePlayer((OfflinePlayer) o);
     	}
     	
     	// String can be either id or tag

@@ -1,6 +1,7 @@
 package com.massivecraft.legacyfactions.integration.vault;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.integration.Integration;
@@ -29,5 +30,10 @@ public class VaultIntegration  extends Integration {
 	public Boolean hasPermissions() {
 		return Factions.get().perms != null;
 	}
+	
+	public String getPrimaryGroup(OfflinePlayer player) {
+		return VaultEngine.perms == null || !VaultEngine.perms.hasGroupSupport() ? " " : VaultEngine.perms.getPrimaryGroup(Bukkit.getWorlds().get(0).toString(), player);
+	}
+
 
 }

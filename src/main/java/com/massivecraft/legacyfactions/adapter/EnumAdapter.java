@@ -1,4 +1,4 @@
-package com.massivecraft.legacyfactions.util;
+package com.massivecraft.legacyfactions.adapter;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {
+public final class EnumAdapter<T extends Enum<T>> extends TypeAdapter<T> {
 
     private final Map<String, T> nameToConstant = new HashMap<String, T>();
     private final Map<T, String> constantToName = new HashMap<T, String>();
 
-    public EnumTypeAdapter(Class<T> classOfT) {
+    public EnumAdapter(Class<T> classOfT) {
         try {
             for (T constant : classOfT.getEnumConstants()) {
                 String name = constant.name();
@@ -59,7 +59,7 @@ public final class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {
                 if (!rawType.isEnum()) {
                     rawType = rawType.getSuperclass(); // handle anonymous subclasses
                 }
-                return (TypeAdapter<T>) new EnumTypeAdapter(rawType);
+                return (TypeAdapter<T>) new EnumAdapter(rawType);
             }
         };
     }

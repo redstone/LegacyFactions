@@ -9,16 +9,15 @@ import com.massivecraft.legacyfactions.Relation;
 import com.massivecraft.legacyfactions.TL;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.Faction;
-import com.massivecraft.legacyfactions.event.FactionRelationEvent;
-import com.massivecraft.legacyfactions.event.FactionRelationWishEvent;
+import com.massivecraft.legacyfactions.event.EventFactionsRelation;
+import com.massivecraft.legacyfactions.event.EventFactionsRelationChange;
 import com.massivecraft.legacyfactions.scoreboards.FTeamWrapper;
 
-public abstract class FRelationCommand extends FCommand {
+public abstract class FCommandRelation extends FCommand {
 
     public Relation targetRelation;
 
-    public FRelationCommand() {
-        super();
+    public FCommandRelation() {
         this.requiredArgs.add("faction tag");
         //this.optionalArgs.put("player name", "you");
 
@@ -58,7 +57,7 @@ public abstract class FRelationCommand extends FCommand {
             return;
         }
         Relation oldRelation = myFaction.getRelationTo(them, true);
-        FactionRelationWishEvent wishEvent = new FactionRelationWishEvent(fme, myFaction, them, oldRelation, targetRelation);
+        EventFactionsRelationChange wishEvent = new EventFactionsRelationChange(fme, myFaction, them, oldRelation, targetRelation);
         Bukkit.getPluginManager().callEvent(wishEvent);
         if (wishEvent.isCancelled()) {
             return;
@@ -77,7 +76,7 @@ public abstract class FRelationCommand extends FCommand {
         // if the relation change was successful
         if (targetRelation.value == currentRelation.value) {
             // trigger the faction relation event
-            FactionRelationEvent relationEvent = new FactionRelationEvent(myFaction, them, oldRelation, currentRelation);
+            EventFactionsRelation relationEvent = new EventFactionsRelation(myFaction, them, oldRelation, currentRelation);
             Bukkit.getServer().getPluginManager().callEvent(relationEvent);
 
             them.msg(TL.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + myFaction.getTag());

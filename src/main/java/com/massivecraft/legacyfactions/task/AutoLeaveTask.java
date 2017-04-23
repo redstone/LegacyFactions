@@ -1,4 +1,4 @@
-package com.massivecraft.legacyfactions.util;
+package com.massivecraft.legacyfactions.task;
 
 import com.massivecraft.legacyfactions.Factions;
 import com.massivecraft.legacyfactions.entity.Conf;
