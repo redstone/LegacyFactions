@@ -23,8 +23,8 @@ import com.google.gson.reflect.TypeToken;
 import com.massivecraft.legacyfactions.adapter.EnumAdapter;
 import com.massivecraft.legacyfactions.adapter.MapFlocationSetAdapter;
 import com.massivecraft.legacyfactions.adapter.LazyLocationAdapter;
-import com.massivecraft.legacyfactions.cmd.CmdAutoHelp;
-import com.massivecraft.legacyfactions.cmd.FCmdRoot;
+import com.massivecraft.legacyfactions.cmd.CmdFactionsAutohelp;
+import com.massivecraft.legacyfactions.cmd.CmdFactions;
 import com.massivecraft.legacyfactions.entity.Board;
 import com.massivecraft.legacyfactions.entity.Conf;
 import com.massivecraft.legacyfactions.entity.FPlayer;
@@ -76,8 +76,8 @@ public class Factions extends FactionsPluginBase {
 	
 	private boolean locked = false;
 	
-	public FCmdRoot cmdBase;
-	public CmdAutoHelp cmdAutoHelp;
+	public CmdFactions cmdBase;
+	public CmdFactionsAutohelp cmdAutoHelp;
 	
 	// ----------------------------------------
 	// METHODS
@@ -125,8 +125,8 @@ public class Factions extends FactionsPluginBase {
 		Board.getInstance().clean();
 
 		// Add base commands.
-		this.cmdBase = new FCmdRoot();
-		this.cmdAutoHelp = new CmdAutoHelp();
+		this.cmdBase = new CmdFactions();
+		this.cmdAutoHelp = new CmdFactionsAutohelp();
 		this.getBaseCommands().add(cmdBase);
 
 		// Add our integrations.
