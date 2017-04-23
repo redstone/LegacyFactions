@@ -174,7 +174,7 @@ public enum TL {
     COMMAND_DISBAND_DESCRIPTION("Disband a faction"),
 
     COMMAND_FWARP_CLICKTOWARP("Click to warp!"),
-    COMMAND_FWARP_COMMANDFORMAT("<i>/f warp <warpname>"),
+    COMMAND_FWARP_COMMANDFORMAT("<i>/f warp <warpname> [password]"),
     COMMAND_FWARP_WARPED("<i>Warped to <a>%1$s"),
     COMMAND_FWARP_INVALID("<i>Couldn't find warp <a>%1$s"),
     COMMAND_FWARP_INVALID_PASSWORD("<i>This warp requires a valid password."),
