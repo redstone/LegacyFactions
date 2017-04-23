@@ -55,6 +55,9 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     }
 
     public String getHelpShort() {
+    	return this.getHelpShort(true);
+    }
+    public String getHelpShort(Boolean colours) {
         if (this.helpShort == null) {
             return getUsageTranslation().toString();
         }
@@ -184,8 +187,14 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     // -------------------------------------------- //
 
     public String getUseageTemplate(List<MCommand<?>> commandChain, boolean addShortHelp) {
+    	return getUseageTemplate(commandChain, addShortHelp, true);
+    }
+    public String getUseageTemplate(List<MCommand<?>> commandChain, boolean addShortHelp, boolean colours) {
         StringBuilder ret = new StringBuilder();
-        ret.append(Factions.get().txt.parseTags("<c>"));
+        
+        if (colours) ret.append(Factions.get().txt.parseTags("<c>"));
+        
+        
         ret.append('/');
 
         for (MCommand<?> mc : commandChain) {
@@ -212,13 +221,21 @@ public abstract class MCommand<T extends FactionsPluginBase> {
         }
 
         if (args.size() > 0) {
-            ret.append(Factions.get().txt.parseTags("<p> "));
+        	if (colours) {
+        		ret.append(Factions.get().txt.parseTags("<p> "));
+        	} else {
+        		ret.append(" ");
+        	}
             ret.append(TextUtil.implode(args, " "));
         }
 
         if (addShortHelp) {
-            ret.append(Factions.get().txt.parseTags(" <i>"));
-            ret.append(this.getHelpShort());
+        	if (colours)  {
+        		ret.append(Factions.get().txt.parseTags(" <i>"));
+        	} else {
+        		ret.append(" ");
+        	}
+            ret.append(this.getHelpShort(false));
         }
 
         return ret.toString();
@@ -227,6 +244,10 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     public String getUseageTemplate(boolean addShortHelp) {
         return getUseageTemplate(this.commandChain, addShortHelp);
     }
+    public String getUseageTemplate(boolean addShortHelp, boolean colours) {
+        return getUseageTemplate(this.commandChain, addShortHelp, colours);
+    }
+    
 
     public String getUseageTemplate() {
         return getUseageTemplate(false);

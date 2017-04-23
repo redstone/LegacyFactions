@@ -163,16 +163,11 @@ public class TextUtil {
         return material.toString().replace('_', ' ').toLowerCase();
     }
 
-    @SuppressWarnings("deprecation")
-	public static String getMaterialName(int materialId) {
-        return getMaterialName(Material.getMaterial(materialId));
-    }
-
     // -------------------------------------------- //
     // Paging and chrome-tools like titleize
     // -------------------------------------------- //
 
-    private final static String titleizeLine = repeat("_", 52);
+    private final static String titleizeLine = repeat("_", 50);
     private final static int titleizeBalance = -1;
 
     public String titleize(String str) {
