@@ -49,7 +49,10 @@ public class CmdFWarp extends FCommand {
         
         final String warpName = argAsString(0);
         
-        String warpPassword = argAsString(1).toLowerCase();
+        String warpPassword = argAsString(1, null);
+        if (warpPassword != null) {
+        	warpPassword = warpPassword.toLowerCase();
+        }
         
         if (myFaction.warps().get(warpName).isPresent()) {
         	if (myFaction.warps().get(warpName).get().hasPassword() && !myFaction.warps().get(warpName).get().isPassword(warpPassword)) {
