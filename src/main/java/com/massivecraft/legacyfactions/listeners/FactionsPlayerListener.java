@@ -563,23 +563,23 @@ public class FactionsPlayerListener implements Listener {
         return false;
     }
 
-    // TODO: hook into plugins instead of this method
+	// -------------------------------------------------- //
+	// BAN CHECK
+	// -------------------------------------------------- //    
+    
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onPlayerKick(PlayerKickEvent event) {
+    public void removeDataWhenBanned(PlayerKickEvent event) {
         FPlayer badGuy = FPlayerColl.get(event.getPlayer());
-        if (badGuy == null) {
-            return;
-        }
+        if (badGuy == null) return;
         
-        // if player was banned (not just kicked), get rid of their stored info
-        if (Conf.removePlayerDataWhenBanned && event.getReason().equals("Banned by admin.")) {
-            if (badGuy.getRole() == Role.ADMIN) {
-                badGuy.getFaction().promoteNewLeader();
-            }
-
-            badGuy.leave(false);
-            badGuy.remove();
+        if (!Conf.removePlayerDataWhenBanned || !event.getPlayer().isBanned()) return;
+        
+        if (badGuy.getRole() == Role.ADMIN) {
+            badGuy.getFaction().promoteNewLeader();
         }
+
+        badGuy.leave(false);
+        badGuy.remove();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
