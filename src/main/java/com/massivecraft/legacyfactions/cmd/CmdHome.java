@@ -47,7 +47,7 @@ public class CmdHome extends FCommand {
 		
 		Faction faction = fme.getFaction();
 		String other = this.argAsString(0, null);
-		if (other != null && Permission.HOME_ANY.has(me)) {
+		if (other != null && (Permission.HOME_ANY.has(me) || fme.isAdminBypassing())) {
 			String type = this.argAsString(1, null);
 			if (type == null) {
 				fme.msg("<b>Please specify if it is a faction or player");
