@@ -9,24 +9,17 @@ import java.lang.reflect.Type;
 
 public class LazyLocationAdapter implements JsonDeserializer<LazyLocation>, JsonSerializer<LazyLocation> {
 
-    private static final String WORLD = "world";
-    private static final String X = "x";
-    private static final String Y = "y";
-    private static final String Z = "z";
-    private static final String YAW = "yaw";
-    private static final String PITCH = "pitch";
-
     @Override
     public LazyLocation deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         try {
             JsonObject obj = json.getAsJsonObject();
 
-            String worldName = obj.get(WORLD).getAsString();
-            double x = obj.get(X).getAsDouble();
-            double y = obj.get(Y).getAsDouble();
-            double z = obj.get(Z).getAsDouble();
-            float yaw = obj.get(YAW).getAsFloat();
-            float pitch = obj.get(PITCH).getAsFloat();
+            String worldName = obj.get("world").getAsString();
+            double x = obj.get("x").getAsDouble();
+            double y = obj.get("y").getAsDouble();
+            double z = obj.get("z").getAsDouble();
+            float yaw = obj.get("yaw").getAsFloat();
+            float pitch = obj.get("pitch").getAsFloat();
 
             return new LazyLocation(worldName, x, y, z, yaw, pitch);
 
@@ -42,12 +35,12 @@ public class LazyLocationAdapter implements JsonDeserializer<LazyLocation>, Json
         JsonObject obj = new JsonObject();
 
         try {
-            obj.addProperty(WORLD, src.getWorldName());
-            obj.addProperty(X, src.getX());
-            obj.addProperty(Y, src.getY());
-            obj.addProperty(Z, src.getZ());
-            obj.addProperty(YAW, src.getYaw());
-            obj.addProperty(PITCH, src.getPitch());
+            obj.addProperty("world", src.getWorldName());
+            obj.addProperty("x", src.getX());
+            obj.addProperty("y", src.getY());
+            obj.addProperty("z", src.getZ());
+            obj.addProperty("yaw", src.getYaw());
+            obj.addProperty("pitch", src.getPitch());
 
             return obj;
         } catch (Exception ex) {
