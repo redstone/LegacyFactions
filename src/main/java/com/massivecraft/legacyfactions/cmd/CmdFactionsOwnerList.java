@@ -45,7 +45,7 @@ public class CmdFactionsOwnerList extends FCommand {
                 fme.msg(TL.COMMAND_OWNERLIST_WRONGFACTION);
                 return;
             }
-            //TODO: This code won't ever be called.
+            
             myFaction = Board.getInstance().getFactionAt(flocation);
             if (!myFaction.isNormal()) {
                 fme.msg(TL.COMMAND_OWNERLIST_NOTCLAIMED);
