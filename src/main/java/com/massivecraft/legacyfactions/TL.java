@@ -177,6 +177,7 @@ public enum TL {
     COMMAND_FWARP_COMMANDFORMAT("<i>/f warp <warpname>"),
     COMMAND_FWARP_WARPED("<i>Warped to <a>%1$s"),
     COMMAND_FWARP_INVALID("<i>Couldn't find warp <a>%1$s"),
+    COMMAND_FWARP_INVALID_PASSWORD("<i>This warp requires a valid password."),
     COMMAND_FWARP_TOWARP("to warp"),
     COMMAND_FWARP_FORWARPING("for warping"),
     COMMAND_FWARP_WARPS("Warps: "),
@@ -422,6 +423,7 @@ public enum TL {
     COMMAND_SETFWARP_TOSET("to set warp"),
     COMMAND_SETFWARP_FORSET("for setting warp"),
     COMMAND_SETFWARP_DESCRIPTION("Set a faction warp"),
+    COMMAND_SETFWARP_NOPASSWORD("<b>Sorry, you don't have permission to create warps with passwords."),
 
     COMMAND_SETHOME_DISABLED("<b>Sorry, Faction homes are disabled on this server."),
     COMMAND_SETHOME_NOTCLAIMED("<b>Sorry, your faction home can only be set inside your own claimed territory."),

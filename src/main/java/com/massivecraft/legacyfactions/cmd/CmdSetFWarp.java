@@ -13,7 +13,10 @@ public class CmdSetFWarp extends FCommand {
         super();
         this.aliases.add("setwarp");
         this.aliases.add("sw");
+        
         this.requiredArgs.add("warp name");
+        this.optionalArgs.put("password", "password");
+        
         this.senderMustBeMember = true;
         this.senderMustBeModerator = true;
         this.senderMustBePlayer = true;
@@ -32,9 +35,18 @@ public class CmdSetFWarp extends FCommand {
             return;
         }
 
-        if (!transact(fme)) {
-            return;
+        String warpPassword = argAsString(1);
+        if (warpPassword != null && warpPassword.trim() != "") {
+        	
+        	if (!this.fme.getPlayer().hasPermission("warp.passwords")) {
+        		fme.msg(TL.COMMAND_SETFWARP_NOPASSWORD);
+        		return;
+        	}
+        	
+        	warpPassword = warpPassword.toLowerCase().trim();
         }
+        
+        if (!transact(fme)) return;
 
         String warpName = argAsString(0);
         LazyLocation location = new LazyLocation(fme.getPlayer().getLocation());

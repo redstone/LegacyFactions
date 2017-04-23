@@ -33,4 +33,12 @@ public class FactionWarp {
 		this.faction.asMemoryFaction().removeWarp(this.getName());
 	}
 	
+	public Boolean hasPassword() {
+		return this.faction.asMemoryFaction().getWarpPassword(this.getName()).isPresent();
+	}
+	
+	public Boolean isPassword(String password) {
+		return this.faction.asMemoryFaction().getWarpPassword(this.getName()).get() == password.toLowerCase();
+	}
+	
 }

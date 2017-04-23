@@ -38,13 +38,21 @@ public class FactionWarps {
 		
 		return Optional.of(warp);
 	}
-	
+
 	public void setWarp(String name, LazyLocation location) {
-		this.faction.asMemoryFaction().setWarp(name, location);
+		this.setWarp(name, location, null);
+	}
+	
+	public void setWarp(String name, LazyLocation location, String password) {
+		this.faction.asMemoryFaction().setWarp(name, location, password);
 	}
 	
 	public void setWarp(String name, Location location) {
-		this.faction.asMemoryFaction().setWarp(name, new LazyLocation(location));
+		this.setWarp(name, location, null);
+	}
+	
+	public void setWarp(String name, Location location, String password) {
+		this.faction.asMemoryFaction().setWarp(name, new LazyLocation(location), password);
 	}
 	
 	public boolean delete(String name) {

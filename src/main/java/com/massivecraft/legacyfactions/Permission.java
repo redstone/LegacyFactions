@@ -76,12 +76,14 @@ public enum Permission {
     VERSION("version"),
     SCOREBOARD("scoreboard"),
     SEECHUNK("seechunk"),
-    SETWARP("setwarp"),
+    WARP("warp"),
+    SETWARP("warp.set"),
+    WARPPASSWORD("warp.passwords"),
     TOP("top"),
     VAULT("vault"),
     SETMAXVAULTS("setmaxvaults"),
-    WARP("warp");
-
+    ;
+	
     public final String node;
 
     Permission(final String node) {
