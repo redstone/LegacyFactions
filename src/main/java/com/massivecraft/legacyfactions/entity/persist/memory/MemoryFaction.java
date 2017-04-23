@@ -93,12 +93,12 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     public Optional<String> getWarpPassword(String warpName) {
     	if (!this.warpPasswords.containsKey(warpName)) return Optional.empty();
     	
-    	return Optional.of(this.warpPasswords.get(warpName));
+    	return Optional.of(this.warpPasswords.get(warpName).toLowerCase());
     }
 
     public void setWarp(String name, LazyLocation loc, String password) {
     	if (password != null) {
-    		this.warpPasswords.put(name, password);
+    		this.warpPasswords.put(name, password.toLowerCase());
     	}
     	
         this.warps.put(name, loc);
@@ -109,11 +109,17 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public boolean removeWarp(String name) {
-        return warps.remove(name) != null;
+        if (this.warps.remove(name) == null) return false;
+        
+        if (this.warpPasswords.contains(name)) this.warpPasswords.remove(name);
+        
+        return true;
+        
     }
 
     public void clearWarps() {
-        warps.clear();
+        this.warps.clear();
+        this.warpPasswords.clear();
     }
 
     public int getMaxVaults() {

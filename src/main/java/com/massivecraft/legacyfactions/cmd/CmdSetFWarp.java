@@ -50,7 +50,7 @@ public class CmdSetFWarp extends FCommand {
 
         String warpName = argAsString(0);
         LazyLocation location = new LazyLocation(fme.getPlayer().getLocation());
-        myFaction.warps().setWarp(warpName, location);
+        myFaction.warps().setWarp(warpName, location, warpPassword);
         fme.msg(TL.COMMAND_SETFWARP_SET, warpName);
     }
 

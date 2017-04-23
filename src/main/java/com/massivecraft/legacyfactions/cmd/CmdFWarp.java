@@ -42,7 +42,7 @@ public class CmdFWarp extends FCommand {
             return;
             
         }
-        if (args.size() > 1) {
+        if (args.size() > 2) {
             fme.msg(TL.COMMAND_FWARP_COMMANDFORMAT);
             return;
         }
@@ -55,7 +55,7 @@ public class CmdFWarp extends FCommand {
         }
         
         if (myFaction.warps().get(warpName).isPresent()) {
-        	if (myFaction.warps().get(warpName).get().hasPassword() && !myFaction.warps().get(warpName).get().isPassword(warpPassword)) {
+        	if (myFaction.warps().get(warpName).get().hasPassword() && (warpPassword == null || !myFaction.warps().get(warpName).get().isPassword(warpPassword))) {
         		fme.msg(TL.COMMAND_FWARP_INVALID_PASSWORD);
         		return;
         	}
