@@ -1,5 +1,5 @@
 /**
- *   A maintained version of the Factions fork FactionsUUID.
+ *   A high-performance maintained version of Factions 1.6.
  *   Copyright (C) Olof Larsson 2011, and contributors 
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -58,17 +58,17 @@ import java.util.logging.Level;
 
 public class Factions extends FactionsPluginBase {
 
-	// ----------------------------------------
-	// INSTANCE & CONSTRUCT
-	// ----------------------------------------
+	// -------------------------------------------------- //
+    // INSTANCE & CONSTRUCT 
+	// -------------------------------------------------- //
 	
 	private static Factions instance;
 	public Factions() { instance = this; }
 	public static Factions get() { return instance; }
 	
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// FIELDS
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
 	private GsonBuilder gsonBuilder = null;
 
@@ -80,9 +80,9 @@ public class Factions extends FactionsPluginBase {
 	public CmdFactions cmdBase;
 	public CmdFactionsAutohelp cmdAutoHelp;
 	
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// METHODS
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
 	/**
 	 * is saving locked
