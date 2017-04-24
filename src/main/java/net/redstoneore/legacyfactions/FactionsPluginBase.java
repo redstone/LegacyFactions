@@ -237,11 +237,11 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 
     // These are not supposed to be used directly.
     // They are loaded and used through the TextUtil instance for the plugin.
-    public Map<String, String> rawTags = new HashMap<String, String>();
+    public Map<String, String> rawTags = new HashMap<>();
 
     public void addRawTags() {
     	if (this.rawTags == null) {
-    		this.rawTags = new HashMap<String, String>();
+    		this.rawTags = new HashMap<>();
     	}
         this.rawTags.put("l", "<green>"); // logo
         this.rawTags.put("a", "<gold>"); // art

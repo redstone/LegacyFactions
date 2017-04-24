@@ -321,7 +321,7 @@ public class Factions extends FactionsPluginBase {
 
 	// Get a list of all players in the specified faction
 	public Set<String> getPlayersInFaction(String factionTag) {
-		Set<String> players = new HashSet<String>();
+		Set<String> players = new HashSet<>();
 		Faction faction = FactionColl.get().getByTag(factionTag);
 		if (faction != null) {
 			for (FPlayer fplayer : faction.getFPlayers()) {
@@ -333,7 +333,7 @@ public class Factions extends FactionsPluginBase {
 
 	// Get a list of all online players in the specified faction
 	public Set<String> getOnlinePlayersInFaction(String factionTag) {
-		Set<String> players = new HashSet<String>();
+		Set<String> players = new HashSet<>();
 		Faction faction = FactionColl.get().getByTag(factionTag);
 		if (faction != null) {
 			for (FPlayer fplayer : faction.getFPlayersWhereOnline(true)) {

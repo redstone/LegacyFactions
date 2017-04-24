@@ -31,7 +31,7 @@ public class FactionWarps {
 	// -------------------------------------------------- //
 
 	public Collection<FactionWarp> getAll() {
-		Collection<FactionWarp> all = new ArrayList<FactionWarp>();
+		Collection<FactionWarp> all = new ArrayList<>();
 		
 		for (Entry<String, LazyLocation> entry : faction.asMemoryFaction().getAllWarps().entrySet()) {
 			FactionWarp warp = new FactionWarp(faction, entry.getKey(), entry.getValue());

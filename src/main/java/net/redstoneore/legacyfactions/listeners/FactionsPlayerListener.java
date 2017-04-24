@@ -129,7 +129,7 @@ public class FactionsPlayerListener implements Listener {
 	// -------------------------------------------------- //
 
     // Holds the next time a player can have a map shown.
-    private HashMap<UUID, Long> showTimes = new HashMap<UUID, Long>();
+    private HashMap<UUID, Long> showTimes = new HashMap<>();
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
@@ -196,7 +196,7 @@ public class FactionsPlayerListener implements Listener {
         }
 
         if (me.getAutoClaimFor() != null) {
-            Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+            Map<FLocation, Faction> transactions = new HashMap<>();
 
             transactions.put(FLocation.valueOf(event.getTo()), me.getAutoClaimFor());
            
@@ -274,7 +274,7 @@ public class FactionsPlayerListener implements Listener {
 
 
     // for handling people who repeatedly spam attempts to open a door (or similar) in another faction's territory
-    private Map<String, InteractAttemptSpam> interactSpammers = new HashMap<String, InteractAttemptSpam>();
+    private Map<String, InteractAttemptSpam> interactSpammers = new HashMap<>();
 
     private static class InteractAttemptSpam {
         private int attempts = 0;
