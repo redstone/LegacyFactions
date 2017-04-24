@@ -12,12 +12,24 @@ import net.redstoneore.legacyfactions.util.LazyLocation;
 
 public class FactionWarps {
 
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+
 	public FactionWarps(Faction faction) {
 		this.faction = faction;
 	}
 	
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+
 	private final Faction faction;
 	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+
 	public Collection<FactionWarp> getAll() {
 		Collection<FactionWarp> all = new ArrayList<FactionWarp>();
 		
@@ -71,6 +83,5 @@ public class FactionWarps {
 	public int size() {
 		return this.faction.asMemoryFaction().getAllWarps().size();
 	}
-
 	
 }
