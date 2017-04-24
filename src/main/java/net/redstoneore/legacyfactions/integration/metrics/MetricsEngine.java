@@ -18,7 +18,7 @@ public class MetricsEngine extends IntegrationEngine {
 	public static void stop() {
 		if (metrics != null) {
 			try {
-				metrics.start();
+				
 			} catch (Exception e) {
 				// fail silently 
 			}
