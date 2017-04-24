@@ -44,7 +44,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     // -------------------------------------------------- //
 
 	// Utils
-    private Persist persist;
+    private Persist persist = null;
     private TextUtil txt = null;
     private PermUtil perm = null;
 
@@ -260,11 +260,11 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 
         Type type = new TypeToken<Map<String, String>>() { }.getType();
 
-        Map<String, String> tagsFromFile = this.persist.load(type, "tags");
+        Map<String, String> tagsFromFile = this.getPersist().load(type, "tags");
         if (tagsFromFile != null) {
             this.rawTags.putAll(tagsFromFile);
         }
-        this.persist.save(this.rawTags, "tags");
+        this.getPersist().save(this.rawTags, "tags");
 
         for (Entry<String, String> rawTag : this.rawTags.entrySet()) {
             txt.tags.put(rawTag.getKey(), TextUtil.parseColor(rawTag.getValue()));
@@ -358,19 +358,19 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     // -------------------------------------------- //
     
     public void log(String msg) {
-    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + this.txt.parse(msg));
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + this.getTextUtil().parse(msg));
     }
 
     public void log(String str, Object... args) {
-    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + this.txt.parse(str, args));
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + this.getTextUtil().parse(str, args));
     }
     
     public void warn(String str, Object... args) {
-    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + WARN_PREFIX + this.txt.parse(str, args));
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + WARN_PREFIX + this.getTextUtil().parse(str, args));
     }
     
     public void error(String str, Object... args) {
-    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + ERROR_PREFIX + this.txt.parse(str, args));
+    	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + ERROR_PREFIX + this.getTextUtil().parse(str, args));
     }
 
 	public void debug(String msg) {
