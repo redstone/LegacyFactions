@@ -187,22 +187,22 @@ public abstract class FCommand extends MCommand<Factions> {
 
         if (name != null) {
             // First we try an exact match
-            Faction faction = FactionColl.getInstance().getByTag(name); // Checks for faction name match.
+            Faction faction = FactionColl.get().getByTag(name); // Checks for faction name match.
 
             // Now lets try for warzone / safezone. Helpful for custom warzone / safezone names.
             // Do this after we check for an exact match in case they rename the warzone / safezone
             // and a player created faction took one of the names.
             if (faction == null) {
                 if (name.equalsIgnoreCase("warzone")) {
-                    faction = FactionColl.getInstance().getWarZone();
+                    faction = FactionColl.get().getWarZone();
                 } else if (name.equalsIgnoreCase("safezone")) {
-                    faction = FactionColl.getInstance().getSafeZone();
+                    faction = FactionColl.get().getSafeZone();
                 }
             }
 
             // Next we match faction tags
             if (faction == null) {
-                faction = FactionColl.getInstance().getBestTagMatch(name);
+                faction = FactionColl.get().getBestTagMatch(name);
             }
 
             // Next we match player names

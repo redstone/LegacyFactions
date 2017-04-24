@@ -16,7 +16,7 @@ public class EventFactionsDisband extends AbstractFactionsEvent implements Cance
     private Player sender;
 
     public EventFactionsDisband(Player sender, String factionId) {
-        super(FactionColl.getInstance().getFactionById(factionId));
+        super(FactionColl.get().getFactionById(factionId));
         this.sender = sender;
     }
 

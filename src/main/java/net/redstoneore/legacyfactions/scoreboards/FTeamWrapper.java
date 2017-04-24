@@ -47,7 +47,7 @@ public class FTeamWrapper {
         FTeamWrapper wrapper = wrappers.get(faction);
         Set<FPlayer> factionMembers = faction.getFPlayers();
 
-        if (wrapper != null && FactionColl.getInstance().getFactionById(faction.getId()) == null) {
+        if (wrapper != null && FactionColl.get().getFactionById(faction.getId()) == null) {
             // Faction was disbanded
             wrapper.unregister();
             wrappers.remove(faction);

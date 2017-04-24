@@ -117,7 +117,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (this.factionId == null) {
             this.factionId = "0";
         }
-        return FactionColl.getInstance().getFactionById(this.factionId);
+        return FactionColl.get().getFactionById(this.factionId);
     }
 
     public String getFactionId() {
@@ -282,7 +282,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.kills = 0;
         this.deaths = 0;
 
-        if (!Conf.newPlayerStartingFactionID.equals("0") && FactionColl.getInstance().isValidFactionId(Conf.newPlayerStartingFactionID)) {
+        if (!Conf.newPlayerStartingFactionID.equals("0") && FactionColl.get().isValidFactionId(Conf.newPlayerStartingFactionID)) {
             this.factionId = Conf.newPlayerStartingFactionID;
         }
     }
@@ -311,7 +311,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
     public void resetFactionData(boolean doSpoutUpdate) {
         // clean up any territory ownership in old faction, if there is one
-        if (factionId != null && FactionColl.getInstance().isValidFactionId(this.getFactionId())) {
+        if (factionId != null && FactionColl.get().isValidFactionId(this.getFactionId())) {
             Faction currentFaction = this.getFaction();
             currentFaction.removeFPlayer(this);
             if (currentFaction.isNormal()) {
@@ -681,7 +681,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             return;
         }
         
-        EventFactionsChange event = new EventFactionsChange(this, myFaction, FactionColl.getInstance().getWilderness(), true, ChangeReason.LEAVE);
+        EventFactionsChange event = new EventFactionsChange(this, myFaction, FactionColl.get().getWilderness(), true, ChangeReason.LEAVE);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return;
@@ -719,7 +719,7 @@ public abstract class MemoryFPlayer implements FPlayer {
                 fplayer.msg(TL.LEAVE_DISBANDED, myFaction.describeTo(fplayer, true));
             }
 
-            FactionColl.getInstance().removeFaction(myFaction.getId());
+            FactionColl.get().removeFaction(myFaction.getId());
             if (Conf.logFactionDisband) {
                 Factions.get().log(TL.LEAVE_DISBANDEDLOG.format(myFaction.getTag(), myFaction.getId(), this.getName()));
             }

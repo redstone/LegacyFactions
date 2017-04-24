@@ -215,7 +215,7 @@ public class FactionsPlayerListener implements Listener {
                 me.setIsAutoSafeClaimEnabled(false);
             } else {
                 if (!Board.get().getFactionAt(to).isSafeZone()) {
-                    Board.get().setFactionAt(FactionColl.getInstance().getSafeZone(), to);
+                    Board.get().setFactionAt(FactionColl.get().getSafeZone(), to);
                     me.msg(TL.PLAYER_SAFEAUTO);
                 }
             }
@@ -224,7 +224,7 @@ public class FactionsPlayerListener implements Listener {
                 me.setIsAutoWarClaimEnabled(false);
             } else {
                 if (!Board.get().getFactionAt(to).isWarZone()) {
-                    Board.get().setFactionAt(FactionColl.getInstance().getWarZone(), to);
+                    Board.get().setFactionAt(FactionColl.get().getWarZone(), to);
                     me.msg(TL.PLAYER_WARAUTO);
                 }
             }

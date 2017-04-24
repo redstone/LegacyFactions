@@ -52,7 +52,7 @@ public class CmdFactionsUnclaimall extends FCommand {
         Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
         
         for (FLocation location : myFaction.getAllClaims()) {
-        	transactions.put(location, FactionColl.getInstance().getWilderness());
+        	transactions.put(location, FactionColl.get().getWilderness());
         }
         
         EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Unclaim);

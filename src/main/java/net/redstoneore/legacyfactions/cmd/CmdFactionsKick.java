@@ -90,7 +90,7 @@ public class CmdFactionsKick extends FCommand {
         }
 
         // trigger the leave event (cancellable) [reason:kicked]
-        EventFactionsChange event = new EventFactionsChange(toKick, toKick.getFaction(), FactionColl.getInstance().getWilderness(), true, ChangeReason.KICKED);
+        EventFactionsChange event = new EventFactionsChange(toKick, toKick.getFaction(), FactionColl.get().getWilderness(), true, ChangeReason.KICKED);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return;

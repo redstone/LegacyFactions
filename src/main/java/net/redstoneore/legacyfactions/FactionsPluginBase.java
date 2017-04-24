@@ -186,7 +186,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         }
         // only save data if plugin actually loaded successfully
         if (loadSuccessful) {
-            FactionColl.getInstance().forceSave();
+            FactionColl.get().forceSave();
             FPlayerColl.save();
             Board.get().forceSave();
         }

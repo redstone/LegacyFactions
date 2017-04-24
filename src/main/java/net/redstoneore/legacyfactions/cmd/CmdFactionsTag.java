@@ -37,7 +37,7 @@ public class CmdFactionsTag extends FCommand {
         String tag = this.argAsString(0);
 
         // TODO does not first test cover selfcase?
-        if (FactionColl.getInstance().isTagTaken(tag) && !MiscUtil.getComparisonString(tag).equals(myFaction.getComparisonTag())) {
+        if (FactionColl.get().isTagTaken(tag) && !MiscUtil.getComparisonString(tag).equals(myFaction.getComparisonTag())) {
             msg(TL.COMMAND_TAG_TAKEN);
             return;
         }

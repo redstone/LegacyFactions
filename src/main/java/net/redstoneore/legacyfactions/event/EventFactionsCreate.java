@@ -41,7 +41,7 @@ public class EventFactionsCreate extends Event implements Cancellable {
      * @return false if tag is taken
      */
     public Boolean setFactionTag(String tag) {
-    	Faction check = FactionColl.getInstance().getByTag(tag);
+    	Faction check = FactionColl.get().getByTag(tag);
     	if (check == null) {
     		this.factionTag = tag;
     		return true;

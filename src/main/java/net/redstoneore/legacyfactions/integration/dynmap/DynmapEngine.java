@@ -154,7 +154,7 @@ public class DynmapEngine extends IntegrationEngine {
         Map<String, TempMarker> ret = new HashMap<String, TempMarker>();
 
         // Loop current factions
-        for (Faction faction : FactionColl.getInstance().getAllFactions()) {
+        for (Faction faction : FactionColl.get().getAllFactions()) {
             Location ps = faction.getHome();
             if (ps == null) {
                 continue;
@@ -234,7 +234,7 @@ public class DynmapEngine extends IntegrationEngine {
 
         for (Entry<FLocation, String> entry : board.flocationIds.entrySet()) {
             String world = entry.getKey().getWorldName();
-            Faction chunkOwner = FactionColl.getInstance().getFactionById(entry.getValue());
+            Faction chunkOwner = FactionColl.get().getFactionById(entry.getValue());
 
             Map<Faction, Set<FLocation>> factionChunks = worldFactionChunks.get(world);
             if (factionChunks == null) {
@@ -536,7 +536,7 @@ public class DynmapEngine extends IntegrationEngine {
 
         Map<String, Set<String>> ret = new HashMap<String, Set<String>>();
 
-        for (Faction faction : FactionColl.getInstance().getAllFactions()) {
+        for (Faction faction : FactionColl.get().getAllFactions()) {
             String playersetId = createPlayersetId(faction);
             if (playersetId == null) {
                 continue;

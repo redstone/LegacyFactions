@@ -69,7 +69,7 @@ public class CmdFactionsDisband extends FCommand {
 
         // Send event for each player in the faction
         for (FPlayer fplayer : faction.getFPlayers()) {
-            Bukkit.getServer().getPluginManager().callEvent(new EventFactionsChange(fplayer, faction, FactionColl.getInstance().getWilderness(), false, ChangeReason.DISBAND));
+            Bukkit.getServer().getPluginManager().callEvent(new EventFactionsChange(fplayer, faction, FactionColl.get().getWilderness(), false, ChangeReason.DISBAND));
         }
 
         // Inform all players
@@ -99,7 +99,7 @@ public class CmdFactionsDisband extends FCommand {
             }
         }
 
-        FactionColl.getInstance().removeFaction(faction.getId());
+        FactionColl.get().removeFaction(faction.getId());
         FTeamWrapper.applyUpdates(faction);
     }
 

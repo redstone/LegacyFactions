@@ -112,9 +112,9 @@ public class Factions extends FactionsPluginBase {
 		Conf.load();
 		
 		FPlayerColl.load();
-		FactionColl.getInstance().load();
+		FactionColl.get().load();
 		for (FPlayer fPlayer : FPlayerColl.getAll()) {
-			Faction faction = FactionColl.getInstance().getFactionById(fPlayer.getFactionId());
+			Faction faction = FactionColl.get().getFactionById(fPlayer.getFactionId());
 			if (faction == null) {
 				log("Invalid faction id on " + fPlayer.getName() + ":" + fPlayer.getFactionId());
 				fPlayer.resetFactionData(false);
@@ -314,13 +314,13 @@ public class Factions extends FactionsPluginBase {
 
 	// Get a list of all faction tags (names)
 	public Set<String> getFactionTags() {
-		return FactionColl.getInstance().getFactionTags();
+		return FactionColl.get().getFactionTags();
 	}
 
 	// Get a list of all players in the specified faction
 	public Set<String> getPlayersInFaction(String factionTag) {
 		Set<String> players = new HashSet<String>();
-		Faction faction = FactionColl.getInstance().getByTag(factionTag);
+		Faction faction = FactionColl.get().getByTag(factionTag);
 		if (faction != null) {
 			for (FPlayer fplayer : faction.getFPlayers()) {
 				players.add(fplayer.getName());
@@ -332,7 +332,7 @@ public class Factions extends FactionsPluginBase {
 	// Get a list of all online players in the specified faction
 	public Set<String> getOnlinePlayersInFaction(String factionTag) {
 		Set<String> players = new HashSet<String>();
-		Faction faction = FactionColl.getInstance().getByTag(factionTag);
+		Faction faction = FactionColl.get().getByTag(factionTag);
 		if (faction != null) {
 			for (FPlayer fplayer : faction.getFPlayersWhereOnline(true)) {
 				players.add(fplayer.getName());

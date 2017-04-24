@@ -27,7 +27,7 @@ public class CmdFactionsWarunclaimall extends FCommand {
 
     @Override
     public void perform() {
-        Board.get().unclaimAll(FactionColl.getInstance().getWarZone().getId());
+        Board.get().unclaimAll(FactionColl.get().getWarZone().getId());
         msg(TL.COMMAND_WARUNCLAIMALL_SUCCESS);
 
         if (Conf.logLandUnclaims) {

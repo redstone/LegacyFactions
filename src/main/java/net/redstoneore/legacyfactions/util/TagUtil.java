@@ -132,7 +132,7 @@ public class TagUtil {
             case ALLIES_LIST:
                 FancyMessage currentAllies = Factions.get().txt.parseFancy(prefix);
                 boolean firstAlly = true;
-                for (Faction otherFaction : FactionColl.getInstance().getAllFactions()) {
+                for (Faction otherFaction : FactionColl.get().getAllFactions()) {
                     if (otherFaction == target) {
                         continue;
                     }
@@ -152,7 +152,7 @@ public class TagUtil {
             case ENEMIES_LIST:
                 FancyMessage currentEnemies = Factions.get().txt.parseFancy(prefix);
                 boolean firstEnemy = true;
-                for (Faction otherFaction : FactionColl.getInstance().getAllFactions()) {
+                for (Faction otherFaction : FactionColl.get().getAllFactions()) {
                     if (otherFaction == target) {
                         continue;
                     }

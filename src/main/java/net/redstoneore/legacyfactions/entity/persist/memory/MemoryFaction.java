@@ -466,7 +466,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
     public int getRelationCount(Relation relation) {
         int count = 0;
-        for (Faction faction : FactionColl.getInstance().getAllFactions()) {
+        for (Faction faction : FactionColl.get().getAllFactions()) {
             if (faction.getRelationTo(this) == relation) {
                 count++;
             }
@@ -685,7 +685,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
                 fplayer.msg("The faction %s<i> was disbanded.", this.getTag(fplayer));
             }
 
-            FactionColl.getInstance().removeFaction(getId());
+            FactionColl.get().removeFaction(getId());
         } else { // promote new faction admin
             if (oldLeader != null) {
                 oldLeader.setRole(Role.NORMAL);

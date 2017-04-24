@@ -78,7 +78,7 @@ public abstract class MemoryBoard extends Board {
     }
 
     public Faction getFactionAt(FLocation flocation) {
-        return FactionColl.getInstance().getFactionById(getIdAt(flocation));
+        return FactionColl.get().getFactionById(getIdAt(flocation));
     }
 
     public void setIdAt(String id, FLocation flocation) {
@@ -134,7 +134,7 @@ public abstract class MemoryBoard extends Board {
     }
 
     public void unclaimAll(String factionId) {
-        Faction faction = FactionColl.getInstance().getFactionById(factionId);
+        Faction faction = FactionColl.get().getFactionById(factionId);
         if (faction != null && faction.isNormal()) {
             faction.clearAllClaimOwnership();
             faction.warps().deleteAll();
@@ -203,7 +203,7 @@ public abstract class MemoryBoard extends Board {
         Iterator<Entry<FLocation, String>> iter = flocationIds.entrySet().iterator();
         while (iter.hasNext()) {
             Entry<FLocation, String> entry = iter.next();
-            if (!FactionColl.getInstance().isValidFactionId(entry.getValue())) {
+            if (!FactionColl.get().isValidFactionId(entry.getValue())) {
                 Factions.get().log("Board cleaner removed " + entry.getValue() + " from " + entry.getKey());
                 iter.remove();
             }

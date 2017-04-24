@@ -12,7 +12,8 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.persist.json.JSONFactions;
 
 public abstract class FactionColl {
-    protected static FactionColl instance = getImpl();
+	
+    protected static FactionColl i = getImpl();
     
     private static FactionColl getImpl() {
         switch (Conf.backEnd) {
@@ -22,7 +23,7 @@ public abstract class FactionColl {
         return null;
     }
     
-    public static FactionColl getInstance() { return instance; }
+    public static FactionColl get() { return i; }
     
     
     public static Faction get(Object o) {
@@ -40,14 +41,14 @@ public abstract class FactionColl {
     	// String can be either id or tag
     	if (o instanceof String) {
     		// search by id first
-    		faction = instance.getFactionById((String) o);
+    		faction = i.getFactionById((String) o);
     		
     		if (faction != null) {
     			return faction;
     		}
     		
     		// now try its tag
-    		return instance.getByTag((String) o);
+    		return i.getByTag((String) o);
     	}
     	
     	if (o instanceof FPlayer) {
@@ -61,7 +62,7 @@ public abstract class FactionColl {
     public List<Faction> getAll(World world) {
     	List<Faction> all = new ArrayList<Faction>();
     	
-    	for (Faction faction : instance.getAllFactions()) {
+    	for (Faction faction : i.getAllFactions()) {
     		for(FLocation loc : faction.getAllClaims()) {
     			if (loc.getWorld() != world) continue;
     			

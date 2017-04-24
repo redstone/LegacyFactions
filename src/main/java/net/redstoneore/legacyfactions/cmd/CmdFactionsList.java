@@ -44,10 +44,10 @@ public class CmdFactionsList extends FCommand {
             return;
         }
 
-        ArrayList<Faction> factionList = FactionColl.getInstance().getAllFactions();
-        factionList.remove(FactionColl.getInstance().getWilderness());
-        factionList.remove(FactionColl.getInstance().getSafeZone());
-        factionList.remove(FactionColl.getInstance().getWarZone());
+        ArrayList<Faction> factionList = FactionColl.get().getAllFactions();
+        factionList.remove(FactionColl.get().getWilderness());
+        factionList.remove(FactionColl.get().getSafeZone());
+        factionList.remove(FactionColl.get().getWarZone());
 
         // remove exempt factions
         if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")) {
@@ -93,7 +93,7 @@ public class CmdFactionsList extends FCommand {
 
         ArrayList<String> lines = new ArrayList<String>();
 
-        factionList.add(0, FactionColl.getInstance().getWilderness());
+        factionList.add(0, FactionColl.get().getWilderness());
 
         final int pageheight = 9;
         int pagenumber = this.argAsInt(0, 1);

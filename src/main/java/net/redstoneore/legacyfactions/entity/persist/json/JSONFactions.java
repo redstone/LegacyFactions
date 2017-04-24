@@ -260,6 +260,6 @@ public class JSONFactions extends MemoryFactions {
         }));
         this.nextId = old.nextId;
         forceSave();
-        FactionColl.instance = this;
+        FactionColl.i = this;
     }
 }

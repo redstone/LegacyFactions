@@ -43,7 +43,7 @@ public class CmdFactionsCreate extends FCommand {
             return;
         }
 
-        if (FactionColl.getInstance().isTagTaken(tag)) {
+        if (FactionColl.get().isTagTaken(tag)) {
             msg(TL.COMMAND_CREATE_INUSE);
             return;
         }
@@ -73,7 +73,7 @@ public class CmdFactionsCreate extends FCommand {
             return;
         }
 
-        Faction faction = FactionColl.getInstance().createFaction();
+        Faction faction = FactionColl.get().createFaction();
 
         if (faction == null) {
             msg(TL.COMMAND_CREATE_ERROR);

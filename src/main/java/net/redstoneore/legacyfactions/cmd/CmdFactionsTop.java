@@ -37,10 +37,10 @@ public class CmdFactionsTop extends FCommand {
     public void perform() {
         // Can sort by: money, members, online, allies, enemies, power, land.
         // Get all Factions and remove non player ones.
-        ArrayList<Faction> factionList = FactionColl.getInstance().getAllFactions();
-        factionList.remove(FactionColl.getInstance().getWilderness());
-        factionList.remove(FactionColl.getInstance().getSafeZone());
-        factionList.remove(FactionColl.getInstance().getWarZone());
+        ArrayList<Faction> factionList = FactionColl.get().getAllFactions();
+        factionList.remove(FactionColl.get().getWilderness());
+        factionList.remove(FactionColl.get().getSafeZone());
+        factionList.remove(FactionColl.get().getWarZone());
 
         String criteria = argAsString(0);
 

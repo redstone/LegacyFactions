@@ -28,11 +28,11 @@ public class FactionsJSON {
                 new JSONFPlayers().convertFrom((MemoryFPlayers) FPlayerColl.getUnsafeInstance());
                 logger.info("FPlayers Converted");
                 logger.info("Beginning Factions conversion to JSON");
-                new JSONFactions().convertFrom((MemoryFactions) FactionColl.getInstance());
+                new JSONFactions().convertFrom((MemoryFactions) FactionColl.get());
                 logger.info("Factions Converted");
                 logger.info("Refreshing object caches");
                 for (FPlayer fPlayer : FPlayerColl.getAll()) {
-                    Faction faction = FactionColl.getInstance().getFactionById(fPlayer.getFactionId());
+                    Faction faction = FactionColl.get().getFactionById(fPlayer.getFactionId());
                     faction.addFPlayer(fPlayer);
                 }
                 logger.info("Conversion Complete");
