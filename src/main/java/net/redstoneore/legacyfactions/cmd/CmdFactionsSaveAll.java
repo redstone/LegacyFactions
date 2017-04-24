@@ -30,7 +30,7 @@ public class CmdFactionsSaveAll extends FCommand {
     public void perform() {
         FPlayerColl.save(false);
         FactionColl.getInstance().forceSave(false);
-        Board.getInstance().forceSave(false);
+        Board.get().forceSave(false);
         Conf.save();
         msg(TL.COMMAND_SAVEALL_SUCCESS);
     }

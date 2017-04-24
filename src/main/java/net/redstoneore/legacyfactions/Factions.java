@@ -122,8 +122,8 @@ public class Factions extends FactionsPluginBase {
 			}
 			faction.addFPlayer(fPlayer);
 		}
-		Board.getInstance().load();
-		Board.getInstance().clean();
+		Board.get().load();
+		Board.get().clean();
 
 		// Add base commands.
 		this.cmdBase = new CmdFactions();

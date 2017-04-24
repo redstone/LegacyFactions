@@ -51,7 +51,7 @@ public class CmdFactionsOwner extends FCommand {
 
         FLocation flocation = new FLocation(fme);
 
-        Faction factionHere = Board.getInstance().getFactionAt(flocation);
+        Faction factionHere = Board.get().getFactionAt(flocation);
         if (factionHere != myFaction) {
             if (!factionHere.isNormal()) {
                 fme.msg(TL.COMMAND_OWNER_NOTCLAIMED);

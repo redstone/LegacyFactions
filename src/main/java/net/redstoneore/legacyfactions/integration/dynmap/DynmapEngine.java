@@ -230,7 +230,7 @@ public class DynmapEngine extends IntegrationEngine {
         Map<String, Map<Faction, Set<FLocation>>> worldFactionChunks = new HashMap<String, Map<Faction, Set<FLocation>>>();
 
         // Note: The board is the world. The board id is the world name.
-        MemoryBoard board = (MemoryBoard) Board.getInstance();
+        MemoryBoard board = (MemoryBoard) Board.get();
 
         for (Entry<FLocation, String> entry : board.flocationIds.entrySet()) {
             String world = entry.getKey().getWorldName();

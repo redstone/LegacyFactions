@@ -9,7 +9,7 @@ import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
 
 public abstract class Board {
 	
-    protected static Board instance = getImpl();
+    protected static Board i = getImpl();
     private static Board getImpl() {
         switch (Conf.backEnd) {
             case JSON:
@@ -17,7 +17,7 @@ public abstract class Board {
         }
         return null;
     }
-    public static Board getInstance() { return instance; }
+    public static Board get() { return i; }
     
     //----------------------------------------------//
     // Get and Set

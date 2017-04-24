@@ -22,7 +22,7 @@ public class FactionsJSON {
             public void run() {
                 Logger logger = Factions.get().getLogger();
                 logger.info("Beginning Board conversion to JSON");
-                new JSONBoard().convertFrom((MemoryBoard) Board.getInstance());
+                new JSONBoard().convertFrom((MemoryBoard) Board.get());
                 logger.info("Board Converted");
                 logger.info("Beginning FPlayers conversion to JSON");
                 new JSONFPlayers().convertFrom((MemoryFPlayers) FPlayerColl.getUnsafeInstance());

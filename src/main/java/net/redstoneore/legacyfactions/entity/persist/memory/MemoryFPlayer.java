@@ -489,7 +489,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
 
     public Relation getRelationToLocation() {
-        return Board.getInstance().getFactionAt(new FLocation(this)).getRelationTo(this);
+        return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this);
     }
 
     @Override
@@ -598,28 +598,28 @@ public abstract class MemoryFPlayer implements FPlayer {
     // Territory
     //----------------------------------------------//
     public boolean isInOwnTerritory() {
-        return Board.getInstance().getFactionAt(new FLocation(this)) == this.getFaction();
+        return Board.get().getFactionAt(new FLocation(this)) == this.getFaction();
     }
 
     public boolean isInOthersTerritory() {
-        Faction factionHere = Board.getInstance().getFactionAt(new FLocation(this));
+        Faction factionHere = Board.get().getFactionAt(new FLocation(this));
         return factionHere != null && factionHere.isNormal() && factionHere != this.getFaction();
     }
 
     public boolean isInAllyTerritory() {
-        return Board.getInstance().getFactionAt(new FLocation(this)).getRelationTo(this).isAlly();
+        return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this).isAlly();
     }
 
     public boolean isInNeutralTerritory() {
-        return Board.getInstance().getFactionAt(new FLocation(this)).getRelationTo(this).isNeutral();
+        return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this).isNeutral();
     }
 
     public boolean isInEnemyTerritory() {
-        return Board.getInstance().getFactionAt(new FLocation(this)).getRelationTo(this).isEnemy();
+        return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this).isEnemy();
     }
 
     public void sendFactionHereMessage(Faction from) {
-        Faction toShow = Board.getInstance().getFactionAt(getLastStoodAt());
+        Faction toShow = Board.get().getFactionAt(getLastStoodAt());
         boolean showChat = true;
         if (showInfoBoard(toShow)) {
             FScoreboard.get(this).setTemporarySidebar(new FInfoSidebar(toShow));
@@ -739,7 +739,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation flocation, boolean notifyFailure) {
         String error = null;
         Faction myFaction = getFaction();
-        Faction currentFaction = Board.getInstance().getFactionAt(flocation);
+        Faction currentFaction = Board.get().getFactionAt(flocation);
         int ownedLand = forFaction.getLandRounded();
         int factionBuffer = Factions.get().getConfig().getInt("hcf.buffer-zone", 0);
         int worldBuffer = Factions.get().getConfig().getInt("world-border.buffer", 0);
@@ -814,14 +814,14 @@ public abstract class MemoryFPlayer implements FPlayer {
         	return false;
         } 
 
-        if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.getInstance().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
+        if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.get().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
             if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
             	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_CONTIGIOUS.toString()));
             } else {
             	if (notifyFailure) msg(Factions.get().txt.parse(TL.CLAIM_FACTIONCONTIGUOUS.toString()));
             }
             return false;
-        } else if (factionBuffer > 0 && Board.getInstance().hasFactionWithin(flocation, myFaction, factionBuffer)) {
+        } else if (factionBuffer > 0 && Board.get().hasFactionWithin(flocation, myFaction, factionBuffer)) {
             error = Factions.get().txt.parse(TL.CLAIM_TOOCLOSETOOTHERFACTION.format(factionBuffer));
         } else if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(worldBuffer)) {
             if (worldBuffer > 0) {
@@ -840,7 +840,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             } else if (currentFaction.hasLandInflation() && !Factions.get().getConfig().getBoolean("hcf.allow-overclaim", true)) {
                 // deny over claim when it normally would be allowed.
                 error = Factions.get().txt.parse(TL.CLAIM_OVERCLAIM_DISABLED.toString());
-            } else if (!Board.getInstance().isBorderLocation(flocation)) {
+            } else if (!Board.get().isBorderLocation(flocation)) {
                 error = Factions.get().txt.parse(TL.CLAIM_BORDER.toString());
             }
         }
@@ -859,7 +859,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
     
     public boolean attemptClaim(Faction forFaction, FLocation flocation, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
-        Faction currentFaction = Board.getInstance().getFactionAt(flocation);
+        Faction currentFaction = Board.get().getFactionAt(flocation);
         
         int ownedLand = forFaction.getLandRounded();
 
@@ -874,7 +874,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (mustPay) {
             cost = VaultEngine.calculateClaimCost(ownedLand, currentFaction.isNormal());
 
-            if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.getInstance().isConnectedLocation(flocation, forFaction)) {
+            if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.get().isConnectedLocation(flocation, forFaction)) {
                 cost += Conf.econClaimUnconnectedFee;
             }
 
@@ -922,7 +922,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             fp.msg(TL.CLAIM_CLAIMED, this.describeTo(fp, true), forFaction.describeTo(fp), currentFaction.describeTo(fp));
         }
 
-        Board.getInstance().setFactionAt(forFaction, flocation);
+        Board.get().setFactionAt(forFaction, flocation);
 
         if (Conf.logLandClaims) {
             Factions.get().log(TL.CLAIM_CLAIMEDLOG.toString(), this.getName(), flocation.getCoordString(), forFaction.getTag());

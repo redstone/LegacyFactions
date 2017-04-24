@@ -161,8 +161,8 @@ public class FactionsPlayerListener implements Listener {
         me.setLastStoodAt(to);
 
         // Did we change "host"(faction)?
-        Faction factionFrom = Board.getInstance().getFactionAt(from);
-        Faction factionTo = Board.getInstance().getFactionAt(to);
+        Faction factionFrom = Board.get().getFactionAt(from);
+        Faction factionTo = Board.get().getFactionAt(to);
         boolean changedFaction = (factionFrom != factionTo);
 
         if (me.isMapAutoUpdating()) {
@@ -171,7 +171,7 @@ public class FactionsPlayerListener implements Listener {
                     Factions.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
                 }
             } else {
-                me.sendMessage(Board.getInstance().getMap(me.getFaction(), to, player.getLocation().getYaw()));
+                me.sendMessage(Board.get().getMap(me.getFaction(), to, player.getLocation().getYaw()));
                 showTimes.put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldown);
             }
         } else {
@@ -214,8 +214,8 @@ public class FactionsPlayerListener implements Listener {
             if (!Permission.MANAGE_SAFE_ZONE.has(player)) {
                 me.setIsAutoSafeClaimEnabled(false);
             } else {
-                if (!Board.getInstance().getFactionAt(to).isSafeZone()) {
-                    Board.getInstance().setFactionAt(FactionColl.getInstance().getSafeZone(), to);
+                if (!Board.get().getFactionAt(to).isSafeZone()) {
+                    Board.get().setFactionAt(FactionColl.getInstance().getSafeZone(), to);
                     me.msg(TL.PLAYER_SAFEAUTO);
                 }
             }
@@ -223,8 +223,8 @@ public class FactionsPlayerListener implements Listener {
             if (!Permission.MANAGE_WAR_ZONE.has(player)) {
                 me.setIsAutoWarClaimEnabled(false);
             } else {
-                if (!Board.getInstance().getFactionAt(to).isWarZone()) {
-                    Board.getInstance().setFactionAt(FactionColl.getInstance().getWarZone(), to);
+                if (!Board.get().getFactionAt(to).isWarZone()) {
+                    Board.get().setFactionAt(FactionColl.getInstance().getWarZone(), to);
                     me.msg(TL.PLAYER_WARAUTO);
                 }
             }
@@ -306,7 +306,7 @@ public class FactionsPlayerListener implements Listener {
         }
 
         FLocation loc = new FLocation(location);
-        Faction otherFaction = Board.getInstance().getFactionAt(loc);
+        Faction otherFaction = Board.get().getFactionAt(loc);
 
         if (Factions.get().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
             return true;
@@ -390,7 +390,7 @@ public class FactionsPlayerListener implements Listener {
 
         Material material = block.getType();
         FLocation loc = new FLocation(block);
-        Faction otherFaction = Board.getInstance().getFactionAt(loc);
+        Faction otherFaction = Board.get().getFactionAt(loc);
 
         // no door/chest/whatever protection in wilderness, war zones, or safe zones
         if (!otherFaction.isNormal()) {
@@ -515,7 +515,7 @@ public class FactionsPlayerListener implements Listener {
             return true;
         }
 
-        Faction at = Board.getInstance().getFactionAt(new FLocation(player.getLocation()));
+        Faction at = Board.get().getFactionAt(new FLocation(player.getLocation()));
         if (at.isWilderness() && !Conf.wildernessDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.wildernessDenyCommands.iterator())) {
             me.msg(TL.PLAYER_COMMAND_WILDERNESS, fullCmd);
             return true;

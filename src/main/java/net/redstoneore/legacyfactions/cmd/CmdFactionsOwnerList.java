@@ -40,13 +40,13 @@ public class CmdFactionsOwnerList extends FCommand {
 
         FLocation flocation = new FLocation(fme);
 
-        if (Board.getInstance().getFactionAt(flocation) != myFaction) {
+        if (Board.get().getFactionAt(flocation) != myFaction) {
             if (!hasBypass) {
                 fme.msg(TL.COMMAND_OWNERLIST_WRONGFACTION);
                 return;
             }
             
-            myFaction = Board.getInstance().getFactionAt(flocation);
+            myFaction = Board.get().getFactionAt(flocation);
             if (!myFaction.isNormal()) {
                 fme.msg(TL.COMMAND_OWNERLIST_NOTCLAIMED);
                 return;

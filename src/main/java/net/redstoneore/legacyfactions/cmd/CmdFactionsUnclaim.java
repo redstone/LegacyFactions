@@ -73,10 +73,10 @@ public class CmdFactionsUnclaim extends FCommand {
     }
 
     private boolean unClaim(FLocation target) {
-        Faction targetFaction = Board.getInstance().getFactionAt(target);
+        Faction targetFaction = Board.get().getFactionAt(target);
         if (targetFaction.isSafeZone()) {
             if (Permission.MANAGE_SAFE_ZONE.has(sender)) {
-                Board.getInstance().removeAt(target);
+                Board.get().removeAt(target);
                 msg(TL.COMMAND_UNCLAIM_SAFEZONE_SUCCESS);
 
                 if (Conf.logLandUnclaims) {
@@ -89,7 +89,7 @@ public class CmdFactionsUnclaim extends FCommand {
             }
         } else if (targetFaction.isWarZone()) {
             if (Permission.MANAGE_WAR_ZONE.has(sender)) {
-                Board.getInstance().removeAt(target);
+                Board.get().removeAt(target);
                 msg(TL.COMMAND_UNCLAIM_WARZONE_SUCCESS);
 
                 if (Conf.logLandUnclaims) {
@@ -112,7 +112,7 @@ public class CmdFactionsUnclaim extends FCommand {
         	if (event.isCancelled()) return false;
         	
         	for (FLocation location : event.getTransactions().keySet()) {
-                Board.getInstance().removeAt(location);
+                Board.get().removeAt(location);
         	}
         	
             targetFaction.msg(TL.COMMAND_UNCLAIM_UNCLAIMED, fme.describeTo(targetFaction, true));
@@ -165,7 +165,7 @@ public class CmdFactionsUnclaim extends FCommand {
         	FLocation thisLocation = entry.getKey();
         	Faction thisFaction = entry.getValue();
         	
-        	Board.getInstance().removeAt(entry.getKey());
+        	Board.get().removeAt(entry.getKey());
         	thisFaction.msg(TL.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fme.describeTo(myFaction, true));
         	
 

@@ -99,6 +99,6 @@ public class JSONBoard extends MemoryBoard {
     public void convertFrom(MemoryBoard old) {
         this.flocationIds = old.flocationIds;
         forceSave();
-        Board.instance = this;
+        Board.i = this;
     }
 }

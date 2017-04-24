@@ -52,7 +52,7 @@ public class FactionsBlockListener implements Listener {
     public void onBlockPistonExtend(BlockPistonExtendEvent event) {
         if (Conf.pistonProtectionThroughDenyBuild) return;
 
-        Faction pistonFaction = Board.getInstance().getFactionAt(new FLocation(event.getBlock()));
+        Faction pistonFaction = Board.get().getFactionAt(new FLocation(event.getBlock()));
 
         // target end-of-the-line empty (air) block which is being pushed into, including if piston itself would extend into air
         @SuppressWarnings("deprecation")
@@ -73,7 +73,7 @@ public class FactionsBlockListener implements Listener {
         }
 
         Location targetLoc = event.getRetractLocation();
-        Faction otherFaction = Board.getInstance().getFactionAt(new FLocation(targetLoc));
+        Faction otherFaction = Board.get().getFactionAt(new FLocation(targetLoc));
 
         // Check if the piston is moving in a faction's territory. This disables pistons entirely in faction territory.
         if (otherFaction.isNormal() && Conf.disablePistonsInTerritory) {
@@ -86,7 +86,7 @@ public class FactionsBlockListener implements Listener {
             return;
         }
 
-        Faction pistonFaction = Board.getInstance().getFactionAt(new FLocation(event.getBlock()));
+        Faction pistonFaction = Board.get().getFactionAt(new FLocation(event.getBlock()));
 
         if (!canPistonMoveBlock(pistonFaction, targetLoc)) {
             event.setCancelled(true);
@@ -118,7 +118,7 @@ public class FactionsBlockListener implements Listener {
 
     private boolean canPistonMoveBlock(Faction pistonFaction, Location target) {
 
-        Faction otherFaction = Board.getInstance().getFactionAt(new FLocation(target));
+        Faction otherFaction = Board.get().getFactionAt(new FLocation(target));
 
         if (pistonFaction == otherFaction) {
             return true;
@@ -171,7 +171,7 @@ public class FactionsBlockListener implements Listener {
         if (me.isAdminBypassing()) return true;
         
         FLocation loc = new FLocation(location);
-        Faction otherFaction = Board.getInstance().getFactionAt(loc);
+        Faction otherFaction = Board.get().getFactionAt(loc);
 
         if (otherFaction.isWilderness()) {
             if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {

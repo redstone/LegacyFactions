@@ -188,7 +188,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         if (loadSuccessful) {
             FactionColl.getInstance().forceSave();
             FPlayerColl.save();
-            Board.getInstance().forceSave();
+            Board.get().forceSave();
         }
         log("Disabled");
     }

@@ -57,7 +57,7 @@ public class CmdFactionsMap extends FCommand {
     }
 
     public void showMap() {
-        sendMessage(Board.getInstance().getMap(myFaction, new FLocation(fme), fme.getPlayer().getLocation().getYaw()));
+        sendMessage(Board.get().getMap(myFaction, new FLocation(fme), fme.getPlayer().getLocation().getYaw()));
     }
 
     @Override

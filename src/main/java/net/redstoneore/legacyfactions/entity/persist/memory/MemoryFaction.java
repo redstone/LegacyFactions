@@ -265,7 +265,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public void confirmValidHome() {
-        if (!Conf.homesMustBeInClaimedTerritory || this.home == null || (this.home.getLocation() != null && Board.getInstance().getFactionAt(new FLocation(this.home.getLocation())) == this)) {
+        if (!Conf.homesMustBeInClaimedTerritory || this.home == null || (this.home.getLocation() != null && Board.get().getFactionAt(new FLocation(this.home.getLocation())) == this)) {
             return;
         }
 
@@ -516,11 +516,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public int getLandRounded() {
-        return Board.getInstance().getFactionCoordCount(this);
+        return Board.get().getFactionCoordCount(this);
     }
 
     public int getLandRoundedInWorld(String worldName) {
-        return Board.getInstance().getFactionCoordCountInWorld(this, worldName);
+        return Board.get().getFactionCoordCountInWorld(this, worldName);
     }
 
     public boolean hasLandInflation() {
@@ -862,7 +862,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         }
 
         // Clean the board
-        ((MemoryBoard) Board.getInstance()).clean(id);
+        ((MemoryBoard) Board.get()).clean(id);
 
         for (FPlayer fPlayer : fplayers) {
             fPlayer.resetFactionData(false);
@@ -870,7 +870,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public Set<FLocation> getAllClaims() {
-        return Board.getInstance().getAllClaims(this);
+        return Board.get().getAllClaims(this);
     }
     
     

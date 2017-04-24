@@ -67,7 +67,7 @@ public class CmdFactionsStuck extends FCommand {
                         return;
                     }
 
-                    final Board board = Board.getInstance();
+                    final Board board = Board.get();
                     // spiral task to find nearest wilderness chunk
                     new SpiralTask(new FLocation(me), radius * 2) {
 
