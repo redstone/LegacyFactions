@@ -87,9 +87,8 @@ public class FactionsPlayerListener implements Listener {
             }
         }, 33L); // Don't ask me why.
 
-        if (Factions.get().getConfig().getBoolean("scoreboard.default-enabled", false)) {
-            FScoreboard.init(me);
-            FScoreboard.get(me).setDefaultSidebar(new FDefaultSidebar(), Factions.get().getConfig().getInt("default-update-interval", 20));
+        if (Conf.scoreboardDefaultEnabled) {
+            FScoreboard.get(me).setDefaultSidebar(new FDefaultSidebar(), Conf.scoreboardDefaultUpdateInterval);
             FScoreboard.get(me).setSidebarVisibility(me.showScoreboard());
         }
 

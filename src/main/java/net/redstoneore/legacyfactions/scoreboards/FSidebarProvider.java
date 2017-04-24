@@ -9,17 +9,17 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.util.TagUtil;
 
 public abstract class FSidebarProvider {
-
-    public abstract String getTitle(FPlayer fplayer);
-
-    public abstract List<String> getLines(FPlayer fplayer);
-
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
     public String replaceTags(FPlayer fPlayer, String s) {
-        return qualityAssure(TagUtil.parsePlain(fPlayer, s));
+        return this.qualityAssure(TagUtil.parsePlain(fPlayer, s));
     }
 
     public String replaceTags(Faction faction, FPlayer fPlayer, String s) {
-        return qualityAssure(TagUtil.parsePlain(faction, fPlayer, s));
+        return this.qualityAssure(TagUtil.parsePlain(faction, fPlayer, s));
     }
 
     private String qualityAssure(String line) {
@@ -33,4 +33,13 @@ public abstract class FSidebarProvider {
         }
         return Factions.get().txt.parse(line); // finally add color :)
     }
+    
+	// -------------------------------------------------- //
+	// ABSTRACT METHODS
+	// -------------------------------------------------- //
+    
+    public abstract String getTitle(FPlayer fplayer);
+
+    public abstract List<String> getLines(FPlayer fplayer);
+    
 }

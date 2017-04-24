@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.scoreboards.FSidebarProvider;
 
@@ -12,24 +12,23 @@ public class FDefaultSidebar extends FSidebarProvider {
 
     @Override
     public String getTitle(FPlayer fplayer) {
-        return replaceTags(fplayer, Factions.get().getConfig().getString("scoreboard.default-title", "{name}"));
+        return replaceTags(fplayer, Conf.scoreboardDefaultTitle);
     }
 
     @Override
     public List<String> getLines(FPlayer fplayer) {
         if (fplayer.hasFaction()) {
-            return getOutput(fplayer, "scoreboard.default");
-        } else if (Factions.get().getConfig().getBoolean("scoreboard.factionless-enabled", false)) {
-            return getOutput(fplayer, "scoreboard.factionless");
+            return this.getOutput(fplayer, Conf.scoreboardDefault);
+        } else if (Conf.scoreboardFactionlessEnabled) {
+            return this.getOutput(fplayer, Conf.scoreboardDefault);
         }
-        return getOutput(fplayer, "scoreboard.default"); // no faction, factionless-board disabled
+        return this.getOutput(fplayer, Conf.scoreboardDefault); // no faction, factionless-board disabled
     }
 
-    public List<String> getOutput(FPlayer fplayer, String list) {
-        List<String> lines = Factions.get().getConfig().getStringList(list);
-
+    public List<String> getOutput(FPlayer fplayer, List<String> lines) {
+    	
         if (lines == null || lines.isEmpty()) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         ListIterator<String> it = lines.listIterator();

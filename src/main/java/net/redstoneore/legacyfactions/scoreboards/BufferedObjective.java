@@ -11,22 +11,13 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class BufferedObjective {
+	
+	// -------------------------------------------------- //
+	// STATIC FIELDS
+	// -------------------------------------------------- //
+
     private static final Method addEntryMethod;
     private static final int MAX_LINE_LENGTH;
-
-    private final Scoreboard scoreboard;
-    private final String baseName;
-
-    private Objective current;
-    private List<Team> currentTeams = new ArrayList<Team>();
-    private String title;
-    private DisplaySlot displaySlot;
-
-    private int objPtr;
-    private int teamPtr;
-    private boolean requiresUpdate = false;
-
-    private final Map<Integer, String> contents = new HashMap<Integer, String>();
 
     static {
         // Check for long line support.
@@ -37,6 +28,7 @@ public class BufferedObjective {
         try {
             addEntryMethodLookup = Team.class.getMethod("addEntry", String.class);
         } catch (NoSuchMethodException ignored) {
+        	
         }
 
         addEntryMethod = addEntryMethodLookup;
@@ -47,13 +39,39 @@ public class BufferedObjective {
             MAX_LINE_LENGTH = 16;
         }
     }
+    
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
     public BufferedObjective(Scoreboard scoreboard) {
         this.scoreboard = scoreboard;
-        this.baseName = createBaseName();
+        this.baseName = this.createBaseName();
 
-        current = scoreboard.registerNewObjective(getNextObjectiveName(), "dummy");
+        this.current = scoreboard.registerNewObjective(getNextObjectiveName(), "dummy");
     }
+    
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+
+    private final Scoreboard scoreboard;
+    private final String baseName;
+
+    private Objective current;
+    private List<Team> currentTeams = new ArrayList<>();
+    private String title;
+    private DisplaySlot displaySlot;
+
+    private int objPtr;
+    private int teamPtr;
+    private boolean requiresUpdate = false;
+
+    private final Map<Integer, String> contents = new HashMap<>();
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     private String createBaseName() {
         Random random = new Random();
@@ -67,21 +85,21 @@ public class BufferedObjective {
     public void setTitle(String title) {
         if (this.title == null || !this.title.equals(title)) {
             this.title = title;
-            requiresUpdate = true;
+            this.requiresUpdate = true;
         }
     }
 
     public void setDisplaySlot(DisplaySlot slot) {
         this.displaySlot = slot;
-        current.setDisplaySlot(slot);
+        this.current.setDisplaySlot(slot);
     }
 
     public void setAllLines(List<String> lines) {
-        if (lines.size() != contents.size()) {
-            contents.clear();
+        if (lines.size() != this.contents.size()) {
+        	this.contents.clear();
         }
         for (int i = 0; i < lines.size(); i++) {
-            setLine(lines.size() - i, lines.get(i));
+        	this.setLine(lines.size() - i, lines.get(i));
         }
     }
 
@@ -91,32 +109,31 @@ public class BufferedObjective {
         }
         content = ChatColor.translateAlternateColorCodes('&', content);
 
-        if (contents.get(lineNumber) == null || !contents.get(lineNumber).equals(content)) {
-            contents.put(lineNumber, content);
-            requiresUpdate = true;
+        if (this.contents.get(lineNumber) == null || !this.contents.get(lineNumber).equals(content)) {
+        	this.contents.put(lineNumber, content);
+            this.requiresUpdate = true;
         }
     }
 
     // Hides the objective from the display slot until flip() is called
     public void hide() {
-        if (displaySlot != null) {
-            scoreboard.clearSlot(displaySlot);
+        if (this.displaySlot != null) {
+        	this.scoreboard.clearSlot(this.displaySlot);
         }
     }
 
     public void flip() {
-        if (!requiresUpdate) {
-            return;
-        }
-        requiresUpdate = false;
+        if (!this.requiresUpdate) return;
+        
+        this.requiresUpdate = false;
 
-        Objective buffer = scoreboard.registerNewObjective(getNextObjectiveName(), "dummy");
-        buffer.setDisplayName(title);
+        Objective buffer = this.scoreboard.registerNewObjective(this.getNextObjectiveName(), "dummy");
+        buffer.setDisplayName(this.title);
 
-        List<Team> bufferTeams = new ArrayList<Team>();
+        List<Team> bufferTeams = new ArrayList<>();
 
         for (Map.Entry<Integer, String> entry : contents.entrySet()) {
-            if (entry.getValue().length() > 16) {
+            if (entry.getValue().length() <= 16) {
                 Team team = scoreboard.registerNewTeam(getNextTeamName());
                 bufferTeams.add(team);
 
@@ -162,4 +179,5 @@ public class BufferedObjective {
     private String getNextTeamName() {
         return baseName.substring(0, 10) + "_" + ((teamPtr++) % 999999);
     }
+    
 }

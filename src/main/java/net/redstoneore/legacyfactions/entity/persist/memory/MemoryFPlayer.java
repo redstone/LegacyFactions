@@ -278,7 +278,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.autoWarZoneEnabled = false;
         this.loginPvpDisabled = Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0;
         this.powerBoost = 0.0;
-        this.showScoreboard = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", false);
+        this.showScoreboard = Conf.scoreboardDefaultEnabled;
         this.kills = 0;
         this.deaths = 0;
 
@@ -304,7 +304,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.spyingChat = other.spyingChat;
         this.lastStoodAt = other.lastStoodAt;
         this.isAdminBypassing = other.isAdminBypassing;
-        this.showScoreboard = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", true);
+        this.showScoreboard = Conf.scoreboardDefaultEnabled;
         this.kills = other.kills;
         this.deaths = other.deaths;
     }
@@ -623,7 +623,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         boolean showChat = true;
         if (showInfoBoard(toShow)) {
             FScoreboard.get(this).setTemporarySidebar(new FInfoSidebar(toShow));
-            showChat = Factions.get().getConfig().getBoolean("scoreboard.also-send-chat", true);
+            showChat = Conf.scoreboardInChat;
         }
         if (showChat) {
             this.sendMessage(Factions.get().txt.parse(TL.FACTION_LEAVE.format(from.getTag(this), toShow.getTag(this))));
@@ -638,7 +638,7 @@ public abstract class MemoryFPlayer implements FPlayer {
      * @return true if should show, otherwise false.
      */
     public boolean showInfoBoard(Faction toShow) {
-        return showScoreboard && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && Factions.get().getConfig().contains("scoreboard.finfo") && Factions.get().getConfig().getBoolean("scoreboard.finfo-enabled", false) && FScoreboard.get(this) != null;
+        return showScoreboard && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && !Conf.scoreboardInfo.isEmpty() && Conf.scoreboardInfoEnabled && FScoreboard.get(this) != null;
     }
 
     @Override
