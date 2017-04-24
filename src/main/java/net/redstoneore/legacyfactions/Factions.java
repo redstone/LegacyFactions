@@ -33,6 +33,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.Integrations;
+import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsIntegration;
 import net.redstoneore.legacyfactions.integration.metrics.MetricsIntegration;
@@ -137,6 +138,7 @@ public class Factions extends FactionsPluginBase {
 		Integrations.add(EssentialsIntegration.get());
 		Integrations.add(PlayerVaultsIntegration.get());
 		Integrations.add(MetricsIntegration.get());
+		Integrations.add(BStatsIntegration.get());
 
 		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
 		startAutoLeaveTask(false);
