@@ -1,7 +1,6 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.TL;
 import net.redstoneore.legacyfactions.entity.Conf;
@@ -74,7 +73,7 @@ public class CmdFactionsWarp extends FCommand {
                         fPlayer.msg(TL.COMMAND_FWARP_WARPED, warpName);
                     }
                 }
-            }, Factions.get().getConfig().getLong("warmups.f-warp", 0));
+            }, Conf.warmupWarp);
         } else {
             fme.msg(TL.COMMAND_FWARP_INVALID, warpName);
         }

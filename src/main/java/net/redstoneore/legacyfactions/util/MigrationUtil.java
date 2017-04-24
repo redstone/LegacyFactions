@@ -94,6 +94,8 @@ public class MigrationUtil {
 		Conf.scoreboardFactionlessEnabled = Factions.get().getConfig().getBoolean("scoreboard.factionless-enabled", false);
 		Conf.scoreboardFactionless = Factions.get().getConfig().getStringList("scoreboard.factionless");
 		
+		Conf.warmupHome = Factions.get().getConfig().getLong("warmups.f-home", 0);
+		Conf.warmupWarp = Factions.get().getConfig().getLong("warmups.f-warp", 0);
 		Conf.save();
 		
         Factions.get().log("=== MIGRATION DONE (Took " + (System.currentTimeMillis() - timeEnableStart) + "ms) ===");

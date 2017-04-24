@@ -140,7 +140,7 @@ public class CmdFactionsHome extends FCommand {
 		}
 
 		// calculate warmup
-		long warmup = Factions.get().getConfig().getLong("warmups.f-home", 0);
+		long warmup = Conf.warmupHome;
 		
 		if (fme.isAdminBypassing()) {
 			warmup = 0;

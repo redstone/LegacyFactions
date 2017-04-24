@@ -32,13 +32,20 @@ public class Conf {
 	 */
 	public static boolean enableMetrics = true;
 		
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// COMMANDS
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	
     public static List<String> baseCommandAliases = Lists.newArrayList("f");
     public static boolean allowNoSlashCommand = true;
 
+	// -------------------------------------------------- //
+    // WARMUPS
+	// -------------------------------------------------- //
+
+    public static long warmupWarp = 0;
+    public static long warmupHome = 0;
+    
 	// ----------------------------------------
 	// COLOURS
 	// ----------------------------------------
