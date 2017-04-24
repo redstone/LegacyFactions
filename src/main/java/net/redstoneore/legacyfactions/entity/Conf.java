@@ -594,11 +594,11 @@ public class Conf {
     private static transient Conf i = new Conf();
 
     public static void load() {
-        Factions.get().persist.loadOrSaveDefault(i, Conf.class, "conf");
+        Factions.get().getPersist().loadOrSaveDefault(i, Conf.class, "conf");
     }
 
     public static void save() {
-        Factions.get().persist.save(i);
+        Factions.get().getPersist().save(i);
     }
 
     public enum Backend {

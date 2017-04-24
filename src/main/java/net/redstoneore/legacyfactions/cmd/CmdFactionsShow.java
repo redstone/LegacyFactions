@@ -75,9 +75,9 @@ public class CmdFactionsShow extends FCommand {
             // send header and that's all
             String header = show.get(0);
             if (TagReplacerUtil.HEADER.contains(header)) {
-                msg(Factions.get().txt.titleize(tag));
+                msg(Factions.get().getTextUtil().titleize(tag));
             } else {
-                msg(Factions.get().txt.parse(TagReplacerUtil.FACTION.replace(header, tag)));
+                msg(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
             }
             return; // we only show header for non-normal factions
         }
@@ -102,7 +102,7 @@ public class CmdFactionsShow extends FCommand {
                 if (parsed.contains("%")) {
                     parsed = parsed.replaceAll("%", ""); // Just in case it got in there before we disallowed it.
                 }
-                msg(Factions.get().txt.parse(parsed));
+                msg(Factions.get().getTextUtil().parse(parsed));
             }
         }
     }

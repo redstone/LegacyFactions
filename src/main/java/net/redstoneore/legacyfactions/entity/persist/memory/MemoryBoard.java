@@ -246,7 +246,7 @@ public abstract class MemoryBoard extends Board {
     public ArrayList<String> getMap(Faction faction, FLocation flocation, double inDegrees) {
         ArrayList<String> ret = new ArrayList<String>();
         Faction factionLoc = getFactionAt(flocation);
-        ret.add(Factions.get().txt.titleize("(" + flocation.getCoordString() + ") " + factionLoc.getTag(faction)));
+        ret.add(Factions.get().getTextUtil().titleize("(" + flocation.getCoordString() + ") " + factionLoc.getTag(faction)));
 
         int halfWidth = Conf.mapWidth / 2;
         int halfHeight = Conf.mapHeight / 2;
@@ -297,7 +297,7 @@ public abstract class MemoryBoard extends Board {
         }
 
         // Get the compass
-        ArrayList<String> asciiCompass = AsciiCompass.getAsciiCompass(inDegrees, ChatColor.RED, Factions.get().txt.parse("<a>"));
+        ArrayList<String> asciiCompass = AsciiCompass.getAsciiCompass(inDegrees, ChatColor.RED, Factions.get().getTextUtil().parse("<a>"));
 
         // Add the compass
         ret.set(1, asciiCompass.get(0) + ret.get(1).substring(3 * 3));

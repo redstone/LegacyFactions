@@ -91,7 +91,7 @@ public enum Permission {
     }
 
     public boolean has(CommandSender sender, boolean informSenderIfNot) {
-        return Factions.get().perm.has(sender, this.node, informSenderIfNot);
+        return Factions.get().getPermUtil().has(sender, this.node, informSenderIfNot);
     }
 
     public boolean has(CommandSender sender) {

@@ -147,7 +147,7 @@ public enum TagReplacerUtil {
         if (fp != null) {
             switch (this) {
                 case HEADER:
-                    return Factions.get().txt.titleize(fac.getTag(fp));
+                    return Factions.get().getTextUtil().titleize(fac.getTag(fp));
                 case PLAYER_NAME:
                     return fp.getName();
                 case FACTION:

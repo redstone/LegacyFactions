@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.util;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
-import net.redstoneore.legacyfactions.FactionsPluginBase;
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.TL;
 
 import java.util.HashMap;
@@ -13,22 +13,19 @@ public class PermUtil {
 
     public Map<String, String> permissionDescriptions = new HashMap<String, String>();
 
-    protected FactionsPluginBase p;
-
-    public PermUtil(FactionsPluginBase p) {
-        this.p = p;
+    public PermUtil() {
         this.setup();
     }
 
     public String getForbiddenMessage(String perm) {
-        return p.txt.parse(TL.GENERIC_NOPERMISSION.toString(), getPermissionDescription(perm));
+        return Factions.get().getTextUtil().parse(TL.GENERIC_NOPERMISSION.toString(), getPermissionDescription(perm));
     }
 
     /**
      * This method hooks into all permission plugins we are supporting
      */
     public final void setup() {
-        for (Permission permission : p.getDescription().getPermissions()) {
+        for (Permission permission : Factions.get().getDescription().getPermissions()) {
             //p.log("\""+permission.getName()+"\" = \""+permission.getDescription()+"\"");
             this.permissionDescriptions.put(permission.getName(), permission.getDescription());
         }

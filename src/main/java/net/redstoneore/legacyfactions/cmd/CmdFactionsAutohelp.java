@@ -34,7 +34,7 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
             }
         }
 
-        sendMessage(Factions.get().txt.getPage(lines, this.argAsInt(0, 1), TL.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
+        sendMessage(Factions.get().getTextUtil().getPage(lines, this.argAsInt(0, 1), TL.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
     }
 
     @Override

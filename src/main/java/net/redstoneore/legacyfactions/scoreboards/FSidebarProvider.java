@@ -31,7 +31,7 @@ public abstract class FSidebarProvider {
             // we assume it's broken up into two lines, so returning our tl will suffice.
             return TL.COMMAND_SHOW_NOHOME.toString();
         }
-        return Factions.get().txt.parse(line); // finally add color :)
+        return Factions.get().getTextUtil().parse(line); // finally add color :)
     }
     
 	// -------------------------------------------------- //

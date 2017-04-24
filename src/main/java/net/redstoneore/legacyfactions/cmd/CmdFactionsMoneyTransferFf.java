@@ -44,7 +44,7 @@ public class CmdFactionsMoneyTransferFf extends FCommand {
         boolean success = VaultEngine.transferMoney(fme, from, to, amount);
 
         if (success && Conf.logMoneyTransactions) {
-            Factions.get().log(ChatColor.stripColor(Factions.get().txt.parse(TL.COMMAND_MONEYTRANSFERFF_TRANSFER.toString(), fme.getName(), VaultEngine.moneyString(amount), from.describeTo(null), to.describeTo(null))));
+            Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(TL.COMMAND_MONEYTRANSFERFF_TRANSFER.toString(), fme.getName(), VaultEngine.moneyString(amount), from.describeTo(null), to.describeTo(null))));
         }
     }
 

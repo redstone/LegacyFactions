@@ -112,14 +112,14 @@ public class CmdFactionsList extends FCommand {
 
         String header = Factions.get().getConfig().getString("list.header", defaults[0]);
         header = header.replace("{pagenumber}", String.valueOf(pagenumber)).replace("{pagecount}", String.valueOf(pagecount));
-        lines.add(Factions.get().txt.parse(header));
+        lines.add(Factions.get().getTextUtil().parse(header));
 
         for (Faction faction : factionList.subList(start, end)) {
             if (faction.isWilderness()) {
-                lines.add(Factions.get().txt.parse(TagUtil.parsePlain(faction, Factions.get().getConfig().getString("list.factionless", defaults[1]))));
+                lines.add(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, Factions.get().getConfig().getString("list.factionless", defaults[1]))));
                 continue;
             }
-            lines.add(Factions.get().txt.parse(TagUtil.parsePlain(faction, fme, Factions.get().getConfig().getString("list.entry", defaults[2]))));
+            lines.add(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, fme, Factions.get().getConfig().getString("list.entry", defaults[2]))));
         }
         sendMessage(lines);
     }

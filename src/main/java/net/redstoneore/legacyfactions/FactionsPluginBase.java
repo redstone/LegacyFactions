@@ -30,22 +30,49 @@ import java.util.logging.Level;
 
 public abstract class FactionsPluginBase extends JavaPlugin {
 	
+    // -------------------------------------------------- //
+	// STATIC FIELDS
+    // -------------------------------------------------- //
+
 	public static final String LOG_PREFIX = ChatColor.AQUA+""+ ChatColor.BOLD + "[LegacyFactions] " + ChatColor.RESET;
 	public static final String WARN_PREFIX = ChatColor.GOLD+""+ ChatColor.BOLD + "[WARN] " + ChatColor.RESET;
 	public static final String ERROR_PREFIX = ChatColor.RED+""+ ChatColor.BOLD + "[ERROR] " + ChatColor.RESET;
 	public static final String DEBUG_PREFIX = ChatColor.LIGHT_PURPLE+""+ ChatColor.BOLD + "[DEBUG] " + ChatColor.RESET;
-	  
+	 
+    // -------------------------------------------------- //
+	// UTILS
+    // -------------------------------------------------- //
+
 	// Utils
-    public Persist persist;
-    public TextUtil txt;
-    public PermUtil perm;
+    private Persist persist;
+    private TextUtil txt = null;
+    private PermUtil perm = null;
 
     public TextUtil getTextUtil() {
+    	if (this.txt == null) {
+            this.txt = this.initTXT();
+    	}
     	return this.txt;
     }
     
+    public PermUtil getPermUtil() {
+    	if (this.perm == null) {
+    		this.perm = new PermUtil();
+    	}
+    	return this.perm;
+    }
+    
+    public Persist getPersist() {
+    	if (this.persist == null) {
+            this.persist = new Persist();
+    	}
+    	
+    	return this.persist;
+    }
+    
+    
     // Persist related
-    public Gson gson = this.getGsonBuilder().create();
+    public final Gson gson = this.getGsonBuilder().create();
     private Integer saveTask = null;
     private boolean autoSave = true;
     protected boolean loadSuccessful = false;
@@ -62,28 +89,25 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     private FactionsCommandsListener mPluginSecretPlayerListener;
 
     // Our stored base commands
-    private List<MCommand<?>> baseCommands = new ArrayList<MCommand<?>>();
+    private List<MCommand<?>> baseCommands = new ArrayList<>();
 
     public List<MCommand<?>> getBaseCommands() {
         return this.baseCommands;
     }
 
     // holds f stuck start times
-    private Map<UUID, Long> timers = new HashMap<UUID, Long>();
+    private Map<UUID, Long> timers = new HashMap<>();
 
     //holds f stuck taskids
-    public Map<UUID, Integer> stuckMap = new HashMap<UUID, Integer>();
+    public Map<UUID, Integer> stuckMap = new HashMap<>();
 
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
     // ENABLE
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
     private long timeEnableStart;
 
     public boolean preEnable() {
-        this.persist = new Persist();
-        this.txt = this.initTXT();
-        this.perm = new PermUtil(this);
-
+        
         log("=== ENABLE START ===");
         
         this.timeEnableStart = System.currentTimeMillis();
@@ -197,19 +221,19 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         this.getServer().getPluginManager().disablePlugin(this);
     }
 
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
     // Some inits...
     // You are supposed to override these in the plugin if you aren't satisfied with the defaults
     // The goal is that you always will be satisfied though.
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
 
     public GsonBuilder getGsonBuilder() {
         return new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().serializeNulls().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE);
     }
 
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
     // LANG AND TAGS
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
 
     // These are not supposed to be used directly.
     // They are loaded and used through the TextUtil instance for the plugin.
@@ -249,9 +273,9 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         return txt;
     }
 
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
     // COMMAND HANDLING
-    // -------------------------------------------- //
+    // -------------------------------------------------- //
 
     // can be overridden by P method, to provide option
     public boolean logPlayerCommands() {

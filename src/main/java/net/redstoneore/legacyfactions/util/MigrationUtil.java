@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Conf;
 

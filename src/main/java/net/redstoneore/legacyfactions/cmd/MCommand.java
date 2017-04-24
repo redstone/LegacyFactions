@@ -155,7 +155,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     }
 
     public boolean validSenderPermissions(CommandSender sender, boolean informSenderIfNot) {
-        return this.permission == null || Factions.get().perm.has(sender, this.permission, informSenderIfNot);
+        return this.permission == null || Factions.get().getPermUtil().has(sender, this.permission, informSenderIfNot);
     }
 
     public boolean validArgs(List<String> args, CommandSender sender) {
@@ -193,7 +193,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     public String getUseageTemplate(List<MCommand<?>> commandChain, boolean addShortHelp, boolean colours) {
         StringBuilder ret = new StringBuilder();
         
-        if (colours) ret.append(Factions.get().txt.parseTags("<c>"));
+        if (colours) ret.append(Factions.get().getTextUtil().parseTags("<c>"));
         
         
         ret.append('/');
@@ -223,7 +223,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
         if (args.size() > 0) {
         	if (colours) {
-        		ret.append(Factions.get().txt.parseTags("<p> "));
+        		ret.append(Factions.get().getTextUtil().parseTags("<p> "));
         	} else {
         		ret.append(" ");
         	}
@@ -232,7 +232,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
         if (addShortHelp) {
         	if (colours)  {
-        		ret.append(Factions.get().txt.parseTags(" <i>"));
+        		ret.append(Factions.get().getTextUtil().parseTags(" <i>"));
         	} else {
         		ret.append(" ");
         	}
@@ -259,11 +259,11 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     // -------------------------------------------- //
 
     public void msg(String str, Object... args) {
-        sender.sendMessage(Factions.get().txt.parse(str, args));
+        sender.sendMessage(Factions.get().getTextUtil().parse(str, args));
     }
 
     public void msg(TL translation, Object... args) {
-        sender.sendMessage(Factions.get().txt.parse(translation.toString(), args));
+        sender.sendMessage(Factions.get().getTextUtil().parse(translation.toString(), args));
     }
 
     public void sendMessage(String msg) {

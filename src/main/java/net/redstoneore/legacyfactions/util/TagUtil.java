@@ -130,7 +130,7 @@ public class TagUtil {
 
         switch (type) {
             case ALLIES_LIST:
-                FancyMessage currentAllies = Factions.get().txt.parseFancy(prefix);
+                FancyMessage currentAllies = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstAlly = true;
                 for (Faction otherFaction : FactionColl.get().getAllFactions()) {
                     if (otherFaction == target) {
@@ -150,7 +150,7 @@ public class TagUtil {
                 fancyMessages.add(currentAllies);
                 return firstAlly && minimal ? null : fancyMessages; // we must return here and not outside the switch
             case ENEMIES_LIST:
-                FancyMessage currentEnemies = Factions.get().txt.parseFancy(prefix);
+                FancyMessage currentEnemies = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstEnemy = true;
                 for (Faction otherFaction : FactionColl.get().getAllFactions()) {
                     if (otherFaction == target) {
@@ -170,7 +170,7 @@ public class TagUtil {
                 fancyMessages.add(currentEnemies);
                 return firstEnemy && minimal ? null : fancyMessages; // we must return here and not outside the switch
             case ONLINE_LIST:
-                FancyMessage currentOnline = Factions.get().txt.parseFancy(prefix);
+                FancyMessage currentOnline = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstOnline = true;
                 for (FPlayer p : MiscUtil.rankOrder(target.getFPlayersWhereOnline(true))) {
                     String name = p.getNameAndTitle();
@@ -185,7 +185,7 @@ public class TagUtil {
                 fancyMessages.add(currentOnline);
                 return firstOnline && minimal ? null : fancyMessages; // we must return here and not outside the switch
             case OFFLINE_LIST:
-                FancyMessage currentOffline = Factions.get().txt.parseFancy(prefix);
+                FancyMessage currentOffline = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstOffline = true;
                 for (FPlayer p : MiscUtil.rankOrder(target.getFPlayers())) {
                     String name = p.getNameAndTitle();

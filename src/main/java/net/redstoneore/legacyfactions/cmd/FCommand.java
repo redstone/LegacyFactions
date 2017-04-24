@@ -81,17 +81,17 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (!fme.hasFaction()) {
-            sender.sendMessage(Factions.get().txt.parse("<b>You are not member of any faction."));
+            sender.sendMessage(Factions.get().getTextUtil().parse("<b>You are not member of any faction."));
             return false;
         }
 
         if (this.senderMustBeModerator && !fme.getRole().isAtLeast(Role.MODERATOR)) {
-            sender.sendMessage(Factions.get().txt.parse("<b>Only faction moderators can %s.", this.getHelpShort()));
+            sender.sendMessage(Factions.get().getTextUtil().parse("<b>Only faction moderators can %s.", this.getHelpShort()));
             return false;
         }
 
         if (this.senderMustBeAdmin && !fme.getRole().isAtLeast(Role.ADMIN)) {
-            sender.sendMessage(Factions.get().txt.parse("<b>Only faction admins can %s.", this.getHelpShort()));
+            sender.sendMessage(Factions.get().getTextUtil().parse("<b>Only faction admins can %s.", this.getHelpShort()));
             return false;
         }
 
@@ -243,7 +243,7 @@ public abstract class FCommand extends MCommand<Factions> {
 
     public boolean canIAdministerYou(FPlayer i, FPlayer you) {
         if (!i.getFaction().equals(you.getFaction())) {
-            i.sendMessage(Factions.get().txt.parse("%s <b>is not in the same faction as you.", you.describeTo(i, true)));
+            i.sendMessage(Factions.get().getTextUtil().parse("%s <b>is not in the same faction as you.", you.describeTo(i, true)));
             return false;
         }
 
@@ -252,15 +252,15 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (you.getRole().equals(Role.ADMIN)) {
-            i.sendMessage(Factions.get().txt.parse("<b>Only the faction admin can do that."));
+            i.sendMessage(Factions.get().getTextUtil().parse("<b>Only the faction admin can do that."));
         } else if (i.getRole().equals(Role.MODERATOR)) {
             if (i == you) {
                 return true; //Moderators can control themselves
             } else {
-                i.sendMessage(Factions.get().txt.parse("<b>Moderators can't control each other..."));
+                i.sendMessage(Factions.get().getTextUtil().parse("<b>Moderators can't control each other..."));
             }
         } else {
-            i.sendMessage(Factions.get().txt.parse("<b>You must be a faction moderator to do that."));
+            i.sendMessage(Factions.get().getTextUtil().parse("<b>You must be a faction moderator to do that."));
         }
 
         return false;
