@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsLeave extends FCommand {
 
@@ -28,7 +28,7 @@ public class CmdFactionsLeave extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.LEAVE_DESCRIPTION.toString();
+        return Lang.LEAVE_DESCRIPTION.toString();
     }
 
 }

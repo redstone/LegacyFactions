@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.util;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
 public class WarmUpUtil {
@@ -15,10 +15,10 @@ public class WarmUpUtil {
      *                       <p/>
      *                       note: for translations: %s = action, %d = delay
      */
-    public static void process(final FPlayer player, Warmup warmup, TL translationKey, String action, final Runnable runnable, long delay) {
+    public static void process(final FPlayer player, Warmup warmup, Lang translationKey, String action, final Runnable runnable, long delay) {
         if (delay > 0) {
             if (player.isWarmingUp()) {
-                player.msg(TL.WARMUPS_ALREADY);
+                player.msg(Lang.WARMUPS_ALREADY);
             } else {
                 player.msg(translationKey.format(action, delay));
                 int id = Factions.get().getServer().getScheduler().runTaskLater(Factions.get(), new Runnable() {

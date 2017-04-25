@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -35,10 +35,10 @@ public class CmdFactionsPermanent extends FCommand {
 
         String change;
         if (faction.isPermanent()) {
-            change = TL.COMMAND_PERMANENT_REVOKE.toString();
+            change = Lang.COMMAND_PERMANENT_REVOKE.toString();
             faction.setPermanent(false);
         } else {
-            change = TL.COMMAND_PERMANENT_GRANT.toString();
+            change = Lang.COMMAND_PERMANENT_GRANT.toString();
             faction.setPermanent(true);
         }
 
@@ -46,17 +46,17 @@ public class CmdFactionsPermanent extends FCommand {
 
         // Inform all players
         for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
-            String blame = (fme == null ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
+            String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
             if (fplayer.getFaction() == faction) {
-                fplayer.msg(TL.COMMAND_PERMANENT_YOURS, blame, change);
+                fplayer.msg(Lang.COMMAND_PERMANENT_YOURS, blame, change);
             } else {
-                fplayer.msg(TL.COMMAND_PERMANENT_OTHER, blame, change, faction.getTag(fplayer));
+                fplayer.msg(Lang.COMMAND_PERMANENT_OTHER, blame, change, faction.getTag(fplayer));
             }
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_PERMANENT_DESCRIPTION.toString();
+        return Lang.COMMAND_PERMANENT_DESCRIPTION.toString();
     }
 }

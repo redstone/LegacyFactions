@@ -53,11 +53,11 @@ public class CmdFactionsDisband extends FCommand {
         }
 
         if (!faction.isNormal()) {
-            msg(TL.COMMAND_DISBAND_IMMUTABLE.toString());
+            msg(Lang.COMMAND_DISBAND_IMMUTABLE.toString());
             return;
         }
         if (faction.isPermanent()) {
-            msg(TL.COMMAND_DISBAND_MARKEDPERMANENT.toString());
+            msg(Lang.COMMAND_DISBAND_MARKEDPERMANENT.toString());
             return;
         }
 
@@ -74,11 +74,11 @@ public class CmdFactionsDisband extends FCommand {
 
         // Inform all players
         for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
-            String who = senderIsConsole ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer);
+            String who = senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer);
             if (fplayer.getFaction() == faction) {
-                fplayer.msg(TL.COMMAND_DISBAND_BROADCAST_YOURS, who);
+                fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURS, who);
             } else {
-                fplayer.msg(TL.COMMAND_DISBAND_BROADCAST_NOTYOURS, who, faction.getTag(fplayer));
+                fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_NOTYOURS, who, faction.getTag(fplayer));
             }
         }
         if (Conf.logFactionDisband) {
@@ -93,7 +93,7 @@ public class CmdFactionsDisband extends FCommand {
 
             if (amount > 0.0) {
                 String amountString = VaultEngine.moneyString(amount);
-                msg(TL.COMMAND_DISBAND_HOLDINGS, amountString);
+                msg(Lang.COMMAND_DISBAND_HOLDINGS, amountString);
                 //TODO: Format this correctly and translate
                 Factions.get().log(fme.getName() + " has been given bank holdings of " + amountString + " from disbanding " + faction.getTag() + ".");
             }
@@ -105,6 +105,6 @@ public class CmdFactionsDisband extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_DISBAND_DESCRIPTION.toString();
+        return Lang.COMMAND_DISBAND_DESCRIPTION.toString();
     }
 }

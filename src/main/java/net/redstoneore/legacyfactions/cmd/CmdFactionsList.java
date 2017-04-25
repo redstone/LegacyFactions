@@ -4,7 +4,7 @@ import java.util.*;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -126,6 +126,6 @@ public class CmdFactionsList extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_LIST_DESCRIPTION.toString();
+        return Lang.COMMAND_LIST_DESCRIPTION.toString();
     }
 }

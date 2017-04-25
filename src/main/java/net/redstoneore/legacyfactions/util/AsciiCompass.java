@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.util;
 
 import org.bukkit.ChatColor;
 
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 import java.util.ArrayList;
 
@@ -32,16 +32,16 @@ public class AsciiCompass {
 
         public String getTranslation() {
             if (this == N) {
-                return TL.COMPASS_SHORT_NORTH.toString();
+                return Lang.COMPASS_SHORT_NORTH.toString();
             }
             if (this == E) {
-                return TL.COMPASS_SHORT_EAST.toString();
+                return Lang.COMPASS_SHORT_EAST.toString();
             }
             if (this == S) {
-                return TL.COMPASS_SHORT_SOUTH.toString();
+                return Lang.COMPASS_SHORT_SOUTH.toString();
             }
             if (this == W) {
-                return TL.COMPASS_SHORT_WEST.toString();
+                return Lang.COMPASS_SHORT_WEST.toString();
             }
             return toString();
         }

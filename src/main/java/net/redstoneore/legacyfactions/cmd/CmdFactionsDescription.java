@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -30,7 +30,7 @@ public class CmdFactionsDescription extends FCommand {
     @Override
     public void perform() {
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(Conf.econCostDesc, TL.COMMAND_DESCRIPTION_TOCHANGE, TL.COMMAND_DESCRIPTION_FORCHANGE)) {
+        if (!payForCommand(Conf.econCostDesc, Lang.COMMAND_DESCRIPTION_TOCHANGE, Lang.COMMAND_DESCRIPTION_FORCHANGE)) {
             return;
         }
 
@@ -39,21 +39,21 @@ public class CmdFactionsDescription extends FCommand {
         myFaction.setDescription(TextUtil.implode(args, " ").replaceAll("%", "").replaceAll("(&([a-f0-9klmnor]))", "& $2"));
 
         if (!Conf.broadcastDescriptionChanges) {
-            fme.msg(TL.COMMAND_DESCRIPTION_CHANGED, myFaction.describeTo(fme));
+            fme.msg(Lang.COMMAND_DESCRIPTION_CHANGED, myFaction.describeTo(fme));
             fme.sendMessage(myFaction.getDescription());
             return;
         }
 
         // Broadcast the description to everyone
         for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
-            fplayer.msg(TL.COMMAND_DESCRIPTION_CHANGES, myFaction.describeTo(fplayer));
+            fplayer.msg(Lang.COMMAND_DESCRIPTION_CHANGES, myFaction.describeTo(fplayer));
             fplayer.sendMessage(myFaction.getDescription());  // players can inject "&" or "`" or "<i>" or whatever in their description; &k is particularly interesting looking
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_DESCRIPTION_DESCRIPTION.toString();
+        return Lang.COMMAND_DESCRIPTION_DESCRIPTION.toString();
     }
 
 }

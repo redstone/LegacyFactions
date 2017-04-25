@@ -41,7 +41,7 @@ public class CmdFactionsHome extends FCommand {
 	@Override
 	public void perform() {
 		if (!Conf.homesEnabled) {
-			fme.msg(TL.COMMAND_HOME_DISABLED);
+			fme.msg(Lang.COMMAND_HOME_DISABLED);
 			return;
 		}
 		
@@ -68,23 +68,23 @@ public class CmdFactionsHome extends FCommand {
 		}
 		
 		if (!Conf.homesTeleportCommandEnabled) {
-			fme.msg(TL.COMMAND_HOME_TELEPORTDISABLED);
+			fme.msg(Lang.COMMAND_HOME_TELEPORTDISABLED);
 			return;
 		}
 
 		if (!faction.hasHome()) {
-			fme.msg(TL.COMMAND_HOME_NOHOME.toString() + (fme.getRole().value < Role.MODERATOR.value ? TL.GENERIC_ASKYOURLEADER.toString() : TL.GENERIC_YOUSHOULD.toString()));
+			fme.msg(Lang.COMMAND_HOME_NOHOME.toString() + (fme.getRole().value < Role.MODERATOR.value ? Lang.GENERIC_ASKYOURLEADER.toString() : Lang.GENERIC_YOUSHOULD.toString()));
 			fme.sendMessage(Factions.get().cmdBase.cmdSethome.getUseageTemplate());
 			return;
 		}
 
 		if (!Conf.homesTeleportAllowedFromEnemyTerritory && fme.isInEnemyTerritory() && !fme.isAdminBypassing()) {
-			fme.msg(TL.COMMAND_HOME_INENEMY);
+			fme.msg(Lang.COMMAND_HOME_INENEMY);
 			return;
 		}
 
 		if (!Conf.homesTeleportAllowedFromDifferentWorld && me.getWorld().getUID() != faction.getHome().getWorld().getUID() && !fme.isAdminBypassing()) {
-			fme.msg(TL.COMMAND_HOME_WRONGWORLD);
+			fme.msg(Lang.COMMAND_HOME_WRONGWORLD);
 			return;
 		}
 
@@ -122,13 +122,13 @@ public class CmdFactionsHome extends FCommand {
 					continue;
 				}
 
-				fme.msg(TL.COMMAND_HOME_ENEMYNEAR, String.valueOf(Conf.homesTeleportAllowedEnemyDistance));
+				fme.msg(Lang.COMMAND_HOME_ENEMYNEAR, String.valueOf(Conf.homesTeleportAllowedEnemyDistance));
 				return;
 			}
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostHome, TL.COMMAND_HOME_TOTELEPORT.toString(), TL.COMMAND_HOME_FORTELEPORT.toString())) {
+		if (!payForCommand(Conf.econCostHome, Lang.COMMAND_HOME_TOTELEPORT.toString(), Lang.COMMAND_HOME_FORTELEPORT.toString())) {
 			return;
 		}
 
@@ -149,7 +149,7 @@ public class CmdFactionsHome extends FCommand {
 		final Location warmupLocation = faction.getHome();
 		final Player warmupPlayer = me;
 		
-		this.doWarmUp(WarmUpUtil.Warmup.HOME, TL.WARMUPS_NOTIFY_TELEPORT, "Home", new Runnable() {
+		this.doWarmUp(WarmUpUtil.Warmup.HOME, Lang.WARMUPS_NOTIFY_TELEPORT, "Home", new Runnable() {
 			@Override
 			public void run() {
 				// Create a smoke effect
@@ -169,7 +169,7 @@ public class CmdFactionsHome extends FCommand {
 
 	@Override
 	public String getUsageTranslation() {
-		return TL.COMMAND_HOME_DESCRIPTION.toString();
+		return Lang.COMMAND_HOME_DESCRIPTION.toString();
 	}
 
 }

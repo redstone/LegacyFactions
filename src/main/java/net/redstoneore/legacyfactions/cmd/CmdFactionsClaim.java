@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -42,7 +42,7 @@ public class CmdFactionsClaim extends FCommand {
         final Faction forFaction = this.argAsFaction(1, myFaction); // Default to own
 
         if (radius < 1) {
-            msg(TL.COMMAND_CLAIM_INVALIDRADIUS);
+            msg(Lang.COMMAND_CLAIM_INVALIDRADIUS);
             return;
         }
 
@@ -64,7 +64,7 @@ public class CmdFactionsClaim extends FCommand {
         } else {
             // radius claim
             if (!Permission.CLAIM_RADIUS.has(sender, false)) {
-                msg(TL.COMMAND_CLAIM_DENIED);
+                msg(Lang.COMMAND_CLAIM_DENIED);
                 return;
             }
 
@@ -105,7 +105,7 @@ public class CmdFactionsClaim extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_CLAIM_DESCRIPTION.toString();
+        return Lang.COMMAND_CLAIM_DESCRIPTION.toString();
     }
 
 }

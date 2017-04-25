@@ -6,7 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
@@ -72,16 +72,16 @@ public class MiscUtil {
         ArrayList<String> errors = new ArrayList<String>();
 
         if (getComparisonString(str).length() < Conf.factionTagLengthMin) {
-            errors.add(Factions.get().getTextUtil().parse(TL.GENERIC_FACTIONTAG_TOOSHORT.toString(), Conf.factionTagLengthMin));
+            errors.add(Factions.get().getTextUtil().parse(Lang.GENERIC_FACTIONTAG_TOOSHORT.toString(), Conf.factionTagLengthMin));
         }
 
         if (str.length() > Conf.factionTagLengthMax) {
-            errors.add(Factions.get().getTextUtil().parse(TL.GENERIC_FACTIONTAG_TOOLONG.toString(), Conf.factionTagLengthMax));
+            errors.add(Factions.get().getTextUtil().parse(Lang.GENERIC_FACTIONTAG_TOOLONG.toString(), Conf.factionTagLengthMax));
         }
 
         for (char c : str.toCharArray()) {
             if (!substanceChars.contains(String.valueOf(c))) {
-                errors.add(Factions.get().getTextUtil().parse(TL.GENERIC_FACTIONTAG_ALPHANUMERIC.toString(), c));
+                errors.add(Factions.get().getTextUtil().parse(Lang.GENERIC_FACTIONTAG_ALPHANUMERIC.toString(), c));
             }
         }
 

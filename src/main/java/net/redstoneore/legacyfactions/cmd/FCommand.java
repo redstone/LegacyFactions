@@ -19,7 +19,7 @@ import java.util.List;
 
 public abstract class FCommand extends MCommand<Factions> {
 	
-    public SimpleDateFormat sdf = new SimpleDateFormat(TL.DATE_FORMAT.toString());
+    public SimpleDateFormat sdf = new SimpleDateFormat(Lang.DATE_FORMAT.toString());
 
     // Due to safety reasons it defaults to disable on lock.
     public boolean disableOnLock = true;
@@ -279,7 +279,7 @@ public abstract class FCommand extends MCommand<Factions> {
         }
     }
 
-    public boolean payForCommand(double cost, TL toDoThis, TL forDoingThis) {
+    public boolean payForCommand(double cost, Lang toDoThis, Lang forDoingThis) {
         return payForCommand(cost, toDoThis.toString(), forDoingThis.toString());
     }
 
@@ -296,11 +296,11 @@ public abstract class FCommand extends MCommand<Factions> {
         }
     }
 
-    public void doWarmUp(WarmUpUtil.Warmup warmup, TL translationKey, String action, Runnable runnable, long delay) {
+    public void doWarmUp(WarmUpUtil.Warmup warmup, Lang translationKey, String action, Runnable runnable, long delay) {
         this.doWarmUp(this.fme, warmup, translationKey, action, runnable, delay);
     }
 
-    public void doWarmUp(FPlayer player, WarmUpUtil.Warmup warmup, TL translationKey, String action, Runnable runnable, long delay) {
+    public void doWarmUp(FPlayer player, WarmUpUtil.Warmup warmup, Lang translationKey, String action, Runnable runnable, long delay) {
         WarmUpUtil.process(player, warmup, translationKey, action, runnable, delay);
     }
 }

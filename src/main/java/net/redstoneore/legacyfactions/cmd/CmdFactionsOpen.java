@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -27,27 +27,27 @@ public class CmdFactionsOpen extends FCommand {
     @Override
     public void perform() {
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(Conf.econCostOpen, TL.COMMAND_OPEN_TOOPEN, TL.COMMAND_OPEN_FOROPEN)) {
+        if (!payForCommand(Conf.econCostOpen, Lang.COMMAND_OPEN_TOOPEN, Lang.COMMAND_OPEN_FOROPEN)) {
             return;
         }
 
         myFaction.setOpen(this.argAsBool(0, !myFaction.getOpen()));
 
-        String open = myFaction.getOpen() ? TL.COMMAND_OPEN_OPEN.toString() : TL.COMMAND_OPEN_CLOSED.toString();
+        String open = myFaction.getOpen() ? Lang.COMMAND_OPEN_OPEN.toString() : Lang.COMMAND_OPEN_CLOSED.toString();
 
         // Inform
         for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
             if (fplayer.getFactionId().equals(myFaction.getId())) {
-                fplayer.msg(TL.COMMAND_OPEN_CHANGES, fme.getName(), open);
+                fplayer.msg(Lang.COMMAND_OPEN_CHANGES, fme.getName(), open);
                 continue;
             }
-            fplayer.msg(TL.COMMAND_OPEN_CHANGED, myFaction.getTag(fplayer.getFaction()), open);
+            fplayer.msg(Lang.COMMAND_OPEN_CHANGED, myFaction.getTag(fplayer.getFaction()), open);
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_OPEN_DESCRIPTION.toString();
+        return Lang.COMMAND_OPEN_DESCRIPTION.toString();
     }
 
 }

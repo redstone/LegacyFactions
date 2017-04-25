@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
 public class CmdFactionsAnnounce extends FCommand {
@@ -43,7 +43,7 @@ public class CmdFactionsAnnounce extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_ANNOUNCE_DESCRIPTION.toString();
+        return Lang.COMMAND_ANNOUNCE_DESCRIPTION.toString();
     }
 
 }

@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 
@@ -32,8 +32,8 @@ public class CmdFactionsPowerBoost extends FCommand {
         if (type.equals("f") || type.equals("faction")) {
             doPlayer = false;
         } else if (!type.equals("p") && !type.equals("player")) {
-            msg(TL.COMMAND_POWERBOOST_HELP_1);
-            msg(TL.COMMAND_POWERBOOST_HELP_2);
+            msg(Lang.COMMAND_POWERBOOST_HELP_1);
+            msg(Lang.COMMAND_POWERBOOST_HELP_2);
             return;
         }
 
@@ -42,7 +42,7 @@ public class CmdFactionsPowerBoost extends FCommand {
             if (this.argAsString(2).equalsIgnoreCase("reset")) {
                 targetPower = 0D;
             } else {
-                msg(TL.COMMAND_POWERBOOST_INVALIDNUM);
+                msg(Lang.COMMAND_POWERBOOST_INVALIDNUM);
                 return;
             }
         }
@@ -59,7 +59,7 @@ public class CmdFactionsPowerBoost extends FCommand {
                 targetPower += targetPlayer.getPowerBoost();
             }
             targetPlayer.setPowerBoost(targetPower);
-            target = TL.COMMAND_POWERBOOST_PLAYER.format(targetPlayer.getName());
+            target = Lang.COMMAND_POWERBOOST_PLAYER.format(targetPlayer.getName());
         } else {
             Faction targetFaction = this.argAsFaction(1);
             if (targetFaction == null) {
@@ -70,18 +70,18 @@ public class CmdFactionsPowerBoost extends FCommand {
                 targetPower += targetFaction.getPowerBoost();
             }
             targetFaction.setPowerBoost(targetPower);
-            target = TL.COMMAND_POWERBOOST_FACTION.format(targetFaction.getTag());
+            target = Lang.COMMAND_POWERBOOST_FACTION.format(targetFaction.getTag());
         }
 
         int roundedPower = (int) Math.round(targetPower);
-        msg(TL.COMMAND_POWERBOOST_BOOST, target, roundedPower);
+        msg(Lang.COMMAND_POWERBOOST_BOOST, target, roundedPower);
         if (!senderIsConsole) {
-            Factions.get().log(TL.COMMAND_POWERBOOST_BOOSTLOG.toString(), fme.getName(), target, roundedPower);
+            Factions.get().log(Lang.COMMAND_POWERBOOST_BOOSTLOG.toString(), fme.getName(), target, roundedPower);
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_POWERBOOST_DESCRIPTION.toString();
+        return Lang.COMMAND_POWERBOOST_DESCRIPTION.toString();
     }
 }

@@ -349,7 +349,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         this.id = id;
         this.open = Conf.newFactionsDefaultOpen;
         this.tag = "???";
-        this.description = TL.GENERIC_DEFAULTDESCRIPTION.toString();
+        this.description = Lang.GENERIC_DEFAULTDESCRIPTION.toString();
         this.lastPlayerLoggedOffTime = 0;
         this.peaceful = false;
         this.peacefulExplosionsEnabled = false;
@@ -708,7 +708,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         }
     }
 
-    public void msg(TL translation, Object... args) {
+    public void msg(Lang translation, Object... args) {
         msg(translation.toString(), args);
     }
 

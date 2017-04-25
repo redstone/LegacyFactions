@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.ArrayList;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsAutohelp extends MCommand<Factions> {
 
@@ -34,11 +34,11 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
             }
         }
 
-        sendMessage(Factions.get().getTextUtil().getPage(lines, this.argAsInt(0, 1), TL.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
+        sendMessage(Factions.get().getTextUtil().getPage(lines, this.argAsInt(0, 1), Lang.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_HELP_DESCRIPTION.toString();
+        return Lang.COMMAND_HELP_DESCRIPTION.toString();
     }
 }

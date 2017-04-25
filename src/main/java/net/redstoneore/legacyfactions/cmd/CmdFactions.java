@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.Collections;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
 
@@ -163,7 +163,7 @@ public class CmdFactions extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.GENERIC_PLACEHOLDER.toString();
+        return Lang.GENERIC_PLACEHOLDER.toString();
     }
 
 }

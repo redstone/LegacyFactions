@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsMoney extends FCommand {
 
@@ -26,7 +26,7 @@ public class CmdFactionsMoney extends FCommand {
         senderMustBeModerator = false;
         senderMustBeAdmin = false;
 
-        this.helpLong.add(Factions.get().getTextUtil().parseTags(TL.COMMAND_MONEY_LONG.toString()));
+        this.helpLong.add(Factions.get().getTextUtil().parseTags(Lang.COMMAND_MONEY_LONG.toString()));
 
         this.addSubCommand(this.cmdMoneyBalance);
         this.addSubCommand(this.cmdMoneyDeposit);
@@ -44,7 +44,7 @@ public class CmdFactionsMoney extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_MONEY_DESCRIPTION.toString();
+        return Lang.COMMAND_MONEY_DESCRIPTION.toString();
     }
 
 }

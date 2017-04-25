@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 
@@ -37,18 +37,18 @@ public class CmdFactionsMap extends FCommand {
                 }
 
                 fme.setMapAutoUpdating(true);
-                msg(TL.COMMAND_MAP_UPDATE_ENABLED);
+                msg(Lang.COMMAND_MAP_UPDATE_ENABLED);
 
                 // And show the map once
                 showMap();
             } else {
                 // Turn off
                 fme.setMapAutoUpdating(false);
-                msg(TL.COMMAND_MAP_UPDATE_DISABLED);
+                msg(Lang.COMMAND_MAP_UPDATE_DISABLED);
             }
         } else {
             // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-            if (!payForCommand(Conf.econCostMap, TL.COMMAND_MAP_TOSHOW, TL.COMMAND_MAP_FORSHOW)) {
+            if (!payForCommand(Conf.econCostMap, Lang.COMMAND_MAP_TOSHOW, Lang.COMMAND_MAP_FORSHOW)) {
                 return;
             }
 
@@ -62,7 +62,7 @@ public class CmdFactionsMap extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_MAP_DESCRIPTION.toString();
+        return Lang.COMMAND_MAP_DESCRIPTION.toString();
     }
 
 }

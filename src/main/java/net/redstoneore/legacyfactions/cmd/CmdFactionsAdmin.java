@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -43,17 +43,17 @@ public class CmdFactionsAdmin extends FCommand {
         Faction targetFaction = fyou.getFaction();
 
         if (targetFaction != myFaction && !permAny) {
-            msg(TL.COMMAND_ADMIN_NOTMEMBER, fyou.describeTo(fme, true));
+            msg(Lang.COMMAND_ADMIN_NOTMEMBER, fyou.describeTo(fme, true));
             return;
         }
 
         if (fme != null && fme.getRole() != Role.ADMIN && !permAny) {
-            msg(TL.COMMAND_ADMIN_NOTADMIN);
+            msg(Lang.COMMAND_ADMIN_NOTADMIN);
             return;
         }
 
         if (fyou == fme && !permAny) {
-            msg(TL.COMMAND_ADMIN_TARGETSELF);
+            msg(Lang.COMMAND_ADMIN_TARGETSELF);
             return;
         }
 
@@ -71,8 +71,8 @@ public class CmdFactionsAdmin extends FCommand {
         // if target player is currently admin, demote and replace him
         if (fyou == admin) {
             targetFaction.promoteNewLeader();
-            msg(TL.COMMAND_ADMIN_DEMOTES, fyou.describeTo(fme, true));
-            fyou.msg(TL.COMMAND_ADMIN_DEMOTED, senderIsConsole ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fyou, true));
+            msg(Lang.COMMAND_ADMIN_DEMOTES, fyou.describeTo(fme, true));
+            fyou.msg(Lang.COMMAND_ADMIN_DEMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fyou, true));
             return;
         }
 
@@ -81,16 +81,16 @@ public class CmdFactionsAdmin extends FCommand {
             admin.setRole(Role.MODERATOR);
         }
         fyou.setRole(Role.ADMIN);
-        msg(TL.COMMAND_ADMIN_PROMOTES, fyou.describeTo(fme, true));
+        msg(Lang.COMMAND_ADMIN_PROMOTES, fyou.describeTo(fme, true));
 
         // Inform all players
         for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
-            fplayer.msg(TL.COMMAND_ADMIN_PROMOTED, senderIsConsole ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), fyou.describeTo(fplayer), targetFaction.describeTo(fplayer));
+            fplayer.msg(Lang.COMMAND_ADMIN_PROMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), fyou.describeTo(fplayer), targetFaction.describeTo(fplayer));
         }
     }
 
     public String getUsageTranslation() {
-        return TL.COMMAND_ADMIN_DESCRIPTION.toString();
+        return Lang.COMMAND_ADMIN_DESCRIPTION.toString();
     }
 
 }

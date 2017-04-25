@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 
@@ -34,7 +34,7 @@ public class CmdFactionsOwnerList extends FCommand {
         }
 
         if (!Conf.ownedAreasEnabled) {
-            fme.msg(TL.COMMAND_OWNERLIST_DISABLED);
+            fme.msg(Lang.COMMAND_OWNERLIST_DISABLED);
             return;
         }
 
@@ -42,13 +42,13 @@ public class CmdFactionsOwnerList extends FCommand {
 
         if (Board.get().getFactionAt(flocation) != myFaction) {
             if (!hasBypass) {
-                fme.msg(TL.COMMAND_OWNERLIST_WRONGFACTION);
+                fme.msg(Lang.COMMAND_OWNERLIST_WRONGFACTION);
                 return;
             }
             
             myFaction = Board.get().getFactionAt(flocation);
             if (!myFaction.isNormal()) {
-                fme.msg(TL.COMMAND_OWNERLIST_NOTCLAIMED);
+                fme.msg(Lang.COMMAND_OWNERLIST_NOTCLAIMED);
                 return;
             }
         }
@@ -56,15 +56,15 @@ public class CmdFactionsOwnerList extends FCommand {
         String owners = myFaction.getOwnerListString(flocation);
 
         if (owners == null || owners.isEmpty()) {
-            fme.msg(TL.COMMAND_OWNERLIST_NONE);
+            fme.msg(Lang.COMMAND_OWNERLIST_NONE);
             return;
         }
 
-        fme.msg(TL.COMMAND_OWNERLIST_OWNERS, owners);
+        fme.msg(Lang.COMMAND_OWNERLIST_OWNERS, owners);
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_OWNERLIST_DESCRIPTION.toString();
+        return Lang.COMMAND_OWNERLIST_DESCRIPTION.toString();
     }
 }

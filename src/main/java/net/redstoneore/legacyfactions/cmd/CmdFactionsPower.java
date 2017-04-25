@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
@@ -36,18 +36,18 @@ public class CmdFactionsPower extends FCommand {
         }
 
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(Conf.econCostPower, TL.COMMAND_POWER_TOSHOW, TL.COMMAND_POWER_FORSHOW)) {
+        if (!payForCommand(Conf.econCostPower, Lang.COMMAND_POWER_TOSHOW, Lang.COMMAND_POWER_FORSHOW)) {
             return;
         }
 
         double powerBoost = target.getPowerBoost();
-        String boost = (powerBoost == 0.0) ? "" : (powerBoost > 0.0 ? TL.COMMAND_POWER_BONUS.toString() : TL.COMMAND_POWER_PENALTY.toString()) + powerBoost + ")";
-        msg(TL.COMMAND_POWER_POWER, target.describeTo(fme, true), target.getPowerRounded(), target.getPowerMaxRounded(), boost);
+        String boost = (powerBoost == 0.0) ? "" : (powerBoost > 0.0 ? Lang.COMMAND_POWER_BONUS.toString() : Lang.COMMAND_POWER_PENALTY.toString()) + powerBoost + ")";
+        msg(Lang.COMMAND_POWER_POWER, target.describeTo(fme, true), target.getPowerRounded(), target.getPowerMaxRounded(), boost);
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_POWER_DESCRIPTION.toString();
+        return Lang.COMMAND_POWER_DESCRIPTION.toString();
     }
 
 }

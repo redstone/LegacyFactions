@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
@@ -37,15 +37,15 @@ public class CmdFactionsAutoclaim extends FCommand {
         Faction forFaction = this.argAsFaction(0, myFaction);
         if (forFaction == null || forFaction == fme.getAutoClaimFor()) {
             fme.setAutoClaimFor(null);
-            msg(TL.COMMAND_AUTOCLAIM_DISABLED);
+            msg(Lang.COMMAND_AUTOCLAIM_DISABLED);
             return;
         }
 
         if (!fme.canClaimForFaction(forFaction)) {
             if (myFaction == forFaction) {
-                msg(TL.COMMAND_AUTOCLAIM_REQUIREDRANK, Role.MODERATOR.getTranslation());
+                msg(Lang.COMMAND_AUTOCLAIM_REQUIREDRANK, Role.MODERATOR.getTranslation());
             } else {
-                msg(TL.COMMAND_AUTOCLAIM_OTHERFACTION, forFaction.describeTo(fme));
+                msg(Lang.COMMAND_AUTOCLAIM_OTHERFACTION, forFaction.describeTo(fme));
             }
 
             return;
@@ -53,7 +53,7 @@ public class CmdFactionsAutoclaim extends FCommand {
 
         fme.setAutoClaimFor(forFaction);
 
-        msg(TL.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
+        msg(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
         
         Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
 
@@ -72,7 +72,7 @@ public class CmdFactionsAutoclaim extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_AUTOCLAIM_DESCRIPTION.toString();
+        return Lang.COMMAND_AUTOCLAIM_DESCRIPTION.toString();
     }
 
 }

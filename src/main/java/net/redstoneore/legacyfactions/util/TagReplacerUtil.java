@@ -116,12 +116,12 @@ public enum TagReplacerUtil {
                 if (Factions.get().getConfig().getBoolean("max-relations.enabled", true)) {
                     return String.valueOf(Factions.get().getConfig().getInt("max-relations.ally", 10));
                 }
-                return TL.GENERIC_INFINITY.toString();
+                return Lang.GENERIC_INFINITY.toString();
             case MAX_ENEMIES:
                 if (Factions.get().getConfig().getBoolean("max-relations.enabled", true)) {
                     return String.valueOf(Factions.get().getConfig().getInt("max-relations.enemy", 10));
                 }
-                return TL.GENERIC_INFINITY.toString();
+                return Lang.GENERIC_INFINITY.toString();
             case MAX_WARPS:
                 return String.valueOf(Conf.warpsMax);
             default:
@@ -151,14 +151,14 @@ public enum TagReplacerUtil {
                 case PLAYER_NAME:
                     return fp.getName();
                 case FACTION:
-                    return !fac.isWilderness() ? fac.getTag(fp) : TL.GENERIC_FACTIONLESS.toString();
+                    return !fac.isWilderness() ? fac.getTag(fp) : Lang.GENERIC_FACTIONLESS.toString();
                 case LAST_SEEN:
-                    String humanized = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - fp.getLastLoginTime(), true, true) + TL.COMMAND_STATUS_AGOSUFFIX;
-                    return fp.isOnline() ? ChatColor.GREEN + TL.COMMAND_STATUS_ONLINE.toString() : (System.currentTimeMillis() - fp.getLastLoginTime() < 432000000 ? ChatColor.YELLOW + humanized : ChatColor.RED + humanized);
+                    String humanized = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - fp.getLastLoginTime(), true, true) + Lang.COMMAND_STATUS_AGOSUFFIX;
+                    return fp.isOnline() ? ChatColor.GREEN + Lang.COMMAND_STATUS_ONLINE.toString() : (System.currentTimeMillis() - fp.getLastLoginTime() < 432000000 ? ChatColor.YELLOW + humanized : ChatColor.RED + humanized);
                 case PLAYER_GROUP:
                     return VaultIntegration.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fp.getId())));
                 case PLAYER_BALANCE:
-                    return VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(fp) : TL.ECON_OFF.format("balance");
+                    return VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(fp) : Lang.ECON_OFF.format("balance");
                 case PLAYER_POWER:
                     return String.valueOf(fp.getPowerRounded());
                 case PLAYER_MAXPOWER:
@@ -176,9 +176,9 @@ public enum TagReplacerUtil {
             case FACTION:
                 return fac.getTag();
             case JOINING:
-                return (fac.getOpen() ? TL.COMMAND_SHOW_UNINVITED.toString() : TL.COMMAND_SHOW_INVITATION.toString());
+                return (fac.getOpen() ? Lang.COMMAND_SHOW_UNINVITED.toString() : Lang.COMMAND_SHOW_INVITATION.toString());
             case PEACEFUL:
-                return fac.isPeaceful() ? Conf.colorNeutral + TL.COMMAND_SHOW_PEACEFUL.toString() : "";
+                return fac.isPeaceful() ? Conf.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
             case PERMANENT:
                 return fac.isPermanent() ? "permanent" : "{notPermanent}";
             case CHUNKS:
@@ -189,17 +189,17 @@ public enum TagReplacerUtil {
                 return String.valueOf(fac.getPowerMaxRounded());
             case POWER_BOOST:
                 double powerBoost = fac.getPowerBoost();
-                return (powerBoost == 0.0) ? "" : (powerBoost > 0.0 ? TL.COMMAND_SHOW_BONUS.toString() : TL.COMMAND_SHOW_PENALTY.toString() + powerBoost + ")");
+                return (powerBoost == 0.0) ? "" : (powerBoost > 0.0 ? Lang.COMMAND_SHOW_BONUS.toString() : Lang.COMMAND_SHOW_PENALTY.toString() + powerBoost + ")");
             case LEADER:
                 FPlayer fAdmin = fac.getFPlayerAdmin();
                 return fAdmin == null ? "Server" : fAdmin.getName().substring(0, fAdmin.getName().length() > 14 ? 13 : fAdmin.getName().length());
             case WARPS:
                 return String.valueOf(fac.warps().size());
             case CREATE_DATE:
-                return TL.sdf.format(fac.getFoundedDate());
+                return Lang.sdf.format(fac.getFoundedDate());
             case RAIDABLE:
                 boolean raid = Factions.get().getConfig().getBoolean("hcf.raidable", false) && fac.getLandRounded() >= fac.getPowerRounded();
-                return raid ? TL.RAIDABLE_TRUE.toString() : TL.RAIDABLE_FALSE.toString();
+                return raid ? Lang.RAIDABLE_TRUE.toString() : Lang.RAIDABLE_FALSE.toString();
             case HOME_WORLD:
                 return fac.hasHome() ? fac.getHome().getWorld().getName() : minimal ? null : "{ig}";
             case HOME_X:
@@ -209,14 +209,14 @@ public enum TagReplacerUtil {
             case HOME_Z:
                 return fac.hasHome() ? String.valueOf(fac.getHome().getBlockZ()) : minimal ? null : "{ig}";
             case LAND_VALUE:
-                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandValue(fac.getLandRounded())) : minimal ? null : TL.ECON_OFF.format("value");
+                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandValue(fac.getLandRounded())) : minimal ? null : Lang.ECON_OFF.format("value");
             case LAND_REFUND:
-                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandRefund(fac.getLandRounded())) : minimal ? null : TL.ECON_OFF.format("refund");
+                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandRefund(fac.getLandRounded())) : minimal ? null : Lang.ECON_OFF.format("refund");
             case BANK_BALANCE:
                 if (VaultEngine.shouldBeUsed()) {
-                    return Conf.bankEnabled ? VaultEngine.moneyString(VaultEngine.getBalance(fac.getAccountId())) : minimal ? null : TL.ECON_OFF.format("balance");
+                    return Conf.bankEnabled ? VaultEngine.moneyString(VaultEngine.getBalance(fac.getAccountId())) : minimal ? null : Lang.ECON_OFF.format("balance");
                 }
-                return minimal ? null : TL.ECON_OFF.format("balance");
+                return minimal ? null : Lang.ECON_OFF.format("balance");
             case ALLIES_COUNT:
                 return String.valueOf(fac.getRelationCount(Relation.ALLY));
             case ENEMIES_COUNT:

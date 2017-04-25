@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsRelation;
@@ -38,17 +38,17 @@ public abstract class FCommandRelation extends FCommand {
         }
 
         if (!them.isNormal()) {
-            msg(TL.COMMAND_RELATIONS_ALLTHENOPE);
+            msg(Lang.COMMAND_RELATIONS_ALLTHENOPE);
             return;
         }
 
         if (them == myFaction) {
-            msg(TL.COMMAND_RELATIONS_MORENOPE);
+            msg(Lang.COMMAND_RELATIONS_MORENOPE);
             return;
         }
 
         if (myFaction.getRelationWish(them) == targetRelation) {
-            msg(TL.COMMAND_RELATIONS_ALREADYINRELATIONSHIP, them.getTag());
+            msg(Lang.COMMAND_RELATIONS_ALREADYINRELATIONSHIP, them.getTag());
             return;
         }
 
@@ -64,7 +64,7 @@ public abstract class FCommandRelation extends FCommand {
         }
 
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(targetRelation.getRelationCost(), TL.COMMAND_RELATIONS_TOMARRY, TL.COMMAND_RELATIONS_FORMARRY)) {
+        if (!payForCommand(targetRelation.getRelationCost(), Lang.COMMAND_RELATIONS_TOMARRY, Lang.COMMAND_RELATIONS_FORMARRY)) {
             return;
         }
 
@@ -79,23 +79,23 @@ public abstract class FCommandRelation extends FCommand {
             EventFactionsRelation relationEvent = new EventFactionsRelation(myFaction, them, oldRelation, currentRelation);
             Bukkit.getServer().getPluginManager().callEvent(relationEvent);
 
-            them.msg(TL.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + myFaction.getTag());
-            myFaction.msg(TL.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + them.getTag());
+            them.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + myFaction.getTag());
+            myFaction.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + them.getTag());
         } else {
             // inform the other faction of your request
-            them.msg(TL.COMMAND_RELATIONS_PROPOSAL_1, currentRelationColor + myFaction.getTag(), targetRelation.getColor() + targetRelation.getTranslation());
-            them.msg(TL.COMMAND_RELATIONS_PROPOSAL_2, Conf.baseCommandAliases.get(0), targetRelation, myFaction.getTag());
-            myFaction.msg(TL.COMMAND_RELATIONS_PROPOSAL_SENT, currentRelationColor + them.getTag(), "" + targetRelation.getColor() + targetRelation);
+            them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_1, currentRelationColor + myFaction.getTag(), targetRelation.getColor() + targetRelation.getTranslation());
+            them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_2, Conf.baseCommandAliases.get(0), targetRelation, myFaction.getTag());
+            myFaction.msg(Lang.COMMAND_RELATIONS_PROPOSAL_SENT, currentRelationColor + them.getTag(), "" + targetRelation.getColor() + targetRelation);
         }
 
         if (!targetRelation.isNeutral() && them.isPeaceful()) {
-            them.msg(TL.COMMAND_RELATIONS_PEACEFUL);
-            myFaction.msg(TL.COMMAND_RELATIONS_PEACEFULOTHER);
+            them.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
+            myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
         }
 
         if (!targetRelation.isNeutral() && myFaction.isPeaceful()) {
-            them.msg(TL.COMMAND_RELATIONS_PEACEFULOTHER);
-            myFaction.msg(TL.COMMAND_RELATIONS_PEACEFUL);
+            them.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
+            myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
         }
 
         FTeamWrapper.updatePrefixes(myFaction);
@@ -107,11 +107,11 @@ public abstract class FCommandRelation extends FCommand {
         if (Factions.get().getConfig().getBoolean("max-relations.enabled", false)) {
             if (max != -1) {
                 if (myFaction.getRelationCount(targetRelation) >= max) {
-                    msg(TL.COMMAND_RELATIONS_EXCEEDS_ME, max, targetRelation.getPluralTranslation());
+                    msg(Lang.COMMAND_RELATIONS_EXCEEDS_ME, max, targetRelation.getPluralTranslation());
                     return true;
                 }
                 if (them.getRelationCount(targetRelation) > max) {
-                    msg(TL.COMMAND_RELATIONS_EXCEEDS_THEY, max, targetRelation.getPluralTranslation());
+                    msg(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, max, targetRelation.getPluralTranslation());
                     return true;
                 }
             }
@@ -121,6 +121,6 @@ public abstract class FCommandRelation extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_RELATIONS_DESCRIPTION.toString();
+        return Lang.COMMAND_RELATIONS_DESCRIPTION.toString();
     }
 }

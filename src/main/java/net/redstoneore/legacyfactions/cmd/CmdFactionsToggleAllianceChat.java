@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsToggleAllianceChat extends FCommand {
@@ -26,19 +26,19 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
     @Override
     public void perform() {
         if (!Conf.factionOnlyChat) {
-            msg(TL.COMMAND_CHAT_DISABLED.toString());
+            msg(Lang.COMMAND_CHAT_DISABLED.toString());
             return;
         }
 
         boolean ignoring = fme.isIgnoreAllianceChat();
 
-        msg(ignoring ? TL.COMMAND_TOGGLEALLIANCECHAT_UNIGNORE : TL.COMMAND_TOGGLEALLIANCECHAT_IGNORE);
+        msg(ignoring ? Lang.COMMAND_TOGGLEALLIANCECHAT_UNIGNORE : Lang.COMMAND_TOGGLEALLIANCECHAT_IGNORE);
         fme.setIgnoreAllianceChat(!ignoring);
     }
     
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_TOGGLEALLIANCECHAT_DESCRIPTION.toString();
+        return Lang.COMMAND_TOGGLEALLIANCECHAT_DESCRIPTION.toString();
     }
     
 }

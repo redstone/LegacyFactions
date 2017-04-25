@@ -40,12 +40,12 @@ public class CmdFactionsStuck extends FCommand {
 
         if (Factions.get().getStuckMap().containsKey(player.getUniqueId())) {
             long wait = Factions.get().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
-            String time = DurationFormatUtils.formatDuration(wait, TL.COMMAND_STUCK_TIMEFORMAT.toString(), true);
-            msg(TL.COMMAND_STUCK_EXISTS, time);
+            String time = DurationFormatUtils.formatDuration(wait, Lang.COMMAND_STUCK_TIMEFORMAT.toString(), true);
+            msg(Lang.COMMAND_STUCK_EXISTS, time);
         } else {
 
             // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-            if (!payForCommand(Conf.econCostStuck, TL.COMMAND_STUCK_TOSTUCK.format(fme.getName()), TL.COMMAND_STUCK_FORSTUCK.format(fme.getName()))) {
+            if (!payForCommand(Conf.econCostStuck, Lang.COMMAND_STUCK_TOSTUCK.format(fme.getName()), Lang.COMMAND_STUCK_FORSTUCK.format(fme.getName()))) {
                 return;
             }
 
@@ -61,7 +61,7 @@ public class CmdFactionsStuck extends FCommand {
                     // check for world difference or radius exceeding
                     final World world = chunk.getWorld();
                     if (world.getUID() != player.getWorld().getUID() || sentAt.distance(player.getLocation()) > radius) {
-                        msg(TL.COMMAND_STUCK_OUTSIDE.format(radius));
+                        msg(Lang.COMMAND_STUCK_OUTSIDE.format(radius));
                         Factions.get().getTimers().remove(player.getUniqueId());
                         Factions.get().getStuckMap().remove(player.getUniqueId());
                         return;
@@ -80,7 +80,7 @@ public class CmdFactionsStuck extends FCommand {
                                 int cz = FLocation.chunkToBlock((int) chunk.getZ());
                                 int y = world.getHighestBlockYAt(cx, cz);
                                 Location tp = new Location(world, cx, y, cz);
-                                msg(TL.COMMAND_STUCK_TELEPORT, tp.getBlockX(), tp.getBlockY(), tp.getBlockZ());
+                                msg(Lang.COMMAND_STUCK_TELEPORT, tp.getBlockX(), tp.getBlockY(), tp.getBlockZ());
                                 Factions.get().getTimers().remove(player.getUniqueId());
                                 Factions.get().getStuckMap().remove(player.getUniqueId());
                                 if (!EssentialsEngine.handleTeleport(player, tp)) {
@@ -98,14 +98,14 @@ public class CmdFactionsStuck extends FCommand {
 
             Factions.get().getTimers().put(player.getUniqueId(), System.currentTimeMillis() + (delay * 1000));
             long wait = Factions.get().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
-            String time = DurationFormatUtils.formatDuration(wait, TL.COMMAND_STUCK_TIMEFORMAT.toString(), true);
-            msg(TL.COMMAND_STUCK_START, time);
+            String time = DurationFormatUtils.formatDuration(wait, Lang.COMMAND_STUCK_TIMEFORMAT.toString(), true);
+            msg(Lang.COMMAND_STUCK_START, time);
             Factions.get().getStuckMap().put(player.getUniqueId(), id);
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_STUCK_DESCRIPTION.toString();
+        return Lang.COMMAND_STUCK_DESCRIPTION.toString();
     }
 }

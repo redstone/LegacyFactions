@@ -3,15 +3,15 @@ package net.redstoneore.legacyfactions;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public enum Role {
-    ADMIN(2, TL.ROLE_ADMIN),
-    MODERATOR(1, TL.ROLE_MODERATOR),
-    NORMAL(0, TL.ROLE_NORMAL);
+    ADMIN(2, Lang.ROLE_ADMIN),
+    MODERATOR(1, Lang.ROLE_MODERATOR),
+    NORMAL(0, Lang.ROLE_NORMAL);
 
     public final int value;
     public final String nicename;
-    public final TL translation;
+    public final Lang translation;
 
-    private Role(final int value, final TL translation) {
+    private Role(final int value, final Lang translation) {
         this.value = value;
         this.nicename = translation.toString();
         this.translation = translation;
@@ -30,7 +30,7 @@ public enum Role {
         return this.nicename;
     }
 
-    public TL getTranslation(){
+    public Lang getTranslation(){
         return translation;
     }
 

@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsBypass extends FCommand {
 
@@ -28,16 +28,16 @@ public class CmdFactionsBypass extends FCommand {
 
         // TODO: Move this to a transient field in the model??
         if (fme.isAdminBypassing()) {
-            fme.msg(TL.COMMAND_BYPASS_ENABLE.toString());
-            Factions.get().log(fme.getName() + TL.COMMAND_BYPASS_ENABLELOG.toString());
+            fme.msg(Lang.COMMAND_BYPASS_ENABLE.toString());
+            Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_ENABLELOG.toString());
         } else {
-            fme.msg(TL.COMMAND_BYPASS_DISABLE.toString());
-            Factions.get().log(fme.getName() + TL.COMMAND_BYPASS_DISABLELOG.toString());
+            fme.msg(Lang.COMMAND_BYPASS_DISABLE.toString());
+            Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_DISABLELOG.toString());
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_BYPASS_DESCRIPTION.toString();
+        return Lang.COMMAND_BYPASS_DESCRIPTION.toString();
     }
 }

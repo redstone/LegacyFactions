@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 
@@ -33,26 +33,26 @@ public class CmdFactionsPermanentPower extends FCommand {
 
         targetFaction.setPermanentPower(targetPower);
 
-        String change = TL.COMMAND_PERMANENTPOWER_REVOKE.toString();
+        String change = Lang.COMMAND_PERMANENTPOWER_REVOKE.toString();
         if (targetFaction.hasPermanentPower()) {
-            change = TL.COMMAND_PERMANENTPOWER_GRANT.toString();
+            change = Lang.COMMAND_PERMANENTPOWER_GRANT.toString();
         }
 
         // Inform sender
-        msg(TL.COMMAND_PERMANENTPOWER_SUCCESS, change, targetFaction.describeTo(fme));
+        msg(Lang.COMMAND_PERMANENTPOWER_SUCCESS, change, targetFaction.describeTo(fme));
 
         // Inform all other players
         for (FPlayer fplayer : targetFaction.getFPlayersWhereOnline(true)) {
             if (fplayer == fme) {
                 continue;
             }
-            String blame = (fme == null ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
-            fplayer.msg(TL.COMMAND_PERMANENTPOWER_FACTION, blame, change);
+            String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
+            fplayer.msg(Lang.COMMAND_PERMANENTPOWER_FACTION, blame, change);
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_PERMANENTPOWER_DESCRIPTION.toString();
+        return Lang.COMMAND_PERMANENTPOWER_DESCRIPTION.toString();
     }
 }

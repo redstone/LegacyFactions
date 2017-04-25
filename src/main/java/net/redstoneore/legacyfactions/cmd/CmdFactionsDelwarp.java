@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.Optional;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
@@ -31,18 +31,18 @@ public class CmdFactionsDelwarp extends FCommand {
                 return;
             }
             owarp.get().delete();
-            fme.msg(TL.COMMAND_DELFWARP_DELETED, name);
+            fme.msg(Lang.COMMAND_DELFWARP_DELETED, name);
         } else {
-            fme.msg(TL.COMMAND_DELFWARP_INVALID, name);
+            fme.msg(Lang.COMMAND_DELFWARP_INVALID, name);
         }
     }
 
     private boolean transact(FPlayer player) {
-        return Conf.warpCost.get("delete") == 0 || player.isAdminBypassing() || payForCommand(Conf.warpCost.get("delete"), TL.COMMAND_DELFWARP_TODELETE.toString(), TL.COMMAND_DELFWARP_FORDELETE.toString());
+        return Conf.warpCost.get("delete") == 0 || player.isAdminBypassing() || payForCommand(Conf.warpCost.get("delete"), Lang.COMMAND_DELFWARP_TODELETE.toString(), Lang.COMMAND_DELFWARP_FORDELETE.toString());
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_DELFWARP_DESCRIPTION.toString();
+        return Lang.COMMAND_DELFWARP_DESCRIPTION.toString();
     }
 }

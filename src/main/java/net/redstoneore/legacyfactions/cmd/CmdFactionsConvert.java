@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import org.bukkit.command.ConsoleCommandSender;
 
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Conf.Backend;
 import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
@@ -18,11 +18,11 @@ public class CmdFactionsConvert extends FCommand {
     @Override
     public void perform() {
         if (!(this.sender instanceof ConsoleCommandSender)) {
-            this.sender.sendMessage(TL.GENERIC_CONSOLEONLY.toString());
+            this.sender.sendMessage(Lang.GENERIC_CONSOLEONLY.toString());
         }
         Backend nb = Backend.valueOf(this.argAsString(0).toUpperCase());
         if (nb == Conf.backEnd) {
-            this.sender.sendMessage(TL.COMMAND_CONVERT_BACKEND_RUNNING.toString());
+            this.sender.sendMessage(Lang.COMMAND_CONVERT_BACKEND_RUNNING.toString());
             return;
         }
         switch (nb) {
@@ -30,7 +30,7 @@ public class CmdFactionsConvert extends FCommand {
                 FactionsJSON.convertTo();
                 break;
             default:
-                this.sender.sendMessage(TL.COMMAND_CONVERT_BACKEND_INVALID.toString());
+                this.sender.sendMessage(Lang.COMMAND_CONVERT_BACKEND_INVALID.toString());
                 return;
 
         }
@@ -39,7 +39,7 @@ public class CmdFactionsConvert extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_CONVERT_DESCRIPTION.toString();
+        return Lang.COMMAND_CONVERT_DESCRIPTION.toString();
     }
 
 }

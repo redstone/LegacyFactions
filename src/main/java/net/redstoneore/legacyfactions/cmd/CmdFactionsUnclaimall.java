@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -39,11 +39,11 @@ public class CmdFactionsUnclaimall extends FCommand {
         if (VaultEngine.shouldBeUsed()) {
             double refund = VaultEngine.calculateTotalLandRefund(myFaction.getLandRounded());
             if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
-                if (!VaultEngine.modifyMoney(myFaction, refund, TL.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
+                if (!VaultEngine.modifyMoney(myFaction, refund, Lang.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
                     return;
                 }
             } else {
-                if (!VaultEngine.modifyMoney(fme, refund, TL.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), TL.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
+                if (!VaultEngine.modifyMoney(fme, refund, Lang.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
                     return;
                 }
             }
@@ -63,16 +63,16 @@ public class CmdFactionsUnclaimall extends FCommand {
         	myFaction.clearClaimOwnership(location);
         }
 
-        myFaction.msg(TL.COMMAND_UNCLAIMALL_UNCLAIMED, fme.describeTo(myFaction, true));
+        myFaction.msg(Lang.COMMAND_UNCLAIMALL_UNCLAIMED, fme.describeTo(myFaction, true));
 
         if (Conf.logLandUnclaims) {
-            Factions.get().log(TL.COMMAND_UNCLAIMALL_LOG.format(fme.getName(), myFaction.getTag()));
+            Factions.get().log(Lang.COMMAND_UNCLAIMALL_LOG.format(fme.getName(), myFaction.getTag()));
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_UNCLAIMALL_DESCRIPTION.toString();
+        return Lang.COMMAND_UNCLAIMALL_DESCRIPTION.toString();
     }
 
 }

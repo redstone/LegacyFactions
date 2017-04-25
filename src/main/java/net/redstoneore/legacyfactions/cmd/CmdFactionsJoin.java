@@ -38,47 +38,47 @@ public class CmdFactionsJoin extends FCommand {
         boolean samePlayer = fplayer == fme;
 
         if (!samePlayer && !Permission.JOIN_OTHERS.has(sender, false)) {
-            msg(TL.COMMAND_JOIN_CANNOTFORCE);
+            msg(Lang.COMMAND_JOIN_CANNOTFORCE);
             return;
         }
 
         if (!faction.isNormal()) {
-            msg(TL.COMMAND_JOIN_SYSTEMFACTION);
+            msg(Lang.COMMAND_JOIN_SYSTEMFACTION);
             return;
         }
 
         if (faction == fplayer.getFaction()) {
             //TODO:TL
-            msg(TL.COMMAND_JOIN_ALREADYMEMBER, fplayer.describeTo(fme, true), (samePlayer ? "are" : "is"), faction.getTag(fme));
+            msg(Lang.COMMAND_JOIN_ALREADYMEMBER, fplayer.describeTo(fme, true), (samePlayer ? "are" : "is"), faction.getTag(fme));
             return;
         }
 
         if (Conf.factionMemberLimit > 0 && faction.getFPlayers().size() >= Conf.factionMemberLimit) {
-            msg(TL.COMMAND_JOIN_ATLIMIT, faction.getTag(fme), Conf.factionMemberLimit, fplayer.describeTo(fme, false));
+            msg(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fme), Conf.factionMemberLimit, fplayer.describeTo(fme, false));
             return;
         }
 
         if (fplayer.hasFaction()) {
             //TODO:TL
-            msg(TL.COMMAND_JOIN_INOTHERFACTION, fplayer.describeTo(fme, true), (samePlayer ? "your" : "their"));
+            msg(Lang.COMMAND_JOIN_INOTHERFACTION, fplayer.describeTo(fme, true), (samePlayer ? "your" : "their"));
             return;
         }
 
         if (!Conf.canLeaveWithNegativePower && fplayer.getPower() < 0) {
-            msg(TL.COMMAND_JOIN_NEGATIVEPOWER, fplayer.describeTo(fme, true));
+            msg(Lang.COMMAND_JOIN_NEGATIVEPOWER, fplayer.describeTo(fme, true));
             return;
         }
 
         if (!(faction.getOpen() || faction.isInvited(fplayer) || fme.isAdminBypassing() || Permission.JOIN_ANY.has(sender, false))) {
-            msg(TL.COMMAND_JOIN_REQUIRESINVITATION);
+            msg(Lang.COMMAND_JOIN_REQUIRESINVITATION);
             if (samePlayer) {
-                faction.msg(TL.COMMAND_JOIN_ATTEMPTEDJOIN, fplayer.describeTo(faction, true));
+                faction.msg(Lang.COMMAND_JOIN_ATTEMPTEDJOIN, fplayer.describeTo(faction, true));
             }
             return;
         }
 
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-        if (samePlayer && !canAffordCommand(Conf.econCostJoin, TL.COMMAND_JOIN_TOJOIN.toString())) {
+        if (samePlayer && !canAffordCommand(Conf.econCostJoin, Lang.COMMAND_JOIN_TOJOIN.toString())) {
             return;
         }
 
@@ -90,16 +90,16 @@ public class CmdFactionsJoin extends FCommand {
         }
 
         // then make 'em pay (if applicable)
-        if (samePlayer && !payForCommand(Conf.econCostJoin, TL.COMMAND_JOIN_TOJOIN.toString(), TL.COMMAND_JOIN_FORJOIN.toString())) {
+        if (samePlayer && !payForCommand(Conf.econCostJoin, Lang.COMMAND_JOIN_TOJOIN.toString(), Lang.COMMAND_JOIN_FORJOIN.toString())) {
             return;
         }
 
-        fme.msg(TL.COMMAND_JOIN_SUCCESS, fplayer.describeTo(fme, true), faction.getTag(fme));
+        fme.msg(Lang.COMMAND_JOIN_SUCCESS, fplayer.describeTo(fme, true), faction.getTag(fme));
 
         if (!samePlayer) {
-            fplayer.msg(TL.COMMAND_JOIN_MOVED, fme.describeTo(fplayer, true), faction.getTag(fplayer));
+            fplayer.msg(Lang.COMMAND_JOIN_MOVED, fme.describeTo(fplayer, true), faction.getTag(fplayer));
         }
-        faction.msg(TL.COMMAND_JOIN_JOINED, fplayer.describeTo(faction, true));
+        faction.msg(Lang.COMMAND_JOIN_JOINED, fplayer.describeTo(faction, true));
 
         fplayer.resetFactionData();
         fplayer.setFaction(faction);
@@ -107,15 +107,15 @@ public class CmdFactionsJoin extends FCommand {
 
         if (Conf.logFactionJoin) {
             if (samePlayer) {
-                Factions.get().log(TL.COMMAND_JOIN_JOINEDLOG.toString(), fplayer.getName(), faction.getTag());
+                Factions.get().log(Lang.COMMAND_JOIN_JOINEDLOG.toString(), fplayer.getName(), faction.getTag());
             } else {
-                Factions.get().log(TL.COMMAND_JOIN_MOVEDLOG.toString(), fme.getName(), fplayer.getName(), faction.getTag());
+                Factions.get().log(Lang.COMMAND_JOIN_MOVEDLOG.toString(), fme.getName(), fplayer.getName(), faction.getTag());
             }
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_JOIN_DESCRIPTION.toString();
+        return Lang.COMMAND_JOIN_DESCRIPTION.toString();
     }
 }

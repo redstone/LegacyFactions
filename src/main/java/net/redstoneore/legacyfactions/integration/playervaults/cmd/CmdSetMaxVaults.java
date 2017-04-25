@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.integration.playervaults.cmd;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.entity.Faction;
 
@@ -40,11 +40,11 @@ public class CmdSetMaxVaults extends FCommand {
         }
 
         targetFaction.setMaxVaults(value);
-        sender.sendMessage(TL.COMMAND_SETMAXVAULTS_SUCCESS.format(targetFaction.getTag(), value));
+        sender.sendMessage(Lang.COMMAND_SETMAXVAULTS_SUCCESS.format(targetFaction.getTag(), value));
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_SETMAXVAULTS_DESCRIPTION.toString();
+        return Lang.COMMAND_SETMAXVAULTS_DESCRIPTION.toString();
     }
 }

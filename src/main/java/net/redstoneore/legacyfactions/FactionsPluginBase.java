@@ -154,7 +154,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
                     }
                     
                     YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defLangStream);
-                    TL.setFile(defConfig);
+                    Lang.setFile(defConfig);
                 }
             } catch (IOException e) {
                 e.printStackTrace(); // So they notice
@@ -181,19 +181,19 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         }
 
         YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);
-        for (TL item : TL.values()) {
+        for (Lang item : Lang.values()) {
             if (conf.getString(item.getPath()) == null) {
                 conf.set(item.getPath(), item.getDefault());
             }
         }
 
         // Remove this here because I'm sick of dealing with bug reports due to bad decisions on my part.
-        if (conf.getString(TL.COMMAND_SHOW_POWER.getPath(), "").contains("%5$s")) {
-            conf.set(TL.COMMAND_SHOW_POWER.getPath(), TL.COMMAND_SHOW_POWER.getDefault());
+        if (conf.getString(Lang.COMMAND_SHOW_POWER.getPath(), "").contains("%5$s")) {
+            conf.set(Lang.COMMAND_SHOW_POWER.getPath(), Lang.COMMAND_SHOW_POWER.getDefault());
             log("Removed errant format specifier from f show power.");
         }
 
-        TL.setFile(conf);
+        Lang.setFile(conf);
         try {
             conf.save(lang);
         } catch (IOException e) {

@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -33,20 +33,20 @@ public class CmdFactionsPeaceful extends FCommand {
 
         String change;
         if (faction.isPeaceful()) {
-            change = TL.COMMAND_PEACEFUL_REVOKE.toString();
+            change = Lang.COMMAND_PEACEFUL_REVOKE.toString();
             faction.setPeaceful(false);
         } else {
-            change = TL.COMMAND_PEACEFUL_GRANT.toString();
+            change = Lang.COMMAND_PEACEFUL_GRANT.toString();
             faction.setPeaceful(true);
         }
 
         // Inform all players
         for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
-            String blame = (fme == null ? TL.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
+            String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
             if (fplayer.getFaction() == faction) {
-                fplayer.msg(TL.COMMAND_PEACEFUL_YOURS, blame, change);
+                fplayer.msg(Lang.COMMAND_PEACEFUL_YOURS, blame, change);
             } else {
-                fplayer.msg(TL.COMMAND_PEACEFUL_OTHER, blame, change, faction.getTag(fplayer));
+                fplayer.msg(Lang.COMMAND_PEACEFUL_OTHER, blame, change, faction.getTag(fplayer));
             }
         }
 
@@ -54,7 +54,7 @@ public class CmdFactionsPeaceful extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_PEACEFUL_DESCRIPTION.toString();
+        return Lang.COMMAND_PEACEFUL_DESCRIPTION.toString();
     }
 
 }

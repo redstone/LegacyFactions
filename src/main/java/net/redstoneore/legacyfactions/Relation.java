@@ -42,14 +42,14 @@ public enum Relation {
 
     public String getTranslation() {
         try {
-            return TL.valueOf("RELATION_" + name() + "_SINGULAR").toString();
+            return Lang.valueOf("RELATION_" + name() + "_SINGULAR").toString();
         } catch (IllegalArgumentException e) {
             return toString();
         }
     }
 
     public String getPluralTranslation() {
-        for (TL t : TL.values()) {
+        for (Lang t : Lang.values()) {
             if (t.name().equalsIgnoreCase("RELATION_" + name() + "_PLURAL")) {
                 return t.toString();
             }

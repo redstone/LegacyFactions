@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -138,7 +138,7 @@ public class CmdFactionsTop extends FCommand {
                 }
             });
         } else {
-            msg(TL.COMMAND_TOP_INVALID, criteria);
+            msg(Lang.COMMAND_TOP_INVALID, criteria);
         }
 
         ArrayList<String> lines = new ArrayList<String>();
@@ -157,13 +157,13 @@ public class CmdFactionsTop extends FCommand {
             end = factionList.size();
         }
 
-        lines.add(TL.COMMAND_TOP_TOP.format(criteria.toUpperCase(), pagenumber, pagecount));
+        lines.add(Lang.COMMAND_TOP_TOP.format(criteria.toUpperCase(), pagenumber, pagecount));
 
         int rank = 1;
         for (Faction faction : factionList.subList(start, end)) {
             // Get the relation color if player is executing this.
             String fac = sender instanceof Player ? faction.getRelationTo(fme).getColor() + faction.getTag() : faction.getTag();
-            lines.add(TL.COMMAND_TOP_LINE.format(rank, fac, getValue(faction, criteria)));
+            lines.add(Lang.COMMAND_TOP_LINE.format(rank, fac, getValue(faction, criteria)));
             rank++;
         }
 
@@ -174,7 +174,7 @@ public class CmdFactionsTop extends FCommand {
         if (criteria.equalsIgnoreCase("online")) {
             return String.valueOf(faction.getFPlayersWhereOnline(true).size());
         } else if (criteria.equalsIgnoreCase("start")) {
-            return TL.sdf.format(faction.getFoundedDate());
+            return Lang.sdf.format(faction.getFoundedDate());
         } else if (criteria.equalsIgnoreCase("members")) {
             return String.valueOf(faction.getFPlayers().size());
         } else if (criteria.equalsIgnoreCase("land")) {
@@ -194,6 +194,6 @@ public class CmdFactionsTop extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_TOP_DESCRIPTION.toString();
+        return Lang.COMMAND_TOP_DESCRIPTION.toString();
     }
 }

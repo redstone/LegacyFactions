@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.util;
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -193,10 +193,10 @@ public class TextUtil {
         ret.add(this.titleize(title + " " + pageHumanBased + "/" + pagecount));
 
         if (pagecount == 0) {
-            ret.add(this.parseTags(TL.NOPAGES.toString()));
+            ret.add(this.parseTags(Lang.NOPAGES.toString()));
             return ret;
         } else if (pageZeroBased < 0 || pageHumanBased > pagecount) {
-            ret.add(this.parseTags(TL.INVALIDPAGE.format(pagecount)));
+            ret.add(this.parseTags(Lang.INVALIDPAGE.format(pagecount)));
             return ret;
         }
 

@@ -39,12 +39,12 @@ public class CmdFactionsCreate extends FCommand {
         String tag = this.argAsString(0);
 
         if (fme.hasFaction()) {
-            msg(TL.COMMAND_CREATE_MUSTLEAVE);
+            msg(Lang.COMMAND_CREATE_MUSTLEAVE);
             return;
         }
 
         if (FactionColl.get().isTagTaken(tag)) {
-            msg(TL.COMMAND_CREATE_INUSE);
+            msg(Lang.COMMAND_CREATE_INUSE);
             return;
         }
 
@@ -55,7 +55,7 @@ public class CmdFactionsCreate extends FCommand {
         }
 
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-        if (!canAffordCommand(Conf.econCostCreate, TL.COMMAND_CREATE_TOCREATE.toString())) {
+        if (!canAffordCommand(Conf.econCostCreate, Lang.COMMAND_CREATE_TOCREATE.toString())) {
             return;
         }
 
@@ -69,14 +69,14 @@ public class CmdFactionsCreate extends FCommand {
         tag = createEvent.getFactionTag();
 
         // then make 'em pay (if applicable)
-        if (!payForCommand(Conf.econCostCreate, TL.COMMAND_CREATE_TOCREATE, TL.COMMAND_CREATE_FORCREATE)) {
+        if (!payForCommand(Conf.econCostCreate, Lang.COMMAND_CREATE_TOCREATE, Lang.COMMAND_CREATE_FORCREATE)) {
             return;
         }
 
         Faction faction = FactionColl.get().createFaction();
 
         if (faction == null) {
-            msg(TL.COMMAND_CREATE_ERROR);
+            msg(Lang.COMMAND_CREATE_ERROR);
             return;
         }
 
@@ -94,19 +94,19 @@ public class CmdFactionsCreate extends FCommand {
         fme.setFaction(faction);
 
         for (FPlayer follower : FPlayerColl.getAllOnline()) {
-            follower.msg(TL.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
+            follower.msg(Lang.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
         }
 
-        msg(TL.COMMAND_CREATE_YOUSHOULD, Factions.get().cmdBase.cmdDescription.getUseageTemplate());
+        msg(Lang.COMMAND_CREATE_YOUSHOULD, Factions.get().cmdBase.cmdDescription.getUseageTemplate());
 
         if (Conf.logFactionCreate) {
-            Factions.get().log(fme.getName() + TL.COMMAND_CREATE_CREATEDLOG.toString() + tag);
+            Factions.get().log(fme.getName() + Lang.COMMAND_CREATE_CREATEDLOG.toString() + tag);
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_CREATE_DESCRIPTION.toString();
+        return Lang.COMMAND_CREATE_DESCRIPTION.toString();
     }
 
 }

@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 
 public class CmdFactionsVersion extends FCommand {
@@ -25,11 +25,11 @@ public class CmdFactionsVersion extends FCommand {
 
     @Override
     public void perform() {
-        msg(TL.COMMAND_VERSION_VERSION, Factions.get().getDescription().getFullName());
+        msg(Lang.COMMAND_VERSION_VERSION, Factions.get().getDescription().getFullName());
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_VERSION_DESCRIPTION.toString();
+        return Lang.COMMAND_VERSION_DESCRIPTION.toString();
     }
 }

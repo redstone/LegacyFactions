@@ -105,7 +105,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             	.forEach(fplayer -> {
             		if (fplayer == this || !fplayer.isMonitoringJoins()) return;
             		
-                    fplayer.msg(TL.FACTION_LOGOUT, this.getName());
+                    fplayer.msg(Lang.FACTION_LOGOUT, this.getName());
             	});
 
         }
@@ -383,7 +383,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     // Base:
 
     public String getTitle() {
-        return this.hasFaction() ? title : TL.NOFACTION_PREFIX.toString();
+        return this.hasFaction() ? title : Lang.NOFACTION_PREFIX.toString();
     }
 
     public void setTitle(String title) {
@@ -626,7 +626,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             showChat = Conf.scoreboardInChat;
         }
         if (showChat) {
-            this.sendMessage(Factions.get().getTextUtil().parse(TL.FACTION_LEAVE.format(from.getTag(this), toShow.getTag(this))));
+            this.sendMessage(Factions.get().getTextUtil().parse(Lang.FACTION_LEAVE.format(from.getTag(this), toShow.getTag(this))));
         }
     }
 
@@ -667,17 +667,17 @@ public abstract class MemoryFPlayer implements FPlayer {
         boolean perm = myFaction.isPermanent();
 
         if (!perm && this.getRole() == Role.ADMIN && myFaction.getFPlayers().size() > 1) {
-            msg(TL.LEAVE_PASSADMIN);
+            msg(Lang.LEAVE_PASSADMIN);
             return;
         }
 
         if (!Conf.canLeaveWithNegativePower && this.getPower() < 0) {
-            msg(TL.LEAVE_NEGATIVEPOWER);
+            msg(Lang.LEAVE_NEGATIVEPOWER);
             return;
         }
 
         // if economy is enabled and they're not on the bypass list, make sure they can pay
-        if (makePay && !VaultEngine.hasAtLeast(this, Conf.econCostLeave, TL.LEAVE_TOLEAVE.toString())) {
+        if (makePay && !VaultEngine.hasAtLeast(this, Conf.econCostLeave, Lang.LEAVE_TOLEAVE.toString())) {
             return;
         }
         
@@ -688,7 +688,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         // then make 'em pay (if applicable)
-        if (makePay && !VaultEngine.modifyMoney(this, -Conf.econCostLeave, TL.LEAVE_TOLEAVE.toString(), TL.LEAVE_FORLEAVE.toString())) {
+        if (makePay && !VaultEngine.modifyMoney(this, -Conf.econCostLeave, Lang.LEAVE_TOLEAVE.toString(), Lang.LEAVE_FORLEAVE.toString())) {
             return;
         }
 
@@ -702,11 +702,11 @@ public abstract class MemoryFPlayer implements FPlayer {
 
         if (myFaction.isNormal()) {
             for (FPlayer fplayer : myFaction.getFPlayersWhereOnline(true)) {
-                fplayer.msg(TL.LEAVE_LEFT, this.describeTo(fplayer, true), myFaction.describeTo(fplayer));
+                fplayer.msg(Lang.LEAVE_LEFT, this.describeTo(fplayer, true), myFaction.describeTo(fplayer));
             }
 
             if (Conf.logFactionLeave) {
-                Factions.get().log(TL.LEAVE_LEFT.format(this.getName(), myFaction.getTag()));
+                Factions.get().log(Lang.LEAVE_LEFT.format(this.getName(), myFaction.getTag()));
             }
         }
 
@@ -716,12 +716,12 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (myFaction.isNormal() && !perm && myFaction.getFPlayers().isEmpty()) {
             // Remove this faction
             for (FPlayer fplayer : FPlayerColl.getAll()) {
-                fplayer.msg(TL.LEAVE_DISBANDED, myFaction.describeTo(fplayer, true));
+                fplayer.msg(Lang.LEAVE_DISBANDED, myFaction.describeTo(fplayer, true));
             }
 
             FactionColl.get().removeFaction(myFaction.getId());
             if (Conf.logFactionDisband) {
-                Factions.get().log(TL.LEAVE_DISBANDEDLOG.format(myFaction.getTag(), myFaction.getId(), this.getName()));
+                Factions.get().log(Lang.LEAVE_DISBANDEDLOG.format(myFaction.getTag(), myFaction.getId(), this.getName()));
             }
         }
     }
@@ -760,88 +760,88 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(flocation)) {
             // Checks for WorldGuard regions in the chunk attempting to be claimed
         	
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_PROTECTED.toString()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_PROTECTED.toString()));
         	return false;
         }
         
         if (Conf.worldsNoClaiming.contains(flocation.getWorldName())) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_DISABLED.toString()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_DISABLED.toString()));
         	return false;
         } 
         
         if (myFaction != forFaction) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_CANTCLAIM.toString(), forFaction.describeTo(this)));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_CANTCLAIM.toString(), forFaction.describeTo(this)));
         	return false;
         }
         
         if (forFaction == currentFaction) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_ALREADYOWN.toString(), forFaction.describeTo(this, true)));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_ALREADYOWN.toString(), forFaction.describeTo(this, true)));
         	return false;
         }
         
         if (this.getRole().value < Role.MODERATOR.value) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_MUSTBE.toString(), Role.MODERATOR.getTranslation()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_MUSTBE.toString(), Role.MODERATOR.getTranslation()));
         	return false;
         }
         
         if (forFaction.getFPlayers().size() < Conf.claimsRequireMinFactionMembers) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_MEMBERS.toString(), Conf.claimsRequireMinFactionMembers));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_MEMBERS.toString(), Conf.claimsRequireMinFactionMembers));
         	return false;
         }
         
         if (currentFaction.isSafeZone()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_SAFEZONE.toString()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_SAFEZONE.toString()));
         	return false;
         }
         
         if (currentFaction.isWarZone()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_WARZONE.toString()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_WARZONE.toString()));
         	return false;
         } 
         
         if (Factions.get().getConfig().getBoolean("hcf.allow-overclaim", true) && ownedLand >= forFaction.getPowerRounded()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_POWER.toString()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_POWER.toString()));
         	return false;
         }
         
         if (Conf.claimedLandsMax != 0 && ownedLand >= Conf.claimedLandsMax && forFaction.isNormal()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_LIMIT.toString()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_LIMIT.toString()));
         	return false;
         }
         
         if (currentFaction.getRelationTo(forFaction) == Relation.ALLY) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_ALLY.toString()));
+        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_ALLY.toString()));
         	return false;
         } 
 
         if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.get().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
             if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
-            	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_CONTIGIOUS.toString()));
+            	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_CONTIGIOUS.toString()));
             } else {
-            	if (notifyFailure) msg(Factions.get().getTextUtil().parse(TL.CLAIM_FACTIONCONTIGUOUS.toString()));
+            	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_FACTIONCONTIGUOUS.toString()));
             }
             return false;
         } else if (factionBuffer > 0 && Board.get().hasFactionWithin(flocation, myFaction, factionBuffer)) {
-            error = Factions.get().getTextUtil().parse(TL.CLAIM_TOOCLOSETOOTHERFACTION.format(factionBuffer));
+            error = Factions.get().getTextUtil().parse(Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(factionBuffer));
         } else if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(worldBuffer)) {
             if (worldBuffer > 0) {
-                error = Factions.get().getTextUtil().parse(TL.CLAIM_OUTSIDEBORDERBUFFER.format(worldBuffer));
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OUTSIDEBORDERBUFFER.format(worldBuffer));
             } else {
-                error = Factions.get().getTextUtil().parse(TL.CLAIM_OUTSIDEWORLDBORDER.toString());
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OUTSIDEWORLDBORDER.toString());
             }
         } else if (currentFaction.isNormal()) {
             if (myFaction.isPeaceful()) {
-                error = Factions.get().getTextUtil().parse(TL.CLAIM_PEACEFUL.toString(), currentFaction.getTag(this));
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_PEACEFUL.toString(), currentFaction.getTag(this));
             } else if (currentFaction.isPeaceful()) {
-                error = Factions.get().getTextUtil().parse(TL.CLAIM_PEACEFULTARGET.toString(), currentFaction.getTag(this));
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_PEACEFULTARGET.toString(), currentFaction.getTag(this));
             } else if (!currentFaction.hasLandInflation()) {
                 // TODO more messages WARN current faction most importantly
-                error = Factions.get().getTextUtil().parse(TL.CLAIM_THISISSPARTA.toString(), currentFaction.getTag(this));
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_THISISSPARTA.toString(), currentFaction.getTag(this));
             } else if (currentFaction.hasLandInflation() && !Factions.get().getConfig().getBoolean("hcf.allow-overclaim", true)) {
                 // deny over claim when it normally would be allowed.
-                error = Factions.get().getTextUtil().parse(TL.CLAIM_OVERCLAIM_DISABLED.toString());
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OVERCLAIM_DISABLED.toString());
             } else if (!Board.get().isBorderLocation(flocation)) {
-                error = Factions.get().getTextUtil().parse(TL.CLAIM_BORDER.toString());
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_BORDER.toString());
             }
         }
         // TODO: Add more else if statements.
@@ -884,7 +884,7 @@ public abstract class MemoryFPlayer implements FPlayer {
                 payee = this;
             }
 
-            if (!VaultEngine.hasAtLeast(payee, cost, TL.CLAIM_TOCLAIM.toString())) {
+            if (!VaultEngine.hasAtLeast(payee, cost, Lang.CLAIM_TOCLAIM.toString())) {
                 return false;
             }
         }
@@ -904,14 +904,14 @@ public abstract class MemoryFPlayer implements FPlayer {
         //flocation = event.getLocation();
 
         // then make 'em pay (if applicable)
-        if (mustPay && !VaultEngine.modifyMoney(payee, -cost, TL.CLAIM_TOCLAIM.toString(), TL.CLAIM_FORCLAIM.toString())) {
+        if (mustPay && !VaultEngine.modifyMoney(payee, -cost, Lang.CLAIM_TOCLAIM.toString(), Lang.CLAIM_FORCLAIM.toString())) {
             return false;
         }
 
         // Was an over claim
         if (currentFaction.isNormal() && currentFaction.hasLandInflation()) {
             // Give them money for over claiming.
-            VaultEngine.modifyMoney(payee, Conf.econOverclaimRewardMultiplier, TL.CLAIM_TOOVERCLAIM.toString(), TL.CLAIM_FOROVERCLAIM.toString());
+            VaultEngine.modifyMoney(payee, Conf.econOverclaimRewardMultiplier, Lang.CLAIM_TOOVERCLAIM.toString(), Lang.CLAIM_FOROVERCLAIM.toString());
         }
 
         // announce success
@@ -919,13 +919,13 @@ public abstract class MemoryFPlayer implements FPlayer {
         informTheseFPlayers.add(this);
         informTheseFPlayers.addAll(forFaction.getFPlayersWhereOnline(true));
         for (FPlayer fp : informTheseFPlayers) {
-            fp.msg(TL.CLAIM_CLAIMED, this.describeTo(fp, true), forFaction.describeTo(fp), currentFaction.describeTo(fp));
+            fp.msg(Lang.CLAIM_CLAIMED, this.describeTo(fp, true), forFaction.describeTo(fp), currentFaction.describeTo(fp));
         }
 
         Board.get().setFactionAt(forFaction, flocation);
 
         if (Conf.logLandClaims) {
-            Factions.get().log(TL.CLAIM_CLAIMEDLOG.toString(), this.getName(), flocation.getCoordString(), forFaction.getTag());
+            Factions.get().log(Lang.CLAIM_CLAIMEDLOG.toString(), this.getName(), flocation.getCoordString(), forFaction.getTag());
         }
 
         return true;
@@ -942,7 +942,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.sendMessage(Factions.get().getTextUtil().parse(str, args));
     }
 
-    public void msg(TL translation, Object... args) {
+    public void msg(Lang translation, Object... args) {
         this.msg(translation.toString(), args);
     }
 

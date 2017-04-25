@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsBoom extends FCommand {
@@ -27,25 +27,25 @@ public class CmdFactionsBoom extends FCommand {
     @Override
     public void perform() {
         if (!myFaction.isPeaceful()) {
-            fme.msg(TL.COMMAND_BOOM_PEACEFULONLY);
+            fme.msg(Lang.COMMAND_BOOM_PEACEFULONLY);
             return;
         }
 
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(Conf.econCostNoBoom, TL.COMMAND_BOOM_TOTOGGLE, TL.COMMAND_BOOM_FORTOGGLE)) {
+        if (!payForCommand(Conf.econCostNoBoom, Lang.COMMAND_BOOM_TOTOGGLE, Lang.COMMAND_BOOM_FORTOGGLE)) {
             return;
         }
 
         myFaction.setPeacefulExplosionsEnabled(this.argAsBool(0, !myFaction.getPeacefulExplosionsEnabled()));
 
-        String enabled = myFaction.noExplosionsInTerritory() ? TL.GENERIC_DISABLED.toString() : TL.GENERIC_ENABLED.toString();
+        String enabled = myFaction.noExplosionsInTerritory() ? Lang.GENERIC_DISABLED.toString() : Lang.GENERIC_ENABLED.toString();
 
         // Inform
-        myFaction.msg(TL.COMMAND_BOOM_ENABLED, fme.describeTo(myFaction), enabled);
+        myFaction.msg(Lang.COMMAND_BOOM_ENABLED, fme.describeTo(myFaction), enabled);
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_BOOM_DESCRIPTION.toString();
+        return Lang.COMMAND_BOOM_DESCRIPTION.toString();
     }
 }

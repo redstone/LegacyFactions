@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.ChatMode;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsChat extends FCommand {
@@ -27,7 +27,7 @@ public class CmdFactionsChat extends FCommand {
     @Override
     public void perform() {
         if (!Conf.factionOnlyChat) {
-            msg(TL.COMMAND_CHAT_DISABLED.toString());
+            msg(Lang.COMMAND_CHAT_DISABLED.toString());
             return;
         }
 
@@ -45,7 +45,7 @@ public class CmdFactionsChat extends FCommand {
             } else if (modeString.startsWith("t")) {
                 modeTarget = ChatMode.TRUCE;
             } else {
-                msg(TL.COMMAND_CHAT_INVALIDMODE);
+                msg(Lang.COMMAND_CHAT_INVALIDMODE);
                 return;
             }
         }
@@ -53,18 +53,18 @@ public class CmdFactionsChat extends FCommand {
         fme.setChatMode(modeTarget);
 
         if (fme.getChatMode() == ChatMode.PUBLIC) {
-            msg(TL.COMMAND_CHAT_MODE_PUBLIC);
+            msg(Lang.COMMAND_CHAT_MODE_PUBLIC);
         } else if (fme.getChatMode() == ChatMode.ALLIANCE) {
-            msg(TL.COMMAND_CHAT_MODE_ALLIANCE);
+            msg(Lang.COMMAND_CHAT_MODE_ALLIANCE);
         } else if (fme.getChatMode() == ChatMode.TRUCE) {
-            msg(TL.COMMAND_CHAT_MODE_TRUCE);
+            msg(Lang.COMMAND_CHAT_MODE_TRUCE);
         } else {
-            msg(TL.COMMAND_CHAT_MODE_FACTION);
+            msg(Lang.COMMAND_CHAT_MODE_FACTION);
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_CHAT_DESCRIPTION.toString();
+        return Lang.COMMAND_CHAT_DESCRIPTION.toString();
     }
 }

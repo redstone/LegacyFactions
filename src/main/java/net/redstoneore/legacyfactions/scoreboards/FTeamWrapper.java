@@ -163,7 +163,7 @@ public class FTeamWrapper {
         FPlayer fplayer = scoreboard.getFPlayer();
         Team team = this.teams.get(scoreboard);
 
-        String prefix = TL.DEFAULT_PREFIX.toString();
+        String prefix = Lang.DEFAULT_PREFIX.toString();
         prefix = prefix.replace("{relationcolor}", faction.getRelationTo(fplayer).getColor().toString());
         prefix = prefix.replace("{faction}", faction.getTag().substring(0, Math.min("{faction}".length() + 16 - prefix.length(), this.faction.getTag().length())));
         

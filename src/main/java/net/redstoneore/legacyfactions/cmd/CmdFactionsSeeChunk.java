@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.util.VisualizeUtil;
 
 public class CmdFactionsSeeChunk extends FCommand {
@@ -66,7 +66,7 @@ public class CmdFactionsSeeChunk extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.GENERIC_PLACEHOLDER.toString();
+        return Lang.GENERIC_PLACEHOLDER.toString();
     }
 
 }

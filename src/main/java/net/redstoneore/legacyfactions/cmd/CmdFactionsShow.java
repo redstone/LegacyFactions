@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.util.TagReplacerUtil;
@@ -56,12 +56,12 @@ public class CmdFactionsShow extends FCommand {
 
         if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")
                 && Factions.get().getConfig().getStringList("show-exempt").contains(faction.getTag())) {
-            msg(TL.COMMAND_SHOW_EXEMPT);
+            msg(Lang.COMMAND_SHOW_EXEMPT);
             return;
         }
 
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(Conf.econCostShow, TL.COMMAND_SHOW_TOSHOW, TL.COMMAND_SHOW_FORSHOW)) {
+        if (!payForCommand(Conf.econCostShow, Lang.COMMAND_SHOW_TOSHOW, Lang.COMMAND_SHOW_FORSHOW)) {
             return;
         }
 
@@ -97,7 +97,7 @@ public class CmdFactionsShow extends FCommand {
             if (!parsed.contains("{notFrozen}") && !parsed.contains("{notPermanent}")) {
                 if (parsed.contains("{ig}")) {
                     // replaces all variables with no home TL
-                    parsed = parsed.substring(0, parsed.indexOf("{ig}")) + TL.COMMAND_SHOW_NOHOME.toString();
+                    parsed = parsed.substring(0, parsed.indexOf("{ig}")) + Lang.COMMAND_SHOW_NOHOME.toString();
                 }
                 if (parsed.contains("%")) {
                     parsed = parsed.replaceAll("%", ""); // Just in case it got in there before we disallowed it.
@@ -109,7 +109,7 @@ public class CmdFactionsShow extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_SHOW_COMMANDDESCRIPTION.toString();
+        return Lang.COMMAND_SHOW_COMMANDDESCRIPTION.toString();
     }
 
 }

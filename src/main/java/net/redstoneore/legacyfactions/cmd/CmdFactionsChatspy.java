@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsChatspy extends FCommand {
 
@@ -26,16 +26,16 @@ public class CmdFactionsChatspy extends FCommand {
         fme.setSpyingChat(this.argAsBool(0, !fme.isSpyingChat()));
 
         if (fme.isSpyingChat()) {
-            fme.msg(TL.COMMAND_CHATSPY_ENABLE);
-            Factions.get().log(fme.getName() + TL.COMMAND_CHATSPY_ENABLELOG.toString());
+            fme.msg(Lang.COMMAND_CHATSPY_ENABLE);
+            Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_ENABLELOG.toString());
         } else {
-            fme.msg(TL.COMMAND_CHATSPY_DISABLE);
-            Factions.get().log(fme.getName() + TL.COMMAND_CHATSPY_DISABLELOG.toString());
+            fme.msg(Lang.COMMAND_CHATSPY_DISABLE);
+            Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_DISABLELOG.toString());
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_CHATSPY_DESCRIPTION.toString();
+        return Lang.COMMAND_CHATSPY_DESCRIPTION.toString();
     }
 }

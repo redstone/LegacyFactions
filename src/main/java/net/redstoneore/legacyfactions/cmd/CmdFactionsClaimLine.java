@@ -10,7 +10,7 @@ import org.bukkit.block.BlockFace;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -46,7 +46,7 @@ public class CmdFactionsClaimLine extends FCommand {
         Integer amount = this.argAsInt(0, 1); // Default to 1
 
         if (amount > Conf.lineClaimLimit) {
-            fme.msg(TL.COMMAND_CLAIMLINE_ABOVEMAX, Conf.lineClaimLimit);
+            fme.msg(Lang.COMMAND_CLAIMLINE_ABOVEMAX, Conf.lineClaimLimit);
             return;
         }
 
@@ -64,7 +64,7 @@ public class CmdFactionsClaimLine extends FCommand {
         } else if (direction.equalsIgnoreCase("west")) {
             blockFace = BlockFace.WEST;
         } else {
-            fme.msg(TL.COMMAND_CLAIMLINE_NOTVALID, direction);
+            fme.msg(Lang.COMMAND_CLAIMLINE_NOTVALID, direction);
             return;
         }
 
@@ -92,6 +92,6 @@ public class CmdFactionsClaimLine extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_CLAIMLINE_DESCRIPTION.toString();
+        return Lang.COMMAND_CLAIMLINE_DESCRIPTION.toString();
     }
 }

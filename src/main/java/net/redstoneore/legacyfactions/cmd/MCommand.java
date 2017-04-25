@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.FactionsPluginBase;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -147,7 +147,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     public boolean validSenderType(CommandSender sender, boolean informSenderIfNot) {
         if (this.senderMustBePlayer && !(sender instanceof Player)) {
             if (informSenderIfNot) {
-                msg(TL.GENERIC_PLAYERONLY);
+                msg(Lang.GENERIC_PLAYERONLY);
             }
             return false;
         }
@@ -161,7 +161,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     public boolean validArgs(List<String> args, CommandSender sender) {
         if (args.size() < this.requiredArgs.size()) {
             if (sender != null) {
-                msg(TL.GENERIC_ARGS_TOOFEW);
+                msg(Lang.GENERIC_ARGS_TOOFEW);
                 sender.sendMessage(this.getUseageTemplate());
             }
             return false;
@@ -171,7 +171,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
             if (sender != null) {
                 // Get the to many string slice
                 List<String> theToMany = args.subList(this.requiredArgs.size() + this.optionalArgs.size(), args.size());
-                msg(TL.GENERIC_ARGS_TOOMANY, TextUtil.implode(theToMany, " "));
+                msg(Lang.GENERIC_ARGS_TOOMANY, TextUtil.implode(theToMany, " "));
                 sender.sendMessage(this.getUseageTemplate());
             }
             return false;
@@ -262,7 +262,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
         sender.sendMessage(Factions.get().getTextUtil().parse(str, args));
     }
 
-    public void msg(TL translation, Object... args) {
+    public void msg(Lang translation, Object... args) {
         sender.sendMessage(Factions.get().getTextUtil().parse(translation.toString(), args));
     }
 
@@ -441,7 +441,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
         }
 
         if (msg && ret == null) {
-            this.msg(TL.GENERIC_NOPLAYERFOUND, name);
+            this.msg(Lang.GENERIC_NOPLAYERFOUND, name);
         }
 
         return ret;
@@ -471,7 +471,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
         }
 
         if (msg && ret == null) {
-            this.msg(TL.GENERIC_NOPLAYERMATCH, name);
+            this.msg(Lang.GENERIC_NOPLAYERMATCH, name);
         }
 
         return ret;

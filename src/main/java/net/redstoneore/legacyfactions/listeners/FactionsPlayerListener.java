@@ -96,7 +96,7 @@ public class FactionsPlayerListener implements Listener {
         if (!myFaction.isWilderness()) {
             for (FPlayer other : myFaction.getFPlayersWhereOnline(true)) {
                 if (other != me && other.isMonitoringJoins()) {
-                    other.msg(TL.FACTION_LOGIN, me.getName());
+                    other.msg(Lang.FACTION_LOGIN, me.getName());
                 }
             }
         }
@@ -141,7 +141,7 @@ public class FactionsPlayerListener implements Listener {
             VisualizeUtil.clear(event.getPlayer());
             if (me.isWarmingUp()) {
                 me.clearWarmup();
-                me.msg(TL.WARMUPS_CANCELLED);
+                me.msg(Lang.WARMUPS_CANCELLED);
             }
         }
 
@@ -181,15 +181,15 @@ public class FactionsPlayerListener implements Listener {
             if (changedFaction) {
                 me.sendFactionHereMessage(factionFrom);
                 if (Conf.ownedAreasEnabled && Conf.ownedMessageOnBorder && myFaction == factionTo && !ownersTo.isEmpty()) {
-                    me.sendMessage(TL.GENERIC_OWNERS.format(ownersTo));
+                    me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
                 }
             } else if (Conf.ownedAreasEnabled && Conf.ownedMessageInsideTerritory && myFaction == factionTo && !myFaction.isWilderness()) {
                 String ownersFrom = myFaction.getOwnerListString(from);
                 if (Conf.ownedMessageByChunk || !ownersFrom.equals(ownersTo)) {
                     if (!ownersTo.isEmpty()) {
-                        me.sendMessage(TL.GENERIC_OWNERS.format(ownersTo));
-                    } else if (!TL.GENERIC_PUBLICLAND.toString().isEmpty()) {
-                        me.sendMessage(TL.GENERIC_PUBLICLAND.toString());
+                        me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
+                    } else if (!Lang.GENERIC_PUBLICLAND.toString().isEmpty()) {
+                        me.sendMessage(Lang.GENERIC_PUBLICLAND.toString());
                     }
                 }
             }
@@ -216,7 +216,7 @@ public class FactionsPlayerListener implements Listener {
             } else {
                 if (!Board.get().getFactionAt(to).isSafeZone()) {
                     Board.get().setFactionAt(FactionColl.get().getSafeZone(), to);
-                    me.msg(TL.PLAYER_SAFEAUTO);
+                    me.msg(Lang.PLAYER_SAFEAUTO);
                 }
             }
         } else if (me.isAutoWarClaimEnabled()) {
@@ -225,7 +225,7 @@ public class FactionsPlayerListener implements Listener {
             } else {
                 if (!Board.get().getFactionAt(to).isWarZone()) {
                     Board.get().setFactionAt(FactionColl.get().getWarZone(), to);
-                    me.msg(TL.PLAYER_WARAUTO);
+                    me.msg(Lang.PLAYER_WARAUTO);
                 }
             }
         }
@@ -259,7 +259,7 @@ public class FactionsPlayerListener implements Listener {
                 int count = attempt.increment();
                 if (count >= 10) {
                     FPlayer me = FPlayerColl.get(player);
-                    me.msg(TL.PLAYER_OUCH);
+                    me.msg(Lang.PLAYER_OUCH);
                     player.damage(NumberConversions.floor((double) count / 10));
                 }
             }
@@ -328,7 +328,7 @@ public class FactionsPlayerListener implements Listener {
             }
 
             if (!justCheck) {
-                me.msg(TL.PLAYER_USE_WILDERNESS, TextUtil.getMaterialName(material));
+                me.msg(Lang.PLAYER_USE_WILDERNESS, TextUtil.getMaterialName(material));
             }
 
             return false;
@@ -338,7 +338,7 @@ public class FactionsPlayerListener implements Listener {
             }
 
             if (!justCheck) {
-                me.msg(TL.PLAYER_USE_SAFEZONE, TextUtil.getMaterialName(material));
+                me.msg(Lang.PLAYER_USE_SAFEZONE, TextUtil.getMaterialName(material));
             }
 
             return false;
@@ -348,7 +348,7 @@ public class FactionsPlayerListener implements Listener {
             }
 
             if (!justCheck) {
-                me.msg(TL.PLAYER_USE_WARZONE, TextUtil.getMaterialName(material));
+                me.msg(Lang.PLAYER_USE_WARZONE, TextUtil.getMaterialName(material));
             }
 
             return false;
@@ -360,7 +360,7 @@ public class FactionsPlayerListener implements Listener {
         // Cancel if we are not in our own territory
         if (rel.confDenyUseage()) {
             if (!justCheck) {
-                me.msg(TL.PLAYER_USE_TERRITORY, TextUtil.getMaterialName(material), otherFaction.getTag(myFaction));
+                me.msg(Lang.PLAYER_USE_TERRITORY, TextUtil.getMaterialName(material), otherFaction.getTag(myFaction));
             }
 
             return false;
@@ -369,7 +369,7 @@ public class FactionsPlayerListener implements Listener {
         // Also cancel if player doesn't have ownership rights for this claim
         if (Conf.ownedAreasEnabled && Conf.ownedAreaDenyUseage && !otherFaction.playerHasOwnershipRights(me, loc)) {
             if (!justCheck) {
-                me.msg(TL.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), otherFaction.getOwnerListString(loc));
+                me.msg(Lang.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), otherFaction.getOwnerListString(loc));
             }
 
             return false;
@@ -432,7 +432,7 @@ public class FactionsPlayerListener implements Listener {
         // You may use any block unless it is another faction's territory...
         if (rel.isNeutral() || (rel.isEnemy() && Conf.territoryEnemyProtectMaterials) || (rel.isAlly() && Conf.territoryAllyProtectMaterials) || (rel.isTruce() && Conf.territoryTruceProtectMaterials)) {
             if (!justCheck) {
-                me.msg(TL.PLAYER_USE_TERRITORY, (material == Material.SOIL ? "trample " : "use ") + TextUtil.getMaterialName(material), otherFaction.getTag(myFaction));
+                me.msg(Lang.PLAYER_USE_TERRITORY, (material == Material.SOIL ? "trample " : "use ") + TextUtil.getMaterialName(material), otherFaction.getTag(myFaction));
             }
 
             return false;
@@ -441,7 +441,7 @@ public class FactionsPlayerListener implements Listener {
         // Also cancel if player doesn't have ownership rights for this claim
         if (Conf.ownedAreasEnabled && Conf.ownedAreaProtectMaterials && !otherFaction.playerHasOwnershipRights(me, loc)) {
             if (!justCheck) {
-                me.msg(TL.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), otherFaction.getOwnerListString(loc));
+                me.msg(Lang.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), otherFaction.getOwnerListString(loc));
             }
 
             return false;
@@ -511,34 +511,34 @@ public class FactionsPlayerListener implements Listener {
                     !Conf.permanentFactionMemberDenyCommands.isEmpty() &&
                     me.getFaction().isPermanent() &&
                     isCommandInList(fullCmd, shortCmd, Conf.permanentFactionMemberDenyCommands.iterator())) {
-            me.msg(TL.PLAYER_COMMAND_PERMANENT, fullCmd);
+            me.msg(Lang.PLAYER_COMMAND_PERMANENT, fullCmd);
             return true;
         }
 
         Faction at = Board.get().getFactionAt(new FLocation(player.getLocation()));
         if (at.isWilderness() && !Conf.wildernessDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.wildernessDenyCommands.iterator())) {
-            me.msg(TL.PLAYER_COMMAND_WILDERNESS, fullCmd);
+            me.msg(Lang.PLAYER_COMMAND_WILDERNESS, fullCmd);
             return true;
         }
 
         Relation rel = at.getRelationTo(me);
         if (at.isNormal() && rel.isAlly() && !Conf.territoryAllyDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryAllyDenyCommands.iterator())) {
-            me.msg(TL.PLAYER_COMMAND_ALLY, fullCmd);
+            me.msg(Lang.PLAYER_COMMAND_ALLY, fullCmd);
             return false;
         }
 
         if (at.isNormal() && rel.isNeutral() && !Conf.territoryNeutralDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryNeutralDenyCommands.iterator())) {
-            me.msg(TL.PLAYER_COMMAND_NEUTRAL, fullCmd);
+            me.msg(Lang.PLAYER_COMMAND_NEUTRAL, fullCmd);
             return true;
         }
 
         if (at.isNormal() && rel.isEnemy() && !Conf.territoryEnemyDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryEnemyDenyCommands.iterator())) {
-            me.msg(TL.PLAYER_COMMAND_ENEMY, fullCmd);
+            me.msg(Lang.PLAYER_COMMAND_ENEMY, fullCmd);
             return true;
         }
 
         if (at.isWarZone() && !Conf.warzoneDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.warzoneDenyCommands.iterator())) {
-            me.msg(TL.PLAYER_COMMAND_WARZONE, fullCmd);
+            me.msg(Lang.PLAYER_COMMAND_WARZONE, fullCmd);
             return true;
         }
 

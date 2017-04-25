@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -24,14 +24,14 @@ public class RelationUtil {
 
         if (that instanceof Faction) {
             if (me instanceof FPlayer && myFaction == thatFaction) {
-                ret = TL.GENERIC_YOURFACTION.toString();
+                ret = Lang.GENERIC_YOURFACTION.toString();
             } else {
                 ret = thatFaction.getTag();
             }
         } else if (that instanceof FPlayer) {
             FPlayer fplayerthat = (FPlayer) that;
             if (that == me) {
-                ret = TL.GENERIC_YOU.toString();
+                ret = Lang.GENERIC_YOU.toString();
             } else if (thatFaction == myFaction) {
                 ret = fplayerthat.getNameAndTitle();
             } else {

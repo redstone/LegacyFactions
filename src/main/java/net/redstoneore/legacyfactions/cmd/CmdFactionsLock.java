@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsLock extends FCommand {
 
@@ -24,12 +24,12 @@ public class CmdFactionsLock extends FCommand {
 	@Override
 	public void perform() {
 		Factions.get().setLocked(this.argAsBool(0, !Factions.get().isLocked()));
-		msg(Factions.get().isLocked() ? TL.COMMAND_LOCK_LOCKED : TL.COMMAND_LOCK_UNLOCKED);
+		msg(Factions.get().isLocked() ? Lang.COMMAND_LOCK_LOCKED : Lang.COMMAND_LOCK_UNLOCKED);
 	}
 
 	@Override
 	public String getUsageTranslation() {
-		return TL.COMMAND_LOCK_DESCRIPTION.toString();
+		return Lang.COMMAND_LOCK_DESCRIPTION.toString();
 	}
 
 }

@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
@@ -38,13 +38,13 @@ public class CmdFactionsMoneyDeposit extends FCommand {
         boolean success = VaultEngine.transferMoney(fme, fme, faction, amount);
 
         if (success && Conf.logMoneyTransactions) {
-            Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(TL.COMMAND_MONEYDEPOSIT_DEPOSITED.toString(), fme.getName(), VaultEngine.moneyString(amount), faction.describeTo(null))));
+            Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYDEPOSIT_DEPOSITED.toString(), fme.getName(), VaultEngine.moneyString(amount), faction.describeTo(null))));
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_MONEYDEPOSIT_DESCRIPTION.toString();
+        return Lang.COMMAND_MONEYDEPOSIT_DESCRIPTION.toString();
     }
 
 }

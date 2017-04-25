@@ -22,7 +22,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.text.SimpleDateFormat;
 
 // TODO: triggered so bad, create a new language system
-public enum TL {
+public enum Lang {
     /**
      * Translation meta
      */
@@ -740,7 +740,7 @@ public enum TL {
      * @param path  The string path.
      * @param start The default string.
      */
-    TL(String path, String start) {
+    Lang(String path, String start) {
         this.path = path;
         this.def = start;
     }
@@ -750,7 +750,7 @@ public enum TL {
      *
      * @param start The default string.
      */
-    TL(String start) {
+    Lang(String start) {
         this.path = this.name().replace('_', '.');
         if (this.path.startsWith(".")) {
             path = "root" + path;

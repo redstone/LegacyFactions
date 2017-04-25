@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class PermUtil {
     }
 
     public String getForbiddenMessage(String perm) {
-        return Factions.get().getTextUtil().parse(TL.GENERIC_NOPERMISSION.toString(), getPermissionDescription(perm));
+        return Factions.get().getTextUtil().parse(Lang.GENERIC_NOPERMISSION.toString(), getPermissionDescription(perm));
     }
 
     /**
@@ -34,7 +34,7 @@ public class PermUtil {
     public String getPermissionDescription(String perm) {
         String desc = permissionDescriptions.get(perm);
         if (desc == null) {
-            return TL.GENERIC_DOTHAT.toString();
+            return Lang.GENERIC_DOTHAT.toString();
         }
         return desc;
     }

@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -29,16 +29,16 @@ public class CmdFactionsSafeunclaimall extends FCommand {
     @Override
     public void perform() {
         Board.get().unclaimAll(FactionColl.get().getSafeZone().getId());
-        msg(TL.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
+        msg(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
 
         if (Conf.logLandUnclaims) {
-            Factions.get().log(TL.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
+            Factions.get().log(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_SAFEUNCLAIMALL_DESCRIPTION.toString();
+        return Lang.COMMAND_SAFEUNCLAIMALL_DESCRIPTION.toString();
     }
 
 }

@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
@@ -16,7 +16,7 @@ public class CmdFactionsMoneyBalance extends FCommand {
         this.optionalArgs.put("faction", "yours");
 
         this.permission = Permission.MONEY_BALANCE.node;
-        this.setHelpShort(TL.COMMAND_MONEYBALANCE_SHORT.toString());
+        this.setHelpShort(Lang.COMMAND_MONEYBALANCE_SHORT.toString());
 
         senderMustBePlayer = false;
         senderMustBeMember = false;
@@ -43,7 +43,7 @@ public class CmdFactionsMoneyBalance extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_MONEYBALANCE_DESCRIPTION.toString();
+        return Lang.COMMAND_MONEYBALANCE_DESCRIPTION.toString();
     }
 
 }

@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.scoreboards;
 import java.util.List;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.TL;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.util.TagUtil;
@@ -29,7 +29,7 @@ public abstract class FSidebarProvider {
         if (line.contains("{ig}")) {
             // since you can't really fit a whole "Faction Home: world, x, y, z" on one line
             // we assume it's broken up into two lines, so returning our tl will suffice.
-            return TL.COMMAND_SHOW_NOHOME.toString();
+            return Lang.COMMAND_SHOW_NOHOME.toString();
         }
         return Factions.get().getTextUtil().parse(line); // finally add color :)
     }

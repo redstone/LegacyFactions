@@ -38,7 +38,7 @@ public class CmdFactionsTag extends FCommand {
 
         // TODO does not first test cover selfcase?
         if (FactionColl.get().isTagTaken(tag) && !MiscUtil.getComparisonString(tag).equals(myFaction.getComparisonTag())) {
-            msg(TL.COMMAND_TAG_TAKEN);
+            msg(Lang.COMMAND_TAG_TAKEN);
             return;
         }
 
@@ -49,7 +49,7 @@ public class CmdFactionsTag extends FCommand {
         }
 
         // if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-        if (!canAffordCommand(Conf.econCostTag, TL.COMMAND_TAG_TOCHANGE.toString())) {
+        if (!canAffordCommand(Conf.econCostTag, Lang.COMMAND_TAG_TOCHANGE.toString())) {
             return;
         }
 
@@ -61,7 +61,7 @@ public class CmdFactionsTag extends FCommand {
         }
 
         // then make 'em pay (if applicable)
-        if (!payForCommand(Conf.econCostTag, TL.COMMAND_TAG_TOCHANGE, TL.COMMAND_TAG_FORCHANGE)) {
+        if (!payForCommand(Conf.econCostTag, Lang.COMMAND_TAG_TOCHANGE, Lang.COMMAND_TAG_FORCHANGE)) {
             return;
         }
 
@@ -71,14 +71,14 @@ public class CmdFactionsTag extends FCommand {
         // Inform
         for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
             if (fplayer.getFactionId().equals(myFaction.getId())) {
-                fplayer.msg(TL.COMMAND_TAG_FACTION, fme.describeTo(myFaction, true), myFaction.getTag(myFaction));
+                fplayer.msg(Lang.COMMAND_TAG_FACTION, fme.describeTo(myFaction, true), myFaction.getTag(myFaction));
                 continue;
             }
 
             // Broadcast the tag change (if applicable)
             if (Conf.broadcastTagChanges) {
                 Faction faction = fplayer.getFaction();
-                fplayer.msg(TL.COMMAND_TAG_CHANGED, fme.getColorTo(faction) + oldtag, myFaction.getTag(faction));
+                fplayer.msg(Lang.COMMAND_TAG_CHANGED, fme.getColorTo(faction) + oldtag, myFaction.getTag(faction));
             }
         }
 
@@ -87,7 +87,7 @@ public class CmdFactionsTag extends FCommand {
 
     @Override
     public String getUsageTranslation() {
-        return TL.COMMAND_TAG_DESCRIPTION.toString();
+        return Lang.COMMAND_TAG_DESCRIPTION.toString();
     }
 
 }
