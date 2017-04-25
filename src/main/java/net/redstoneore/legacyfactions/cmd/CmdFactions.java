@@ -162,8 +162,8 @@ public class CmdFactions extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.GENERIC_PLACEHOLDER;
+    public String getUsageTranslation() {
+        return TL.GENERIC_PLACEHOLDER.toString();
     }
 
 }

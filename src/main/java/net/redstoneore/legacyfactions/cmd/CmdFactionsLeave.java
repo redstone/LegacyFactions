@@ -27,8 +27,8 @@ public class CmdFactionsLeave extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.LEAVE_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.LEAVE_DESCRIPTION.toString();
     }
 
 }

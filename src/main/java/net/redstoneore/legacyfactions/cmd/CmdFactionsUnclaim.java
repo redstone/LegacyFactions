@@ -178,8 +178,8 @@ public class CmdFactionsUnclaim extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_UNCLAIM_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_UNCLAIM_DESCRIPTION.toString();
     }
 
 }

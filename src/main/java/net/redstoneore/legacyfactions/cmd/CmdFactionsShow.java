@@ -108,8 +108,8 @@ public class CmdFactionsShow extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_SHOW_COMMANDDESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_SHOW_COMMANDDESCRIPTION.toString();
     }
 
 }

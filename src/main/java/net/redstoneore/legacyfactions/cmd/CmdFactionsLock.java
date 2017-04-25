@@ -28,8 +28,8 @@ public class CmdFactionsLock extends FCommand {
 	}
 
 	@Override
-	public TL getUsageTranslation() {
-		return TL.COMMAND_LOCK_DESCRIPTION;
+	public String getUsageTranslation() {
+		return TL.COMMAND_LOCK_DESCRIPTION.toString();
 	}
 
 }

@@ -121,8 +121,8 @@ public class CmdFactionsKick extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_KICK_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_KICK_DESCRIPTION.toString();
     }
 
 }

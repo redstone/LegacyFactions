@@ -33,8 +33,8 @@ public class CmdFactionsShowInvites extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_SHOWINVITES_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_SHOWINVITES_DESCRIPTION.toString();
     }
 
 

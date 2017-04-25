@@ -42,7 +42,7 @@ public class CmdFactionsDelwarp extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_DELFWARP_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_DELFWARP_DESCRIPTION.toString();
     }
 }

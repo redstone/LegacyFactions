@@ -299,8 +299,8 @@ public class CmdFactionsHelp extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_HELP_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_HELP_DESCRIPTION.toString();
     }
 }
 

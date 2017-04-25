@@ -105,8 +105,8 @@ public class CmdFactionsCreate extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_CREATE_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_CREATE_DESCRIPTION.toString();
     }
 
 }

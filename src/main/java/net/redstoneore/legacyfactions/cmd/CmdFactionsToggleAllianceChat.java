@@ -24,11 +24,6 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_TOGGLEALLIANCECHAT_DESCRIPTION;
-    }
-
-    @Override
     public void perform() {
         if (!Conf.factionOnlyChat) {
             msg(TL.COMMAND_CHAT_DISABLED.toString());
@@ -40,4 +35,10 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
         msg(ignoring ? TL.COMMAND_TOGGLEALLIANCECHAT_UNIGNORE : TL.COMMAND_TOGGLEALLIANCECHAT_IGNORE);
         fme.setIgnoreAllianceChat(!ignoring);
     }
+    
+    @Override
+    public String getUsageTranslation() {
+        return TL.COMMAND_TOGGLEALLIANCECHAT_DESCRIPTION.toString();
+    }
+    
 }

@@ -36,8 +36,8 @@ public class CmdFactionsWarunclaimall extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_WARUNCLAIMALL_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_WARUNCLAIMALL_DESCRIPTION.toString();
     }
 
 }

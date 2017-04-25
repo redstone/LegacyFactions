@@ -43,8 +43,8 @@ public class CmdFactionsMoney extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_MONEY_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_MONEY_DESCRIPTION.toString();
     }
 
 }

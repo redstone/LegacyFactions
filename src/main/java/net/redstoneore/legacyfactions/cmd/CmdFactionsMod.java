@@ -82,8 +82,8 @@ public class CmdFactionsMod extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_MOD_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_MOD_DESCRIPTION.toString();
     }
 
 }

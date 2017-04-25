@@ -42,7 +42,7 @@ public class CmdFactionsMoneyWithdraw extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_MONEYWITHDRAW_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_MONEYWITHDRAW_DESCRIPTION.toString();
     }
 }

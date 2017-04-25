@@ -37,7 +37,7 @@ public class CmdFactionsBypass extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_BYPASS_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_BYPASS_DESCRIPTION.toString();
     }
 }

@@ -52,7 +52,7 @@ public class CmdFactionsPermanentPower extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_PERMANENTPOWER_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_PERMANENTPOWER_DESCRIPTION.toString();
     }
 }

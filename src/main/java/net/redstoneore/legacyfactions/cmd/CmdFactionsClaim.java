@@ -104,8 +104,8 @@ public class CmdFactionsClaim extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_CLAIM_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_CLAIM_DESCRIPTION.toString();
     }
 
 }

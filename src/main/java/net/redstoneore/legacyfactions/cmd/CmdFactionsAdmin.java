@@ -89,8 +89,8 @@ public class CmdFactionsAdmin extends FCommand {
         }
     }
 
-    public TL getUsageTranslation() {
-        return TL.COMMAND_ADMIN_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_ADMIN_DESCRIPTION.toString();
     }
 
 }

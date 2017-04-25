@@ -43,8 +43,8 @@ public class CmdFactionsMoneyDeposit extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_MONEYDEPOSIT_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_MONEYDEPOSIT_DESCRIPTION.toString();
     }
 
 }

@@ -81,7 +81,7 @@ public class CmdFactionsPowerBoost extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_POWERBOOST_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_POWERBOOST_DESCRIPTION.toString();
     }
 }

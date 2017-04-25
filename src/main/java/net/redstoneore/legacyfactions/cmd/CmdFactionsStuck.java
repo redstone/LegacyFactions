@@ -105,7 +105,7 @@ public class CmdFactionsStuck extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_STUCK_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_STUCK_DESCRIPTION.toString();
     }
 }

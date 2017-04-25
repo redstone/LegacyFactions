@@ -37,8 +37,8 @@ public class CmdFactionsSafeunclaimall extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_SAFEUNCLAIMALL_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_SAFEUNCLAIMALL_DESCRIPTION.toString();
     }
 
 }

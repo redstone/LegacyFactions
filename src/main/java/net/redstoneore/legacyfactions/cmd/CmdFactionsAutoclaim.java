@@ -71,8 +71,8 @@ public class CmdFactionsAutoclaim extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_AUTOCLAIM_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_AUTOCLAIM_DESCRIPTION.toString();
     }
 
 }

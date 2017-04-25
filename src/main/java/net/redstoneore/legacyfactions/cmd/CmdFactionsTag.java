@@ -86,8 +86,8 @@ public class CmdFactionsTag extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_TAG_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_TAG_DESCRIPTION.toString();
     }
 
 }

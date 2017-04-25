@@ -35,7 +35,7 @@ public class CmdFactionsChatspy extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_CHATSPY_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_CHATSPY_DESCRIPTION.toString();
     }
 }

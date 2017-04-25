@@ -64,7 +64,7 @@ public class CmdFactionsChat extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_CHAT_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_CHAT_DESCRIPTION.toString();
     }
 }

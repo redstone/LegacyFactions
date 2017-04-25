@@ -46,8 +46,8 @@ public class CmdFactionsOpen extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_OPEN_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_OPEN_DESCRIPTION.toString();
     }
 
 }

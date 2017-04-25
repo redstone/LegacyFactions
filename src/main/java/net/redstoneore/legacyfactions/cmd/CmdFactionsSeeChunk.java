@@ -65,8 +65,8 @@ public class CmdFactionsSeeChunk extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.GENERIC_PLACEHOLDER;
+    public String getUsageTranslation() {
+        return TL.GENERIC_PLACEHOLDER.toString();
     }
 
 }

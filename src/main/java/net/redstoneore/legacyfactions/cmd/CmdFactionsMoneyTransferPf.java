@@ -49,7 +49,7 @@ public class CmdFactionsMoneyTransferPf extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_MONEYTRANSFERPF_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_MONEYTRANSFERPF_DESCRIPTION.toString();
     }
 }

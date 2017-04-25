@@ -80,7 +80,7 @@ public class CmdVault extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_VAULT_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_VAULT_DESCRIPTION.toString();
     }
 }

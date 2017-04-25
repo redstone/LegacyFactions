@@ -59,7 +59,7 @@ public class CmdFactionsSetwarp extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_SETFWARP_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_SETFWARP_DESCRIPTION.toString();
     }
 }

@@ -36,8 +36,8 @@ public class CmdFactionsSaveAll extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_SAVEALL_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_SAVEALL_DESCRIPTION.toString();
     }
 
 }

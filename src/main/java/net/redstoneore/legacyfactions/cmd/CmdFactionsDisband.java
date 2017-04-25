@@ -104,7 +104,7 @@ public class CmdFactionsDisband extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_DISBAND_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_DISBAND_DESCRIPTION.toString();
     }
 }

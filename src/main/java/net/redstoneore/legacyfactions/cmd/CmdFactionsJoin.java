@@ -115,7 +115,7 @@ public class CmdFactionsJoin extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_JOIN_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_JOIN_DESCRIPTION.toString();
     }
 }

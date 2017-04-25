@@ -66,7 +66,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
         return this.helpShort;
     }
 
-    public abstract TL getUsageTranslation();
+    public abstract String getUsageTranslation();
 
     public List<String> helpLong = Lists.newArrayList();
     public CommandVisibility visibility = CommandVisibility.VISIBLE;

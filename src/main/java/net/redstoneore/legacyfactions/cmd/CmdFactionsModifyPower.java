@@ -43,7 +43,7 @@ public class CmdFactionsModifyPower extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_MODIFYPOWER_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_MODIFYPOWER_DESCRIPTION.toString();
     }
 }

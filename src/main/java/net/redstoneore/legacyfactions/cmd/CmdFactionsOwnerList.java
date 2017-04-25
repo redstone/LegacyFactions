@@ -64,7 +64,7 @@ public class CmdFactionsOwnerList extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_OWNERLIST_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_OWNERLIST_DESCRIPTION.toString();
     }
 }

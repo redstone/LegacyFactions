@@ -57,8 +57,8 @@ public class CmdFactionsDeinvite extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_DEINVITE_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_DEINVITE_DESCRIPTION.toString();
     }
 
 }

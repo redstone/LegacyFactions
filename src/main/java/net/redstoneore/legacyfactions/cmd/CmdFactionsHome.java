@@ -168,8 +168,8 @@ public class CmdFactionsHome extends FCommand {
 	}
 
 	@Override
-	public TL getUsageTranslation() {
-		return TL.COMMAND_HOME_DESCRIPTION;
+	public String getUsageTranslation() {
+		return TL.COMMAND_HOME_DESCRIPTION.toString();
 	}
 
 }

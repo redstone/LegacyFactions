@@ -49,8 +49,8 @@ public class CmdFactionsTitle extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_TITLE_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_TITLE_DESCRIPTION.toString();
     }
 
 }

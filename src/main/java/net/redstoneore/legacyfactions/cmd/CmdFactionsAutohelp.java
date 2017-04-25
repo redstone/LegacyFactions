@@ -38,7 +38,7 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_HELP_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_HELP_DESCRIPTION.toString();
     }
 }

@@ -71,8 +71,8 @@ public class CmdFactionsUnclaimall extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_UNCLAIMALL_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_UNCLAIMALL_DESCRIPTION.toString();
     }
 
 }

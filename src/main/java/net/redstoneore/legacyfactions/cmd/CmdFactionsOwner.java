@@ -101,7 +101,7 @@ public class CmdFactionsOwner extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_OWNER_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_OWNER_DESCRIPTION.toString();
     }
 }

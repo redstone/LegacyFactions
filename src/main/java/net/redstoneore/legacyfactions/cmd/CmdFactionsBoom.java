@@ -45,7 +45,7 @@ public class CmdFactionsBoom extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_BOOM_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_BOOM_DESCRIPTION.toString();
     }
 }

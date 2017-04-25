@@ -29,7 +29,7 @@ public class CmdFactionsVersion extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_VERSION_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_VERSION_DESCRIPTION.toString();
     }
 }

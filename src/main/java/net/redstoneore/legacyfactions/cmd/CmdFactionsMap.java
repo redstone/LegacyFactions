@@ -61,8 +61,8 @@ public class CmdFactionsMap extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_MAP_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_MAP_DESCRIPTION.toString();
     }
 
 }

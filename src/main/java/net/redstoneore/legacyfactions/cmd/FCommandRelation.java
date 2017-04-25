@@ -120,7 +120,7 @@ public abstract class FCommandRelation extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_RELATIONS_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_RELATIONS_DESCRIPTION.toString();
     }
 }

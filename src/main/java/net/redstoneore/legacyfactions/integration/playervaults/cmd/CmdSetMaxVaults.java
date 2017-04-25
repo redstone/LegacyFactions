@@ -44,7 +44,7 @@ public class CmdSetMaxVaults extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_SETMAXVAULTS_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_SETMAXVAULTS_DESCRIPTION.toString();
     }
 }

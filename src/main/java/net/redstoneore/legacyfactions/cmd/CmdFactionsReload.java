@@ -35,7 +35,7 @@ public class CmdFactionsReload extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_RELOAD_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_RELOAD_DESCRIPTION.toString();
     }
 }

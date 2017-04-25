@@ -193,7 +193,7 @@ public class CmdFactionsTop extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_TOP_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_TOP_DESCRIPTION.toString();
     }
 }

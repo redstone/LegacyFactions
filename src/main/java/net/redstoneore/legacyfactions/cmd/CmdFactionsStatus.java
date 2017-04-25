@@ -37,8 +37,8 @@ public class CmdFactionsStatus extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_STATUS_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_STATUS_DESCRIPTION.toString();
     }
 
 }

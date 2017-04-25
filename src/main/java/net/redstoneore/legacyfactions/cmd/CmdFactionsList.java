@@ -125,7 +125,7 @@ public class CmdFactionsList extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_LIST_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_LIST_DESCRIPTION.toString();
     }
 }

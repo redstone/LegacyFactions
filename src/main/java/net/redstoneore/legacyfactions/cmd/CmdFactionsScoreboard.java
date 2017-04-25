@@ -27,7 +27,7 @@ public class CmdFactionsScoreboard extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_SCOREBOARD_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_SCOREBOARD_DESCRIPTION.toString();
     }
 }

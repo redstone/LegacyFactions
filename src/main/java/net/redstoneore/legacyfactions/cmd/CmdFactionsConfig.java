@@ -242,8 +242,8 @@ public class CmdFactionsConfig extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_CONFIG_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_CONFIG_DESCRIPTION.toString();
     }
 
 }

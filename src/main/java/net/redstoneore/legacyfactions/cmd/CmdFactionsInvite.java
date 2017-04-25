@@ -61,8 +61,8 @@ public class CmdFactionsInvite extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_INVITE_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_INVITE_DESCRIPTION.toString();
     }
 
 }

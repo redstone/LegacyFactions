@@ -24,7 +24,7 @@ public class CmdFactionsLogins extends FCommand {
     }
 
     @Override
-    public TL getUsageTranslation() {
-        return TL.COMMAND_LOGINS_DESCRIPTION;
+    public String getUsageTranslation() {
+        return TL.COMMAND_LOGINS_DESCRIPTION.toString();
     }
 }
