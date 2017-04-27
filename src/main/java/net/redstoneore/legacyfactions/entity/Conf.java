@@ -16,9 +16,9 @@ import java.util.*;
 public class Conf {
 	
 	
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// MISC
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	
 	/**
 	 * Enable debug mode, this will fill your console with lots of debug information 
@@ -27,7 +27,7 @@ public class Conf {
 	public static boolean debug = false;
 	
 	/**
-	 * Enable metrics, this will send useful statistics to MCStats.org 
+	 * Enable metrics, this will send useful statistics to MCStats or bstats 
 	 * @category misc
 	 */
 	public static boolean enableMetrics = true;
@@ -46,9 +46,9 @@ public class Conf {
     public static long warmupWarp = 0;
     public static long warmupHome = 0;
     
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// COLOURS
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
     public static ChatColor colorMember = ChatColor.GREEN;
     public static ChatColor colorAlly = ChatColor.LIGHT_PURPLE;
@@ -59,9 +59,9 @@ public class Conf {
     public static ChatColor colorPeaceful = ChatColor.GOLD;
     public static ChatColor colorWar = ChatColor.DARK_RED;
 
-    // ----------------------------------------
+	// -------------------------------------------------- //
  	// TOOLTIPS
- 	// ----------------------------------------
+	// -------------------------------------------------- //
 
     public static Map<String, List<String>> tooltips = MiscUtil.map(
     	"list", Lists.newArrayList(
@@ -80,9 +80,9 @@ public class Conf {
     	)
     );
     
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// POWER
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
     public static double powerPlayerMax = 10.0;
     public static double powerPlayerMin = -10.0;
@@ -94,16 +94,16 @@ public class Conf {
     public static double powerOfflineLossLimit = 0.0;  // players will no longer lose power from being offline once their power drops to this amount or less
     public static double powerFactionMax = 0.0;  // if greater than 0, the cap on how much power a faction can have (additional power from players beyond that will act as a "buffer" of sorts)
 
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// PREFIX
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
     public static String prefixAdmin = "**";
     public static String prefixMod = "*";
 
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// FACTION
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
     public static String factionDefaultRelation = "neutral";
     
@@ -157,16 +157,9 @@ public class Conf {
 
     public static boolean disablePistonsInTerritory = false;
     
-	// ----------------------------------------
-	// INTEGRATION: WORLD GUARD
-	// ----------------------------------------
-
-    public static boolean worldGuardChecking = false;
-    public static boolean worldGuardBuildPriority = false;
-
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// SERVER LOGGING
-	// ----------------------------------------
+	// -------------------------------------------------- //
     
     public static boolean logFactionCreate = true;
     public static boolean logFactionDisband = true;
@@ -191,16 +184,16 @@ public class Conf {
     public static boolean findFactionsExploitLog = false;
     public static long findFactionsExploitCooldown = 2000;
     
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// PORTALS
-	// ----------------------------------------
+	// -------------------------------------------------- //
     
     public static boolean portalsLimit = false;
     public static String portalsMinimumRelation = "MEMBER";
     
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// SCOREBOARD
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
     public static boolean scoreboardInChat = false;
     public static long scoreboardExpires = 6;
@@ -248,9 +241,9 @@ public class Conf {
     	"use", 5.0
     );
     
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// HOMES
-	// ----------------------------------------
+	// -------------------------------------------------- //
 
     public static boolean homesEnabled = true;
     public static boolean homesMustBeInClaimedTerritory = true;
@@ -413,9 +406,16 @@ public class Conf {
     public static double econCostNoBoom = 0.0;
 
 
-    // -------------------------------------------- //
+	// -------------------------------------------------- //
+	// INTEGRATION: WORLD GUARD
+	// -------------------------------------------------- //
+
+    public static boolean worldGuardChecking = false;
+    public static boolean worldGuardBuildPriority = false;
+    
+	// -------------------------------------------------- //
     // INTEGRATION: DYNMAP
-    // -------------------------------------------- //
+	// -------------------------------------------------- //
 
     // Should the dynmap intagration be used?
     public static boolean dynmapUse = false;
@@ -610,7 +610,6 @@ public class Conf {
 
     public enum Backend {
         JSON,
-        //MYSQL,  TODO
         ;
     }
 }
