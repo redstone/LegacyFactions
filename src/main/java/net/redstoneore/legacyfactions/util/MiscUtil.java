@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -114,6 +115,16 @@ public class MiscUtil {
         ret.addAll(moderators);
         ret.addAll(normal);
         return ret;
+    }
+    
+    public static LinkedHashSet<String> linkedHashSet(String... items) {
+    	LinkedHashSet<String> set = new LinkedHashSet<String>();
+    	
+    	for (String item : items) {
+    		set.add(item);
+    	}
+    	
+    	return set;
     }
     
     public static Map<String, Double> map(String a, Double b, Object... extras) {
