@@ -254,6 +254,8 @@ permissions:
     description: set a warp for your faction
   factions.warp:
     description: access your faction warps
+  factions.warp.passwords:
+    description: allow creating warps with a password
   factions.modifypower:
     description: modify other player's power
   factions.monitorlogins:

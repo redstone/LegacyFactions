@@ -38,7 +38,7 @@ public class CmdFactionsSetwarp extends FCommand {
         String warpPassword = argAsString(1);
         if (warpPassword != null && warpPassword.trim() != "") {
         	
-        	if (!this.fme.getPlayer().hasPermission("warp.passwords")) {
+        	if (!this.fme.getPlayer().hasPermission("factions.warp.passwords")) {
         		fme.msg(Lang.COMMAND_SETFWARP_NOPASSWORD);
         		return;
         	}
