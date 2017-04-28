@@ -19,7 +19,13 @@ package net.redstoneore.legacyfactions;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
 
 // TODO: Ensure we're not restricted to this anywhere
 // TODO: Organise this a little better 
@@ -826,4 +832,80 @@ public enum Lang {
 	public String getPath() {
 		return this.path;
 	}
+	
+    public static void reload() {
+        File lang = new File(Factions.get().getDataFolder(), "lang.yml");
+        OutputStream out = null;
+        InputStream defLangStream = Factions.get().getResource("lang.yml");
+        
+        Boolean langFailed = false;
+        
+        if (!lang.exists()) {
+            try {
+            	Factions.get().getDataFolder().mkdir();
+                lang.createNewFile();
+                if (defLangStream != null) {
+                    out = new FileOutputStream(lang);
+                    int read;
+                    byte[] bytes = new byte[1024];
+
+                    while ((read = defLangStream.read(bytes)) != -1) {
+                        out.write(bytes, 0, read);
+                    }
+                    
+                    @SuppressWarnings("deprecation")
+					YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defLangStream);
+                    Lang.setFile(defConfig);
+                }
+            } catch (IOException e) {
+                e.printStackTrace(); // So they notice
+                Factions.get().getLogger().severe("[Factions] Couldn't create language file.");
+                Factions.get().getLogger().severe("[Factions] Default language settings will be used.");
+                
+                langFailed = true;
+            } finally {
+                if (defLangStream != null) {
+                    try {
+                        defLangStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+
+        if (!langFailed) {
+	        YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);
+	        for (Lang item : Lang.values()) {
+	            if (conf.getString(item.getPath()) == null) {
+	                conf.set(item.getPath(), item.getDefault());
+	            }
+	        }
+	
+	        // Remove this here because I'm sick of dealing with bug reports due to bad decisions on my part.
+	        if (conf.getString(Lang.COMMAND_SHOW_POWER.getPath(), "").contains("%5$s")) {
+	            conf.set(Lang.COMMAND_SHOW_POWER.getPath(), Lang.COMMAND_SHOW_POWER.getDefault());
+	            Factions.get().log("Removed errant format specifier from f show power.");
+	        }
+	
+	        Lang.setFile(conf);
+	        
+	        try {
+	            conf.save(lang);
+	        } catch (IOException e) {
+	        	Factions.get().getLogger().log(Level.WARNING, "Factions: Failed to save lang.yml.");
+	        	Factions.get().getLogger().log(Level.WARNING, "Factions: Report this stack trace.");
+	            e.printStackTrace();
+	        }
+        }
+    }
+	
 }

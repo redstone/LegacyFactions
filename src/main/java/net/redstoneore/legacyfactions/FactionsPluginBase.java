@@ -125,7 +125,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
             saveTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveTask(this), saveTicks, saveTicks);
         }
 
-        this.loadLang();
+        Lang.reload();
 
         this.loadSuccessful = true;
         
@@ -136,79 +136,6 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         log("=== ENABLE DONE (Took " + (System.currentTimeMillis() - timeEnableStart) + "ms) ===");
     }
 
-    public void loadLang() {
-        File lang = new File(getDataFolder(), "lang.yml");
-        OutputStream out = null;
-        InputStream defLangStream = this.getResource("lang.yml");
-        
-        Boolean langFailed = false;
-        
-        if (!lang.exists()) {
-            try {
-                getDataFolder().mkdir();
-                lang.createNewFile();
-                if (defLangStream != null) {
-                    out = new FileOutputStream(lang);
-                    int read;
-                    byte[] bytes = new byte[1024];
-
-                    while ((read = defLangStream.read(bytes)) != -1) {
-                        out.write(bytes, 0, read);
-                    }
-                    
-                    YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defLangStream);
-                    Lang.setFile(defConfig);
-                }
-            } catch (IOException e) {
-                e.printStackTrace(); // So they notice
-                getLogger().severe("[Factions] Couldn't create language file.");
-                getLogger().severe("[Factions] Default language settings will be used.");
-                
-                langFailed = true;
-            } finally {
-                if (defLangStream != null) {
-                    try {
-                        defLangStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        }
-
-        if (!langFailed) {
-	        YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);
-	        for (Lang item : Lang.values()) {
-	            if (conf.getString(item.getPath()) == null) {
-	                conf.set(item.getPath(), item.getDefault());
-	            }
-	        }
-	
-	        // Remove this here because I'm sick of dealing with bug reports due to bad decisions on my part.
-	        if (conf.getString(Lang.COMMAND_SHOW_POWER.getPath(), "").contains("%5$s")) {
-	            conf.set(Lang.COMMAND_SHOW_POWER.getPath(), Lang.COMMAND_SHOW_POWER.getDefault());
-	            log("Removed errant format specifier from f show power.");
-	        }
-	
-	        Lang.setFile(conf);
-	        
-	        try {
-	            conf.save(lang);
-	        } catch (IOException e) {
-	            getLogger().log(Level.WARNING, "Factions: Failed to save lang.yml.");
-	            getLogger().log(Level.WARNING, "Factions: Report this stack trace.");
-	            e.printStackTrace();
-	        }
-        }
-    }
 
     public void onDisable() {
         if (saveTask != null) {

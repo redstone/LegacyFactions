@@ -28,7 +28,9 @@ public class CmdFactionsReload extends FCommand {
         long timeInitStart = System.currentTimeMillis();
         Conf.load();
         Factions.get().reloadConfig();
-        Factions.get().loadLang();
+        
+        Lang.reload();
+        
         long timeReload = (System.currentTimeMillis() - timeInitStart);
 
         msg(Lang.COMMAND_RELOAD_TIME, timeReload);
