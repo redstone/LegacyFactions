@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.StringJoiner;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
@@ -33,7 +33,10 @@ public class CmdFactionsAnnounce extends FCommand {
     @Override
     public void perform() {
     	// Compile announcement
-        String message = StringUtils.join(args, " ");
+        StringJoiner messageJoiner = new StringJoiner(" ", "", "");
+        this.args.forEach(messageJoiner::add);
+
+        String message = messageJoiner.toString();
         
         String announcement = Lang.COMMAND_ANNOUNCE_TEMPALTE.toString()
         		.replaceAll("<tag>", this.myFaction.getTag())
@@ -41,12 +44,12 @@ public class CmdFactionsAnnounce extends FCommand {
         		.replaceAll("<message>", message);
         
         // Notify online players
-        myFaction.getFPlayersWhereOnline(true).forEach(
+        this.myFaction.getFPlayersWhereOnline(true).forEach(
         	fplayer -> fplayer.msg(announcement)
         );
         
         // Store announcement for offline players
-        myFaction.getFPlayersWhereOnline(false).forEach(
+        this.myFaction.getFPlayersWhereOnline(false).forEach(
         	fplayer -> this.myFaction.addAnnouncement(fplayer, announcement)
         );
     }
