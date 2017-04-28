@@ -118,6 +118,7 @@ COMMAND:
     MARKEDPERMANENT: <i>This faction is designated as permanent, so you cannot disband it.
     BROADCAST:
       YOURS: <h>%1$s<i> disbanded your faction.
+      YOURSYOU: <h>You<i> disbanded your faction.
       NOTYOURS: <h>%1$s<i> disbanded the faction %2$s.
     HOLDINGS: <i>You have been given the disbanded faction's bank, totaling %1$s.
   FWARP:

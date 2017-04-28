@@ -76,7 +76,11 @@ public class CmdFactionsDisband extends FCommand {
         for (FPlayer fplayer : FPlayerColl.all(true)) {
             String who = senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer);
             if (fplayer.getFaction() == faction) {
-                fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURS, who);
+            	if (fplayer == fme) {
+            		fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURSYOU);
+            	} else {
+                    fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURS, who);            		
+            	}
             } else {
                 fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_NOTYOURS, who, faction.getTag(fplayer));
             }

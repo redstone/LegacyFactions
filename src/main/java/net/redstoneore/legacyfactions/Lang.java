@@ -181,6 +181,7 @@ public enum Lang {
 	COMMAND_DISBAND_IMMUTABLE("<i>You cannot disband the Wilderness, SafeZone, or WarZone."),
 	COMMAND_DISBAND_MARKEDPERMANENT("<i>This faction is designated as permanent, so you cannot disband it."),
 	COMMAND_DISBAND_BROADCAST_YOURS("<h>%1$s<i> disbanded your faction."),
+	COMMAND_DISBAND_BROADCAST_YOURSYOU("<h>You<i> disbanded your faction."),
 	COMMAND_DISBAND_BROADCAST_NOTYOURS("<h>%1$s<i> disbanded the faction %2$s."),
 	COMMAND_DISBAND_HOLDINGS("<i>You have been given the disbanded faction's bank, totaling %1$s."),
 	COMMAND_DISBAND_DESCRIPTION("Disband a faction"),
