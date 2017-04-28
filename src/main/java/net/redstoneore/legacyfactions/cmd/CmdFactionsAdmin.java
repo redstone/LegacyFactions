@@ -84,7 +84,7 @@ public class CmdFactionsAdmin extends FCommand {
         msg(Lang.COMMAND_ADMIN_PROMOTES, fyou.describeTo(fme, true));
 
         // Inform all players
-        for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
+        for (FPlayer fplayer : FPlayerColl.all(true)) {
             fplayer.msg(Lang.COMMAND_ADMIN_PROMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), fyou.describeTo(fplayer), targetFaction.describeTo(fplayer));
         }
     }

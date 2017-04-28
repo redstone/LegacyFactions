@@ -31,7 +31,7 @@ public class FactionsJSON {
                 new JSONFactions().convertFrom((MemoryFactions) FactionColl.get());
                 logger.info("Factions Converted");
                 logger.info("Refreshing object caches");
-                for (FPlayer fPlayer : FPlayerColl.getAll()) {
+                for (FPlayer fPlayer : FPlayerColl.all()) {
                     Faction faction = FactionColl.get().getFactionById(fPlayer.getFactionId());
                     faction.addFPlayer(fPlayer);
                 }

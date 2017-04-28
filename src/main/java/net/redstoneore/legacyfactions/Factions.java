@@ -114,15 +114,18 @@ public class Factions extends FactionsPluginBase {
 		
 		FPlayerColl.load();
 		FactionColl.get().load();
-		for (FPlayer fPlayer : FPlayerColl.getAll()) {
-			Faction faction = FactionColl.get().getFactionById(fPlayer.getFactionId());
+		
+		
+		FPlayerColl.all(fplayer -> {
+			Faction faction = fplayer.getFaction();
 			if (faction == null) {
-				log("Invalid faction id on " + fPlayer.getName() + ":" + fPlayer.getFactionId());
-				fPlayer.resetFactionData(false);
-				continue;
+				log("Invalid faction id on " + fplayer.getName() + ":" + fplayer.getFactionId());
+				fplayer.resetFactionData(false);
+				return;
 			}
-			faction.addFPlayer(fPlayer);
-		}
+			faction.addFPlayer(fplayer);
+		});
+		
 		Board.get().load();
 		Board.get().clean();
 

@@ -715,7 +715,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
         if (myFaction.isNormal() && !perm && myFaction.getFPlayers().isEmpty()) {
             // Remove this faction
-            for (FPlayer fplayer : FPlayerColl.getAll()) {
+            for (FPlayer fplayer : FPlayerColl.all()) {
                 fplayer.msg(Lang.LEAVE_DISBANDED, myFaction.describeTo(fplayer, true));
             }
 

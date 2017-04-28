@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 public abstract class FPlayerColl {
 	
@@ -61,7 +62,7 @@ public abstract class FPlayerColl {
 	public static Collection<FPlayer> getAllOnline(Role role) {
 		Collection<FPlayer> all = new ArrayList<FPlayer>();
 		
-		for (FPlayer fplayer : getAllOnline()) {
+		for (FPlayer fplayer : all()) {
 			if (fplayer.getRole() == role) {
 				all.add(fplayer);
 			}
@@ -73,7 +74,7 @@ public abstract class FPlayerColl {
 	public static Collection<FPlayer> getAll(Role role) {
 		Collection<FPlayer> all = new ArrayList<FPlayer>();
 		
-		for (FPlayer fplayer : getAll()) {
+		for (FPlayer fplayer : all()) {
 			if (fplayer.getRole() == role) {
 				all.add(fplayer);
 			}
@@ -82,11 +83,13 @@ public abstract class FPlayerColl {
 		return all;
 	}
 	
-	public static Collection<FPlayer> getAllOnline() {
-		return instance.getOnlinePlayers();
+	public static Collection<FPlayer> all(Boolean mustBeOnline) {
+		if (mustBeOnline) return instance.getOnlinePlayers();
+		
+		return all();
 	}
 	
-	public static Collection<FPlayer> getAll() {
+	public static Collection<FPlayer> all() {
 		return instance.getAllFPlayers();
 	}
 	
@@ -102,6 +105,9 @@ public abstract class FPlayerColl {
 		instance.forceSave(sync);
 	}
 
+	public static void all(Consumer<? super FPlayer> action) {
+		instance.getAllFPlayers().forEach(action);
+	}
 	
 	public abstract void clean();
 

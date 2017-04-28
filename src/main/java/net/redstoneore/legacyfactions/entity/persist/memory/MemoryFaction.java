@@ -538,7 +538,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
             return;
         }
 
-        for (FPlayer fplayer : FPlayerColl.getAll()) {
+        for (FPlayer fplayer : FPlayerColl.all()) {
             if (fplayer.getFactionId().equalsIgnoreCase(id)) {
                 fplayers.add(fplayer);
             }
@@ -681,7 +681,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
                 Factions.get().log("The faction " + this.getTag() + " (" + this.getId() + ") has been disbanded since it has no members left.");
             }
 
-            for (FPlayer fplayer : FPlayerColl.getAll()) {
+            for (FPlayer fplayer : FPlayerColl.all()) {
                 fplayer.msg("The faction %s<i> was disbanded.", this.getTag(fplayer));
             }
 

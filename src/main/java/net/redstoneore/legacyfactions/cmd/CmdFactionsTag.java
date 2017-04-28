@@ -69,7 +69,7 @@ public class CmdFactionsTag extends FCommand {
         myFaction.setTag(tag);
 
         // Inform
-        for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
+        for (FPlayer fplayer : FPlayerColl.all(true)) {
             if (fplayer.getFactionId().equals(myFaction.getId())) {
                 fplayer.msg(Lang.COMMAND_TAG_FACTION, fme.describeTo(myFaction, true), myFaction.getTag(myFaction));
                 continue;

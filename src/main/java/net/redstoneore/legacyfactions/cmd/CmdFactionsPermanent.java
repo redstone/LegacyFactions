@@ -45,7 +45,7 @@ public class CmdFactionsPermanent extends FCommand {
         Factions.get().log((fme == null ? "A server admin" : fme.getName()) + " " + change + " the faction \"" + faction.getTag() + "\".");
 
         // Inform all players
-        for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
+        for (FPlayer fplayer : FPlayerColl.all(true)) {
             String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
             if (fplayer.getFaction() == faction) {
                 fplayer.msg(Lang.COMMAND_PERMANENT_YOURS, blame, change);

@@ -41,7 +41,7 @@ public class FactionsChatListener implements Listener {
             Bukkit.getLogger().log(Level.INFO, ChatColor.stripColor("FactionChat " + myFaction.getTag() + ": " + message));
 
             //Send to any players who are spying chat
-            for (FPlayer fplayer : FPlayerColl.getAll()) {
+            for (FPlayer fplayer : FPlayerColl.all()) {
                 if (fplayer.isSpyingChat() && fplayer.getFaction() != myFaction && me != fplayer) {
                     fplayer.sendMessage("[FCspy] " + myFaction.getTag() + ": " + message);
                 }
@@ -57,7 +57,7 @@ public class FactionsChatListener implements Listener {
             myFaction.sendMessage(message);
 
             //Send to all our allies
-            for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
+            for (FPlayer fplayer : FPlayerColl.all(true)) {
                 if (myFaction.getRelationTo(fplayer) == Relation.ALLY && !fplayer.isIgnoreAllianceChat()) {
                     fplayer.sendMessage(message);
                 } else if (fplayer.isSpyingChat() && me != fplayer) {
@@ -77,7 +77,7 @@ public class FactionsChatListener implements Listener {
             myFaction.sendMessage(message);
 
             //Send to all our truces
-            for (FPlayer fplayer : FPlayerColl.getAllOnline()) {
+            for (FPlayer fplayer : FPlayerColl.all(true)) {
                 if (myFaction.getRelationTo(fplayer) == Relation.TRUCE) {
                     fplayer.sendMessage(message);
                 } else if (fplayer.isSpyingChat() && fplayer != me) {

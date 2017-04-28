@@ -93,7 +93,7 @@ public class CmdFactionsCreate extends FCommand {
         fme.setRole(Role.ADMIN);
         fme.setFaction(faction);
 
-        for (FPlayer follower : FPlayerColl.getAllOnline()) {
+        for (FPlayer follower : FPlayerColl.all(true)) {
             follower.msg(Lang.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
         }
 

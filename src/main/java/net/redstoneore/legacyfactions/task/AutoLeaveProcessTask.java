@@ -20,7 +20,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
     private Double toleranceMillis;
 
     public AutoLeaveProcessTask() {
-        ArrayList<FPlayer> fplayers = (ArrayList<FPlayer>) FPlayerColl.getAll();
+        ArrayList<FPlayer> fplayers = (ArrayList<FPlayer>) FPlayerColl.all();
         this.iterator = fplayers.listIterator();
         this.toleranceMillis = Conf.autoLeaveAfterDaysOfInactivity * 24 * 60 * 60 * 1000;
         this.ready = true;
