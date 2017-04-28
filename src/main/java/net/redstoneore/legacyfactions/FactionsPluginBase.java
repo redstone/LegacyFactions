@@ -189,8 +189,14 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         this.addRawTags();
 
         Type type = new TypeToken<Map<String, String>>() { }.getType();
-
-        Map<String, String> tagsFromFile = this.getPersist().load(type, "tags");
+        
+        Map<String, String> tagsFromFile = null;
+        try { 
+        	tagsFromFile = this.getPersist().load(type, "tags");
+        } catch (Exception e) {
+        	// Fail silently
+        }
+        
         if (tagsFromFile != null) {
             this.rawTags.putAll(tagsFromFile);
         }
