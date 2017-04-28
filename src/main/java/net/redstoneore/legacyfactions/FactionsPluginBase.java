@@ -107,13 +107,12 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     private long timeEnableStart;
 
     public boolean preEnable() {
-        
+    	// Ensure plugin folder exists
+        this.getDataFolder().mkdirs();
+    	
         log("=== ENABLE START ===");
         
         this.timeEnableStart = System.currentTimeMillis();
-
-        // Ensure basefolder exists!
-        this.getDataFolder().mkdirs();
         
         // Create and register player command listener
         this.mPluginSecretPlayerListener = new FactionsCommandsListener(this);
