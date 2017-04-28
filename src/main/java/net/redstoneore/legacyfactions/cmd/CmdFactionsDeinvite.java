@@ -1,7 +1,6 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
@@ -45,7 +44,7 @@ public class CmdFactionsDeinvite extends FCommand {
 
         if (you.getFaction() == myFaction) {
             msg(Lang.COMMAND_DEINVITE_ALREADYMEMBER, you.getName(), myFaction.getTag());
-            msg(Lang.COMMAND_DEINVITE_MIGHTWANT, Factions.get().cmdBase.cmdKick.getUseageTemplate(false));
+            msg(Lang.COMMAND_DEINVITE_MIGHTWANT, CmdFactions.get().cmdKick.getUseageTemplate(false));
             return;
         }
 

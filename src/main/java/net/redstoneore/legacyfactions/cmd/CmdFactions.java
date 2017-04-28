@@ -5,9 +5,19 @@ import java.util.Collections;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
-import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
 
 public class CmdFactions extends FCommand {
+
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- // 
+	
+	private static CmdFactions instance = new CmdFactions();
+	public static CmdFactions get() { return instance; }
+	
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- // 
 
     public CmdFactionsAdmin cmdAdmin = new CmdFactionsAdmin();
     public CmdFactionsAutoclaim cmdAutoClaim = new CmdFactionsAutoclaim();
@@ -70,7 +80,11 @@ public class CmdFactions extends FCommand {
     public CmdFactionsClaimLine cmdClaimLine = new CmdFactionsClaimLine();
     public CmdFactionsTop cmdTop = new CmdFactionsTop();
 
-    public CmdFactions() {
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- // 
+
+    private CmdFactions() {
         super();
         this.aliases.addAll(Conf.baseCommandAliases);
         this.aliases.removeAll(Collections.<String>singletonList(null));  // remove any nulls from extra commas
@@ -149,11 +163,11 @@ public class CmdFactions extends FCommand {
         this.addSubCommand(this.cmdLogins);
         this.addSubCommand(this.cmdClaimLine);
         this.addSubCommand(this.cmdTop);
-
-        if(PlayerVaultsIntegration.get().isEnabled()) {
-        	PlayerVaultsIntegration.get().injectCommands(this);
-        }
     }
+    
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- // 
 
     @Override
     public void perform() {

@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.integration.playervaults;
 import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.cmd.FCommand;
+import net.redstoneore.legacyfactions.cmd.CmdFactions;
 import net.redstoneore.legacyfactions.integration.Integration;
 import net.redstoneore.legacyfactions.integration.playervaults.cmd.CmdSetMaxVaults;
 import net.redstoneore.legacyfactions.integration.playervaults.cmd.CmdVault;
@@ -25,15 +25,14 @@ public class PlayerVaultsIntegration extends Integration {
 
 	@Override
 	public void init() {
-		// Just notify we're here
+		this.injectCommands();
 		this.notifyEnabled();
 	}
 	
-	public void injectCommands(FCommand onto) {
+	public void injectCommands() {
         Factions.get().log("Found playervaults hook, adding /f vault and /f setmaxvault commands.");
-        onto.addSubCommand(new CmdSetMaxVaults());
-        onto.addSubCommand(new CmdVault());
-
+        CmdFactions.get().addSubCommand(new CmdSetMaxVaults());
+        CmdFactions.get().addSubCommand(new CmdVault());
 	}
 
 }

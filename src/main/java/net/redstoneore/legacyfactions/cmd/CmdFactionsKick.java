@@ -55,7 +55,7 @@ public class CmdFactionsKick extends FCommand {
 
         if (fme == toKick) {
             msg(Lang.COMMAND_KICK_SELF);
-            msg(Lang.GENERIC_YOUMAYWANT.toString() + Factions.get().cmdBase.cmdLeave.getUseageTemplate(false));
+            msg(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdLeave.getUseageTemplate(false));
             return;
         }
 

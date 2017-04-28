@@ -6,6 +6,7 @@ import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.cmd.CmdFactions;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -60,7 +61,7 @@ public class VaultEngine extends IntegrationEngine {
             Factions.get().log("NOTE: Economy is disabled. You can enable it with the command: f config econEnabled true");
         }
 
-        Factions.get().cmdBase.cmdHelp.updateHelp();
+        CmdFactions.get().cmdHelp.updateHelp();
     }
 
     public static boolean shouldBeUsed() {

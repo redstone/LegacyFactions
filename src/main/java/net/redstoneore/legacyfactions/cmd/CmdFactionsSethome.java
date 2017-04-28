@@ -1,7 +1,6 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.FLocation;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
@@ -65,7 +64,7 @@ public class CmdFactionsSethome extends FCommand {
         faction.setHome(me.getLocation());
 
         faction.msg(Lang.COMMAND_SETHOME_SET, fme.describeTo(myFaction, true));
-        faction.sendMessage(Factions.get().cmdBase.cmdHome.getUseageTemplate());
+        faction.sendMessage(CmdFactions.get().cmdHome.getUseageTemplate());
         if (faction != myFaction) {
             fme.msg(Lang.COMMAND_SETHOME_SETOTHER, faction.getTag(fme));
         }

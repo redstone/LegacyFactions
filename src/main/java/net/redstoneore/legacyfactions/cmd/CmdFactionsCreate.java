@@ -97,7 +97,7 @@ public class CmdFactionsCreate extends FCommand {
             follower.msg(Lang.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
         }
 
-        msg(Lang.COMMAND_CREATE_YOUSHOULD, Factions.get().cmdBase.cmdDescription.getUseageTemplate());
+        msg(Lang.COMMAND_CREATE_YOUSHOULD, CmdFactions.get().cmdDescription.getUseageTemplate());
 
         if (Conf.logFactionCreate) {
             Factions.get().log(fme.getName() + Lang.COMMAND_CREATE_CREATEDLOG.toString() + tag);

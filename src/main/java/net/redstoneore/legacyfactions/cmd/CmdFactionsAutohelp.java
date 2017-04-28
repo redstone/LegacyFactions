@@ -7,6 +7,9 @@ import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsAutohelp extends MCommand<Factions> {
 
+	private static CmdFactionsAutohelp instance = new CmdFactionsAutohelp();
+	public static CmdFactionsAutohelp get() { return instance; }
+	
     public CmdFactionsAutohelp() {
         this.aliases.add("?");
         this.aliases.add("h");

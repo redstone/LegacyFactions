@@ -39,7 +39,7 @@ public class CmdFactionsMoney extends FCommand {
     @Override
     public void perform() {
         this.commandChain.add(this);
-        Factions.get().cmdAutoHelp.execute(this.sender, this.args, this.commandChain);
+        CmdFactionsAutohelp.get().execute(this.sender, this.args, this.commandChain);
     }
 
     @Override

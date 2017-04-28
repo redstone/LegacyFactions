@@ -74,7 +74,7 @@ public class CmdFactionsHome extends FCommand {
 
 		if (!faction.hasHome()) {
 			fme.msg(Lang.COMMAND_HOME_NOHOME.toString() + (fme.getRole().value < Role.MODERATOR.value ? Lang.GENERIC_ASKYOURLEADER.toString() : Lang.GENERIC_YOUSHOULD.toString()));
-			fme.sendMessage(Factions.get().cmdBase.cmdSethome.getUseageTemplate());
+			fme.sendMessage(CmdFactions.get().cmdSethome.getUseageTemplate());
 			return;
 		}
 

@@ -25,7 +25,6 @@ import net.redstoneore.legacyfactions.adapter.EnumAdapter;
 import net.redstoneore.legacyfactions.adapter.LazyLocationAdapter;
 import net.redstoneore.legacyfactions.adapter.MapFlocationSetAdapter;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
-import net.redstoneore.legacyfactions.cmd.CmdFactionsAutohelp;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -77,10 +76,7 @@ public class Factions extends FactionsPluginBase {
 	private Integer taskAutoLeave = null;
 	
 	private boolean locked = false;
-	
-	public CmdFactions cmdBase;
-	public CmdFactionsAutohelp cmdAutoHelp;
-	
+		
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -130,9 +126,7 @@ public class Factions extends FactionsPluginBase {
 		Board.get().clean();
 
 		// Add base commands.
-		this.cmdBase = new CmdFactions();
-		this.cmdAutoHelp = new CmdFactionsAutohelp();
-		this.getBaseCommands().add(cmdBase);
+		this.getBaseCommands().add(CmdFactions.get());
 
 		// Add our integrations.
 		Integrations.add(VaultIntegration.get());
