@@ -59,7 +59,7 @@ import java.util.logging.Level;
 public class Factions extends FactionsPluginBase {
 
 	// -------------------------------------------------- //
-    // INSTANCE & CONSTRUCT 
+	// INSTANCE & CONSTRUCT 
 	// -------------------------------------------------- //
 	
 	private static Factions instance;
