@@ -63,6 +63,7 @@ public enum Lang {
     COMMAND_AHOME_TARGET("You were sent to your f home."),
 
     COMMAND_ANNOUNCE_DESCRIPTION("Announce a message to players in faction."),
+    COMMAND_ANNOUNCE_TEMPALTE("<green><tag> <yellow>[<gray><player><yellow>]<white> <message>"),
 
     COMMAND_AUTOCLAIM_ENABLED("<i>Now auto-claiming land for <h>%1$s<i>."),
     COMMAND_AUTOCLAIM_DISABLED("<i>Auto-claiming of land disabled."),

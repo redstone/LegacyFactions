@@ -1,44 +1,54 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.FPlayer;
 
 public class CmdFactionsAnnounce extends FCommand {
-
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+	
     public CmdFactionsAnnounce() {
-        super();
-        this.aliases.add("ann");
         this.aliases.add("announce");
-
+        this.aliases.add("ann");
+        
         this.requiredArgs.add("message");
         this.errorOnToManyArgs = false;
-
+        
         this.permission = Permission.ANNOUNCE.node;
         this.disableOnLock = false;
-
-        senderMustBePlayer = true;
-        senderMustBeMember = true;
-        senderMustBeModerator = true;
+        
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = true;
+        this.senderMustBeModerator = true;
     }
+    
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {
-        String prefix = ChatColor.GREEN + myFaction.getTag() + ChatColor.YELLOW + " [" + ChatColor.GRAY + me.getName() + ChatColor.YELLOW + "] " + ChatColor.RESET;
+    	// Compile announcement
         String message = StringUtils.join(args, " ");
-
-        for (Player player : myFaction.getOnlinePlayers()) {
-            player.sendMessage(prefix + message);
-        }
-
-        // Add for offline players.
-        for (FPlayer fp : myFaction.getFPlayersWhereOnline(false)) {
-            myFaction.addAnnouncement(fp, prefix + message);
-        }
+        
+        String announcement = Lang.COMMAND_ANNOUNCE_TEMPALTE.toString()
+        		.replaceAll("<tag>", this.myFaction.getTag())
+        		.replaceAll("<player>", this.me.getName())
+        		.replaceAll("<message>", message);
+        
+        // Notify online players
+        myFaction.getFPlayersWhereOnline(true).forEach(
+        	fplayer -> fplayer.msg(announcement)
+        );
+        
+        // Store announcement for offline players
+        myFaction.getFPlayersWhereOnline(false).forEach(
+        	fplayer -> this.myFaction.addAnnouncement(fplayer, announcement)
+        );
     }
 
     @Override
