@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -29,16 +30,14 @@ public abstract class FactionColl {
     public static Faction get(Object o) {
     	Faction faction = null;
     	
-    	// Quick conversions
+    	// CONVERT
     	if (o instanceof Player) {
     		o = FPlayerColl.instance.getByPlayer((Player) o);
-    	}
-    	
-    	if (o instanceof OfflinePlayer) {
+    	} else if (o instanceof OfflinePlayer) {
     		o = FPlayerColl.instance.getByOfflinePlayer((OfflinePlayer) o);
     	}
     	
-    	// String can be either id or tag
+    	// FIND
     	if (o instanceof String) {
     		// search by id first
     		faction = i.getFactionById((String) o);
@@ -49,14 +48,20 @@ public abstract class FactionColl {
     		
     		// now try its tag
     		return i.getByTag((String) o);
-    	}
-    	
-    	if (o instanceof FPlayer) {
+    	} else if (o instanceof FPlayer) {
     		FPlayer fplayer = (FPlayer) o;
     		return fplayer.getFaction();
     	}
     	
     	return null;
+    }
+    
+    public static List<Faction> all() {
+    	return get().getAllFactions();
+    }
+    
+    public static void all(Consumer<? super Faction> action) {
+    	get().getAllFactions().forEach(action);
     }
     
     public List<Faction> getAll(World world) {
