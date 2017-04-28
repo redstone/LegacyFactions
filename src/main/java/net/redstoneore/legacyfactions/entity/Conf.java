@@ -20,30 +20,30 @@ public class Conf {
 	// MISC
 	// -------------------------------------------------- //
 	
-	/**
-	 * Enable debug mode, this will fill your console with lots of debug information 
-	 * @category misc
-	 */
+	// Enable debug mode, this will help diagnose problems. 
 	public static boolean debug = false;
 	
-	/**
-	 * Enable metrics, this will send useful statistics to MCStats or bstats 
-	 * @category misc
-	 */
+	// Enable metrics, this will send useful statistics to MCStats or bstats.
 	public static boolean enableMetrics = true;
 		
 	// -------------------------------------------------- //
 	// COMMANDS
 	// -------------------------------------------------- //
 	
+	// Base command for Factions 'f' is default, you can add more or changed it.
     public static List<String> baseCommandAliases = Lists.newArrayList("f");
+    
+    // Allow no slash required for commands.
     public static boolean allowNoSlashCommand = true;
 
 	// -------------------------------------------------- //
     // WARMUPS
 	// -------------------------------------------------- //
 
+    // Warm up in seconds for warps 
     public static long warmupWarp = 0;
+    
+    // Warm up in seconds for home command
     public static long warmupHome = 0;
     
 	// -------------------------------------------------- //
@@ -63,6 +63,7 @@ public class Conf {
  	// TOOLTIPS
 	// -------------------------------------------------- //
 
+    // Tooltip templates
     public static Map<String, List<String>> tooltips = MiscUtil.map(
     	"list", Lists.newArrayList(
     		"&6Leader: &f{leader}",
