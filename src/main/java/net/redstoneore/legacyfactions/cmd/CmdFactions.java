@@ -19,6 +19,7 @@ public class CmdFactions extends FCommand {
 	// FIELDS
 	// -------------------------------------------------- // 
 
+	// TODO: singletons..
     public CmdFactionsAdmin cmdAdmin = new CmdFactionsAdmin();
     public CmdFactionsAutoclaim cmdAutoClaim = new CmdFactionsAutoclaim();
     public CmdFactionsBoom cmdBoom = new CmdFactionsBoom();
