@@ -18,15 +18,12 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 
 public abstract class FactionsPluginBase extends JavaPlugin {
 	
