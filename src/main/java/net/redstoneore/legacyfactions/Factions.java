@@ -52,7 +52,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -104,14 +103,13 @@ public class Factions extends FactionsPluginBase {
 		if (!preEnable()) return;
 		
 		this.loadSuccessful = false;
-		saveDefaultConfig();
+		this.saveDefaultConfig();
 
 		// Load Conf from disk
 		Conf.load();
 		
 		FPlayerColl.load();
 		FactionColl.get().load();
-		
 		
 		FPlayerColl.all(fplayer -> {
 			Faction faction = fplayer.getFaction();
@@ -139,7 +137,7 @@ public class Factions extends FactionsPluginBase {
 		Integrations.add(BStatsIntegration.get());
 
 		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
-		startAutoLeaveTask(false);
+		this.startAutoLeaveTask(false);
 
 		// Register Event Handlers
 		this.register(
@@ -151,9 +149,7 @@ public class Factions extends FactionsPluginBase {
 		);
 		
 		// since some other plugins execute commands directly through this command interface, provide it
-		for (String refCommand : Conf.baseCommandAliases) {
-			this.getCommand(refCommand).setExecutor(this);
-		}
+		Conf.baseCommandAliases.forEach(ref -> this.getCommand(ref).setExecutor(this));
 
 		postEnable();
 		this.loadSuccessful = true;
@@ -213,18 +209,16 @@ public class Factions extends FactionsPluginBase {
 
 	@Override
 	public boolean handleCommand(CommandSender sender, String commandString, boolean testOnly) {
-		return sender instanceof Player && FactionsPlayerListener.preventCommand(commandString, (Player) sender) || super.handleCommand(sender, commandString, testOnly);
+		return sender instanceof Player && FactionsPlayerListener.preventCommand(commandString, (Player) sender, testOnly) || super.handleCommand(sender, commandString, testOnly);
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-		if (split.length == 0) {
-			return handleCommand(sender, "/f help", false);
-		}
-
+		if (split.length == 0) return this.handleCommand(sender, "/f help", false);
+		
 		// otherwise, needs to be handled; presumably another plugin directly ran the command
 		String cmd = Conf.baseCommandAliases.isEmpty() ? "/f" : "/" + Conf.baseCommandAliases.get(0);
-		return handleCommand(sender, cmd + " " + TextUtil.implode(Arrays.asList(split), " "), false);
+		return this.handleCommand(sender, cmd + " " + TextUtil.implode(Arrays.asList(split), " "), false);
 	}
 
 
@@ -232,16 +226,11 @@ public class Factions extends FactionsPluginBase {
 	// Functions for other plugins to hook into
 	// -------------------------------------------- //
 
-	// If another plugin is handling insertion of chat tags, this should be used to notify Factions
-	public void handleFactionTagExternally(boolean notByFactions) {
-		Conf.chatTagHandledByAnotherPlugin = notByFactions;
-	}
-
 	// Simply put, should this chat event be left for Factions to handle? For now, that means players with Faction Chat
 	// enabled or use of the Factions f command without a slash; combination of isPlayerFactionChatting() and isFactionsCommand()
 
 	public boolean shouldLetFactionsHandleThisChat(AsyncPlayerChatEvent event) {
-		return event != null && (isPlayerFactionChatting(event.getPlayer()) || isFactionsCommand(event.getMessage()));
+		return event != null && (this.isPlayerFactionChatting(event.getPlayer()) || this.isFactionsCommand(event.getPlayer(), event.getMessage()));
 	}
 
 	// Does player have Faction Chat enabled? If so, chat plugins should preferably not do channels,
@@ -256,31 +245,27 @@ public class Factions extends FactionsPluginBase {
 	}
 
 	// Is this chat message actually a Factions command, and thus should be left alone by other plugins?
-
-	// TODO: GET THIS BACK AND WORKING
-
-	public boolean isFactionsCommand(String check) {
-		return !(check == null || check.isEmpty()) && this.handleCommand(null, check, true);
+	public boolean isFactionsCommand(Player player, String check) {
+		return !(check == null || check.isEmpty()) && this.handleCommand(player, check, true);
 	}
 
 	// Get a player's faction tag (faction name), mainly for usage by chat plugins for local/channel chat
 	public String getPlayerFactionTag(Player player) {
-		return getPlayerFactionTagRelation(player, null);
+		return this.getPlayerFactionTagRelation(player, null);
 	}
 
 	// Same as above, but with relation (enemy/neutral/ally) coloring potentially added to the tag
 	public String getPlayerFactionTagRelation(Player speaker, Player listener) {
 		String tag = "~";
-
-		if (speaker == null) {
-			return tag;
-		}
-
+		
+		// Invalid speaker, use default tag
+		if (speaker == null) return tag;
+		
 		FPlayer me = FPlayerColl.get(speaker);
-		if (me == null) {
-			return tag;
-		}
-
+		
+		// Invalid FPlayer, use default tag
+		if (me == null) return tag;
+		
 		// if listener isn't set, or config option is disabled, give back uncolored tag
 		if (listener == null || !Conf.chatTagRelationColored) {
 			tag = me.getChatTag().trim();
@@ -288,59 +273,16 @@ public class Factions extends FactionsPluginBase {
 			FPlayer you = FPlayerColl.get(listener);
 			if (you == null) {
 				tag = me.getChatTag().trim();
-			} else  // everything checks out, give the colored tag
-			{
+			} else {
 				tag = me.getChatTag(you).trim();
 			}
 		}
+		
 		if (tag.isEmpty()) {
 			tag = "~";
 		}
 
 		return tag;
-	}
-
-	// Get a player's title within their faction, mainly for usage by chat plugins for local/channel chat
-	public String getPlayerTitle(Player player) {
-		if (player == null) {
-			return "";
-		}
-
-		FPlayer me = FPlayerColl.get(player);
-		if (me == null) {
-			return "";
-		}
-
-		return me.getTitle().trim();
-	}
-
-	// Get a list of all faction tags (names)
-	public Set<String> getFactionTags() {
-		return FactionColl.get().getFactionTags();
-	}
-
-	// Get a list of all players in the specified faction
-	public Set<String> getPlayersInFaction(String factionTag) {
-		Set<String> players = new HashSet<>();
-		Faction faction = FactionColl.get().getByTag(factionTag);
-		if (faction != null) {
-			for (FPlayer fplayer : faction.getFPlayers()) {
-				players.add(fplayer.getName());
-			}
-		}
-		return players;
-	}
-
-	// Get a list of all online players in the specified faction
-	public Set<String> getOnlinePlayersInFaction(String factionTag) {
-		Set<String> players = new HashSet<>();
-		Faction faction = FactionColl.get().getByTag(factionTag);
-		if (faction != null) {
-			for (FPlayer fplayer : faction.getFPlayersWhereOnline(true)) {
-				players.add(fplayer.getName());
-			}
-		}
-		return players;
 	}
 	
 	public void debug(Level level, String s) {
@@ -348,5 +290,5 @@ public class Factions extends FactionsPluginBase {
 			getLogger().log(level, s);
 		}
 	}
-
+	
 }
