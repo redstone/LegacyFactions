@@ -27,6 +27,7 @@ repositories {
     maven { url "https://maven.sk89q.com/repo/" }
     maven { url "http://repo.mikeprimm.com/" }
 	maven { url "http://repo.stealthyone.com/content/groups/public" }
+	maven { url "http://repo.mvdw-software.be/content/groups/public" }
 }
 
 dependencies {
@@ -41,6 +42,7 @@ dependencies {
     compileOnly group: "com.sk89q.worldedit", name: "worldedit-bukkit", version:"6.1.1-SNAPSHOT";
     compileOnly group: "net.ess3", name: "Essentials", version:"2.13-SNAPSHOT";
     compileOnly group: "net.ess3", name: "EssentialsChat", version:"2.13-SNAPSHOT";
+    compileOnly group: "be.maximvdw", name: "MVdWPlaceholderAPI", version:"1.0.2-SNAPSHOT";
 
     compileOnly group: "org.dynmap", name: "dynmap", version:"2.0";
 

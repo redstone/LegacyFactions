@@ -2,7 +2,7 @@ name: LegacyFactions
 version: ${version}
 main: net.redstoneore.legacyfactions.Factions
 authors: [Cayorion, Madus, Ulumulu1510, MarkehMe, Brettflan, drtshock]
-softdepend: [Factions, PlayerVaults, PermissionsEx, Permissions, Essentials, EssentialsChat, HeroChat, iChat, LocalAreaChat, LWC, nChat, ChatManager, CAPI, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, dynmap]
+softdepend: [Factions, PlayerVaults, PermissionsEx, Permissions, Essentials, EssentialsChat, HeroChat, iChat, LocalAreaChat, LWC, nChat, ChatManager, CAPI, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, dynmap, MVdWPlaceholderAPI]
 commands:
   factions:
     description: Reference command for Factions.
