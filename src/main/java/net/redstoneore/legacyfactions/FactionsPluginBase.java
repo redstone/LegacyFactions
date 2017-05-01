@@ -18,6 +18,7 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Modifier;
@@ -315,5 +316,14 @@ public abstract class FactionsPluginBase extends JavaPlugin {
     	this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + DEBUG_PREFIX + msg);
 	}
     
+    // -------------------------------------------- //
+    // LISTENERS
+    // -------------------------------------------- //
+	
+	public void register(Listener... listeners) {
+		for (Listener event : listeners) {
+			this.getServer().getPluginManager().registerEvents(event, this);
+		}
+	}
 
 }
