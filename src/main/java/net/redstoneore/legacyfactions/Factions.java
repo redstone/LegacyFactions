@@ -1,6 +1,7 @@
 /**
  *   A high-performance maintained version of Factions 1.6.
- *   Copyright (C) Olof Larsson 2011, and contributors 
+ *   Copyright (C) 2011 Olof Larsson  
+ *   Copyright (C) 2011 contributors 
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
