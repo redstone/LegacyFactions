@@ -518,7 +518,15 @@ public enum Lang {
 	COMMAND_TOP_TOP("Top Factions by %s. Page %d/%d"),
 	COMMAND_TOP_LINE("%d. &6%s: &c%s"), // Rank. Faction: Value
 	COMMAND_TOP_INVALID("Could not sort by %s. Try balance, online, members, power or land."),
-
+	COMMAND_TOP_INVALID_NONE("Provide a sort criteria. Try:"),
+	COMMAND_TOP_TOOLTIP_MONEY("Top factions by money"),
+	COMMAND_TOP_TOOLTIP_MEMBERS("Top factions by members"),
+	COMMAND_TOP_TOOLTIP_ONLINE("Top factions by online"),
+	COMMAND_TOP_TOOLTIP_ALLIES("Top factions by allies"),
+	COMMAND_TOP_TOOLTIP_ENEMIES("Top factions by enemies"),
+	COMMAND_TOP_TOOLTIP_POWER("Top factions by power"),
+	COMMAND_TOP_TOOLTIP_LAND("Top factions by land"),
+	
 	COMMAND_UNCLAIM_SAFEZONE_SUCCESS("<i>Safe zone was unclaimed."),
 	COMMAND_UNCLAIM_SAFEZONE_NOPERM("<b>This is a safe zone. You lack permissions to unclaim."),
 	COMMAND_UNCLAIM_WARZONE_SUCCESS("<i>War zone was unclaimed."),

@@ -1,7 +1,9 @@
 package net.redstoneore.legacyfactions.cmd;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -16,12 +18,10 @@ import java.util.Comparator;
 public class CmdFactionsTop extends FCommand {
 
     public CmdFactionsTop() {
-        super();
         this.aliases.add("top");
         this.aliases.add("t");
 
-        //this.requiredArgs.add("");
-        this.requiredArgs.add("criteria");
+        this.optionalArgs.put("criteria", "criteria");
         this.optionalArgs.put("page", "1");
 
         this.permission = Permission.TOP.node;
@@ -35,6 +35,53 @@ public class CmdFactionsTop extends FCommand {
 
     @Override
     public void perform() {
+    	String criteria = argAsString(0, null);
+        
+    	if (criteria == null) {
+    		String topPrefix = "/" + CmdFactions.get().aliases.get(0) + " " + this.aliases.get(0) + " ";
+    		
+    		FancyMessage buttons = new FancyMessage("")
+    			.then("[money] ")
+    				.color(ChatColor.AQUA)
+    				.command(topPrefix + "money")
+    				.tooltip(Lang.COMMAND_TOP_TOOLTIP_MONEY.toString())
+    				
+    			.then("[members] ")
+    				.color(ChatColor.AQUA)
+    				.command(topPrefix + "members")
+    				.tooltip(Lang.COMMAND_TOP_TOOLTIP_MEMBERS.toString())
+    				
+    			.then("[online] ")
+    				.color(ChatColor.AQUA)
+    				.command(topPrefix + "online")
+    				.tooltip(Lang.COMMAND_TOP_TOOLTIP_ONLINE.toString())
+    				
+    			.then("[allies] ")
+    				.color(ChatColor.AQUA)
+    				.command(topPrefix + "allies")
+    				.tooltip(Lang.COMMAND_TOP_TOOLTIP_ALLIES.toString())
+
+    			.then("[enemies] ")
+    				.color(ChatColor.AQUA)
+    				.command(topPrefix + "enemies")
+    				.tooltip(Lang.COMMAND_TOP_TOOLTIP_ENEMIES.toString())
+
+    			.then("[power] ")
+    				.color(ChatColor.AQUA)
+    				.command(topPrefix + "power")
+    				.tooltip(Lang.COMMAND_TOP_TOOLTIP_POWER.toString())
+
+    			.then("[land] ")
+    				.color(ChatColor.AQUA)
+    				.command(topPrefix + "land")
+    				.tooltip(Lang.COMMAND_TOP_TOOLTIP_LAND.toString());
+    		
+    		
+    		msg(Lang.COMMAND_TOP_INVALID_NONE.toString());
+    		buttons.send(sender);
+    		return;
+    	}
+    	
         // Can sort by: money, members, online, allies, enemies, power, land.
         // Get all Factions and remove non player ones.
         ArrayList<Faction> factionList = FactionColl.get().getAllFactions();
@@ -42,9 +89,6 @@ public class CmdFactionsTop extends FCommand {
         factionList.remove(FactionColl.get().getSafeZone());
         factionList.remove(FactionColl.get().getWarZone());
 
-        String criteria = argAsString(0);
-
-        // TODO: Better way to sort?
         if (criteria.equalsIgnoreCase("members")) {
             Collections.sort(factionList, new Comparator<Faction>() {
                 @Override
@@ -138,7 +182,8 @@ public class CmdFactionsTop extends FCommand {
                 }
             });
         } else {
-            msg(Lang.COMMAND_TOP_INVALID, criteria);
+            msg(Lang.COMMAND_TOP_INVALID.toString(), criteria);
+            return;
         }
 
         ArrayList<String> lines = new ArrayList<String>();
