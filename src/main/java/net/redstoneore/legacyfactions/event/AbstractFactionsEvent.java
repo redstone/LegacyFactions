@@ -1,5 +1,6 @@
 package net.redstoneore.legacyfactions.event;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -15,6 +16,10 @@ public abstract class AbstractFactionsEvent extends Event {
 
     public AbstractFactionsEvent(Faction faction) {
         this.faction = faction;
+    }
+    
+    public void call() {
+    	Bukkit.getServer().getPluginManager().callEvent(this);
     }
 
     /**
