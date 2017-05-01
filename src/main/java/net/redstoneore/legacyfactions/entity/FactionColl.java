@@ -97,9 +97,6 @@ public abstract class FactionColl {
 
     public abstract ArrayList<Faction> getAllFactions();
 
-    @Deprecated
-    public abstract Faction getNone();
-
     public abstract Faction getWilderness();
 
     public abstract Faction getSafeZone();
@@ -110,6 +107,18 @@ public abstract class FactionColl {
 
     public abstract void forceSave(boolean sync);
 
-
     public abstract void load();
+    
+    // -------------------------------------------------- //
+    // DEPRECATED    
+    // -------------------------------------------------- //
+    
+    /**
+     * deprecated, use getWilderness
+     */
+    @Deprecated
+    public final Faction getNone() {
+    	return this.getWilderness();
+    }
+
 }
