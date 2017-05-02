@@ -16,7 +16,7 @@ public class MVdWPlaceholderAPIIntegration extends Integration {
 
 	@Override
 	public boolean isEnabled() {
-		return Bukkit.getPluginManager().getPlugin(this.getName()).isEnabled();
+		return Bukkit.getPluginManager().getPlugin(this.getName()) != null && Bukkit.getPluginManager().getPlugin(this.getName()).isEnabled();
 	}
 
 	@Override
