@@ -402,9 +402,10 @@ public enum Lang {
 	COMMAND_POWERBOOST_BOOSTLOG("%1$s has set the power bonus/penalty for %2$s to %3$d."),
 	COMMAND_POWERBOOST_DESCRIPTION("Apply permanent power bonus/penalty to specified player or faction"),
 
-	COMMAND_RELATIONS_ALLTHENOPE("<b>Nope! You can't."),
-	COMMAND_RELATIONS_MORENOPE("<b>Nope! You can't declare a relation to yourself :)"),
-	COMMAND_RELATIONS_ALREADYINRELATIONSHIP("<b>You already have that relation wish set with %1$s."),
+	COMMAND_RELATIONS_INVALID_TARGET("<b>Invalid target faction."),
+	COMMAND_RELATIONS_INVALID_NOTNORMAL("<b>Nope! You can't."),
+	COMMAND_RELATIONS_INVALID_SELF("<b>Nope! You can't declare a relation to yourself :)"),
+	COMMAND_RELATIONS_INVALID_ALREADYINRELATIONSHIP("<b>You already have that relation wish set with %1$s."),
 	COMMAND_RELATIONS_TOMARRY("to change a relation wish"),
 	COMMAND_RELATIONS_FORMARRY("for changing a relation wish"),
 	COMMAND_RELATIONS_MUTUAL("<i>Your faction is now %1$s<i> to %2$s"),

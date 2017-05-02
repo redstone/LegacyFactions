@@ -14,114 +14,109 @@ import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 
 public abstract class FCommandRelation extends FCommand {
 
-    public Relation targetRelation;
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+	
+	public FCommandRelation() {
+		this.requiredArgs.add("faction");
 
-    public FCommandRelation() {
-        this.requiredArgs.add("faction tag");
-        //this.optionalArgs.put("player name", "you");
+		this.permission = Permission.RELATION.node;
+		this.disableOnLock = true;
 
-        this.permission = Permission.RELATION.node;
-        this.disableOnLock = true;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = true;
+		this.senderMustBeAdmin = false;
+	}
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
-    }
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
+	protected Relation targetRelation = null;
 
-    @Override
-    public void perform() {
-        Faction them = this.argAsFaction(0);
-        if (them == null) {
-            return;
-        }
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-        if (!them.isNormal()) {
-            msg(Lang.COMMAND_RELATIONS_ALLTHENOPE);
-            return;
-        }
+	@Override
+	public void perform() {
+		Faction them = this.argAsFaction(0);
+		if (them == null) {
+			this.msg(Lang.COMMAND_RELATIONS_INVALID_TARGET.toString());
+			return;
+		}
+		
+		// Ensure normal
+		if (!them.isNormal()) {
+			msg(Lang.COMMAND_RELATIONS_INVALID_NOTNORMAL.toString());
+			return;
+		}
+		
+		// Can't set relation to self
+		if (them == this.myFaction) {
+			msg(Lang.COMMAND_RELATIONS_INVALID_SELF.toString());
+			return;
+		}
+		
+		// Check for existing relationship
+		if (this.myFaction.getRelationWish(them) == targetRelation) {
+			msg(Lang.COMMAND_RELATIONS_INVALID_ALREADYINRELATIONSHIP.toString(), them.getTag());
+			return;
+		}
 
-        if (them == myFaction) {
-            msg(Lang.COMMAND_RELATIONS_MORENOPE);
-            return;
-        }
+		// Check for max relations 
+		if (this.myFaction.hasMaxRelations(them, targetRelation, false)) return;
+		
+		Relation oldRelation = this.myFaction.getRelationTo(them, true);
+		
+		EventFactionsRelationChange event = new EventFactionsRelationChange(this.fme, this.myFaction, them, oldRelation, this.targetRelation);
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled()) return;
+		
+		// If economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
+		if (!this.payForCommand(targetRelation.getRelationCost(), Lang.COMMAND_RELATIONS_TOMARRY, Lang.COMMAND_RELATIONS_FORMARRY)) {
+			return;
+		}
 
-        if (myFaction.getRelationWish(them) == targetRelation) {
-            msg(Lang.COMMAND_RELATIONS_ALREADYINRELATIONSHIP, them.getTag());
-            return;
-        }
+		// Try to set the new relation
+		this.myFaction.setRelationWish(them, targetRelation);
+		Relation currentRelation = this.myFaction.getRelationTo(them, true);
+		ChatColor currentRelationColor = currentRelation.getColor();
 
-        if (hasMaxRelations(them, targetRelation)) {
-            // We message them down there with the count.
-            return;
-        }
-        Relation oldRelation = myFaction.getRelationTo(them, true);
-        EventFactionsRelationChange wishEvent = new EventFactionsRelationChange(fme, myFaction, them, oldRelation, targetRelation);
-        Bukkit.getPluginManager().callEvent(wishEvent);
-        if (wishEvent.isCancelled()) {
-            return;
-        }
+		// if the relation change was successful
+		if (targetRelation.value == currentRelation.value) {
+			// trigger the faction relation event
+			EventFactionsRelation relationEvent = new EventFactionsRelation(this.myFaction, them, oldRelation, currentRelation);
+			Bukkit.getServer().getPluginManager().callEvent(relationEvent);
 
-        // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(targetRelation.getRelationCost(), Lang.COMMAND_RELATIONS_TOMARRY, Lang.COMMAND_RELATIONS_FORMARRY)) {
-            return;
-        }
+			them.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + this.myFaction.getTag());
+			this.myFaction.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + them.getTag());
+		} else {
+			// inform the other faction of your request
+			them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_1, currentRelationColor + this.myFaction.getTag(), targetRelation.getColor() + targetRelation.getTranslation());
+			them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_2, Conf.baseCommandAliases.get(0), targetRelation, this.myFaction.getTag());
+			this.myFaction.msg(Lang.COMMAND_RELATIONS_PROPOSAL_SENT, currentRelationColor + them.getTag(), "" + targetRelation.getColor() + targetRelation);
+		}
 
-        // try to set the new relation
-        myFaction.setRelationWish(them, targetRelation);
-        Relation currentRelation = myFaction.getRelationTo(them, true);
-        ChatColor currentRelationColor = currentRelation.getColor();
+		if (!targetRelation.isNeutral() && them.isPeaceful()) {
+			them.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
+			this.myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
+		}
 
-        // if the relation change was successful
-        if (targetRelation.value == currentRelation.value) {
-            // trigger the faction relation event
-            EventFactionsRelation relationEvent = new EventFactionsRelation(myFaction, them, oldRelation, currentRelation);
-            Bukkit.getServer().getPluginManager().callEvent(relationEvent);
+		if (!targetRelation.isNeutral() && myFaction.isPeaceful()) {
+			them.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
+			this.myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
+		}
 
-            them.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + myFaction.getTag());
-            myFaction.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + them.getTag());
-        } else {
-            // inform the other faction of your request
-            them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_1, currentRelationColor + myFaction.getTag(), targetRelation.getColor() + targetRelation.getTranslation());
-            them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_2, Conf.baseCommandAliases.get(0), targetRelation, myFaction.getTag());
-            myFaction.msg(Lang.COMMAND_RELATIONS_PROPOSAL_SENT, currentRelationColor + them.getTag(), "" + targetRelation.getColor() + targetRelation);
-        }
+		FTeamWrapper.updatePrefixes(myFaction);
+		FTeamWrapper.updatePrefixes(them);
+	}
 
-        if (!targetRelation.isNeutral() && them.isPeaceful()) {
-            them.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
-            myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
-        }
-
-        if (!targetRelation.isNeutral() && myFaction.isPeaceful()) {
-            them.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
-            myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
-        }
-
-        FTeamWrapper.updatePrefixes(myFaction);
-        FTeamWrapper.updatePrefixes(them);
-    }
-
-    private boolean hasMaxRelations(Faction them, Relation rel) {
-    	if (!Conf.maxRelations.containsKey(rel)) return false;
-    	if (Conf.maxRelations.get(rel) < 0) return false;
-    	
-    	int maxRelations = Conf.maxRelations.get(rel);
-    	
-        if (this.myFaction.getRelationCount(rel) >= maxRelations) {
-         	this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());
-            return true;
-        }
-            
-        if (them.getRelationCount(rel) > maxRelations) {
-            this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, maxRelations, rel.getPluralTranslation());
-            return true;
-        }
-        
-        return false;
-    }
-
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_RELATIONS_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_RELATIONS_DESCRIPTION.toString();
+	}
+	
 }
