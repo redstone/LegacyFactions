@@ -103,8 +103,7 @@ public class Factions extends FactionsPluginBase {
 		if (!preEnable()) return;
 		
 		this.loadSuccessful = false;
-		this.saveDefaultConfig();
-
+		
 		// Load Conf from disk
 		Conf.load();
 		
@@ -286,7 +285,7 @@ public class Factions extends FactionsPluginBase {
 	}
 	
 	public void debug(Level level, String s) {
-		if (getConfig().getBoolean("debug", false)) {
+		if (Conf.debug) {
 			getLogger().log(level, s);
 		}
 	}
