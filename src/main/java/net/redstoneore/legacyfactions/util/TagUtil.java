@@ -126,7 +126,6 @@ public class TagUtil {
      */
     protected static List<FancyMessage> getFancy(Faction target, FPlayer fme, TagReplacerUtil type, String prefix) {
         List<FancyMessage> fancyMessages = new ArrayList<FancyMessage>();
-        boolean minimal = Factions.get().getConfig().getBoolean("minimal-show", false);
 
         switch (type) {
             case ALLIES_LIST:
@@ -148,7 +147,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentAllies);
-                return firstAlly && minimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstAlly && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case ENEMIES_LIST:
                 FancyMessage currentEnemies = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstEnemy = true;
@@ -168,7 +167,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentEnemies);
-                return firstEnemy && minimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstEnemy && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case ONLINE_LIST:
                 FancyMessage currentOnline = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstOnline = true;
@@ -183,7 +182,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentOnline);
-                return firstOnline && minimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstOnline && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case OFFLINE_LIST:
                 FancyMessage currentOffline = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstOffline = true;
@@ -200,7 +199,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentOffline);
-                return firstOffline && minimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstOffline && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
                default:
                 return null;
         }

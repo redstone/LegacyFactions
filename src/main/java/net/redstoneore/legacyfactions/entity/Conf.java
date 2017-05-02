@@ -673,6 +673,37 @@ public class Conf {
 		)
 	);
 	
+	// -------------------------------------------- //
+    // LIST COMMAND
+    // -------------------------------------------- //
+		
+	public static List<String> showLines = Lists.newArrayList(
+		"{header}",
+		"<a>Description: <i>{description}",
+		"<a>Joining: <i>{joining}    {peaceful}",
+		"<a>Land / Power / Maxpower: <i> {chunks}/{power}/{maxPower}",
+		"<a>Founded: <i>{create-date}",
+		"<a>This faction is permanent, remaining even with no members.", /* only shows if faction is permanent*/
+		"<a>Land value: <i>{land-value} {land-refund}",
+		"<a>Balance: <i>{balance}",
+		"<a>Allies(<i>{allies}<a>/<i>{max-allies}<a>): {allies-list} ",
+		"<a>Online: (<i>{online}<a>/<i>{members}<a>): {online-list}",
+		"<a>Offline: (<i>{offline}<a>/<i>{members}<a>): {offline-list}"
+	);
+	
+	public static Boolean showMinimal = false;
+	public static List<String> showExempt = Lists.newArrayList("some-faction-tag");
+	
+	// -------------------------------------------- //
+    // SHOW COMMAND
+    // -------------------------------------------- //
+	
+	public static String listHeader = "&e&m----------&r&e[ &2Faction List &9{pagenumber}&e/&9{pagecount} &e]&m----------";
+	public static String listFactionless = "<i>Factionless<i> {factionless} online";
+	public static String listEntry = "<a>{faction} <i>{online} / {members} online, <a>Land / Power / Maxpower: <i>{chunks}/{power}/{maxPower}";
+	
+	public static List<String> listExempt = Lists.newArrayList("some-faction-tag");
+	
     // -------------------------------------------- //
     // Persistance
     // -------------------------------------------- //
@@ -693,3 +724,51 @@ public class Conf {
     }
 }
 
+/*
+############################################################
+# +------------------------------------------------------+ #
+# |                Big List of variables                 | #
+# +------------------------------------------------------+ #
+############################################################
+# Fancy variables. Can only be used in /f show
+#  - {allies-list}  : Lists each faction ally with tooltips
+#  - {enemies-list} : Lists each faction enemy with tooltips
+#  - {online-list}  : Lists all online members with tooltips
+#  - {offline-list} : Lists all offline members with tooltips
+# Player variables. Can be used in tooltips.show, scoreboards, or /f show
+#  - {group}     : Players group
+#  - {name}      : Players name
+#  - {lastSeen}  : Last time player was seen (if offline), or just 'Online'
+#  - {balance} : Players balance
+#  - {player-kills} : # of kills the player has
+#  - {player-deaths}: # of deaths the player has
+# Faction variables. Can be used in tooltips.list, scoreboards, or /f show
+#  - {header}    : Default factions header (ex. /f show)
+#  - {faction}   : Factions tag (if none, uses lang.yml for factionless name)
+#  - {joining}   : How to join this faction
+#  - {power}     : Factions deaths until raidable value
+#  - {power-boost}  : DTR Symbol based on current DTR (max, regen, frozen, raidable)
+#  - {maxPower}  : Factions max deaths until raidable value
+#  - {chunks}    : # of claims faction has (in chunks)
+#  - {warps}     : # of warps faction has
+#  - {description} : Factions description
+#  - {create-date} : Date faction was created
+#  - {leader}    : Faction leader
+#  - {land-value}  : Value of all claims
+#  - {land-refund} : Calculated refund value
+#  - {allies}    : # of allies faction has
+#  - {enemies}   : # of enemies faction has
+#  - {online}    : # of faction members online
+#  - {offline}   : # of faction members offline
+#  - {members}   : # of faction members (includes offline)
+#  - {faction-balance}      : Faction bank balance
+#  - {world}, {x}, {y}, {z} : Faction home variables. You don't need to use them all.
+#  - {faction-kills} : # of kills the faction has
+#  - {faction-deaths}: # of deaths the faction has
+# General variables. Can be used anywhere.
+# - {total-online}  : Total # of players on the server
+# - {max-warps}     : Max # of warps a faction can set
+# - {max-allies}    : Max # of allies a faction can have
+# - {max-enemies}   : Max # of enemies a faction can have
+# - {factionless}   : Count of all factionless players online
+ */

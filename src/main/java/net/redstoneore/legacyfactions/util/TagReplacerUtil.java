@@ -143,8 +143,6 @@ public enum TagReplacerUtil {
             return getValue();
         }
 
-        boolean minimal = Factions.get().getConfig().getBoolean("minimal-show", false);
-
         if (fp != null) {
             switch (this) {
                 case HEADER:
@@ -202,22 +200,22 @@ public enum TagReplacerUtil {
                 boolean raid = Conf.raidable && fac.getLandRounded() >= fac.getPowerRounded();
                 return raid ? Lang.RAIDABLE_TRUE.toString() : Lang.RAIDABLE_FALSE.toString();
             case HOME_WORLD:
-                return fac.hasHome() ? fac.getHome().getWorld().getName() : minimal ? null : "{ig}";
+                return fac.hasHome() ? fac.getHome().getWorld().getName() : Conf.showMinimal ? null : "{ig}";
             case HOME_X:
-                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockX()) : minimal ? null : "{ig}";
+                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockX()) : Conf.showMinimal ? null : "{ig}";
             case HOME_Y:
-                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockY()) : minimal ? null : "{ig}";
+                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockY()) : Conf.showMinimal ? null : "{ig}";
             case HOME_Z:
-                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockZ()) : minimal ? null : "{ig}";
+                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockZ()) : Conf.showMinimal ? null : "{ig}";
             case LAND_VALUE:
-                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandValue(fac.getLandRounded())) : minimal ? null : Lang.ECON_OFF.format("value");
+                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandValue(fac.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("value");
             case LAND_REFUND:
-                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandRefund(fac.getLandRounded())) : minimal ? null : Lang.ECON_OFF.format("refund");
+                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandRefund(fac.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("refund");
             case BANK_BALANCE:
                 if (VaultEngine.shouldBeUsed()) {
-                    return Conf.bankEnabled ? VaultEngine.moneyString(VaultEngine.getBalance(fac.getAccountId())) : minimal ? null : Lang.ECON_OFF.format("balance");
+                    return Conf.bankEnabled ? VaultEngine.moneyString(VaultEngine.getBalance(fac.getAccountId())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
                 }
-                return minimal ? null : Lang.ECON_OFF.format("balance");
+                return Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
             case ALLIES_COUNT:
                 return String.valueOf(fac.getRelationCount(Relation.ALLY));
             case ENEMIES_COUNT:

@@ -55,7 +55,7 @@ public class CmdFactionsShow extends FCommand {
         }
 
         if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")
-                && Factions.get().getConfig().getStringList("show-exempt").contains(faction.getTag())) {
+                && Conf.showExempt.contains(faction.getTag())) {
             msg(Lang.COMMAND_SHOW_EXEMPT);
             return;
         }
@@ -65,7 +65,7 @@ public class CmdFactionsShow extends FCommand {
             return;
         }
 
-        List<String> show = Factions.get().getConfig().getStringList("show");
+        List<String> show = Conf.showLines;
         if (show == null || show.isEmpty()) {
             show = defaults;
         }
