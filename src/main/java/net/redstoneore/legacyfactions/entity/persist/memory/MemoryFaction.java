@@ -474,6 +474,25 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         return count;
     }
 
+	public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent) {
+		if (!Conf.maxRelations.containsKey(rel)) return false;
+		if (Conf.maxRelations.get(rel) < 0) return false;
+		
+		int maxRelations = Conf.maxRelations.get(rel);
+		
+		if (this.getRelationCount(rel) >= maxRelations) {
+		 	if (!silent) this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());
+			return true;
+		}
+			
+		if (them.getRelationCount(rel) > maxRelations) {
+			if (!silent) this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, maxRelations, rel.getPluralTranslation());
+			return true;
+		}
+		
+		return false;
+	}
+	
     // ----------------------------------------------//
     // Power
     // ----------------------------------------------//
@@ -853,6 +872,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         return ownerData == null || ownerData.isEmpty() || ownerData.contains(fplayer.getId());
     }
 
+    
     // ----------------------------------------------//
     // Persistance and entity management
     // ----------------------------------------------//

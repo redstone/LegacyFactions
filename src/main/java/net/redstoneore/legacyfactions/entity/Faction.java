@@ -149,6 +149,8 @@ public interface Faction extends EconomyParticipator {
 
     public int getRelationCount(Relation relation);
 
+	public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent);
+
     // ----------------------------------------------//
     // Power
     // ----------------------------------------------//
@@ -236,6 +238,7 @@ public interface Faction extends EconomyParticipator {
 
     public boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
 
+	
     // ----------------------------------------------//
     // Persistance and entity management
     // ----------------------------------------------//
