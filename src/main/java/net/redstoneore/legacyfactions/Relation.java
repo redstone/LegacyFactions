@@ -20,8 +20,7 @@ public enum Relation {
         this.nicename = nicename;
     }
 
-    @Override
-    public String toString() {
+    public String toNiceName() {
         return this.nicename;
     }
 

@@ -22,7 +22,6 @@ package net.redstoneore.legacyfactions;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import net.redstoneore.legacyfactions.adapter.EnumAdapter;
 import net.redstoneore.legacyfactions.adapter.LazyLocationAdapter;
 import net.redstoneore.legacyfactions.adapter.MapFlocationSetAdapter;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
@@ -164,8 +163,7 @@ public class Factions extends FactionsPluginBase {
 			
 			this.gsonBuilder = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
 					.registerTypeAdapter(LazyLocation.class, new LazyLocationAdapter())
-					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter())
-					.registerTypeAdapterFactory(EnumAdapter.ENUM_FACTORY);
+					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter());
 		}
 
 		return this.gsonBuilder;

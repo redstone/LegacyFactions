@@ -25,8 +25,7 @@ public enum Role {
         return this.value <= role.value;
     }
 
-    @Override
-    public String toString() {
+    public String toNiceName() {
         return this.nicename;
     }
 
