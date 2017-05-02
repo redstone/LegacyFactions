@@ -35,8 +35,8 @@ public class CmdFactionsStuck extends FCommand {
         final Player player = fme.getPlayer();
         final Location sentAt = player.getLocation();
         final FLocation chunk = fme.getLastStoodAt();
-        final long delay = Factions.get().getConfig().getLong("hcf.stuck.delay", 30);
-        final int radius = Factions.get().getConfig().getInt("hcf.stuck.radius", 10);
+        final long delay = Conf.stuckDelay;
+        final int radius = Conf.stuckRadius;
 
         if (Factions.get().getStuckMap().containsKey(player.getUniqueId())) {
             long wait = Factions.get().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();

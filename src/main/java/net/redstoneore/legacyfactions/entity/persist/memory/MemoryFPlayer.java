@@ -741,7 +741,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         Faction myFaction = getFaction();
         Faction currentFaction = Board.get().getFactionAt(flocation);
         int ownedLand = forFaction.getLandRounded();
-        int factionBuffer = Factions.get().getConfig().getInt("hcf.buffer-zone", 0);
+        int factionBuffer = Conf.bufferFactions;
         
         // Admin Bypass needs no further checks
         if (this.isAdminBypassing()) {
@@ -798,7 +798,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         	return false;
         } 
         
-        if (Factions.get().getConfig().getBoolean("hcf.allow-overclaim", true) && ownedLand >= forFaction.getPowerRounded()) {
+        if (Conf.raidableAllowOverclaim && ownedLand >= forFaction.getPowerRounded()) {
         	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_POWER.toString()));
         	return false;
         }
@@ -836,7 +836,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             } else if (!currentFaction.hasLandInflation()) {
                 // TODO more messages WARN current faction most importantly
                 error = Factions.get().getTextUtil().parse(Lang.CLAIM_THISISSPARTA.toString(), currentFaction.getTag(this));
-            } else if (currentFaction.hasLandInflation() && !Factions.get().getConfig().getBoolean("hcf.allow-overclaim", true)) {
+            } else if (currentFaction.hasLandInflation() && !Conf.raidableAllowOverclaim) {
                 // deny over claim when it normally would be allowed.
                 error = Factions.get().getTextUtil().parse(Lang.CLAIM_OVERCLAIM_DISABLED.toString());
             } else if (!Board.get().isBorderLocation(flocation)) {

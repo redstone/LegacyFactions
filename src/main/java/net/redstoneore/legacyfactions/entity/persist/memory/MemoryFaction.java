@@ -305,12 +305,9 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public boolean isPowerFrozen() {
-        int freezeSeconds = Factions.get().getConfig().getInt("hcf.powerfreeze", 0);
-        if (freezeSeconds == 0) {
-            return false;
-        }
+        if (Conf.raidablePowerFreeze == 0) return false;
 
-        return System.currentTimeMillis() - lastDeath < freezeSeconds * 1000;
+        return System.currentTimeMillis() - lastDeath < Conf.raidablePowerFreeze * 1000;
     }
 
     public void setLastDeath(long time) {

@@ -598,12 +598,22 @@ public class Conf {
     // -------------------------------------------------- //
     
     public static int bufferWorldBorder = 0;
+    public static int bufferFactions = 0;
+    
+    // -------------------------------------------------- //
+    // STUCK
+    // -------------------------------------------------- //
+    
+    public static long stuckDelay = 0;
+    public static int stuckRadius = 0;
     
  	// -------------------------------------------------- //
     // RAIDS
     // -------------------------------------------------- //
     
     public static boolean raidable = false;
+    public static boolean raidableAllowOverclaim = true;
+    public static int raidablePowerFreeze = 0;
     
     // -------------------------------------------------- //
     // VAULTS
