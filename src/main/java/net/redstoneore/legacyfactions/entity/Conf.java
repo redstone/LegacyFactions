@@ -26,7 +26,7 @@ public class Conf {
 	
 	// Enable metrics, this will send useful statistics to MCStats or bstats.
 	public static boolean enableMetrics = true;
-		
+	
 	// -------------------------------------------------- //
 	// COMMANDS
 	// -------------------------------------------------- //
@@ -629,6 +629,50 @@ public class Conf {
     public static transient int mapWidth = 39;
     public static transient char[] mapKeyChrs = "\\/#$%=&^ABCDEFGHJKLMNOPQRSTUVWXYZ1234567890abcdeghjmnopqrsuvwxyz?".toCharArray();
     
+	
+	// -------------------------------------------------- //
+	// HELP
+	// -------------------------------------------------- //
+	
+	public static Boolean useOldHelp = false;
+	public static Boolean useCustomHelp = false;
+	public static Map<String, List<String>> helpPages = MiscUtil.map(
+		"1", Lists.newArrayList(
+			"&e&m----------------------------------------------",
+			"                  &c&lFactions Help               ",
+			"&e&m----------------------------------------------",
+			"&3/f create  &e>>  &7Create your own faction",
+			"&3/f who      &e>>  &7Show factions info",
+		    "&3/f tag      &e>>  &7Change faction tag",
+		    "&3/f join     &e>>  &7Join faction",
+		    "&3/f list      &e>>  &7List all factions",
+		    "&e&m--------------&r &2/f help 2 for more &e&m--------------"
+		),
+		"2", Lists.newArrayList(
+			"&e&m------------------&r&c&l Page 2 &e&m--------------------",
+			"&3/f home     &e>>  &7Teleport to faction home",
+			"&3/f sethome &e>>  &7Set your faction home",
+			"&3/f leave    &e>>  &7Leave your faction",
+			"&3/f invite    &e>>  &7Invite a player to your faction",
+			"&3/f deinvite &e>>  &7Revoke invitation to player",
+			"&e&m--------------&r &2/f help 3 for more &e&m--------------"
+		),
+		"3", Lists.newArrayList(
+			"&e&m------------------&r&c&l Page 3 &e&m--------------------",
+			"&3/f claim     &e>>  &7Claim land",
+			"&3/f unclaim  &e>>  &7Unclaim land",
+			"&3/f kick      &e>>  &7Kick player from your faction",
+			"&3/f mod      &e>>  &7Set player role in faction",
+			"&3/f chat     &e>>  &7Switch to faction chat",
+			"&e&m--------------&r &2/f help 4 for more &e&m--------------"
+		),
+		"4", Lists.newArrayList(
+			"&e&m------------------&r&c&l Page 4 &e&m--------------------",
+			"&3/f version &e>>  &7Display version information",
+			"&e&m--------------&r&2 End of /f help &e&m-----------------"
+		)
+	);
+	
     // -------------------------------------------- //
     // Persistance
     // -------------------------------------------- //

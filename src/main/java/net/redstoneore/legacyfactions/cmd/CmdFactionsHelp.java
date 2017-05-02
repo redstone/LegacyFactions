@@ -2,7 +2,6 @@ package net.redstoneore.legacyfactions.cmd;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Factions;
@@ -40,32 +39,25 @@ public class CmdFactionsHelp extends FCommand {
     @Override
     public void perform() {
     	// For those that want to create their own help menu they can use this (why)
-    	if (Factions.get().getConfig().getBoolean("use-custom-help", false)) {
-            ConfigurationSection help = Factions.get().getConfig().getConfigurationSection("help");
-            if (help == null) {
-                help = Factions.get().getConfig().createSection("help"); // create new help section
-                List<String> error = new ArrayList<String>();
-                error.add("&cUpdate help messages in config.yml!");
-                error.add("&cSet use-old-help for legacy help messages");
-                help.set("'1'", error); // add default error messages
-            }
+    	if (Conf.useCustomHelp) {
             String pageArg = this.argAsString(0, "1");
-            List<String> page = help.getStringList(pageArg);
+            List<String> page = Conf.helpPages.get(pageArg);
+            
             if (page == null || page.isEmpty()) {
                 msg(Lang.COMMAND_HELP_404.format(pageArg));
                 return;
             }
-            for (String helpLine : page) {
-                sendMessage(Factions.get().getTextUtil().parse(helpLine));
-            }
+            page.forEach(line -> {
+                sendMessage(Factions.get().getTextUtil().parse(line));
+            });
+            
+            return;
     	}
     	
     	// For those that want to use the old help menu the can use this 
-        if (Factions.get().getConfig().getBoolean("use-old-help", false)) {
-            if (helpPages == null) {
-                updateHelp();
-            }
-
+        if (Conf.useOldHelp) {
+            if (helpPages == null) this.updateHelp();
+            
             int page = this.argAsInt(0, 1);
             sendMessage(Factions.get().getTextUtil().titleize("Factions Help (" + page + "/" + helpPages.size() + ")"));
 
@@ -303,4 +295,3 @@ public class CmdFactionsHelp extends FCommand {
         return Lang.COMMAND_HELP_DESCRIPTION.toString();
     }
 }
-
