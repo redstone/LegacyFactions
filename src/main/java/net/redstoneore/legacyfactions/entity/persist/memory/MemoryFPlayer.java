@@ -742,8 +742,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         Faction currentFaction = Board.get().getFactionAt(flocation);
         int ownedLand = forFaction.getLandRounded();
         int factionBuffer = Factions.get().getConfig().getInt("hcf.buffer-zone", 0);
-        int worldBuffer = Factions.get().getConfig().getInt("world-border.buffer", 0);
-
+        
         // Admin Bypass needs no further checks
         if (this.isAdminBypassing()) {
         	return true;
@@ -823,9 +822,9 @@ public abstract class MemoryFPlayer implements FPlayer {
             return false;
         } else if (factionBuffer > 0 && Board.get().hasFactionWithin(flocation, myFaction, factionBuffer)) {
             error = Factions.get().getTextUtil().parse(Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(factionBuffer));
-        } else if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(worldBuffer)) {
-            if (worldBuffer > 0) {
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OUTSIDEBORDERBUFFER.format(worldBuffer));
+        } else if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(Conf.bufferWorldBorder)) {
+            if (Conf.bufferWorldBorder > 0) {
+                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Conf.bufferWorldBorder));
             } else {
                 error = Factions.get().getTextUtil().parse(Lang.CLAIM_OUTSIDEWORLDBORDER.toString());
             }

@@ -593,6 +593,16 @@ public class Conf {
     public static Set<String> worldsIgnorePvP = new LinkedHashSet<String>();
     public static Set<String> worldsNoWildernessProtection = new LinkedHashSet<String>();
 
+    // -------------------------------------------------- //
+    // BUFFERS
+    // -------------------------------------------------- //
+    
+    public static int bufferWorldBorder = 0;
+    
+    // -------------------------------------------------- //
+    // VAULTS
+    // -------------------------------------------------- //
+
     // faction-<factionId>
     public static String vaultPrefix = "faction-%s";
     public static int defaultMaxVaults = 0;

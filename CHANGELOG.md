@@ -2,6 +2,7 @@
 * Improvements to max relations (you will need to redo these in the conf.json file)
 * New API Method: Faction#hasMaxRelations
 * Error message now shows with relation command if we can't find the faction. It used to do nothing.
+* Enums are no longer dumb with Gson
 
 # 1.1.0
 * New API Event: EventFactionsWarpCreate
