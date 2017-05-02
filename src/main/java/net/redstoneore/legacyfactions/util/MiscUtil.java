@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
@@ -125,6 +126,24 @@ public class MiscUtil {
     	}
     	
     	return set;
+    }
+    
+    public static Map<Relation, Integer> map(Relation a, Integer b, Object... extras) {
+    	Map<Relation, Integer> map = new HashMap<Relation, Integer>();
+    	map.put(a, b);
+    	
+    	Relation key = null;
+    	
+    	for (Object o : extras) {
+    		if (key == null) {
+    			key = (Relation) o;
+    		} else {
+    			map.put(key, (Integer) o);
+    			key = null;
+    		}
+    	}
+    	
+    	return map;
     }
     
     public static Map<String, Double> map(String a, Double b, Object... extras) {

@@ -3,7 +3,6 @@ package net.redstoneore.legacyfactions.cmd;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.Lang;
@@ -102,20 +101,22 @@ public abstract class FCommandRelation extends FCommand {
         FTeamWrapper.updatePrefixes(them);
     }
 
-    private boolean hasMaxRelations(Faction them, Relation targetRelation) {
-        int max = Factions.get().getConfig().getInt("max-relations." + targetRelation.toString(), -1);
-        if (Factions.get().getConfig().getBoolean("max-relations.enabled", false)) {
-            if (max != -1) {
-                if (myFaction.getRelationCount(targetRelation) >= max) {
-                    msg(Lang.COMMAND_RELATIONS_EXCEEDS_ME, max, targetRelation.getPluralTranslation());
-                    return true;
-                }
-                if (them.getRelationCount(targetRelation) > max) {
-                    msg(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, max, targetRelation.getPluralTranslation());
-                    return true;
-                }
-            }
+    private boolean hasMaxRelations(Faction them, Relation rel) {
+    	if (!Conf.maxRelations.containsKey(rel)) return false;
+    	if (Conf.maxRelations.get(rel) < 0) return false;
+    	
+    	int maxRelations = Conf.maxRelations.get(rel);
+    	
+        if (this.myFaction.getRelationCount(rel) >= maxRelations) {
+         	this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());
+            return true;
         }
+            
+        if (them.getRelationCount(rel) > maxRelations) {
+            this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, maxRelations, rel.getPluralTranslation());
+            return true;
+        }
+        
         return false;
     }
 

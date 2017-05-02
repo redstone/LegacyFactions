@@ -113,14 +113,15 @@ public enum TagReplacerUtil {
             case FACTIONLESS:
                 return String.valueOf(FactionColl.get().getWilderness().getFPlayersWhereOnline(true).size());
             case MAX_ALLIES:
-                if (Factions.get().getConfig().getBoolean("max-relations.enabled", true)) {
-                    return String.valueOf(Factions.get().getConfig().getInt("max-relations.ally", 10));
-                }
+            	if (Conf.maxRelations.containsKey(Relation.ALLY) && Conf.maxRelations.get(Relation.ALLY) > -1) {
+            		return String.valueOf(Conf.maxRelations.get(Relation.ALLY));
+            	}
                 return Lang.GENERIC_INFINITY.toString();
             case MAX_ENEMIES:
-                if (Factions.get().getConfig().getBoolean("max-relations.enabled", true)) {
-                    return String.valueOf(Factions.get().getConfig().getInt("max-relations.enemy", 10));
-                }
+            	if (Conf.maxRelations.containsKey(Relation.ENEMY) && Conf.maxRelations.get(Relation.ENEMY) > -1) {
+            		return String.valueOf(Conf.maxRelations.get(Relation.ENEMY));
+            	}
+
                 return Lang.GENERIC_INFINITY.toString();
             case MAX_WARPS:
                 return String.valueOf(Conf.warpsMax);

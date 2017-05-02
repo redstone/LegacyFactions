@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapStyle;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
@@ -45,6 +46,13 @@ public class Conf {
     
     // Warm up in seconds for home command
     public static long warmupHome = 0;
+    
+    public static Map<Relation, Integer> maxRelations = MiscUtil.map(
+    	Relation.ALLY, -1,
+    	Relation.TRUCE, -1,
+    	Relation.NEUTRAL, -1,
+    	Relation.ENEMY, -1	
+    );
     
 	// -------------------------------------------------- //
 	// COLOURS
