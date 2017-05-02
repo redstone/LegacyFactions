@@ -10,7 +10,6 @@
 #   allowing factions to open chests, break blocks, etc. if they
 #   have claimed chunks >= power.
 hcf:
-  raidable: false
 
   # DTR (death til raidable) will be in /f show if enabled. Configure the message in the lang.yml
   dtr: false

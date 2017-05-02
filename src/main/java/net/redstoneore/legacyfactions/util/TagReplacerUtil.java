@@ -199,7 +199,7 @@ public enum TagReplacerUtil {
             case CREATE_DATE:
                 return Lang.sdf.format(fac.getFoundedDate());
             case RAIDABLE:
-                boolean raid = Factions.get().getConfig().getBoolean("hcf.raidable", false) && fac.getLandRounded() >= fac.getPowerRounded();
+                boolean raid = Conf.raidable && fac.getLandRounded() >= fac.getPowerRounded();
                 return raid ? Lang.RAIDABLE_TRUE.toString() : Lang.RAIDABLE_FALSE.toString();
             case HOME_WORLD:
                 return fac.hasHome() ? fac.getHome().getWorld().getName() : minimal ? null : "{ig}";

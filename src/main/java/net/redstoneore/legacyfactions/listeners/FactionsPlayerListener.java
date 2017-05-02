@@ -308,7 +308,7 @@ public class FactionsPlayerListener implements Listener {
         FLocation loc = new FLocation(location);
         Faction otherFaction = Board.get().getFactionAt(loc);
 
-        if (Factions.get().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+        if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
             return true;
         }
 
@@ -397,7 +397,7 @@ public class FactionsPlayerListener implements Listener {
             return true;
         }
 
-        if (Factions.get().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+        if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
             return true;
         }
 

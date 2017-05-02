@@ -216,7 +216,7 @@ public class FactionsBlockListener implements Listener {
 
             return false;
         }
-        if (Factions.get().getConfig().getBoolean("hcf.raidable", false) && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+        if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
             return true;
         }
 
