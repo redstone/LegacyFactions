@@ -48,17 +48,17 @@ public abstract class FCommand extends MCommand<Factions> {
     @Override
     public boolean isEnabled() {
         if (Factions.get().isLocked() && this.disableOnLock) {
-            msg("<b>Factions was locked by an admin. Please try again later.");
+            msg(Lang.COMMAND_ERRORS_FACTIONSLOCKED.toString());
             return false;
         }
 
         if (this.isMoneyCommand && !Conf.econEnabled) {
-            msg("<b>Faction economy features are disabled on this server.");
+            msg(Lang.COMMAND_ERRORS_ECONOMYDISABLED.toString());
             return false;
         }
 
         if (this.isMoneyCommand && !Conf.bankEnabled) {
-            msg("<b>The faction bank system is disabled on this server.");
+            msg(Lang.COMMAND_ERRORS_BANKSDISABLED.toString());
             return false;
         }
 
@@ -81,17 +81,17 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (!fme.hasFaction()) {
-            sender.sendMessage(Factions.get().getTextUtil().parse("<b>You are not member of any faction."));
+            sender.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMEMBER.toString()));
             return false;
         }
 
         if (this.senderMustBeModerator && !fme.getRole().isAtLeast(Role.MODERATOR)) {
-            sender.sendMessage(Factions.get().getTextUtil().parse("<b>Only faction moderators can %s.", this.getHelpShort()));
+            sender.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYMODERATORSCAN.toString().replaceAll("<theaction>", this.getHelpShort())));
             return false;
         }
 
         if (this.senderMustBeAdmin && !fme.getRole().isAtLeast(Role.ADMIN)) {
-            sender.sendMessage(Factions.get().getTextUtil().parse("<b>Only faction admins can %s.", this.getHelpShort()));
+            sender.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYADMINSCAN.toString().replaceAll("<theaction>", this.getHelpShort())));
             return false;
         }
 
@@ -108,7 +108,7 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (!fme.hasFaction()) {
-            sendMessage("You are not member of any faction.");
+            sendMessage(Lang.COMMAND_ERRORS_NOTMEMBER.toString());
             return false;
         }
         return true;
@@ -120,7 +120,7 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (fme.getRole().value < role.value) {
-            msg("<b>You <h>must be " + role + "<b> to " + this.getHelpShort() + ".");
+            msg(Lang.COMMAND_ERRORS_YOUMUSTBE.toString().replaceAll("<therole>", role.toNiceName()).replaceAll("<theaction>", this.getHelpShort()));
             return false;
         }
         return true;
@@ -146,7 +146,7 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (msg && ret == null) {
-            this.msg("<b>No player \"<p>%s<b>\" could be found.", name);
+            this.msg(Lang.COMMAND_ERRORS_PLAYERNOTFOUND.toString().replace("<name>", name));
         }
 
         return ret;
@@ -219,7 +219,7 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (msg && ret == null) {
-            this.msg("<b>The faction or player \"<p>%s<b>\" could not be found.", name);
+            this.msg(Lang.COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND.toString().replaceAll("<name>", name));
         }
 
         return ret;
@@ -243,7 +243,7 @@ public abstract class FCommand extends MCommand<Factions> {
 
     public boolean canIAdministerYou(FPlayer i, FPlayer you) {
         if (!i.getFaction().equals(you.getFaction())) {
-            i.sendMessage(Factions.get().getTextUtil().parse("%s <b>is not in the same faction as you.", you.describeTo(i, true)));
+            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTSAME.toString().replaceAll("<name>", you.describeTo(i, true))));
             return false;
         }
 
@@ -252,15 +252,15 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (you.getRole().equals(Role.ADMIN)) {
-            i.sendMessage(Factions.get().getTextUtil().parse("<b>Only the faction admin can do that."));
+            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
         } else if (i.getRole().equals(Role.MODERATOR)) {
             if (i == you) {
                 return true; //Moderators can control themselves
             } else {
-                i.sendMessage(Factions.get().getTextUtil().parse("<b>Moderators can't control each other..."));
+                i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
             }
         } else {
-            i.sendMessage(Factions.get().getTextUtil().parse("<b>You must be a faction moderator to do that."));
+            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
         }
 
         return false;

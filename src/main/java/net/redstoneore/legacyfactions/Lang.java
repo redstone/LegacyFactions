@@ -57,7 +57,22 @@ public enum Lang {
 	// -------------------------------------------------- //
 	// Command Translations
 	// -------------------------------------------------- //
-
+	
+	COMMAND_ERRORS_PLAYERNOTFOUND("<b>No player \"<p><name><b>\" could be found."),
+	COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND("<b>The faction or player \"<p><name><b>\" could not be found."),
+	COMMAND_ERRORS_ONLYFACTIONADMIN("<b>Only the faction admin can do that."),
+	COMMAND_ERRORS_MODERATORSCANT("<b>Moderators can't control each other..."),
+	COMMAND_ERRORS_NOTMODERATOR("<b>You must be a faction moderator to do that."),
+	COMMAND_ERRORS_NOTMEMBER("<b>You are not a member of any faction."),
+	COMMAND_ERRORS_NOTSAME("<name> <b>is not in the same faction as you."),
+	COMMAND_ERRORS_YOUMUSTBE("<b>You <h>must be <therole><b> to <theaction>."),
+	COMMAND_ERRORS_ONLYMODERATORSCAN("<b>Only faction moderators can <theaction>."),
+	COMMAND_ERRORS_ONLYADMINSCAN("<b>Only faction admins can <theaction>."),
+	
+	COMMAND_ERRORS_FACTIONSLOCKED("<b>Factions was locked by an admin. Please try again later."),
+	COMMAND_ERRORS_ECONOMYDISABLED("<b>Faction economy features are disabled on this server."),
+	COMMAND_ERRORS_BANKSDISABLED("<b>The faction bank system is disabled on this server."),
+	
 	COMMAND_ADMIN_NOTMEMBER("%1$s<i> is not a member in your faction."),
 	COMMAND_ADMIN_NOTADMIN("<b>You are not the faction admin."),
 	COMMAND_ADMIN_TARGETSELF("<b>The target player musn't be yourself."),
