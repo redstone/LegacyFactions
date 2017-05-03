@@ -89,6 +89,15 @@ public abstract class FPlayerColl {
 		return all();
 	}
 	
+	public static void all(Boolean mustBeOnline, Consumer<? super FPlayer> action) {
+		if (mustBeOnline) {
+			instance.getOnlinePlayers().forEach(action);
+			return;
+		}
+		
+		all().forEach(action);
+	}
+	
 	public static Collection<FPlayer> all() {
 		return instance.getAllFPlayers();
 	}
