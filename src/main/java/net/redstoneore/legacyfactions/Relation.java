@@ -25,18 +25,18 @@ public enum Relation {
     }
 
     public static Relation fromString(String s) {
-        // Because Java 6 doesn't allow String switches :(
-        if (s.equalsIgnoreCase("member")) {
-            return MEMBER;
-        } else if (s.equalsIgnoreCase("ally")) {
-            return ALLY;
-        } else if (s.equalsIgnoreCase("truce")) {
-            return TRUCE;
-        } else if (s.equalsIgnoreCase("enemy")) {
-            return ENEMY;
-        } else {
-            return NEUTRAL; // If they somehow mess things up, go back to default behavior.
-        }
+    	switch (s) {
+    	case "member":
+    		return MEMBER;
+    	case "ally":
+    		return ALLY;
+    	case "truce":
+    		return TRUCE;
+    	case "ENEMY":
+    		return ENEMY;
+    	default:
+    		return NEUTRAL;
+    	}
     }
 
     public String getTranslation() {
