@@ -12,85 +12,100 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 
 public class CmdFactionsAdmin extends FCommand {
+	
+	// -------------------------------------------------- //
+	// SINGLETON
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsAdmin i = new CmdFactionsAdmin();
+	public static CmdFactionsAdmin get() { return i; }
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsAdmin() {
-        super();
-        this.aliases.add("admin");
-        this.aliases.add("setadmin");
-        this.aliases.add("leader");
-        this.aliases.add("setleader");
+	public CmdFactionsAdmin() {
+		this.aliases.add("admin");
+		this.aliases.add("setadmin");
+		this.aliases.add("leader");
+		this.aliases.add("setleader");
 
-        this.requiredArgs.add("player name");
-        //this.optionalArgs.put("", "");
+		this.requiredArgs.add("player name");
+		
+		this.permission = Permission.ADMIN.node;
+		this.disableOnLock = true;
 
-        this.permission = Permission.ADMIN.node;
-        this.disableOnLock = true;
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeAdmin = false;
+	}
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
-    }
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        FPlayer fyou = this.argAsBestFPlayerMatch(0);
-        if (fyou == null) {
-            return;
-        }
+	@Override
+	public void perform() {
+		FPlayer newAdmin = this.argAsBestFPlayerMatch(0);
+		if (newAdmin == null) return;
 
-        boolean permAny = Permission.ADMIN_ANY.has(sender, false);
-        Faction targetFaction = fyou.getFaction();
+		Boolean permAny = Permission.ADMIN_ANY.has(sender, false);
+		Faction targetFaction = newAdmin.getFaction();
 
-        if (targetFaction != myFaction && !permAny) {
-            msg(Lang.COMMAND_ADMIN_NOTMEMBER, fyou.describeTo(fme, true));
-            return;
-        }
+		// Must be a member
+		if (targetFaction != myFaction && !permAny) {
+			msg(Lang.COMMAND_ADMIN_NOTMEMBER, newAdmin.describeTo(fme, true));
+			return;
+		}
+		
+		// Am I an admin?
+		if (fme != null && fme.getRole() != Role.ADMIN && !permAny) {
+			msg(Lang.COMMAND_ADMIN_NOTADMIN);
+			return;
+		}
 
-        if (fme != null && fme.getRole() != Role.ADMIN && !permAny) {
-            msg(Lang.COMMAND_ADMIN_NOTADMIN);
-            return;
-        }
+		// Check for self
+		if (newAdmin == fme && !permAny) {
+			msg(Lang.COMMAND_ADMIN_TARGETSELF);
+			return;
+		}
 
-        if (fyou == fme && !permAny) {
-            msg(Lang.COMMAND_ADMIN_TARGETSELF);
-            return;
-        }
+		// Only call a EventFactionsChange when newLeader isn't actually in the faction
+		if (newAdmin.getFaction() != targetFaction) {
+			EventFactionsChange event = new EventFactionsChange(this.fme, this.fme.getFaction(), targetFaction, true, ChangeReason.LEADER);
+			Bukkit.getServer().getPluginManager().callEvent(event);
+			if (event.isCancelled()) return;
+		}
 
-        // only perform a FPlayerJoinEvent when newLeader isn't actually in the faction
-        if (fyou.getFaction() != targetFaction) {
-        	EventFactionsChange event = new EventFactionsChange(fme, fme.getFaction(), targetFaction, true, ChangeReason.LEADER);
-            Bukkit.getServer().getPluginManager().callEvent(event);
-            if (event.isCancelled()) {
-                return;
-            }
-        }
+		FPlayer admin = targetFaction.getFPlayerAdmin();
 
-        FPlayer admin = targetFaction.getFPlayerAdmin();
+		// if target player is currently admin, demote and replace him
+		if (newAdmin == admin) {
+			targetFaction.promoteNewLeader();
+			this.msg(Lang.COMMAND_ADMIN_DEMOTES, newAdmin.describeTo(fme, true));
+			newAdmin.msg(Lang.COMMAND_ADMIN_DEMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(newAdmin, true));
+			return;
+		}
 
-        // if target player is currently admin, demote and replace him
-        if (fyou == admin) {
-            targetFaction.promoteNewLeader();
-            msg(Lang.COMMAND_ADMIN_DEMOTES, fyou.describeTo(fme, true));
-            fyou.msg(Lang.COMMAND_ADMIN_DEMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fyou, true));
-            return;
-        }
+		// Demote existing admin if one exists
+		if (admin != null) {
+			admin.setRole(Role.MODERATOR);
+		}
+		
+		// Promote new admin
+		newAdmin.setRole(Role.ADMIN);
+		
+		this.msg(Lang.COMMAND_ADMIN_PROMOTES, newAdmin.describeTo(fme, true));
 
-        // promote target player, and demote existing admin if one exists
-        if (admin != null) {
-            admin.setRole(Role.MODERATOR);
-        }
-        fyou.setRole(Role.ADMIN);
-        msg(Lang.COMMAND_ADMIN_PROMOTES, fyou.describeTo(fme, true));
+		// Inform all players
+		FPlayerColl.all(true, fplayer -> 
+			fplayer.msg(Lang.COMMAND_ADMIN_PROMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), newAdmin.describeTo(fplayer), targetFaction.describeTo(fplayer))
+		);
+	}
 
-        // Inform all players
-        for (FPlayer fplayer : FPlayerColl.all(true)) {
-            fplayer.msg(Lang.COMMAND_ADMIN_PROMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), fyou.describeTo(fplayer), targetFaction.describeTo(fplayer));
-        }
-    }
-
-    public String getUsageTranslation() {
-        return Lang.COMMAND_ADMIN_DESCRIPTION.toString();
-    }
+	public String getUsageTranslation() {
+		return Lang.COMMAND_ADMIN_DESCRIPTION.toString();
+	}
 
 }
