@@ -36,11 +36,11 @@ import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsIntegration;
 import net.redstoneore.legacyfactions.integration.metrics.MetricsIntegration;
-import net.redstoneore.legacyfactions.integration.mvdwplaceholderapi.MVdWPlaceholderAPIIntegration;
 import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
 import net.redstoneore.legacyfactions.integration.vault.VaultIntegration;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import net.redstoneore.legacyfactions.listeners.*;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.AutoLeaveTask;
 import net.redstoneore.legacyfactions.util.*;
 
@@ -134,7 +134,9 @@ public class Factions extends FactionsPluginBase {
 		Integrations.add(PlayerVaultsIntegration.get());
 		Integrations.add(MetricsIntegration.get());
 		Integrations.add(BStatsIntegration.get());
-		Integrations.add(MVdWPlaceholderAPIIntegration.get());
+		
+		// Add our placeholders.
+		FactionsPlaceholders.get().adaptAll();
 		
 		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
 		this.startAutoLeaveTask(false);
@@ -153,6 +155,8 @@ public class Factions extends FactionsPluginBase {
 
 		postEnable();
 		this.loadSuccessful = true;
+		
+		FactionColl.all();
 	}
 	
 	@Override
@@ -280,7 +284,7 @@ public class Factions extends FactionsPluginBase {
 		if (tag.isEmpty()) {
 			tag = "~";
 		}
-
+		
 		return tag;
 	}
 	
