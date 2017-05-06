@@ -37,6 +37,8 @@ public abstract class Board {
 
     public abstract Set<FLocation> getAllClaims(Faction faction);
 
+    public abstract Set<FLocation> getAllClaims();
+
     // not to be confused with claims, ownership referring to further member-specific ownership of a claim
     public abstract void clearOwnershipAt(FLocation flocation);
 

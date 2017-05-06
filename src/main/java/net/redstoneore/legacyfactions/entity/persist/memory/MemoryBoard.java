@@ -124,7 +124,14 @@ public abstract class MemoryBoard extends Board {
     public Set<FLocation> getAllClaims(Faction faction) {
         return getAllClaims(faction.getId());
     }
-
+    
+    public Set<FLocation> getAllClaims() {
+    	Set<FLocation> claims = new HashSet<>();
+    	claims.addAll(flocationIds.keySet());
+    	
+    	return claims;
+    }
+    
     // not to be confused with claims, ownership referring to further member-specific ownership of a claim
     public void clearOwnershipAt(FLocation flocation) {
         Faction faction = getFactionAt(flocation);
