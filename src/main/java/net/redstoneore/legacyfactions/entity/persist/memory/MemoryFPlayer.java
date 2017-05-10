@@ -752,120 +752,92 @@ public abstract class MemoryFPlayer implements FPlayer {
 
         // Checks for WorldGuard regions in the chunk attempting to be claimed
         if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(flocation)) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_PROTECTED);
-        	}
-        	
+        	this.msg(notifyFailure, Lang.CLAIM_PROTECTED);
         	return false;
         }
         
         // Check if this is a no-claim world
         if (Conf.worldsNoClaiming.contains(flocation.getWorldName())) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_DISABLED);
-        	}
-        	
+        	this.msg(notifyFailure, Lang.CLAIM_DISABLED);
         	return false;
         } 
         
         // Can only claim for own faction
         if (myFaction != forFaction) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_CANTCLAIM, forFaction.describeTo(this));
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_CANTCLAIM, forFaction.describeTo(this));
         	return false;
         }
         
         // Do we already own this?
         if (forFaction == currentFaction) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_ALREADYOWN, forFaction.describeTo(this, true));
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_ALREADYOWN, forFaction.describeTo(this, true));
         	return false;
         }
         
         // Are they at lease a moderator?
         if (!this.getRole().isAtLeast(Role.MODERATOR)) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_MUSTBE, Role.MODERATOR.getTranslation());
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_MUSTBE, Role.MODERATOR.getTranslation());
         	return false;
         }
         
         // Check for minimum members
         if (forFaction.getFPlayers().size() < Conf.claimsRequireMinFactionMembers) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_MEMBERS, Conf.claimsRequireMinFactionMembers);
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_MEMBERS, Conf.claimsRequireMinFactionMembers);
         	return false;
         }
         
         // Check for safezone
         if (currentFaction.isSafeZone()) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_SAFEZONE);
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_SAFEZONE);
         	return false;
         }
         
         // Check for warzone
         if (currentFaction.isWarZone()) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_WARZONE);
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_WARZONE);
         	return false;
         } 
         
         // Check raidable can overclaim
         if (Conf.raidableAllowOverclaim && ownedLand >= forFaction.getPowerRounded()) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_POWER);
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_POWER);
         	return false;
         }
         
         // Check for claimedLandsMax
         if (Conf.claimedLandsMax > 0 && ownedLand >= Conf.claimedLandsMax && forFaction.isNormal()) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_LIMIT);
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_LIMIT);
         	return false;
         }
         
         // Check for ally claim 
         if (currentFaction.getRelationTo(forFaction) == Relation.ALLY) {
-        	if (notifyFailure) {
-        		this.msg(Lang.CLAIM_ALLY.toString());
-        	}
+        	this.msg(notifyFailure, Lang.CLAIM_ALLY.toString());
         	return false;
         } 
 
         // Check if must be connected
         if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.get().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
             if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
-            	if (notifyFailure) {
-            		this.msg(Lang.CLAIM_CONTIGIOUS);
-            	}
+            	this.msg(notifyFailure, Lang.CLAIM_CONTIGIOUS);
             } else {
-            	if (notifyFailure) {
-            		this.msg(Lang.CLAIM_FACTIONCONTIGUOUS);
-            	}
+            	this.msg(notifyFailure, Lang.CLAIM_FACTIONCONTIGUOUS);
             }
             return false;
         }
         
         // Check for buffer
         if (Conf.bufferFactions > 0 && Board.get().hasFactionWithin(flocation, myFaction, Conf.bufferFactions)) {
-            this.msg(Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(Conf.bufferFactions));
+            this.msg(notifyFailure, Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(Conf.bufferFactions));
             return false;
         }
         
         // Border check
         if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(Conf.bufferWorldBorder)) {
             if (Conf.bufferWorldBorder > 0) {
-                this.msg(Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Conf.bufferWorldBorder));
+                this.msg(notifyFailure, Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Conf.bufferWorldBorder));
             } else {
-                this.msg(Lang.CLAIM_OUTSIDEWORLDBORDER);
+                this.msg(notifyFailure, Lang.CLAIM_OUTSIDEWORLDBORDER);
             }
             return false;
         }
@@ -876,38 +848,38 @@ public abstract class MemoryFPlayer implements FPlayer {
         	// .. and i'm peaceful ...
             if (myFaction.isPeaceful()) {
             	// .. don't allow - i'm peaceful.
-                this.msg(Lang.CLAIM_PEACEFUL, currentFaction.getTag(this));
+                this.msg(notifyFailure, Lang.CLAIM_PEACEFUL, currentFaction.getTag(this));
                 return false;
             }
             
             // .. and they're peaceful ...
             if (currentFaction.isPeaceful()) {
             	// .. don't allow - they're peaceful.
-                this.msg(Lang.CLAIM_PEACEFULTARGET, currentFaction.getTag(this));
+                this.msg(notifyFailure, Lang.CLAIM_PEACEFULTARGET, currentFaction.getTag(this));
                 return false;
             }
             
             // .. and they're strong enough to hold it
             if (!currentFaction.hasLandInflation()) {
                 // ... don't allow - they're too strong
-                this.msg(Lang.CLAIM_THISISSPARTA, currentFaction.getTag(this));
+                this.msg(notifyFailure, Lang.CLAIM_THISISSPARTA, currentFaction.getTag(this));
                 return false;
             }
             
             // .. raidableAllowOverclaim is false, and the current faction is not strong enough 
             if (!Conf.raidableAllowOverclaim && currentFaction.hasLandInflation()) {
                 // .. don't allow it, overclaim is disabled
-                this.msg(Lang.CLAIM_OVERCLAIM_DISABLED);
+                this.msg(notifyFailure, Lang.CLAIM_OVERCLAIM_DISABLED);
                 return false;
             }
             
             if (!Board.get().isBorderLocation(flocation)) {
-                this.msg(Lang.CLAIM_BORDER);
+                this.msg(notifyFailure, Lang.CLAIM_BORDER);
                 return false;
             }
         }
         
-        // can claim1 
+        // can claim!
         return true;
     }
     
