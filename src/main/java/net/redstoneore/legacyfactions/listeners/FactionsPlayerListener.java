@@ -493,7 +493,10 @@ public class FactionsPlayerListener implements Listener {
     	return preventCommand(fullCmd, player, false);
     }
     public static boolean preventCommand(String fullCmd, Player player, Boolean silent) {
-        if ((Conf.territoryNeutralDenyCommands.isEmpty() && Conf.territoryEnemyDenyCommands.isEmpty() && Conf.permanentFactionMemberDenyCommands.isEmpty() && Conf.warzoneDenyCommands.isEmpty())) {
+        if (((Conf.territoryNeutralDenyCommands == null || Conf.territoryNeutralDenyCommands.isEmpty()) &&
+        	 (Conf.territoryEnemyDenyCommands == null || Conf.territoryEnemyDenyCommands.isEmpty()) && 
+        	 (Conf.permanentFactionMemberDenyCommands == null || Conf.permanentFactionMemberDenyCommands.isEmpty()) && 
+        	 (Conf.warzoneDenyCommands == null || Conf.warzoneDenyCommands.isEmpty()))) {
             return false;
         }
 
@@ -511,6 +514,7 @@ public class FactionsPlayerListener implements Listener {
 
         if (me.hasFaction() &&
                     !me.isAdminBypassing() &&
+                    Conf.permanentFactionMemberDenyCommands != null &&
                     !Conf.permanentFactionMemberDenyCommands.isEmpty() &&
                     me.getFaction().isPermanent() &&
                     isCommandInList(fullCmd, shortCmd, Conf.permanentFactionMemberDenyCommands.iterator())) {
@@ -521,28 +525,28 @@ public class FactionsPlayerListener implements Listener {
         }
 
         Faction at = Board.get().getFactionAt(new FLocation(player.getLocation()));
-        if (at.isWilderness() && !Conf.wildernessDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.wildernessDenyCommands.iterator())) {
+        if (at.isWilderness() && Conf.wildernessDenyCommands != null && !Conf.wildernessDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.wildernessDenyCommands.iterator())) {
         	if (!silent) me.msg(Lang.PLAYER_COMMAND_WILDERNESS, fullCmd);
             return true;
         }
 
         Relation rel = at.getRelationTo(me);
-        if (at.isNormal() && rel.isAlly() && !Conf.territoryAllyDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryAllyDenyCommands.iterator())) {
+        if (at.isNormal() && rel.isAlly() && Conf.territoryAllyDenyCommands != null && !Conf.territoryAllyDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryAllyDenyCommands.iterator())) {
         	if (!silent) me.msg(Lang.PLAYER_COMMAND_ALLY, fullCmd);
             return false;
         }
 
-        if (at.isNormal() && rel.isNeutral() && !Conf.territoryNeutralDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryNeutralDenyCommands.iterator())) {
+        if (at.isNormal() && rel.isNeutral() && Conf.territoryNeutralDenyCommands != null && !Conf.territoryNeutralDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryNeutralDenyCommands.iterator())) {
         	if (!silent) me.msg(Lang.PLAYER_COMMAND_NEUTRAL, fullCmd);
             return true;
         }
 
-        if (at.isNormal() && rel.isEnemy() && !Conf.territoryEnemyDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryEnemyDenyCommands.iterator())) {
+        if (at.isNormal() && rel.isEnemy() && Conf.territoryEnemyDenyCommands != null && !Conf.territoryEnemyDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryEnemyDenyCommands.iterator())) {
         	if (!silent) me.msg(Lang.PLAYER_COMMAND_ENEMY, fullCmd);
             return true;
         }
 
-        if (at.isWarZone() && !Conf.warzoneDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.warzoneDenyCommands.iterator())) {
+        if (at.isWarZone() && Conf.warzoneDenyCommands != null && !Conf.warzoneDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.warzoneDenyCommands.iterator())) {
         	if (!silent) me.msg(Lang.PLAYER_COMMAND_WARZONE, fullCmd);
             return true;
         }
