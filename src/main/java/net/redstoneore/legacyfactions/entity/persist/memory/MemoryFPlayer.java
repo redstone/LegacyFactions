@@ -996,11 +996,19 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
         return true;
     }
+    
+    public void msg(boolean onlyIfTrue, String str, Object... args) {
+        if (onlyIfTrue) this.msg(str, args);
+    }
 
     public void msg(String str, Object... args) {
         this.sendMessage(Factions.get().getTextUtil().parse(str, args));
     }
 
+    public void msg(boolean onlyIfTrue, Lang translation, Object... args) {
+        if(onlyIfTrue) this.msg(translation, args);
+    }
+    
     public void msg(Lang translation, Object... args) {
         this.msg(translation.toString(), args);
     }

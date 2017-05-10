@@ -238,6 +238,8 @@ public interface FPlayer extends EconomyParticipator {
     public boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
 
     public void msg(String str, Object... args);
+    
+    public void msg(boolean onlyIfTrue, String str, Object... args);
 
     public String getId();
 
