@@ -737,118 +737,178 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
     
     public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation flocation, boolean notifyFailure) {
-        String error = null;
-        Faction myFaction = getFaction();
+        Faction myFaction = this.getFaction();
         Faction currentFaction = Board.get().getFactionAt(flocation);
         int ownedLand = forFaction.getLandRounded();
-        int factionBuffer = Conf.bufferFactions;
         
         // Admin Bypass needs no further checks
-        if (this.isAdminBypassing()) {
-        	return true;
-        }
+        if (this.isAdminBypassing()) return true;
         
-        if (forFaction.isSafeZone() && Permission.MANAGE_SAFE_ZONE.has(getPlayer())) {
-        	return true;
-        }
+        // Can claim in safe zone?
+        if (forFaction.isSafeZone() && Permission.MANAGE_SAFE_ZONE.has(getPlayer())) return true;
         
-        if (forFaction.isWarZone() && Permission.MANAGE_WAR_ZONE.has(getPlayer())) {
-            return true;
-        }
-        
+        // Claim for war zone
+        if (forFaction.isWarZone() && Permission.MANAGE_WAR_ZONE.has(getPlayer())) return true;
+
+        // Checks for WorldGuard regions in the chunk attempting to be claimed
         if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(flocation)) {
-            // Checks for WorldGuard regions in the chunk attempting to be claimed
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_PROTECTED);
+        	}
         	
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_PROTECTED.toString()));
         	return false;
         }
         
+        // Check if this is a no-claim world
         if (Conf.worldsNoClaiming.contains(flocation.getWorldName())) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_DISABLED.toString()));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_DISABLED);
+        	}
+        	
         	return false;
         } 
         
+        // Can only claim for own faction
         if (myFaction != forFaction) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_CANTCLAIM.toString(), forFaction.describeTo(this)));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_CANTCLAIM, forFaction.describeTo(this));
+        	}
         	return false;
         }
         
+        // Do we already own this?
         if (forFaction == currentFaction) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_ALREADYOWN.toString(), forFaction.describeTo(this, true)));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_ALREADYOWN, forFaction.describeTo(this, true));
+        	}
         	return false;
         }
         
-        if (this.getRole().value < Role.MODERATOR.value) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_MUSTBE.toString(), Role.MODERATOR.getTranslation()));
+        // Are they at lease a moderator?
+        if (!this.getRole().isAtLeast(Role.MODERATOR)) {
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_MUSTBE, Role.MODERATOR.getTranslation());
+        	}
         	return false;
         }
         
+        // Check for minimum members
         if (forFaction.getFPlayers().size() < Conf.claimsRequireMinFactionMembers) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_MEMBERS.toString(), Conf.claimsRequireMinFactionMembers));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_MEMBERS, Conf.claimsRequireMinFactionMembers);
+        	}
         	return false;
         }
         
+        // Check for safezone
         if (currentFaction.isSafeZone()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_SAFEZONE.toString()));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_SAFEZONE);
+        	}
         	return false;
         }
         
+        // Check for warzone
         if (currentFaction.isWarZone()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_WARZONE.toString()));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_WARZONE);
+        	}
         	return false;
         } 
         
+        // Check raidable can overclaim
         if (Conf.raidableAllowOverclaim && ownedLand >= forFaction.getPowerRounded()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_POWER.toString()));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_POWER);
+        	}
         	return false;
         }
         
-        if (Conf.claimedLandsMax != 0 && ownedLand >= Conf.claimedLandsMax && forFaction.isNormal()) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_LIMIT.toString()));
+        // Check for claimedLandsMax
+        if (Conf.claimedLandsMax > 0 && ownedLand >= Conf.claimedLandsMax && forFaction.isNormal()) {
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_LIMIT);
+        	}
         	return false;
         }
         
+        // Check for ally claim 
         if (currentFaction.getRelationTo(forFaction) == Relation.ALLY) {
-        	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_ALLY.toString()));
+        	if (notifyFailure) {
+        		this.msg(Lang.CLAIM_ALLY.toString());
+        	}
         	return false;
         } 
 
+        // Check if must be connected
         if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.get().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
             if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
-            	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_CONTIGIOUS.toString()));
+            	if (notifyFailure) {
+            		this.msg(Lang.CLAIM_CONTIGIOUS);
+            	}
             } else {
-            	if (notifyFailure) msg(Factions.get().getTextUtil().parse(Lang.CLAIM_FACTIONCONTIGUOUS.toString()));
+            	if (notifyFailure) {
+            		this.msg(Lang.CLAIM_FACTIONCONTIGUOUS);
+            	}
             }
             return false;
-        } else if (factionBuffer > 0 && Board.get().hasFactionWithin(flocation, myFaction, factionBuffer)) {
-            error = Factions.get().getTextUtil().parse(Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(factionBuffer));
-        } else if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(Conf.bufferWorldBorder)) {
+        }
+        
+        // Check for buffer
+        if (Conf.bufferFactions > 0 && Board.get().hasFactionWithin(flocation, myFaction, Conf.bufferFactions)) {
+            this.msg(Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(Conf.bufferFactions));
+            return false;
+        }
+        
+        // Border check
+        if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(Conf.bufferWorldBorder)) {
             if (Conf.bufferWorldBorder > 0) {
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Conf.bufferWorldBorder));
+                this.msg(Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Conf.bufferWorldBorder));
             } else {
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OUTSIDEWORLDBORDER.toString());
+                this.msg(Lang.CLAIM_OUTSIDEWORLDBORDER);
             }
-        } else if (currentFaction.isNormal()) {
+            return false;
+        }
+        
+        // If the faction we're trying to claim is a normal faction ...
+        if (currentFaction.isNormal()) {
+        	
+        	// .. and i'm peaceful ...
             if (myFaction.isPeaceful()) {
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_PEACEFUL.toString(), currentFaction.getTag(this));
-            } else if (currentFaction.isPeaceful()) {
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_PEACEFULTARGET.toString(), currentFaction.getTag(this));
-            } else if (!currentFaction.hasLandInflation()) {
-                // TODO more messages WARN current faction most importantly
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_THISISSPARTA.toString(), currentFaction.getTag(this));
-            } else if (currentFaction.hasLandInflation() && !Conf.raidableAllowOverclaim) {
-                // deny over claim when it normally would be allowed.
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_OVERCLAIM_DISABLED.toString());
-            } else if (!Board.get().isBorderLocation(flocation)) {
-                error = Factions.get().getTextUtil().parse(Lang.CLAIM_BORDER.toString());
+            	// .. don't allow - i'm peaceful.
+                this.msg(Lang.CLAIM_PEACEFUL, currentFaction.getTag(this));
+                return false;
+            }
+            
+            // .. and they're peaceful ...
+            if (currentFaction.isPeaceful()) {
+            	// .. don't allow - they're peaceful.
+                this.msg(Lang.CLAIM_PEACEFULTARGET, currentFaction.getTag(this));
+                return false;
+            }
+            
+            // .. and they're strong enough to hold it
+            if (!currentFaction.hasLandInflation()) {
+                // ... don't allow - they're too strong
+                this.msg(Lang.CLAIM_THISISSPARTA, currentFaction.getTag(this));
+                return false;
+            }
+            
+            // .. raidableAllowOverclaim is false, and the current faction is not strong enough 
+            if (!Conf.raidableAllowOverclaim && currentFaction.hasLandInflation()) {
+                // .. don't allow it, overclaim is disabled
+                this.msg(Lang.CLAIM_OVERCLAIM_DISABLED);
+                return false;
+            }
+            
+            if (!Board.get().isBorderLocation(flocation)) {
+                this.msg(Lang.CLAIM_BORDER);
+                return false;
             }
         }
-        // TODO: Add more else if statements.
-
-        if (notifyFailure && error != null) {
-            msg(error);
-        }
-        return error == null;
+        
+        // can claim1 
+        return true;
     }
     
     public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
