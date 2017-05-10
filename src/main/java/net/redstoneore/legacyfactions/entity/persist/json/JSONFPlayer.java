@@ -16,7 +16,7 @@ public class JSONFPlayer extends MemoryFPlayer {
 
     @Override
     public void remove() {
-        ((JSONFPlayers) FPlayerColl.getUnsafeInstance()).fPlayers.remove(getId());
+        ((JSONFPlayers) FPlayerColl.getUnsafeInstance()).remove(getId());
     }
 
     public boolean shouldBeSaved() {
