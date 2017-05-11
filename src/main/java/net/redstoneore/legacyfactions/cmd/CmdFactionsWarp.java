@@ -5,6 +5,7 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.event.EventFactionsWarpUse;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
@@ -54,14 +55,21 @@ public class CmdFactionsWarp extends FCommand {
         }
         
         if (myFaction.warps().get(warpName).isPresent()) {
-        	if (myFaction.warps().get(warpName).get().hasPassword() && (warpPassword == null || !myFaction.warps().get(warpName).get().isPassword(warpPassword))) {
+        	FactionWarp warp = myFaction.warps().get(warpName).get();
+        	
+        	if (warp.hasPassword() && (warpPassword == null || !warp.isPassword(warpPassword))) {
         		fme.msg(Lang.COMMAND_FWARP_INVALID_PASSWORD);
         		return;
         	}
         	
+        	EventFactionsWarpUse event = new EventFactionsWarpUse(fme, warp);
+        	event.call();
+        	if (event.isCancelled()) return;
+        	
             if (!transact(fme)) {
                 return;
             }
+            
             final FPlayer fPlayer = fme;
             final UUID uuid = fme.getPlayer().getUniqueId();
             this.doWarmUp(WarmUpUtil.Warmup.WARP, Lang.WARMUPS_NOTIFY_TELEPORT, warpName, new Runnable() {
