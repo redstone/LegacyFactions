@@ -72,7 +72,7 @@ public class Factions extends FactionsPluginBase {
 
 	private GsonBuilder gsonBuilder = null;
 
-	public Permission perms = null;
+	private Permission perms = null;
 	private Integer taskAutoLeave = null;
 	
 	private boolean locked = false;
@@ -292,6 +292,10 @@ public class Factions extends FactionsPluginBase {
 		if (Conf.debug) {
 			getLogger().log(level, s);
 		}
+	}
+	
+	public Permission getPerms() {
+		return this.perms;
 	}
 	
 }

@@ -28,7 +28,7 @@ public class VaultIntegration  extends Integration {
 	}
 	
 	public Boolean hasPermissions() {
-		return Factions.get().perms != null;
+		return Factions.get().getPerms() != null;
 	}
 	
 	public String getPrimaryGroup(OfflinePlayer player) {
