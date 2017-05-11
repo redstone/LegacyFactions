@@ -83,9 +83,6 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         this.autoSave = val;
     }
     
-    // Listeners
-    private FactionsCommandsListener mPluginSecretPlayerListener;
-
     // Our stored base commands
     private List<MCommand<?>> baseCommands = new ArrayList<>();
 
@@ -113,8 +110,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
         this.timeEnableStart = System.currentTimeMillis();
         
         // Create and register player command listener
-        this.mPluginSecretPlayerListener = new FactionsCommandsListener(this);
-        this.getServer().getPluginManager().registerEvents(this.mPluginSecretPlayerListener, this);
+        this.getServer().getPluginManager().registerEvents(FactionsCommandsListener.get(), this);
 
         // Register recurring tasks
         if (saveTask == null && Conf.saveToFileEveryXMinutes > 0.0) {

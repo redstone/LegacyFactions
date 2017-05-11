@@ -12,6 +12,13 @@ import net.redstoneore.legacyfactions.Factions;
 public class FactionsCommandsListener implements Listener {
 	
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static FactionsCommandsListener i = new FactionsCommandsListener();
+	public static FactionsCommandsListener get() { return i; }
+	
+	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 
