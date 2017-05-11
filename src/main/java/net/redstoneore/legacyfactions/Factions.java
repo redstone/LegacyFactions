@@ -106,6 +106,7 @@ public class Factions extends FactionsPluginBase {
 		
 		// Load Conf from disk
 		Conf.load();
+		Conf.save();
 		
 		FPlayerColl.load();
 		FactionColl.get().load();
