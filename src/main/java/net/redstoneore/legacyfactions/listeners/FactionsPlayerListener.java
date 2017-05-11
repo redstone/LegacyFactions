@@ -58,6 +58,11 @@ public class FactionsPlayerListener implements Listener {
 	// INIT PLAYER
 	// -------------------------------------------------- //
     
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onPlayerPreLogin(PlayerLoginEvent event) {
+		FPlayerColl.get(event.getPlayer());
+	}
+	
     @EventHandler(priority = EventPriority.NORMAL)
     public void initPlayer(PlayerJoinEvent event) {
         this.initPlayer(event.getPlayer());
