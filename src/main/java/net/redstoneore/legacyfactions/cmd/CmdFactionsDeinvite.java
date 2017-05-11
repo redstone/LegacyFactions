@@ -12,9 +12,7 @@ import org.bukkit.ChatColor;
 public class CmdFactionsDeinvite extends FCommand {
 
     public CmdFactionsDeinvite() {
-        super();
-        this.aliases.add("deinvite");
-        this.aliases.add("deinv");
+        this.aliases.addAll(Conf.cmdAliasesDeinvite);
 
         this.optionalArgs.put("player name", "name");
         //this.optionalArgs.put("", "");

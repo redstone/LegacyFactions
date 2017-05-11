@@ -10,12 +10,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 public class CmdFactionsSaveAll extends FCommand {
 
     public CmdFactionsSaveAll() {
-        super();
-        this.aliases.add("saveall");
-        this.aliases.add("save");
-
-        //this.requiredArgs.add("");
-        //this.optionalArgs.put("", "");
+        this.aliases.addAll(Conf.cmdAliasesSaveAll);
 
         this.permission = Permission.SAVE.node;
         this.disableOnLock = false;

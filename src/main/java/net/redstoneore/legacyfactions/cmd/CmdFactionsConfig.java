@@ -20,8 +20,7 @@ public class CmdFactionsConfig extends FCommand {
     private static HashMap<String, String> properFieldNames = new HashMap<String, String>();
 
     public CmdFactionsConfig() {
-        super();
-        this.aliases.add("config");
+        this.aliases.addAll(Conf.cmdAliasesConfig);
 
         this.requiredArgs.add("setting");
         this.requiredArgs.add("value");

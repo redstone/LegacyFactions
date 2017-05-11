@@ -8,11 +8,8 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsChat extends FCommand {
 
     public CmdFactionsChat() {
-        super();
-        this.aliases.add("c");
-        this.aliases.add("chat");
+        this.aliases.addAll(Conf.cmdAliasesChat);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("mode", "next");
 
         this.permission = Permission.CHAT.node;

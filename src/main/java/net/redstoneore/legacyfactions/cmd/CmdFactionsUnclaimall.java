@@ -19,12 +19,8 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 public class CmdFactionsUnclaimall extends FCommand {
 
     public CmdFactionsUnclaimall() {
-        this.aliases.add("unclaimall");
-        this.aliases.add("declaimall");
-
-        //this.requiredArgs.add("");
-        //this.optionalArgs.put("", "");
-
+        this.aliases.addAll(Conf.cmdAliasesUnclaimAll);
+        
         this.permission = Permission.UNCLAIM_ALL.node;
         this.disableOnLock = true;
 

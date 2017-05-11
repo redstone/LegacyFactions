@@ -10,13 +10,10 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 public class CmdFactionsDescription extends FCommand {
 
     public CmdFactionsDescription() {
-        super();
-        this.aliases.add("desc");
-        this.aliases.add("description");
+        this.aliases.addAll(Conf.cmdAliasesDescription);
 
         this.requiredArgs.add("desc");
         this.errorOnToManyArgs = false;
-        //this.optionalArgs
 
         this.permission = Permission.DESCRIPTION.node;
         this.disableOnLock = true;

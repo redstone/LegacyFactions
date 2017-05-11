@@ -10,8 +10,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsOwnerList extends FCommand {
 
     public CmdFactionsOwnerList() {
-        super();
-        this.aliases.add("ownerlist");
+        this.aliases.addAll(Conf.cmdAliasesOwnerList);
 
         //this.requiredArgs.add("");
         //this.optionalArgs.put("", "");

@@ -8,11 +8,8 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 public class CmdFactionsPower extends FCommand {
 
     public CmdFactionsPower() {
-        super();
-        this.aliases.add("power");
-        this.aliases.add("pow");
+        this.aliases.addAll(Conf.cmdAliasesPower);
 
-        //this.requiredArgs.add("faction tag");
         this.optionalArgs.put("player name", "you");
 
         this.permission = Permission.POWER.node;

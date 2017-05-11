@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
 import java.util.ArrayList;
@@ -12,9 +13,7 @@ import java.util.ArrayList;
 public class CmdFactionsStatus extends FCommand {
 
     public CmdFactionsStatus() {
-        super();
-        this.aliases.add("status");
-        this.aliases.add("s");
+        this.aliases.addAll(Conf.cmdAliasesStatus);
 
         this.permission = Permission.STATUS.node;
 

@@ -7,12 +7,8 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsBoom extends FCommand {
 
     public CmdFactionsBoom() {
-        super();
-        this.aliases.add("noboom");
-        this.aliases.add("explosions");
-        this.aliases.add("toggleexplosions");
+        this.aliases.addAll(Conf.cmdAliasesBoom);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("on/off", "flip");
 
         this.permission = Permission.NO_BOOM.node;

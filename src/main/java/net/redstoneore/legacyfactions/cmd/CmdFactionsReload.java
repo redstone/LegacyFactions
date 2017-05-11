@@ -8,10 +8,8 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsReload extends FCommand {
 
     public CmdFactionsReload() {
-        super();
-        this.aliases.add("reload");
+        this.aliases.addAll(Conf.cmdAliasesReload);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("file", "all");
 
         this.permission = Permission.RELOAD.node;

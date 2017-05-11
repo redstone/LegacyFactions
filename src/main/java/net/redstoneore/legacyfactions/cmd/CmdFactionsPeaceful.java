@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -9,12 +10,10 @@ import net.redstoneore.legacyfactions.entity.Faction;
 public class CmdFactionsPeaceful extends FCommand {
 
     public CmdFactionsPeaceful() {
-        super();
-        this.aliases.add("peaceful");
+        this.aliases.addAll(Conf.cmdAliasesPeaceful);
 
         this.requiredArgs.add("faction tag");
-        //this.optionalArgs.put("", "");
-
+        
         this.permission = Permission.SET_PEACEFUL.node;
         this.disableOnLock = true;
 

@@ -13,7 +13,7 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 public class CmdFactionsMoneyTransferPf extends FCommand {
 
     public CmdFactionsMoneyTransferPf() {
-        this.aliases.add("pf");
+        this.aliases.addAll(Conf.cmdAliasesMoneyTransferPf);
 
         this.requiredArgs.add("amount");
         this.requiredArgs.add("player");

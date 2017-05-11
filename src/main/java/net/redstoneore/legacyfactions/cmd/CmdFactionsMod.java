@@ -13,15 +13,10 @@ import org.bukkit.ChatColor;
 public class CmdFactionsMod extends FCommand {
 
     public CmdFactionsMod() {
-        super();
-        this.aliases.add("mod");
-        this.aliases.add("setmod");
-        this.aliases.add("officer");
-        this.aliases.add("setofficer");
+        this.aliases.addAll(Conf.cmdAliasesMod);
 
         this.optionalArgs.put("player name", "name");
-        //this.optionalArgs.put("", "");
-
+        
         this.permission = Permission.MOD.node;
         this.disableOnLock = true;
 

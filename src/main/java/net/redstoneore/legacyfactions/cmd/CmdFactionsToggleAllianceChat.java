@@ -7,10 +7,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsToggleAllianceChat extends FCommand {
 
     public CmdFactionsToggleAllianceChat() {
-        super();
-        this.aliases.add("tac");
-        this.aliases.add("togglealliancechat");
-        this.aliases.add("ac");
+        this.aliases.addAll(Conf.cmdAliasesToggleAllianceChat);
 
         this.disableOnLock = false;
 

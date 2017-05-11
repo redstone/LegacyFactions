@@ -11,9 +11,7 @@ import net.redstoneore.legacyfactions.warp.FactionWarp;
 public class CmdFactionsDelwarp extends FCommand {
 
     public CmdFactionsDelwarp() {
-        this.aliases.add("delwarp");
-        this.aliases.add("dw");
-        this.aliases.add("deletewarp");
+        this.aliases.addAll(Conf.cmdAliasesDelwarp);
         
         this.requiredArgs.add("warp name");
 

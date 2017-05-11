@@ -10,9 +10,7 @@ import net.redstoneore.legacyfactions.util.LazyLocation;
 public class CmdFactionsSetwarp extends FCommand {
 
 	public CmdFactionsSetwarp() {
-		super();
-		this.aliases.add("setwarp");
-		this.aliases.add("sw");
+		this.aliases.addAll(Conf.cmdAliasesSetwarp);
 		
 		this.requiredArgs.add("warp name");
 		this.optionalArgs.put("password", "password");

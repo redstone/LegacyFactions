@@ -10,12 +10,8 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 public class CmdFactionsWarunclaimall extends FCommand {
 
     public CmdFactionsWarunclaimall() {
-        this.aliases.add("warunclaimall");
-        this.aliases.add("wardeclaimall");
-
-        //this.requiredArgs.add("");
-        //this.optionalArgs.put("", "");
-
+        this.aliases.addAll(Conf.cmdAliasesWarunclaimall);
+        
         this.permission = Permission.MANAGE_WAR_ZONE.node;
         this.disableOnLock = true;
 

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -18,9 +19,8 @@ import java.util.Comparator;
 public class CmdFactionsTop extends FCommand {
 
     public CmdFactionsTop() {
-        this.aliases.add("top");
-        this.aliases.add("t");
-
+        this.aliases.addAll(Conf.cmdAliasesTop);
+        
         this.optionalArgs.put("criteria", "criteria");
         this.optionalArgs.put("page", "1");
 

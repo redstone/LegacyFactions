@@ -13,8 +13,7 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 public class CmdFactionsMoneyWithdraw extends FCommand {
 
     public CmdFactionsMoneyWithdraw() {
-        this.aliases.add("w");
-        this.aliases.add("withdraw");
+        this.aliases.addAll(Conf.cmdAliasesMoneyWithdraw);
 
         this.requiredArgs.add("amount");
         this.optionalArgs.put("faction", "yours");

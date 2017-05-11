@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -11,11 +12,9 @@ import net.redstoneore.legacyfactions.entity.Faction;
 public class CmdFactionsPermanent extends FCommand {
 
     public CmdFactionsPermanent() {
-        super();
-        this.aliases.add("permanent");
+        this.aliases.addAll(Conf.cmdAliasesPermanent);
 
         this.requiredArgs.add("faction tag");
-        //this.optionalArgs.put("", "");
 
         this.permission = Permission.SET_PERMANENT.node;
         this.disableOnLock = true;

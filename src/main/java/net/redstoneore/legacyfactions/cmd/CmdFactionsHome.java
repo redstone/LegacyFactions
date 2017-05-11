@@ -23,8 +23,7 @@ import java.util.List;
 public class CmdFactionsHome extends FCommand {
 
 	public CmdFactionsHome() {
-		super();
-		this.aliases.add("home");
+		this.aliases.addAll(Conf.cmdAliasesHome);
 
 		this.optionalArgs.put("who", "you");
 		this.optionalArgs.put("type", "faction/player");

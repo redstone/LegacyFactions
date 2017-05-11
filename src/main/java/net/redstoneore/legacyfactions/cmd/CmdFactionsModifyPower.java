@@ -2,17 +2,13 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
 public class CmdFactionsModifyPower extends FCommand {
 
     public CmdFactionsModifyPower() {
-        super();
-
-        this.aliases.add("pm");
-        this.aliases.add("mp");
-        this.aliases.add("modifypower");
-        this.aliases.add("modpower");
+        this.aliases.addAll(Conf.cmdAliasesModifyPower);
 
         this.requiredArgs.add("name");
         this.requiredArgs.add("power");

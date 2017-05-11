@@ -11,12 +11,9 @@ import org.bukkit.ChatColor;
 public class CmdFactionsInvite extends FCommand {
 
     public CmdFactionsInvite() {
-        super();
-        this.aliases.add("invite");
-        this.aliases.add("inv");
+        this.aliases.addAll(Conf.cmdAliasesInvite);
 
         this.requiredArgs.add("player name");
-        //this.optionalArgs.put("", "");
 
         this.permission = Permission.INVITE.node;
         this.disableOnLock = true;

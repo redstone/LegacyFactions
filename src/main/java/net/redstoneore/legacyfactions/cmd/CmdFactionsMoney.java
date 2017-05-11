@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsMoney extends FCommand {
 
@@ -13,11 +14,7 @@ public class CmdFactionsMoney extends FCommand {
     public CmdFactionsMoneyTransferPf cmdMoneyTransferPf = new CmdFactionsMoneyTransferPf();
 
     public CmdFactionsMoney() {
-        super();
-        this.aliases.add("money");
-
-        //this.requiredArgs.add("");
-        //this.optionalArgs.put("","")
+        this.aliases.addAll(Conf.cmdAliasesMoney);
 
         this.isMoneyCommand = true;
 

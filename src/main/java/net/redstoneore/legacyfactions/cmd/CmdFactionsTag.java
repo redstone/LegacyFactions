@@ -17,12 +17,10 @@ import java.util.ArrayList;
 public class CmdFactionsTag extends FCommand {
 
     public CmdFactionsTag() {
-        this.aliases.add("tag");
-        this.aliases.add("rename");
+        this.aliases.addAll(Conf.cmdAliasesTag);
 
         this.requiredArgs.add("faction tag");
-        //this.optionalArgs.put("", "");
-
+        
         this.permission = Permission.TAG.node;
         this.disableOnLock = true;
 

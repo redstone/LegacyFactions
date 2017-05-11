@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsAutohelp extends MCommand<Factions> {
 
@@ -11,9 +12,7 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
 	public static CmdFactionsAutohelp get() { return instance; }
 	
     public CmdFactionsAutohelp() {
-        this.aliases.add("?");
-        this.aliases.add("h");
-        this.aliases.add("help");
+        this.aliases.addAll(Conf.cmdAliasesAutohelp);
 
         this.setHelpShort("");
 

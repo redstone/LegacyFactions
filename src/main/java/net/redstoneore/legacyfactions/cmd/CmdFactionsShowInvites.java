@@ -12,8 +12,7 @@ import org.bukkit.ChatColor;
 public class CmdFactionsShowInvites extends FCommand {
 
     public CmdFactionsShowInvites() {
-        super();
-        aliases.add("showinvites");
+        this.aliases.addAll(Conf.cmdAliasesShowInvites);
         permission = Permission.SHOW_INVITES.node;
 
         senderMustBePlayer = true;

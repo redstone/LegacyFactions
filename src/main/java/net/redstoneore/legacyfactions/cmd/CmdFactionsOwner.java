@@ -10,8 +10,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 public class CmdFactionsOwner extends FCommand {
 
     public CmdFactionsOwner() {
-        super();
-        this.aliases.add("owner");
+        this.aliases.addAll(Conf.cmdAliasesOwner);
 
         //this.requiredArgs.add("");
         this.optionalArgs.put("player name", "you");

@@ -19,8 +19,7 @@ import java.util.ArrayList;
 public class CmdFactionsCreate extends FCommand {
 
     public CmdFactionsCreate() {
-        super();
-        this.aliases.add("create");
+        this.aliases.addAll(Conf.cmdAliasesCreate);
 
         this.requiredArgs.add("faction tag");
         //this.optionalArgs.put("", "");

@@ -16,10 +16,7 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 public class CmdFactionsStuck extends FCommand {
 
     public CmdFactionsStuck() {
-        super();
-
-        this.aliases.add("stuck");
-        this.aliases.add("halp!"); // halp! c:
+        this.aliases.addAll(Conf.cmdAliasesStuck);
 
         this.permission = Permission.STUCK.node;
         this.disableOnLock = true;

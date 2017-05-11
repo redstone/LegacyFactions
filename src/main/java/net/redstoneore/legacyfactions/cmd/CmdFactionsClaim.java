@@ -19,8 +19,7 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 public class CmdFactionsClaim extends FCommand {
 
     public CmdFactionsClaim() {
-        super();
-        this.aliases.add("claim");
+        this.aliases.addAll(Conf.cmdAliasesClaim);
 
         //this.requiredArgs.add("");
         this.optionalArgs.put("radius", "1");

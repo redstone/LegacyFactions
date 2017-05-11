@@ -17,8 +17,7 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 public class CmdFactionsUnclaim extends FCommand {
 
     public CmdFactionsUnclaim() {
-        this.aliases.add("unclaim");
-        this.aliases.add("declaim");
+        this.aliases.addAll(Conf.cmdAliasesUnclaim);
 
         this.optionalArgs.put("radius", "1");
         this.optionalArgs.put("faction", "your");

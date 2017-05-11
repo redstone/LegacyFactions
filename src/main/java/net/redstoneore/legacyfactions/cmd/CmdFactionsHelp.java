@@ -19,12 +19,8 @@ import java.util.Map;
 public class CmdFactionsHelp extends FCommand {
 
     public CmdFactionsHelp() {
-        super();
-        this.aliases.add("help");
-        this.aliases.add("h");
-        this.aliases.add("?");
+        this.aliases.addAll(Conf.cmdAliasesHelp);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("page", "1");
 
         this.permission = Permission.HELP.node;

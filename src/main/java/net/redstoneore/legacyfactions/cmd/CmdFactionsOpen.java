@@ -9,10 +9,8 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 public class CmdFactionsOpen extends FCommand {
 
     public CmdFactionsOpen() {
-        super();
-        this.aliases.add("open");
+        this.aliases.addAll(Conf.cmdAliasesOpen);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("yes/no", "flip");
 
         this.permission = Permission.OPEN.node;

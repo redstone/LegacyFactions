@@ -2,13 +2,13 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsChatspy extends FCommand {
 
     public CmdFactionsChatspy() {
-        super();
-        this.aliases.add("chatspy");
+        this.aliases.addAll(Conf.cmdAliasesChatspy);
 
         this.optionalArgs.put("on/off", "flip");
 

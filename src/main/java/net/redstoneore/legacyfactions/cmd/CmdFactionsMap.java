@@ -10,10 +10,8 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsMap extends FCommand {
 
     public CmdFactionsMap() {
-        super();
-        this.aliases.add("map");
+        this.aliases.addAll(Conf.cmdAliasesMap);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("on/off", "once");
 
         this.permission = Permission.MAP.node;

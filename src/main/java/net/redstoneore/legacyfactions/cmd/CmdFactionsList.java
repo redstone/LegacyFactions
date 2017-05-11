@@ -17,15 +17,13 @@ public class CmdFactionsList extends FCommand {
 	// -------------------------------------------------- //
 	
 	public CmdFactionsList() {
-		this.aliases.add("list");
-		this.aliases.add("ls");
-
-		//this.requiredArgs.add("");
+		this.aliases.addAll(Conf.cmdAliasesList);
+		
 		this.optionalArgs.put("page", "1");
-
+		
 		this.permission = Permission.LIST.node;
 		this.disableOnLock = false;
-
+		
 		this.senderMustBePlayer = false;
 		this.senderMustBeMember = false;
 		this.senderMustBeModerator = false;

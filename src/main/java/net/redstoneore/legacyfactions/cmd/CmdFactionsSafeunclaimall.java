@@ -10,12 +10,8 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 public class CmdFactionsSafeunclaimall extends FCommand {
 
     public CmdFactionsSafeunclaimall() {
-        this.aliases.add("safeunclaimall");
-        this.aliases.add("safedeclaimall");
-
-        //this.requiredArgs.add("");
-        //this.optionalArgs.put("radius", "0");
-
+        this.aliases.addAll(Conf.cmdAliasesSafeunclaimall);
+        
         this.permission = Permission.MANAGE_SAFE_ZONE.node;
         this.disableOnLock = true;
 

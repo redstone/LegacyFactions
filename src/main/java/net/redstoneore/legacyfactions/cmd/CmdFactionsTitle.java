@@ -9,7 +9,7 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 public class CmdFactionsTitle extends FCommand {
 
     public CmdFactionsTitle() {
-        this.aliases.add("title");
+        this.aliases.addAll(Conf.cmdAliasesTitle);
 
         this.requiredArgs.add("player name");
         this.optionalArgs.put("title", "");

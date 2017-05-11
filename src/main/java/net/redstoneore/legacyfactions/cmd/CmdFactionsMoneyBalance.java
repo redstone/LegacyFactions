@@ -2,17 +2,15 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyBalance extends FCommand {
 
     public CmdFactionsMoneyBalance() {
-        super();
-        this.aliases.add("b");
-        this.aliases.add("balance");
+        this.aliases.addAll(Conf.cmdAliasesMoneyBalance);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("faction", "yours");
 
         this.permission = Permission.MONEY_BALANCE.node;

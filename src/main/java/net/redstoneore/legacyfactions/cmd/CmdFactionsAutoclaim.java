@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
@@ -17,10 +18,8 @@ import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCa
 public class CmdFactionsAutoclaim extends FCommand {
 
     public CmdFactionsAutoclaim() {
-        super();
-        this.aliases.add("autoclaim");
+        this.aliases.addAll(Conf.cmdAliasesAutoclaim);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("faction", "your");
 
         this.permission = Permission.AUTOCLAIM.node;

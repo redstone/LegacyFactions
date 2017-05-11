@@ -12,8 +12,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 public class CmdFactionsJoin extends FCommand {
 
     public CmdFactionsJoin() {
-        super();
-        this.aliases.add("join");
+        this.aliases.addAll(Conf.cmdAliasesJoin);
 
         this.requiredArgs.add("faction name");
         this.optionalArgs.put("player", "you");

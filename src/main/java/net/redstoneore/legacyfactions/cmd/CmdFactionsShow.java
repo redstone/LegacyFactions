@@ -14,10 +14,8 @@ import java.util.List;
 public class CmdFactionsShow extends FCommand {
 	
 	public CmdFactionsShow() {
-		this.aliases.add("show");
-		this.aliases.add("who");
+		this.aliases.addAll(Conf.cmdAliasesShow);
 		
-		// this.requiredArgs.add("");
 		this.optionalArgs.put("faction tag", "yours");
 
 		this.permission = Permission.SHOW.node;

@@ -18,8 +18,7 @@ import org.bukkit.ChatColor;
 public class CmdFactionsKick extends FCommand {
 
     public CmdFactionsKick() {
-        super();
-        this.aliases.add("kick");
+        this.aliases.addAll(Conf.cmdAliasesKick);
 
         this.optionalArgs.put("player name", "player name");
         //this.optionalArgs.put("", "");

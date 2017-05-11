@@ -17,8 +17,7 @@ import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 public class CmdFactionsDisband extends FCommand {
 
     public CmdFactionsDisband() {
-        super();
-        this.aliases.add("disband");
+        this.aliases.addAll(Conf.cmdAliasesDisband);
 
         //this.requiredArgs.add("");
         this.optionalArgs.put("faction tag", "yours");

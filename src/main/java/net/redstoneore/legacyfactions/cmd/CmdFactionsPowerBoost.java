@@ -3,14 +3,14 @@ package net.redstoneore.legacyfactions.cmd;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsPowerBoost extends FCommand {
 
     public CmdFactionsPowerBoost() {
-        super();
-        this.aliases.add("powerboost");
+        this.aliases.addAll(Conf.cmdAliasesPowerBoost);
 
         this.requiredArgs.add("p|f|player|faction");
         this.requiredArgs.add("name");

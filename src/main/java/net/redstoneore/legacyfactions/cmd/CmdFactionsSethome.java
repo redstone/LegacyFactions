@@ -11,9 +11,8 @@ import net.redstoneore.legacyfactions.entity.Faction;
 public class CmdFactionsSethome extends FCommand {
 
     public CmdFactionsSethome() {
-        this.aliases.add("sethome");
+        this.aliases.addAll(Conf.cmdAliasesSethome);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("faction tag", "mine");
 
         this.permission = Permission.SETHOME.node;

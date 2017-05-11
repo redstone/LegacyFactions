@@ -23,8 +23,7 @@ public class CmdFactionsClaimLine extends FCommand {
     public CmdFactionsClaimLine() {
 
         // Aliases
-        this.aliases.add("claimline");
-        this.aliases.add("cl");
+        this.aliases.addAll(Conf.cmdAliasesClaimLine);
 
         // Args
         this.optionalArgs.put("amount", "1");
