@@ -6,41 +6,44 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 
-import net.redstoneore.legacyfactions.FactionsPluginBase;
-import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.Factions;
 
 public class FactionsCommandsListener implements Listener {
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    private FactionsPluginBase p;
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+		// If we're preventing this command ...
+		if (!FactionsPlayerListener.preventCommand(event.getMessage(), event.getPlayer())) return;
+		
+		// ... cancel this event ...
+		event.setCancelled(true);
+		
+		// ... and we're logging ...
+		if (!Factions.get().logPlayerCommands()) return;
+		
+		// ... log it.
+		Bukkit.getLogger().info("[PLAYER_COMMAND] " + event.getPlayer().getName() + ": " + event.getMessage());
+	}
 
-    public FactionsCommandsListener(FactionsPluginBase p) {
-        this.p = p;
-    }
-
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-        if (FactionsPlayerListener.preventCommand(event.getMessage(), event.getPlayer())) {
-            if (p.logPlayerCommands()) {
-                Bukkit.getLogger().info("[PLAYER_COMMAND] " + event.getPlayer().getName() + ": " + event.getMessage());
-            }
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if (p.handleCommand(event.getPlayer(), event.getMessage(), false, true)) {
-            if (p.logPlayerCommands()) {
-                Bukkit.getLogger().info("[PLAYER_COMMAND] " + event.getPlayer().getName() + ": " + event.getMessage());
-            }
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerPreLogin(PlayerLoginEvent event) {
-        FPlayerColl.get(event.getPlayer());
-    }
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onPlayerChat(AsyncPlayerChatEvent event) {
+		// If we're preventing this command ... 
+		if (!Factions.get().handleCommand(event.getPlayer(), event.getMessage(), false, true)) return;
+		
+		// ... cancel this event ...
+		event.setCancelled(true);
+		
+		// ... and we're logging ...
+		if (!Factions.get().logPlayerCommands()) return;
+		
+		
+		// ... log it.
+		Bukkit.getLogger().info("[PLAYER_COMMAND] " + event.getPlayer().getName() + ": " + event.getMessage());
+	}
+	
 }
