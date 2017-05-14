@@ -587,7 +587,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
             return ret;
         }
 
-        for (FPlayer fplayer : fplayers) {
+        for (FPlayer fplayer : this.getFPlayers()) {
             if (fplayer.isOnline() == online) {
                 ret.add(fplayer);
             }
