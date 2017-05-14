@@ -42,7 +42,7 @@ public class CmdFactionsPermanentPower extends FCommand {
         msg(Lang.COMMAND_PERMANENTPOWER_SUCCESS, change, targetFaction.describeTo(fme));
 
         // Inform all other players
-        for (FPlayer fplayer : targetFaction.getFPlayersWhereOnline(true)) {
+        for (FPlayer fplayer : targetFaction.getWhereOnline(true)) {
             if (fplayer == fme) {
                 continue;
             }

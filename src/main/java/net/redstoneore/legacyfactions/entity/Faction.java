@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.entity;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.EconomyParticipator;
@@ -105,9 +106,6 @@ public interface Faction extends EconomyParticipator {
 
     public boolean isNormal();
 
-    @Deprecated
-    public boolean isNone();
-
     public boolean isWilderness();
 
     public boolean isSafeZone();
@@ -164,7 +162,7 @@ public interface Faction extends EconomyParticipator {
 
     public int getLandRounded();
 
-    public int getLandRoundedInWorld(String worldName);
+    public int getLandRoundedInWorld(World world);
 
     public boolean hasLandInflation();
 
@@ -183,9 +181,9 @@ public interface Faction extends EconomyParticipator {
 
     public Set<FPlayer> getFPlayers();
 
-    public Set<FPlayer> getFPlayersWhereOnline(boolean online);
+    public Set<FPlayer> getWhereOnline(boolean online);
 
-    public FPlayer getFPlayerAdmin();
+    public FPlayer getOwner();
 
     public ArrayList<FPlayer> getFPlayersWhereRole(Role role);
 
@@ -204,6 +202,7 @@ public interface Faction extends EconomyParticipator {
     // ----------------------------------------------//
     // Messages
     // ----------------------------------------------//
+    
     public void msg(String message, Object... args);
 
     public void sendMessage(String message);
@@ -254,4 +253,37 @@ public interface Faction extends EconomyParticipator {
     
     public MemoryFaction asMemoryFaction();
     
+    // -------------------------------------------------- //
+    // DEPRECATED
+    // -------------------------------------------------- //
+    
+    /**
+     * Deprecated, use {@link #getOwner()}
+     */
+    @Deprecated
+    public FPlayer getFPlayerAdmin();
+    
+    /**
+     * Deprecated, use {@link #getWhereOnline(boolean)}
+     * @param online
+     * @return
+     */
+    @Deprecated
+    public Set<FPlayer> getFPlayersWhereOnline(boolean online);
+
+    /**
+     * Deprecated, use {@link #isWilderness()}
+     * @return
+     */
+    @Deprecated
+    public boolean isNone();
+
+    /**
+     * Depreacted, use {@link #getLandRoundedInWorld(World)}
+     * @param worldName
+     * @return
+     */
+    @Deprecated
+    public int getLandRoundedInWorld(String worldName);
+
 }

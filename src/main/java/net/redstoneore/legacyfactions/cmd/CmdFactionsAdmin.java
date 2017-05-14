@@ -76,7 +76,7 @@ public class CmdFactionsAdmin extends FCommand {
 			if (event.isCancelled()) return;
 		}
 
-		FPlayer admin = targetFaction.getFPlayerAdmin();
+		FPlayer admin = targetFaction.getOwner();
 
 		// if target player is currently admin, demote and replace him
 		if (newAdmin == admin) {

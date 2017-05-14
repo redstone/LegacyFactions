@@ -111,7 +111,7 @@ public enum TagReplacerUtil {
             case TOTAL_ONLINE:
                 return String.valueOf(Bukkit.getOnlinePlayers().size());
             case FACTIONLESS:
-                return String.valueOf(FactionColl.get().getWilderness().getFPlayersWhereOnline(true).size());
+                return String.valueOf(FactionColl.get().getWilderness().getWhereOnline(true).size());
             case MAX_ALLIES:
             	if (Conf.maxRelations.containsKey(Relation.ALLY) && Conf.maxRelations.get(Relation.ALLY) > -1) {
             		return String.valueOf(Conf.maxRelations.get(Relation.ALLY));
@@ -190,7 +190,7 @@ public enum TagReplacerUtil {
                 double powerBoost = fac.getPowerBoost();
                 return (powerBoost == 0.0) ? "" : (powerBoost > 0.0 ? Lang.COMMAND_SHOW_BONUS.toString() : Lang.COMMAND_SHOW_PENALTY.toString() + powerBoost + ")");
             case LEADER:
-                FPlayer fAdmin = fac.getFPlayerAdmin();
+                FPlayer fAdmin = fac.getOwner();
                 return fAdmin == null ? "Server" : fAdmin.getName().substring(0, fAdmin.getName().length() > 14 ? 13 : fAdmin.getName().length());
             case WARPS:
                 return String.valueOf(fac.warps().size());

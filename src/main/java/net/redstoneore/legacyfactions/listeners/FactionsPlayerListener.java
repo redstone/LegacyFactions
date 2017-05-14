@@ -99,7 +99,7 @@ public class FactionsPlayerListener implements Listener {
 
         Faction myFaction = me.getFaction();
         if (!myFaction.isWilderness()) {
-            for (FPlayer other : myFaction.getFPlayersWhereOnline(true)) {
+            for (FPlayer other : myFaction.getWhereOnline(true)) {
                 if (other != me && other.isMonitoringJoins()) {
                     other.msg(Lang.FACTION_LOGIN, me.getName());
                 }

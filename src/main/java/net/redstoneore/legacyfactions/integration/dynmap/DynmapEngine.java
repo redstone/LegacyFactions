@@ -630,7 +630,7 @@ public class DynmapEngine extends IntegrationEngine {
         String playersCount = String.valueOf(playersList.size());
         String players = getHtmlPlayerString(playersList);
 
-        FPlayer playersLeaderObject = faction.getFPlayerAdmin();
+        FPlayer playersLeaderObject = faction.getOwner();
         String playersLeader = getHtmlPlayerName(playersLeaderObject);
 
         ArrayList<FPlayer> playersAdminsList = faction.getFPlayersWhereRole(Role.ADMIN);

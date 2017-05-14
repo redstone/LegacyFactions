@@ -331,7 +331,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
             s = s.replace("{maxPower}", String.valueOf(faction.getPowerMaxRounded()));
         }
         if (s.contains("{leader}")) {
-            FPlayer fLeader = faction.getFPlayerAdmin();
+            FPlayer fLeader = faction.getOwner();
             String leader = fLeader == null ? "Server" : fLeader.getName().substring(0, fLeader.getName().length() > 14 ? 13 : fLeader.getName().length());
             s = s.replace("{leader}", leader);
         }

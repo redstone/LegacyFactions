@@ -11,7 +11,9 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.util.AsciiCompass;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -230,12 +232,16 @@ public abstract class MemoryBoard extends Board {
     }
 
     public int getFactionCoordCountInWorld(Faction faction, String worldName) {
+    	return getFactionCoordCountInWorld(faction, Bukkit.getWorld(worldName));
+    }
+    
+    public int getFactionCoordCountInWorld(Faction faction, World world) {
         String factionId = faction.getId();
         int ret = 0;
         Iterator<Entry<FLocation, String>> iter = flocationIds.entrySet().iterator();
         while (iter.hasNext()) {
             Entry<FLocation, String> entry = iter.next();
-            if (entry.getValue().equals(factionId) && entry.getKey().getWorldName().equals(worldName)) {
+            if (entry.getValue().equals(factionId) && entry.getKey().getWorld().getUID() == world.getUID()) {
                 ret += 1;
             }
         }

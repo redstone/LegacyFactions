@@ -82,7 +82,7 @@ public class FactionsPlaceholders {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
-				return FPlayerColl.get(player).getFaction().getFPlayerAdmin().getName();
+				return FPlayerColl.get(player).getFaction().getOwner().getName();
 			}
 		});
 		

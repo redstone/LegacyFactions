@@ -150,8 +150,8 @@ public class CmdFactionsTop extends FCommand {
             Collections.sort(factionList, new Comparator<Faction>() {
                 @Override
                 public int compare(Faction f1, Faction f2) {
-                    int f1Size = f1.getFPlayersWhereOnline(true).size();
-                    int f2Size = f2.getFPlayersWhereOnline(true).size();
+                    int f1Size = f1.getWhereOnline(true).size();
+                    int f2Size = f2.getWhereOnline(true).size();
                     if (f1Size < f2Size) {
                         return 1;
                     } else if (f1Size > f2Size) {
@@ -217,7 +217,7 @@ public class CmdFactionsTop extends FCommand {
 
     private String getValue(Faction faction, String criteria) {
         if (criteria.equalsIgnoreCase("online")) {
-            return String.valueOf(faction.getFPlayersWhereOnline(true).size());
+            return String.valueOf(faction.getWhereOnline(true).size());
         } else if (criteria.equalsIgnoreCase("start")) {
             return Lang.sdf.format(faction.getFoundedDate());
         } else if (criteria.equalsIgnoreCase("members")) {

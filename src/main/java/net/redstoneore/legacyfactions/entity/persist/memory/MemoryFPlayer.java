@@ -100,7 +100,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         	this.getFaction().memberLoggedOff();
             
         	// Notify members if required
-            this.getFaction().getFPlayersWhereOnline(true)
+            this.getFaction().getWhereOnline(true)
             	.stream()
             	.forEach(fplayer -> {
             		if (fplayer == this || !fplayer.isMonitoringJoins()) return;
@@ -701,7 +701,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         }
 
         if (myFaction.isNormal()) {
-            for (FPlayer fplayer : myFaction.getFPlayersWhereOnline(true)) {
+            for (FPlayer fplayer : myFaction.getWhereOnline(true)) {
                 fplayer.msg(Lang.LEAVE_LEFT, this.describeTo(fplayer, true), myFaction.describeTo(fplayer));
             }
 
@@ -817,7 +817,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         } 
 
         // Check if must be connected
-        if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.get().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
+        if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorld()) > 0 && !Board.get().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
             if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
             	this.msg(notifyFailure, Lang.CLAIM_CONTIGIOUS);
             } else {
@@ -905,7 +905,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         if (mustPay) {
             cost = VaultEngine.calculateClaimCost(ownedLand, currentFaction.isNormal());
 
-            if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(flocation.getWorldName()) > 0 && !Board.get().isConnectedLocation(flocation, forFaction)) {
+            if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(flocation.getWorld()) > 0 && !Board.get().isConnectedLocation(flocation, forFaction)) {
                 cost += Conf.econClaimUnconnectedFee;
             }
 
@@ -948,7 +948,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         // announce success
         Set<FPlayer> informTheseFPlayers = new HashSet<FPlayer>();
         informTheseFPlayers.add(this);
-        informTheseFPlayers.addAll(forFaction.getFPlayersWhereOnline(true));
+        informTheseFPlayers.addAll(forFaction.getWhereOnline(true));
         for (FPlayer fp : informTheseFPlayers) {
             fp.msg(Lang.CLAIM_CLAIMED, this.describeTo(fp, true), forFaction.describeTo(fp), currentFaction.describeTo(fp));
         }

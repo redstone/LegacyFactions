@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.*;
@@ -22,6 +23,7 @@ import net.redstoneore.legacyfactions.warp.FactionWarps;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public abstract class MemoryFaction implements Faction, EconomyParticipator {
     protected String id = null;
@@ -536,7 +538,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     }
 
     public int getLandRoundedInWorld(String worldName) {
-        return Board.get().getFactionCoordCountInWorld(this, worldName);
+        return this.getLandRoundedInWorld(Bukkit.getWorld(worldName));
+    }
+
+    public int getLandRoundedInWorld(World world) {
+        return Board.get().getFactionCoordCountInWorld(this, world);
     }
 
     public boolean hasLandInflation() {
@@ -578,25 +584,26 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     public Set<FPlayer> getFPlayers() {
         // return a shallow copy of the FPlayer list, to prevent tampering and
         // concurrency issues
-        return new HashSet<FPlayer>(fplayers);
+        return new HashSet<>(fplayers);
     }
 
     public Set<FPlayer> getFPlayersWhereOnline(boolean online) {
-        Set<FPlayer> ret = new HashSet<FPlayer>();
-        if (!this.isNormal()) {
-            return ret;
-        }
+    	return this.getWhereOnline(online);
+    }
+    
+    public Set<FPlayer> getWhereOnline(boolean online) {
+        if (!this.isNormal()) return new HashSet<>();
 
-        for (FPlayer fplayer : this.getFPlayers()) {
-            if (fplayer.isOnline() == online) {
-                ret.add(fplayer);
-            }
-        }
-
-        return ret;
+        return this.getFPlayers().stream()
+        		.filter(fplayer -> fplayer.isOnline() != online)
+        		.collect(Collectors.toSet());
     }
 
     public FPlayer getFPlayerAdmin() {
+    	return this.getOwner();
+    }
+    
+    public FPlayer getOwner() {
         if (!this.isNormal()) {
             return null;
         }
@@ -608,62 +615,48 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         }
         return null;
     }
-
+    
     public ArrayList<FPlayer> getFPlayersWhereRole(Role role) {
-        ArrayList<FPlayer> ret = new ArrayList<FPlayer>();
-        if (!this.isNormal()) {
-            return ret;
-        }
+    	return this.getWhereRole(role);
+    }
+    
+    public ArrayList<FPlayer> getWhereRole(Role role) {
+        if (!this.isNormal()) return new ArrayList<>();
 
-        for (FPlayer fplayer : fplayers) {
-            if (fplayer.getRole() == role) {
-                ret.add(fplayer);
-            }
-        }
+        return this.getFPlayers().stream()
+        		.filter(fplayer -> fplayer.getRole() == role)
+        		.collect(Collectors.toCollection(ArrayList::new));
 
-        return ret;
     }
 
     public ArrayList<Player> getOnlinePlayers() {
-        ArrayList<Player> ret = new ArrayList<Player>();
-        if (this.isPlayerFreeType()) {
-            return ret;
-        }
+        if (this.isPlayerFreeType()) return new ArrayList<>();
 
-        for (Player player : Factions.get().getServer().getOnlinePlayers()) {
-            FPlayer fplayer = FPlayerColl.get(player);
-            if (fplayer.getFaction() == this) {
-                ret.add(player);
-            }
-        }
-
-        return ret;
+        return Factions.get().getServer().getOnlinePlayers().stream()
+        		.filter(player -> FPlayerColl.get(player).getFaction() == this)
+        		.collect(Collectors.toCollection(ArrayList::new));
     }
 
     // slightly faster check than getOnlinePlayers() if you just want to see if
     // there are any players online
     public boolean hasPlayersOnline() {
         // only real factions can have players online, not safe zone / war zone
-        if (this.isPlayerFreeType()) {
-            return false;
-        }
-
-        for (Player player : Factions.get().getServer().getOnlinePlayers()) {
-            FPlayer fplayer = FPlayerColl.get(player);
-            if (fplayer != null && fplayer.getFaction() == this) {
-                return true;
-            }
-        }
-
+        if (this.isPlayerFreeType()) return false;
+        
+        Optional<? extends Player> found = Factions.get().getServer().getOnlinePlayers().stream()
+        		.filter(player -> FPlayerColl.get(player) != null && FPlayerColl.get(player) == this)
+        		.findFirst();
+        
+        if (found.isPresent()) return true;
+        
         // even if all players are technically logged off, maybe someone was on
         // recently enough to not consider them officially offline yet
         return Conf.considerFactionsReallyOfflineAfterXMinutes > 0 && System.currentTimeMillis() < lastPlayerLoggedOffTime + (Conf.considerFactionsReallyOfflineAfterXMinutes * 60000);
     }
 
     public void memberLoggedOff() {
-        if (this.isNormal()) {
-            lastPlayerLoggedOffTime = System.currentTimeMillis();
-        }
+        if (!this.isNormal()) return;
+        lastPlayerLoggedOffTime = System.currentTimeMillis();
     }
 
     // used when current leader is about to be removed from the faction;

@@ -171,7 +171,7 @@ public class TagUtil {
             case ONLINE_LIST:
                 FancyMessage currentOnline = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstOnline = true;
-                for (FPlayer p : MiscUtil.rankOrder(target.getFPlayersWhereOnline(true))) {
+                for (FPlayer p : MiscUtil.rankOrder(target.getWhereOnline(true))) {
                     String name = p.getNameAndTitle();
                     currentOnline.then(firstOnline ? name : ", " + name);
                     currentOnline.tooltip(tipPlayer(p)).color(fme.getColorTo(p));

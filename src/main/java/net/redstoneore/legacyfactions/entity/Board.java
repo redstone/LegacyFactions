@@ -3,6 +3,8 @@ package net.redstoneore.legacyfactions.entity;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.bukkit.World;
+
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
 
@@ -67,7 +69,16 @@ public abstract class Board {
 
     public abstract int getFactionCoordCount(Faction faction);
 
+    /**
+     * Deprecated, use {@link #getFactionCoordCountInWorld(Faction, World)}
+     * @param faction
+     * @param worldName
+     * @return
+     */
+    @Deprecated
     public abstract int getFactionCoordCountInWorld(Faction faction, String worldName);
+    
+    public abstract int getFactionCoordCountInWorld(Faction faction, World world);
 
     //----------------------------------------------//
     // Map generation
@@ -84,4 +95,5 @@ public abstract class Board {
     public abstract void forceSave(boolean sync);
 
     public abstract boolean load();
+    
 }
