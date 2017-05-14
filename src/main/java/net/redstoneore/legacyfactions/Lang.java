@@ -16,13 +16,16 @@
  */
 package net.redstoneore.legacyfactions;
 
+import org.apache.commons.io.Charsets;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -878,9 +881,14 @@ public enum Lang {
                         out.write(bytes, 0, read);
                     }
                     
-                    @SuppressWarnings("deprecation")
-					YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defLangStream);
-                    Lang.setFile(defConfig);
+					YamlConfiguration defaultConfig = new YamlConfiguration();
+                    try {
+                    	defaultConfig.load(new InputStreamReader(defLangStream, Charsets.UTF_8));
+					} catch (InvalidConfigurationException e) {
+						e.printStackTrace();
+					}
+                    
+                    Lang.setFile(defaultConfig);
                 }
             } catch (IOException e) {
                 e.printStackTrace(); // So they notice
