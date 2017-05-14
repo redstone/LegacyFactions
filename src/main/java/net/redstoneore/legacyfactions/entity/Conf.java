@@ -617,11 +617,18 @@ public class Conf {
     // VAULTS
     // -------------------------------------------------- //
 
-    // faction-<factionId>
     public static String vaultPrefix = "faction-%s";
     public static int defaultMaxVaults = 0;
 
+    // -------------------------------------------------- //
+    // BACKEND
+    // -------------------------------------------------- //
+
     public static Backend backEnd = Backend.JSON;
+        
+    // -------------------------------------------------- //
+    // MAP
+    // -------------------------------------------------- //
 
     public static transient int mapHeight = 8;
     public static transient int mapWidth = 39;
