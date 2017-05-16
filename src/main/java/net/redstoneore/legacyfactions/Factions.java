@@ -38,6 +38,7 @@ import net.redstoneore.legacyfactions.integration.essentials.EssentialsIntegrati
 import net.redstoneore.legacyfactions.integration.metrics.MetricsIntegration;
 import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
 import net.redstoneore.legacyfactions.integration.vault.VaultIntegration;
+import net.redstoneore.legacyfactions.integration.venturechat.VentureChatIntegration;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import net.redstoneore.legacyfactions.listeners.*;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
@@ -135,6 +136,7 @@ public class Factions extends FactionsPluginBase {
 		Integrations.add(PlayerVaultsIntegration.get());
 		Integrations.add(MetricsIntegration.get());
 		Integrations.add(BStatsIntegration.get());
+		Integrations.add(VentureChatIntegration.get());
 		
 		// Add our placeholders.
 		FactionsPlaceholders.get().adaptAll();

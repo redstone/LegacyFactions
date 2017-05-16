@@ -150,6 +150,9 @@ public class Conf {
     public static String allianceChatFormat = ChatColor.LIGHT_PURPLE + "%s:" + ChatColor.WHITE + " %s";
     public static String truceChatFormat = ChatColor.DARK_PURPLE + "%s:" + ChatColor.WHITE + " %s";
 
+    // default public channel for chat plugins
+    public static String chatModePublicChannel = "Global";
+    
     public static boolean broadcastDescriptionChanges = false;
     public static boolean broadcastTagChanges = false;
 

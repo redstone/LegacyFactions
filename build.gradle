@@ -50,6 +50,7 @@ dependencies {
     compileOnly group: "org.dynmap", name: "dynmap", version:"2.0";
 
 	compileOnly files("lib/PlayerVaults.jar")
+	compileOnly files("lib/VentureChat.jar")
 }
 
 processResources {

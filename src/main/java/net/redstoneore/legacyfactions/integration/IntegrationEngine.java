@@ -1,5 +1,7 @@
 package net.redstoneore.legacyfactions.integration;
 
-public abstract class IntegrationEngine {
+import org.bukkit.event.Listener;
+
+public abstract class IntegrationEngine implements Listener {
 
 }
