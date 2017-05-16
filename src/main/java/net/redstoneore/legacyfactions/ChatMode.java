@@ -1,40 +1,70 @@
 package net.redstoneore.legacyfactions;
 
 public enum ChatMode {
-    FACTION(3, Lang.CHAT_FACTION),
-    ALLIANCE(2, Lang.CHAT_ALLIANCE),
-    TRUCE(1, Lang.CHAT_TRUCE),
-    PUBLIC(0, Lang.CHAT_PUBLIC),
-    ;
+	
+	// -------------------------------------------------- //
+	// ENUM
+	// -------------------------------------------------- // 
+	
+	FACTION(3, Lang.CHAT_FACTION),
+	ALLIANCE(2, Lang.CHAT_ALLIANCE),
+	TRUCE(1, Lang.CHAT_TRUCE),
+	PUBLIC(0, Lang.CHAT_PUBLIC),
+	;
 
-    public final int value;
-    public final Lang nicename;
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- // 
 
-    private ChatMode(final int value, final Lang nicename) {
-        this.value = value;
-        this.nicename = nicename;
-    }
+	private ChatMode(final int value, final Lang niceName) {
+		this.value = value;
+		this.niceName = niceName;
+	}
+	
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- // 
 
-    public boolean isAtLeast(ChatMode role) {
-        return this.value >= role.value;
-    }
+	public final int value;
+	public final Lang niceName;
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- // 
 
-    public boolean isAtMost(ChatMode role) {
-        return this.value <= role.value;
-    }
+	public boolean isAtLeast(ChatMode role) {
+		return this.value >= role.value;
+	}
 
-    @Override
-    public String toString() {
-        return this.nicename.toString();
-    }
+	public boolean isAtMost(ChatMode role) {
+		return this.value <= role.value;
+	}
+	
+	public boolean is(ChatMode role) {
+		return role == this;
+	}
 
-    public ChatMode getNext() {
-        if (this == PUBLIC) {
-            return ALLIANCE;
-        }
-        if (this == ALLIANCE) {
-            return FACTION;
-        }
-        return PUBLIC;
-    }
+	/**
+	 * Get the nice name of this chat mode, as per configuration
+	 * @return String of the nice name
+	 */
+	public String getNiceName() {
+		return this.niceName.toString();
+	}
+
+	/**
+	 * Get the next chat mode
+	 * @return ChatMode that is next
+	 */
+	public ChatMode getNext() {
+		switch (this) {
+			case PUBLIC:
+				return ALLIANCE;
+			case ALLIANCE:
+				return FACTION;
+			default:
+				return PUBLIC;
+		}
+	}
+	
 }
