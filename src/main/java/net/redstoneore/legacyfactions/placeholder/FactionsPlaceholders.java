@@ -19,8 +19,11 @@ public class FactionsPlaceholders {
 	// INSTANCE
 	// -------------------------------------------------- //
 	
-	private static FactionsPlaceholders i = new FactionsPlaceholders();
-	public static FactionsPlaceholders get() { return i; }
+	private static FactionsPlaceholders i = null;
+	public static FactionsPlaceholders get() { 
+		if (i == null) i = new FactionsPlaceholders();
+		return i;
+	}
 	
 	// -------------------------------------------------- //
 	// CONSTRUCT
@@ -227,10 +230,10 @@ public class FactionsPlaceholders {
 	}
 	
 	public void adaptAll() {
-		this.adapters.forEach(adapter -> this.adaptAllTo(adapter));
+		this.adapters.forEach(adapter -> this.adapt(adapter));
 	}
 	
-	public void adaptAllTo(FactionsPlaceholderAdapter adapter) {
+	public void adapt(FactionsPlaceholderAdapter adapter) {
 		if (adapter instanceof FactionsPlaceholderSingleSetup) {
 			((FactionsPlaceholderSingleSetup) adapter).setup();
 			return;
