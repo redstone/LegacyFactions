@@ -61,14 +61,14 @@ public enum Relation {
 	 * @return relation
 	 */
 	public static Relation fromString(String str) {
-		switch (str) {
+		switch (str.toLowerCase()) {
 		case "member":
 			return MEMBER;
 		case "ally":
 			return ALLY;
 		case "truce":
 			return TRUCE;
-		case "ENEMY":
+		case "enemy":
 			return ENEMY;
 		default:
 			return NEUTRAL;
