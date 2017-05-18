@@ -135,6 +135,10 @@ public class Conf {
 
     // Configuration for faction-only chat
     public static boolean factionOnlyChat = true;
+    
+    // If a chat manager plugin supports it, should be route the faction chat command to the channel?
+    public static boolean factionChatChannelRoute = false;
+    
     // Configuration on the Faction tag in chat messages.
     public static boolean chatTagEnabled = true;
     public static transient boolean chatTagHandledByAnotherPlugin = false;
