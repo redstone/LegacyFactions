@@ -139,6 +139,7 @@ public class Factions extends FactionsPluginBase {
 		Integrations.add(VentureChatIntegration.get());
 		
 		// Add our placeholders.
+		FactionsPlaceholders.get().init();
 		FactionsPlaceholders.get().adaptAll();
 		
 		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
