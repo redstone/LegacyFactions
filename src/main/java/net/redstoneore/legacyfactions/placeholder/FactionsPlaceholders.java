@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -31,11 +32,18 @@ public class FactionsPlaceholders {
 	
 	public FactionsPlaceholders() {
 		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+			Factions.get().log("Adapting Placeholders to MVdWPlaceholderAPI");
 			this.add(AdapterMVdWPlaceholderAPI.get());
 		}
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			Factions.get().log("Adapting Placeholders to PlaceholderAPI");
 			this.add(AdapterPlaceholderAPI.get());
+		}
+		
+		if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+			Factions.get().log("Adapting Placeholders to HolographicDisplays");
+			this.add(AdapterHolographicDisplays.get());
 		}
 	}
 	
@@ -57,7 +65,7 @@ public class FactionsPlaceholders {
 	public void init() {
 		// FACTION OF PLAYER PLACEHOLDERS
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_id") {
+		this.placeholders.add(new FactionsPlaceholder("faction_id") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -65,7 +73,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_name") {
+		this.placeholders.add(new FactionsPlaceholder("faction_name") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -73,7 +81,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_description") {
+		this.placeholders.add(new FactionsPlaceholder("faction_description") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -81,7 +89,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_admin") {
+		this.placeholders.add(new FactionsPlaceholder("faction_admin") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -89,7 +97,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_power") {
+		this.placeholders.add(new FactionsPlaceholder("faction_power") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -97,7 +105,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_powermax") {
+		this.placeholders.add(new FactionsPlaceholder("faction_powermax") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -105,7 +113,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_powerboost") {
+		this.placeholders.add(new FactionsPlaceholder("faction_powerboost") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -113,7 +121,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_claims") {
+		this.placeholders.add(new FactionsPlaceholder("faction_claims") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -121,7 +129,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_faction_founded") {
+		this.placeholders.add(new FactionsPlaceholder("faction_founded") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -131,7 +139,7 @@ public class FactionsPlaceholders {
 		
 		// PLAYER SPECIFIC PLACEHOLDERS
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_player_role") {
+		this.placeholders.add(new FactionsPlaceholder("player_role") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -139,7 +147,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_player_kills") {
+		this.placeholders.add(new FactionsPlaceholder("player_kills") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -147,7 +155,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_player_deaths") {
+		this.placeholders.add(new FactionsPlaceholder("player_deaths") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -155,7 +163,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_player_title") {
+		this.placeholders.add(new FactionsPlaceholder("player_title") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
@@ -165,7 +173,7 @@ public class FactionsPlaceholders {
 		
 		// LOCATION SPECIFIC PLACEHOLDERS
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_location_relation") {
+		this.placeholders.add(new FactionsPlaceholder("location_relation") {
 			@Override
 			public String get(Player player) {
 				FPlayer fplayer = FPlayerColl.get(player);
@@ -175,7 +183,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_location_faction_name") {
+		this.placeholders.add(new FactionsPlaceholder("location_faction_name") {
 			@Override
 			public String get(Player player) {
 				FPlayer fplayer = FPlayerColl.get(player);
@@ -185,7 +193,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_location_faction_description") {
+		this.placeholders.add(new FactionsPlaceholder("location_faction_description") {
 			@Override
 			public String get(Player player) {
 				FPlayer fplayer = FPlayerColl.get(player);
@@ -195,7 +203,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_location_faction_founded") {
+		this.placeholders.add(new FactionsPlaceholder("location_faction_founded") {
 			@Override
 			public String get(Player player) {
 				FPlayer fplayer = FPlayerColl.get(player);
@@ -207,21 +215,21 @@ public class FactionsPlaceholders {
 		
 		// GLOBAL COUNTS
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_count_factions") {
+		this.placeholders.add(new FactionsPlaceholder("count_factions") {
 			@Override
 			public String get(Player player) {
 				return String.valueOf(FactionColl.all().size());
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_count_fplayers") {
+		this.placeholders.add(new FactionsPlaceholder("count_fplayers") {
 			@Override
 			public String get(Player player) {
 				return String.valueOf(FPlayerColl.all().size());
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("factions_count_claims") {
+		this.placeholders.add(new FactionsPlaceholder("count_claims") {
 			@Override
 			public String get(Player player) {
 				return String.valueOf(Board.get().getAllClaims().size());

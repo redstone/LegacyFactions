@@ -22,11 +22,11 @@ public class AdapterPlaceholderAPI extends FactionsPlaceholderAdapter implements
 	// FIELDS
 	// -------------------------------------------------- //
 	
-	private EZPlaceholderHook placeholderHook = new EZPlaceholderHook(Factions.get(), "LegacyFactions") {
+	private EZPlaceholderHook placeholderHook = new EZPlaceholderHook(Factions.get(), "factions") {
 		@Override
 		public String onPlaceholderRequest(Player player, String identifier) {
 			for (FactionsPlaceholder placeholder : FactionsPlaceholders.get().getPlaceholders()) {
-				if (placeholder.placeholder() != identifier) continue;
+				if (!placeholder.placeholder().equalsIgnoreCase("factions_" + identifier)) continue;
 				return placeholder.get(player);
 			}
 			

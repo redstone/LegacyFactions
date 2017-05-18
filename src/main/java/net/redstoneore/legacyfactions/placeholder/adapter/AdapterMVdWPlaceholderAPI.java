@@ -22,7 +22,7 @@ public class AdapterMVdWPlaceholderAPI extends FactionsPlaceholderAdapter {
 	
 	@Override
 	protected void adapt(final FactionsPlaceholder placeholder) {
-		PlaceholderAPI.registerPlaceholder(Factions.get(), placeholder.placeholder(), new PlaceholderReplacer() {
+		PlaceholderAPI.registerPlaceholder(Factions.get(), "factions_" + placeholder.placeholder(), new PlaceholderReplacer() {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
 				return placeholder.get(event.getPlayer());
