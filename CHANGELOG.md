@@ -1,3 +1,10 @@
+# 1.2.1
+* API: New API Event: EventFactionsChatModeChange
+* API: ChatMode, FLocation and Relation improvements
+* Bugfix: Placeholders sometimes didn't work
+* Improvement: Placeholders now support HolographicDisplays
+* Improvement: chat command can be routed to VentureChat with new conf option factionChatChannelRoute
+
 # 1.2.0
 * Feature: Command aliases now configurable in conf.json
 * Bugfix: Error message now shows with relation command if we can't find the faction. It used to do nothing.
