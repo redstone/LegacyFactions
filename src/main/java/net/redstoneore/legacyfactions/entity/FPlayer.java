@@ -76,7 +76,20 @@ public interface FPlayer extends EconomyParticipator {
 
     public boolean isAdminBypassing();
 
+    /**
+     * Deprecated! Use {@link #isVanished(FPlayer)}<br>
+     * To be removed after 09/2017
+     * @return
+     */
+    @Deprecated
     public boolean isVanished();
+    
+    /**
+     * Is vanished to a player
+     * @param FPlayer viewing
+     * @return true if appears vanished
+     */
+    public boolean isVanished(FPlayer viewer);
 
     public void setIsAdminBypassing(boolean val);
 

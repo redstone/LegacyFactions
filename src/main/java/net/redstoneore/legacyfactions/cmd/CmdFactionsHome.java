@@ -105,8 +105,8 @@ public class CmdFactionsHome extends FCommand {
 					continue;
 				}
 
-				FPlayer fp = FPlayerColl.get(p);
-				if (fme.getRelationTo(fp) != Relation.ENEMY || fp.isVanished()) {
+				FPlayer target = FPlayerColl.get(p);
+				if (this.fme.getRelationTo(target) != Relation.ENEMY || target.isVanished(this.fme)) {
 					continue;
 				}
 

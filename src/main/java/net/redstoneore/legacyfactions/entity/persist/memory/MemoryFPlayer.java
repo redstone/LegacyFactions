@@ -222,11 +222,16 @@ public abstract class MemoryFPlayer implements FPlayer {
     public boolean isAdminBypassing() {
         return this.isAdminBypassing;
     }
-
+    
+    @Deprecated
     public boolean isVanished() {
         return EssentialsEngine.isVanished(getPlayer());
     }
-
+    
+    public boolean isVanished(FPlayer viewer) {
+    	return EssentialsEngine.isVanished(this.getPlayer()) || viewer.getPlayer().canSee(this.getPlayer());
+    }
+    
     public void setIsAdminBypassing(boolean val) {
         this.isAdminBypassing = val;
     }
