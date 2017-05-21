@@ -1,12 +1,10 @@
 package net.redstoneore.legacyfactions.placeholder.adapter;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import de.thejeterlp.chatex.api.ChatExEvent;
-import me.clip.placeholderapi.external.EZPlaceholderHook;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderAdapter;
