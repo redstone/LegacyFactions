@@ -18,7 +18,18 @@ import java.util.Comparator;
 
 public class CmdFactionsTop extends FCommand {
 
-    public CmdFactionsTop() {
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsTop i = new CmdFactionsTop();
+	public static CmdFactionsTop get() { return i; }
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+	
+    private CmdFactionsTop() {
         this.aliases.addAll(Conf.cmdAliasesTop);
         
         this.optionalArgs.put("criteria", "criteria");
@@ -32,6 +43,10 @@ public class CmdFactionsTop extends FCommand {
         senderMustBeModerator = false;
         senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

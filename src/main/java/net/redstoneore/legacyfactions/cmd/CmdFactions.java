@@ -79,8 +79,7 @@ public class CmdFactions extends FCommand {
     public CmdFactionsModifyPower cmdModifyPower = new CmdFactionsModifyPower();
     public CmdFactionsLogins cmdLogins = new CmdFactionsLogins();
     public CmdFactionsClaimLine cmdClaimLine = new CmdFactionsClaimLine();
-    public CmdFactionsTop cmdTop = new CmdFactionsTop();
-
+    
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- // 
@@ -163,7 +162,7 @@ public class CmdFactions extends FCommand {
         this.addSubCommand(this.cmdModifyPower);
         this.addSubCommand(this.cmdLogins);
         this.addSubCommand(this.cmdClaimLine);
-        this.addSubCommand(this.cmdTop);
+        this.addSubCommand(CmdFactionsTop.get());
     }
     
 	// -------------------------------------------------- //
