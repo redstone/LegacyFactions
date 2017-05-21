@@ -50,6 +50,12 @@ public class FactionsPlaceholders {
 			Factions.get().log("Adapting Placeholders to ChatEx");
 			this.add(AdapterChatEx.get());
 		}
+		
+		if (Bukkit.getPluginManager().isPluginEnabled("HeroChat")) {
+			Factions.get().log("Adapting Placeholders to HeroChat");
+			this.add(AdapterHeroChat.get());
+		}
+		
 	}
 	
 	// -------------------------------------------------- //

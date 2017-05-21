@@ -53,6 +53,7 @@ dependencies {
 	compileOnly files("lib/VentureChat.jar")
 	compileOnly files("lib/HolographicDisplays.jar")
 	compileOnly files("lib/ChatEx.jar")
+	compileOnly files("lib/HeroChat.jar")
 }
 
 processResources {
