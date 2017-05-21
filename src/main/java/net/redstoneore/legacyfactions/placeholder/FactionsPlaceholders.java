@@ -176,6 +176,7 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholder("location_relation") {
 			@Override
 			public String get(Player player) {
+				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
 				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
 				
@@ -186,6 +187,7 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholder("location_faction_name") {
 			@Override
 			public String get(Player player) {
+				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
 				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
 				
@@ -196,6 +198,7 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholder("location_faction_description") {
 			@Override
 			public String get(Player player) {
+				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
 				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
 				
@@ -206,6 +209,7 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholder("location_faction_founded") {
 			@Override
 			public String get(Player player) {
+				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
 				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
 				
