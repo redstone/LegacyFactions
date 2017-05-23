@@ -143,14 +143,16 @@ public class Factions extends FactionsPluginBase {
 		this.getBaseCommands().add(CmdFactions.get());
 
 		// Add our integrations.
-		Integrations.add(VaultIntegration.get());
-		Integrations.add(WorldGuardIntegration.get());
-		Integrations.add(DynmapIntegration.get());
-		Integrations.add(EssentialsIntegration.get());
-		Integrations.add(PlayerVaultsIntegration.get());
-		Integrations.add(MetricsIntegration.get());
-		Integrations.add(BStatsIntegration.get());
-		Integrations.add(VentureChatIntegration.get());
+		Integrations.add(
+			VaultIntegration.get(),
+			WorldGuardIntegration.get(),
+			DynmapIntegration.get(),
+			EssentialsIntegration.get(),
+			PlayerVaultsIntegration.get(),
+			MetricsIntegration.get(),
+			BStatsIntegration.get(),
+			VentureChatIntegration.get()
+		);
 		
 		// Add our placeholders.
 		FactionsPlaceholders.get().init();
