@@ -56,6 +56,12 @@ public class FactionsPlaceholders {
 			this.add(AdapterHeroChat.get());
 		}
 		
+		if (Bukkit.getPluginManager().isPluginEnabled("Legendchat")) {
+			Factions.get().log("Adapting Placeholders to Legendchat");
+			this.add(AdapterLegendchat.get());
+		}
+		
+		
 	}
 	
 	// -------------------------------------------------- //
