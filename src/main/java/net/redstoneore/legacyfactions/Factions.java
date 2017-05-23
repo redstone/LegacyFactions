@@ -19,6 +19,7 @@
  */
 package net.redstoneore.legacyfactions;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -31,6 +32,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.persist.SaveTask;
 import net.redstoneore.legacyfactions.integration.Integrations;
 import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
@@ -45,6 +47,7 @@ import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.AutoLeaveTask;
 import net.redstoneore.legacyfactions.util.*;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -77,23 +80,21 @@ public class Factions extends FactionsPluginBase {
 	private Integer taskAutoLeave = null;
 	
 	private boolean locked = false;
-		
+	
+	private long timeEnableStart;
+
+	private Integer saveTask = null;
+
+    public final Gson gson = this.getGsonBuilder().create();
+    
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
-
-	/**
-	 * is saving locked
-	 * @return true if locked
-	 */
+    
 	public boolean isLocked() {
 		return this.locked;
 	}
 	
-	/**
-	 * set lock state
-	 * @param val 
-	 */
 	public void setLocked(boolean locked) {
 		this.locked = locked;
 		this.setAutoSave(locked);
@@ -101,9 +102,19 @@ public class Factions extends FactionsPluginBase {
 	
 	@Override
 	public void onEnable() {
-		if (!preEnable()) return;
-		
 		this.loadSuccessful = false;
+		
+		// Ensure plugin folder exists
+		this.getDataFolder().mkdirs();
+		
+		this.log("<white>=== ENABLE START ===");
+		
+		this.timeEnableStart = System.currentTimeMillis();
+		
+		// Create and register player command listener
+		this.getServer().getPluginManager().registerEvents(FactionsCommandsListener.get(), this);
+				
+		Lang.reload();
 		
 		// Load Conf from disk
 		Conf.load();
@@ -115,7 +126,7 @@ public class Factions extends FactionsPluginBase {
 		FPlayerColl.all(fplayer -> {
 			Faction faction = fplayer.getFaction();
 			if (faction == null) {
-				log("Invalid faction id on " + fplayer.getName() + ":" + fplayer.getFactionId());
+				this.log("Invalid faction id on " + fplayer.getName() + ":" + fplayer.getFactionId());
 				fplayer.resetFactionData(false);
 				return;
 			}
@@ -124,6 +135,9 @@ public class Factions extends FactionsPluginBase {
 		
 		Board.get().load();
 		Board.get().clean();
+
+		// Start tasks.
+		this.startTasks();
 
 		// Add base commands.
 		this.getBaseCommands().add(CmdFactions.get());
@@ -142,9 +156,6 @@ public class Factions extends FactionsPluginBase {
 		FactionsPlaceholders.get().init();
 		FactionsPlaceholders.get().adaptAll();
 		
-		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
-		this.startAutoLeaveTask(false);
-
 		// Register Event Handlers
 		this.register(
 			FactionsPlayerListener.get(),
@@ -157,13 +168,13 @@ public class Factions extends FactionsPluginBase {
 		// since some other plugins execute commands directly through this command interface, provide it
 		Conf.baseCommandAliases.forEach(ref -> this.getCommand(ref).setExecutor(this));
 
-		postEnable();
+		this.log("<white>=== ENABLE DONE (Took " + (System.currentTimeMillis() - this.timeEnableStart) + "ms) ===");
+		
 		this.loadSuccessful = true;
 		
 		FactionColl.all();
 	}
 	
-	@Override
 	public GsonBuilder getGsonBuilder() {
 		if (this.gsonBuilder == null) {
 			Type mapFLocToStringSetType = new TypeToken<Map<FLocation, Set<String>>>() { }.getType();
@@ -181,26 +192,25 @@ public class Factions extends FactionsPluginBase {
 		// only save data if plugin actually completely loaded successfully
 		if (this.loadSuccessful) {
 			Conf.save();
+			FactionColl.get().forceSave();
+			FPlayerColl.save();
+			Board.get().forceSave();
 		}
-		if (taskAutoLeave != null) {
-			this.getServer().getScheduler().cancelTask(taskAutoLeave);
-			taskAutoLeave = null;
-		}
-
-		super.onDisable();
+		
+		this.stopTasks();
+		
+		this.log("Disabled");
 	}
 
 	public void startAutoLeaveTask(boolean restartIfRunning) {
 		if (taskAutoLeave != null) {
-			if (!restartIfRunning) {
-				return;
-			}
-			this.getServer().getScheduler().cancelTask(taskAutoLeave);
+			if (!restartIfRunning) return;
+			this.getServer().getScheduler().cancelTask(this.taskAutoLeave);
 		}
 
 		if (Conf.autoLeaveRoutineRunsEveryXMinutes > 0.0) {
 			long ticks = (long) (20 * 60 * Conf.autoLeaveRoutineRunsEveryXMinutes);
-			taskAutoLeave = getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoLeaveTask(), ticks, ticks);
+			this.taskAutoLeave = getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoLeaveTask(), ticks, ticks);
 		}
 	}
 
@@ -243,12 +253,11 @@ public class Factions extends FactionsPluginBase {
 	// Does player have Faction Chat enabled? If so, chat plugins should preferably not do channels,
 	// local chat, or anything else which targets individual recipients, so Faction Chat can be done
 	public boolean isPlayerFactionChatting(Player player) {
-		if (player == null) {
-			return false;
-		}
+		if (player == null) return false;
+		
 		FPlayer me = FPlayerColl.get(player);
 
-		return me != null && me.getChatMode().isAtLeast(ChatMode.ALLIANCE);
+		return me != null && me.getChatMode() != ChatMode.PUBLIC;
 	}
 
 	// Is this chat message actually a Factions command, and thus should be left alone by other plugins?
@@ -292,9 +301,37 @@ public class Factions extends FactionsPluginBase {
 		return tag;
 	}
 	
+	/**
+	 * Register recurring tasks
+	 */
+	private void startTasks() {
+		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
+		this.startAutoLeaveTask(false);
+		
+		if (this.saveTask == null && Conf.saveToFileEveryXMinutes > 0.0) {
+			long saveTicks = (long) (20 * 60 * Conf.saveToFileEveryXMinutes); // Approximately every 30 min by default
+			this.saveTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveTask(this), saveTicks, saveTicks);
+		}
+	}
+	
+	/**
+	 * Stop recurring tasks
+	 */
+	private void stopTasks() {
+		if (this.taskAutoLeave != null) {
+			this.getServer().getScheduler().cancelTask(this.taskAutoLeave);
+			this.taskAutoLeave = null;
+		}
+
+		if (this.saveTask != null) {
+			this.getServer().getScheduler().cancelTask(this.saveTask);
+			this.saveTask = null;
+		}
+	}
+	
 	public void debug(Level level, String s) {
 		if (Conf.debug) {
-			getLogger().log(level, s);
+			this.getLogger().log(level, s);
 		}
 	}
 	
