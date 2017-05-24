@@ -593,9 +593,9 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
     
     public Set<FPlayer> getWhereOnline(boolean online) {
         if (!this.isNormal()) return new HashSet<>();
-
+        
         return this.getFPlayers().stream()
-        		.filter(fplayer -> fplayer.isOnline() != online)
+        		.filter(fplayer -> fplayer.isOnline() == online)
         		.collect(Collectors.toSet());
     }
 
@@ -608,7 +608,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
             return null;
         }
 
-        for (FPlayer fplayer : fplayers) {
+        for (FPlayer fplayer : this.getFPlayers()) {
             if (fplayer.getRole() == Role.ADMIN) {
                 return fplayer;
             }
