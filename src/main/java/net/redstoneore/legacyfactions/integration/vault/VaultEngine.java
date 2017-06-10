@@ -184,7 +184,7 @@ public class VaultEngine extends IntegrationEngine {
         }
 
         // Is there enough money for the transaction to happen?
-        if (!econ.has(fromAcc, amount)) {
+        if (!econ.has(fromAcc.getName(), amount)) {
             // There was not enough money to pay
             if (invoker != null && notify) {
                 invoker.msg("<h>%s<b> can't afford to transfer <h>%s<b> to %s<b>.", from.describeTo(invoker, true), moneyString(amount), to.describeTo(invoker));
@@ -194,10 +194,10 @@ public class VaultEngine extends IntegrationEngine {
         }
 
         // Transfer money
-        EconomyResponse erw = econ.withdrawPlayer(fromAcc, amount);
+        EconomyResponse erw = econ.withdrawPlayer(fromAcc.getName(), amount);
 
         if (erw.transactionSuccess()) {
-            EconomyResponse erd = econ.depositPlayer(toAcc, amount);
+            EconomyResponse erd = econ.depositPlayer(toAcc.getName(), amount);
             if (erd.transactionSuccess()) {
                 if (notify) {
                     sendTransferInfo(invoker, from, to, amount);
@@ -205,7 +205,7 @@ public class VaultEngine extends IntegrationEngine {
                 return true;
             } else {
                 // transaction failed, refund account
-                econ.depositPlayer(fromAcc, amount);
+                econ.depositPlayer(fromAcc.getName(), amount);
             }
         }
 
@@ -268,7 +268,7 @@ public class VaultEngine extends IntegrationEngine {
         if (isUUID(ep.getAccountId())) {
             OfflinePlayer offline = Bukkit.getOfflinePlayer(UUID.fromString(ep.getAccountId()));
             if (offline.getName() != null) {
-                currentBalance = econ.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(ep.getAccountId())));
+                currentBalance = econ.getBalance(offline.getName());
             } else {
                 currentBalance = 0;
             }
@@ -316,7 +316,7 @@ public class VaultEngine extends IntegrationEngine {
         if (delta > 0) {
             // The player should gain money
             // The account might not have enough space
-            EconomyResponse er = econ.depositPlayer(acc, delta);
+            EconomyResponse er = econ.depositPlayer(acc.getName(), delta);
             if (er.transactionSuccess()) {
                 modifyUniverseMoney(-delta);
                 if (forDoingThis != null && !forDoingThis.isEmpty()) {
@@ -334,7 +334,7 @@ public class VaultEngine extends IntegrationEngine {
             // The player should loose money
             // The player might not have enough.
 
-            if (econ.has(acc, -delta) && econ.withdrawPlayer(acc, -delta).transactionSuccess()) {
+            if (econ.has(acc.getName(), -delta) && econ.withdrawPlayer(acc.getName(), -delta).transactionSuccess()) {
                 // There is enough money to pay
                 modifyUniverseMoney(-delta);
                 if (forDoingThis != null && !forDoingThis.isEmpty()) {
@@ -405,7 +405,7 @@ public class VaultEngine extends IntegrationEngine {
         if (offline.getName() == null) {
             return "0";
         }
-        return format.format(econ.getBalance(offline));
+        return format.format(econ.getBalance(offline.getName()));
     }
 
     public static String getFriendlyBalance(FPlayer player) {
