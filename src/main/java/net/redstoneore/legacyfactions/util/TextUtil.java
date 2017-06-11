@@ -15,7 +15,7 @@ public class TextUtil {
     public Map<String, String> tags;
 
     public TextUtil() {
-        this.tags = new HashMap<String, String>();
+        this.tags = new HashMap<>();
     }
 
     // -------------------------------------------- //

@@ -32,7 +32,7 @@ public class VaultIntegration  extends Integration {
 	}
 	
 	public String getPrimaryGroup(OfflinePlayer player) {
-		return VaultEngine.perms == null || !VaultEngine.perms.hasGroupSupport() ? " " : VaultEngine.perms.getPrimaryGroup(Bukkit.getWorlds().get(0).toString(), player);
+		return VaultEngine.perms == null || !VaultEngine.perms.hasGroupSupport() ? " " : VaultEngine.perms.getPrimaryGroup(Bukkit.getWorlds().get(0).toString(), player.getName());
 	}
 
 

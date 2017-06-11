@@ -15,7 +15,7 @@ public class CmdFactionsMod extends FCommand {
     public CmdFactionsMod() {
         this.aliases.addAll(Conf.cmdAliasesMod);
 
-        this.optionalArgs.put("player name", "name");
+        this.requiredArgs.add("player name");
         
         this.permission = Permission.MOD.node;
         this.disableOnLock = true;
