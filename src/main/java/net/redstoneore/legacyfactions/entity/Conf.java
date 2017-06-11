@@ -130,6 +130,9 @@ public class Conf {
     public static boolean showNeutralFactionsOnMap = true;
     public static boolean showEnemyFactionsOnMap = true;
 
+    // Allow color codes in faction description and title
+    public static boolean allowColorCodesInFaction = false;
+
     // Disallow joining/leaving/kicking while power is negative
     public static boolean canLeaveWithNegativePower = true;
 

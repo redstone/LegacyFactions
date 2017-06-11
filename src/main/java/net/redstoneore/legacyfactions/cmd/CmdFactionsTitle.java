@@ -6,6 +6,8 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
+import javax.xml.soap.Text;
+
 public class CmdFactionsTitle extends FCommand {
 
     public CmdFactionsTitle() {
@@ -42,6 +44,9 @@ public class CmdFactionsTitle extends FCommand {
             return;
         }
 
+        if(Conf.allowColorCodesInFaction) {
+            title = TextUtil.parseColor(title);
+        }
         you.setTitle(title);
 
         // Inform
