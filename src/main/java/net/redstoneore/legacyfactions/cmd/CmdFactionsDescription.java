@@ -41,7 +41,7 @@ public class CmdFactionsDescription extends FCommand {
 
         if (!Conf.broadcastDescriptionChanges) {
             fme.msg(Lang.COMMAND_DESCRIPTION_CHANGED, myFaction.describeTo(fme));
-            fme.sendMessage(TextUtil.parseColor(myFaction.getDescription()));
+            fme.sendMessage(myFaction.getDescription());
             return;
         }
 
