@@ -7,6 +7,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
+
 public class CmdFactionsDescription extends FCommand {
 
     public CmdFactionsDescription() {
@@ -31,9 +32,12 @@ public class CmdFactionsDescription extends FCommand {
             return;
         }
 
-        // since "&" color tags seem to work even through plain old FPlayer.sendMessage() for some reason, we need to break those up
-        // And replace all the % because it messes with string formatting and this is easy way around that.
-        myFaction.setDescription(TextUtil.implode(args, " ").replaceAll("%", "").replaceAll("(&([a-f0-9klmnor]))", "& $2"));
+        // Replace all the % because it messes with string formatting and this is easy way around that.
+        if(Conf.allowColorCodesInFaction) {
+            myFaction.setDescription(TextUtil.implode(args, " ").replaceAll("%", ""));
+        }else{
+            myFaction.setDescription(TextUtil.implode(args, " ").replaceAll("%", "").replaceAll("(&([a-f0-9klmnor]))", "& $2"));
+        }
 
         if (!Conf.broadcastDescriptionChanges) {
             fme.msg(Lang.COMMAND_DESCRIPTION_CHANGED, myFaction.describeTo(fme));

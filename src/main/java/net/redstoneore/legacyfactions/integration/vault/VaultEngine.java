@@ -194,11 +194,11 @@ public class VaultEngine extends IntegrationEngine {
         }
 
         // Transfer money
-        EconomyResponse erw = econ.withdrawPlayer(fromAcc.getName(), amount);
+        EconomyResponse economyResponseWithdraw = econ.withdrawPlayer(fromAcc.getName(), amount);
 
-        if (erw.transactionSuccess()) {
-            EconomyResponse erd = econ.depositPlayer(toAcc.getName(), amount);
-            if (erd.transactionSuccess()) {
+        if (economyResponseWithdraw.transactionSuccess()) {
+            EconomyResponse economyResponseDeposit = econ.depositPlayer(toAcc.getName(), amount);
+            if (economyResponseDeposit.transactionSuccess()) {
                 if (notify) {
                     sendTransferInfo(invoker, from, to, amount);
                 }

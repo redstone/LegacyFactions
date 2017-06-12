@@ -42,6 +42,9 @@ public class CmdFactionsTitle extends FCommand {
             return;
         }
 
+        if(Conf.allowColorCodesInFaction) {
+            title = TextUtil.parseColor(title);
+        }
         you.setTitle(title);
 
         // Inform
