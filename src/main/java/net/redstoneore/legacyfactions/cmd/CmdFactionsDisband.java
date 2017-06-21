@@ -1,18 +1,20 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import org.bukkit.Bukkit;
-
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
-import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
+import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
+import org.bukkit.Bukkit;
 
 public class CmdFactionsDisband extends FCommand {
 
@@ -60,7 +62,8 @@ public class CmdFactionsDisband extends FCommand {
             return;
         }
 
-        EventFactionsDisband disbandEvent = new EventFactionsDisband(me, faction.getId());
+        EventFactionsDisband disbandEvent = new EventFactionsDisband(me, faction.getId(), true,
+                EventFactionsDisband.DisbandReason.DISBAND_COMMAND);
         Bukkit.getServer().getPluginManager().callEvent(disbandEvent);
         if (disbandEvent.isCancelled()) {
             return;
@@ -75,11 +78,11 @@ public class CmdFactionsDisband extends FCommand {
         for (FPlayer fplayer : FPlayerColl.all(true)) {
             String who = senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer);
             if (fplayer.getFaction() == faction) {
-            	if (fplayer == fme) {
-            		fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURSYOU);
-            	} else {
-                    fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURS, who);            		
-            	}
+                if (fplayer == fme) {
+                    fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURSYOU);
+                } else {
+                    fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURS, who);
+                }
             } else {
                 fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_NOTYOURS, who, faction.getTag(fplayer));
             }
