@@ -1,5 +1,6 @@
 package net.redstoneore.legacyfactions.entity.persist.memory;
 
+import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
@@ -719,6 +720,10 @@ public abstract class MemoryFPlayer implements FPlayer {
         this.resetFactionData();
 
         if (myFaction.isNormal() && !perm && myFaction.getFPlayers().isEmpty()) {
+            EventFactionsDisband disbandEvent = new EventFactionsDisband(getPlayer(), myFaction.getId(), false,
+                    EventFactionsDisband.DisbandReason.LEAVE);
+            Bukkit.getPluginManager().callEvent(disbandEvent);
+
             // Remove this faction
             for (FPlayer fplayer : FPlayerColl.all()) {
                 fplayer.msg(Lang.LEAVE_DISBANDED, myFaction.describeTo(fplayer, true));
