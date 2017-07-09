@@ -702,6 +702,7 @@ public class Conf {
 		"<a>Land value: <i>{land-value} {land-refund}",
 		"<a>Balance: <i>{balance}",
 		"<a>Allies(<i>{allies}<a>/<i>{max-allies}<a>): {allies-list} ",
+        "<a>Truces(<i>{truces}<a>/<i>{max-truces}<a>): {truces-list} ",
 		"<a>Online: (<i>{online}<a>/<i>{members}<a>): {online-list}",
 		"<a>Offline: (<i>{offline}<a>/<i>{members}<a>): {offline-list}"
 	);
@@ -737,6 +738,7 @@ public class Conf {
     public static List<String> cmdAliasesChatspy = Lists.newArrayList("chatspy");
     public static List<String> cmdAliasesClaim = Lists.newArrayList("claim");
     public static List<String> cmdAliasesClaimLine = Lists.newArrayList("claimline", "cl");
+    public static List<String> cmdAliasesColeader = Lists.newArrayList("coleader", "setcoleader");
     public static List<String> cmdAliasesConfig = Lists.newArrayList("config");
     public static List<String> cmdAliasesConvert = Lists.newArrayList("convert");
     public static List<String> cmdAliasesCreate = Lists.newArrayList("create");

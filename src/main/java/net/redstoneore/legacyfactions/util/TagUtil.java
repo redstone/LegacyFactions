@@ -148,6 +148,26 @@ public class TagUtil {
                 }
                 fancyMessages.add(currentAllies);
                 return firstAlly && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
+            case TRUCES_LIST:
+                FancyMessage currentTruces = Factions.get().getTextUtil().parseFancy(prefix);
+                boolean firstTruce = true;
+                for (Faction otherFaction : FactionColl.get().getAllFactions()) {
+                    if (otherFaction == target) {
+                        continue;
+                    }
+                    String s = otherFaction.getTag(fme);
+                    if (otherFaction.getRelationTo(target).isTruce()) {
+                        currentTruces.then(firstTruce ? s : ", " + s);
+                        currentTruces.tooltip(tipFaction(otherFaction)).color(fme.getColorTo(otherFaction));
+                        firstTruce = false;
+                        if (currentTruces.toJSONString().length() > ARBITRARY_LIMIT) {
+                            fancyMessages.add(currentTruces);
+                            currentTruces = new FancyMessage("");
+                        }
+                    }
+                }
+                fancyMessages.add(currentTruces);
+                return firstTruce && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case ENEMIES_LIST:
                 FancyMessage currentEnemies = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstEnemy = true;
