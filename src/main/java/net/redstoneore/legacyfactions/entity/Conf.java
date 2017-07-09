@@ -772,6 +772,7 @@ public class Conf {
     public static List<String> cmdAliasesPower = Lists.newArrayList("power", "pow");
     public static List<String> cmdAliasesPowerBoost = Lists.newArrayList("powerboost");
     public static List<String> cmdAliasesRelationAlly = Lists.newArrayList("ally");
+    public static List<String> cmdAliasesRelationTruce = Lists.newArrayList("truce");
     public static List<String> cmdAliasesRelationEnemy = Lists.newArrayList("enemy");
     public static List<String> cmdAliasesRelationNeutral = Lists.newArrayList("neutral");
     public static List<String> cmdAliasesReload = Lists.newArrayList("reload");
