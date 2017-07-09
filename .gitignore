@@ -33,3 +33,6 @@
 *.iws
 .idea/
 *.psd
+
+# Gradle
+.gradle/
