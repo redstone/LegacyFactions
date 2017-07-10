@@ -497,6 +497,7 @@ public class FactionsPlayerListener implements Listener {
     public static boolean preventCommand(String fullCmd, Player player) {
     	return preventCommand(fullCmd, player, false);
     }
+
     public static boolean preventCommand(String fullCmd, Player player, Boolean silent) {
         if (((Conf.territoryNeutralDenyCommands == null || Conf.territoryNeutralDenyCommands.isEmpty()) &&
         	 (Conf.territoryEnemyDenyCommands == null || Conf.territoryEnemyDenyCommands.isEmpty()) && 
@@ -538,6 +539,11 @@ public class FactionsPlayerListener implements Listener {
         Relation rel = at.getRelationTo(me);
         if (at.isNormal() && rel.isAlly() && Conf.territoryAllyDenyCommands != null && !Conf.territoryAllyDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryAllyDenyCommands.iterator())) {
         	if (!silent) me.msg(Lang.PLAYER_COMMAND_ALLY, fullCmd);
+            return false;
+        }
+
+        if (at.isNormal() && rel.isTruce() && Conf.territoryTruceDenyCommands != null && !Conf.territoryTruceDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.territoryTruceDenyCommands.iterator())) {
+            if (!silent) me.msg(Lang.PLAYER_COMMAND_TRUCE, fullCmd);
             return false;
         }
 

@@ -317,6 +317,7 @@ public class Conf {
     	"tpa"
     );
     public static Set<String> territoryAllyDenyCommands = MiscUtil.linkedHashSet();
+    public static Set<String> territoryTruceDenyCommands = MiscUtil.linkedHashSet();
     public static Set<String> warzoneDenyCommands = MiscUtil.linkedHashSet();
     public static Set<String> wildernessDenyCommands = MiscUtil.linkedHashSet();
 
