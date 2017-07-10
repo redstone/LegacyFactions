@@ -1,54 +1,56 @@
 apply plugin: "java"
 apply plugin: "maven"
 apply plugin: "com.github.johnrengelman.shadow"
-compileJava.options.encoding = 'UTF-8'
 
+compileJava.options.encoding = "UTF-8"
+
+// Currently we target Java 1.8
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 allprojects {
-    version = "1.3.0"
-    group = "net.redstoneore"
+	version = "1.3.0"
+	group = "net.redstoneore"
 }
 
 buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.4"
-    }
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath "com.github.jengelman.gradle.plugins:shadow:1.2.4"
+	}
 }
 
 repositories {
-    maven { url "http://nexus.hc.to/content/repositories/pub_releases" }
-    maven { url "http://repo.ess3.net/content/groups/essentials" }
-    maven { url "https://hub.spigotmc.org/nexus/content/groups/public/" }
+	maven { url "http://nexus.hc.to/content/repositories/pub_releases" }
+	maven { url "http://repo.ess3.net/content/groups/essentials" }
+	maven { url "https://hub.spigotmc.org/nexus/content/groups/public/" }
 	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://maven.sk89q.com/repo/" }
-    maven { url "http://repo.mikeprimm.com/" }
+	maven { url "https://maven.sk89q.com/repo/" }
+	maven { url "http://repo.mikeprimm.com/" }
 	maven { url "http://repo.stealthyone.com/content/groups/public" }
 	maven { url "http://repo.mvdw-software.be/content/groups/public" }
 	maven { url "http://repo.extendedclip.com/content/repositories/placeholderapi/" }
 }
 
 dependencies {
-	compile 	group: "com.google.code.gson", name: "gson", version:"2.6.2";
+	compile     group: "com.google.code.gson", name: "gson", version: "2.6.2";
 
-	compileOnly group: "org.spigotmc", name: "spigot-api", version:"1.11-R0.1-SNAPSHOT";
-    compile     group: "mkremins", name: "fanciful", version:"0.4.0-SNAPSHOT";
+	compileOnly group: "org.spigotmc", name: "spigot-api", version: "1.11-R0.1-SNAPSHOT";
+	compile     group: "mkremins", name: "fanciful", version: "0.4.0-SNAPSHOT";
 
-    compileOnly group: "net.milkbowl.vault", name: "VaultAPI", version:"1.6";
-    compileOnly group: "com.sk89q", name: "worldguard", version:"6.1.1-SNAPSHOT";
+	compileOnly group: "net.milkbowl.vault", name: "VaultAPI", version: "1.6";
+	compileOnly group: "com.sk89q", name: "worldguard", version: "6.1.1-SNAPSHOT";
 
-    compileOnly group: "com.sk89q.worldedit", name: "worldedit-bukkit", version:"6.1.1-SNAPSHOT";
-    compileOnly group: "net.ess3", name: "Essentials", version:"2.13-SNAPSHOT";
-    compileOnly group: "net.ess3", name: "EssentialsChat", version:"2.13-SNAPSHOT";
-    
-    compileOnly group: "be.maximvdw", name: "MVdWPlaceholderAPI", version:"1.0.2-SNAPSHOT";
-    compileOnly group: "me.clip", name: "placeholderapi", version:"2.0.8";
+	compileOnly group: "com.sk89q.worldedit", name: "worldedit-bukkit", version: "6.1.1-SNAPSHOT";
+	compileOnly group: "net.ess3", name: "Essentials", version: "2.13-SNAPSHOT";
+	compileOnly group: "net.ess3", name: "EssentialsChat", version: "2.13-SNAPSHOT";
 
-    compileOnly group: "org.dynmap", name: "dynmap", version:"2.0";
+	compileOnly group: "be.maximvdw", name: "MVdWPlaceholderAPI", version: "1.0.2-SNAPSHOT";
+	compileOnly group: "me.clip", name: "placeholderapi", version: "2.0.8";
+
+	compileOnly group: "org.dynmap", name: "dynmap", version: "2.0";
 
 	compileOnly files("lib/PlayerVaults.jar")
 	compileOnly files("lib/VentureChat.jar")
@@ -59,19 +61,19 @@ dependencies {
 }
 
 processResources {
-    // This will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
+	// This will ensure that this task is redone when the versions change.
+	inputs.property "version", project.version
 
-    // Replace stuff in plugin.yml, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include "plugin.yml"
+	// Replace stuff in plugin.yml, nothing else
+	from(sourceSets.main.resources.srcDirs) {
+		include "plugin.yml"
 
-        // Replace version
-        expand "version": project.version
-    }
+		// Replace version
+		expand "version": project.version
+	}
 
-    // Copy everything else, that's not the plugin.yml
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "plugin.yml"
-    }
+	// Copy everything else that is not the plugin.yml
+	from(sourceSets.main.resources.srcDirs) {
+		exclude "plugin.yml"
+	}
 }
