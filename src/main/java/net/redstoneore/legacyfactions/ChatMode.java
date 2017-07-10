@@ -61,6 +61,8 @@ public enum ChatMode {
 			case PUBLIC:
 				return ALLIANCE;
 			case ALLIANCE:
+				return TRUCE;
+			case TRUCE:
 				return FACTION;
 			default:
 				return PUBLIC;

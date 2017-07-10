@@ -47,7 +47,7 @@ COMMAND:
     DISABLELOG: ' has DISABLED admin bypass mode.'
   CHAT:
     DISABLED: <b>The built in chat chat channels are disabled on this server.
-    INVALIDMODE: <b>Unrecognised chat mode. <i>Please enter either 'a','f' or 'p'
+    INVALIDMODE: <b>Unrecognised chat mode. <i>Please enter either 'a', 'f', 'p', or 't'
     MODE:
       PUBLIC: <i>Public chat mode.
       ALLIANCE: <i>Alliance only chat mode.

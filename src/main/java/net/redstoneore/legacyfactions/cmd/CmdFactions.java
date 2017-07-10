@@ -60,6 +60,7 @@ public class CmdFactions extends FCommand {
 	public CmdFactionsPowerBoost cmdPowerBoost = new CmdFactionsPowerBoost();
 	public CmdFactionsPower cmdPower = new CmdFactionsPower();
 	public CmdFactionsRelationAlly cmdRelationAlly = new CmdFactionsRelationAlly();
+	public CmdFactionsRelationTruce cmdRelationTruce = new CmdFactionsRelationTruce();
 	public CmdFactionsRelationEnemy cmdRelationEnemy = new CmdFactionsRelationEnemy();
 	public CmdFactionsRelationNeutral cmdRelationNeutral = new CmdFactionsRelationNeutral();
 	public CmdFactionsReload cmdReload = new CmdFactionsReload();
@@ -140,6 +141,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(this.cmdPower);
 		this.addSubCommand(this.cmdPowerBoost);
 		this.addSubCommand(this.cmdRelationAlly);
+		this.addSubCommand(this.cmdRelationTruce);
 		this.addSubCommand(this.cmdRelationEnemy);
 		this.addSubCommand(this.cmdRelationNeutral);
 		this.addSubCommand(this.cmdReload);

@@ -26,6 +26,7 @@ public enum TagReplacerUtil {
      * Fancy variables, used by f show
      */
     ALLIES_LIST(TagType.FANCY, "{allies-list}"),
+    TRUCES_LIST(TagType.FANCY, "{truces-list}"),
     ONLINE_LIST(TagType.FANCY, "{online-list}"),
     ENEMIES_LIST(TagType.FANCY, "{enemies-list}"),
     OFFLINE_LIST(TagType.FANCY, "{offline-list}"),
@@ -68,6 +69,7 @@ public enum TagReplacerUtil {
     LAND_REFUND(TagType.FACTION, "{land-refund}"),
     BANK_BALANCE(TagType.FACTION, "{faction-balance}"),
     ALLIES_COUNT(TagType.FACTION, "{allies}"),
+    TRUCES_COUNT(TagType.FACTION, "{truces}"),
     ENEMIES_COUNT(TagType.FACTION, "{enemies}"),
     ONLINE_COUNT(TagType.FACTION, "{online}"),
     OFFLINE_COUNT(TagType.FACTION, "{offline}"),
@@ -80,6 +82,7 @@ public enum TagReplacerUtil {
      */
     MAX_WARPS(TagType.GENERAL, "{max-warps}"),
     MAX_ALLIES(TagType.GENERAL, "{max-allies}"),
+    MAX_TRUCES(TagType.GENERAL, "{max-truces}"),
     MAX_ENEMIES(TagType.GENERAL, "{max-enemies}"),
     FACTIONLESS(TagType.GENERAL, "{factionless}"),
     TOTAL_ONLINE(TagType.GENERAL, "{total-online}");
@@ -116,6 +119,11 @@ public enum TagReplacerUtil {
             	if (Conf.maxRelations.containsKey(Relation.ALLY) && Conf.maxRelations.get(Relation.ALLY) > -1) {
             		return String.valueOf(Conf.maxRelations.get(Relation.ALLY));
             	}
+                return Lang.GENERIC_INFINITY.toString();
+            case MAX_TRUCES:
+                if (Conf.maxRelations.containsKey(Relation.TRUCE) && Conf.maxRelations.get(Relation.TRUCE) > -1) {
+                    return String.valueOf(Conf.maxRelations.get(Relation.TRUCE));
+                }
                 return Lang.GENERIC_INFINITY.toString();
             case MAX_ENEMIES:
             	if (Conf.maxRelations.containsKey(Relation.ENEMY) && Conf.maxRelations.get(Relation.ENEMY) > -1) {
@@ -218,6 +226,8 @@ public enum TagReplacerUtil {
                 return Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
             case ALLIES_COUNT:
                 return String.valueOf(fac.getRelationCount(Relation.ALLY));
+            case TRUCES_COUNT:
+                return String.valueOf(fac.getRelationCount(Relation.TRUCE));
             case ENEMIES_COUNT:
                 return String.valueOf(fac.getRelationCount(Relation.ENEMY));
             case ONLINE_COUNT:
