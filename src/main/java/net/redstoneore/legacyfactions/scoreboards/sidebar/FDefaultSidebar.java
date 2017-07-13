@@ -19,8 +19,10 @@ public class FDefaultSidebar extends FSidebarProvider {
     public List<String> getLines(FPlayer fplayer) {
         if (fplayer.hasFaction()) {
             return this.getOutput(fplayer, Conf.scoreboardDefault);
-        } else if (Conf.scoreboardFactionlessEnabled) {
-            return this.getOutput(fplayer, Conf.scoreboardDefault);
+        } else {
+            if (Conf.scoreboardFactionlessEnabled) {
+                return this.getOutput(fplayer, Conf.scoreboardFactionless);
+            }
         }
         return this.getOutput(fplayer, Conf.scoreboardDefault); // no faction, factionless-board disabled
     }

@@ -127,6 +127,7 @@ public class FactionsPlayerListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerLogout(PlayerQuitEvent event) {
     	FPlayerColl.get(event.getPlayer()).logout();
+    	FScoreboard.remove(FPlayerColl.get(event.getPlayer()));
     }
 
 	// -------------------------------------------------- //
