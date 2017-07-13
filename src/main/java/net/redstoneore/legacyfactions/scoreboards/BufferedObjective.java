@@ -132,6 +132,8 @@ public class BufferedObjective {
 
         List<Team> bufferTeams = new ArrayList<>();
 
+        int counter = 0;
+
         for (Map.Entry<Integer, String> entry : contents.entrySet()) {
             if (entry.getValue().length() <= 16) {
                 Team team = scoreboard.registerNewTeam(getNextTeamName());
@@ -140,7 +142,15 @@ public class BufferedObjective {
                 Iterator<String> split = Splitter.fixedLength(16).split(entry.getValue()).iterator();
 
                 team.setPrefix(split.next());
-                String name = split.next();
+                String name;
+
+                if (split.hasNext()) {
+                    name = split.next();
+                } else {
+                    counter++;
+                    name = String.join("", Collections.nCopies(counter, "§r"));
+                }
+
                 if (split.hasNext()) { // We only guarantee two splits
                     team.setSuffix(split.next());
                 }
