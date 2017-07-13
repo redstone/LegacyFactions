@@ -144,9 +144,9 @@ public class BufferedObjective {
                 team.setPrefix(split.next());
                 String name;
 
-                if(split.hasNext()) {
+                if (split.hasNext()) {
                     name = split.next();
-                }else {
+                } else {
                     counter++;
                     name = String.join("", Collections.nCopies(counter, "§r"));
                 }
