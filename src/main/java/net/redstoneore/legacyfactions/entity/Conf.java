@@ -556,12 +556,12 @@ public class Conf {
     // If empty all regions are shown.
     // Specify Faction either by name or UUID.
     // To show all regions on a given world, add 'world:<worldname>' to the list.
-    public static Set<String> dynmapVisibleFactions = new HashSet<String>();
+    public static Set<String> dynmapVisibleFactions = new HashSet<>();
 
     // Optional setting to hide specific Factions.
     // Specify Faction either by name or UUID.
     // To hide all regions on a given world, add 'world:<worldname>' to the list.
-    public static Set<String> dynmapHiddenFactions = new HashSet<String>();
+    public static Set<String> dynmapHiddenFactions = new HashSet<>();
 
     // Region Style
     public static final transient String DYNMAP_STYLE_LINE_COLOR = "#00FF00";
@@ -596,12 +596,12 @@ public class Conf {
     public static boolean bankFactionPaysLandCosts = true; //The faction pays for land claiming costs.
 
     // mainly for other plugins/mods that use a fake player to take actions, which shouldn't be subject to our protections
-    public static Set<String> playersWhoBypassAllProtection = new LinkedHashSet<String>();
+    public static Set<String> playersWhoBypassAllProtection = new LinkedHashSet<>();
 
-    public static Set<String> worldsNoClaiming = new LinkedHashSet<String>();
-    public static Set<String> worldsNoPowerLoss = new LinkedHashSet<String>();
-    public static Set<String> worldsIgnorePvP = new LinkedHashSet<String>();
-    public static Set<String> worldsNoWildernessProtection = new LinkedHashSet<String>();
+    public static Set<String> worldsNoClaiming = new LinkedHashSet<>();
+    public static Set<String> worldsNoPowerLoss = new LinkedHashSet<>();
+    public static Set<String> worldsIgnorePvP = new LinkedHashSet<>();
+    public static Set<String> worldsNoWildernessProtection = new LinkedHashSet<>();
 
     // -------------------------------------------------- //
     // BUFFERS

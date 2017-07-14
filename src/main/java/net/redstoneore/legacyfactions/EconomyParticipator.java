@@ -2,10 +2,10 @@ package net.redstoneore.legacyfactions;
 
 public interface EconomyParticipator extends RelationParticipator {
 
-    public String getAccountId();
+    String getAccountId();
 
-    public void msg(String str, Object... args);
+    void msg(String str, Object... args);
 
-    public void msg(Lang translation, Object... args);
+    void msg(Lang translation, Object... args);
     
 }

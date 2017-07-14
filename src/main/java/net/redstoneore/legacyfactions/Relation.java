@@ -31,7 +31,7 @@ public enum Relation {
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	private Relation(final int value, final String nicename) {
+	Relation(final int value, final String nicename) {
 		this.value = value;
 		this.nicename = nicename;
 	}
@@ -57,7 +57,7 @@ public enum Relation {
 	
 	/**
 	 * Convert a string to a Relation object, defaults to NEUTRAL if unknown
-	 * @param string
+	 * @param str Relation string
 	 * @return relation
 	 */
 	public static Relation fromString(String str) {
@@ -178,7 +178,7 @@ public enum Relation {
 
 	/** 
 	 * return appropriate Conf setting for DenyBuild based on this relation and their online status
-	 * @param online
+	 * @param online Status of target faction
 	 * @return appropriate Conf setting for DenyBuild based on this relation and their online status
 	 */
 	public Boolean confDenyBuild(boolean online) {
@@ -211,7 +211,7 @@ public enum Relation {
 
 	/**
 	 * return appropriate Conf setting for PainBuild based on this relation and their online status
-	 * @param online
+	 * @param online Online status of target faction
 	 * @return appropriate Conf setting for PainBuild based on this relation and their online status
 	 */
 	public Boolean confPainBuild(boolean online) {

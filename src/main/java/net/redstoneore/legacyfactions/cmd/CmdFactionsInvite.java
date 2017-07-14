@@ -21,12 +21,14 @@ public class CmdFactionsInvite extends FCommand {
         senderMustBePlayer = true;
         senderMustBeMember = false;
         senderMustBeModerator = true;
+        senderMustBeColeader = false;
         senderMustBeAdmin = false;
     }
 
     @Override
     public void perform() {
         FPlayer you = this.argAsBestFPlayerMatch(0);
+
         if (you == null) {
             return;
         }

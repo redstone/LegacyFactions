@@ -55,7 +55,7 @@ public interface Faction extends EconomyParticipator {
     public boolean noExplosionsInTerritory();
 
     public boolean noCreeperExplosions(Location location);
-    
+
     public boolean isPermanent();
 
     public void setPermanent(boolean isPermanent);
@@ -147,7 +147,7 @@ public interface Faction extends EconomyParticipator {
 
     public int getRelationCount(Relation relation);
 
-	public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent);
+    public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent);
 
     // ----------------------------------------------//
     // Power
@@ -202,7 +202,7 @@ public interface Faction extends EconomyParticipator {
     // ----------------------------------------------//
     // Messages
     // ----------------------------------------------//
-    
+
     public void msg(String message, Object... args);
 
     public void sendMessage(String message);
@@ -237,7 +237,7 @@ public interface Faction extends EconomyParticipator {
 
     public boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
 
-	
+
     // ----------------------------------------------//
     // Persistance and entity management
     // ----------------------------------------------//
@@ -246,25 +246,26 @@ public interface Faction extends EconomyParticipator {
     public Set<FLocation> getAllClaims();
 
     public void setId(String id);
-    
+
     // ----------------------------------------
     // UTIL
     // ----------------------------------------
-    
+
     public MemoryFaction asMemoryFaction();
-    
+
     // -------------------------------------------------- //
     // DEPRECATED
     // -------------------------------------------------- //
-    
+
     /**
      * Deprecated, use {@link #getOwner()}
      */
     @Deprecated
     public FPlayer getFPlayerAdmin();
-    
+
     /**
      * Deprecated, use {@link #getWhereOnline(boolean)}
+     *
      * @param online
      * @return
      */
@@ -273,6 +274,7 @@ public interface Faction extends EconomyParticipator {
 
     /**
      * Deprecated, use {@link #isWilderness()}
+     *
      * @return
      */
     @Deprecated
@@ -280,6 +282,7 @@ public interface Faction extends EconomyParticipator {
 
     /**
      * Depreacted, use {@link #getLandRoundedInWorld(World)}
+     *
      * @param worldName
      * @return
      */

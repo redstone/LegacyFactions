@@ -9,4 +9,5 @@ public class CmdFactionsRelationNeutral extends FCommandRelation {
         this.aliases.addAll(Conf.cmdAliasesRelationNeutral);
         this.targetRelation = Relation.NEUTRAL;
     }
+
 }

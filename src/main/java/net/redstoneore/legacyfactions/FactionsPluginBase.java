@@ -166,7 +166,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 				}
 
 				if (commandString.startsWith(alias + " ") || commandString.equals(alias)) {
-					final List<String> args = new ArrayList<String>(Arrays.asList(commandString.split("\\s+")));
+					final List<String> args = new ArrayList<>(Arrays.asList(commandString.split("\\s+")));
 					args.remove(0);
 
 					if (testOnly) {

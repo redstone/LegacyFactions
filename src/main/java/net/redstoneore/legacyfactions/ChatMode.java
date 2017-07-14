@@ -16,7 +16,7 @@ public enum ChatMode {
 	// CONSTRUCT
 	// -------------------------------------------------- // 
 
-	private ChatMode(final int value, final Lang niceName) {
+	ChatMode(final int value, final Lang niceName) {
 		this.value = value;
 		this.niceName = niceName;
 	}
