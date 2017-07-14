@@ -37,6 +37,7 @@ permissions:
       factions.join.any: true
       factions.join.others: true
       factions.admin.any: true
+      factions.coleader.any: true
       factions.mod.any: true
   factions.kit.halfmod:
     description: Zones, bypassing, kicking, and chatspy
@@ -64,6 +65,7 @@ permissions:
       factions.claim: true
       factions.claim.line: true
       factions.claim.radius: true
+      factions.coleader: true
       factions.deinvite: true
       factions.description: true
       factions.disband: true
@@ -117,6 +119,10 @@ permissions:
     description: claim land where you are standing
   factions.claim.radius:
     description: claim land in a large radius
+  factions.coleader:
+    description: give or revoke coleader rights
+  factions.coleader.any:
+    description: give or revoke coleader rights for any player in any faction
   factions.config:
     description: change a conf.json setting
   factions.create:
