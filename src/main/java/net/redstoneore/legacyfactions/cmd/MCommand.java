@@ -120,7 +120,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     }
 
     public void execute(CommandSender sender, List<String> args) {
-        execute(sender, args, new ArrayList<MCommand<?>>());
+        execute(sender, args, new ArrayList<>());
     }
 
     // This is where the command action is performed.
@@ -205,7 +205,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
         ret.append(TextUtil.implode(this.aliases, ","));
 
-        List<String> args = new ArrayList<String>();
+        List<String> args = new ArrayList<>();
 
         for (String requiredArg : this.requiredArgs) {
             args.add("<" + requiredArg + ">");
@@ -287,7 +287,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     }
 
     public List<String> getToolTips(FPlayer player) {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         for (String s : Conf.tooltips.get("show")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', replaceFPlayerTags(s, player)));
         }
@@ -295,7 +295,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
     }
 
     public List<String> getToolTips(Faction faction) {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         for (String s : Conf.tooltips.get("list")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', replaceFactionTags(s, faction)));
         }

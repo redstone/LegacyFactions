@@ -38,10 +38,10 @@ public class CmdFactionsTop extends FCommand {
         this.permission = Permission.TOP.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeAdmin = false;
     }
 
 	// -------------------------------------------------- //

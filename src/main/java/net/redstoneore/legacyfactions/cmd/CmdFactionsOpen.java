@@ -8,6 +8,10 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 
 public class CmdFactionsOpen extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsOpen() {
         this.aliases.addAll(Conf.cmdAliasesOpen);
 
@@ -16,11 +20,16 @@ public class CmdFactionsOpen extends FCommand {
         this.permission = Permission.OPEN.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = true;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

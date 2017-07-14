@@ -36,6 +36,7 @@ public class CmdFactionsAdmin extends FCommand {
 		this.senderMustBePlayer = false;
 		this.senderMustBeMember = false;
 		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
 		this.senderMustBeAdmin = false;
 	}
 

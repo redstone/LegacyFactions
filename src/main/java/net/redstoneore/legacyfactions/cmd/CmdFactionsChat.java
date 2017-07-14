@@ -8,6 +8,10 @@ import net.redstoneore.legacyfactions.event.EventFactionsChatModeChange;
 
 public class CmdFactionsChat extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsChat() {
         this.aliases.addAll(Conf.cmdAliasesChat);
 
@@ -16,11 +20,16 @@ public class CmdFactionsChat extends FCommand {
         this.permission = Permission.CHAT.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = true;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = true;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

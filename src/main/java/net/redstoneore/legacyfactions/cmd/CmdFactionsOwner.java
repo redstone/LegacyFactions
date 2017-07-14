@@ -9,23 +9,30 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsOwner extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsOwner() {
         this.aliases.addAll(Conf.cmdAliasesOwner);
 
-        //this.requiredArgs.add("");
         this.optionalArgs.put("player name", "you");
 
         this.permission = Permission.OWNER.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeColeader = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
 
     // TODO: Fix colors!
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

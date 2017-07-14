@@ -12,6 +12,10 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyTransferFf extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsMoneyTransferFf() {
         this.aliases.addAll(Conf.cmdAliasesMoneyTransferFf);
 
@@ -19,15 +23,18 @@ public class CmdFactionsMoneyTransferFf extends FCommand {
         this.requiredArgs.add("faction");
         this.requiredArgs.add("faction");
 
-        //this.optionalArgs.put("", "");
-
         this.permission = Permission.MONEY_F2F.node;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -18,6 +18,10 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 
 public class CmdFactionsClaim extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsClaim() {
         this.aliases.addAll(Conf.cmdAliasesClaim);
 
@@ -28,11 +32,16 @@ public class CmdFactionsClaim extends FCommand {
         this.permission = Permission.CLAIM.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

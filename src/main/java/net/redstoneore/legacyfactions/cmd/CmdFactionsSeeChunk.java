@@ -13,16 +13,25 @@ import net.redstoneore.legacyfactions.util.VisualizeUtil;
 
 public class CmdFactionsSeeChunk extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsSeeChunk() {
-        aliases.addAll(Conf.cmdAliasesSeeChunk);
+		this.aliases.addAll(Conf.cmdAliasesSeeChunk);
 
-        permission = Permission.SEECHUNK.node;
+		this.permission = Permission.SEECHUNK.node;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

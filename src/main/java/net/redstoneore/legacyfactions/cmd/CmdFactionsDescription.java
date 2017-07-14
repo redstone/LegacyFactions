@@ -10,6 +10,10 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsDescription extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsDescription() {
         this.aliases.addAll(Conf.cmdAliasesDescription);
 
@@ -19,11 +23,16 @@ public class CmdFactionsDescription extends FCommand {
         this.permission = Permission.DESCRIPTION.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = true;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -9,6 +9,10 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsPeaceful extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsPeaceful() {
         this.aliases.addAll(Conf.cmdAliasesPeaceful);
 
@@ -17,12 +21,16 @@ public class CmdFactionsPeaceful extends FCommand {
         this.permission = Permission.SET_PEACEFUL.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
 
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
     @Override
     public void perform() {
         Faction faction = this.argAsFaction(0);

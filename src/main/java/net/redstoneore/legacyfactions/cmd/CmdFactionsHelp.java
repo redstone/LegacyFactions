@@ -18,6 +18,10 @@ import java.util.Map;
 
 public class CmdFactionsHelp extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsHelp() {
         this.aliases.addAll(Conf.cmdAliasesHelp);
 
@@ -32,6 +36,10 @@ public class CmdFactionsHelp extends FCommand {
         this.senderMustBeColeader = false;
         this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

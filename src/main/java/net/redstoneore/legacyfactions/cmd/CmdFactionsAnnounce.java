@@ -24,6 +24,8 @@ public class CmdFactionsAnnounce extends FCommand {
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = true;
 		this.senderMustBeModerator = true;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
 	}
 	
 	// -------------------------------------------------- //

@@ -18,7 +18,15 @@ import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCa
 
 public class CmdFactionsClaimLine extends FCommand {
 
+    // -------------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------------- //
+
     public static final BlockFace[] axis = {BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST};
+
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
 
     public CmdFactionsClaimLine() {
 
@@ -33,11 +41,16 @@ public class CmdFactionsClaimLine extends FCommand {
         this.permission = Permission.CLAIM_LINE.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

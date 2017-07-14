@@ -6,6 +6,10 @@ import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsLogins extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsLogins() {
         super();
         this.aliases.addAll(Conf.cmdAliasesLogins);
@@ -14,6 +18,10 @@ public class CmdFactionsLogins extends FCommand {
         this.senderMustBeMember = true;
         this.permission = Permission.MONITOR_LOGINS.node;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

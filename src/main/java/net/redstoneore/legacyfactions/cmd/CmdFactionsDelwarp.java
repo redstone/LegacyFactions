@@ -10,6 +10,10 @@ import net.redstoneore.legacyfactions.warp.FactionWarp;
 
 public class CmdFactionsDelwarp extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsDelwarp() {
         this.aliases.addAll(Conf.cmdAliasesDelwarp);
         
@@ -20,6 +24,10 @@ public class CmdFactionsDelwarp extends FCommand {
         this.senderMustBePlayer = true;
         this.permission = Permission.SETWARP.node;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

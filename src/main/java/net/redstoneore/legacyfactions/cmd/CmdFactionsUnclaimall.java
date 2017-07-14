@@ -18,17 +18,26 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsUnclaimall extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsUnclaimall() {
         this.aliases.addAll(Conf.cmdAliasesUnclaimAll);
         
         this.permission = Permission.UNCLAIM_ALL.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = true;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

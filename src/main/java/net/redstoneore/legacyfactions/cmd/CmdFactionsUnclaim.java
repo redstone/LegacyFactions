@@ -16,6 +16,10 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 
 public class CmdFactionsUnclaim extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsUnclaim() {
         this.aliases.addAll(Conf.cmdAliasesUnclaim);
 
@@ -25,11 +29,15 @@ public class CmdFactionsUnclaim extends FCommand {
         this.permission = Permission.UNCLAIM.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

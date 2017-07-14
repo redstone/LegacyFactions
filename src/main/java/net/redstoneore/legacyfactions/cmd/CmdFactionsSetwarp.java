@@ -9,6 +9,10 @@ import net.redstoneore.legacyfactions.util.LazyLocation;
 
 public class CmdFactionsSetwarp extends FCommand {
 
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+
 	public CmdFactionsSetwarp() {
 		this.aliases.addAll(Conf.cmdAliasesSetwarp);
 		
@@ -20,6 +24,10 @@ public class CmdFactionsSetwarp extends FCommand {
 		this.senderMustBePlayer = true;
 		this.permission = Permission.SETWARP.node;
 	}
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
 	@Override
 	public void perform() {

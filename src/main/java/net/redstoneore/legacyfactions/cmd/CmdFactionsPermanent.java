@@ -11,6 +11,10 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsPermanent extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsPermanent() {
         this.aliases.addAll(Conf.cmdAliasesPermanent);
 
@@ -19,11 +23,16 @@ public class CmdFactionsPermanent extends FCommand {
         this.permission = Permission.SET_PERMANENT.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

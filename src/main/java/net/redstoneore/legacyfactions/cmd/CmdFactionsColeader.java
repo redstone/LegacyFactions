@@ -27,6 +27,7 @@ public class CmdFactionsColeader extends FCommand {
         this.senderMustBePlayer = false;
 		this.senderMustBeMember = true;
 		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
 		this.senderMustBeAdmin = true;
     }
 

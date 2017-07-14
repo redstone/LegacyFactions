@@ -18,6 +18,10 @@ import org.bukkit.Bukkit;
 
 public class CmdFactionsDisband extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsDisband() {
         this.aliases.addAll(Conf.cmdAliasesDisband);
 
@@ -27,11 +31,16 @@ public class CmdFactionsDisband extends FCommand {
         this.permission = Permission.DISBAND.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -6,6 +6,10 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsMoney extends FCommand {
 
+    // -------------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------------- //
+
     public CmdFactionsMoneyBalance cmdMoneyBalance = new CmdFactionsMoneyBalance();
     public CmdFactionsMoneyDeposit cmdMoneyDeposit = new CmdFactionsMoneyDeposit();
     public CmdFactionsMoneyWithdraw cmdMoneyWithdraw = new CmdFactionsMoneyWithdraw();
@@ -13,15 +17,20 @@ public class CmdFactionsMoney extends FCommand {
     public CmdFactionsMoneyTransferFp cmdMoneyTransferFp = new CmdFactionsMoneyTransferFp();
     public CmdFactionsMoneyTransferPf cmdMoneyTransferPf = new CmdFactionsMoneyTransferPf();
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsMoney() {
         this.aliases.addAll(Conf.cmdAliasesMoney);
 
         this.isMoneyCommand = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
 
         this.helpLong.add(Factions.get().getTextUtil().parseTags(Lang.COMMAND_MONEY_LONG.toString()));
 
@@ -32,6 +41,10 @@ public class CmdFactionsMoney extends FCommand {
         this.addSubCommand(this.cmdMoneyTransferFp);
         this.addSubCommand(this.cmdMoneyTransferPf);
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

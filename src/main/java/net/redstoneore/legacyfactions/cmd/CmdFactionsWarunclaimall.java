@@ -9,17 +9,26 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 
 public class CmdFactionsWarunclaimall extends FCommand {
 
+    // -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+
     public CmdFactionsWarunclaimall() {
         this.aliases.addAll(Conf.cmdAliasesWarunclaimall);
         
         this.permission = Permission.MANAGE_WAR_ZONE.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -12,6 +12,10 @@ import org.bukkit.ChatColor;
 
 public class CmdFactionsMod extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsMod() {
         this.aliases.addAll(Conf.cmdAliasesMod);
 
@@ -20,12 +24,16 @@ public class CmdFactionsMod extends FCommand {
         this.permission = Permission.MOD.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = true;
-        senderMustBeModerator = false;
-        senderMustBeColeader = true;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = true;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = true;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

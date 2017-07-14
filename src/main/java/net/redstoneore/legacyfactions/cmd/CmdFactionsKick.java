@@ -17,6 +17,10 @@ import org.bukkit.ChatColor;
 
 public class CmdFactionsKick extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsKick() {
         this.aliases.addAll(Conf.cmdAliasesKick);
 
@@ -32,6 +36,10 @@ public class CmdFactionsKick extends FCommand {
         this.senderMustBeColeader = false;
         this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

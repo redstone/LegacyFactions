@@ -9,18 +9,27 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 
 public class CmdFactionsSafeunclaimall extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsSafeunclaimall() {
         this.aliases.addAll(Conf.cmdAliasesSafeunclaimall);
         
         this.permission = Permission.MANAGE_SAFE_ZONE.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
 
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

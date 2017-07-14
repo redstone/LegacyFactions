@@ -7,6 +7,10 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 
 public class CmdFactionsModifyPower extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsModifyPower() {
         this.aliases.addAll(Conf.cmdAliasesModifyPower);
 
@@ -19,8 +23,13 @@ public class CmdFactionsModifyPower extends FCommand {
         this.senderMustBeAdmin = false;
         this.senderMustBePlayer = false;
         this.senderMustBeMember = false;
+        this.senderMustBeColeader = false;
         this.senderMustBeModerator = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

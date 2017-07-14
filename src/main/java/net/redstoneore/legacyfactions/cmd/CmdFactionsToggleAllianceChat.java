@@ -6,6 +6,10 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsToggleAllianceChat extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsToggleAllianceChat() {
         this.aliases.addAll(Conf.cmdAliasesToggleAllianceChat);
 
@@ -14,11 +18,15 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
         this.permission = Permission.TOGGLE_ALLIANCE_CHAT.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = true;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = true;
+		this.senderMustBeModerator = false;
+		this.senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

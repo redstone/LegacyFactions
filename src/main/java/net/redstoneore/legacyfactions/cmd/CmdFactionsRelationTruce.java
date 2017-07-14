@@ -5,6 +5,10 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsRelationTruce extends FCommandRelation {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsRelationTruce() {
         this.aliases.addAll(Conf.cmdAliasesRelationTruce);
         this.targetRelation = Relation.TRUCE;
