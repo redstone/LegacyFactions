@@ -12,7 +12,7 @@ public enum Role {
     public final String nicename;
     public final Lang translation;
 
-    Role(final int value, final Lang translation) {
+    private Role(final int value, final Lang translation) {
         this.value = value;
         this.nicename = translation.toString();
         this.translation = translation;
@@ -36,15 +36,15 @@ public enum Role {
 
     public String getPrefix() {
         if (this == Role.ADMIN) {
-            return Conf.prefixAdmin;
+            return Conf.playerPrefixAdmin;
         }
 
         if (this == Role.COLEADER) {
-            return Conf.prefixColeader;
+            return Conf.playerPrefixColeader;
         }
 
         if (this == Role.MODERATOR) {
-            return Conf.prefixMod;
+            return Conf.playerPrefixMod;
         }
 
         return "";

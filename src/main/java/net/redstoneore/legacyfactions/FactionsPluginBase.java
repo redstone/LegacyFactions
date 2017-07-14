@@ -166,8 +166,8 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 				}
 
 				if (commandString.startsWith(alias + " ") || commandString.equals(alias)) {
-					final List<String> args = new ArrayList<>(Arrays.asList(commandString.split("\\s+")));
-					args.remove(0);
+					final List<String> arguments = new ArrayList<>(Arrays.asList(commandString.split("\\s+")));
+					arguments.remove(0);
 
 					if (testOnly) {
 						return true;
@@ -177,11 +177,11 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 							@Override
 							public void run() {
-								command.execute(sender, args);
+								command.execute(sender, arguments);
 							}
 						});
 					} else {
-						command.execute(sender, args);
+						command.execute(sender, arguments);
 					}
 
 					return true;

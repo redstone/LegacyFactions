@@ -105,9 +105,9 @@ public class Conf {
 	// PREFIX
 	// -------------------------------------------------- //
 
-    public static String prefixAdmin = "***";
-    public static String prefixColeader = "**";
-    public static String prefixMod = "*";
+    public static String playerPrefixAdmin = "***";
+    public static String playerPrefixColeader = "**";
+    public static String playerPrefixMod = "*";
 
 	// -------------------------------------------------- //
 	// FACTION
@@ -680,12 +680,12 @@ public class Conf {
 			"&3/f unclaim  &e>>  &7Unclaim land",
 			"&3/f kick      &e>>  &7Kick player from your faction",
 			"&3/f mod      &e>>  &7Set player role in faction",
-            "&3/f coleader      &e>>  &7Set player role in faction",
+			"&3/f coleader      &e>>  &7Set player role in faction",
 			"&e&m--------------&r &2/f help 4 for more &e&m--------------"
 		),
 		"4", Lists.newArrayList(
 			"&e&m------------------&r&c&l Page 4 &e&m--------------------",
-            "&3/f chat     &e>>  &7Switch to faction chat",
+			"&3/f chat     &e>>  &7Switch to faction chat",
 			"&3/f version &e>>  &7Display version information",
 			"&e&m--------------&r&2 End of /f help &e&m-----------------"
 		)

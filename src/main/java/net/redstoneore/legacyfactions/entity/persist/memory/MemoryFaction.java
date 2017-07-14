@@ -680,7 +680,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		ArrayList<FPlayer> replacements = this.getFPlayersWhereRole(Role.COLEADER);
 		if (replacements == null || replacements.isEmpty()) {
 			replacements = this.getFPlayersWhereRole(Role.MODERATOR);
-			if(replacements == null || replacements.isEmpty()) {
+			if (replacements == null || replacements.isEmpty()) {
 				replacements = this.getFPlayersWhereRole(Role.NORMAL);
 			}
 		}
@@ -833,7 +833,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 		String ownerList = "";
 
-		for(String owner : ownerData) {
+		for (String owner : ownerData) {
 			if (!ownerList.isEmpty()) {
 				ownerList += ", ";
 			}
@@ -847,7 +847,9 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	public boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc) {
 		// in own faction, with sufficient role or permission to bypass
 		// ownership?
-		if (fplayer.getFaction() == this && (fplayer.getRole().isAtLeast(Conf.ownedAreaModeratorsBypass ? Role.MODERATOR : Role.COLEADER) || Permission.OWNERSHIP_BYPASS.has(fplayer.getPlayer()))) {
+		boolean canBypass = fplayer.getRole().isAtLeast(Conf.ownedAreaModeratorsBypass ? Role.MODERATOR : Role.COLEADER) || Permission.OWNERSHIP_BYPASS.has(fplayer.getPlayer());
+
+		if (fplayer.getFaction() == this && canBypass) {
 			return true;
 		}
 

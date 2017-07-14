@@ -26,11 +26,11 @@ public class CmdFactionsHelp extends FCommand {
         this.permission = Permission.HELP.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeColeader = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
 
     @Override
@@ -79,14 +79,14 @@ public class CmdFactionsHelp extends FCommand {
 	        List<List<FancyMessage>> pages = new ArrayList<>();
 	        List<FancyMessage> lines = new ArrayList<>();
 	        
-	        for (MCommand<?> cmd : CmdFactions.get().subCommands) {
-	        	if (!(sender instanceof ConsoleCommandSender) && cmd.permission != null && !fme.getPlayer().hasPermission(cmd.permission)) continue;
+	        for (MCommand<?> command : CmdFactions.get().subCommands) {
+	        	if (!(sender instanceof ConsoleCommandSender) && command.permission != null && !fme.getPlayer().hasPermission(command.permission)) continue;
 	        	line++;
 	        	
-	        	String suggest = "/" + CmdFactions.get().aliases.get(0) + " " + cmd.aliases.get(0);
+	        	String suggest = "/" + CmdFactions.get().aliases.get(0) + " " + command.aliases.get(0);
 	        	
 	        	FancyMessage fm = new FancyMessage();
-	        	fm.text(cmd.getUseageTemplate(true));
+	        	fm.text(command.getUseageTemplate(true));
 	        	fm.suggest(suggest);
 	        	fm.tooltip(suggest);
 	        	
@@ -153,7 +153,7 @@ public class CmdFactionsHelp extends FCommand {
     public ArrayList<ArrayList<String>> helpPages;
 
     public void updateHelp() {
-        helpPages = new ArrayList<>();
+        this.helpPages = new ArrayList<>();
         ArrayList<String> pageLines;
 
         pageLines = new ArrayList<>();
@@ -167,7 +167,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(CmdFactions.get().cmdToggleAllianceChat.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdHome.getUseageTemplate(true));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_NEXTCREATE.toString()));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(CmdFactions.get().cmdCreate.getUseageTemplate(true));
@@ -179,7 +179,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(CmdFactions.get().cmdDeinvite.getUseageTemplate(true));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_HOME.toString()));
         pageLines.add(CmdFactions.get().cmdSethome.getUseageTemplate(true));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         if (VaultEngine.isSetup() && Conf.econEnabled && Conf.bankEnabled) {
             pageLines = new ArrayList<>();
@@ -192,7 +192,7 @@ public class CmdFactionsHelp extends FCommand {
             pageLines.add("");
             pageLines.add("");
             pageLines.add("");
-            helpPages.add(pageLines);
+            this.helpPages.add(pageLines);
         }
 
         pageLines = new ArrayList<>();
@@ -209,7 +209,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(CmdFactions.get().cmdSeeChunk.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdStatus.getUseageTemplate(true));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PLAYERTITLES.toString()));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(CmdFactions.get().cmdMap.getUseageTemplate(true));
@@ -219,7 +219,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_1.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_2.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_3.toString()));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(CmdFactions.get().cmdDisband.getUseageTemplate(true));
@@ -231,7 +231,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_2.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_3.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_4.toString()));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_5.toString()));
@@ -243,7 +243,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_11.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_12.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_13.toString()));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_1.toString()));
@@ -255,7 +255,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_7.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_8.toString()));
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_9.toString()));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(Lang.COMMAND_HELP_MOAR_1.toString());
@@ -268,7 +268,7 @@ public class CmdFactionsHelp extends FCommand {
         
         pageLines.add(Factions.get().getTextUtil().parse("<i>Note: " + CmdFactions.get().cmdUnclaim.getUseageTemplate(false) + Factions.get().getTextUtil().parse("<i>") + " works on safe/war zones as well."));
         pageLines.add(CmdFactions.get().cmdPeaceful.getUseageTemplate(true));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_MOAR_2.toString()));
@@ -277,7 +277,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(CmdFactions.get().cmdPermanentPower.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdPowerBoost.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdConfig.getUseageTemplate(true));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
 
         pageLines = new ArrayList<>();
         pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_MOAR_3.toString()));
@@ -285,7 +285,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(CmdFactions.get().cmdReload.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdSaveAll.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdVersion.getUseageTemplate(true));
-        helpPages.add(pageLines);
+        this.helpPages.add(pageLines);
     }
 
     @Override

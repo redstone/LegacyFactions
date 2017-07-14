@@ -31,7 +31,7 @@ public enum Relation {
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	Relation(final int value, final String nicename) {
+	private Relation(final int value, final String nicename) {
 		this.value = value;
 		this.nicename = nicename;
 	}
