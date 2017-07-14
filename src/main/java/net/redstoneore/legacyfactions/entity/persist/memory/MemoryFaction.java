@@ -676,10 +676,13 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 		FPlayer oldLeader = this.getFPlayerAdmin();
 
-		// get list of moderators, or list of normal members if there are no moderators
-		ArrayList<FPlayer> replacements = this.getFPlayersWhereRole(Role.MODERATOR);
+		// get list of coleaders, mods and then normal members to promote from.
+		ArrayList<FPlayer> replacements = this.getFPlayersWhereRole(Role.COLEADER);
 		if (replacements == null || replacements.isEmpty()) {
-			replacements = this.getFPlayersWhereRole(Role.NORMAL);
+			replacements = this.getFPlayersWhereRole(Role.MODERATOR);
+			if(replacements == null || replacements.isEmpty()) {
+				replacements = this.getFPlayersWhereRole(Role.NORMAL);
+			}
 		}
 
 		if (replacements == null || replacements.isEmpty()) { // faction admin  is the only  member; one-man  faction
@@ -768,12 +771,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 				continue;
 			}
 
-			Iterator<String> iter = ownerData.iterator();
-			while (iter.hasNext()) {
-				if (iter.next().equals(player.getId())) {
-					iter.remove();
-				}
-			}
+			ownerData.removeIf((String id) -> id.equals(player.getId()));
 
 			if (ownerData.isEmpty()) {
 				claimOwnership.remove(entry.getKey());
@@ -835,12 +833,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 		String ownerList = "";
 
-		Iterator<String> iter = ownerData.iterator();
-		while (iter.hasNext()) {
+		for(String owner : ownerData) {
 			if (!ownerList.isEmpty()) {
 				ownerList += ", ";
 			}
-			OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(iter.next()));
+			OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(owner));
 			//TODO:TL
 			ownerList += offlinePlayer != null ? offlinePlayer.getName() : "null player";
 		}
@@ -850,7 +847,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	public boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc) {
 		// in own faction, with sufficient role or permission to bypass
 		// ownership?
-		if (fplayer.getFaction() == this && (fplayer.getRole().isAtLeast(Conf.ownedAreaModeratorsBypass ? Role.MODERATOR : Role.ADMIN) || Permission.OWNERSHIP_BYPASS.has(fplayer.getPlayer()))) {
+		if (fplayer.getFaction() == this && (fplayer.getRole().isAtLeast(Conf.ownedAreaModeratorsBypass ? Role.MODERATOR : Role.COLEADER) || Permission.OWNERSHIP_BYPASS.has(fplayer.getPlayer()))) {
 			return true;
 		}
 
@@ -889,7 +886,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	
 	
 	public MemoryFaction asMemoryFaction() {
-		return (MemoryFaction) this;
+		return this;
 	}
 	
 }
