@@ -201,6 +201,7 @@ public class CmdFactionsHelp extends FCommand {
         pageLines.add(CmdFactions.get().cmdUnclaimall.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdKick.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdMod.getUseageTemplate(true));
+        pageLines.add(CmdFactions.get().cmdColeader.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdAdmin.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdTitle.getUseageTemplate(true));
         pageLines.add(CmdFactions.get().cmdSB.getUseageTemplate(true));

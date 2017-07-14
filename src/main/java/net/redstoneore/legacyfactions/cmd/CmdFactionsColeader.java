@@ -10,76 +10,75 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 import org.bukkit.ChatColor;
 
-public class CmdFactionsMod extends FCommand {
+public class CmdFactionsColeader extends FCommand {
 
-    public CmdFactionsMod() {
-        this.aliases.addAll(Conf.cmdAliasesMod);
+    public CmdFactionsColeader() {
+        this.aliases.addAll(Conf.cmdAliasesColeader);
 
         this.requiredArgs.add("player name");
-        
-        this.permission = Permission.MOD.node;
+
+        this.permission = Permission.COLEADER.node;
         this.disableOnLock = true;
 
         senderMustBePlayer = false;
         senderMustBeMember = true;
         senderMustBeModerator = false;
-        senderMustBeColeader = true;
-        senderMustBeAdmin = false;
+        senderMustBeAdmin = true;
     }
 
     @Override
     public void perform() {
         FPlayer you = this.argAsBestFPlayerMatch(0);
         if (you == null) {
-            FancyMessage msg = new FancyMessage(Lang.COMMAND_MOD_CANDIDATES.toString()).color(ChatColor.GOLD);
+            FancyMessage msg = new FancyMessage(Lang.COMMAND_COLEADER_CANDIDATES.toString()).color(ChatColor.GOLD);
             for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
                 String s = player.getName();
-                msg.then(s + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_MOD_CLICKTOPROMOTE.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " mod " + s);
+                msg.then(s + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_COLEADER_CLICKTOPROMOTE.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " coleader " + s);
             }
 
             sendFancyMessage(msg);
             return;
         }
 
-        boolean permAny = Permission.MOD_ANY.has(sender, false);
+        boolean permAny = Permission.COLEADER_ANY.has(sender, false);
         Faction targetFaction = you.getFaction();
 
         if (targetFaction != myFaction && !permAny) {
-            msg(Lang.COMMAND_MOD_NOTMEMBER, you.describeTo(fme, true));
+            msg(Lang.COMMAND_COLEADER_NOTMEMBER, you.describeTo(fme, true));
             return;
         }
 
-        if (fme != null && !fme.getRole().isAtLeast(Role.COLEADER) && !permAny) {
-            msg(Lang.COMMAND_MOD_NOTADMIN);
+        if (fme != null && fme.getRole() != Role.ADMIN && !permAny) {
+            msg(Lang.COMMAND_COLEADER_NOTADMIN);
             return;
         }
 
         if (you == fme && !permAny) {
-            msg(Lang.COMMAND_MOD_SELF);
+            msg(Lang.COMMAND_COLEADER_SELF);
             return;
         }
 
         if (you.getRole() == Role.ADMIN) {
-            msg(Lang.COMMAND_MOD_TARGETISADMIN);
+            msg(Lang.COMMAND_COLEADER_TARGETISADMIN);
             return;
         }
 
-        if (you.getRole() == Role.MODERATOR) {
+        if (you.getRole() == Role.COLEADER) {
             // Revoke
             you.setRole(Role.NORMAL);
-            targetFaction.msg(Lang.COMMAND_MOD_REVOKED, you.describeTo(targetFaction, true));
-            msg(Lang.COMMAND_MOD_REVOKES, you.describeTo(fme, true));
+            targetFaction.msg(Lang.COMMAND_COLEADER_REVOKED, you.describeTo(targetFaction, true));
+            msg(Lang.COMMAND_COLEADER_REVOKES, you.describeTo(fme, true));
         } else {
             // Give
-            you.setRole(Role.MODERATOR);
-            targetFaction.msg(Lang.COMMAND_MOD_PROMOTED, you.describeTo(targetFaction, true));
-            msg(Lang.COMMAND_MOD_PROMOTES, you.describeTo(fme, true));
+            you.setRole(Role.COLEADER);
+            targetFaction.msg(Lang.COMMAND_COLEADER_PROMOTED, you.describeTo(targetFaction, true));
+            msg(Lang.COMMAND_COLEADER_PROMOTES, you.describeTo(fme, true));
         }
     }
 
     @Override
     public String getUsageTranslation() {
-        return Lang.COMMAND_MOD_DESCRIPTION.toString();
+        return Lang.COMMAND_COLEADER_DESCRIPTION.toString();
     }
 
 }
