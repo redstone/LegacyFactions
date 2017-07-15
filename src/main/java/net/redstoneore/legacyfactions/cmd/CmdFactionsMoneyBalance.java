@@ -8,49 +8,48 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyBalance extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsMoneyBalance() {
-        this.aliases.addAll(Conf.cmdAliasesMoneyBalance);
+	public CmdFactionsMoneyBalance() {
+		this.aliases.addAll(Conf.cmdAliasesMoneyBalance);
 
-        this.optionalArgs.put("faction", "yours");
+		this.optionalArgs.put("faction", "yours");
 
-        this.permission = Permission.MONEY_BALANCE.node;
-        this.setHelpShort(Lang.COMMAND_MONEYBALANCE_SHORT.toString());
+		this.permission = Permission.MONEY_BALANCE.node;
+		this.setHelpShort(Lang.COMMAND_MONEYBALANCE_SHORT.toString());
 
-        this.senderMustBePlayer = false;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        Faction faction = myFaction;
-        if (this.argIsSet(0)) {
-            faction = this.argAsFaction(0);
-        }
+	@Override
+	public void perform() {
+		Faction faction = myFaction;
+		if (this.argIsSet(0)) {
+			faction = this.argAsFaction(0);
+		}
 
-        if (faction == null) {
-            return;
-        }
-        if (faction != myFaction && !Permission.MONEY_BALANCE_ANY.has(sender, true)) {
-            return;
-        }
+		if (faction == null) return;
+		
+		if (faction != myFaction && !Permission.MONEY_BALANCE_ANY.has(sender, true)) {
+			return;
+		}
 
-        VaultEngine.sendBalanceInfo(fme, faction);
-    }
+		VaultEngine.sendBalanceInfo(fme, faction);
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_MONEYBALANCE_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_MONEYBALANCE_DESCRIPTION.toString();
+	}
 
 }

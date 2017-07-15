@@ -8,51 +8,51 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsAutohelp extends MCommand<Factions> {
 
-    // -------------------------------------------------- //
-    // FIELDS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
 
 	private static CmdFactionsAutohelp instance = new CmdFactionsAutohelp();
 	public static CmdFactionsAutohelp get() { return instance; }
 
 	// -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsAutohelp() {
-        this.aliases.addAll(Conf.cmdAliasesAutohelp);
+	public CmdFactionsAutohelp() {
+		this.aliases.addAll(Conf.cmdAliasesAutohelp);
 
-        this.setHelpShort("");
+		this.setHelpShort("");
 
-        this.optionalArgs.put("page", "1");
-    }
+		this.optionalArgs.put("page", "1");
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        if (this.commandChain.size() == 0) {
-            return;
-        }
-        MCommand<?> pcmd = this.commandChain.get(this.commandChain.size() - 1);
+	@Override
+	public void perform() {
+		if (this.commandChain.isEmpty()) return;
+		
+		MCommand<?> pcmd = this.commandChain.get(this.commandChain.size() - 1);
 
-        ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<String>();
 
-        lines.addAll(pcmd.helpLong);
+		lines.addAll(pcmd.helpLong);
 
-        for (MCommand<?> scmd : pcmd.subCommands) {
-            if (scmd.visibility == CommandVisibility.VISIBLE || (scmd.visibility == CommandVisibility.SECRET && scmd.validSenderPermissions(sender, false))) {
-                lines.add(scmd.getUseageTemplate(this.commandChain, true));
-            }
-        }
+		for (MCommand<?> scmd : pcmd.subCommands) {
+			if (scmd.visibility == CommandVisibility.VISIBLE || (scmd.visibility == CommandVisibility.SECRET && scmd.validSenderPermissions(sender, false))) {
+				lines.add(scmd.getUseageTemplate(this.commandChain, true));
+			}
+		}
 
-        sendMessage(Factions.get().getTextUtil().getPage(lines, this.argAsInt(0, 1), Lang.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
-    }
+		sendMessage(Factions.get().getTextUtil().getPage(lines, this.argAsInt(0, 1), Lang.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_HELP_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_HELP_DESCRIPTION.toString();
+	}
+	
 }

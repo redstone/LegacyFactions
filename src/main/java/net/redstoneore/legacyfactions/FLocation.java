@@ -1,5 +1,10 @@
 package net.redstoneore.legacyfactions;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -7,10 +12,6 @@ import org.bukkit.entity.Player;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class FLocation implements Serializable {
 

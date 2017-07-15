@@ -1,5 +1,9 @@
 package net.redstoneore.legacyfactions;
 
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.Map.Entry;
+
 import com.google.gson.reflect.TypeToken;
 
 import net.redstoneore.legacyfactions.cmd.MCommand;
@@ -14,9 +18,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Type;
-import java.util.*;
-import java.util.Map.Entry;
 
 public abstract class FactionsPluginBase extends JavaPlugin {
 	

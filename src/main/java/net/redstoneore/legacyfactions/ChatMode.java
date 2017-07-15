@@ -1,5 +1,8 @@
 package net.redstoneore.legacyfactions;
 
+/**
+ * An enum of available chat modes for faction chat.
+ */
 public enum ChatMode {
 	
 	// -------------------------------------------------- //
@@ -32,14 +35,29 @@ public enum ChatMode {
 	// METHODS
 	// -------------------------------------------------- // 
 
+	/**
+	 * Compare this role to another role, and see if this role is at least the other role. 
+	 * @param role
+	 * @return
+	 */
 	public boolean isAtLeast(ChatMode role) {
 		return this.value >= role.value;
 	}
 
+	/**
+	 * Compare this role to another role, and see if it is a most the other role. 
+	 * @param role to compare
+	 * @return true if at most 
+	 */
 	public boolean isAtMost(ChatMode role) {
 		return this.value <= role.value;
 	}
 	
+	/**
+	 * Check if two roles are the same.
+	 * @param role to compare
+	 * @return true if the roles are the same
+	 */
 	public boolean is(ChatMode role) {
 		return role == this;
 	}

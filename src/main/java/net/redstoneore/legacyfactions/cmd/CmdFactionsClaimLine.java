@@ -18,92 +18,92 @@ import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCa
 
 public class CmdFactionsClaimLine extends FCommand {
 
-    // -------------------------------------------------- //
-    // FIELDS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
 
-    public static final BlockFace[] axis = {BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST};
+	public static final BlockFace[] axis = {BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST};
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsClaimLine() {
+	public CmdFactionsClaimLine() {
 
-        // Aliases
-        this.aliases.addAll(Conf.cmdAliasesClaimLine);
+		// Aliases
+		this.aliases.addAll(Conf.cmdAliasesClaimLine);
 
-        // Args
-        this.optionalArgs.put("amount", "1");
-        this.optionalArgs.put("direction", "facing");
-        this.optionalArgs.put("faction", "you");
+		// Args
+		this.optionalArgs.put("amount", "1");
+		this.optionalArgs.put("direction", "facing");
+		this.optionalArgs.put("faction", "you");
 
-        this.permission = Permission.CLAIM_LINE.node;
-        this.disableOnLock = true;
+		this.permission = Permission.CLAIM_LINE.node;
+		this.disableOnLock = true;
 
-        this.senderMustBePlayer = true;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        // Args
-        Integer amount = this.argAsInt(0, 1); // Default to 1
+	@Override
+	public void perform() {
+		Integer amount = this.argAsInt(0, 1); // Default to 1
 
-        if (amount > Conf.lineClaimLimit) {
-            fme.msg(Lang.COMMAND_CLAIMLINE_ABOVEMAX, Conf.lineClaimLimit);
-            return;
-        }
+		if (amount > Conf.lineClaimLimit) {
+			fme.msg(Lang.COMMAND_CLAIMLINE_ABOVEMAX, Conf.lineClaimLimit);
+			return;
+		}
 
-        String direction = this.argAsString(1);
-        BlockFace blockFace;
+		String direction = this.argAsString(1);
+		BlockFace blockFace = null;
 
-        if (direction == null) {
-            blockFace = axis[Math.round(me.getLocation().getYaw() / 90f) & 0x3];
-        } else if (direction.equalsIgnoreCase("north")) {
-            blockFace = BlockFace.NORTH;
-        } else if (direction.equalsIgnoreCase("east")) {
-            blockFace = BlockFace.EAST;
-        } else if (direction.equalsIgnoreCase("south")) {
-            blockFace = BlockFace.SOUTH;
-        } else if (direction.equalsIgnoreCase("west")) {
-            blockFace = BlockFace.WEST;
-        } else {
-            fme.msg(Lang.COMMAND_CLAIMLINE_NOTVALID, direction);
-            return;
-        }
+		if (direction == null) {
+			blockFace = axis[Math.round(me.getLocation().getYaw() / 90f) & 0x3];
+		} else if (direction.equalsIgnoreCase("north")) {
+			blockFace = BlockFace.NORTH;
+		} else if (direction.equalsIgnoreCase("east")) {
+			blockFace = BlockFace.EAST;
+		} else if (direction.equalsIgnoreCase("south")) {
+			blockFace = BlockFace.SOUTH;
+		} else if (direction.equalsIgnoreCase("west")) {
+			blockFace = BlockFace.WEST;
+		} else {
+			fme.msg(Lang.COMMAND_CLAIMLINE_NOTVALID, direction);
+			return;
+		}
 
-        final Faction forFaction = this.argAsFaction(2, myFaction);
-        
-        Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
-        Location location = me.getLocation();
+		final Faction forFaction = this.argAsFaction(2, myFaction);
+		
+		Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+		Location location = me.getLocation();
 
-        for (int i = 0; i < amount; i++) {
-        	transactions.put(FLocation.valueOf(location), forFaction);
-            location = location.add(blockFace.getModX() * 16, 0, blockFace.getModZ() * 16);
-        }
-        
-        EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
-        Bukkit.getServer().getPluginManager().callEvent(event);
-        if (event.isCancelled()) return;
-        
-        for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
-        	if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
-        		return;
-        	}
-        }
-        
-    }
+		for (int i = 0; i < amount; i++) {
+			transactions.put(FLocation.valueOf(location), forFaction);
+			location = location.add(blockFace.getModX() * 16, 0, blockFace.getModZ() * 16);
+		}
+		
+		EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
+		Bukkit.getServer().getPluginManager().callEvent(event);
+		if (event.isCancelled()) return;
+		
+		for (Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
+			if (!fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
+				return;
+			}
+		}
+		
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_CLAIMLINE_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_CLAIMLINE_DESCRIPTION.toString();
+	}
+	
 }

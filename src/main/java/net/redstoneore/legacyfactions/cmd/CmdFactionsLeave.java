@@ -6,35 +6,35 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsLeave extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsLeave() {
-        this.aliases.addAll(Conf.cmdAliasesLeave);
+	public CmdFactionsLeave() {
+		this.aliases.addAll(Conf.cmdAliasesLeave);
 
-        this.permission = Permission.LEAVE.node;
-        this.disableOnLock = true;
+		this.permission = Permission.LEAVE.node;
+		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = true;
 		this.senderMustBeModerator = false;
 		this.senderMustBeColeader = false;
 		this.senderMustBeAdmin = false;
-    }
+	}
 
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        fme.leave(true);
-    }
+	@Override
+	public void perform() {
+		this.fme.leave(true);
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.LEAVE_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.LEAVE_DESCRIPTION.toString();
+	}
 
 }

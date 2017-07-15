@@ -12,45 +12,46 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyWithdraw extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsMoneyWithdraw() {
-        this.aliases.addAll(Conf.cmdAliasesMoneyWithdraw);
+	public CmdFactionsMoneyWithdraw() {
+		this.aliases.addAll(Conf.cmdAliasesMoneyWithdraw);
 
-        this.requiredArgs.add("amount");
-        this.optionalArgs.put("faction", "yours");
+		this.requiredArgs.add("amount");
+		this.optionalArgs.put("faction", "yours");
 
-        this.permission = Permission.MONEY_WITHDRAW.node;
+		this.permission = Permission.MONEY_WITHDRAW.node;
 
-        this.senderMustBePlayer = true;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        double amount = this.argAsDouble(0, 0d);
-        EconomyParticipator faction = this.argAsFaction(1, myFaction);
-        if (faction == null) {
-            return;
-        }
-        boolean success = VaultEngine.transferMoney(fme, faction, fme, amount);
+	@Override
+	public void perform() {
+		double amount = this.argAsDouble(0, 0d);
+		EconomyParticipator faction = this.argAsFaction(1, myFaction);
+		if (faction == null) {
+			return;
+		}
+		boolean success = VaultEngine.transferMoney(fme, faction, fme, amount);
 
-        if (success && Conf.logMoneyTransactions) {
-            Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYWITHDRAW_WITHDRAW.toString(), fme.getName(), VaultEngine.moneyString(amount), faction.describeTo(null))));
-        }
-    }
+		if (success && Conf.logMoneyTransactions) {
+			Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYWITHDRAW_WITHDRAW.toString(), fme.getName(), VaultEngine.moneyString(amount), faction.describeTo(null))));
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_MONEYWITHDRAW_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_MONEYWITHDRAW_DESCRIPTION.toString();
+	}
+	
 }

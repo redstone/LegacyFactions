@@ -9,67 +9,67 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsMap extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsMap() {
-        this.aliases.addAll(Conf.cmdAliasesMap);
+	public CmdFactionsMap() {
+		this.aliases.addAll(Conf.cmdAliasesMap);
 
-        this.optionalArgs.put("on/off", "once");
+		this.optionalArgs.put("on/off", "once");
 
-        this.permission = Permission.MAP.node;
-        this.disableOnLock = false;
+		this.permission = Permission.MAP.node;
+		this.disableOnLock = false;
 
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = false;
 		this.senderMustBeModerator = false;
 		this.senderMustBeColeader = false;
 		this.senderMustBeAdmin = false;
-    }
+	}
 
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        if (this.argIsSet(0)) {
-            if (this.argAsBool(0, !fme.isMapAutoUpdating())) {
-                // Turn on
+	@Override
+	public void perform() {
+		if (this.argIsSet(0)) {
+			if (this.argAsBool(0, !fme.isMapAutoUpdating())) {
+				// Turn on
 
-                // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-                if (!payForCommand(Conf.econCostMap, "to show the map", "for showing the map")) {
-                    return;
-                }
+				// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
+				if (!payForCommand(Conf.econCostMap, "to show the map", "for showing the map")) {
+					return;
+				}
 
-                fme.setMapAutoUpdating(true);
-                msg(Lang.COMMAND_MAP_UPDATE_ENABLED);
+				this.fme.setMapAutoUpdating(true);
+				this.msg(Lang.COMMAND_MAP_UPDATE_ENABLED);
 
-                // And show the map once
-                showMap();
-            } else {
-                // Turn off
-                fme.setMapAutoUpdating(false);
-                msg(Lang.COMMAND_MAP_UPDATE_DISABLED);
-            }
-        } else {
-            // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-            if (!payForCommand(Conf.econCostMap, Lang.COMMAND_MAP_TOSHOW, Lang.COMMAND_MAP_FORSHOW)) {
-                return;
-            }
+				// And show the map once
+				this.showMap();
+			} else {
+				// Turn off
+				this.fme.setMapAutoUpdating(false);
+				this.msg(Lang.COMMAND_MAP_UPDATE_DISABLED);
+			}
+		} else {
+			// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
+			if (!payForCommand(Conf.econCostMap, Lang.COMMAND_MAP_TOSHOW, Lang.COMMAND_MAP_FORSHOW)) {
+				return;
+			}
 
-            showMap();
-        }
-    }
+			this.showMap();
+		}
+	}
 
-    public void showMap() {
-        sendMessage(Board.get().getMap(myFaction, new FLocation(fme), fme.getPlayer().getLocation().getYaw()));
-    }
+	public void showMap() {
+		this.sendMessage(Board.get().getMap(this.myFaction, new FLocation(this.fme), this.fme.getPlayer().getLocation().getYaw()));
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_MAP_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_MAP_DESCRIPTION.toString();
+	}
 
 }

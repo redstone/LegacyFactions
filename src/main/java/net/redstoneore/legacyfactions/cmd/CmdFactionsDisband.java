@@ -24,10 +24,9 @@ public class CmdFactionsDisband extends FCommand {
 
     public CmdFactionsDisband() {
         this.aliases.addAll(Conf.cmdAliasesDisband);
-
-        //this.requiredArgs.add("");
+        
         this.optionalArgs.put("faction tag", "yours");
-
+        
         this.permission = Permission.DISBAND.node;
         this.disableOnLock = true;
 
@@ -39,16 +38,14 @@ public class CmdFactionsDisband extends FCommand {
     }
 
     // -------------------------------------------------- //
-	// METHODS
-	// -------------------------------------------------- //
+// METHODS
+// -------------------------------------------------- //
 
     @Override
     public void perform() {
         // The faction, default to your own.. but null if console sender.
         Faction faction = this.argAsFaction(0, fme == null ? null : myFaction);
-        if (faction == null) {
-            return;
-        }
+        if (faction == null) return;
 
         boolean isMyFaction = fme == null ? false : faction == myFaction;
 
@@ -66,22 +63,22 @@ public class CmdFactionsDisband extends FCommand {
             msg(Lang.COMMAND_DISBAND_IMMUTABLE.toString());
             return;
         }
+        
         if (faction.isPermanent()) {
             msg(Lang.COMMAND_DISBAND_MARKEDPERMANENT.toString());
             return;
         }
 
-        EventFactionsDisband disbandEvent = new EventFactionsDisband(me, faction.getId(), true,
-                EventFactionsDisband.DisbandReason.DISBAND_COMMAND);
-        Bukkit.getServer().getPluginManager().callEvent(disbandEvent);
-        if (disbandEvent.isCancelled()) {
-            return;
-        }
+        
+        EventFactionsDisband disbandEvent = new EventFactionsDisband(me, faction.getId(), true, EventFactionsDisband.DisbandReason.DISBAND_COMMAND);
+        disbandEvent.call();
+        if (disbandEvent.isCancelled()) return;
 
         // Send event for each player in the faction
-        for (FPlayer fplayer : faction.getFPlayers()) {
-            Bukkit.getServer().getPluginManager().callEvent(new EventFactionsChange(fplayer, faction, FactionColl.get().getWilderness(), false, ChangeReason.DISBAND));
-        }
+        faction.getFPlayers().forEach(fplayer -> {
+        	EventFactionsChange changeEvent = new EventFactionsChange(fplayer, faction, FactionColl.get().getWilderness(), false, ChangeReason.DISBAND);
+            Bukkit.getServer().getPluginManager().callEvent(changeEvent);
+        });
 
         // Inform all players
         for (FPlayer fplayer : FPlayerColl.all(true)) {
@@ -115,7 +112,7 @@ public class CmdFactionsDisband extends FCommand {
         }
 
         FactionColl.get().removeFaction(faction.getId());
-        FTeamWrapper.applyUpdates(faction);
+        FTeamWrapper.applyUpdates(faction); // TODO: should this be put into removeFaction ?
     }
 
     @Override
