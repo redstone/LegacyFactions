@@ -19,7 +19,7 @@ import java.util.List;
 
 public abstract class FCommand extends MCommand<Factions> {
 	
-    public SimpleDateFormat sdf = new SimpleDateFormat(Lang.DATE_FORMAT.toString());
+    public SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Lang.DATE_FORMAT.toString());
 
     // Due to safety reasons it defaults to disable on lock.
     public boolean disableOnLock = true;
@@ -28,6 +28,7 @@ public abstract class FCommand extends MCommand<Factions> {
     public Faction myFaction;
     public boolean senderMustBeMember = false;
     public boolean senderMustBeModerator = false;
+    public boolean senderMustBeColeader = false;
     public boolean senderMustBeAdmin = false;
 
     // The money commands must be disabled if money should not be used.
@@ -72,7 +73,7 @@ public abstract class FCommand extends MCommand<Factions> {
             return false;
         }
 
-        if (!(this.senderMustBeMember || this.senderMustBeModerator || this.senderMustBeAdmin)) {
+        if (!(this.senderMustBeMember || this.senderMustBeModerator || this.senderMustBeAdmin || this.senderMustBeColeader)) {
             return true;
         }
 
@@ -86,12 +87,23 @@ public abstract class FCommand extends MCommand<Factions> {
         }
 
         if (this.senderMustBeModerator && !fme.getRole().isAtLeast(Role.MODERATOR)) {
-            sender.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYMODERATORSCAN.toString().replaceAll("<theaction>", this.getHelpShort())));
+            String message = Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYMODERATORSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
+
+            sender.sendMessage(message);
+            return false;
+        }
+
+        if (this.senderMustBeColeader && !fme.getRole().isAtLeast(Role.COLEADER)) {
+            String message = Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYCOLEADERSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
+
+            sender.sendMessage(message);
             return false;
         }
 
         if (this.senderMustBeAdmin && !fme.getRole().isAtLeast(Role.ADMIN)) {
-            sender.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYADMINSCAN.toString().replaceAll("<theaction>", this.getHelpShort())));
+            String message = Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYADMINSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
+
+            sender.sendMessage(message);
             return false;
         }
 
@@ -254,11 +266,13 @@ public abstract class FCommand extends MCommand<Factions> {
         if (you.getRole().equals(Role.ADMIN)) {
             i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
         } else if (i.getRole().equals(Role.MODERATOR)) {
-            if (i == you) {
-                return true; //Moderators can control themselves
-            } else {
-                i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
-            }
+            if (i == you) return true;
+
+            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
+        } else if (i.getRole().equals(Role.COLEADER)) {
+            if (i == you) return true;
+
+            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_COLEADERSCANT.toString()));
         } else {
             i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
         }

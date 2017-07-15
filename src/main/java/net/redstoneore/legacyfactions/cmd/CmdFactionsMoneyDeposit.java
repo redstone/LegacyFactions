@@ -12,6 +12,10 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyDeposit extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsMoneyDeposit() {
         this.aliases.addAll(Conf.cmdAliasesMoneyDeposit);
 
@@ -20,11 +24,16 @@ public class CmdFactionsMoneyDeposit extends FCommand {
 
         this.permission = Permission.MONEY_DEPOSIT.node;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

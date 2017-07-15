@@ -17,6 +17,10 @@ import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCa
 
 public class CmdFactionsAutoclaim extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsAutoclaim() {
         this.aliases.addAll(Conf.cmdAliasesAutoclaim);
 
@@ -25,11 +29,16 @@ public class CmdFactionsAutoclaim extends FCommand {
         this.permission = Permission.AUTOCLAIM.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {
@@ -54,7 +63,7 @@ public class CmdFactionsAutoclaim extends FCommand {
 
         msg(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
         
-        Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+        Map<FLocation, Faction> transactions = new HashMap<>();
 
         transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
        

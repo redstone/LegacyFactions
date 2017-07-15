@@ -10,6 +10,10 @@ import org.bukkit.ChatColor;
 
 public class CmdFactionsInvite extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsInvite() {
         this.aliases.addAll(Conf.cmdAliasesInvite);
 
@@ -18,15 +22,21 @@ public class CmdFactionsInvite extends FCommand {
         this.permission = Permission.INVITE.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = true;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {
         FPlayer you = this.argAsBestFPlayerMatch(0);
+
         if (you == null) {
             return;
         }

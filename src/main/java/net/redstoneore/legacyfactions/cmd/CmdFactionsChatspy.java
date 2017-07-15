@@ -7,6 +7,10 @@ import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsChatspy extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsChatspy() {
         this.aliases.addAll(Conf.cmdAliasesChatspy);
 
@@ -15,11 +19,16 @@ public class CmdFactionsChatspy extends FCommand {
         this.permission = Permission.CHATSPY.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -7,6 +7,10 @@ import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsBypass extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsBypass() {
         this.aliases.addAll(Conf.cmdAliasesBypass);
 
@@ -16,11 +20,16 @@ public class CmdFactionsBypass extends FCommand {
         this.permission = Permission.BYPASS.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

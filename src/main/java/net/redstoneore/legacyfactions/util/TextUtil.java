@@ -185,19 +185,19 @@ public class TextUtil {
     }
 
     public ArrayList<String> getPage(List<String> lines, int pageHumanBased, String title) {
-        ArrayList<String> ret = new ArrayList<String>();
+        ArrayList<String> page = new ArrayList<>();
         int pageZeroBased = pageHumanBased - 1;
         int pageheight = 9;
         int pagecount = (lines.size() / pageheight) + 1;
 
-        ret.add(this.titleize(title + " " + pageHumanBased + "/" + pagecount));
+        page.add(this.titleize(title + " " + pageHumanBased + "/" + pagecount));
 
         if (pagecount == 0) {
-            ret.add(this.parseTags(Lang.NOPAGES.toString()));
-            return ret;
+            page.add(this.parseTags(Lang.NOPAGES.toString()));
+            return page;
         } else if (pageZeroBased < 0 || pageHumanBased > pagecount) {
-            ret.add(this.parseTags(Lang.INVALIDPAGE.format(pagecount)));
-            return ret;
+            page.add(this.parseTags(Lang.INVALIDPAGE.format(pagecount)));
+            return page;
         }
 
         int from = pageZeroBased * pageheight;
@@ -206,9 +206,9 @@ public class TextUtil {
             to = lines.size();
         }
 
-        ret.addAll(lines.subList(from, to));
+        page.addAll(lines.subList(from, to));
 
-        return ret;
+        return page;
     }
 
     public static String getBestStartWithCI(Collection<String> candidates, String start) {

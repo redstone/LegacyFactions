@@ -7,12 +7,24 @@ import net.redstoneore.legacyfactions.scoreboards.FScoreboard;
 
 public class CmdFactionsScoreboard extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsScoreboard() {
         this.aliases.addAll(Conf.cmdAliasesScoreboard);
         
         this.permission = Permission.SCOREBOARD.node;
         this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

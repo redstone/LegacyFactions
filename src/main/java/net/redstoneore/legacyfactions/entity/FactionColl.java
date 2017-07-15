@@ -65,11 +65,11 @@ public abstract class FactionColl {
     }
     
     public List<Faction> getAll(World world) {
-    	List<Faction> all = new ArrayList<Faction>();
+    	List<Faction> all = new ArrayList<>();
     	
     	for (Faction faction : i.getAllFactions()) {
-    		for(FLocation loc : faction.getAllClaims()) {
-    			if (loc.getWorld() != world) continue;
+    		for (FLocation location : faction.getAllClaims()) {
+    			if (location.getWorld() != world) continue;
     			
     			all.add(faction);
     			break;

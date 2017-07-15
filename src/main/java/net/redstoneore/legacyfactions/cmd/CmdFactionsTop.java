@@ -38,10 +38,10 @@ public class CmdFactionsTop extends FCommand {
         this.permission = Permission.TOP.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeAdmin = false;
     }
 
 	// -------------------------------------------------- //
@@ -240,7 +240,7 @@ public class CmdFactionsTop extends FCommand {
         } else if (criteria.equalsIgnoreCase("land")) {
             return String.valueOf(faction.getLandRounded());
         } else if (criteria.equalsIgnoreCase("start")) {
-            return sdf.format(faction.getFoundedDate());
+            return simpleDateFormat.format(faction.getFoundedDate());
         } else if (criteria.equalsIgnoreCase("power")) {
             return String.valueOf(faction.getPowerRounded());
         } else { // Last one is balance, and it has 3 different things it could be.

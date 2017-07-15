@@ -16,6 +16,10 @@ import java.util.ArrayList;
 
 public class CmdFactionsTag extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsTag() {
         this.aliases.addAll(Conf.cmdAliasesTag);
 
@@ -24,11 +28,15 @@ public class CmdFactionsTag extends FCommand {
         this.permission = Permission.TAG.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = true;
+		this.senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

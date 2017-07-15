@@ -3,7 +3,8 @@ package net.redstoneore.legacyfactions;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public enum Role {
-    ADMIN(2, Lang.ROLE_ADMIN),
+    ADMIN(3, Lang.ROLE_ADMIN),
+    COLEADER(2, Lang.ROLE_COLEADER),
     MODERATOR(1, Lang.ROLE_MODERATOR),
     NORMAL(0, Lang.ROLE_NORMAL);
 
@@ -35,11 +36,15 @@ public enum Role {
 
     public String getPrefix() {
         if (this == Role.ADMIN) {
-            return Conf.prefixAdmin;
+            return Conf.playerPrefixAdmin;
+        }
+
+        if (this == Role.COLEADER) {
+            return Conf.playerPrefixColeader;
         }
 
         if (this == Role.MODERATOR) {
-            return Conf.prefixMod;
+            return Conf.playerPrefixMod;
         }
 
         return "";

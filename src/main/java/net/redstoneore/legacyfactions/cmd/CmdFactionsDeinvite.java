@@ -11,20 +11,28 @@ import org.bukkit.ChatColor;
 
 public class CmdFactionsDeinvite extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsDeinvite() {
         this.aliases.addAll(Conf.cmdAliasesDeinvite);
 
         this.optionalArgs.put("player name", "name");
-        //this.optionalArgs.put("", "");
 
         this.permission = Permission.DEINVITE.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = true;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -72,7 +72,7 @@ public abstract class FPlayerColl {
 	}
 	
 	public static Collection<FPlayer> getAll(Role role) {
-		Collection<FPlayer> all = new ArrayList<FPlayer>();
+		Collection<FPlayer> all = new ArrayList<>();
 		
 		for (FPlayer fplayer : all()) {
 			if (fplayer.getRole() == role) {

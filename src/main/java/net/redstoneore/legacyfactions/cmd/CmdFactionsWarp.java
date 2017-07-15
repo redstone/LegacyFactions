@@ -18,6 +18,10 @@ import java.util.UUID;
 
 public class CmdFactionsWarp extends FCommand {
 
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+
     public CmdFactionsWarp() {
         this.aliases.addAll(Conf.cmdAliasesWarp);
         
@@ -27,7 +31,13 @@ public class CmdFactionsWarp extends FCommand {
         this.permission = Permission.WARP.node;
         this.senderMustBeMember = true;
         this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -12,7 +12,11 @@ import net.redstoneore.legacyfactions.util.TagUtil;
 import java.util.List;
 
 public class CmdFactionsShow extends FCommand {
-	
+
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+
 	public CmdFactionsShow() {
 		this.aliases.addAll(Conf.cmdAliasesShow);
 		
@@ -25,6 +29,10 @@ public class CmdFactionsShow extends FCommand {
 		this.senderMustBeModerator = false;
 		this.senderMustBeAdmin = false;
 	}
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
 	@Override
 	public void perform() {

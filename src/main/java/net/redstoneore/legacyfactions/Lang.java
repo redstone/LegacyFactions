@@ -64,11 +64,13 @@ public enum Lang {
 	COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND("<b>The faction or player \"<p><name><b>\" could not be found."),
 	COMMAND_ERRORS_ONLYFACTIONADMIN("<b>Only the faction admin can do that."),
 	COMMAND_ERRORS_MODERATORSCANT("<b>Moderators can't control each other..."),
+	COMMAND_ERRORS_COLEADERSCANT("<b>Coleaders can't control each other..."),
 	COMMAND_ERRORS_NOTMODERATOR("<b>You must be a faction moderator to do that."),
 	COMMAND_ERRORS_NOTMEMBER("<b>You are not a member of any faction."),
 	COMMAND_ERRORS_NOTSAME("<name> <b>is not in the same faction as you."),
 	COMMAND_ERRORS_YOUMUSTBE("<b>You <h>must be <therole><b> to <theaction>."),
 	COMMAND_ERRORS_ONLYMODERATORSCAN("<b>Only faction moderators can <theaction>."),
+	COMMAND_ERRORS_ONLYCOLEADERSCAN("<b>Only faction coleaders can <theaction>."),
 	COMMAND_ERRORS_ONLYADMINSCAN("<b>Only faction admins can <theaction>."),
 	
 	COMMAND_ERRORS_FACTIONSLOCKED("<b>Factions was locked by an admin. Please try again later."),
@@ -137,6 +139,18 @@ public enum Lang {
 	COMMAND_CLAIMLINE_DESCRIPTION("Claim land in a straight line."),
 	COMMAND_CLAIMLINE_ABOVEMAX("<b>The maximum limit for claim line is <b>%s<b>."),
 	COMMAND_CLAIMLINE_NOTVALID("%s<b> is not a cardinal direction. You may use <h>north<b>, <h>east<b>, <h>south <b>or <h>west<b>."),
+
+    COMMAND_COLEADER_CANDIDATES("Players you can promote: "),
+    COMMAND_COLEADER_CLICKTOPROMOTE("Click to promote "),
+    COMMAND_COLEADER_NOTMEMBER("%1$s<b> is not a member in your faction."),
+    COMMAND_COLEADER_NOTADMIN("<b>You are not the faction admin."),
+    COMMAND_COLEADER_SELF("<b>The target player musn't be yourself."),
+    COMMAND_COLEADER_TARGETISADMIN("<b>The target player is a faction admin. Demote them first."),
+    COMMAND_COLEADER_REVOKES("<i>You have removed coleader status from %1$s<i>."),
+    COMMAND_COLEADER_REVOKED("%1$s<i> is no longer coleader in your faction."),
+    COMMAND_COLEADER_PROMOTES("%1$s<i> was promoted to coleader in your faction."),
+    COMMAND_COLEADER_PROMOTED("<i>You have promoted %1$s<i> to coleader."),
+    COMMAND_COLEADER_DESCRIPTION("Give or revoke coleader rights"),
 
 	COMMAND_CONFIG_NOEXIST("<b>No configuration setting \"<h>%1$s<b>\" exists."),
 	COMMAND_CONFIG_SET_TRUE("\" option set to true (enabled)."),
@@ -693,6 +707,7 @@ public enum Lang {
 	// -------------------------------------------------- //
 
 	ROLE_ADMIN("admin"),
+	ROLE_COLEADER("coleader"),
 	ROLE_MODERATOR("moderator"),
 	ROLE_NORMAL("normal member"),
 

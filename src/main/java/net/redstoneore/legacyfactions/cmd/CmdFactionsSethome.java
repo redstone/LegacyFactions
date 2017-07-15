@@ -10,6 +10,10 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsSethome extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsSethome() {
         this.aliases.addAll(Conf.cmdAliasesSethome);
 
@@ -18,11 +22,16 @@ public class CmdFactionsSethome extends FCommand {
         this.permission = Permission.SETHOME.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

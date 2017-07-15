@@ -18,6 +18,10 @@ import java.util.ArrayList;
 
 public class CmdFactionsCreate extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsCreate() {
         this.aliases.addAll(Conf.cmdAliasesCreate);
 
@@ -27,11 +31,16 @@ public class CmdFactionsCreate extends FCommand {
         this.permission = Permission.CREATE.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

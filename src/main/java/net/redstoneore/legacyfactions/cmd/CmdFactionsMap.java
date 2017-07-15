@@ -9,6 +9,10 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsMap extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsMap() {
         this.aliases.addAll(Conf.cmdAliasesMap);
 
@@ -17,11 +21,16 @@ public class CmdFactionsMap extends FCommand {
         this.permission = Permission.MAP.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

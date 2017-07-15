@@ -11,6 +11,10 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 
 public class CmdFactionsJoin extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsJoin() {
         this.aliases.addAll(Conf.cmdAliasesJoin);
 
@@ -20,11 +24,16 @@ public class CmdFactionsJoin extends FCommand {
         this.permission = Permission.JOIN.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

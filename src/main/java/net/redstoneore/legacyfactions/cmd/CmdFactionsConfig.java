@@ -17,7 +17,15 @@ import java.util.Set;
 
 public class CmdFactionsConfig extends FCommand {
 
-    private static HashMap<String, String> properFieldNames = new HashMap<String, String>();
+    // -------------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------------- //
+
+    private static HashMap<String, String> properFieldNames = new HashMap<>();
+
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
 
     public CmdFactionsConfig() {
         this.aliases.addAll(Conf.cmdAliasesConfig);
@@ -29,11 +37,16 @@ public class CmdFactionsConfig extends FCommand {
         this.permission = Permission.CONFIG.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

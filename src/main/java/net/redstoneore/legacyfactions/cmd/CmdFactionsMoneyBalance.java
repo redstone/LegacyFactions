@@ -8,6 +8,10 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyBalance extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsMoneyBalance() {
         this.aliases.addAll(Conf.cmdAliasesMoneyBalance);
 
@@ -16,11 +20,16 @@ public class CmdFactionsMoneyBalance extends FCommand {
         this.permission = Permission.MONEY_BALANCE.node;
         this.setHelpShort(Lang.COMMAND_MONEYBALANCE_SHORT.toString());
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = false;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = false;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

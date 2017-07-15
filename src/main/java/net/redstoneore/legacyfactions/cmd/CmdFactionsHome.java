@@ -22,6 +22,10 @@ import java.util.List;
 
 public class CmdFactionsHome extends FCommand {
 
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+
 	public CmdFactionsHome() {
 		this.aliases.addAll(Conf.cmdAliasesHome);
 
@@ -31,11 +35,16 @@ public class CmdFactionsHome extends FCommand {
 		this.permission = Permission.HOME.node;
 		this.disableOnLock = false;
 
-		senderMustBePlayer = true;
-		senderMustBeMember = true;
-		senderMustBeModerator = false;
-		senderMustBeAdmin = false;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = true;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
 	}
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
 	@Override
 	public void perform() {

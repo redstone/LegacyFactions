@@ -35,6 +35,7 @@ public class CmdFactions extends FCommand {
 	public CmdFactionsChat cmdChat = new CmdFactionsChat();
 	public CmdFactionsChatspy cmdChatSpy = new CmdFactionsChatspy();
 	public CmdFactionsClaim cmdClaim = new CmdFactionsClaim();
+	public CmdFactionsColeader cmdColeader = new CmdFactionsColeader();
 	public CmdFactionsConfig cmdConfig = new CmdFactionsConfig();
 	public CmdFactionsCreate cmdCreate = new CmdFactionsCreate();
 	public CmdFactionsDeinvite cmdDeinvite = new CmdFactionsDeinvite();
@@ -116,6 +117,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(this.cmdToggleAllianceChat);
 		this.addSubCommand(this.cmdChatSpy);
 		this.addSubCommand(this.cmdClaim);
+		this.addSubCommand(this.cmdColeader);
 		this.addSubCommand(this.cmdConfig);
 		this.addSubCommand(this.cmdCreate);
 		this.addSubCommand(this.cmdDeinvite);

@@ -8,17 +8,25 @@ import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsVersion extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsVersion() {
         this.aliases.addAll(Conf.cmdAliasesVersion);
         
         this.permission = Permission.VERSION.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeAdmin = false;
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

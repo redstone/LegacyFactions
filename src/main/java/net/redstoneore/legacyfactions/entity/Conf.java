@@ -105,8 +105,9 @@ public class Conf {
 	// PREFIX
 	// -------------------------------------------------- //
 
-    public static String prefixAdmin = "**";
-    public static String prefixMod = "*";
+    public static String playerPrefixAdmin = "***";
+    public static String playerPrefixColeader = "**";
+    public static String playerPrefixMod = "*";
 
 	// -------------------------------------------------- //
 	// FACTION
@@ -555,12 +556,12 @@ public class Conf {
     // If empty all regions are shown.
     // Specify Faction either by name or UUID.
     // To show all regions on a given world, add 'world:<worldname>' to the list.
-    public static Set<String> dynmapVisibleFactions = new HashSet<String>();
+    public static Set<String> dynmapVisibleFactions = new HashSet<>();
 
     // Optional setting to hide specific Factions.
     // Specify Faction either by name or UUID.
     // To hide all regions on a given world, add 'world:<worldname>' to the list.
-    public static Set<String> dynmapHiddenFactions = new HashSet<String>();
+    public static Set<String> dynmapHiddenFactions = new HashSet<>();
 
     // Region Style
     public static final transient String DYNMAP_STYLE_LINE_COLOR = "#00FF00";
@@ -595,12 +596,12 @@ public class Conf {
     public static boolean bankFactionPaysLandCosts = true; //The faction pays for land claiming costs.
 
     // mainly for other plugins/mods that use a fake player to take actions, which shouldn't be subject to our protections
-    public static Set<String> playersWhoBypassAllProtection = new LinkedHashSet<String>();
+    public static Set<String> playersWhoBypassAllProtection = new LinkedHashSet<>();
 
-    public static Set<String> worldsNoClaiming = new LinkedHashSet<String>();
-    public static Set<String> worldsNoPowerLoss = new LinkedHashSet<String>();
-    public static Set<String> worldsIgnorePvP = new LinkedHashSet<String>();
-    public static Set<String> worldsNoWildernessProtection = new LinkedHashSet<String>();
+    public static Set<String> worldsNoClaiming = new LinkedHashSet<>();
+    public static Set<String> worldsNoPowerLoss = new LinkedHashSet<>();
+    public static Set<String> worldsIgnorePvP = new LinkedHashSet<>();
+    public static Set<String> worldsNoWildernessProtection = new LinkedHashSet<>();
 
     // -------------------------------------------------- //
     // BUFFERS
@@ -679,11 +680,12 @@ public class Conf {
 			"&3/f unclaim  &e>>  &7Unclaim land",
 			"&3/f kick      &e>>  &7Kick player from your faction",
 			"&3/f mod      &e>>  &7Set player role in faction",
-			"&3/f chat     &e>>  &7Switch to faction chat",
+			"&3/f coleader      &e>>  &7Set player role in faction",
 			"&e&m--------------&r &2/f help 4 for more &e&m--------------"
 		),
 		"4", Lists.newArrayList(
 			"&e&m------------------&r&c&l Page 4 &e&m--------------------",
+			"&3/f chat     &e>>  &7Switch to faction chat",
 			"&3/f version &e>>  &7Display version information",
 			"&e&m--------------&r&2 End of /f help &e&m-----------------"
 		)

@@ -11,13 +11,24 @@ import org.bukkit.ChatColor;
 
 public class CmdFactionsShowInvites extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsShowInvites() {
         this.aliases.addAll(Conf.cmdAliasesShowInvites);
         permission = Permission.SHOW_INVITES.node;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = true;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = true;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

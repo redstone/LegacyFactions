@@ -17,6 +17,10 @@ import org.bukkit.ChatColor;
 
 public class CmdFactionsKick extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsKick() {
         this.aliases.addAll(Conf.cmdAliasesKick);
 
@@ -26,23 +30,37 @@ public class CmdFactionsKick extends FCommand {
         this.permission = Permission.KICK.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = true;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {
         FPlayer toKick = this.argIsSet(0) ? this.argAsBestFPlayerMatch(0) : null;
         if (toKick == null) {
             FancyMessage msg = new FancyMessage(Lang.COMMAND_KICK_CANDIDATES.toString()).color(ChatColor.GOLD);
+
             for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
-                String s = player.getName();
-                msg.then(s + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " kick " + s);
+                String name = player.getName();
+                msg.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + Conf.baseCommandAliases.get(0) + " kick " + name);
             }
-            if (fme.getRole() == Role.ADMIN) {
+
+            if (fme.getRole().isAtLeast(Role.COLEADER)) {
                 for (FPlayer player : myFaction.getFPlayersWhereRole(Role.MODERATOR)) {
+                    String s = player.getName();
+                    msg.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " kick " + s);
+                }
+            }
+
+            if(fme.getRole() == Role.ADMIN) {
+                for (FPlayer player : myFaction.getFPlayersWhereRole(Role.COLEADER)) {
                     String s = player.getName();
                     msg.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " kick " + s);
                 }

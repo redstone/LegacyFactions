@@ -6,6 +6,10 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsBoom extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsBoom() {
         this.aliases.addAll(Conf.cmdAliasesBoom);
 
@@ -14,11 +18,16 @@ public class CmdFactionsBoom extends FCommand {
         this.permission = Permission.NO_BOOM.node;
         this.disableOnLock = true;
 
-        senderMustBePlayer = true;
-        senderMustBeMember = false;
-        senderMustBeModerator = true;
-        senderMustBeAdmin = false;
+        this.senderMustBePlayer = true;
+        this.senderMustBeMember = false;
+        this.senderMustBeModerator = true;
+        this.senderMustBeColeader = false;
+        this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -7,6 +7,10 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsReload extends FCommand {
 
+    // -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsReload() {
         this.aliases.addAll(Conf.cmdAliasesReload);
 
@@ -15,11 +19,16 @@ public class CmdFactionsReload extends FCommand {
         this.permission = Permission.RELOAD.node;
         this.disableOnLock = false;
 
-        senderMustBePlayer = false;
-        senderMustBeMember = false;
-        senderMustBeModerator = false;
-        senderMustBeAdmin = false;
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
     }
+
+    // -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     @Override
     public void perform() {

@@ -8,9 +8,17 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsAutohelp extends MCommand<Factions> {
 
+    // -------------------------------------------------- //
+    // FIELDS
+    // -------------------------------------------------- //
+
 	private static CmdFactionsAutohelp instance = new CmdFactionsAutohelp();
 	public static CmdFactionsAutohelp get() { return instance; }
-	
+
+	// -------------------------------------------------- //
+    // CONSTRUCT
+    // -------------------------------------------------- //
+
     public CmdFactionsAutohelp() {
         this.aliases.addAll(Conf.cmdAliasesAutohelp);
 
@@ -18,6 +26,10 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
 
         this.optionalArgs.put("page", "1");
     }
+
+    // -------------------------------------------------- //
+    // METHODS
+    // -------------------------------------------------- //
 
     @Override
     public void perform() {
