@@ -1,3 +1,13 @@
+# 1.4.0
+* Improvement: Added coleader, you can disable it by not giving the `/f coleader` permission
+* Improvement: Allow server owners to let factions use colour codes in /f title and /f desc
+* Improvement: Add ability for server owners to toggle the ability for factions to color the desc and title.
+* Improvement: Added truces
+* Bugfix: Fix NPE when running /f mod without args (#17)
+* Bugfix: Scoreboard bug - the scoreboard could be blank on first join
+* Docs: Documentation Created
+* Internal code cleanup
+
 # 1.2.1
 * API: New API Event: EventFactionsChatModeChange
 * API: ChatMode, FLocation and Relation improvements
