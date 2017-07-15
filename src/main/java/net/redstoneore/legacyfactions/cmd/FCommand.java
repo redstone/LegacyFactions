@@ -131,7 +131,7 @@ public abstract class FCommand extends MCommand<Factions> {
             return true;
         }
 
-        if (fme.getRole().value < role.value) {
+        if (fme.getRole().isLessThan(role)) {
             msg(Lang.COMMAND_ERRORS_YOUMUSTBE.toString().replaceAll("<therole>", role.toNiceName()).replaceAll("<theaction>", this.getHelpShort()));
             return false;
         }
@@ -253,28 +253,28 @@ public abstract class FCommand extends MCommand<Factions> {
     // Commonly used logic
     // -------------------------------------------- //
 
-    public boolean canIAdministerYou(FPlayer i, FPlayer you) {
-        if (!i.getFaction().equals(you.getFaction())) {
-            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTSAME.toString().replaceAll("<name>", you.describeTo(i, true))));
+    public boolean canIAdministerYou(FPlayer who, FPlayer you) {
+        if (!who.getFaction().equals(you.getFaction())) {
+            who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTSAME.toString().replaceAll("<name>", you.describeTo(who, true))));
             return false;
         }
 
-        if (i.getRole().value > you.getRole().value || i.getRole().equals(Role.ADMIN)) {
+        if (who.getRole().isMoreThan(you.getRole()) || who.getRole().equals(Role.ADMIN)) {
             return true;
         }
 
         if (you.getRole().equals(Role.ADMIN)) {
-            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
-        } else if (i.getRole().equals(Role.MODERATOR)) {
-            if (i == you) return true;
+            who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
+        } else if (who.getRole().equals(Role.MODERATOR)) {
+            if (who == you) return true;
 
-            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
-        } else if (i.getRole().equals(Role.COLEADER)) {
-            if (i == you) return true;
+            who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
+        } else if (who.getRole().equals(Role.COLEADER)) {
+            if (who == you) return true;
 
-            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_COLEADERSCANT.toString()));
+            who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_COLEADERSCANT.toString()));
         } else {
-            i.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
+            who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
         }
 
         return false;

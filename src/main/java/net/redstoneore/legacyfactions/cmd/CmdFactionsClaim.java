@@ -18,102 +18,101 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 
 public class CmdFactionsClaim extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsClaim() {
-        this.aliases.addAll(Conf.cmdAliasesClaim);
+	public CmdFactionsClaim() {
+		this.aliases.addAll(Conf.cmdAliasesClaim);
 
-        //this.requiredArgs.add("");
-        this.optionalArgs.put("radius", "1");
-        this.optionalArgs.put("faction", "your");
+		this.optionalArgs.put("radius", "1");
+		this.optionalArgs.put("faction", "your");
 
-        this.permission = Permission.CLAIM.node;
-        this.disableOnLock = true;
+		this.permission = Permission.CLAIM.node;
+		this.disableOnLock = true;
 
-        this.senderMustBePlayer = true;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        // Read and validate input
-        int radius = this.argAsInt(0, 1); // Default to 1
-        final Faction forFaction = this.argAsFaction(1, myFaction); // Default to own
+	@Override
+	public void perform() {
+		// Read and validate input
+		int radius = this.argAsInt(0, 1); // Default to 1
+		final Faction forFaction = this.argAsFaction(1, myFaction); // Default to own
 
-        if (radius < 1) {
-            msg(Lang.COMMAND_CLAIM_INVALIDRADIUS);
-            return;
-        }
+		if (radius < 1) {
+			msg(Lang.COMMAND_CLAIM_INVALIDRADIUS);
+			return;
+		}
 
-        if (radius < 2) {
-            // single chunk
-            Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+		if (radius < 2) {
+			// single chunk
+			Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
 
-            transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
-           
-            EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
-            Bukkit.getServer().getPluginManager().callEvent(event);
-            if (event.isCancelled()) return;
-            
-            for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
-            	if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
-            		return;
-            	}
-            }
-        } else {
-            // radius claim
-            if (!Permission.CLAIM_RADIUS.has(sender, false)) {
-                msg(Lang.COMMAND_CLAIM_DENIED);
-                return;
-            }
+			transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
+		   
+			EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
+			Bukkit.getServer().getPluginManager().callEvent(event);
+			if (event.isCancelled()) return;
+			
+			for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
+				if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
+					return;
+				}
+			}
+		} else {
+			// radius claim
+			if (!Permission.CLAIM_RADIUS.has(sender, false)) {
+				msg(Lang.COMMAND_CLAIM_DENIED);
+				return;
+			}
 
-            new SpiralTask(new FLocation(me), radius) {
-                private int failCount = 0;
-                private final int limit = Conf.radiusClaimFailureLimit - 1;
+			new SpiralTask(new FLocation(me), radius) {
+				private int failCount = 0;
+				private final int limit = Conf.radiusClaimFailureLimit - 1;
 
-                @Override
-                public boolean work() {
-                    Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+				@Override
+				public boolean work() {
+					Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
 
-                    transactions.put(FLocation.valueOf(this.currentLocation()), forFaction);
-                   
-                    EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
-                    Bukkit.getServer().getPluginManager().callEvent(event);
-                    if (event.isCancelled()) return false;
-                    boolean success = false;
-                    for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
-                    	if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
-                    		success = false;
-                    	} else {
-                    		success = true;
-                    	}
-                    }
-                    
-                    if (success) {
-                        failCount = 0;
-                    } else if (failCount++ >= limit) {
-                        this.stop();
-                        return false;
-                    }
+					transactions.put(FLocation.valueOf(this.currentLocation()), forFaction);
+				   
+					EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
+					Bukkit.getServer().getPluginManager().callEvent(event);
+					if (event.isCancelled()) return false;
+					boolean success = false;
+					for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
+						if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
+							success = false;
+						} else {
+							success = true;
+						}
+					}
+					
+					if (success) {
+						failCount = 0;
+					} else if (failCount++ >= limit) {
+						this.stop();
+						return false;
+					}
 
-                    return true;
-                }
-            };
-        }
-    }
+					return true;
+				}
+			};
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_CLAIM_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_CLAIM_DESCRIPTION.toString();
+	}
 
 }

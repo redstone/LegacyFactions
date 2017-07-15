@@ -7,46 +7,46 @@ import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsBypass extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsBypass() {
-        this.aliases.addAll(Conf.cmdAliasesBypass);
+	public CmdFactionsBypass() {
+		this.aliases.addAll(Conf.cmdAliasesBypass);
 
-        //this.requiredArgs.add("");
-        this.optionalArgs.put("on/off", "flip");
+		this.optionalArgs.put("on/off", "flip");
 
-        this.permission = Permission.BYPASS.node;
-        this.disableOnLock = false;
+		this.permission = Permission.BYPASS.node;
+		this.disableOnLock = false;
 
-        this.senderMustBePlayer = true;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        fme.setIsAdminBypassing(this.argAsBool(0, !fme.isAdminBypassing()));
+	@Override
+	public void perform() {
+		fme.setIsAdminBypassing(this.argAsBool(0, !fme.isAdminBypassing()));
 
-        // TODO: Move this to a transient field in the model??
-        if (fme.isAdminBypassing()) {
-            fme.msg(Lang.COMMAND_BYPASS_ENABLE.toString());
-            Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_ENABLELOG.toString());
-        } else {
-            fme.msg(Lang.COMMAND_BYPASS_DISABLE.toString());
-            Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_DISABLELOG.toString());
-        }
-    }
+		// TODO: Move this to a transient field in the model??
+		if (fme.isAdminBypassing()) {
+			fme.msg(Lang.COMMAND_BYPASS_ENABLE.toString());
+			Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_ENABLELOG.toString());
+		} else {
+			fme.msg(Lang.COMMAND_BYPASS_DISABLE.toString());
+			Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_DISABLELOG.toString());
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_BYPASS_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_BYPASS_DESCRIPTION.toString();
+	}
+	
 }

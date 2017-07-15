@@ -58,23 +58,23 @@ public class CmdFactionsList extends FCommand {
 		}
 
 		// Sort by total followers first
-		Collections.sort(factionList, (Faction f1, Faction f2) -> {
-			int f1Size = f1.getFPlayers().size();
-			int f2Size = f2.getFPlayers().size();
+		Collections.sort(factionList, (Faction faction1, Faction faction2) -> {
+			int faction1Size = faction1.getFPlayers().size();
+			int faction2Size = faction2.getFPlayers().size();
 			
-			if (f1Size < f2Size) return 1;
-			if (f1Size > f2Size) return -1;
+			if (faction1Size < faction2Size) return 1;
+			if (faction1Size > faction2Size) return -1;
 			
 			return 0;
 		});
 
 		// Then sort by how many members are online now
-		Collections.sort(factionList, (Faction f1, Faction f2) -> {
-			int f1Size = f1.getWhereOnline(true).size();
-			int f2Size = f2.getWhereOnline(true).size();
+		Collections.sort(factionList, (Faction faction1, Faction faction2) -> {
+			int faction1Size = faction1.getWhereOnline(true).size();
+			int faction2Size = faction2.getWhereOnline(true).size();
 			
-			if (f1Size < f2Size) return 1;
-			if (f1Size > f2Size) return -1;
+			if (faction1Size < faction2Size) return 1;
+			if (faction1Size > faction2Size) return -1;
 			
 			return 0;
 		});

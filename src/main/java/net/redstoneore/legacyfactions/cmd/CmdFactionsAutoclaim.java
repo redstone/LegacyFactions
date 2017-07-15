@@ -16,71 +16,71 @@ import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 
 public class CmdFactionsAutoclaim extends FCommand {
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+	
+	public CmdFactionsAutoclaim() {
+		this.aliases.addAll(Conf.cmdAliasesAutoclaim);
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+		this.optionalArgs.put("faction", "your");
 
-    public CmdFactionsAutoclaim() {
-        this.aliases.addAll(Conf.cmdAliasesAutoclaim);
+		this.permission = Permission.AUTOCLAIM.node;
+		this.disableOnLock = true;
 
-        this.optionalArgs.put("faction", "your");
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-        this.permission = Permission.AUTOCLAIM.node;
-        this.disableOnLock = true;
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-        this.senderMustBePlayer = true;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+	@Override
+	public void perform() {
+		Faction forFaction = this.argAsFaction(0, myFaction);
+		if (forFaction == null || forFaction == fme.getAutoClaimFor()) {
+			fme.setAutoClaimFor(null);
+			msg(Lang.COMMAND_AUTOCLAIM_DISABLED);
+			return;
+		}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+		if (!fme.canClaimForFaction(forFaction)) {
+			if (myFaction == forFaction) {
+				msg(Lang.COMMAND_AUTOCLAIM_REQUIREDRANK, Role.MODERATOR.getTranslation());
+			} else {
+				msg(Lang.COMMAND_AUTOCLAIM_OTHERFACTION, forFaction.describeTo(fme));
+			}
 
-    @Override
-    public void perform() {
-        Faction forFaction = this.argAsFaction(0, myFaction);
-        if (forFaction == null || forFaction == fme.getAutoClaimFor()) {
-            fme.setAutoClaimFor(null);
-            msg(Lang.COMMAND_AUTOCLAIM_DISABLED);
-            return;
-        }
+			return;
+		}
 
-        if (!fme.canClaimForFaction(forFaction)) {
-            if (myFaction == forFaction) {
-                msg(Lang.COMMAND_AUTOCLAIM_REQUIREDRANK, Role.MODERATOR.getTranslation());
-            } else {
-                msg(Lang.COMMAND_AUTOCLAIM_OTHERFACTION, forFaction.describeTo(fme));
-            }
+		fme.setAutoClaimFor(forFaction);
 
-            return;
-        }
+		msg(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
+		
+		Map<FLocation, Faction> transactions = new HashMap<>();
 
-        fme.setAutoClaimFor(forFaction);
+		transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
+	   
+		EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
+		Bukkit.getServer().getPluginManager().callEvent(event);
+		if (event.isCancelled()) return;
+		
+		for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
+			if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
+				return;
+			}
+		}
+	}
 
-        msg(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
-        
-        Map<FLocation, Faction> transactions = new HashMap<>();
-
-        transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
-       
-        EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
-        Bukkit.getServer().getPluginManager().callEvent(event);
-        if (event.isCancelled()) return;
-        
-        for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
-        	if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
-        		return;
-        	}
-        }
-    }
-
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_AUTOCLAIM_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_AUTOCLAIM_DESCRIPTION.toString();
+	}
 
 }

@@ -3,51 +3,84 @@ package net.redstoneore.legacyfactions;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public enum Role {
-    ADMIN(3, Lang.ROLE_ADMIN),
-    COLEADER(2, Lang.ROLE_COLEADER),
-    MODERATOR(1, Lang.ROLE_MODERATOR),
-    NORMAL(0, Lang.ROLE_NORMAL);
+	
+	// -------------------------------------------------- //
+	// ENUM
+	// -------------------------------------------------- //
+	
+	ADMIN(3, Lang.ROLE_ADMIN),
+	COLEADER(2, Lang.ROLE_COLEADER),
+	MODERATOR(1, Lang.ROLE_MODERATOR),
+	NORMAL(0, Lang.ROLE_NORMAL);
 
-    public final int value;
-    public final String nicename;
-    public final Lang translation;
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
+	private final int value;
+	private final Lang nicename;
+	private final Lang translation;
 
-    private Role(final int value, final Lang translation) {
-        this.value = value;
-        this.nicename = translation.toString();
-        this.translation = translation;
-    }
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
+	
+	private Role(final int value, final Lang translation) {
+		this.value = value;
+		this.nicename = translation;
+		this.translation = translation;
+	}
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
+	public int getValue() {
+		return this.value;
+	}
+	
+	public String toNiceName() {
+		return this.nicename.toString();
+	}
 
-    public boolean isAtLeast(Role role) {
-        return this.value >= role.value;
-    }
+	public Lang getTranslation(){
+		return this.translation;
+	}
 
-    public boolean isAtMost(Role role) {
-        return this.value <= role.value;
-    }
+	public String getPrefix() {
+		if (this == Role.ADMIN) {
+			return Conf.playerPrefixAdmin;
+		}
+		
+		if (this == Role.COLEADER) {
+			return Conf.playerPrefixColeader;
+		}
 
-    public String toNiceName() {
-        return this.nicename;
-    }
+		if (this == Role.MODERATOR) {
+			return Conf.playerPrefixMod;
+		}
 
-    public Lang getTranslation(){
-        return translation;
-    }
+		return "";
+	}
+	
+	public boolean isAtLeast(Role role) {
+		return this.value >= role.value;
+	}
 
-    public String getPrefix() {
-        if (this == Role.ADMIN) {
-            return Conf.playerPrefixAdmin;
-        }
-
-        if (this == Role.COLEADER) {
-            return Conf.playerPrefixColeader;
-        }
-
-        if (this == Role.MODERATOR) {
-            return Conf.playerPrefixMod;
-        }
-
-        return "";
-    }
-    
+	public boolean isAtMost(Role role) {
+		return this.value <= role.value;
+	}
+	
+	public boolean is(Role role) {
+		return role == this;
+	}
+	
+	public boolean isLessThan(Role role) {
+		return this.getValue() < role.getValue();
+	}
+	
+	public boolean isMoreThan(Role role) {
+		return this.getValue() > role.getValue();
+	}
+	
 }

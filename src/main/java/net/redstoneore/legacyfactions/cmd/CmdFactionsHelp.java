@@ -43,8 +43,8 @@ public class CmdFactionsHelp extends FCommand {
 
     @Override
     public void perform() {
-    	// For those that want to create their own help menu they can use this (why)
-    	if (Conf.useCustomHelp) {
+    // For those that want to create their own help menu they can use this (why)
+    if (Conf.useCustomHelp) {
             String pageArg = this.argAsString(0, "1");
             List<String> page = Conf.helpPages.get(pageArg);
             
@@ -57,9 +57,9 @@ public class CmdFactionsHelp extends FCommand {
             });
             
             return;
-    	}
-    	
-    	// For those that want to use the old help menu the can use this 
+    }
+    
+    // For those that want to use the old help menu the can use this 
         if (Conf.useOldHelp) {
             if (helpPages == null) this.updateHelp();
             
@@ -79,35 +79,35 @@ public class CmdFactionsHelp extends FCommand {
         
         String id = "console";
         if (!(sender instanceof ConsoleCommandSender)) {
-        	id = fme.getId();
+        id = fme.getId();
         }
         // Otherwise, those that want an automatically generated menu
         if (!this.helpPageCache.containsKey(id)) {
             int line = 0;
-	        List<List<FancyMessage>> pages = new ArrayList<>();
-	        List<FancyMessage> lines = new ArrayList<>();
-	        
-	        for (MCommand<?> command : CmdFactions.get().subCommands) {
-	        	if (!(sender instanceof ConsoleCommandSender) && command.permission != null && !fme.getPlayer().hasPermission(command.permission)) continue;
-	        	line++;
-	        	
-	        	String suggest = "/" + CmdFactions.get().aliases.get(0) + " " + command.aliases.get(0);
-	        	
-	        	FancyMessage fm = new FancyMessage();
-	        	fm.text(command.getUseageTemplate(true));
-	        	fm.suggest(suggest);
-	        	fm.tooltip(suggest);
-	        	
-	        	lines.add(fm);
-	        	
-	        	if (line == 10) {
-	        		pages.add(lines);
-	        		lines = new ArrayList<>();
-	        		line = 0;
-	        	}
-	        }
-	        
-	        this.helpPageCache.put(id, pages);
+        List<List<FancyMessage>> pages = new ArrayList<>();
+        List<FancyMessage> lines = new ArrayList<>();
+        
+        for (MCommand<?> command : CmdFactions.get().subCommands) {
+        if (!(sender instanceof ConsoleCommandSender) && command.permission != null && !fme.getPlayer().hasPermission(command.permission)) continue;
+        line++;
+        
+        String suggest = "/" + CmdFactions.get().aliases.get(0) + " " + command.aliases.get(0);
+        
+        FancyMessage fm = new FancyMessage();
+        fm.text(command.getUseageTemplate(true));
+        fm.suggest(suggest);
+        fm.tooltip(suggest);
+        
+        lines.add(fm);
+        
+        if (line == 10) {
+        pages.add(lines);
+        lines = new ArrayList<>();
+        line = 0;
+        }
+        }
+        
+        this.helpPageCache.put(id, pages);
         }
         
         int page = this.argAsInt(0, 1);
@@ -123,32 +123,32 @@ public class CmdFactionsHelp extends FCommand {
         FancyMessage fm = new FancyMessage("[<] ");
         
         if (page == 1) {
-        	fm.tooltip(ChatColor.GRAY + "No previous page.");
-        	fm.color(ChatColor.GRAY);
+        fm.tooltip(ChatColor.GRAY + "No previous page.");
+        fm.color(ChatColor.GRAY);
         } else {
-        	int prevPage = page-1;
-        	fm.tooltip(ChatColor.AQUA + "Go to page " + prevPage);
-        	fm.style(ChatColor.BOLD);
-        	fm.command("/f help " + prevPage);
+        int prevPage = page-1;
+        fm.tooltip(ChatColor.AQUA + "Go to page " + prevPage);
+        fm.style(ChatColor.BOLD);
+        fm.command("/f help " + prevPage);
         }
         
         fm.then(title);
         fm.then(" [>]");
         
         if (page == maxPages) {
-        	fm.tooltip(ChatColor.GRAY + "No next page.");
-        	fm.color(ChatColor.GRAY);
+        fm.tooltip(ChatColor.GRAY + "No next page.");
+        fm.color(ChatColor.GRAY);
         } else {
-        	int nextPage = page+1;
-        	fm.tooltip(ChatColor.AQUA + "Go to page " + nextPage);
-        	fm.style(ChatColor.BOLD);
-        	fm.command("/f help " + nextPage);
+        int nextPage = page+1;
+        fm.tooltip(ChatColor.AQUA + "Go to page " + nextPage);
+        fm.style(ChatColor.BOLD);
+        fm.command("/f help " + nextPage);
         }
         
         fm.send(this.sender);
         
         this.helpPageCache.get(id).get(page-1).forEach(line -> {
-        	line.send(this.sender);
+        line.send(this.sender);
         });
     }
     

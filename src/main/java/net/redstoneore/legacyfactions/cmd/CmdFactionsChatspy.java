@@ -7,44 +7,45 @@ import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsChatspy extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsChatspy() {
-        this.aliases.addAll(Conf.cmdAliasesChatspy);
+	public CmdFactionsChatspy() {
+		this.aliases.addAll(Conf.cmdAliasesChatspy);
 
-        this.optionalArgs.put("on/off", "flip");
+		this.optionalArgs.put("on/off", "flip");
 
-        this.permission = Permission.CHATSPY.node;
-        this.disableOnLock = false;
+		this.permission = Permission.CHATSPY.node;
+		this.disableOnLock = false;
 
-        this.senderMustBePlayer = true;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        fme.setSpyingChat(this.argAsBool(0, !fme.isSpyingChat()));
+	@Override
+	public void perform() {
+		fme.setSpyingChat(this.argAsBool(0, !fme.isSpyingChat()));
 
-        if (fme.isSpyingChat()) {
-            fme.msg(Lang.COMMAND_CHATSPY_ENABLE);
-            Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_ENABLELOG.toString());
-        } else {
-            fme.msg(Lang.COMMAND_CHATSPY_DISABLE);
-            Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_DISABLELOG.toString());
-        }
-    }
+		if (fme.isSpyingChat()) {
+			fme.msg(Lang.COMMAND_CHATSPY_ENABLE);
+			Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_ENABLELOG.toString());
+		} else {
+			fme.msg(Lang.COMMAND_CHATSPY_DISABLE);
+			Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_DISABLELOG.toString());
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_CHATSPY_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_CHATSPY_DESCRIPTION.toString();
+	}
+	
 }

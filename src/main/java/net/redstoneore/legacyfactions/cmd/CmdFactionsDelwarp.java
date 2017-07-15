@@ -10,50 +10,53 @@ import net.redstoneore.legacyfactions.warp.FactionWarp;
 
 public class CmdFactionsDelwarp extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsDelwarp() {
-        this.aliases.addAll(Conf.cmdAliasesDelwarp);
-        
-        this.requiredArgs.add("warp name");
+	public CmdFactionsDelwarp() {
+		this.aliases.addAll(Conf.cmdAliasesDelwarp);
+		
+		this.requiredArgs.add("warp name");
 
-        this.senderMustBeMember = true;
-        this.senderMustBeModerator = true;
-        this.senderMustBePlayer = true;
-        this.permission = Permission.SETWARP.node;
-    }
+		this.senderMustBeMember = true;
+		this.senderMustBeModerator = true;
+		this.senderMustBePlayer = true;
+		this.permission = Permission.SETWARP.node;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        String name = argAsString(0);
-        Optional<FactionWarp> owarp = myFaction.warps().get(name);
-        if (owarp.isPresent()) {
-            FactionWarp warp = owarp.get();
-            Double cost = Conf.warpCost.get("delete");
-            
-            if (fme.isAdminBypassing()) cost = 0.0;
-            
-            EventFactionsWarpDelete event = new EventFactionsWarpDelete(myFaction, fme, warp, cost);
-            event.call();
-            if (event.isCancelled()) return;
-            
-            if (cost > 0 && !fme.isAdminBypassing() && !this.payForCommand(Conf.warpCost.get("delete"), Lang.COMMAND_DELFWARP_TODELETE.toString(), Lang.COMMAND_DELFWARP_FORDELETE.toString())) return;
-            
-            warp.delete();
-            fme.msg(Lang.COMMAND_DELFWARP_DELETED, name);
-        } else {
-            fme.msg(Lang.COMMAND_DELFWARP_INVALID, name);
-        }
-    }
+	@Override
+	public void perform() {
+		String name = this.argAsString(0);
+		Optional<FactionWarp> owarp = this.myFaction.warps().get(name);
+		
+		if (owarp.isPresent()) {
+			FactionWarp warp = owarp.get();
+			Double cost = Conf.warpCost.get("delete");
+			
+			if (fme.isAdminBypassing()) cost = 0.0;
+			
+			// call event
+			EventFactionsWarpDelete event = new EventFactionsWarpDelete(myFaction, fme, warp, cost);
+			event.call();
+			if (event.isCancelled()) return;
+			
+			if (cost > 0 && !fme.isAdminBypassing() && !this.payForCommand(Conf.warpCost.get("delete"), Lang.COMMAND_DELFWARP_TODELETE.toString(), Lang.COMMAND_DELFWARP_FORDELETE.toString())) return;
+			
+			warp.delete();
+			fme.msg(Lang.COMMAND_DELFWARP_DELETED, name);
+		} else {
+			fme.msg(Lang.COMMAND_DELFWARP_INVALID, name);
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_DELFWARP_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_DELFWARP_DESCRIPTION.toString();
+	}
+	
 }
