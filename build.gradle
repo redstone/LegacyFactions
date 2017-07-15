@@ -9,7 +9,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 allprojects {
-	version = "1.3.0"
+	version = "1.4.0"
 	group = "net.redstoneore"
 }
 
