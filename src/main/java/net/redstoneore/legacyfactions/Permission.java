@@ -29,6 +29,7 @@ public enum Permission {
 	COLEADER("coleader"),
 	COLEADER_ANY("coleader.any"),
 	CONFIG("config"),
+	DEBUG("debug"),
 	CREATE("create"),
 	DEINVITE("deinvite"),
 	DESCRIPTION("description"),
@@ -109,9 +110,13 @@ public enum Permission {
 	public final String node;
 
 	// -------------------------------------------------- //
-	// FIELDS
+	// METHODS
 	// -------------------------------------------------- //
-
+	
+	public String getNode() {
+		return this.node;
+	}
+	
 	public boolean has(CommandSender sender, boolean informSenderIfNot) {
 		return Factions.get().getPermUtil().has(sender, this.node, informSenderIfNot);
 	}

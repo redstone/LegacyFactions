@@ -162,7 +162,7 @@ public enum Lang {
 	COMMAND_CONVERT_BACKEND_RUNNING("Already running that backend."),
 	COMMAND_CONVERT_BACKEND_INVALID("Invalid backend"),
 	COMMAND_CONVERT_DESCRIPTION("Convert the plugin backend"),
-
+	
 	COMMAND_CREATE_MUSTLEAVE("<b>You must leave your current faction first."),
 	COMMAND_CREATE_INUSE("<b>That tag is already in use."),
 	COMMAND_CREATE_TOCREATE("to create a new faction"),
@@ -173,6 +173,8 @@ public enum Lang {
 	COMMAND_CREATE_CREATEDLOG(" created a new faction: "),
 	COMMAND_CREATE_DESCRIPTION("Create a new faction"),
 
+	COMMAND_DEBUG_DESCRIPTION("<b>Returns debug information about the server."),
+	
 	COMMAND_DEINVITE_CANDEINVITE("Players you can deinvite: "),
 	COMMAND_DEINVITE_CLICKTODEINVITE("Click to revoke invite for %1$s"),
 	COMMAND_DEINVITE_ALREADYMEMBER("%1$s<i> is already a member of %2$s"),

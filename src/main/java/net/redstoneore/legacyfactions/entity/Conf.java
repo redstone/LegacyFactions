@@ -744,6 +744,7 @@ public class Conf {
     public static List<String> cmdAliasesColeader = Lists.newArrayList("coleader", "setcoleader");
     public static List<String> cmdAliasesConfig = Lists.newArrayList("config");
     public static List<String> cmdAliasesConvert = Lists.newArrayList("convert");
+    public static List<String> cmdAliasesDebug = Lists.newArrayList("debug");
     public static List<String> cmdAliasesCreate = Lists.newArrayList("create");
     public static List<String> cmdAliasesDeinvite = Lists.newArrayList("deinvite", "deinv");
     public static List<String> cmdAliasesDelwarp = Lists.newArrayList("delwarp", "deletewarp", "dw");
