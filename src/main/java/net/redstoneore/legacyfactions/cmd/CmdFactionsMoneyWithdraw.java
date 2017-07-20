@@ -22,7 +22,7 @@ public class CmdFactionsMoneyWithdraw extends FCommand {
 		this.requiredArgs.add("amount");
 		this.optionalArgs.put("faction", "yours");
 
-		this.permission = Permission.MONEY_WITHDRAW.node;
+		this.permission = Permission.MONEY_WITHDRAW.getNode();
 
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = false;
@@ -38,14 +38,13 @@ public class CmdFactionsMoneyWithdraw extends FCommand {
 	@Override
 	public void perform() {
 		double amount = this.argAsDouble(0, 0d);
-		EconomyParticipator faction = this.argAsFaction(1, myFaction);
-		if (faction == null) {
-			return;
-		}
+		EconomyParticipator faction = this.argAsFaction(1, this.myFaction);
+		if (faction == null) return;
+		
 		boolean success = VaultEngine.transferMoney(fme, faction, fme, amount);
 
 		if (success && Conf.logMoneyTransactions) {
-			Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYWITHDRAW_WITHDRAW.toString(), fme.getName(), VaultEngine.moneyString(amount), faction.describeTo(null))));
+			Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYWITHDRAW_WITHDRAW.toString(), this.fme.getName(), VaultEngine.moneyString(amount), faction.describe())));
 		}
 	}
 

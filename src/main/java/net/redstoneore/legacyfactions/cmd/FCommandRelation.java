@@ -21,7 +21,7 @@ public abstract class FCommandRelation extends FCommand {
 	public FCommandRelation() {
 		this.requiredArgs.add("faction");
 
-		this.permission = Permission.RELATION.node;
+		this.permission = Permission.RELATION.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

@@ -5,13 +5,13 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsRelationNeutral extends FCommandRelation {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsRelationNeutral() {
-        this.aliases.addAll(Conf.cmdAliasesRelationNeutral);
-        this.targetRelation = Relation.NEUTRAL;
-    }
+	public CmdFactionsRelationNeutral() {
+		this.aliases.addAll(Conf.cmdAliasesRelationNeutral);
+		this.targetRelation = Relation.NEUTRAL;
+	}
 
 }

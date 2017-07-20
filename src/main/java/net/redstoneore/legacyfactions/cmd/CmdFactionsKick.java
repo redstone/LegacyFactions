@@ -27,7 +27,7 @@ public class CmdFactionsKick extends FCommand {
 		this.optionalArgs.put("player name", "player name");
 		//this.optionalArgs.put("", "");
 
-		this.permission = Permission.KICK.node;
+		this.permission = Permission.KICK.getNode();
 		this.disableOnLock = false;
 
 		this.senderMustBePlayer = true;

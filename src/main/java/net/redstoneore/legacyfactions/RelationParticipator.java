@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
  */
 public interface RelationParticipator {
 
+    public String describe();
+    
     public String describeTo(RelationParticipator that);
 
     public String describeTo(RelationParticipator that, boolean ucfirst);

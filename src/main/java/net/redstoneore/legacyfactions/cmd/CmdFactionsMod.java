@@ -21,7 +21,7 @@ public class CmdFactionsMod extends FCommand {
 
 		this.requiredArgs.add("player name");
 		
-		this.permission = Permission.MOD.node;
+		this.permission = Permission.MOD.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = false;

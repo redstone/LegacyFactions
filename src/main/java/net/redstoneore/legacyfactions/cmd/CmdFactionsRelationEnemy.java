@@ -5,13 +5,13 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsRelationEnemy extends FCommandRelation {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsRelationEnemy() {
-        this.aliases.addAll(Conf.cmdAliasesRelationEnemy);
-        this.targetRelation = Relation.ENEMY;
-    }
-    
+	public CmdFactionsRelationEnemy() {
+		this.aliases.addAll(Conf.cmdAliasesRelationEnemy);
+		this.targetRelation = Relation.ENEMY;
+	}
+	
 }

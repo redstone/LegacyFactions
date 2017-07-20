@@ -32,7 +32,7 @@ public class CmdFactionsHome extends FCommand {
 		this.optionalArgs.put("who", "you");
 		this.optionalArgs.put("type", "faction/player");
 
-		this.permission = Permission.HOME.node;
+		this.permission = Permission.HOME.getNode();
 		this.disableOnLock = false;
 
 		this.senderMustBePlayer = true;

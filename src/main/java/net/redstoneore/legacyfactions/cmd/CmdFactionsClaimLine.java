@@ -38,7 +38,7 @@ public class CmdFactionsClaimLine extends FCommand {
 		this.optionalArgs.put("direction", "facing");
 		this.optionalArgs.put("faction", "you");
 
-		this.permission = Permission.CLAIM_LINE.node;
+		this.permission = Permission.CLAIM_LINE.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

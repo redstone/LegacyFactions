@@ -21,7 +21,7 @@ public class CmdVault extends FCommand {
         //this.requiredArgs.add("");
         this.optionalArgs.put("number", "number");
 
-        this.permission = Permission.VAULT.node;
+        this.permission = Permission.VAULT.getNode();
         this.disableOnLock = false;
 
         senderMustBePlayer = true;

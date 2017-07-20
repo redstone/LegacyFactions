@@ -34,7 +34,7 @@ public class CmdFactionsConfig extends FCommand {
 		this.requiredArgs.add("value");
 		this.errorOnToManyArgs = false;
 
-		this.permission = Permission.CONFIG.node;
+		this.permission = Permission.CONFIG.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = false;

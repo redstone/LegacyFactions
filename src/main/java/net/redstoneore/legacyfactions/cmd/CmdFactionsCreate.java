@@ -26,7 +26,7 @@ public class CmdFactionsCreate extends FCommand {
 
 		this.requiredArgs.add("faction tag");
 
-		this.permission = Permission.CREATE.node;
+		this.permission = Permission.CREATE.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

@@ -16,7 +16,7 @@ public class CmdFactionsChatspy extends FCommand {
 
 		this.optionalArgs.put("on/off", "flip");
 
-		this.permission = Permission.CHATSPY.node;
+		this.permission = Permission.CHATSPY.getNode();
 		this.disableOnLock = false;
 
 		this.senderMustBePlayer = true;

@@ -20,7 +20,7 @@ public class CmdFactionsInvite extends FCommand {
 
 		this.requiredArgs.add("player name");
 
-		this.permission = Permission.INVITE.node;
+		this.permission = Permission.INVITE.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

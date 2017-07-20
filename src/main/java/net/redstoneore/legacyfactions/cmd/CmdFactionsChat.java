@@ -17,7 +17,7 @@ public class CmdFactionsChat extends FCommand {
 
         this.optionalArgs.put("mode", "next");
 
-        this.permission = Permission.CHAT.node;
+        this.permission = Permission.CHAT.getNode();
         this.disableOnLock = false;
 
         this.senderMustBePlayer = true;

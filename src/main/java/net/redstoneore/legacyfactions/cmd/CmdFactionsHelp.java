@@ -27,7 +27,7 @@ public class CmdFactionsHelp extends FCommand {
 
         this.optionalArgs.put("page", "1");
 
-        this.permission = Permission.HELP.node;
+        this.permission = Permission.HELP.getNode();
         this.disableOnLock = false;
 
         this.senderMustBePlayer = false;
