@@ -16,7 +16,7 @@ public class CmdFactionsLock extends FCommand {
 
 		this.optionalArgs.put("on/off", "flip");
 
-		this.permission = Permission.LOCK.node;
+		this.permission = Permission.LOCK.getNode();
 		this.disableOnLock = false;
 
 		this.senderMustBePlayer = false;

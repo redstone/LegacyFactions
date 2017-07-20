@@ -21,7 +21,7 @@ public class CmdFactionsJoin extends FCommand {
 		this.requiredArgs.add("faction name");
 		this.optionalArgs.put("player", "you");
 
-		this.permission = Permission.JOIN.node;
+		this.permission = Permission.JOIN.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

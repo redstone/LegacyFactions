@@ -18,7 +18,7 @@ public class CmdFactionsAnnounce extends FCommand {
 		this.requiredArgs.add("message");
 		this.errorOnToManyArgs = false;
 		
-		this.permission = Permission.ANNOUNCE.node;
+		this.permission = Permission.ANNOUNCE.getNode();
 		this.disableOnLock = false;
 		
 		this.senderMustBePlayer = true;

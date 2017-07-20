@@ -10,77 +10,77 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsSethome extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsSethome() {
-        this.aliases.addAll(Conf.cmdAliasesSethome);
+	public CmdFactionsSethome() {
+		this.aliases.addAll(Conf.cmdAliasesSethome);
 
-        this.optionalArgs.put("faction tag", "mine");
+		this.optionalArgs.put("faction tag", "mine");
 
-        this.permission = Permission.SETHOME.node;
-        this.disableOnLock = true;
+		this.permission = Permission.SETHOME.getNode();
+		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = false;
 		this.senderMustBeModerator = false;
 		this.senderMustBeColeader = false;
 		this.senderMustBeAdmin = false;
-    }
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        if (!Conf.homesEnabled) {
-            fme.msg(Lang.COMMAND_SETHOME_DISABLED);
-            return;
-        }
+	@Override
+	public void perform() {
+		if (!Conf.homesEnabled) {
+			fme.msg(Lang.COMMAND_SETHOME_DISABLED);
+			return;
+		}
 
-        Faction faction = this.argAsFaction(0, myFaction);
-        if (faction == null) {
-            return;
-        }
+		Faction faction = this.argAsFaction(0, myFaction);
+		if (faction == null) {
+			return;
+		}
 
-        // Can the player set the home for this faction?
-        if (faction == myFaction) {
-            if (!Permission.SETHOME_ANY.has(sender) && !assertMinRole(Role.MODERATOR)) {
-                return;
-            }
-        } else {
-            if (!Permission.SETHOME_ANY.has(sender, true)) {
-                return;
-            }
-        }
+		// Can the player set the home for this faction?
+		if (faction == myFaction) {
+			if (!Permission.SETHOME_ANY.has(sender) && !assertMinRole(Role.MODERATOR)) {
+				return;
+			}
+		} else {
+			if (!Permission.SETHOME_ANY.has(sender, true)) {
+				return;
+			}
+		}
 
-        // Can the player set the faction home HERE?
-        if (!Permission.BYPASS.has(me) &&
-                    Conf.homesMustBeInClaimedTerritory &&
-                    Board.get().getFactionAt(new FLocation(me)) != faction) {
-            fme.msg(Lang.COMMAND_SETHOME_NOTCLAIMED);
-            return;
-        }
+		// Can the player set the faction home HERE?
+		if (!Permission.BYPASS.has(me) &&
+					Conf.homesMustBeInClaimedTerritory &&
+					Board.get().getFactionAt(new FLocation(me)) != faction) {
+			fme.msg(Lang.COMMAND_SETHOME_NOTCLAIMED);
+			return;
+		}
 
-        // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(Conf.econCostSethome, Lang.COMMAND_SETHOME_TOSET, Lang.COMMAND_SETHOME_FORSET)) {
-            return;
-        }
+		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
+		if (!payForCommand(Conf.econCostSethome, Lang.COMMAND_SETHOME_TOSET, Lang.COMMAND_SETHOME_FORSET)) {
+			return;
+		}
 
-        faction.setHome(me.getLocation());
+		faction.setHome(me.getLocation());
 
-        faction.msg(Lang.COMMAND_SETHOME_SET, fme.describeTo(myFaction, true));
-        faction.sendMessage(CmdFactions.get().cmdHome.getUseageTemplate());
-        if (faction != myFaction) {
-            fme.msg(Lang.COMMAND_SETHOME_SETOTHER, faction.getTag(fme));
-        }
-    }
+		faction.msg(Lang.COMMAND_SETHOME_SET, fme.describeTo(myFaction, true));
+		faction.sendMessage(CmdFactions.get().cmdHome.getUseageTemplate());
+		if (faction != myFaction) {
+			fme.msg(Lang.COMMAND_SETHOME_SETOTHER, faction.getTag(fme));
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_SETHOME_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_SETHOME_DESCRIPTION.toString();
+	}
 
 }

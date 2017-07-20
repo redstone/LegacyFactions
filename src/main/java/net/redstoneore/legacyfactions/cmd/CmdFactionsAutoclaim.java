@@ -26,7 +26,7 @@ public class CmdFactionsAutoclaim extends FCommand {
 
 		this.optionalArgs.put("faction", "your");
 
-		this.permission = Permission.AUTOCLAIM.node;
+		this.permission = Permission.AUTOCLAIM.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

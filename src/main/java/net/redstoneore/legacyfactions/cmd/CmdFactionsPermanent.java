@@ -11,60 +11,60 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsPermanent extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsPermanent() {
-        this.aliases.addAll(Conf.cmdAliasesPermanent);
+	public CmdFactionsPermanent() {
+		this.aliases.addAll(Conf.cmdAliasesPermanent);
 
-        this.requiredArgs.add("faction tag");
+		this.requiredArgs.add("faction tag");
 
-        this.permission = Permission.SET_PERMANENT.node;
-        this.disableOnLock = true;
+		this.permission = Permission.SET_PERMANENT.getNode();
+		this.disableOnLock = true;
 
-        this.senderMustBePlayer = false;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        Faction faction = this.argAsFaction(0);
-        if (faction == null) {
-            return;
-        }
+	@Override
+	public void perform() {
+		Faction faction = this.argAsFaction(0);
+		if (faction == null) {
+			return;
+		}
 
-        String change;
-        if (faction.isPermanent()) {
-            change = Lang.COMMAND_PERMANENT_REVOKE.toString();
-            faction.setPermanent(false);
-        } else {
-            change = Lang.COMMAND_PERMANENT_GRANT.toString();
-            faction.setPermanent(true);
-        }
+		String change;
+		if (faction.isPermanent()) {
+			change = Lang.COMMAND_PERMANENT_REVOKE.toString();
+			faction.setPermanent(false);
+		} else {
+			change = Lang.COMMAND_PERMANENT_GRANT.toString();
+			faction.setPermanent(true);
+		}
 
-        Factions.get().log((fme == null ? "A server admin" : fme.getName()) + " " + change + " the faction \"" + faction.getTag() + "\".");
+		Factions.get().log((fme == null ? "A server admin" : fme.getName()) + " " + change + " the faction \"" + faction.getTag() + "\".");
 
-        // Inform all players
-        for (FPlayer fplayer : FPlayerColl.all(true)) {
-            String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
-            if (fplayer.getFaction() == faction) {
-                fplayer.msg(Lang.COMMAND_PERMANENT_YOURS, blame, change);
-            } else {
-                fplayer.msg(Lang.COMMAND_PERMANENT_OTHER, blame, change, faction.getTag(fplayer));
-            }
-        }
-    }
+		// Inform all players
+		for (FPlayer fplayer : FPlayerColl.all(true)) {
+			String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
+			if (fplayer.getFaction() == faction) {
+				fplayer.msg(Lang.COMMAND_PERMANENT_YOURS, blame, change);
+			} else {
+				fplayer.msg(Lang.COMMAND_PERMANENT_OTHER, blame, change, faction.getTag(fplayer));
+			}
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_PERMANENT_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_PERMANENT_DESCRIPTION.toString();
+	}
 }

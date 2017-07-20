@@ -473,7 +473,12 @@ public abstract class MemoryFPlayer implements FPlayer {
     // -------------------------------
     // Relation and relation colors
     // -------------------------------
-
+	
+    @Override
+	public String describe() {
+		return this.describeTo(null);
+	}
+	
     @Override
     public String describeTo(RelationParticipator that, boolean ucfirst) {
         return RelationUtil.describeThatToMe(this, that, ucfirst);

@@ -17,7 +17,7 @@ public class CmdFactionsModifyPower extends FCommand {
 		this.requiredArgs.add("name");
 		this.requiredArgs.add("power");
 
-		this.permission = Permission.MODIFY_POWER.node; // admin only perm.
+		this.permission = Permission.MODIFY_POWER.getNode(); // admin only perm.
 
 		// Let's not require anything and let console modify this as well.
 		this.senderMustBeAdmin = false;

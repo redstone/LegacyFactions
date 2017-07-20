@@ -107,7 +107,7 @@ public enum Permission {
  	// FIELDS
  	// -------------------------------------------------- //
 
-	public final String node;
+	private final String node;
 
 	// -------------------------------------------------- //
 	// METHODS

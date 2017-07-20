@@ -15,7 +15,7 @@ public class CmdFactionsBoom extends FCommand {
 
 		this.optionalArgs.put("on/off", "flip");
 
-		this.permission = Permission.NO_BOOM.node;
+		this.permission = Permission.NO_BOOM.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

@@ -20,7 +20,7 @@ public class CmdFactionsPowerBoost extends FCommand {
         this.requiredArgs.add("name");
         this.requiredArgs.add("# or reset");
 
-        this.permission = Permission.POWERBOOST.node;
+        this.permission = Permission.POWERBOOST.getNode();
         this.disableOnLock = true;
 
 		this.senderMustBePlayer = false;

@@ -8,107 +8,106 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 
 public class CmdFactionsOwner extends FCommand {
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	public CmdFactionsOwner() {
+		this.aliases.addAll(Conf.cmdAliasesOwner);
 
-    public CmdFactionsOwner() {
-        this.aliases.addAll(Conf.cmdAliasesOwner);
+		this.optionalArgs.put("player name", "you");
 
-        this.optionalArgs.put("player name", "you");
+		this.permission = Permission.OWNER.getNode();
+		this.disableOnLock = true;
 
-        this.permission = Permission.OWNER.node;
-        this.disableOnLock = true;
+		this.senderMustBePlayer = true;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-        this.senderMustBePlayer = true;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+	// TODO: Fix colors!
 
-    // TODO: Fix colors!
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	@Override
+	public void perform() {
+		boolean hasBypass = fme.isAdminBypassing();
+		
+		if (!hasBypass && !assertHasFaction()) {
+			return;
+		}
 
-    @Override
-    public void perform() {
-        boolean hasBypass = fme.isAdminBypassing();
+		if (!Conf.ownedAreasEnabled) {
+			this.sendMessage(Lang.COMMAND_OWNER_DISABLED);
+			return;
+		}
 
-        if (!hasBypass && !assertHasFaction()) {
-            return;
-        }
+		if (!hasBypass && Conf.ownedAreasLimitPerFaction > 0 && myFaction.getCountOfClaimsWithOwners() >= Conf.ownedAreasLimitPerFaction) {
+			this.fme.msg(Lang.COMMAND_OWNER_LIMIT, Conf.ownedAreasLimitPerFaction);
+			return;
+		}
 
-        if (!Conf.ownedAreasEnabled) {
-            fme.msg(Lang.COMMAND_OWNER_DISABLED);
-            return;
-        }
+		if (!hasBypass && !assertMinRole(Conf.ownedAreasModeratorsCanSet ? Role.MODERATOR : Role.COLEADER)) {
+			return;
+		}
 
-        if (!hasBypass && Conf.ownedAreasLimitPerFaction > 0 && myFaction.getCountOfClaimsWithOwners() >= Conf.ownedAreasLimitPerFaction) {
-            fme.msg(Lang.COMMAND_OWNER_LIMIT, Conf.ownedAreasLimitPerFaction);
-            return;
-        }
+		FLocation flocation = new FLocation(fme);
 
-        if (!hasBypass && !assertMinRole(Conf.ownedAreasModeratorsCanSet ? Role.MODERATOR : Role.COLEADER)) {
-            return;
-        }
+		Faction factionHere = Board.get().getFactionAt(flocation);
+		if (factionHere != myFaction) {
+			if (!factionHere.isNormal()) {
+				fme.msg(Lang.COMMAND_OWNER_NOTCLAIMED);
+				return;
+			}
 
-        FLocation flocation = new FLocation(fme);
+			if (!hasBypass) {
+				fme.msg(Lang.COMMAND_OWNER_WRONGFACTION);
+				return;
+			}
 
-        Faction factionHere = Board.get().getFactionAt(flocation);
-        if (factionHere != myFaction) {
-            if (!factionHere.isNormal()) {
-                fme.msg(Lang.COMMAND_OWNER_NOTCLAIMED);
-                return;
-            }
+		}
 
-            if (!hasBypass) {
-                fme.msg(Lang.COMMAND_OWNER_WRONGFACTION);
-                return;
-            }
+		FPlayer target = this.argAsBestFPlayerMatch(0, this.fme);
+		if (target == null) return;
 
-        }
+		String playerName = target.getName();
 
-        FPlayer target = this.argAsBestFPlayerMatch(0, fme);
-        if (target == null) {
-            return;
-        }
+		if (target.getFaction() != myFaction) {
+			fme.msg(Lang.COMMAND_OWNER_NOTMEMBER, playerName);
+			return;
+		}
 
-        String playerName = target.getName();
+		// if no player name was passed, and this claim does already have owners set, clear them
+		if (args.isEmpty() && myFaction.doesLocationHaveOwnersSet(flocation)) {
+			myFaction.clearClaimOwnership(flocation);
+			fme.msg(Lang.COMMAND_OWNER_CLEARED);
+			return;
+		}
 
-        if (target.getFaction() != myFaction) {
-            fme.msg(Lang.COMMAND_OWNER_NOTMEMBER, playerName);
-            return;
-        }
+		if (myFaction.isPlayerInOwnerList(target, flocation)) {
+			myFaction.removePlayerAsOwner(target, flocation);
+			fme.msg(Lang.COMMAND_OWNER_REMOVED, playerName);
+			return;
+		}
 
-        // if no player name was passed, and this claim does already have owners set, clear them
-        if (args.isEmpty() && myFaction.doesLocationHaveOwnersSet(flocation)) {
-            myFaction.clearClaimOwnership(flocation);
-            fme.msg(Lang.COMMAND_OWNER_CLEARED);
-            return;
-        }
+		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
+		if (!payForCommand(Conf.econCostOwner, Lang.COMMAND_OWNER_TOSET, Lang.COMMAND_OWNER_FORSET)) {
+			return;
+		}
 
-        if (myFaction.isPlayerInOwnerList(target, flocation)) {
-            myFaction.removePlayerAsOwner(target, flocation);
-            fme.msg(Lang.COMMAND_OWNER_REMOVED, playerName);
-            return;
-        }
+		myFaction.setPlayerAsOwner(target, flocation);
 
-        // if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-        if (!payForCommand(Conf.econCostOwner, Lang.COMMAND_OWNER_TOSET, Lang.COMMAND_OWNER_FORSET)) {
-            return;
-        }
+		fme.msg(Lang.COMMAND_OWNER_ADDED, playerName);
+	}
 
-        myFaction.setPlayerAsOwner(target, flocation);
-
-        fme.msg(Lang.COMMAND_OWNER_ADDED, playerName);
-    }
-
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_OWNER_DESCRIPTION.toString();
-    }
+	
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_OWNER_DESCRIPTION.toString();
+	}
 }

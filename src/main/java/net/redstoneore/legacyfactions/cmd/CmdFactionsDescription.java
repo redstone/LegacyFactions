@@ -18,7 +18,7 @@ public class CmdFactionsDescription extends FCommand {
 		this.requiredArgs.add("desc");
 		this.errorOnToManyArgs = false;
 
-		this.permission = Permission.DESCRIPTION.node;
+		this.permission = Permission.DESCRIPTION.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

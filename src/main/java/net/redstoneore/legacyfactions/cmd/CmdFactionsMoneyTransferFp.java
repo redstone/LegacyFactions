@@ -23,7 +23,7 @@ public class CmdFactionsMoneyTransferFp extends FCommand {
 		this.requiredArgs.add("faction");
 		this.requiredArgs.add("player");
 
-		this.permission = Permission.MONEY_F2P.node;
+		this.permission = Permission.MONEY_F2P.getNode();
 
 		this.senderMustBePlayer = false;
 		this.senderMustBeMember = false;

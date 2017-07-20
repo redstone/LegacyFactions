@@ -28,7 +28,7 @@ public class CmdFactionsClaim extends FCommand {
 		this.optionalArgs.put("radius", "1");
 		this.optionalArgs.put("faction", "your");
 
-		this.permission = Permission.CLAIM.node;
+		this.permission = Permission.CLAIM.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

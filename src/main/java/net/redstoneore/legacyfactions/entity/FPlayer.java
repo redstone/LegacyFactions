@@ -30,266 +30,266 @@ import java.util.List;
 
 public interface FPlayer extends EconomyParticipator {
 	
-    public void login();
+	public void login();
 
-    public void logout();
+	public void logout();
 
-    public Faction getFaction();
+	public Faction getFaction();
 
-    public String getFactionId();
+	public String getFactionId();
 
-    public boolean hasFaction();
+	public boolean hasFaction();
 
-    public void setFaction(Faction faction);
+	public void setFaction(Faction faction);
 
-    public boolean willAutoLeave();
+	public boolean willAutoLeave();
 
-    public void setAutoLeave(boolean autoLeave);
+	public void setAutoLeave(boolean autoLeave);
 
-    public long getLastFrostwalkerMessage();
+	public long getLastFrostwalkerMessage();
 
-    public void setLastFrostwalkerMessage();
+	public void setLastFrostwalkerMessage();
 
-    public void setMonitorJoins(boolean monitor);
+	public void setMonitorJoins(boolean monitor);
 
-    public boolean isMonitoringJoins();
+	public boolean isMonitoringJoins();
 
-    public Role getRole();
+	public Role getRole();
 
-    public void setRole(Role role);
+	public void setRole(Role role);
 
-    public double getPowerBoost();
+	public double getPowerBoost();
 
-    public void setPowerBoost(double powerBoost);
+	public void setPowerBoost(double powerBoost);
 
-    public Faction getAutoClaimFor();
+	public Faction getAutoClaimFor();
 
-    public void setAutoClaimFor(Faction faction);
+	public void setAutoClaimFor(Faction faction);
 
-    public boolean isAutoSafeClaimEnabled();
+	public boolean isAutoSafeClaimEnabled();
 
-    public void setIsAutoSafeClaimEnabled(boolean enabled);
+	public void setIsAutoSafeClaimEnabled(boolean enabled);
 
-    public boolean isAutoWarClaimEnabled();
+	public boolean isAutoWarClaimEnabled();
 
-    public void setIsAutoWarClaimEnabled(boolean enabled);
+	public void setIsAutoWarClaimEnabled(boolean enabled);
 
-    public boolean isAdminBypassing();
+	public boolean isAdminBypassing();
 
-    /**
-     * Deprecated! Use {@link #isVanished(FPlayer)}<br>
-     * To be removed after 09/2017
-     * @return
-     */
-    @Deprecated
-    public boolean isVanished();
-    
-    /**
-     * Is vanished to a player
-     * @param FPlayer viewing
-     * @return true if appears vanished
-     */
-    public boolean isVanished(FPlayer viewer);
+	/**
+	 * Deprecated! Use {@link #isVanished(FPlayer)}<br>
+	 * To be removed after 09/2017
+	 * @return
+	 */
+	@Deprecated
+	public boolean isVanished();
+	
+	/**
+	 * Is vanished to a player
+	 * @param FPlayer viewing
+	 * @return true if appears vanished
+	 */
+	public boolean isVanished(FPlayer viewer);
 
-    public void setIsAdminBypassing(boolean val);
+	public void setIsAdminBypassing(boolean val);
 
-    public void setChatMode(ChatMode chatMode);
+	public void setChatMode(ChatMode chatMode);
 
-    public ChatMode getChatMode();
+	public ChatMode getChatMode();
 
-    public void setIgnoreAllianceChat(boolean ignore);
+	public void setIgnoreAllianceChat(boolean ignore);
 
-    public boolean isIgnoreAllianceChat();
+	public boolean isIgnoreAllianceChat();
 
-    public void setSpyingChat(boolean chatSpying);
+	public void setSpyingChat(boolean chatSpying);
 
-    public boolean isSpyingChat();
+	public boolean isSpyingChat();
 
-    public boolean showScoreboard();
+	public boolean showScoreboard();
 
-    public void setShowScoreboard(boolean show);
+	public void setShowScoreboard(boolean show);
 
-    // FIELD: account
-    public String getAccountId();
+	// FIELD: account
+	public String getAccountId();
 
-    public void resetFactionData(boolean doSpoutUpdate);
+	public void resetFactionData(boolean doSpoutUpdate);
 
-    public void resetFactionData();
+	public void resetFactionData();
 
-    public long getLastLoginTime();
+	public long getLastLoginTime();
 
-    public void setLastLoginTime(long lastLoginTime);
+	public void setLastLoginTime(long lastLoginTime);
 
-    public boolean isMapAutoUpdating();
+	public boolean isMapAutoUpdating();
 
-    public void setMapAutoUpdating(boolean mapAutoUpdating);
+	public void setMapAutoUpdating(boolean mapAutoUpdating);
 
-    public boolean hasLoginPvpDisabled();
+	public boolean hasLoginPvpDisabled();
 
-    public FLocation getLastStoodAt();
+	public FLocation getLastStoodAt();
 
-    public void setLastStoodAt(FLocation flocation);
+	public void setLastStoodAt(FLocation flocation);
 
-    public String getTitle();
+	public String getTitle();
 
-    public void setTitle(String title);
+	public void setTitle(String title);
 
-    public String getName();
+	public String getName();
 
-    public String getTag();
+	public String getTag();
 
-    // Base concatenations:
+	// Base concatenations:
 
-    public String getNameAndSomething(String something);
+	public String getNameAndSomething(String something);
 
-    public String getNameAndTitle();
+	public String getNameAndTitle();
 
-    public String getNameAndTag();
+	public String getNameAndTag();
 
-    // Colored concatenations:
-    // These are used in information messages
+	// Colored concatenations:
+	// These are used in information messages
 
-    public String getNameAndTitle(Faction faction);
+	public String getNameAndTitle(Faction faction);
 
-    public String getNameAndTitle(FPlayer fplayer);
+	public String getNameAndTitle(FPlayer fplayer);
 
-    // Chat Tag:
-    // These are injected into the format of global chat messages.
+	// Chat Tag:
+	// These are injected into the format of global chat messages.
 
-    public String getChatTag();
+	public String getChatTag();
 
-    // Colored Chat Tag
-    public String getChatTag(Faction faction);
+	// Colored Chat Tag
+	public String getChatTag(Faction faction);
 
-    public String getChatTag(FPlayer fplayer);
+	public String getChatTag(FPlayer fplayer);
 
-    public int getKills();
+	public int getKills();
 
-    public int getDeaths();
+	public int getDeaths();
 
 
-    // ----------------------------------------
-    // RELATION
-    // ----------------------------------------
+	// ----------------------------------------
+	// RELATION
+	// ----------------------------------------
 
-    @Override
-    public String describeTo(RelationParticipator that, boolean ucfirst);
+	@Override
+	public String describeTo(RelationParticipator that, boolean ucfirst);
 
-    @Override
-    public String describeTo(RelationParticipator that);
+	@Override
+	public String describeTo(RelationParticipator that);
 
-    @Override
-    public Relation getRelationTo(RelationParticipator rp);
+	@Override
+	public Relation getRelationTo(RelationParticipator rp);
 
-    @Override
-    public Relation getRelationTo(RelationParticipator rp, boolean ignorePeaceful);
+	@Override
+	public Relation getRelationTo(RelationParticipator rp, boolean ignorePeaceful);
 
-    public Relation getRelationToLocation();
+	public Relation getRelationToLocation();
 
-    @Override
-    public ChatColor getColorTo(RelationParticipator rp);
+	@Override
+	public ChatColor getColorTo(RelationParticipator rp);
 
-    // ----------------------------------------
-    // HEALTH
-    // ----------------------------------------
-    public void heal(int amnt);
+	// ----------------------------------------
+	// HEALTH
+	// ----------------------------------------
+	public void heal(int amnt);
 
 
-    // ----------------------------------------
-    // POWER
-    // ----------------------------------------
-    public double getPower();
+	// ----------------------------------------
+	// POWER
+	// ----------------------------------------
+	public double getPower();
 
-    public void alterPower(double delta);
+	public void alterPower(double delta);
 
-    public double getPowerMax();
+	public double getPowerMax();
 
-    public double getPowerMin();
+	public double getPowerMin();
 
-    public int getPowerRounded();
+	public int getPowerRounded();
 
-    public int getPowerMaxRounded();
+	public int getPowerMaxRounded();
 
-    public int getPowerMinRounded();
+	public int getPowerMinRounded();
 
-    public void updatePower();
+	public void updatePower();
 
-    public void losePowerFromBeingOffline();
+	public void losePowerFromBeingOffline();
 
-    public void onDeath();
-    public void onDeath(double powerLoss);
+	public void onDeath();
+	public void onDeath(double powerLoss);
 
-    // ----------------------------------------
-    // TERRITORY
-    // ----------------------------------------
-    
-    public boolean isInOwnTerritory();
+	// ----------------------------------------
+	// TERRITORY
+	// ----------------------------------------
+	
+	public boolean isInOwnTerritory();
 
-    public boolean isInOthersTerritory();
+	public boolean isInOthersTerritory();
 
-    public boolean isInAllyTerritory();
+	public boolean isInAllyTerritory();
 
-    public boolean isInNeutralTerritory();
+	public boolean isInNeutralTerritory();
 
-    public boolean isInEnemyTerritory();
+	public boolean isInEnemyTerritory();
 
-    public void sendFactionHereMessage(Faction from);
+	public void sendFactionHereMessage(Faction from);
 
-    // ----------------------------------------
-    // ACTIONS
-    // ----------------------------------------
+	// ----------------------------------------
+	// ACTIONS
+	// ----------------------------------------
 
-    public void leave(boolean makePay);
+	public void leave(boolean makePay);
 
-    public boolean canClaimForFaction(Faction forFaction);
+	public boolean canClaimForFaction(Faction forFaction);
 
-    public boolean canClaimForFactionAtLocation(Faction forFaction, Location location, boolean notifyFailure);
+	public boolean canClaimForFactionAtLocation(Faction forFaction, Location location, boolean notifyFailure);
 
-    public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation location, boolean notifyFailure);
+	public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation location, boolean notifyFailure);
 
-    public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
-    public boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+	public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+	public boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
 
-    public void msg(String str, Object... args);
-    
-    public void msg(boolean onlyIfTrue, String str, Object... args);
+	public void msg(String str, Object... args);
+	
+	public void msg(boolean onlyIfTrue, String str, Object... args);
 
-    public String getId();
+	public String getId();
 
-    public Player getPlayer();
+	public Player getPlayer();
 
-    public boolean isOnline();
+	public boolean isOnline();
 
-    public void sendMessage(String message);
+	public void sendMessage(String message);
 
-    public void sendMessage(List<String> messages);
+	public void sendMessage(List<String> messages);
 
-    public boolean isOnlineAndVisibleTo(Player me);
+	public boolean isOnlineAndVisibleTo(Player me);
 
-    public void remove();
+	public void remove();
 
-    public boolean isOffline();
+	public boolean isOffline();
 
-    public void setId(String id);
+	public void setId(String id);
 
-    // ----------------------------------------
-    // WARMUPS
-    // ----------------------------------------
+	// ----------------------------------------
+	// WARMUPS
+	// ----------------------------------------
 
-    public boolean isWarmingUp();
+	public boolean isWarmingUp();
 
-    public WarmUpUtil.Warmup getWarmupType();
+	public WarmUpUtil.Warmup getWarmupType();
 
-    public void addWarmup(WarmUpUtil.Warmup warmup, int taskId);
+	public void addWarmup(WarmUpUtil.Warmup warmup, int taskId);
 
-    public void stopWarmup();
+	public void stopWarmup();
 
-    public void clearWarmup();
-    
-    // ----------------------------------------
-    // UTIL
-    // ----------------------------------------
-    
-    public MemoryFPlayer asMemoryFPlayer();
+	public void clearWarmup();
+	
+	// ----------------------------------------
+	// UTIL
+	// ----------------------------------------
+	
+	public MemoryFPlayer asMemoryFPlayer();
 
 }

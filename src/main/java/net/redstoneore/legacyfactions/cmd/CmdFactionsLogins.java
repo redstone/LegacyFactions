@@ -15,7 +15,7 @@ public class CmdFactionsLogins extends FCommand {
 		
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = true;
-		this.permission = Permission.MONITOR_LOGINS.node;
+		this.permission = Permission.MONITOR_LOGINS.getNode();
 	}
 
 	// -------------------------------------------------- //
