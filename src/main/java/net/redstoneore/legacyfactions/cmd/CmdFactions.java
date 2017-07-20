@@ -120,6 +120,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(this.cmdColeader);
 		this.addSubCommand(this.cmdConfig);
 		this.addSubCommand(this.cmdCreate);
+		this.addSubCommand(CmdFactionsDebug.get());
 		this.addSubCommand(this.cmdDeinvite);
 		this.addSubCommand(this.cmdDescription);
 		this.addSubCommand(this.cmdDisband);
