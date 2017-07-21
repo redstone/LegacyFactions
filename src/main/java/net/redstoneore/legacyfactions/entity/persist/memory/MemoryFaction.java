@@ -433,6 +433,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	// -------------------------------
 
 	@Override
+	public String describe() {
+		return this.describeTo(null);
+	}
+	
+	@Override
 	public String describeTo(RelationParticipator that, boolean ucfirst) {
 		return RelationUtil.describeThatToMe(this, that, ucfirst);
 	}

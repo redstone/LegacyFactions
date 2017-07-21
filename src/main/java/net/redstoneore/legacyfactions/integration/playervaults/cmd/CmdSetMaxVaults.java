@@ -16,7 +16,7 @@ public class CmdSetMaxVaults extends FCommand {
         this.requiredArgs.add("faction");
         this.requiredArgs.add("number");
 
-        this.permission = Permission.SETMAXVAULTS.node;
+        this.permission = Permission.SETMAXVAULTS.getNode();
         this.disableOnLock = false;
 
         senderMustBePlayer = false;

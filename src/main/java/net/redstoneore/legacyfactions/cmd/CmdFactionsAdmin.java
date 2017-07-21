@@ -30,7 +30,7 @@ public class CmdFactionsAdmin extends FCommand {
 		
 		this.requiredArgs.add("player name");
 		
-		this.permission = Permission.ADMIN.node;
+		this.permission = Permission.ADMIN.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = false;

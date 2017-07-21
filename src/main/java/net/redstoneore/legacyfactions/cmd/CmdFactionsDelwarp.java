@@ -22,7 +22,7 @@ public class CmdFactionsDelwarp extends FCommand {
 		this.senderMustBeMember = true;
 		this.senderMustBeModerator = true;
 		this.senderMustBePlayer = true;
-		this.permission = Permission.SETWARP.node;
+		this.permission = Permission.SETWARP.getNode();
 	}
 
 	// -------------------------------------------------- //

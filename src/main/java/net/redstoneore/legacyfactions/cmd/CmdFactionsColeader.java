@@ -22,7 +22,7 @@ public class CmdFactionsColeader extends FCommand {
 
 		this.requiredArgs.add("player name");
 
-		this.permission = Permission.COLEADER.node;
+		this.permission = Permission.COLEADER.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = false;

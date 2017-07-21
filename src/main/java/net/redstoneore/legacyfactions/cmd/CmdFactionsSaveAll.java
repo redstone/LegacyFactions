@@ -9,39 +9,39 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 
 public class CmdFactionsSaveAll extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsSaveAll() {
-        this.aliases.addAll(Conf.cmdAliasesSaveAll);
+	public CmdFactionsSaveAll() {
+		this.aliases.addAll(Conf.cmdAliasesSaveAll);
 
-        this.permission = Permission.SAVE.node;
-        this.disableOnLock = false;
+		this.permission = Permission.SAVE.getNode();
+		this.disableOnLock = false;
 
-        this.senderMustBePlayer = false;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
-    }
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        FPlayerColl.save(false);
-        FactionColl.get().forceSave(false);
-        Board.get().forceSave(false);
-        Conf.save();
-        msg(Lang.COMMAND_SAVEALL_SUCCESS);
-    }
+	@Override
+	public void perform() {
+		FPlayerColl.save(false);
+		FactionColl.get().forceSave(false);
+		Board.get().forceSave(false);
+		Conf.save();
+		msg(Lang.COMMAND_SAVEALL_SUCCESS);
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_SAVEALL_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_SAVEALL_DESCRIPTION.toString();
+	}
 
 }

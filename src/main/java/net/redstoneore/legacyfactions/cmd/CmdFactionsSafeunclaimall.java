@@ -9,41 +9,41 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 
 public class CmdFactionsSafeunclaimall extends FCommand {
 
-    // -------------------------------------------------- //
-    // CONSTRUCT
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public CmdFactionsSafeunclaimall() {
-        this.aliases.addAll(Conf.cmdAliasesSafeunclaimall);
-        
-        this.permission = Permission.MANAGE_SAFE_ZONE.node;
-        this.disableOnLock = true;
+	public CmdFactionsSafeunclaimall() {
+		this.aliases.addAll(Conf.cmdAliasesSafeunclaimall);
+		
+		this.permission = Permission.MANAGE_SAFE_ZONE.getNode();
+		this.disableOnLock = true;
 
-        this.senderMustBePlayer = false;
-        this.senderMustBeMember = false;
-        this.senderMustBeModerator = false;
-        this.senderMustBeColeader = false;
-        this.senderMustBeAdmin = false;
+		this.senderMustBePlayer = false;
+		this.senderMustBeMember = false;
+		this.senderMustBeModerator = false;
+		this.senderMustBeColeader = false;
+		this.senderMustBeAdmin = false;
 
-    }
+	}
 
-    // -------------------------------------------------- //
-    // METHODS
-    // -------------------------------------------------- //
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
-    @Override
-    public void perform() {
-        Board.get().unclaimAll(FactionColl.get().getSafeZone().getId());
-        msg(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
+	@Override
+	public void perform() {
+		Board.get().unclaimAll(FactionColl.get().getSafeZone().getId());
+		msg(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
 
-        if (Conf.logLandUnclaims) {
-            Factions.get().log(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
-        }
-    }
+		if (Conf.logLandUnclaims) {
+			Factions.get().log(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
+		}
+	}
 
-    @Override
-    public String getUsageTranslation() {
-        return Lang.COMMAND_SAFEUNCLAIMALL_DESCRIPTION.toString();
-    }
+	@Override
+	public String getUsageTranslation() {
+		return Lang.COMMAND_SAFEUNCLAIMALL_DESCRIPTION.toString();
+	}
 
 }

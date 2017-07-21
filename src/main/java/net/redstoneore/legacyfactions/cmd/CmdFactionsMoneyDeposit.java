@@ -22,7 +22,7 @@ public class CmdFactionsMoneyDeposit extends FCommand {
         this.requiredArgs.add("amount");
         this.optionalArgs.put("faction", "yours");
 
-        this.permission = Permission.MONEY_DEPOSIT.node;
+        this.permission = Permission.MONEY_DEPOSIT.getNode();
 
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = false;

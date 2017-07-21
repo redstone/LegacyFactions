@@ -22,7 +22,7 @@ public class CmdFactionsShow extends FCommand {
 		
 		this.optionalArgs.put("faction tag", "yours");
 
-		this.permission = Permission.SHOW.node;
+		this.permission = Permission.SHOW.getNode();
 		this.disableOnLock = false;
 
 		this.senderMustBeMember = false;

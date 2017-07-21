@@ -13,7 +13,7 @@ public class CmdFactionsLeave extends FCommand {
 	public CmdFactionsLeave() {
 		this.aliases.addAll(Conf.cmdAliasesLeave);
 
-		this.permission = Permission.LEAVE.node;
+		this.permission = Permission.LEAVE.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;

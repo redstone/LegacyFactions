@@ -312,7 +312,7 @@ public class Factions extends FactionsPluginBase {
 		
 		if (this.saveTask == null && Conf.saveToFileEveryXMinutes > 0.0) {
 			long saveTicks = (long) (20 * 60 * Conf.saveToFileEveryXMinutes); // Approximately every 30 min by default
-			this.saveTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveTask(this), saveTicks, saveTicks);
+			this.saveTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveTask(), saveTicks, saveTicks);
 		}
 	}
 	

@@ -27,7 +27,7 @@ public class CmdFactionsDisband extends FCommand {
         
         this.optionalArgs.put("faction tag", "yours");
         
-        this.permission = Permission.DISBAND.node;
+        this.permission = Permission.DISBAND.getNode();
         this.disableOnLock = true;
 
         this.senderMustBePlayer = false;
