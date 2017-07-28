@@ -1,7 +1,11 @@
 # 1.4.1
-* API: Internal ecomonmy API rebuilt, economy issues should be gone
-* API: `msg` is ambigious and has been depreacted and replaced with `sendMessage`
-* API: More JavaDocs have been added!
+* 🐞 Bugfix: Scoreboard issues 
+* ⭐️ Feature: new `/f debug` command
+* ⌨️ API: Internal economy API rebuilt, economy issues should be gone
+* ⌨️ API: VaultAccount is now a nicer way to use economy! Enjoy! 
+* ⌨️ API: `msg` is ambiguous and has been deprecated and replaced with `sendMessage`
+* ⌨️ API: More JavaDocs have been added!
+* 📚 Docs: Scoreboard wiki has been updated
 
 # 1.4.0
 * Improvement: Added coleader, you can disable it by not giving the `/f coleader` permission
