@@ -67,12 +67,17 @@ public class CmdFactionsShow extends FCommand {
 		}
 
 		for (String line : Conf.showLines) {
-			String parsed = TagUtil.parsePlain(faction, fme, line); // use relations
+			String parsed = TagUtil.parsePlain(faction, this.fme, line); // use relations
 			
 			if (parsed == null) continue; // Due to minimal f show.
 			
 			if (TagUtil.hasFancy(parsed)) {
-				List<FancyMessage> fancy = TagUtil.parseFancy(faction, fme, parsed);
+				List<FancyMessage> fancy = null;
+				
+				// TODO: add support for console sender
+				if (this.fme == null) continue;
+				
+				fancy = TagUtil.parseFancy(faction, this.fme, parsed);
 				if (fancy == null) continue;
 				sendFancyMessage(fancy);
 				continue;
