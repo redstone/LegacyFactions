@@ -12,19 +12,19 @@ public class FDefaultSidebar extends FSidebarProvider {
 	
 	@Override
 	public String getTitle(FPlayer fplayer) {
-		return replaceTags(fplayer, Conf.scoreboardDefaultTitle);
+		return replaceTags(fplayer, Conf.scoreboardDefaultTitle + "");
 	}
 
 	@Override
 	public List<String> getLines(FPlayer fplayer) {
 		if (fplayer.hasFaction()) {
-			return this.getOutput(fplayer, Conf.scoreboardDefault);
+			return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardDefault));
 		} else {
 			if (Conf.scoreboardFactionlessEnabled) {
 				return this.getOutput(fplayer, Conf.scoreboardFactionless);
 			}
 		}
-		return this.getOutput(fplayer, Conf.scoreboardDefault); // no faction, factionless-board disabled
+		return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardDefault)); // no faction, factionless-board disabled
 	}
 	
 	/**

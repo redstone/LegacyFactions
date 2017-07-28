@@ -107,7 +107,7 @@ public class FScoreboard {
 					this.cancel();
 					return;
 				}
-
+				
 				if (temporaryProvider == null) {
 					updateObjective();
 				}
