@@ -57,16 +57,16 @@ public class CmdFactionsDeinvite extends FCommand {
 		}
 
 		if (you.getFaction() == myFaction) {
-			msg(Lang.COMMAND_DEINVITE_ALREADYMEMBER, you.getName(), myFaction.getTag());
-			msg(Lang.COMMAND_DEINVITE_MIGHTWANT, CmdFactions.get().cmdKick.getUseageTemplate(false));
+			sendMessage(Lang.COMMAND_DEINVITE_ALREADYMEMBER, you.getName(), myFaction.getTag());
+			sendMessage(Lang.COMMAND_DEINVITE_MIGHTWANT, CmdFactions.get().cmdKick.getUseageTemplate(false));
 			return;
 		}
 
 		myFaction.deinvite(you);
 
-		you.msg(Lang.COMMAND_DEINVITE_REVOKED, fme.describeTo(you), myFaction.describeTo(you));
+		you.sendMessage(Lang.COMMAND_DEINVITE_REVOKED, fme.describeTo(you), myFaction.describeTo(you));
 
-		myFaction.msg(Lang.COMMAND_DEINVITE_REVOKES, fme.describeTo(myFaction), you.describeTo(myFaction));
+		myFaction.sendMessage(Lang.COMMAND_DEINVITE_REVOKES, fme.describeTo(myFaction), you.describeTo(myFaction));
 	}
 
 	@Override

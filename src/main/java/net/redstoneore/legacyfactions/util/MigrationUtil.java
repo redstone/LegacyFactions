@@ -81,13 +81,13 @@ public class MigrationUtil {
 		Conf.tooltips = tooltips;
 		
 		Conf.scoreboardInChat = Factions.get().getConfig().getBoolean("scoreboard.also-send-chat", false);
-		Conf.scoreboardExpires =  Factions.get().getConfig().getLong("scoreboard.expiration", 6);
+		Conf.scoreboardExpiresSecs =  Factions.get().getConfig().getLong("scoreboard.expiration", 6);
 		Conf.scoreboardInfoEnabled = Factions.get().getConfig().getBoolean("scoreboard.finfo-enabled", false);
 		Conf.scoreboardInfo = Factions.get().getConfig().getStringList("scoreboard.finfo");
 		
 		Conf.scoreboardDefaultEnabled = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", false);
 		Conf.scoreboardDefaultTitle = Factions.get().getConfig().getString("scoreboard.default-title", "Default title");
-		Conf.scoreboardDefaultUpdateInterval = Factions.get().getConfig().getInt("scoreboard.default-update-interval", 2);
+		Conf.scoreboardDefaultUpdateIntervalSecs = Factions.get().getConfig().getInt("scoreboard.default-update-interval", 2);
 		Conf.scoreboardDefaultPrefixes = Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", true);
 		Conf.scoreboardDefault = Factions.get().getConfig().getStringList("scoreboard.default");
 		

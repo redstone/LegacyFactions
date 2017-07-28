@@ -44,41 +44,41 @@ public class CmdFactionsJoin extends FCommand {
 		boolean samePlayer = fplayer == fme;
 
 		if (!samePlayer && !Permission.JOIN_OTHERS.has(sender, false)) {
-			msg(Lang.COMMAND_JOIN_CANNOTFORCE);
+			sendMessage(Lang.COMMAND_JOIN_CANNOTFORCE);
 			return;
 		}
 
 		if (!faction.isNormal()) {
-			msg(Lang.COMMAND_JOIN_SYSTEMFACTION);
+			sendMessage(Lang.COMMAND_JOIN_SYSTEMFACTION);
 			return;
 		}
 
 		if (faction == fplayer.getFaction()) {
 			// TODO:TL
-			msg(Lang.COMMAND_JOIN_ALREADYMEMBER, fplayer.describeTo(fme, true), (samePlayer ? "are" : "is"), faction.getTag(fme));
+			sendMessage(Lang.COMMAND_JOIN_ALREADYMEMBER, fplayer.describeTo(fme, true), (samePlayer ? "are" : "is"), faction.getTag(fme));
 			return;
 		}
 
 		if (Conf.factionMemberLimit > 0 && faction.getFPlayers().size() >= Conf.factionMemberLimit) {
-			msg(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fme), Conf.factionMemberLimit, fplayer.describeTo(fme, false));
+			sendMessage(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fme), Conf.factionMemberLimit, fplayer.describeTo(fme, false));
 			return;
 		}
 
 		if (fplayer.hasFaction()) {
 			// TODO:TL
-			msg(Lang.COMMAND_JOIN_INOTHERFACTION, fplayer.describeTo(fme, true), (samePlayer ? "your" : "their"));
+			sendMessage(Lang.COMMAND_JOIN_INOTHERFACTION, fplayer.describeTo(fme, true), (samePlayer ? "your" : "their"));
 			return;
 		}
 
 		if (!Conf.canLeaveWithNegativePower && fplayer.getPower() < 0) {
-			msg(Lang.COMMAND_JOIN_NEGATIVEPOWER, fplayer.describeTo(fme, true));
+			sendMessage(Lang.COMMAND_JOIN_NEGATIVEPOWER, fplayer.describeTo(fme, true));
 			return;
 		}
 
 		if (!(faction.getOpen() || faction.isInvited(fplayer) || fme.isAdminBypassing() || Permission.JOIN_ANY.has(sender, false))) {
-			msg(Lang.COMMAND_JOIN_REQUIRESINVITATION);
+			sendMessage(Lang.COMMAND_JOIN_REQUIRESINVITATION);
 			if (samePlayer) {
-				faction.msg(Lang.COMMAND_JOIN_ATTEMPTEDJOIN, fplayer.describeTo(faction, true));
+				faction.sendMessage(Lang.COMMAND_JOIN_ATTEMPTEDJOIN, fplayer.describeTo(faction, true));
 			}
 			return;
 		}
@@ -100,12 +100,12 @@ public class CmdFactionsJoin extends FCommand {
 			return;
 		}
 
-		fme.msg(Lang.COMMAND_JOIN_SUCCESS, fplayer.describeTo(fme, true), faction.getTag(fme));
+		fme.sendMessage(Lang.COMMAND_JOIN_SUCCESS, fplayer.describeTo(fme, true), faction.getTag(fme));
 
 		if (!samePlayer) {
-			fplayer.msg(Lang.COMMAND_JOIN_MOVED, fme.describeTo(fplayer, true), faction.getTag(fplayer));
+			fplayer.sendMessage(Lang.COMMAND_JOIN_MOVED, fme.describeTo(fplayer, true), faction.getTag(fplayer));
 		}
-		faction.msg(Lang.COMMAND_JOIN_JOINED, fplayer.describeTo(faction, true));
+		faction.sendMessage(Lang.COMMAND_JOIN_JOINED, fplayer.describeTo(faction, true));
 
 		fplayer.resetFactionData();
 		fplayer.setFaction(faction);

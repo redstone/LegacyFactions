@@ -46,14 +46,14 @@ public class FactionsChatListener implements Listener {
 		if (chat == ChatMode.FACTION) {
 
 			String message = String.format(Conf.factionChatFormat, me.describeTo(myFaction), msg);
-			myFaction.msg(message);
+			myFaction.sendMessage(message);
 
 			Factions.get().log("[FactionChat " + myFaction.getTag() + "] " + ChatColor.stripColor(message));
 
 			// Send to any players who are spying chat
 			FPlayerColl.all(fplayer -> {
 				if (fplayer.isSpyingChat() && fplayer.getFactionId() != myFaction.getId() && me != fplayer) {
-					fplayer.msg("[FCspy] " + myFaction.getTag() + ": " + message);
+					fplayer.sendMessage("[FCspy] " + myFaction.getTag() + ": " + message);
 				}
 			});
 			
@@ -65,14 +65,14 @@ public class FactionsChatListener implements Listener {
 			String message = String.format(Conf.allianceChatFormat, ChatColor.stripColor(me.getNameAndTag()), msg);
 
 			//Send message to our own faction
-			myFaction.msg(message);
+			myFaction.sendMessage(message);
 
 			//Send to all our allies
 			FPlayerColl.all(true, fplayer -> {
 				if (myFaction.getRelationTo(fplayer) == Relation.ALLY && !fplayer.isIgnoreAllianceChat()) {
-					fplayer.msg(message);
+					fplayer.sendMessage(message);
 				} else if (fplayer.isSpyingChat() && me != fplayer) {
-					fplayer.msg("[ACspy]: " + message);
+					fplayer.sendMessage("[ACspy]: " + message);
 				}
 			});
 			
@@ -86,14 +86,14 @@ public class FactionsChatListener implements Listener {
 			String message = String.format(Conf.truceChatFormat, ChatColor.stripColor(me.getNameAndTag()), msg);
 
 			// Send message to our own faction
-			myFaction.msg(message);
+			myFaction.sendMessage(message);
 			
 			// Send to all our truces
 			FPlayerColl.all(true, fplayer -> {
 				if (myFaction.getRelationTo(fplayer) == Relation.TRUCE) {
-					fplayer.msg(message);
+					fplayer.sendMessage(message);
 				} else if (fplayer.isSpyingChat() && fplayer != me) {
-					fplayer.msg("[TCspy]: " + message);
+					fplayer.sendMessage("[TCspy]: " + message);
 				}
 			});
 			

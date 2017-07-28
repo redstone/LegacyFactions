@@ -45,15 +45,15 @@ public class CmdFactionsAutoclaim extends FCommand {
 		Faction forFaction = this.argAsFaction(0, myFaction);
 		if (forFaction == null || forFaction == fme.getAutoClaimFor()) {
 			fme.setAutoClaimFor(null);
-			msg(Lang.COMMAND_AUTOCLAIM_DISABLED);
+			sendMessage(Lang.COMMAND_AUTOCLAIM_DISABLED);
 			return;
 		}
 
 		if (!fme.canClaimForFaction(forFaction)) {
 			if (myFaction == forFaction) {
-				msg(Lang.COMMAND_AUTOCLAIM_REQUIREDRANK, Role.MODERATOR.getTranslation());
+				sendMessage(Lang.COMMAND_AUTOCLAIM_REQUIREDRANK, Role.MODERATOR.getTranslation());
 			} else {
-				msg(Lang.COMMAND_AUTOCLAIM_OTHERFACTION, forFaction.describeTo(fme));
+				sendMessage(Lang.COMMAND_AUTOCLAIM_OTHERFACTION, forFaction.describeTo(fme));
 			}
 
 			return;
@@ -61,7 +61,7 @@ public class CmdFactionsAutoclaim extends FCommand {
 
 		fme.setAutoClaimFor(forFaction);
 
-		msg(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
+		sendMessage(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
 		
 		Map<FLocation, Faction> transactions = new HashMap<>();
 

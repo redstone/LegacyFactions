@@ -33,7 +33,7 @@ public class CmdFactionsLock extends FCommand {
 	@Override
 	public void perform() {
 		Factions.get().setLocked(this.argAsBool(0, !Factions.get().isLocked()));
-		msg(Factions.get().isLocked() ? Lang.COMMAND_LOCK_LOCKED : Lang.COMMAND_LOCK_UNLOCKED);
+		sendMessage(Factions.get().isLocked() ? Lang.COMMAND_LOCK_LOCKED : Lang.COMMAND_LOCK_UNLOCKED);
 	}
 
 	@Override

@@ -17,242 +17,240 @@ import java.util.*;
 
 public interface Faction extends EconomyParticipator {
 	
-	public HashMap<String, List<String>> getAnnouncements();
+	HashMap<String, List<String>> getAnnouncements();
 
-	public FactionWarps warps();
+	FactionWarps warps();
 
-	public int getMaxVaults();
+	int getMaxVaults();
 
-	public void setMaxVaults(int value);
+	void setMaxVaults(int value);
 
-	public void addAnnouncement(FPlayer fPlayer, String msg);
+	void addAnnouncement(FPlayer fPlayer, String msg);
 
-	public void sendUnreadAnnouncements(FPlayer fPlayer);
+	void sendUnreadAnnouncements(FPlayer fPlayer);
 
-	public void removeAnnouncements(FPlayer fPlayer);
+	void removeAnnouncements(FPlayer fPlayer);
 
-	public Set<String> getInvites();
+	Set<String> getInvites();
 
-	public String getId();
+	String getId();
 
-	public void invite(FPlayer fplayer);
+	void invite(FPlayer fplayer);
 
-	public void deinvite(FPlayer fplayer);
+	void deinvite(FPlayer fplayer);
 
-	public boolean isInvited(FPlayer fplayer);
+	boolean isInvited(FPlayer fplayer);
 
-	public boolean getOpen();
+	boolean getOpen();
 
-	public void setOpen(boolean isOpen);
+	void setOpen(boolean isOpen);
 
-	public boolean isPeaceful();
+	boolean isPeaceful();
 
-	public void setPeaceful(boolean isPeaceful);
+	void setPeaceful(boolean isPeaceful);
 
-	public void setPeacefulExplosionsEnabled(boolean val);
+	void setPeacefulExplosionsEnabled(boolean val);
 
-	public boolean getPeacefulExplosionsEnabled();
+	boolean getPeacefulExplosionsEnabled();
 
-	public boolean noExplosionsInTerritory();
+	boolean noExplosionsInTerritory();
 
-	public boolean noCreeperExplosions(Location location);
+	boolean noCreeperExplosions(Location location);
 
-	public boolean isPermanent();
+	boolean isPermanent();
 
-	public void setPermanent(boolean isPermanent);
+	void setPermanent(boolean isPermanent);
 
-	public String getTag();
+	String getTag();
 
-	public String getTag(String prefix);
+	String getTag(String prefix);
 
-	public String getTag(Faction otherFaction);
+	String getTag(Faction otherFaction);
 
-	public String getTag(FPlayer otherFplayer);
+	String getTag(FPlayer otherFplayer);
 
-	public void setTag(String str);
+	void setTag(String str);
 
-	public String getComparisonTag();
+	String getComparisonTag();
 
-	public String getDescription();
+	String getDescription();
 
-	public void setDescription(String value);
+	void setDescription(String value);
 
-	public void setHome(Location home);
+	void setHome(Location home);
 
-	public boolean hasHome();
+	boolean hasHome();
 
-	public Location getHome();
+	Location getHome();
 
-	public long getFoundedDate();
+	long getFoundedDate();
 
-	public void setFoundedDate(long newDate);
+	void setFoundedDate(long newDate);
 
-	public void confirmValidHome();
+	void confirmValidHome();
 
-	public String getAccountId();
+	String getAccountId();
 
-	public Integer getPermanentPower();
+	Integer getPermanentPower();
 
-	public void setPermanentPower(Integer permanentPower);
+	void setPermanentPower(Integer permanentPower);
 
-	public boolean hasPermanentPower();
+	boolean hasPermanentPower();
 
-	public double getPowerBoost();
+	double getPowerBoost();
 
-	public void setPowerBoost(double powerBoost);
+	void setPowerBoost(double powerBoost);
 
-	public boolean noPvPInTerritory();
+	boolean noPvPInTerritory();
 
-	public boolean noMonstersInTerritory();
+	boolean noMonstersInTerritory();
 
-	public boolean isNormal();
+	boolean isNormal();
 
-	public boolean isWilderness();
+	boolean isWilderness();
 
-	public boolean isSafeZone();
+	boolean isSafeZone();
 
-	public boolean isWarZone();
+	boolean isWarZone();
 
-	public boolean isPlayerFreeType();
+	boolean isPlayerFreeType();
 
-	public boolean isPowerFrozen();
+	boolean isPowerFrozen();
 
-	public void setLastDeath(long time);
+	void setLastDeath(long time);
 
-	public int getKills();
+	int getKills();
 
-	public int getDeaths();
+	int getDeaths();
 
 	// -------------------------------
 	// Relation and relation colors
 	// -------------------------------
 
 	@Override
-	public String describeTo(RelationParticipator that, boolean ucfirst);
+	String describeTo(RelationParticipator that, boolean ucfirst);
 
 	@Override
-	public String describeTo(RelationParticipator that);
+	String describeTo(RelationParticipator that);
 
 	@Override
-	public Relation getRelationTo(RelationParticipator rp);
+	Relation getRelationTo(RelationParticipator rp);
 
 	@Override
-	public Relation getRelationTo(RelationParticipator rp, boolean ignorePeaceful);
+	Relation getRelationTo(RelationParticipator rp, boolean ignorePeaceful);
 
 	@Override
-	public ChatColor getColorTo(RelationParticipator rp);
+	ChatColor getColorTo(RelationParticipator rp);
 
-	public Relation getRelationWish(Faction otherFaction);
+	Relation getRelationWish(Faction otherFaction);
 
-	public void setRelationWish(Faction otherFaction, Relation relation);
+	void setRelationWish(Faction otherFaction, Relation relation);
 
-	public int getRelationCount(Relation relation);
+	int getRelationCount(Relation relation);
 
-	public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent);
+	boolean hasMaxRelations(Faction them, Relation rel, Boolean silent);
 
 	// ----------------------------------------------//
 	// Power
 	// ----------------------------------------------//
-	public double getPower();
+	double getPower();
 
-	public double getPowerMax();
+	double getPowerMax();
 
-	public int getPowerRounded();
+	int getPowerRounded();
 
-	public int getPowerMaxRounded();
+	int getPowerMaxRounded();
 
-	public int getLandRounded();
+	int getLandRounded();
 
-	public int getLandRoundedInWorld(World world);
+	int getLandRoundedInWorld(World world);
 
-	public boolean hasLandInflation();
+	boolean hasLandInflation();
 
 	// -------------------------------
 	// FPlayers
 	// -------------------------------
 
 	// maintain the reference list of FPlayers in this faction
-	public void refreshFPlayers();
+	void refreshFPlayers();
 
-	public boolean addFPlayer(FPlayer fplayer);
+	boolean addFPlayer(FPlayer fplayer);
 
-	public boolean removeFPlayer(FPlayer fplayer);
+	boolean removeFPlayer(FPlayer fplayer);
 
-	public int getSize();
+	int getSize();
 
-	public Set<FPlayer> getFPlayers();
+	Set<FPlayer> getFPlayers();
 
-	public Set<FPlayer> getWhereOnline(boolean online);
+	Set<FPlayer> getWhereOnline(boolean online);
 
-	public FPlayer getOwner();
+	FPlayer getOwner();
 
-	public ArrayList<FPlayer> getFPlayersWhereRole(Role role);
+	ArrayList<FPlayer> getFPlayersWhereRole(Role role);
 
-	public ArrayList<Player> getOnlinePlayers();
+	ArrayList<Player> getOnlinePlayers();
 
 	// slightly faster check than getOnlinePlayers() if you just want to see if
 	// there are any players online
-	public boolean hasPlayersOnline();
+	boolean hasPlayersOnline();
 
-	public void memberLoggedOff();
+	void memberLoggedOff();
 
 	// used when current leader is about to be removed from the faction;
 	// promotes new leader, or disbands faction if no other members left
-	public void promoteNewLeader();
+	void promoteNewLeader();
 
 	// ----------------------------------------------//
 	// Messages
 	// ----------------------------------------------//
+	
+	void sendMessage(String message);
 
-	public void msg(String message, Object... args);
-
-	public void sendMessage(String message);
-
-	public void sendMessage(List<String> messages);
+	void sendMessage(List<String> messages);
 
 	// ----------------------------------------------//
 	// Ownership of specific claims
 	// ----------------------------------------------//
 
-	public Map<FLocation, Set<String>> getClaimOwnership();
+	Map<FLocation, Set<String>> getClaimOwnership();
 
-	public void clearAllClaimOwnership();
+	void clearAllClaimOwnership();
 
-	public void clearClaimOwnership(FLocation loc);
+	void clearClaimOwnership(FLocation loc);
 
-	public void clearClaimOwnership(FPlayer player);
+	void clearClaimOwnership(FPlayer player);
 
-	public int getCountOfClaimsWithOwners();
+	int getCountOfClaimsWithOwners();
 
-	public boolean doesLocationHaveOwnersSet(FLocation loc);
+	boolean doesLocationHaveOwnersSet(FLocation loc);
 
-	public boolean isPlayerInOwnerList(FPlayer player, FLocation loc);
+	boolean isPlayerInOwnerList(FPlayer player, FLocation loc);
 
-	public void setPlayerAsOwner(FPlayer player, FLocation loc);
+	void setPlayerAsOwner(FPlayer player, FLocation loc);
 
-	public void removePlayerAsOwner(FPlayer player, FLocation loc);
+	void removePlayerAsOwner(FPlayer player, FLocation loc);
 
-	public Set<String> getOwnerList(FLocation loc);
+	Set<String> getOwnerList(FLocation loc);
 
-	public String getOwnerListString(FLocation loc);
+	String getOwnerListString(FLocation loc);
 
-	public boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
+	boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
 
 
 	// ----------------------------------------------//
 	// Persistance and entity management
 	// ----------------------------------------------//
-	public void remove();
+	void remove();
 
-	public Set<FLocation> getAllClaims();
+	Set<FLocation> getAllClaims();
 
-	public void setId(String id);
+	void setId(String id);
 
 	// ----------------------------------------
 	// UTIL
 	// ----------------------------------------
 
-	public MemoryFaction asMemoryFaction();
+	MemoryFaction asMemoryFaction();
 
 	// -------------------------------------------------- //
 	// DEPRECATED
@@ -262,7 +260,7 @@ public interface Faction extends EconomyParticipator {
 	 * Deprecated, use {@link #getOwner()}
 	 */
 	@Deprecated
-	public FPlayer getFPlayerAdmin();
+	FPlayer getFPlayerAdmin();
 
 	/**
 	 * Deprecated, use {@link #getWhereOnline(boolean)}
@@ -271,7 +269,7 @@ public interface Faction extends EconomyParticipator {
 	 * @return
 	 */
 	@Deprecated
-	public Set<FPlayer> getFPlayersWhereOnline(boolean online);
+	Set<FPlayer> getFPlayersWhereOnline(boolean online);
 
 	/**
 	 * Deprecated, use {@link #isWilderness()}
@@ -279,7 +277,7 @@ public interface Faction extends EconomyParticipator {
 	 * @return
 	 */
 	@Deprecated
-	public boolean isNone();
+	boolean isNone();
 
 	/**
 	 * Depreacted, use {@link #getLandRoundedInWorld(World)}
@@ -288,6 +286,12 @@ public interface Faction extends EconomyParticipator {
 	 * @return
 	 */
 	@Deprecated
-	public int getLandRoundedInWorld(String worldName);
+	int getLandRoundedInWorld(String worldName);
+	
+	/**
+	 * Deprecated, use sendMessage
+	 */
+	@Deprecated
+	void msg(String message, Object... args);
 
 }

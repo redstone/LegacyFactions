@@ -45,7 +45,7 @@ public class CmdFactionsUnclaim extends FCommand {
 		int radius = this.argAsInt(0, 1); // Default to 1
 		
 		if (radius < 1) {
-			msg(Lang.COMMAND_CLAIM_INVALIDRADIUS);
+			sendMessage(Lang.COMMAND_CLAIM_INVALIDRADIUS);
 			return;
 		}
 
@@ -55,7 +55,7 @@ public class CmdFactionsUnclaim extends FCommand {
 		} else {
 			// radius claim
 			if (!Permission.CLAIM_RADIUS.has(sender, false)) {
-				msg(Lang.COMMAND_CLAIM_DENIED);
+				sendMessage(Lang.COMMAND_CLAIM_DENIED);
 				return;
 			}
 
@@ -84,27 +84,27 @@ public class CmdFactionsUnclaim extends FCommand {
 		if (targetFaction.isSafeZone()) {
 			if (Permission.MANAGE_SAFE_ZONE.has(sender)) {
 				Board.get().removeAt(target);
-				msg(Lang.COMMAND_UNCLAIM_SAFEZONE_SUCCESS);
+				sendMessage(Lang.COMMAND_UNCLAIM_SAFEZONE_SUCCESS);
 
 				if (Conf.logLandUnclaims) {
 					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fme.getName(), target.getCoordString(), targetFaction.getTag()));
 				}
 				return true;
 			} else {
-				msg(Lang.COMMAND_UNCLAIM_SAFEZONE_NOPERM);
+				sendMessage(Lang.COMMAND_UNCLAIM_SAFEZONE_NOPERM);
 				return false;
 			}
 		} else if (targetFaction.isWarZone()) {
 			if (Permission.MANAGE_WAR_ZONE.has(sender)) {
 				Board.get().removeAt(target);
-				msg(Lang.COMMAND_UNCLAIM_WARZONE_SUCCESS);
+				sendMessage(Lang.COMMAND_UNCLAIM_WARZONE_SUCCESS);
 
 				if (Conf.logLandUnclaims) {
 					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fme.getName(), target.getCoordString(), targetFaction.getTag()));
 				}
 				return true;
 			} else {
-				msg(Lang.COMMAND_UNCLAIM_WARZONE_NOPERM);
+				sendMessage(Lang.COMMAND_UNCLAIM_WARZONE_NOPERM);
 				return false;
 			}
 		}
@@ -122,8 +122,8 @@ public class CmdFactionsUnclaim extends FCommand {
 				Board.get().removeAt(location);
 			}
 			
-			targetFaction.msg(Lang.COMMAND_UNCLAIM_UNCLAIMED, fme.describeTo(targetFaction, true));
-			msg(Lang.COMMAND_UNCLAIM_UNCLAIMS);
+			targetFaction.sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMED, fme.describeTo(targetFaction, true));
+			sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMS);
 
 			if (Conf.logLandUnclaims) {
 				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fme.getName(), target.getCoordString(), targetFaction.getTag()));
@@ -142,7 +142,7 @@ public class CmdFactionsUnclaim extends FCommand {
 
 
 		if (myFaction != targetFaction) {
-			msg(Lang.COMMAND_UNCLAIM_WRONGFACTION);
+			sendMessage(Lang.COMMAND_UNCLAIM_WRONGFACTION);
 			return false;
 		}
 		
@@ -154,15 +154,15 @@ public class CmdFactionsUnclaim extends FCommand {
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if (event.isCancelled()) return false;
 
-		if (VaultEngine.shouldBeUsed()) {
-			double refund = VaultEngine.calculateClaimRefund(myFaction.getLandRounded());
+		if (VaultEngine.getUtils().shouldBeUsed()) {
+			double refund = VaultEngine.getUtils().calculateClaimRefund(myFaction.getLandRounded());
 
 			if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
-				if (!VaultEngine.modifyMoney(myFaction, refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
+				if (!VaultEngine.getUtils().modifyMoney(myFaction, refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
 					return false;
 				}
 			} else {
-				if (!VaultEngine.modifyMoney(fme, refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
+				if (!VaultEngine.getUtils().modifyMoney(fme, refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
 					return false;
 				}
 			}
@@ -173,7 +173,7 @@ public class CmdFactionsUnclaim extends FCommand {
 			Faction thisFaction = entry.getValue();
 			
 			Board.get().removeAt(entry.getKey());
-			thisFaction.msg(Lang.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fme.describeTo(myFaction, true));
+			thisFaction.sendMessage(Lang.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fme.describeTo(myFaction, true));
 			
 
 			if (!Conf.logLandUnclaims) return;

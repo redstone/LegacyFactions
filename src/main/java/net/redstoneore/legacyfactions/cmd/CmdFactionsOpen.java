@@ -44,9 +44,9 @@ public class CmdFactionsOpen extends FCommand {
 		// Inform
 		FPlayerColl.all(true, fplayer -> {
 			if (fplayer.getFactionId().equals(myFaction.getId())) {
-				fplayer.msg(Lang.COMMAND_OPEN_CHANGES, fme.getName(), open);
+				fplayer.sendMessage(Lang.COMMAND_OPEN_CHANGES, fme.getName(), open);
 			} else {
-				fplayer.msg(Lang.COMMAND_OPEN_CHANGED, myFaction.getTag(fplayer.getFaction()), open);
+				fplayer.sendMessage(Lang.COMMAND_OPEN_CHANGED, myFaction.getTag(fplayer.getFaction()), open);
 			}
 		});
 	}

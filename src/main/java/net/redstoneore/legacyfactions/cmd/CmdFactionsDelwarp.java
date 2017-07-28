@@ -48,9 +48,9 @@ public class CmdFactionsDelwarp extends FCommand {
 			if (cost > 0 && !fme.isAdminBypassing() && !this.payForCommand(Conf.warpCost.get("delete"), Lang.COMMAND_DELFWARP_TODELETE.toString(), Lang.COMMAND_DELFWARP_FORDELETE.toString())) return;
 			
 			warp.delete();
-			fme.msg(Lang.COMMAND_DELFWARP_DELETED, name);
+			fme.sendMessage(Lang.COMMAND_DELFWARP_DELETED, name);
 		} else {
-			fme.msg(Lang.COMMAND_DELFWARP_INVALID, name);
+			fme.sendMessage(Lang.COMMAND_DELFWARP_INVALID, name);
 		}
 	}
 

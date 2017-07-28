@@ -48,7 +48,7 @@ public class CmdFactionsPower extends FCommand {
 
 		double powerBoost = target.getPowerBoost();
 		String boost = (powerBoost == 0.0) ? "" : (powerBoost > 0.0 ? Lang.COMMAND_POWER_BONUS.toString() : Lang.COMMAND_POWER_PENALTY.toString()) + powerBoost + ")";
-		msg(Lang.COMMAND_POWER_POWER, target.describeTo(fme, true), target.getPowerRounded(), target.getPowerMaxRounded(), boost);
+		sendMessage(Lang.COMMAND_POWER_POWER, target.describeTo(fme, true), target.getPowerRounded(), target.getPowerMaxRounded(), boost);
 	}
 
 	@Override

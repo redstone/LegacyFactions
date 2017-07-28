@@ -214,7 +214,7 @@ public class Conf {
 	// -------------------------------------------------- //
 
 	public static boolean scoreboardInChat = false;
-	public static long scoreboardExpires = 6;
+	public static long scoreboardExpiresSecs = 6;
 	
 	public static boolean scoreboardInfoEnabled = false;
 	public static List<String> scoreboardInfo = Lists.newArrayList(
@@ -230,7 +230,7 @@ public class Conf {
 	
 	public static boolean scoreboardDefaultEnabled = false;
 	public static String scoreboardDefaultTitle = "Default Title";
-	public static int scoreboardDefaultUpdateInterval = 2;
+	public static int scoreboardDefaultUpdateIntervalSecs = 2;
 	public static boolean scoreboardDefaultPrefixes = true;
 	
 	public static List<String> scoreboardDefault = Lists.newArrayList(
@@ -473,7 +473,7 @@ public class Conf {
 	
 	// Economy settings
 	public static boolean econEnabled = false;
-	public static String econUniverseAccount = "";
+	public static String econUniverseAccount = "universe-" + UUID.randomUUID();
 	public static double econCostClaimWilderness = 30.0;
 	public static double econCostClaimFromFactionBonus = 30.0;
 	public static double econOverclaimRewardMultiplier = 0.0;
@@ -763,7 +763,7 @@ public class Conf {
 	public static List<String> cmdAliasesMod = Lists.newArrayList("mod", "setmod", "officer", "setofficer");
 	public static List<String> cmdAliasesModifyPower = Lists.newArrayList("modifypower", "modpower", "mp", "pm");
 	public static List<String> cmdAliasesMoney = Lists.newArrayList("money");
-	public static List<String> cmdAliasesMoneyBalance = Lists.newArrayList("balance", "b");
+	public static List<String> cmdAliasesMoneyBalance = Lists.newArrayList("balance", "bal", "b");
 	public static List<String> cmdAliasesMoneyDeposit = Lists.newArrayList("deposit", "d");
 	public static List<String> cmdAliasesMoneyTransferFf = Lists.newArrayList("ff");
 	public static List<String> cmdAliasesMoneyTransferFp = Lists.newArrayList("fp");

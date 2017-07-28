@@ -25,7 +25,7 @@ public class CmdFactionsLogins extends FCommand {
 	@Override
 	public void perform() {
 		boolean monitor = fme.isMonitoringJoins();
-		fme.msg(Lang.COMMAND_LOGINS_TOGGLE, String.valueOf(!monitor));
+		fme.sendMessage(Lang.COMMAND_LOGINS_TOGGLE, String.valueOf(!monitor));
 		fme.setMonitorJoins(!monitor);
 	}
 

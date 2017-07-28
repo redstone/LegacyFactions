@@ -14,9 +14,9 @@ public class CmdFactionsMoneyBalance extends FCommand {
 
 	public CmdFactionsMoneyBalance() {
 		this.aliases.addAll(Conf.cmdAliasesMoneyBalance);
-
+		
 		this.optionalArgs.put("faction", "yours");
-
+		
 		this.permission = Permission.MONEY_BALANCE.getNode();
 		this.setHelpShort(Lang.COMMAND_MONEYBALANCE_SHORT.toString());
 
@@ -44,7 +44,7 @@ public class CmdFactionsMoneyBalance extends FCommand {
 			return;
 		}
 
-		VaultEngine.sendBalanceInfo(fme, faction);
+		VaultEngine.getUtils().sendBalanceInfo(fme, faction);
 	}
 
 	@Override

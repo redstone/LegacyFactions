@@ -34,7 +34,7 @@ public class CmdFactionsSafeunclaimall extends FCommand {
 	@Override
 	public void perform() {
 		Board.get().unclaimAll(FactionColl.get().getSafeZone().getId());
-		msg(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
+		sendMessage(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
 
 		if (Conf.logLandUnclaims) {
 			Factions.get().log(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));

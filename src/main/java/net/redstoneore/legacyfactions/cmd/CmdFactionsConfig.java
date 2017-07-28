@@ -66,7 +66,7 @@ public class CmdFactionsConfig extends FCommand {
 		String fieldName = properFieldNames.get(field);
 
 		if (fieldName == null || fieldName.isEmpty()) {
-			msg(Lang.COMMAND_CONFIG_NOEXIST, field);
+			sendMessage(Lang.COMMAND_CONFIG_NOEXIST, field);
 			return;
 		}
 

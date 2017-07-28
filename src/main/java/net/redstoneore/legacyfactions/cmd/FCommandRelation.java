@@ -44,25 +44,25 @@ public abstract class FCommandRelation extends FCommand {
 	public void perform() {
 		Faction them = this.argAsFaction(0);
 		if (them == null) {
-			this.msg(Lang.COMMAND_RELATIONS_INVALID_TARGET.toString());
+			this.sendMessage(Lang.COMMAND_RELATIONS_INVALID_TARGET.toString());
 			return;
 		}
 		
 		// Ensure normal
 		if (!them.isNormal()) {
-			msg(Lang.COMMAND_RELATIONS_INVALID_NOTNORMAL.toString());
+			sendMessage(Lang.COMMAND_RELATIONS_INVALID_NOTNORMAL.toString());
 			return;
 		}
 		
 		// Can't set relation to self
 		if (them == this.myFaction) {
-			msg(Lang.COMMAND_RELATIONS_INVALID_SELF.toString());
+			sendMessage(Lang.COMMAND_RELATIONS_INVALID_SELF.toString());
 			return;
 		}
 		
 		// Check for existing relationship
 		if (this.myFaction.getRelationWish(them) == targetRelation) {
-			msg(Lang.COMMAND_RELATIONS_INVALID_ALREADYINRELATIONSHIP.toString(), them.getTag());
+			sendMessage(Lang.COMMAND_RELATIONS_INVALID_ALREADYINRELATIONSHIP.toString(), them.getTag());
 			return;
 		}
 
@@ -91,23 +91,23 @@ public abstract class FCommandRelation extends FCommand {
 			EventFactionsRelation relationEvent = new EventFactionsRelation(this.myFaction, them, oldRelation, currentRelation);
 			Bukkit.getServer().getPluginManager().callEvent(relationEvent);
 
-			them.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + this.myFaction.getTag());
-			this.myFaction.msg(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + them.getTag());
+			them.sendMessage(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + this.myFaction.getTag());
+			this.myFaction.sendMessage(Lang.COMMAND_RELATIONS_MUTUAL, currentRelationColor + targetRelation.getTranslation(), currentRelationColor + them.getTag());
 		} else {
 			// inform the other faction of your request
-			them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_1, currentRelationColor + this.myFaction.getTag(), targetRelation.getColor() + targetRelation.getTranslation());
-			them.msg(Lang.COMMAND_RELATIONS_PROPOSAL_2, Conf.baseCommandAliases.get(0), targetRelation, this.myFaction.getTag());
-			this.myFaction.msg(Lang.COMMAND_RELATIONS_PROPOSAL_SENT, currentRelationColor + them.getTag(), "" + targetRelation.getColor() + targetRelation);
+			them.sendMessage(Lang.COMMAND_RELATIONS_PROPOSAL_1, currentRelationColor + this.myFaction.getTag(), targetRelation.getColor() + targetRelation.getTranslation());
+			them.sendMessage(Lang.COMMAND_RELATIONS_PROPOSAL_2, Conf.baseCommandAliases.get(0), targetRelation, this.myFaction.getTag());
+			this.myFaction.sendMessage(Lang.COMMAND_RELATIONS_PROPOSAL_SENT, currentRelationColor + them.getTag(), "" + targetRelation.getColor() + targetRelation);
 		}
 
 		if (!targetRelation.isNeutral() && them.isPeaceful()) {
-			them.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
-			this.myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
+			them.sendMessage(Lang.COMMAND_RELATIONS_PEACEFUL);
+			this.myFaction.sendMessage(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
 		}
 
 		if (!targetRelation.isNeutral() && myFaction.isPeaceful()) {
-			them.msg(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
-			this.myFaction.msg(Lang.COMMAND_RELATIONS_PEACEFUL);
+			them.sendMessage(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
+			this.myFaction.sendMessage(Lang.COMMAND_RELATIONS_PEACEFUL);
 		}
 
 		FTeamWrapper.updatePrefixes(myFaction);

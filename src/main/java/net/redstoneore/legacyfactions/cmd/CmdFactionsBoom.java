@@ -32,7 +32,7 @@ public class CmdFactionsBoom extends FCommand {
 	@Override
 	public void perform() {
 		if (!myFaction.isPeaceful()) {
-			fme.msg(Lang.COMMAND_BOOM_PEACEFULONLY);
+			this.fme.sendMessage(Lang.COMMAND_BOOM_PEACEFULONLY);
 			return;
 		}
 
@@ -41,12 +41,12 @@ public class CmdFactionsBoom extends FCommand {
 			return;
 		}
 
-		myFaction.setPeacefulExplosionsEnabled(this.argAsBool(0, !myFaction.getPeacefulExplosionsEnabled()));
+		this.myFaction.setPeacefulExplosionsEnabled(this.argAsBool(0, !myFaction.getPeacefulExplosionsEnabled()));
 
 		String enabled = myFaction.noExplosionsInTerritory() ? Lang.GENERIC_DISABLED.toString() : Lang.GENERIC_ENABLED.toString();
 
 		// Inform
-		myFaction.msg(Lang.COMMAND_BOOM_ENABLED, fme.describeTo(myFaction), enabled);
+		this.myFaction.sendMessage(Lang.COMMAND_BOOM_ENABLED, fme.describeTo(myFaction), enabled);
 	}
 
 	@Override

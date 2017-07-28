@@ -40,7 +40,7 @@ public class CmdFactionsReload extends FCommand {
 		
 		long timeReload = (System.currentTimeMillis() - timeInitStart);
 
-		msg(Lang.COMMAND_RELOAD_TIME, timeReload);
+		sendMessage(Lang.COMMAND_RELOAD_TIME, timeReload);
 	}
 
 	@Override

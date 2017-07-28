@@ -4,6 +4,7 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboard;
+import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 
 public class CmdFactionsScoreboard extends FCommand {
 
@@ -28,19 +29,20 @@ public class CmdFactionsScoreboard extends FCommand {
 
 	@Override
 	public void perform() {
-		boolean toggleTo = !fme.showScoreboard();
-		FScoreboard board = FScoreboard.get(fme);
-		if (board == null) {
-			me.sendMessage(Lang.COMMAND_TOGGLESB_DISABLED.toString());
+		boolean scoreboardVisible = !fme.showScoreboard();
+		FScoreboard scoreboard = FScoreboards.get(fme);
+		if (scoreboard == null) {
+			this.me.sendMessage(Lang.COMMAND_TOGGLESB_DISABLED.toString());
 		} else {
-			me.sendMessage(Lang.TOGGLE_SB.toString().replace("{value}", String.valueOf(toggleTo)));
-			board.setSidebarVisibility(toggleTo);
+			this.me.sendMessage(Lang.TOGGLE_SB.toString().replace("{value}", String.valueOf(scoreboardVisible)));
+			scoreboard.setSidebarVisibility(scoreboardVisible);
 		}
-		fme.setShowScoreboard(toggleTo);
+		this.fme.setShowScoreboard(scoreboardVisible);
 	}
 
 	@Override
 	public String getUsageTranslation() {
 		return Lang.COMMAND_SCOREBOARD_DESCRIPTION.toString();
 	}
+	
 }

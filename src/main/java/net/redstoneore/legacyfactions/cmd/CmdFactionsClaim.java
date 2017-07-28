@@ -49,7 +49,7 @@ public class CmdFactionsClaim extends FCommand {
 		final Faction forFaction = this.argAsFaction(1, myFaction); // Default to own
 
 		if (radius < 1) {
-			msg(Lang.COMMAND_CLAIM_INVALIDRADIUS);
+			sendMessage(Lang.COMMAND_CLAIM_INVALIDRADIUS);
 			return;
 		}
 
@@ -71,7 +71,7 @@ public class CmdFactionsClaim extends FCommand {
 		} else {
 			// radius claim
 			if (!Permission.CLAIM_RADIUS.has(sender, false)) {
-				msg(Lang.COMMAND_CLAIM_DENIED);
+				sendMessage(Lang.COMMAND_CLAIM_DENIED);
 				return;
 			}
 

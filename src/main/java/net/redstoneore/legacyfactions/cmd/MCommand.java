@@ -8,7 +8,6 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
-import net.redstoneore.legacyfactions.integration.vault.VaultIntegration;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 import org.apache.commons.lang.time.DurationFormatUtils;
@@ -258,11 +257,11 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	// Message Sending Helpers
 	// -------------------------------------------- //
 
-	public void msg(String str, Object... args) {
+	public void sendMessage(String str, Object... args) {
 		sender.sendMessage(Factions.get().getTextUtil().parse(str, args));
 	}
 
-	public void msg(Lang translation, Object... args) {
+	public void sendMessage(Lang translation, Object... args) {
 		sender.sendMessage(Factions.get().getTextUtil().parse(translation.toString(), args));
 	}
 
@@ -271,9 +270,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	}
 
 	public void sendMessage(List<String> messages) {
-		for (String message : messages) {
-			this.sendMessage(message);
-		}
+		messages.forEach(message -> this.sendMessage(message));
 	}
 
 	public void sendMessage(FancyMessage message) {
@@ -285,9 +282,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	}
 
 	public void sendFancyMessage(List<FancyMessage> messages) {
-		for (FancyMessage m : messages) {
-			sendFancyMessage(m);
-		}
+		messages.forEach(message -> this.sendFancyMessage(message));
 	}
 	
 	public void sendMessage(Lang lang) {
@@ -296,23 +291,27 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	
 	public List<String> getToolTips(FPlayer player) {
 		List<String> lines = new ArrayList<>();
-		for (String s : Conf.tooltips.get("show")) {
-			lines.add(ChatColor.translateAlternateColorCodes('&', replaceFPlayerTags(s, player)));
-		}
+		
+		Conf.tooltips.get("show").forEach(tooltip -> {
+			lines.add(ChatColor.translateAlternateColorCodes('&', replaceFPlayerTags(tooltip, player)));
+		});
+		
 		return lines;
 	}
 
 	public List<String> getToolTips(Faction faction) {
 		List<String> lines = new ArrayList<>();
-		for (String s : Conf.tooltips.get("list")) {
-			lines.add(ChatColor.translateAlternateColorCodes('&', replaceFactionTags(s, faction)));
-		}
+		
+		Conf.tooltips.get("list").forEach(tooltip -> {
+			lines.add(ChatColor.translateAlternateColorCodes('&', replaceFactionTags(tooltip, faction)));
+		});
+		
 		return lines;
 	}
 
 	public String replaceFPlayerTags(String s, FPlayer player) {
 		if (s.contains("{balance}")) {
-			String balance = VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(player) : "no balance";
+			String balance = VaultEngine.isSetup() ? VaultEngine.getUtils().getFriendlyBalance(player) : "no balance";
 			s = s.replace("{balance}", balance);
 		}
 		if (s.contains("{lastSeen}")) {
@@ -325,7 +324,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 			s = s.replace("{power}", power);
 		}
 		if (s.contains("{group}")) {
-			String group = VaultIntegration.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(player.getId())));
+			String group = VaultEngine.getUtils().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(player.getId())));
 			s = s.replace("{group}", group);
 		}
 		return s;
@@ -449,7 +448,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 		}
 
 		if (msg && ret == null) {
-			this.msg(Lang.GENERIC_NOPLAYERFOUND, name);
+			this.sendMessage(Lang.GENERIC_NOPLAYERFOUND, name);
 		}
 
 		return ret;
@@ -479,7 +478,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 		}
 
 		if (msg && ret == null) {
-			this.msg(Lang.GENERIC_NOPLAYERMATCH, name);
+			this.sendMessage(Lang.GENERIC_NOPLAYERMATCH, name);
 		}
 
 		return ret;
@@ -497,4 +496,24 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 		return this.argAsPlayer(idx, null);
 	}
 	
+	// -------------------------------------------------- //
+	// DEPRECATED
+	// -------------------------------------------------- //
+	
+	/**
+	 * Deprecated, use sendMessage
+	 */
+	@Deprecated
+	public void msg(String str, Object... args) {
+		this.sendMessage(str, args);
+	}
+
+	/**
+	 * Deprecated, use sendMessage
+	 */
+	@Deprecated
+	public void msg(Lang translation, Object... args) {
+		this.sendMessage(translation, args);
+	}
+
 }

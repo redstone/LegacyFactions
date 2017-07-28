@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.VaultAccount;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 import net.redstoneore.legacyfactions.event.EventFactionsDisband;
@@ -60,12 +61,12 @@ public class CmdFactionsDisband extends FCommand {
         }
 
         if (!faction.isNormal()) {
-            msg(Lang.COMMAND_DISBAND_IMMUTABLE.toString());
+            sendMessage(Lang.COMMAND_DISBAND_IMMUTABLE.toString());
             return;
         }
         
         if (faction.isPermanent()) {
-            msg(Lang.COMMAND_DISBAND_MARKEDPERMANENT.toString());
+            sendMessage(Lang.COMMAND_DISBAND_MARKEDPERMANENT.toString());
             return;
         }
 
@@ -85,12 +86,12 @@ public class CmdFactionsDisband extends FCommand {
             String who = senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer);
             if (fplayer.getFaction() == faction) {
                 if (fplayer == fme) {
-                    fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURSYOU);
+                    fplayer.sendMessage(Lang.COMMAND_DISBAND_BROADCAST_YOURSYOU);
                 } else {
-                    fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_YOURS, who);
+                    fplayer.sendMessage(Lang.COMMAND_DISBAND_BROADCAST_YOURS, who);
                 }
             } else {
-                fplayer.msg(Lang.COMMAND_DISBAND_BROADCAST_NOTYOURS, who, faction.getTag(fplayer));
+                fplayer.sendMessage(Lang.COMMAND_DISBAND_BROADCAST_NOTYOURS, who, faction.getTag(fplayer));
             }
         }
         if (Conf.logFactionDisband) {
@@ -98,14 +99,14 @@ public class CmdFactionsDisband extends FCommand {
             Factions.get().log("The faction " + faction.getTag() + " (" + faction.getId() + ") was disbanded by " + (senderIsConsole ? "console command" : fme.getName()) + ".");
         }
 
-        if (VaultEngine.shouldBeUsed() && !senderIsConsole) {
+        if (VaultEngine.getUtils().shouldBeUsed() && !this.senderIsConsole) {
             //Give all the faction's money to the disbander
-            double amount = VaultEngine.getBalance(faction.getAccountId());
-            VaultEngine.transferMoney(fme, faction, fme, amount, false);
-
+            double amount = VaultEngine.getUtils().getBalance(faction.getAccountId());
+            VaultAccount.get(faction).transfer(VaultAccount.get(fme), amount, VaultAccount.get(fme));
+            
             if (amount > 0.0) {
-                String amountString = VaultEngine.moneyString(amount);
-                msg(Lang.COMMAND_DISBAND_HOLDINGS, amountString);
+                String amountString = VaultEngine.getUtils().moneyString(amount);
+                sendMessage(Lang.COMMAND_DISBAND_HOLDINGS, amountString);
                 //TODO: Format this correctly and translate
                 Factions.get().log(fme.getName() + " has been given bank holdings of " + amountString + " from disbanding " + faction.getTag() + ".");
             }

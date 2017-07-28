@@ -44,7 +44,7 @@ public class CmdFactionsTag extends FCommand {
 
 		// TODO does not first test cover selfcase?
 		if (FactionColl.get().isTagTaken(tag) && !MiscUtil.getComparisonString(tag).equals(myFaction.getComparisonTag())) {
-			msg(Lang.COMMAND_TAG_TAKEN);
+			sendMessage(Lang.COMMAND_TAG_TAKEN);
 			return;
 		}
 
@@ -77,14 +77,14 @@ public class CmdFactionsTag extends FCommand {
 		// Inform
 		for (FPlayer fplayer : FPlayerColl.all(true)) {
 			if (fplayer.getFactionId().equals(myFaction.getId())) {
-				fplayer.msg(Lang.COMMAND_TAG_FACTION, fme.describeTo(myFaction, true), myFaction.getTag(myFaction));
+				fplayer.sendMessage(Lang.COMMAND_TAG_FACTION, fme.describeTo(myFaction, true), myFaction.getTag(myFaction));
 				continue;
 			}
 
 			// Broadcast the tag change (if applicable)
 			if (Conf.broadcastTagChanges) {
 				Faction faction = fplayer.getFaction();
-				fplayer.msg(Lang.COMMAND_TAG_CHANGED, fme.getColorTo(faction) + oldtag, myFaction.getTag(faction));
+				fplayer.sendMessage(Lang.COMMAND_TAG_CHANGED, fme.getColorTo(faction) + oldtag, myFaction.getTag(faction));
 			}
 		}
 
