@@ -14,18 +14,21 @@ public abstract class FSidebarProvider {
 	// METHODS
 	// -------------------------------------------------- //
 	
-    public String replaceTags(FPlayer fPlayer, String s) {
-        return this.qualityAssure(TagUtil.parsePlain(fPlayer, s));
+    public String replaceTags(FPlayer fplayer, String string) {
+        return this.qualityAssure(TagUtil.parsePlain(fplayer, string));
     }
 
-    public String replaceTags(Faction faction, FPlayer fPlayer, String s) {
-        return this.qualityAssure(TagUtil.parsePlain(faction, fPlayer, s));
+    public String replaceTags(Faction faction, FPlayer fplayer, String string) {
+        return this.qualityAssure(TagUtil.parsePlain(faction, fplayer, string));
     }
 
     private String qualityAssure(String line) {
         if (line.contains("{notFrozen}") || line.contains("{notPermanent}")) {
             return "n/a"; // we dont support support these error variables in scoreboards
         }
+        
+        
+        
         if (line.contains("{ig}")) {
             // since you can't really fit a whole "Faction Home: world, x, y, z" on one line
             // we assume it's broken up into two lines, so returning our tl will suffice.
@@ -33,6 +36,7 @@ public abstract class FSidebarProvider {
         }
         return Factions.get().getTextUtil().parse(line); // finally add color :)
     }
+    
     
 	// -------------------------------------------------- //
 	// ABSTRACT METHODS
