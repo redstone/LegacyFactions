@@ -45,12 +45,12 @@ public class CmdFactionsCreate extends FCommand {
 		String tag = this.argAsString(0);
 
 		if (fme.hasFaction()) {
-			msg(Lang.COMMAND_CREATE_MUSTLEAVE);
+			sendMessage(Lang.COMMAND_CREATE_MUSTLEAVE);
 			return;
 		}
 
 		if (FactionColl.get().isTagTaken(tag)) {
-			msg(Lang.COMMAND_CREATE_INUSE);
+			sendMessage(Lang.COMMAND_CREATE_INUSE);
 			return;
 		}
 
@@ -82,7 +82,7 @@ public class CmdFactionsCreate extends FCommand {
 		Faction faction = FactionColl.get().createFaction();
 
 		if (faction == null) {
-			msg(Lang.COMMAND_CREATE_ERROR);
+			sendMessage(Lang.COMMAND_CREATE_ERROR);
 			return;
 		}
 
@@ -100,10 +100,10 @@ public class CmdFactionsCreate extends FCommand {
 		fme.setFaction(faction);
 
 		for (FPlayer follower : FPlayerColl.all(true)) {
-			follower.msg(Lang.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
+			follower.sendMessage(Lang.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
 		}
 
-		msg(Lang.COMMAND_CREATE_YOUSHOULD, CmdFactions.get().cmdDescription.getUseageTemplate());
+		sendMessage(Lang.COMMAND_CREATE_YOUSHOULD, CmdFactions.get().cmdDescription.getUseageTemplate());
 
 		if (Conf.logFactionCreate) {
 			Factions.get().log(fme.getName() + Lang.COMMAND_CREATE_CREATEDLOG.toString() + tag);

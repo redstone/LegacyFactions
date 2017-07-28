@@ -65,7 +65,8 @@ public class FactionsBlockListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @SuppressWarnings("deprecation")
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockPistonRetract(BlockPistonRetractEvent event) {
         // if not a sticky piston, retraction should be fine
         if (!event.isSticky() || !Conf.pistonProtectionThroughDenyBuild) {
@@ -183,7 +184,7 @@ public class FactionsBlockListener implements Listener {
             }
 
             if (!justCheck) {
-                me.msg("<b>You can't " + action + " in the wilderness.");
+                me.sendMessage("<b>You can't " + action + " in the wilderness.");
             }
 
             return false;
@@ -197,7 +198,7 @@ public class FactionsBlockListener implements Listener {
             }
 
             if (!justCheck) {
-                me.msg("<b>You can't " + action + " in a safe zone.");
+                me.sendMessage("<b>You can't " + action + " in a safe zone.");
             }
 
             return false;
@@ -211,7 +212,7 @@ public class FactionsBlockListener implements Listener {
             }
 
             if (!justCheck) {
-                me.msg("<b>You can't " + action + " in a war zone.");
+                me.sendMessage("<b>You can't " + action + " in a war zone.");
             }
 
             return false;
@@ -231,14 +232,14 @@ public class FactionsBlockListener implements Listener {
             player.damage(Conf.actionDeniedPainAmount);
 
             if (!deny) {
-                me.msg("<b>It is painful to try to " + action + " in the territory of " + otherFaction.getTag(myFaction));
+                me.sendMessage("<b>It is painful to try to " + action + " in the territory of " + otherFaction.getTag(myFaction));
             }
         }
 
         // cancel building/destroying in other territory?
         if (deny) {
             if (!justCheck) {
-                me.msg("<b>You can't " + action + " in the territory of " + otherFaction.getTag(myFaction));
+                me.sendMessage("<b>You can't " + action + " in the territory of " + otherFaction.getTag(myFaction));
             }
 
             return false;
@@ -250,12 +251,12 @@ public class FactionsBlockListener implements Listener {
                 player.damage(Conf.actionDeniedPainAmount);
 
                 if (!Conf.ownedAreaDenyBuild) {
-                    me.msg("<b>It is painful to try to " + action + " in this territory, it is owned by: " + otherFaction.getOwnerListString(loc));
+                    me.sendMessage("<b>It is painful to try to " + action + " in this territory, it is owned by: " + otherFaction.getOwnerListString(loc));
                 }
             }
             if (Conf.ownedAreaDenyBuild) {
                 if (!justCheck) {
-                    me.msg("<b>You can't " + action + " in this territory, it is owned by: " + otherFaction.getOwnerListString(loc));
+                    me.sendMessage("<b>You can't " + action + " in this territory, it is owned by: " + otherFaction.getOwnerListString(loc));
                 }
 
                 return false;

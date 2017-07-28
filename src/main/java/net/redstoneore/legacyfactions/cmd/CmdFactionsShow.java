@@ -47,7 +47,7 @@ public class CmdFactionsShow extends FCommand {
 
 		if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")
 				&& Conf.showExempt.contains(faction.getTag())) {
-			msg(Lang.COMMAND_SHOW_EXEMPT);
+			sendMessage(Lang.COMMAND_SHOW_EXEMPT);
 			return;
 		}
 
@@ -61,9 +61,9 @@ public class CmdFactionsShow extends FCommand {
 			// send header and that's all
 			String header = Conf.showLines.get(0);
 			if (TagReplacerUtil.HEADER.contains(header)) {
-				msg(Factions.get().getTextUtil().titleize(tag));
+				sendMessage(Factions.get().getTextUtil().titleize(tag));
 			} else {
-				msg(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
+				sendMessage(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
 			}
 			return; // we only show header for non-normal factions
 		}
@@ -88,7 +88,7 @@ public class CmdFactionsShow extends FCommand {
 				if (parsed.contains("%")) {
 					parsed = parsed.replaceAll("%", ""); // Just in case it got in there before we disallowed it.
 				}
-				msg(Factions.get().getTextUtil().parse(parsed));
+				sendMessage(Factions.get().getTextUtil().parse(parsed));
 			}
 		}
 	}

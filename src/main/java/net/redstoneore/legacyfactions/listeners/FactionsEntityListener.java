@@ -85,7 +85,7 @@ public class FactionsEntityListener implements Listener {
         // Send the message from the powerLossEvent
         final String msg = powerLossEvent.getMessage();
         if (msg != null && !msg.isEmpty()) {
-            fplayer.msg(msg, fplayer.getPowerRounded(), fplayer.getPowerMaxRounded());
+            fplayer.sendMessage(msg, fplayer.getPowerRounded(), fplayer.getPowerMaxRounded());
         }
     }
 
@@ -124,7 +124,7 @@ public class FactionsEntityListener implements Listener {
             cancelFStuckTeleport(player);
             if (me.isWarmingUp()) {
                 me.clearWarmup();
-                me.msg(Lang.WARMUPS_CANCELLED);
+                me.sendMessage(Lang.WARMUPS_CANCELLED);
             }
         }
     }
@@ -135,7 +135,7 @@ public class FactionsEntityListener implements Listener {
         }
         UUID uuid = player.getUniqueId();
         if (Factions.get().getStuckMap().containsKey(uuid)) {
-            FPlayerColl.get(player).msg(Lang.COMMAND_STUCK_CANCELLED);
+            FPlayerColl.get(player).sendMessage(Lang.COMMAND_STUCK_CANCELLED);
             Factions.get().getStuckMap().remove(uuid);
         }
     }
@@ -322,7 +322,7 @@ public class FactionsEntityListener implements Listener {
             if (damager instanceof Player) {
                 if (notify) {
                     FPlayer attacker = FPlayerColl.get((Player) damager);
-                    attacker.msg(Lang.PLAYER_CANTHURT, (defLocFaction.isSafeZone() ? Lang.REGION_SAFEZONE.toString() : Lang.REGION_PEACEFUL.toString()));
+                    attacker.sendMessage(Lang.PLAYER_CANTHURT, (defLocFaction.isSafeZone() ? Lang.REGION_SAFEZONE.toString() : Lang.REGION_PEACEFUL.toString()));
                 }
                 return false;
             }
@@ -345,7 +345,7 @@ public class FactionsEntityListener implements Listener {
 
         if (attacker.hasLoginPvpDisabled()) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_PVP_LOGIN, Conf.noPVPDamageToOthersForXSecondsAfterLogin);
+                attacker.sendMessage(Lang.PLAYER_PVP_LOGIN, Conf.noPVPDamageToOthersForXSecondsAfterLogin);
             }
             return false;
         }
@@ -355,7 +355,7 @@ public class FactionsEntityListener implements Listener {
         // so we know from above that the defender isn't in a safezone... what about the attacker, sneaky dog that he might be?
         if (locFaction.noPvPInTerritory()) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_CANTHURT, (locFaction.isSafeZone() ? Lang.REGION_SAFEZONE.toString() : Lang.REGION_PEACEFUL.toString()));
+                attacker.sendMessage(Lang.PLAYER_CANTHURT, (locFaction.isSafeZone() ? Lang.REGION_SAFEZONE.toString() : Lang.REGION_PEACEFUL.toString()));
             }
             return false;
         }
@@ -373,7 +373,7 @@ public class FactionsEntityListener implements Listener {
 
         if (attackFaction.isWilderness() && Conf.disablePVPForFactionlessPlayers) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_PVP_REQUIREFACTION);
+                attacker.sendMessage(Lang.PLAYER_PVP_REQUIREFACTION);
             }
             return false;
         } else if (defendFaction.isWilderness()) {
@@ -382,7 +382,7 @@ public class FactionsEntityListener implements Listener {
                 return true;
             } else if (Conf.disablePVPForFactionlessPlayers) {
                 if (notify) {
-                    attacker.msg(Lang.PLAYER_PVP_FACTIONLESS);
+                    attacker.sendMessage(Lang.PLAYER_PVP_FACTIONLESS);
                 }
                 return false;
             }
@@ -390,12 +390,12 @@ public class FactionsEntityListener implements Listener {
 
         if (defendFaction.isPeaceful()) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_PVP_PEACEFUL);
+                attacker.sendMessage(Lang.PLAYER_PVP_PEACEFUL);
             }
             return false;
         } else if (attackFaction.isPeaceful()) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_PVP_PEACEFUL);
+                attacker.sendMessage(Lang.PLAYER_PVP_PEACEFUL);
             }
             return false;
         }
@@ -405,7 +405,7 @@ public class FactionsEntityListener implements Listener {
         // You can not hurt neutral factions
         if (Conf.disablePVPBetweenNeutralFactions && relation.isNeutral()) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_PVP_NEUTRAL);
+                attacker.sendMessage(Lang.PLAYER_PVP_NEUTRAL);
             }
             return false;
         }
@@ -418,7 +418,7 @@ public class FactionsEntityListener implements Listener {
         // You can never hurt faction members or allies
         if (relation.isMember() || relation.isAlly()) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_PVP_CANTHURT, defender.describeTo(attacker));
+                attacker.sendMessage(Lang.PLAYER_PVP_CANTHURT, defender.describeTo(attacker));
             }
             return false;
         }
@@ -428,8 +428,8 @@ public class FactionsEntityListener implements Listener {
         // You can not hurt neutrals in their own territory.
         if (ownTerritory && relation.isNeutral()) {
             if (notify) {
-                attacker.msg(Lang.PLAYER_PVP_NEUTRALFAIL, defender.describeTo(attacker));
-                defender.msg(Lang.PLAYER_PVP_TRIED, attacker.describeTo(defender, true));
+                attacker.sendMessage(Lang.PLAYER_PVP_NEUTRALFAIL, defender.describeTo(attacker));
+                defender.sendMessage(Lang.PLAYER_PVP_TRIED, attacker.describeTo(defender, true));
             }
             return false;
         }
@@ -443,7 +443,7 @@ public class FactionsEntityListener implements Listener {
             // Send message
             if (notify) {
                 String perc = MessageFormat.format("{0,number,#%}", (Conf.territoryShieldFactor)); // TODO does this display correctly??
-                defender.msg("<i>Enemy damage reduced by <rose>%s<i>.", perc);
+                defender.sendMessage("<i>Enemy damage reduced by <rose>%s<i>.", perc);
             }
         } */
 

@@ -32,13 +32,13 @@ public class CmdFactionsChatspy extends FCommand {
 
 	@Override
 	public void perform() {
-		fme.setSpyingChat(this.argAsBool(0, !fme.isSpyingChat()));
+		this.fme.setSpyingChat(this.argAsBool(0, !fme.isSpyingChat()));
 
-		if (fme.isSpyingChat()) {
-			fme.msg(Lang.COMMAND_CHATSPY_ENABLE);
+		if (this.fme.isSpyingChat()) {
+			this.fme.sendMessage(Lang.COMMAND_CHATSPY_ENABLE);
 			Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_ENABLELOG.toString());
 		} else {
-			fme.msg(Lang.COMMAND_CHATSPY_DISABLE);
+			this.fme.sendMessage(Lang.COMMAND_CHATSPY_DISABLE);
 			Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_DISABLELOG.toString());
 		}
 	}

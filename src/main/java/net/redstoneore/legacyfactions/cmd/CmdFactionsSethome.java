@@ -36,7 +36,7 @@ public class CmdFactionsSethome extends FCommand {
 	@Override
 	public void perform() {
 		if (!Conf.homesEnabled) {
-			fme.msg(Lang.COMMAND_SETHOME_DISABLED);
+			fme.sendMessage(Lang.COMMAND_SETHOME_DISABLED);
 			return;
 		}
 
@@ -60,7 +60,7 @@ public class CmdFactionsSethome extends FCommand {
 		if (!Permission.BYPASS.has(me) &&
 					Conf.homesMustBeInClaimedTerritory &&
 					Board.get().getFactionAt(new FLocation(me)) != faction) {
-			fme.msg(Lang.COMMAND_SETHOME_NOTCLAIMED);
+			fme.sendMessage(Lang.COMMAND_SETHOME_NOTCLAIMED);
 			return;
 		}
 
@@ -71,10 +71,10 @@ public class CmdFactionsSethome extends FCommand {
 
 		faction.setHome(me.getLocation());
 
-		faction.msg(Lang.COMMAND_SETHOME_SET, fme.describeTo(myFaction, true));
+		faction.sendMessage(Lang.COMMAND_SETHOME_SET, fme.describeTo(myFaction, true));
 		faction.sendMessage(CmdFactions.get().cmdHome.getUseageTemplate());
 		if (faction != myFaction) {
-			fme.msg(Lang.COMMAND_SETHOME_SETOTHER, faction.getTag(fme));
+			fme.sendMessage(Lang.COMMAND_SETHOME_SETOTHER, faction.getTag(fme));
 		}
 	}
 

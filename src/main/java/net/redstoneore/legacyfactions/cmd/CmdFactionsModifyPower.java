@@ -44,7 +44,7 @@ public class CmdFactionsModifyPower extends FCommand {
 
 		player.alterPower(number);
 		int newPower = player.getPowerRounded(); // int so we don't have super long doubles.
-		msg(Lang.COMMAND_MODIFYPOWER_ADDED, number, player.getName(), newPower);
+		sendMessage(Lang.COMMAND_MODIFYPOWER_ADDED, number, player.getName(), newPower);
 	}
 
 	@Override

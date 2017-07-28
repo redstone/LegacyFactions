@@ -36,10 +36,10 @@ public class CmdFactionsBypass extends FCommand {
 
 		// TODO: Move this to a transient field in the model??
 		if (fme.isAdminBypassing()) {
-			fme.msg(Lang.COMMAND_BYPASS_ENABLE.toString());
+			fme.sendMessage(Lang.COMMAND_BYPASS_ENABLE.toString());
 			Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_ENABLELOG.toString());
 		} else {
-			fme.msg(Lang.COMMAND_BYPASS_DISABLE.toString());
+			fme.sendMessage(Lang.COMMAND_BYPASS_DISABLE.toString());
 			Factions.get().log(fme.getName() + Lang.COMMAND_BYPASS_DISABLELOG.toString());
 		}
 	}

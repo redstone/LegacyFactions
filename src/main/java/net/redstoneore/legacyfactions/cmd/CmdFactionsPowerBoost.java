@@ -41,8 +41,8 @@ public class CmdFactionsPowerBoost extends FCommand {
         if (type.equals("f") || type.equals("faction")) {
             doPlayer = false;
         } else if (!type.equals("p") && !type.equals("player")) {
-            msg(Lang.COMMAND_POWERBOOST_HELP_1);
-            msg(Lang.COMMAND_POWERBOOST_HELP_2);
+            sendMessage(Lang.COMMAND_POWERBOOST_HELP_1);
+            sendMessage(Lang.COMMAND_POWERBOOST_HELP_2);
             return;
         }
 
@@ -51,7 +51,7 @@ public class CmdFactionsPowerBoost extends FCommand {
             if (this.argAsString(2).equalsIgnoreCase("reset")) {
                 targetPower = 0D;
             } else {
-                msg(Lang.COMMAND_POWERBOOST_INVALIDNUM);
+                sendMessage(Lang.COMMAND_POWERBOOST_INVALIDNUM);
                 return;
             }
         }
@@ -83,7 +83,7 @@ public class CmdFactionsPowerBoost extends FCommand {
         }
 
         int roundedPower = (int) Math.round(targetPower);
-        msg(Lang.COMMAND_POWERBOOST_BOOST, target, roundedPower);
+        sendMessage(Lang.COMMAND_POWERBOOST_BOOST, target, roundedPower);
         if (!senderIsConsole) {
             Factions.get().log(Lang.COMMAND_POWERBOOST_BOOSTLOG.toString(), fme.getName(), target, roundedPower);
         }

@@ -52,7 +52,7 @@ public class CmdFactionsWarp extends FCommand {
 			
 		}
 		if (args.size() > 2) {
-			fme.msg(Lang.COMMAND_FWARP_COMMANDFORMAT);
+			fme.sendMessage(Lang.COMMAND_FWARP_COMMANDFORMAT);
 			return;
 		}
 		
@@ -67,7 +67,7 @@ public class CmdFactionsWarp extends FCommand {
 			FactionWarp warp = myFaction.warps().get(warpName).get();
 			
 			if (warp.hasPassword() && (warpPassword == null || !warp.isPassword(warpPassword))) {
-				fme.msg(Lang.COMMAND_FWARP_INVALID_PASSWORD);
+				fme.sendMessage(Lang.COMMAND_FWARP_INVALID_PASSWORD);
 				return;
 			}
 			
@@ -87,12 +87,12 @@ public class CmdFactionsWarp extends FCommand {
 					Player player = Bukkit.getPlayer(uuid);
 					if (player != null) {
 						player.teleport(fPlayer.getFaction().warps().get(warpName).get().getLocation());
-						fPlayer.msg(Lang.COMMAND_FWARP_WARPED, warpName);
+						fPlayer.sendMessage(Lang.COMMAND_FWARP_WARPED, warpName);
 					}
 				}
 			}, Conf.warmupWarp);
 		} else {
-			fme.msg(Lang.COMMAND_FWARP_INVALID, warpName);
+			fme.sendMessage(Lang.COMMAND_FWARP_INVALID, warpName);
 		}
 	}
 

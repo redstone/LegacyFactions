@@ -47,14 +47,14 @@ public class CmdFactionsDescription extends FCommand {
 		}
 
 		if (!Conf.broadcastDescriptionChanges) {
-			this.fme.msg(Lang.COMMAND_DESCRIPTION_CHANGED, this.myFaction.describeTo(this.fme));
+			this.fme.sendMessage(Lang.COMMAND_DESCRIPTION_CHANGED, this.myFaction.describeTo(this.fme));
 			this.fme.sendMessage(this.myFaction.getDescription());
 			return;
 		}
 
 		// Broadcast the description to everyone
 		FPlayerColl.all(true).forEach(fplayer -> {
-			fplayer.msg(Lang.COMMAND_DESCRIPTION_CHANGES, this.myFaction.describeTo(fplayer));
+			fplayer.sendMessage(Lang.COMMAND_DESCRIPTION_CHANGES, this.myFaction.describeTo(fplayer));
 			fplayer.sendMessage(myFaction.getDescription());  // players can inject "&" or "`" or "<i>" or whatever in their description; &k is particularly interesting looking
 
 		});

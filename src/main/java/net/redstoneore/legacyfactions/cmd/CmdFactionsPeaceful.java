@@ -51,9 +51,9 @@ public class CmdFactionsPeaceful extends FCommand {
 		for (FPlayer fplayer : FPlayerColl.all(true)) {
 			String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
 			if (fplayer.getFaction() == faction) {
-				fplayer.msg(Lang.COMMAND_PEACEFUL_YOURS, blame, change);
+				fplayer.sendMessage(Lang.COMMAND_PEACEFUL_YOURS, blame, change);
 			} else {
-				fplayer.msg(Lang.COMMAND_PEACEFUL_OTHER, blame, change, faction.getTag(fplayer));
+				fplayer.sendMessage(Lang.COMMAND_PEACEFUL_OTHER, blame, change, faction.getTag(fplayer));
 			}
 		}
 

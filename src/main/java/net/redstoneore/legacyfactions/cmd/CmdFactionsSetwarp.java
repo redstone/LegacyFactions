@@ -33,13 +33,13 @@ public class CmdFactionsSetwarp extends FCommand {
 	public void perform() {
 		// Make sure they can set here
 		if (!(fme.getRelationToLocation() == Relation.MEMBER)) {
-			fme.msg(Lang.COMMAND_SETFWARP_NOTCLAIMED);
+			fme.sendMessage(Lang.COMMAND_SETFWARP_NOTCLAIMED);
 			return;
 		}
 		
 		// Check the limit 
 		if (Conf.warpsMax <= myFaction.warps().size()) {
-			fme.msg(Lang.COMMAND_SETFWARP_LIMIT, Conf.warpsMax);
+			fme.sendMessage(Lang.COMMAND_SETFWARP_LIMIT, Conf.warpsMax);
 			return;
 		}
 
@@ -53,7 +53,7 @@ public class CmdFactionsSetwarp extends FCommand {
 		if (warpPassword != null && warpPassword.trim() != "") {
 			
 			if (!Permission.WARPPASSWORD.has(this.me)) {
-				fme.msg(Lang.COMMAND_SETFWARP_NOPASSWORD);
+				fme.sendMessage(Lang.COMMAND_SETFWARP_NOPASSWORD);
 				return;
 			}
 			
@@ -79,7 +79,7 @@ public class CmdFactionsSetwarp extends FCommand {
 		
 		// Set the warp
 		myFaction.warps().setWarp(warpName, warpLocation, warpPassword);
-		fme.msg(Lang.COMMAND_SETFWARP_SET, warpName);
+		fme.sendMessage(Lang.COMMAND_SETFWARP_SET, warpName);
 	}
 
 	@Override

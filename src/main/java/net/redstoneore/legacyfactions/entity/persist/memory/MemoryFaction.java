@@ -280,16 +280,16 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 			return;
 		}
 
-		msg("<b>Your faction home has been un-set since it is no longer in your territory.");
+		this.sendMessage("<b>Your faction home has been un-set since it is no longer in your territory.");
 		this.home = null;
 	}
 
 	public String getAccountId() {
 		String aid = "faction-" + this.getId();
-
+		
 		// We need to override the default money given to players.
-		if (!VaultEngine.hasAccount(aid)) {
-			VaultEngine.setBalance(aid, 0);
+		if (!VaultEngine.getUtils().hasAccount(aid)) {
+			VaultEngine.getUtils().setBalance(aid, 0);
 		}
 
 		return aid;
@@ -494,12 +494,12 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		int maxRelations = Conf.maxRelations.get(rel);
 		
 		if (this.getRelationCount(rel) >= maxRelations) {
-		 	if (!silent) this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());
+		 	if (!silent) this.sendMessage(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());
 			return true;
 		}
 			
 		if (them.getRelationCount(rel) > maxRelations) {
-			if (!silent) this.msg(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, maxRelations, rel.getPluralTranslation());
+			if (!silent) this.sendMessage(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, maxRelations, rel.getPluralTranslation());
 			return true;
 		}
 		
@@ -704,7 +704,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 			}
 
 			for (FPlayer fplayer : FPlayerColl.all()) {
-				fplayer.msg("The faction %s<i> was disbanded.", this.getTag(fplayer));
+				fplayer.sendMessage("The faction %s<i> was disbanded.", this.getTag(fplayer));
 			}
 
 			FactionColl.get().removeFaction(getId());
@@ -714,7 +714,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 			}
 			replacements.get(0).setRole(Role.ADMIN);
 			//TODO:TL
-			this.msg("<i>Faction admin <h>%s<i> has been removed. %s<i> has been promoted as the new faction admin.", oldLeader == null ? "" : oldLeader.getName(), replacements.get(0).getName());
+			this.sendMessage("<i>Faction admin <h>%s<i> has been removed. %s<i> has been promoted as the new faction admin.", oldLeader == null ? "" : oldLeader.getName(), replacements.get(0).getName());
 			Factions.get().log("Faction " + this.getTag() + " (" + this.getId() + ") admin was removed. Replacement admin: " + replacements.get(0).getName());
 		}
 	}
@@ -722,7 +722,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	// ----------------------------------------------//
 	// Messages
 	// ----------------------------------------------//
-	public void msg(String message, Object... args) {
+	
+	public void sendMessage(String message, Object... args) {
 		message = Factions.get().getTextUtil().parse(message, args);
 
 		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
@@ -730,8 +731,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		}
 	}
 
-	public void msg(Lang translation, Object... args) {
-		msg(translation.toString(), args);
+	public void sendMessage(Lang translation, Object... args) {
+		this.sendMessage(translation.toString(), args);
 	}
 
 	public void sendMessage(String message) {
@@ -871,20 +872,19 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	}
 
 	
-	// ----------------------------------------------//
+	// -------------------------------------------------- //
 	// Persistance and entity management
-	// ----------------------------------------------//
+	// -------------------------------------------------- //
+	
 	public void remove() {
-		if (VaultEngine.shouldBeUsed()) {
-			VaultEngine.setBalance(getAccountId(), 0);
+		if (VaultEngine.getUtils().shouldBeUsed()) {
+			VaultEngine.getUtils().setBalance(this.getAccountId(), 0);
 		}
 
 		// Clean the board
-		((MemoryBoard) Board.get()).clean(id);
+		((MemoryBoard) Board.get()).clean(this.id);
 
-		for (FPlayer fplayer : fplayers) {
-			fplayer.resetFactionData(false);
-		}
+		this.fplayers.forEach(fplayer -> fplayer.resetFactionData(false));
 	}
 
 	public Set<FLocation> getAllClaims() {
@@ -894,6 +894,20 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	
 	public MemoryFaction asMemoryFaction() {
 		return this;
+	}
+	
+	// -------------------------------------------------- //
+	// DEPRECATED
+	// -------------------------------------------------- //
+	
+	@Deprecated
+	public void msg(String message, Object... args) {
+		this.sendMessage(message, args);
+	}
+
+	@Deprecated
+	public void msg(Lang translation, Object... args) {
+		this.sendMessage(translation, args);
 	}
 	
 }

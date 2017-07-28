@@ -10,7 +10,6 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
-import net.redstoneore.legacyfactions.integration.vault.VaultIntegration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,105 +140,105 @@ public enum TagReplacerUtil {
     /**
      * Gets the value for this (as in the instance this is called from) variable!
      *
-     * @param fac Target faction
-     * @param fp  Target player (can be null)
+     * @param faction Target faction
+     * @param fplayer  Target player (can be null)
      *
      * @return the value for this enum!
      */
-    protected String getValue(Faction fac, FPlayer fp) {
+    protected String getValue(Faction faction, FPlayer fplayer) {
         if (this.type == TagType.GENERAL) {
             return getValue();
         }
 
-        if (fp != null) {
+        if (fplayer != null) {
             switch (this) {
                 case HEADER:
-                    return Factions.get().getTextUtil().titleize(fac.getTag(fp));
+                    return Factions.get().getTextUtil().titleize(faction.getTag(fplayer));
                 case PLAYER_NAME:
-                    return fp.getName();
+                    return fplayer.getName();
                 case FACTION:
-                    return !fac.isWilderness() ? fac.getTag(fp) : Lang.GENERIC_FACTIONLESS.toString();
+                    return !faction.isWilderness() ? faction.getTag(fplayer) : Lang.GENERIC_FACTIONLESS.toString();
                 case LAST_SEEN:
-                    String humanized = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - fp.getLastLoginTime(), true, true) + Lang.COMMAND_STATUS_AGOSUFFIX;
-                    return fp.isOnline() ? ChatColor.GREEN + Lang.COMMAND_STATUS_ONLINE.toString() : (System.currentTimeMillis() - fp.getLastLoginTime() < 432000000 ? ChatColor.YELLOW + humanized : ChatColor.RED + humanized);
+                    String humanized = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - fplayer.getLastLoginTime(), true, true) + Lang.COMMAND_STATUS_AGOSUFFIX;
+                    return fplayer.isOnline() ? ChatColor.GREEN + Lang.COMMAND_STATUS_ONLINE.toString() : (System.currentTimeMillis() - fplayer.getLastLoginTime() < 432000000 ? ChatColor.YELLOW + humanized : ChatColor.RED + humanized);
                 case PLAYER_GROUP:
-                    return VaultIntegration.get().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fp.getId())));
+                    return VaultEngine.getUtils().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fplayer.getId())));
                 case PLAYER_BALANCE:
-                    return VaultEngine.isSetup() ? VaultEngine.getFriendlyBalance(fp) : Lang.ECON_OFF.format("balance");
+                    return (VaultEngine.isSetup() ? VaultEngine.getUtils().getFriendlyBalance(fplayer) : Lang.ECON_OFF.format("balance")) + "aa";
                 case PLAYER_POWER:
-                    return String.valueOf(fp.getPowerRounded());
+                    return String.valueOf(fplayer.getPowerRounded());
                 case PLAYER_MAXPOWER:
-                    return String.valueOf(fp.getPowerMaxRounded());
+                    return String.valueOf(fplayer.getPowerMaxRounded());
                 case PLAYER_KILLS:
-                    return String.valueOf(fp.getKills());
+                    return String.valueOf(fplayer.getKills());
                 case PLAYER_DEATHS:
-                    return String.valueOf(fp.getDeaths());
+                    return String.valueOf(fplayer.getDeaths());
                 default:
             }
         }
         switch (this) {
             case DESCRIPTION:
-                return fac.getDescription();
+                return faction.getDescription();
             case FACTION:
-                return fac.getTag();
+                return faction.getTag();
             case JOINING:
-                return (fac.getOpen() ? Lang.COMMAND_SHOW_UNINVITED.toString() : Lang.COMMAND_SHOW_INVITATION.toString());
+                return (faction.getOpen() ? Lang.COMMAND_SHOW_UNINVITED.toString() : Lang.COMMAND_SHOW_INVITATION.toString());
             case PEACEFUL:
-                return fac.isPeaceful() ? Conf.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
+                return faction.isPeaceful() ? Conf.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
             case PERMANENT:
-                return fac.isPermanent() ? "permanent" : "{notPermanent}";
+                return faction.isPermanent() ? "permanent" : "{notPermanent}";
             case CHUNKS:
-                return String.valueOf(fac.getLandRounded());
+                return String.valueOf(faction.getLandRounded());
             case POWER:
-                return String.valueOf(fac.getPowerRounded());
+                return String.valueOf(faction.getPowerRounded());
             case MAX_POWER:
-                return String.valueOf(fac.getPowerMaxRounded());
+                return String.valueOf(faction.getPowerMaxRounded());
             case POWER_BOOST:
-                double powerBoost = fac.getPowerBoost();
+                double powerBoost = faction.getPowerBoost();
                 return (powerBoost == 0.0) ? "" : (powerBoost > 0.0 ? Lang.COMMAND_SHOW_BONUS.toString() : Lang.COMMAND_SHOW_PENALTY.toString() + powerBoost + ")");
             case LEADER:
-                FPlayer fAdmin = fac.getOwner();
+                FPlayer fAdmin = faction.getOwner();
                 return fAdmin == null ? "Server" : fAdmin.getName().substring(0, fAdmin.getName().length() > 14 ? 13 : fAdmin.getName().length());
             case WARPS:
-                return String.valueOf(fac.warps().size());
+                return String.valueOf(faction.warps().size());
             case CREATE_DATE:
-                return Lang.sdf.format(fac.getFoundedDate());
+                return Lang.sdf.format(faction.getFoundedDate());
             case RAIDABLE:
-                boolean raid = Conf.raidable && fac.getLandRounded() >= fac.getPowerRounded();
+                boolean raid = Conf.raidable && faction.getLandRounded() >= faction.getPowerRounded();
                 return raid ? Lang.RAIDABLE_TRUE.toString() : Lang.RAIDABLE_FALSE.toString();
             case HOME_WORLD:
-                return fac.hasHome() ? fac.getHome().getWorld().getName() : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? faction.getHome().getWorld().getName() : Conf.showMinimal ? null : "{ig}";
             case HOME_X:
-                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockX()) : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockX()) : Conf.showMinimal ? null : "{ig}";
             case HOME_Y:
-                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockY()) : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockY()) : Conf.showMinimal ? null : "{ig}";
             case HOME_Z:
-                return fac.hasHome() ? String.valueOf(fac.getHome().getBlockZ()) : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockZ()) : Conf.showMinimal ? null : "{ig}";
             case LAND_VALUE:
-                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandValue(fac.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("value");
+                return VaultEngine.getUtils().shouldBeUsed() ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().calculateTotalLandValue(faction.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("value");
             case LAND_REFUND:
-                return VaultEngine.shouldBeUsed() ? VaultEngine.moneyString(VaultEngine.calculateTotalLandRefund(fac.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("refund");
+                return VaultEngine.getUtils().shouldBeUsed() ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().calculateTotalLandRefund(faction.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("refund");
             case BANK_BALANCE:
-                if (VaultEngine.shouldBeUsed()) {
-                    return Conf.bankEnabled ? VaultEngine.moneyString(VaultEngine.getBalance(fac.getAccountId())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
+                if (VaultEngine.getUtils().shouldBeUsed()) {
+                    return Conf.bankEnabled ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().getBalance(faction.getAccountId())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
                 }
                 return Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
             case ALLIES_COUNT:
-                return String.valueOf(fac.getRelationCount(Relation.ALLY));
+                return String.valueOf(faction.getRelationCount(Relation.ALLY));
             case TRUCES_COUNT:
-                return String.valueOf(fac.getRelationCount(Relation.TRUCE));
+                return String.valueOf(faction.getRelationCount(Relation.TRUCE));
             case ENEMIES_COUNT:
-                return String.valueOf(fac.getRelationCount(Relation.ENEMY));
+                return String.valueOf(faction.getRelationCount(Relation.ENEMY));
             case ONLINE_COUNT:
-                return String.valueOf(fac.getOnlinePlayers().size());
+                return String.valueOf(faction.getOnlinePlayers().size());
             case OFFLINE_COUNT:
-                return String.valueOf(fac.getFPlayers().size() - fac.getOnlinePlayers().size());
+                return String.valueOf(faction.getFPlayers().size() - faction.getOnlinePlayers().size());
             case FACTION_SIZE:
-                return String.valueOf(fac.getFPlayers().size());
+                return String.valueOf(faction.getFPlayers().size());
             case FACTION_KILLS:
-                return String.valueOf(fac.getKills());
+                return String.valueOf(faction.getKills());
             case FACTION_DEATHS:
-                return String.valueOf(fac.getDeaths());
+                return String.valueOf(faction.getDeaths());
             default:
             	return null;
         }

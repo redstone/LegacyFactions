@@ -49,17 +49,17 @@ public abstract class FCommand extends MCommand<Factions> {
 	@Override
 	public boolean isEnabled() {
 		if (Factions.get().isLocked() && this.disableOnLock) {
-			msg(Lang.COMMAND_ERRORS_FACTIONSLOCKED.toString());
+			sendMessage(Lang.COMMAND_ERRORS_FACTIONSLOCKED.toString());
 			return false;
 		}
 
 		if (this.isMoneyCommand && !Conf.econEnabled) {
-			msg(Lang.COMMAND_ERRORS_ECONOMYDISABLED.toString());
+			sendMessage(Lang.COMMAND_ERRORS_ECONOMYDISABLED.toString());
 			return false;
 		}
 
 		if (this.isMoneyCommand && !Conf.bankEnabled) {
-			msg(Lang.COMMAND_ERRORS_BANKSDISABLED.toString());
+			sendMessage(Lang.COMMAND_ERRORS_BANKSDISABLED.toString());
 			return false;
 		}
 
@@ -132,7 +132,7 @@ public abstract class FCommand extends MCommand<Factions> {
 		}
 
 		if (fme.getRole().isLessThan(role)) {
-			msg(Lang.COMMAND_ERRORS_YOUMUSTBE.toString().replaceAll("<therole>", role.toNiceName()).replaceAll("<theaction>", this.getHelpShort()));
+			sendMessage(Lang.COMMAND_ERRORS_YOUMUSTBE.toString().replaceAll("<therole>", role.toNiceName()).replaceAll("<theaction>", this.getHelpShort()));
 			return false;
 		}
 		return true;
@@ -158,7 +158,7 @@ public abstract class FCommand extends MCommand<Factions> {
 		}
 
 		if (msg && ret == null) {
-			this.msg(Lang.COMMAND_ERRORS_PLAYERNOTFOUND.toString().replace("<name>", name));
+			this.sendMessage(Lang.COMMAND_ERRORS_PLAYERNOTFOUND.toString().replace("<name>", name));
 		}
 
 		return ret;
@@ -231,7 +231,7 @@ public abstract class FCommand extends MCommand<Factions> {
 		}
 
 		if (msg && ret == null) {
-			this.msg(Lang.COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND.toString().replaceAll("<name>", name));
+			this.sendMessage(Lang.COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND.toString().replaceAll("<name>", name));
 		}
 
 		return ret;
@@ -282,14 +282,14 @@ public abstract class FCommand extends MCommand<Factions> {
 
 	// if economy is enabled and they're not on the bypass list, make 'em pay; returns true unless person can't afford the cost
 	public boolean payForCommand(double cost, String toDoThis, String forDoingThis) {
-		if (!VaultEngine.shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
+		if (!VaultEngine.getUtils().shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
 			return true;
 		}
 
 		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && fme.hasFaction()) {
-			return VaultEngine.modifyMoney(myFaction, -cost, toDoThis, forDoingThis);
+			return VaultEngine.getUtils().modifyMoney(myFaction, -cost, toDoThis, forDoingThis);
 		} else {
-			return VaultEngine.modifyMoney(fme, -cost, toDoThis, forDoingThis);
+			return VaultEngine.getUtils().modifyMoney(fme, -cost, toDoThis, forDoingThis);
 		}
 	}
 
@@ -299,14 +299,14 @@ public abstract class FCommand extends MCommand<Factions> {
 
 	// like above, but just make sure they can pay; returns true unless person can't afford the cost
 	public boolean canAffordCommand(double cost, String toDoThis) {
-		if (!VaultEngine.shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
+		if (!VaultEngine.getUtils().shouldBeUsed() || this.fme == null || cost == 0.0 || fme.isAdminBypassing()) {
 			return true;
 		}
 
 		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && fme.hasFaction()) {
-			return VaultEngine.hasAtLeast(myFaction, cost, toDoThis);
+			return VaultEngine.getUtils().hasAtLeast(myFaction, cost, toDoThis);
 		} else {
-			return VaultEngine.hasAtLeast(fme, cost, toDoThis);
+			return VaultEngine.getUtils().hasAtLeast(fme, cost, toDoThis);
 		}
 	}
 

@@ -36,7 +36,7 @@ public class CmdFactionsSaveAll extends FCommand {
 		FactionColl.get().forceSave(false);
 		Board.get().forceSave(false);
 		Conf.save();
-		msg(Lang.COMMAND_SAVEALL_SUCCESS);
+		sendMessage(Lang.COMMAND_SAVEALL_SUCCESS);
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class CmdFactionsOwnerList extends FCommand {
 		}
 
 		if (!Conf.ownedAreasEnabled) {
-			fme.msg(Lang.COMMAND_OWNERLIST_DISABLED);
+			fme.sendMessage(Lang.COMMAND_OWNERLIST_DISABLED);
 			return;
 		}
 
@@ -50,13 +50,13 @@ public class CmdFactionsOwnerList extends FCommand {
 
 		if (Board.get().getFactionAt(flocation) != myFaction) {
 			if (!hasBypass) {
-				fme.msg(Lang.COMMAND_OWNERLIST_WRONGFACTION);
+				fme.sendMessage(Lang.COMMAND_OWNERLIST_WRONGFACTION);
 				return;
 			}
 			
 			myFaction = Board.get().getFactionAt(flocation);
 			if (!myFaction.isNormal()) {
-				fme.msg(Lang.COMMAND_OWNERLIST_NOTCLAIMED);
+				fme.sendMessage(Lang.COMMAND_OWNERLIST_NOTCLAIMED);
 				return;
 			}
 		}
@@ -64,11 +64,11 @@ public class CmdFactionsOwnerList extends FCommand {
 		String owners = myFaction.getOwnerListString(flocation);
 
 		if (owners == null || owners.isEmpty()) {
-			fme.msg(Lang.COMMAND_OWNERLIST_NONE);
+			fme.sendMessage(Lang.COMMAND_OWNERLIST_NONE);
 			return;
 		}
 
-		fme.msg(Lang.COMMAND_OWNERLIST_OWNERS, owners);
+		fme.sendMessage(Lang.COMMAND_OWNERLIST_OWNERS, owners);
 	}
 
 	@Override

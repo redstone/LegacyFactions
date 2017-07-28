@@ -1,3 +1,8 @@
+# 1.4.1
+* API: Internal ecomonmy API rebuilt, economy issues should be gone
+* API: `msg` is ambigious and has been depreacted and replaced with `sendMessage`
+* API: More JavaDocs have been added!
+
 # 1.4.0
 * Improvement: Added coleader, you can disable it by not giving the `/f coleader` permission
 * Improvement: Allow server owners to let factions use colour codes in /f title and /f desc

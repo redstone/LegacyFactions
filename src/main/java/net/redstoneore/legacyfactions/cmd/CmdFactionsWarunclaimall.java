@@ -33,7 +33,7 @@ public class CmdFactionsWarunclaimall extends FCommand {
 	@Override
 	public void perform() {
 		Board.get().unclaimAll(FactionColl.get().getWarZone().getId());
-		msg(Lang.COMMAND_WARUNCLAIMALL_SUCCESS);
+		sendMessage(Lang.COMMAND_WARUNCLAIMALL_SUCCESS);
 
 		if (Conf.logLandUnclaims) {
 			Factions.get().log(Lang.COMMAND_WARUNCLAIMALL_LOG.format(fme.getName()));

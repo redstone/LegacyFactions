@@ -54,19 +54,19 @@ public class CmdFactionsAdmin extends FCommand {
 
 		// Must be a member
 		if (targetFaction != myFaction && !permAny) {
-			msg(Lang.COMMAND_ADMIN_NOTMEMBER, newAdmin.describeTo(fme, true));
+			sendMessage(Lang.COMMAND_ADMIN_NOTMEMBER, newAdmin.describeTo(fme, true));
 			return;
 		}
 		
 		// Am I an admin?
 		if (fme != null && fme.getRole() != Role.ADMIN && !permAny) {
-			msg(Lang.COMMAND_ADMIN_NOTADMIN);
+			sendMessage(Lang.COMMAND_ADMIN_NOTADMIN);
 			return;
 		}
 
 		// Check for self
 		if (newAdmin == fme && !permAny) {
-			msg(Lang.COMMAND_ADMIN_TARGETSELF);
+			sendMessage(Lang.COMMAND_ADMIN_TARGETSELF);
 			return;
 		}
 
@@ -82,8 +82,8 @@ public class CmdFactionsAdmin extends FCommand {
 		// if target player is currently admin, demote and replace him
 		if (newAdmin == admin) {
 			targetFaction.promoteNewLeader();
-			this.msg(Lang.COMMAND_ADMIN_DEMOTES, newAdmin.describeTo(fme, true));
-			newAdmin.msg(Lang.COMMAND_ADMIN_DEMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(newAdmin, true));
+			this.sendMessage(Lang.COMMAND_ADMIN_DEMOTES, newAdmin.describeTo(fme, true));
+			newAdmin.sendMessage(Lang.COMMAND_ADMIN_DEMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(newAdmin, true));
 			return;
 		}
 
@@ -95,11 +95,11 @@ public class CmdFactionsAdmin extends FCommand {
 		// Promote new admin
 		newAdmin.setRole(Role.ADMIN);
 		
-		this.msg(Lang.COMMAND_ADMIN_PROMOTES, newAdmin.describeTo(fme, true));
+		this.sendMessage(Lang.COMMAND_ADMIN_PROMOTES, newAdmin.describeTo(fme, true));
 
 		// Inform all players
 		FPlayerColl.all(true, fplayer -> 
-			fplayer.msg(Lang.COMMAND_ADMIN_PROMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), newAdmin.describeTo(fplayer), targetFaction.describeTo(fplayer))
+			fplayer.sendMessage(Lang.COMMAND_ADMIN_PROMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), newAdmin.describeTo(fplayer), targetFaction.describeTo(fplayer))
 		);
 	}
 

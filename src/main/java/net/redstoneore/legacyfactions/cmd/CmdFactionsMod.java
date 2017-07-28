@@ -53,35 +53,35 @@ public class CmdFactionsMod extends FCommand {
 		Faction targetFaction = you.getFaction();
 
 		if (targetFaction != myFaction && !permAny) {
-			msg(Lang.COMMAND_MOD_NOTMEMBER, you.describeTo(fme, true));
+			sendMessage(Lang.COMMAND_MOD_NOTMEMBER, you.describeTo(fme, true));
 			return;
 		}
 
 		if (fme != null && !fme.getRole().isAtLeast(Role.COLEADER) && !permAny) {
-			msg(Lang.COMMAND_MOD_NOTADMIN);
+			sendMessage(Lang.COMMAND_MOD_NOTADMIN);
 			return;
 		}
 
 		if (you == fme && !permAny) {
-			msg(Lang.COMMAND_MOD_SELF);
+			sendMessage(Lang.COMMAND_MOD_SELF);
 			return;
 		}
 
 		if (you.getRole() == Role.ADMIN) {
-			msg(Lang.COMMAND_MOD_TARGETISADMIN);
+			sendMessage(Lang.COMMAND_MOD_TARGETISADMIN);
 			return;
 		}
 
 		if (you.getRole() == Role.MODERATOR) {
 			// Revoke
 			you.setRole(Role.NORMAL);
-			targetFaction.msg(Lang.COMMAND_MOD_REVOKED, you.describeTo(targetFaction, true));
-			msg(Lang.COMMAND_MOD_REVOKES, you.describeTo(fme, true));
+			targetFaction.sendMessage(Lang.COMMAND_MOD_REVOKED, you.describeTo(targetFaction, true));
+			sendMessage(Lang.COMMAND_MOD_REVOKES, you.describeTo(fme, true));
 		} else {
 			// Give
 			you.setRole(Role.MODERATOR);
-			targetFaction.msg(Lang.COMMAND_MOD_PROMOTED, you.describeTo(targetFaction, true));
-			msg(Lang.COMMAND_MOD_PROMOTES, you.describeTo(fme, true));
+			targetFaction.sendMessage(Lang.COMMAND_MOD_PROMOTED, you.describeTo(targetFaction, true));
+			sendMessage(Lang.COMMAND_MOD_PROMOTES, you.describeTo(fme, true));
 		}
 	}
 

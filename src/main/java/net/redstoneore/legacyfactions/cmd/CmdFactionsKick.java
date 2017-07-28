@@ -71,8 +71,8 @@ public class CmdFactionsKick extends FCommand {
 		}
 
 		if (fme == toKick) {
-			msg(Lang.COMMAND_KICK_SELF);
-			msg(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdLeave.getUseageTemplate(false));
+			sendMessage(Lang.COMMAND_KICK_SELF);
+			sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdLeave.getUseageTemplate(false));
 			return;
 		}
 
@@ -86,17 +86,17 @@ public class CmdFactionsKick extends FCommand {
 		// players with admin-level "disband" permission can bypass these requirements
 		if (!Permission.KICK_ANY.has(sender)) {
 			if (toKickFaction != myFaction) {
-				msg(Lang.COMMAND_KICK_NOTMEMBER, toKick.describeTo(fme, true), myFaction.describeTo(fme));
+				sendMessage(Lang.COMMAND_KICK_NOTMEMBER, toKick.describeTo(fme, true), myFaction.describeTo(fme));
 				return;
 			}
 
 			if (toKick.getRole().isAtLeast(fme.getRole())) {
-				msg(Lang.COMMAND_KICK_INSUFFICIENTRANK);
+				sendMessage(Lang.COMMAND_KICK_INSUFFICIENTRANK);
 				return;
 			}
 
 			if (!Conf.canLeaveWithNegativePower && toKick.getPower() < 0) {
-				msg(Lang.COMMAND_KICK_NEGATIVEPOWER);
+				sendMessage(Lang.COMMAND_KICK_NEGATIVEPOWER);
 				return;
 			}
 		}
@@ -118,10 +118,10 @@ public class CmdFactionsKick extends FCommand {
 			return;
 		}
 
-		toKickFaction.msg(Lang.COMMAND_KICK_FACTION, fme.describeTo(toKickFaction, true), toKick.describeTo(toKickFaction, true));
-		toKick.msg(Lang.COMMAND_KICK_KICKED, fme.describeTo(toKick, true), toKickFaction.describeTo(toKick));
+		toKickFaction.sendMessage(Lang.COMMAND_KICK_FACTION, fme.describeTo(toKickFaction, true), toKick.describeTo(toKickFaction, true));
+		toKick.sendMessage(Lang.COMMAND_KICK_KICKED, fme.describeTo(toKick, true), toKickFaction.describeTo(toKick));
 		if (toKickFaction != myFaction) {
-			fme.msg(Lang.COMMAND_KICK_KICKS, toKick.describeTo(fme), toKickFaction.describeTo(fme));
+			fme.sendMessage(Lang.COMMAND_KICK_KICKS, toKick.describeTo(fme), toKickFaction.describeTo(fme));
 		}
 
 		if (Conf.logFactionKick) {

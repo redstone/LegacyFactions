@@ -100,15 +100,15 @@ public class CmdFactionsList extends FCommand {
 				.replace("{pagenumber}", String.valueOf(pagenumber))
 				.replace("{pagecount}", String.valueOf(pagecount));
 		
-		this.msg(Factions.get().getTextUtil().parse(header));
+		this.sendMessage(Factions.get().getTextUtil().parse(header));
 
 		factionList.subList(start, end).forEach(faction -> {
 			if (faction.isWilderness()) {
-				this.msg(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, Conf.listFactionless)));
+				this.sendMessage(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, Conf.listFactionless)));
 				return;
 			}
 			
-			this.msg(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
+			this.sendMessage(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
 		});
 	}
 

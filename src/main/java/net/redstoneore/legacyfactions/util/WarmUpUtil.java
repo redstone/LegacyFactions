@@ -18,9 +18,9 @@ public class WarmUpUtil {
     public static void process(final FPlayer player, Warmup warmup, Lang translationKey, String action, final Runnable runnable, long delay) {
         if (delay > 0) {
             if (player.isWarmingUp()) {
-                player.msg(Lang.WARMUPS_ALREADY);
+                player.sendMessage(Lang.WARMUPS_ALREADY);
             } else {
-                player.msg(translationKey.format(action, delay));
+                player.sendMessage(translationKey.format(action, delay));
                 int id = Factions.get().getServer().getScheduler().runTaskLater(Factions.get(), new Runnable() {
                     @Override
                     public void run() {
