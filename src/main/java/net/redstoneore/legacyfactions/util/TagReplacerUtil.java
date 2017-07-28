@@ -33,9 +33,9 @@ public enum TagReplacerUtil {
     /**
      * Player variables, require a player
      */
-    PLAYER_GROUP(TagType.PLAYER, "{group}"),
-    LAST_SEEN(TagType.PLAYER, "{lastSeen}"),
-    PLAYER_BALANCE(TagType.PLAYER, "{balance}"),
+    PLAYER_GROUP(TagType.PLAYER, "{player-group}"),
+    LAST_SEEN(TagType.PLAYER, "{player-lastSeen}"),
+    PLAYER_BALANCE(TagType.PLAYER, "{player-balance}"),
     PLAYER_POWER(TagType.PLAYER, "{player-power}"),
     PLAYER_MAXPOWER(TagType.PLAYER, "{player-maxpower}"),
     PLAYER_KILLS(TagType.PLAYER, "{player-kills}"),
@@ -44,9 +44,9 @@ public enum TagReplacerUtil {
     /**
      * Faction variables, require at least a player
      */
-    HOME_X(TagType.FACTION, "{x}"),
-    HOME_Y(TagType.FACTION, "{y}"),
-    HOME_Z(TagType.FACTION, "{z}"),
+    HOME_X(TagType.FACTION, "{home_x}"),
+    HOME_Y(TagType.FACTION, "{home_y}"),
+    HOME_Z(TagType.FACTION, "{home_z}"),
     CHUNKS(TagType.FACTION, "{chunks}"),
     WARPS(TagType.FACTION, "{warps}"),
     HEADER(TagType.FACTION, "{header}"),
