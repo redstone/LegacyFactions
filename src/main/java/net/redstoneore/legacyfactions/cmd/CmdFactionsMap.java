@@ -44,14 +44,14 @@ public class CmdFactionsMap extends FCommand {
 				}
 
 				this.fme.setMapAutoUpdating(true);
-				this.msg(Lang.COMMAND_MAP_UPDATE_ENABLED);
+				this.sendMessage(Lang.COMMAND_MAP_UPDATE_ENABLED);
 
 				// And show the map once
 				this.showMap();
 			} else {
 				// Turn off
 				this.fme.setMapAutoUpdating(false);
-				this.msg(Lang.COMMAND_MAP_UPDATE_DISABLED);
+				this.sendMessage(Lang.COMMAND_MAP_UPDATE_DISABLED);
 			}
 		} else {
 			// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay

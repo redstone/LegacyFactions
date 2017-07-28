@@ -34,7 +34,7 @@ public class CmdFactionsChat extends FCommand {
     @Override
     public void perform() {
         if (!Conf.factionOnlyChat) {
-            msg(Lang.COMMAND_CHAT_DISABLED.toString());
+            sendMessage(Lang.COMMAND_CHAT_DISABLED.toString());
             return;
         }
 
@@ -52,7 +52,7 @@ public class CmdFactionsChat extends FCommand {
             } else if (modeString.startsWith("t")) {
                 modeTarget = ChatMode.TRUCE;
             } else {
-                msg(Lang.COMMAND_CHAT_INVALIDMODE);
+                sendMessage(Lang.COMMAND_CHAT_INVALIDMODE);
                 return;
             }
         }
@@ -65,13 +65,13 @@ public class CmdFactionsChat extends FCommand {
 
         if (!event.isSilent()) {
 	        if (fme.getChatMode() == ChatMode.PUBLIC) {
-	            msg(Lang.COMMAND_CHAT_MODE_PUBLIC);
+	            sendMessage(Lang.COMMAND_CHAT_MODE_PUBLIC);
 	        } else if (fme.getChatMode() == ChatMode.ALLIANCE) {
-	            msg(Lang.COMMAND_CHAT_MODE_ALLIANCE);
+	            sendMessage(Lang.COMMAND_CHAT_MODE_ALLIANCE);
 	        } else if (fme.getChatMode() == ChatMode.TRUCE) {
-	            msg(Lang.COMMAND_CHAT_MODE_TRUCE);
+	            sendMessage(Lang.COMMAND_CHAT_MODE_TRUCE);
 	        } else {
-	            msg(Lang.COMMAND_CHAT_MODE_FACTION);
+	            sendMessage(Lang.COMMAND_CHAT_MODE_FACTION);
 	        }
         }
     }

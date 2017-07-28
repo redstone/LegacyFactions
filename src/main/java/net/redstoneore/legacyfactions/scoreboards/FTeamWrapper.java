@@ -30,7 +30,7 @@ public class FTeamWrapper {
 	// -------------------------------------------------- //
 
     public static void applyUpdatesLater(final Faction faction) {
-        if (!FScoreboard.isSupportedByServer() || faction.isWilderness() || !Conf.scoreboardDefaultPrefixes || !updating.add(faction)) return;
+        if (!FScoreboards.isSupportedByServer() || faction.isWilderness() || !Conf.scoreboardDefaultPrefixes || !updating.add(faction)) return;
         
         Bukkit.getScheduler().runTask(Factions.get(), () -> {
             updating.remove(faction);
@@ -39,7 +39,7 @@ public class FTeamWrapper {
     }
 
     public static void applyUpdates(Faction faction) {
-        if (!FScoreboard.isSupportedByServer() || faction.isWilderness() || !Conf.scoreboardDefaultPrefixes) return;
+        if (!FScoreboards.isSupportedByServer() || faction.isWilderness() || !Conf.scoreboardDefaultPrefixes) return;
         
         // Make sure we're not already updating
         if (updating.contains(faction)) return;
@@ -77,7 +77,7 @@ public class FTeamWrapper {
     }
 
     public static void updatePrefixes(Faction faction) {
-        if (!FScoreboard.isSupportedByServer()) return;
+        if (!FScoreboards.isSupportedByServer()) return;
         
         if (!wrappers.containsKey(faction)) {
             applyUpdates(faction);
@@ -87,7 +87,7 @@ public class FTeamWrapper {
     }
 
     protected static void track(FScoreboard scoreboard) {
-        if (!FScoreboard.isSupportedByServer()) return;
+        if (!FScoreboards.isSupportedByServer()) return;
         
         tracking.add(scoreboard);
         
@@ -97,7 +97,7 @@ public class FTeamWrapper {
     }
 
     protected static void untrack(FScoreboard scoreboard) {
-        if (!FScoreboard.isSupportedByServer()) return;
+        if (!FScoreboards.isSupportedByServer()) return;
         
         tracking.remove(scoreboard);
 

@@ -30,7 +30,7 @@ public class CmdFactionsVersion extends FCommand {
 
 	@Override
 	public void perform() {
-		msg(Lang.COMMAND_VERSION_VERSION, Factions.get().getDescription().getFullName());
+		sendMessage(Lang.COMMAND_VERSION_VERSION, Factions.get().getDescription().getFullName());
 	}
 
 	@Override

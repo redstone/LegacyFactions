@@ -41,8 +41,8 @@ public class CmdFactionsInvite extends FCommand {
 		if (who == null) return; // TODO: does this send a message?
 
 		if (who.getFaction() == myFaction) {
-			this.msg(Lang.COMMAND_INVITE_ALREADYMEMBER, who.getName(), myFaction.getTag());
-			this.msg(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdKick.getUseageTemplate(false));
+			this.sendMessage(Lang.COMMAND_INVITE_ALREADYMEMBER, who.getName(), myFaction.getTag());
+			this.sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdKick.getUseageTemplate(false));
 			return;
 		}
 
@@ -66,7 +66,7 @@ public class CmdFactionsInvite extends FCommand {
 
 		message.send(who.getPlayer());
 
-		this.myFaction.msg(Lang.COMMAND_INVITE_INVITED, fme.describeTo(myFaction, true), who.describeTo(myFaction));
+		this.myFaction.sendMessage(Lang.COMMAND_INVITE_INVITED, fme.describeTo(myFaction, true), who.describeTo(myFaction));
 	}
 
 	@Override

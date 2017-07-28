@@ -620,7 +620,7 @@ public class DynmapEngine extends IntegrationEngine {
 
         String money = "unavailable";
         if (Conf.bankEnabled && Conf.dynmapDescriptionMoney) {
-            money = String.format("%.2f", VaultEngine.getBalance(faction.getAccountId()));
+            money = String.format("%.2f", VaultEngine.getUtils().getBalance(faction.getAccountId()));
         }
         ret = ret.replace("%money%", money);
 

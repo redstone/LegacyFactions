@@ -57,7 +57,7 @@ public class CmdFactionsClaimLine extends FCommand {
 		Integer amount = this.argAsInt(0, 1); // Default to 1
 
 		if (amount > Conf.lineClaimLimit) {
-			fme.msg(Lang.COMMAND_CLAIMLINE_ABOVEMAX, Conf.lineClaimLimit);
+			fme.sendMessage(Lang.COMMAND_CLAIMLINE_ABOVEMAX, Conf.lineClaimLimit);
 			return;
 		}
 
@@ -75,7 +75,7 @@ public class CmdFactionsClaimLine extends FCommand {
 		} else if (direction.equalsIgnoreCase("west")) {
 			blockFace = BlockFace.WEST;
 		} else {
-			fme.msg(Lang.COMMAND_CLAIMLINE_NOTVALID, direction);
+			fme.sendMessage(Lang.COMMAND_CLAIMLINE_NOTVALID, direction);
 			return;
 		}
 

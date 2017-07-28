@@ -56,7 +56,7 @@ public class CmdFactionsTitle extends FCommand {
 		you.setTitle(title);
 
 		// Inform
-		myFaction.msg(Lang.COMMAND_TITLE_CHANGED, fme.describeTo(myFaction, true), you.describeTo(myFaction, true));
+		myFaction.sendMessage(Lang.COMMAND_TITLE_CHANGED, fme.describeTo(myFaction, true), you.describeTo(myFaction, true));
 	}
 
 	@Override

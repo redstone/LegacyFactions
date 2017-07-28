@@ -92,7 +92,7 @@ public class CmdFactionsTop extends FCommand {
 					.tooltip(Lang.COMMAND_TOP_TOOLTIP_LAND.toString());
 			
 			
-			msg(Lang.COMMAND_TOP_INVALID_NONE.toString());
+			sendMessage(Lang.COMMAND_TOP_INVALID_NONE.toString());
 			buttons.send(sender);
 			return;
 		}
@@ -179,14 +179,14 @@ public class CmdFactionsTop extends FCommand {
 			Collections.sort(factionList, new Comparator<Faction>() {
 				@Override
 				public int compare(Faction f1, Faction f2) {
-					double f1Size = VaultEngine.getBalance(f1.getAccountId());
+					double f1Size = VaultEngine.getUtils().getBalance(f1.getAccountId());
 					// Lets get the balance of /all/ the players in the Faction.
 					for (FPlayer fp : f1.getFPlayers()) {
-						f1Size = f1Size + VaultEngine.getBalance(fp.getAccountId());
+						f1Size = f1Size + VaultEngine.getUtils().getBalance(fp.getAccountId());
 					}
-					double f2Size = VaultEngine.getBalance(f2.getAccountId());
+					double f2Size = VaultEngine.getUtils().getBalance(f2.getAccountId());
 					for (FPlayer fp : f2.getFPlayers()) {
-						f2Size = f2Size + VaultEngine.getBalance(fp.getAccountId());
+						f2Size = f2Size + VaultEngine.getUtils().getBalance(fp.getAccountId());
 					}
 					if (f1Size < f2Size) {
 						return 1;
@@ -197,7 +197,7 @@ public class CmdFactionsTop extends FCommand {
 				}
 			});
 		} else {
-			msg(Lang.COMMAND_TOP_INVALID.toString(), criteria);
+			sendMessage(Lang.COMMAND_TOP_INVALID.toString(), criteria);
 			return;
 		}
 
@@ -251,9 +251,9 @@ public class CmdFactionsTop extends FCommand {
 		}
 		
 		// Last one is balance, and it has 3 different things it could be.
-		double balance = VaultEngine.getBalance(faction.getAccountId());
+		double balance = VaultEngine.getUtils().getBalance(faction.getAccountId());
 		for (FPlayer fp : faction.getFPlayers()) {
-			balance = balance + VaultEngine.getBalance(fp.getAccountId());
+			balance = balance + VaultEngine.getUtils().getBalance(fp.getAccountId());
 		}
 		return String.valueOf(balance);
 	}

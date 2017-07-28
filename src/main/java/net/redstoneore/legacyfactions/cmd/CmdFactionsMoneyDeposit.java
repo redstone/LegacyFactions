@@ -7,6 +7,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.VaultAccount;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 
@@ -38,14 +39,15 @@ public class CmdFactionsMoneyDeposit extends FCommand {
     @Override
     public void perform() {
         double amount = this.argAsDouble(0, 0d);
-        EconomyParticipator faction = this.argAsFaction(1, myFaction);
-        if (faction == null) {
-            return;
-        }
-        boolean success = VaultEngine.transferMoney(fme, fme, faction, amount);
+        
+        EconomyParticipator to = this.argAsFaction(1, myFaction);
+        if (to == null) return;
+        
+        boolean success = VaultAccount.get(this.fme).transfer(VaultAccount.get(fme), amount, VaultAccount.get(to));
+        
 
         if (success && Conf.logMoneyTransactions) {
-            Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYDEPOSIT_DEPOSITED.toString(), fme.getName(), VaultEngine.moneyString(amount), faction.describeTo(null))));
+            Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYDEPOSIT_DEPOSITED.toString(), fme.getName(), VaultEngine.getUtils().moneyString(amount), to.describeTo(null))));
         }
     }
 

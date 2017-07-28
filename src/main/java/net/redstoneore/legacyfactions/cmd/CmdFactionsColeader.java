@@ -54,35 +54,35 @@ public class CmdFactionsColeader extends FCommand {
 		Faction targetFaction = you.getFaction();
 
 		if (targetFaction != myFaction && !permAny) {
-			this.msg(Lang.COMMAND_COLEADER_NOTMEMBER, you.describeTo(fme, true));
+			this.sendMessage(Lang.COMMAND_COLEADER_NOTMEMBER, you.describeTo(fme, true));
 			return;
 		}
 
 		if (fme != null && fme.getRole() != Role.ADMIN && !permAny) {
-			this. msg(Lang.COMMAND_COLEADER_NOTADMIN);
+			this.sendMessage(Lang.COMMAND_COLEADER_NOTADMIN);
 			return;
 		}
 
 		if (you == fme && !permAny) {
-			this. msg(Lang.COMMAND_COLEADER_SELF);
+			this.sendMessage(Lang.COMMAND_COLEADER_SELF);
 			return;
 		}
 
 		if (you.getRole() == Role.ADMIN) {
-			this.msg(Lang.COMMAND_COLEADER_TARGETISADMIN);
+			this.sendMessage(Lang.COMMAND_COLEADER_TARGETISADMIN);
 			return;
 		}
 
 		if (you.getRole() == Role.COLEADER) {
 			// Revoke
 			you.setRole(Role.NORMAL);
-			targetFaction.msg(Lang.COMMAND_COLEADER_REVOKED, you.describeTo(targetFaction, true));
-			this.msg(Lang.COMMAND_COLEADER_REVOKES, you.describeTo(fme, true));
+			targetFaction.sendMessage(Lang.COMMAND_COLEADER_REVOKED, you.describeTo(targetFaction, true));
+			this.sendMessage(Lang.COMMAND_COLEADER_REVOKES, you.describeTo(fme, true));
 		} else {
 			// Give
 			you.setRole(Role.COLEADER);
-			targetFaction.msg(Lang.COMMAND_COLEADER_PROMOTED, you.describeTo(targetFaction, true));
-			this.msg(Lang.COMMAND_COLEADER_PROMOTES, you.describeTo(fme, true));
+			targetFaction.sendMessage(Lang.COMMAND_COLEADER_PROMOTED, you.describeTo(targetFaction, true));
+			this.sendMessage(Lang.COMMAND_COLEADER_PROMOTES, you.describeTo(fme, true));
 		}
 	}
 

@@ -49,7 +49,7 @@ public class CmdFactionsPermanentPower extends FCommand {
         }
 
         // Inform sender
-        msg(Lang.COMMAND_PERMANENTPOWER_SUCCESS, change, targetFaction.describeTo(fme));
+        sendMessage(Lang.COMMAND_PERMANENTPOWER_SUCCESS, change, targetFaction.describeTo(fme));
 
         // Inform all other players
         for (FPlayer fplayer : targetFaction.getWhereOnline(true)) {
@@ -57,7 +57,7 @@ public class CmdFactionsPermanentPower extends FCommand {
                 continue;
             }
             String blame = (fme == null ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true));
-            fplayer.msg(Lang.COMMAND_PERMANENTPOWER_FACTION, blame, change);
+            fplayer.sendMessage(Lang.COMMAND_PERMANENTPOWER_FACTION, blame, change);
         }
     }
 
