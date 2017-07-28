@@ -36,16 +36,14 @@ public class CmdFactionsShow extends FCommand {
 
 	@Override
 	public void perform() {
-		Faction faction = myFaction;
+		Faction faction = this.myFaction;
 		if (this.argIsSet(0)) {
 			faction = this.argAsFaction(0, null);
 		}
 		
-		if (faction == null) {
-			return;
-		}
-
-		if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")
+		if (faction == null) return;
+		
+		if (!Permission.SHOW_BYPASSEXEMPT.has(sender)
 				&& Conf.showExempt.contains(faction.getTag())) {
 			sendMessage(Lang.COMMAND_SHOW_EXEMPT);
 			return;
