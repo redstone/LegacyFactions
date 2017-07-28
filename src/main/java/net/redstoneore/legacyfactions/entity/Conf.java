@@ -80,9 +80,9 @@ public class Conf {
 			"&6Members: &f{online}/{members}"
 		),
 		"show", Lists.newArrayList(
-			"&6Last Seen: &f{lastSeen}",
-			"&6Power: &f{power}",
-			"&6Rank: &f{group}",
+			"&6Last Seen: &f{player-lastSeen}",
+			"&6Power: &f{player-power}",
+			"&6Rank: &f{player-group}",
 			"&6Balance: &a${player-balance}"
 		)
 	);
@@ -237,9 +237,9 @@ public class Conf {
 		"&6Your Faction",
 		"{faction}",
 		"&3Your Power",
-		"{power}",
+		"{player-power}",
 		"&aBalance",
-		"${balance}"
+		"${player-balance}"
 	);
 	
 	public static boolean scoreboardFactionlessEnabled = false;
@@ -703,7 +703,7 @@ public class Conf {
 		"<a>Founded: <i>{create-date}",
 		"<a>This faction is permanent, remaining even with no members.", /* only shows if faction is permanent*/
 		"<a>Land value: <i>{land-value} {land-refund}",
-		"<a>Balance: <i>{balance}",
+		"<a>Balance: <i>{player-balance}",
 		"<a>Allies(<i>{allies}<a>/<i>{max-allies}<a>): {allies-list} ",
 		"<a>Truces(<i>{truces}<a>/<i>{max-truces}<a>): {truces-list} ",
 		"<a>Online: (<i>{online}<a>/<i>{members}<a>): {online-list}",
@@ -822,52 +822,3 @@ public class Conf {
 	}
 }
 
-
-/*
-############################################################
-# +------------------------------------------------------+ #
-# |                Big List of variables                 | #
-# +------------------------------------------------------+ #
-############################################################
-# Fancy variables. Can only be used in /f show
-#  - {allies-list}  : Lists each faction ally with tooltips
-#  - {enemies-list} : Lists each faction enemy with tooltips
-#  - {online-list}  : Lists all online members with tooltips
-#  - {offline-list} : Lists all offline members with tooltips
-# Player variables. Can be used in tooltips.show, scoreboards, or /f show
-#  - {group}     : Players group
-#  - {name}      : Players name
-#  - {lastSeen}  : Last time player was seen (if offline), or just 'Online'
-#  - {balance} : Players balance
-#  - {player-kills} : # of kills the player has
-#  - {player-deaths}: # of deaths the player has
-# Faction variables. Can be used in tooltips.list, scoreboards, or /f show
-#  - {header}    : Default factions header (ex. /f show)
-#  - {faction}   : Factions tag (if none, uses lang.yml for factionless name)
-#  - {joining}   : How to join this faction
-#  - {power}     : Factions deaths until raidable value
-#  - {power-boost}  : DTR Symbol based on current DTR (max, regen, frozen, raidable)
-#  - {maxPower}  : Factions max deaths until raidable value
-#  - {chunks}    : # of claims faction has (in chunks)
-#  - {warps}     : # of warps faction has
-#  - {description} : Factions description
-#  - {create-date} : Date faction was created
-#  - {leader}    : Faction leader
-#  - {land-value}  : Value of all claims
-#  - {land-refund} : Calculated refund value
-#  - {allies}    : # of allies faction has
-#  - {enemies}   : # of enemies faction has
-#  - {online}    : # of faction members online
-#  - {offline}   : # of faction members offline
-#  - {members}   : # of faction members (includes offline)
-#  - {faction-balance}      : Faction bank balance
-#  - {world}, {x}, {y}, {z} : Faction home variables. You don't need to use them all.
-#  - {faction-kills} : # of kills the faction has
-#  - {faction-deaths}: # of deaths the faction has
-# General variables. Can be used anywhere.
-# - {total-online}  : Total # of players on the server
-# - {max-warps}     : Max # of warps a faction can set
-# - {max-allies}    : Max # of allies a faction can have
-# - {max-enemies}   : Max # of enemies a faction can have
-# - {factionless}   : Count of all factionless players online
- */

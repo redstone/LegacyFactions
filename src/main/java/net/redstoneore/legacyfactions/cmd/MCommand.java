@@ -258,15 +258,15 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	// -------------------------------------------- //
 
 	public void sendMessage(String str, Object... args) {
-		sender.sendMessage(Factions.get().getTextUtil().parse(str, args));
+		this.sender.sendMessage(Factions.get().getTextUtil().parse(str, args));
 	}
 
 	public void sendMessage(Lang translation, Object... args) {
-		sender.sendMessage(Factions.get().getTextUtil().parse(translation.toString(), args));
+		this.sender.sendMessage(Factions.get().getTextUtil().parse(translation.toString(), args));
 	}
 
 	public void sendMessage(String msg) {
-		sender.sendMessage(msg);
+		this.sender.sendMessage(Factions.get().getTextUtil().parse(msg));
 	}
 
 	public void sendMessage(List<String> messages) {

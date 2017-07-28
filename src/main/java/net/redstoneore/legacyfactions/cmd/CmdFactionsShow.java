@@ -36,16 +36,14 @@ public class CmdFactionsShow extends FCommand {
 
 	@Override
 	public void perform() {
-		Faction faction = myFaction;
+		Faction faction = this.myFaction;
 		if (this.argIsSet(0)) {
 			faction = this.argAsFaction(0, null);
 		}
 		
-		if (faction == null) {
-			return;
-		}
-
-		if (!fme.getPlayer().hasPermission("factions.show.bypassexempt")
+		if (faction == null) return;
+		
+		if (!Permission.SHOW_BYPASSEXEMPT.has(sender)
 				&& Conf.showExempt.contains(faction.getTag())) {
 			sendMessage(Lang.COMMAND_SHOW_EXEMPT);
 			return;
@@ -69,12 +67,17 @@ public class CmdFactionsShow extends FCommand {
 		}
 
 		for (String line : Conf.showLines) {
-			String parsed = TagUtil.parsePlain(faction, fme, line); // use relations
+			String parsed = TagUtil.parsePlain(faction, this.fme, line); // use relations
 			
 			if (parsed == null) continue; // Due to minimal f show.
 			
 			if (TagUtil.hasFancy(parsed)) {
-				List<FancyMessage> fancy = TagUtil.parseFancy(faction, fme, parsed);
+				List<FancyMessage> fancy = null;
+				
+				// TODO: add support for console sender
+				if (this.fme == null) continue;
+				
+				fancy = TagUtil.parseFancy(faction, this.fme, parsed);
 				if (fancy == null) continue;
 				sendFancyMessage(fancy);
 				continue;

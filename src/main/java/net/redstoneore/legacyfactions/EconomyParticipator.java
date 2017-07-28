@@ -38,16 +38,12 @@ public interface EconomyParticipator extends RelationParticipator {
 	 * Deprecated, use sendMessage
 	 */
 	@Deprecated
-	public void msg(String str, Object... args);
+	void msg(String str, Object... args);
 	
 	/**
 	 * Deprecated, use sendMessage
 	 */
 	@Deprecated
-	public void msg(Lang translation, Object... args);
+	void msg(Lang translation, Object... args);
 	
-	// -------------------------------------------------- //
-	// AMBIGIOUS DEPRECATED METHODS
-	// -------------------------------------------------- //
-
 }
