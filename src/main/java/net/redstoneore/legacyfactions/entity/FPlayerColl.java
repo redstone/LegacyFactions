@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class FPlayerColl {
@@ -100,6 +101,21 @@ public abstract class FPlayerColl {
 	
 	public static Collection<FPlayer> all() {
 		return instance.getAllFPlayers();
+	}
+	
+	/**
+	 * Rewrap a collection of players into FPlayers
+	 * @param players
+	 * @return
+	 */
+	public static Collection<FPlayer> rewrap(Collection<Player> players) {
+		List<FPlayer> fplayers = new ArrayList<>();
+
+		players.forEach(player -> {
+			fplayers.add(get(player));
+		});
+		
+		return fplayers;
 	}
 	
 	public static void load() {

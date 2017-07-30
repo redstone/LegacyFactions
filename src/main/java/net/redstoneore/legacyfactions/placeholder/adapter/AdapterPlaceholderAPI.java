@@ -25,8 +25,9 @@ public class AdapterPlaceholderAPI extends FactionsPlaceholderAdapter implements
 	private EZPlaceholderHook placeholderHook = new EZPlaceholderHook(Factions.get(), "factions") {
 		@Override
 		public String onPlaceholderRequest(Player player, String identifier) {
+			Factions.get().debug(player.getName() + " requested factions placeholder " + identifier);
 			for (FactionsPlaceholder placeholder : FactionsPlaceholders.get().getPlaceholders()) {
-				if (!placeholder.placeholder().equalsIgnoreCase("factions_" + identifier)) continue;
+				if (!placeholder.placeholder().equalsIgnoreCase(identifier)) continue;
 				return placeholder.get(player);
 			}
 			
@@ -46,6 +47,7 @@ public class AdapterPlaceholderAPI extends FactionsPlaceholderAdapter implements
 	@Override
 	public void setup() {
 		this.placeholderHook.hook();
+		Factions.get().debug("Hooked with PlaceholderAPI");
 	}
 
 }

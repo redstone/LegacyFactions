@@ -158,11 +158,27 @@ public class FactionsPlaceholders {
 		
 		// PLAYER SPECIFIC PLACEHOLDERS
 		
+		this.placeholders.add(new FactionsPlaceholder("player_name") {
+			@Override
+			public String get(Player player) {
+				if (player == null) return null;
+				return String.valueOf(FPlayerColl.get(player).getName());
+			}
+		});
+		
 		this.placeholders.add(new FactionsPlaceholder("player_role") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
 				return String.valueOf(FPlayerColl.get(player).getRole().toNiceName());
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholder("player_role_prefix") {
+			@Override
+			public String get(Player player) {
+				if (player == null) return null;
+				return String.valueOf(FPlayerColl.get(player).getRole().getPrefix());
 			}
 		});
 		

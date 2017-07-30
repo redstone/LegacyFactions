@@ -13,10 +13,11 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 
 import java.util.UnknownFormatConversionException;
 import java.util.logging.Level;
-
 
 public class FactionsChatListener implements Listener {
 
@@ -31,74 +32,87 @@ public class FactionsChatListener implements Listener {
 	// METHODS
 	// -------------------------------------------------- //
 	
-	// this is for handling slashless command usage and faction/alliance chat, set at lowest priority so Factions gets to them first
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void onPlayerEarlyChat(AsyncPlayerChatEvent event) {
-		FPlayer me = FPlayerColl.get(event.getPlayer());
-		ChatMode chat = me.getChatMode();
+	// onFactionChat handles public, faction, alliance, and truce chat
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onFactionChat(AsyncPlayerChatEvent event) {
+		FPlayer sender = FPlayerColl.get(event.getPlayer());
+		Faction senderFaction = sender.getFaction();
+		ChatMode chatMode = sender.getChatMode();
+		String rawMessage = event.getMessage();
 		
-		if (chat == ChatMode.PUBLIC) return;
-
-		String msg = event.getMessage();
-		Faction myFaction = me.getFaction();
-
-		// Is it a faction chat message?
-		if (chat == ChatMode.FACTION) {
-
-			String message = String.format(Conf.factionChatFormat, me.describeTo(myFaction), msg);
-			myFaction.sendMessage(message);
-
-			Factions.get().log("[FactionChat " + myFaction.getTag() + "] " + ChatColor.stripColor(message));
-
-			// Send to any players who are spying chat
-			FPlayerColl.all(fplayer -> {
-				if (fplayer.isSpyingChat() && fplayer.getFactionId() != myFaction.getId() && me != fplayer) {
-					fplayer.sendMessage("[FCspy] " + myFaction.getTag() + ": " + message);
+		switch (chatMode) {
+		case PUBLIC:
+			// If we're formatting public chat, do something here 
+			if (!Conf.enableChatFormatPublic) return;
+			
+			FPlayerColl.rewrap(event.getRecipients()).forEach(receiver -> {
+				String chatFormat = Conf.chatFormatPublic.toString();
+				
+				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, chatFormat, rawMessage));
+			});
+			
+			event.setCancelled(true);
+			return;
+		case ALLIANCE:
+			String allianceChatFormat = Conf.chatFormatAlliance.toString();
+			
+			// First send to our online members
+			senderFaction.getWhereOnline(true).forEach(receiver -> {
+				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, allianceChatFormat, rawMessage));
+			});
+			
+			FPlayerColl.all(true, receiver -> {
+				if (receiver.getFaction().getRelationTo(senderFaction) == Relation.TRUCE) {
+					// Now send to allies 
+					receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, allianceChatFormat, rawMessage));
+				} else {
+					// Now send to person spying on chat 
+					if (receiver.getFactionId() != senderFaction.getId() && receiver.isSpyingChat()) {
+						receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: alliance) " + ChatColor.RESET + allianceChatFormat, rawMessage));
+					}
 				}
 			});
 			
 			event.setCancelled(true);
 			return;
-		}
-		
-		if (chat == ChatMode.ALLIANCE) {
-			String message = String.format(Conf.allianceChatFormat, ChatColor.stripColor(me.getNameAndTag()), msg);
-
-			//Send message to our own faction
-			myFaction.sendMessage(message);
-
-			//Send to all our allies
-			FPlayerColl.all(true, fplayer -> {
-				if (myFaction.getRelationTo(fplayer) == Relation.ALLY && !fplayer.isIgnoreAllianceChat()) {
-					fplayer.sendMessage(message);
-				} else if (fplayer.isSpyingChat() && me != fplayer) {
-					fplayer.sendMessage("[ACspy]: " + message);
-				}
+			
+		case FACTION:
+			String factionChatFormat = Conf.chatFormatFaction.toString();
+			
+			// Send to our online members
+			senderFaction.getWhereOnline(true).forEach(receiver -> {
+				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, factionChatFormat, rawMessage));
 			});
 			
-			Factions.get().log("[AllianceChat] " + ChatColor.stripColor(message));
-			
+			FPlayerColl.all(true, receiver -> {
+				// Now send to person spying on chat 
+				if (receiver.getFactionId() != senderFaction.getId() && receiver.isSpyingChat()) {
+					receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: faction) " + ChatColor.RESET + factionChatFormat, rawMessage));
+				}				
+			});
+		
 			event.setCancelled(true);
 			return;
-		}
-		
-		if (chat == ChatMode.TRUCE) {
-			String message = String.format(Conf.truceChatFormat, ChatColor.stripColor(me.getNameAndTag()), msg);
-
-			// Send message to our own faction
-			myFaction.sendMessage(message);
+		case TRUCE:
+			String truceChatFormat = Conf.chatFormatTruce.toString();
 			
-			// Send to all our truces
-			FPlayerColl.all(true, fplayer -> {
-				if (myFaction.getRelationTo(fplayer) == Relation.TRUCE) {
-					fplayer.sendMessage(message);
-				} else if (fplayer.isSpyingChat() && fplayer != me) {
-					fplayer.sendMessage("[TCspy]: " + message);
+			// First send to our online members
+			senderFaction.getWhereOnline(true).forEach(receiver -> {
+				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, truceChatFormat, rawMessage));
+			});
+			
+			FPlayerColl.all(true, receiver -> {
+				if (receiver.getFaction().getRelationTo(senderFaction) == Relation.TRUCE) {
+					// Now send to allies 
+					receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, truceChatFormat, rawMessage));
+				} else {
+					// Now send to person spying on chat 
+					if (receiver.getFactionId() != senderFaction.getId() && receiver.isSpyingChat()) {
+						receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: truce) " + ChatColor.RESET + truceChatFormat, rawMessage));
+					}
 				}
 			});
 			
-			Factions.get().log("[TruceChat] " + ChatColor.stripColor(message));
-
 			event.setCancelled(true);
 			return;
 		}
@@ -174,6 +188,24 @@ public class FactionsChatListener implements Listener {
 			// No relation color.
 			event.setFormat(nonColoredMsgFormat);
 		}
+	}
+	
+	private String factionChatPlaceholders(FPlayer sender, FPlayer receiver, String format, String message) {
+		format = format.replaceAll("<fc_faction_tag>", sender.getTag());
+		format = format.replaceAll("<fc_role>", sender.getRole().toNiceName());
+		format = format.replaceAll("<fc_role_prefix>", sender.getRole().getPrefix());
+		format = format.replaceAll("<fc_message>", message);
+		
+		// Relation related
+		format = format.replaceAll("<fc_relation>", ChatColor.stripColor(receiver.getFaction().getRelationTo(sender.getFaction()).toNiceName()));
+		format = format.replaceAll("<fc_player_relation>", sender.describeTo(receiver));
+		
+		// Our Placeholders
+		for (FactionsPlaceholder placeholder : FactionsPlaceholders.get().getPlaceholders()) {
+			format = format.replaceAll("<factions_"+placeholder.placeholder()+">", placeholder.get(sender.getPlayer()));
+		}
+		
+		return format;
 	}
 	
 }
