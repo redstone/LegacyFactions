@@ -279,7 +279,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		if (!Conf.homesMustBeInClaimedTerritory || this.home == null || (this.home.getLocation() != null && Board.get().getFactionAt(new FLocation(this.home.getLocation())) == this)) {
 			return;
 		}
-
+		
+		// TODO: lang
 		this.sendMessage("<b>Your faction home has been un-set since it is no longer in your territory.");
 		this.home = null;
 	}
@@ -745,6 +746,14 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
 			fplayer.sendMessage(messages);
 		}
+	}
+	
+	public void sendPlainMessage(String message) {
+		this.getFPlayersWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(message));
+	}
+
+	public void sendPlainMessage(List<String> messages) {
+		this.getFPlayersWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(messages));
 	}
 
 	// ----------------------------------------------//

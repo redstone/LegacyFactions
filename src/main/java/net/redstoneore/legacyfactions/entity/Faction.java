@@ -204,9 +204,17 @@ public interface Faction extends EconomyParticipator {
 	// Messages
 	// ----------------------------------------------//
 	
+	/**
+	 * Send a message to the faction
+	 * @param message
+	 */
 	void sendMessage(String message);
 
 	void sendMessage(List<String> messages);
+	
+	void sendPlainMessage(String message);
+	
+	void sendPlainMessage(List<String> messages);
 
 	// ----------------------------------------------//
 	// Ownership of specific claims
