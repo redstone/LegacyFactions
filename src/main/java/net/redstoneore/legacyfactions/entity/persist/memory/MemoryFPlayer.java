@@ -20,6 +20,8 @@ import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FInfoSidebar;
 import net.redstoneore.legacyfactions.util.RelationUtil;
@@ -453,7 +455,22 @@ public abstract class MemoryFPlayer implements FPlayer {
 	// These are injected into the format of global chat messages.
 
 	public String getChatTag() {
-		return this.hasFaction() ? String.format(Conf.chatTagFormat, this.role.getPrefix() + this.getTag()) : "";
+		String format = null;
+		
+		if (this.hasFaction()) {
+			// Clone from the configuration 
+			format = Conf.chatTagFormat.toString();
+		} else {
+			// Clone from the configuration
+			format = Conf.chatTagFormatFactionless.toString();
+		}
+		
+		// Attach to our inbuilt placeholders
+		for (FactionsPlaceholder placeholder : FactionsPlaceholders.get().getPlaceholders()) {
+			format = format.replace("<factions_" + placeholder.placeholder() + ">", placeholder.get(this.getPlayer()));
+		}
+		
+		return format;
 	}
 
 	// Colored Chat Tag
@@ -1003,7 +1020,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 	public void sendMessage(Lang translation, Object... args) {
 		this.sendMessage(translation.toString(), args);
 	}
-
+	
 	public Player getPlayer() {
 		return Bukkit.getPlayer(UUID.fromString(this.getId()));
 	}

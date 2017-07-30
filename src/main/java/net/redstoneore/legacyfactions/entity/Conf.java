@@ -153,10 +153,17 @@ public class Conf {
 	public static int chatTagInsertIndex = 0;
 	public static boolean chatTagPadBefore = false;
 	public static boolean chatTagPadAfter = true;
-	public static String chatTagFormat = "%s" + ChatColor.WHITE;
-	public static String factionChatFormat = "%s:" + ChatColor.WHITE + " %s";
-	public static String allianceChatFormat = ChatColor.LIGHT_PURPLE + "%s:" + ChatColor.WHITE + " %s";
-	public static String truceChatFormat = ChatColor.DARK_PURPLE + "%s:" + ChatColor.WHITE + " %s";
+	
+	public static String chatTagFormat = "<factions_player_role_prefix><factions_faction_name>" + ChatColor.WHITE;
+	public static String chatTagFormatFactionless = "";
+	
+	// Set to true to enable public chat formatting 
+	public static boolean enableChatFormatPublic = false;
+	
+	public static String chatFormatPublic = "<factions_player_role_prefix><factions_faction_name>:" + ChatColor.WHITE + " <fc_message>";
+	public static String chatFormatFaction = ChatColor.GREEN + "<factions_player_role_prefix><factions_player_name>:" + ChatColor.WHITE + " <fc_message>";
+	public static String chatFormatAlliance = ChatColor.LIGHT_PURPLE + "<factions_player_role_prefix><factions_player_name>:" + ChatColor.WHITE + " <fc_message>";
+	public static String chatFormatTruce = ChatColor.DARK_PURPLE + "<factions_player_role_prefix><factions_player_name>:" + ChatColor.WHITE + " <fc_message>";
 
 	// default public channel for chat plugins
 	public static String chatModePublicChannel = "Global";
