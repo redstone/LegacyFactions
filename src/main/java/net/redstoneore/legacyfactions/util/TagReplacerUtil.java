@@ -33,6 +33,7 @@ public enum TagReplacerUtil {
     /**
      * Player variables, require a player
      */
+    PLAYER_NAME(TagType.FACTION, "{name}"),
     PLAYER_GROUP(TagType.PLAYER, "{player-group}"),
     LAST_SEEN(TagType.PLAYER, "{player-lastSeen}"),
     PLAYER_BALANCE(TagType.PLAYER, "{player-balance}"),
@@ -56,7 +57,6 @@ public enum TagReplacerUtil {
     LEADER(TagType.FACTION, "{leader}"),
     JOINING(TagType.FACTION, "{joining}"),
     FACTION(TagType.FACTION, "{faction}"),
-    PLAYER_NAME(TagType.FACTION, "{name}"),
     HOME_WORLD(TagType.FACTION, "{world}"),
     RAIDABLE(TagType.FACTION, "{raidable}"),
     PEACEFUL(TagType.FACTION, "{peaceful}"),
