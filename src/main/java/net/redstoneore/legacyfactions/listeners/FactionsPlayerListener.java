@@ -610,6 +610,10 @@ public class FactionsPlayerListener implements Listener {
 		badGuy.remove();
 	}
 
+	// -------------------------------------------------- //
+	// SCOREBOARD CLEANUP
+	// -------------------------------------------------- //	
+	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onFactionLeave(EventFactionsChange event) {
 		FTeamWrapper.applyUpdatesLater(event.getFactionNew());
