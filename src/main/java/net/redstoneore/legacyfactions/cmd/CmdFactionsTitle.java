@@ -34,29 +34,26 @@ public class CmdFactionsTitle extends FCommand {
 	@Override
 	public void perform() {
 		FPlayer you = this.argAsBestFPlayerMatch(0);
-		if (you == null) {
-			return;
-		}
+		if (you == null) return;
 
-		args.remove(0);
+		this.args.remove(0);
 		String title = TextUtil.implode(args, " ");
-
-		if (!canIAdministerYou(fme, you)) {
-			return;
-		}
+		
+		if (!this.canIAdministerYou(this.fme, you)) return;
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
 		if (!payForCommand(Conf.econCostTitle, Lang.COMMAND_TITLE_TOCHANGE, Lang.COMMAND_TITLE_FORCHANGE)) {
 			return;
 		}
 
-		if(Conf.allowColorCodesInFaction) {
+		if (Conf.allowColourCodesInFactionTitle) {
 			title = TextUtil.parseColor(title);
 		}
+		
 		you.setTitle(title);
 
 		// Inform
-		myFaction.sendMessage(Lang.COMMAND_TITLE_CHANGED, fme.describeTo(myFaction, true), you.describeTo(myFaction, true));
+		this.myFaction.sendMessage(Lang.COMMAND_TITLE_CHANGED, this.fme.describeTo(this.myFaction, true), you.describeTo(this.myFaction, true));
 	}
 
 	@Override

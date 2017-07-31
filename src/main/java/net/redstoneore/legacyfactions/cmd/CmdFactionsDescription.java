@@ -40,7 +40,7 @@ public class CmdFactionsDescription extends FCommand {
 		}
 
 		// Replace all the % because it messes with string formatting and this is easy way around that.
-		if (Conf.allowColorCodesInFaction) {
+		if (Conf.allowColourCodesInFactionDescription) {
 			this.myFaction.setDescription(TextUtil.implode(this.args, " ").replaceAll("%", ""));
 		} else {
 			this.myFaction.setDescription(TextUtil.implode(this.args, " ").replaceAll("%", "").replaceAll("(&([a-f0-9klmnor]))", "& $2"));
