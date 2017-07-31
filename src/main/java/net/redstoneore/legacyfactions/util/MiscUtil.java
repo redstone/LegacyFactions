@@ -70,9 +70,9 @@ public class MiscUtil {
 				ret += c;
 			} else {
 				for (Entry<UnicodeScript, Boolean> entry : Conf.enabledScriptSupport.entrySet()) {
-					if (entry.getValue() == false) continue;
-					if (!isUnicodeScript(entry.getKey(), String.valueOf(c))) continue;
-					ret += c;
+					if (entry.getValue() != false  && !isUnicodeScript(entry.getKey(), String.valueOf(c))) {
+						ret += c;
+					}
 				}
 			}
 		}
