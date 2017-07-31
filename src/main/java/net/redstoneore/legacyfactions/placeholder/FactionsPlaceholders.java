@@ -113,6 +113,12 @@ public class FactionsPlaceholders {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
+				Faction theirFaction = FPlayerColl.get(player).getFaction();
+				
+				if (theirFaction == null || theirFaction.getOwner() == null) {
+					return "none";
+				}
+				
 				return FPlayerColl.get(player).getFaction().getOwner().getName();
 			}
 		});
