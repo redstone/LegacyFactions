@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -274,6 +275,113 @@ public class FactionsPlaceholders {
 				return String.valueOf(Board.get().getAllClaims().size());
 			}
 		});
+		
+		// RELATION
+		
+		this.placeholders.add(new FactionsPlaceholderRelation("relation_colour") {
+			
+			@Override
+			public String get(Player player) {
+				return "";
+			}
+
+			@Override
+			public String get(Player one, Player two) {
+				return FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)).getColor() + "";
+			}
+		});
+
+		this.placeholders.add(new FactionsPlaceholderRelation("relation_color") {
+			
+			@Override
+			public String get(Player player) {
+				return "";
+			}
+
+			@Override
+			public String get(Player one, Player two) {
+				return FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)).getColor() + "";
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderRelation("relation") {
+			
+			@Override
+			public String get(Player player) {
+				return "";
+			}
+
+			@Override
+			public String get(Player one, Player two) {
+				return FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)).toNiceName();
+			}
+		});
+
+		this.placeholders.add(new FactionsPlaceholderRelation("is_enemy") {
+			
+			@Override
+			public String get(Player player) {
+				return "unknown";
+			}
+
+			@Override
+			public String get(Player one, Player two) {
+				return (FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)) == Relation.ENEMY) ? "true" : "false";
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderRelation("is_ally") {
+			
+			@Override
+			public String get(Player player) {
+				return "unknown";
+			}
+
+			@Override
+			public String get(Player one, Player two) {
+				return (FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)) == Relation.ALLY) ? "true" : "false";
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderRelation("is_truce") {
+			
+			@Override
+			public String get(Player player) {
+				return "unknown";
+			}
+		
+			@Override
+			public String get(Player one, Player two) {
+				return (FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)) == Relation.TRUCE) ? "true" : "false";
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderRelation("is_neutral") {
+			
+			@Override
+			public String get(Player player) {
+				return "unknown";
+			}
+		
+			@Override
+			public String get(Player one, Player two) {
+				return (FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)) == Relation.NEUTRAL) ? "true" : "false";
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderRelation("is_member") {
+			
+			@Override
+			public String get(Player player) {
+				return "unknown";
+			}
+		
+			@Override
+			public String get(Player one, Player two) {
+				return (FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)) == Relation.MEMBER) ? "true" : "false";
+			}
+		});
+		
 	}
 	
 	public void adaptAll() {
