@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.placeholder.adapter;
 
 import org.bukkit.entity.Player;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.external.EZPlaceholderHook;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
@@ -34,7 +35,7 @@ public class AdapterPlaceholderAPI extends FactionsPlaceholderAdapter implements
 			return null;
 		}
 	};
-
+	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -46,8 +47,19 @@ public class AdapterPlaceholderAPI extends FactionsPlaceholderAdapter implements
 
 	@Override
 	public void setup() {
-		this.placeholderHook.hook();
-		Factions.get().debug("Hooked with PlaceholderAPI");
+		try {
+			Class.forName("me.clip.placeholderapi.expansion.Relational");
+			
+			if (this.placeholderHook.isHooked()) {
+				PlaceholderAPI.unregisterPlaceholderHook(Factions.get());
+			}
+			
+			AdapterPlaceholderAPI28.get().register();
+			Factions.get().debug("Hooked with PlaceholderAPI (relational)");
+		} catch (Exception e) {
+			this.placeholderHook.hook();
+			Factions.get().debug("Hooked with PlaceholderAPI (non relational)");
+		}
 	}
 
 }
