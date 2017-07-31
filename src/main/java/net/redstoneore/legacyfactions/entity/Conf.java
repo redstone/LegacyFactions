@@ -45,13 +45,18 @@ public class Conf {
 	// Warm up in seconds for home command
 	public static long warmupHome = 0;
 	
+	// -------------------------------------------------- //
+	// MAX RELATIONS
+	// -------------------------------------------------- //
+	
+	// max relations for each relationship type
 	public static Map<Relation, Integer> maxRelations = MiscUtil.map(
 		Relation.ALLY, -1,
 		Relation.TRUCE, -1,
 		Relation.NEUTRAL, -1,
-		Relation.ENEMY, -1	
+		Relation.ENEMY, -1
 	);
-	
+		
 	// -------------------------------------------------- //
 	// COLOURS
 	// -------------------------------------------------- //
