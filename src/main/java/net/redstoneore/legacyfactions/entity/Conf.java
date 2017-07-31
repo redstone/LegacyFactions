@@ -190,6 +190,13 @@ public class Conf {
 
 	public static boolean disablePistonsInTerritory = false;
 	
+	public static Map<Character.UnicodeScript, Boolean> enabledScriptSupport = MiscUtil.map(
+		Character.UnicodeScript.ARABIC, false,
+		Character.UnicodeScript.BALINESE, false,
+		Character.UnicodeScript.HAN, false,
+		Character.UnicodeScript.KHMER, false
+	);
+	
 	// -------------------------------------------------- //
 	// SERVER LOGGING
 	// -------------------------------------------------- //
