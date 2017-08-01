@@ -25,6 +25,7 @@ import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FInfoSidebar;
 import net.redstoneore.legacyfactions.util.RelationUtil;
+import net.redstoneore.legacyfactions.util.TitleUtil;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 import java.util.HashMap;
@@ -70,7 +71,8 @@ public abstract class MemoryFPlayer implements FPlayer {
 	protected boolean isAdminBypassing = false;
 	protected int kills, deaths;
 	protected boolean willAutoLeave = true;
-
+	protected boolean territoryTitlesOff = false;
+	
 	protected transient FLocation lastStoodAt = new FLocation("world", 0, 0); // Where did this player stand the last time we checked?
 	protected transient boolean mapAutoUpdating;
 	protected transient Faction autoClaimFor;
@@ -230,11 +232,6 @@ public abstract class MemoryFPlayer implements FPlayer {
 		return this.isAdminBypassing;
 	}
 	
-	@Deprecated
-	public boolean isVanished() {
-		return EssentialsEngine.isVanished(getPlayer());
-	}
-	
 	public boolean isVanished(FPlayer viewer) {
 		return EssentialsEngine.isVanished(this.getPlayer()) || viewer.getPlayer().canSee(this.getPlayer());
 	}
@@ -319,6 +316,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.showScoreboard = Conf.scoreboardDefaultEnabled;
 		this.kills = other.kills;
 		this.deaths = other.deaths;
+		this.territoryTitlesOff = other.territoryTitlesOff;
 	}
 
 	public void resetFactionData(boolean doSpoutUpdate) {
@@ -395,7 +393,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 	// Base:
 
 	public String getTitle() {
-		return this.hasFaction() ? title : Lang.NOFACTION_PREFIX.toString();
+		return this.hasFaction() ? this.title : Lang.NOFACTION_PREFIX.toString();
 	}
 
 	public void setTitle(String title) {
@@ -404,11 +402,8 @@ public abstract class MemoryFPlayer implements FPlayer {
 
 	public String getName() {
 		if (this.name == null) {
-			// Older versions of FactionsUUID don't save the name,
-			// so `name` will be null the first time it's retrieved
-			// after updating
-			OfflinePlayer offline = Bukkit.getOfflinePlayer(UUID.fromString(getId()));
-			this.name = offline.getName() != null ? offline.getName() : getId();
+			OfflinePlayer offline = Bukkit.getOfflinePlayer(UUID.fromString(this.getId()));
+			this.name = offline.getName() != null ? offline.getName() : this.getId();
 		}
 		return name;
 	}
@@ -650,15 +645,27 @@ public abstract class MemoryFPlayer implements FPlayer {
 		return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this).isEnemy();
 	}
 
-	public void sendFactionHereMessage(Faction from) {
-		Faction toShow = Board.get().getFactionAt(getLastStoodAt());
-		boolean showChat = true;
-		if (showInfoBoard(toShow)) {
-			FScoreboards.get(this).setTemporarySidebar(new FInfoSidebar(toShow));
-			showChat = Conf.scoreboardInChat;
+	public void sendFactionHereMessage(Faction factionFrom) {
+		Faction factionHere = Board.get().getFactionAt(this.getLastStoodAt());
+		boolean showInChat = true;
+		
+		// Territory change scoreboard message
+		if (this.showInfoBoard(factionHere)) {
+			FScoreboards.get(this).setTemporarySidebar(new FInfoSidebar(factionHere));
+			showInChat = Conf.scoreboardInChat;
 		}
-		if (showChat) {
-			this.sendMessage(Factions.get().getTextUtil().parse(Lang.FACTION_LEAVE.format(from.getTag(this), toShow.getTag(this))));
+		
+		// Territory change chat message
+		if (showInChat) {
+			this.sendMessage(Factions.get().getTextUtil().parse(Lang.FACTION_LEAVE.format(factionFrom.getTag(this), factionHere.getTag(this))));
+		}
+		
+		// Territory change title message 
+		if (!this.territoryTitlesOff && Conf.territoryTitlesShow) {
+			String titleHeader = FactionsPlaceholders.get().parse(this.getPlayer(), Conf.territoryTitlesHeader.trim());
+			String titleFooter = FactionsPlaceholders.get().parse(this.getPlayer(), Conf.territoryTitlesFooter.trim());
+			
+			TitleUtil.sendTitle(this.getPlayer(), Conf.territoryTitlesTimeFadeIn, Conf.territoryTitlesTimeStay, Conf.territoryTitlesTimeFadeOut, titleHeader, titleFooter);
 		}
 	}
 
@@ -670,7 +677,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 	 * @return true if should show, otherwise false.
 	 */
 	public boolean showInfoBoard(Faction toShow) {
-		return showScoreboard && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && !Conf.scoreboardInfo.isEmpty() && Conf.scoreboardInfoEnabled && FScoreboards.get(this) != null;
+		return this.showScoreboard && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && !Conf.scoreboardInfo.isEmpty() && Conf.scoreboardInfoEnabled && FScoreboards.get(this) != null;
 	}
 
 	@Override
@@ -1125,21 +1132,41 @@ public abstract class MemoryFPlayer implements FPlayer {
 	// DEPRECATED
 	// -------------------------------------------------- //
 	
+	/**
+	 * Use isVanished(FPlayer viewer)
+	 */
+	@Deprecated
+	public boolean isVanished() {
+		return EssentialsEngine.isVanished(this.getPlayer());
+	}
+	
+	/**
+	 * use sendMessage
+	 */
 	@Deprecated
 	public void msg(boolean onlyIfTrue, String str, Object... args) {
 		this.sendMessage(true, str, args);
 	}
 	
+	/**
+	 * use sendMessage
+	 */
 	@Deprecated
 	public void msg(String str, Object... args) {
 		this.sendMessage(str, args);
 	}
 
+	/**
+	 * use sendMessage
+	 */
 	@Deprecated
 	public void msg(boolean onlyIfTrue, Lang translation, Object... args) {
 		this.sendMessage(onlyIfTrue, translation, args);
 	}
 	
+	/**
+	 * use sendMessage
+	 */
 	@Deprecated
 	public void msg(Lang translation, Object... args) {
 		this.sendMessage(translation, args);
