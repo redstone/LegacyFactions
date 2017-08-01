@@ -48,7 +48,7 @@ public class FactionsChatListener implements Listener {
 			FPlayerColl.rewrap(event.getRecipients()).forEach(receiver -> {
 				String chatFormat = Conf.chatFormatPublic.toString();
 				
-				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, chatFormat, rawMessage));
+				receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, chatFormat, rawMessage)));
 			});
 			
 			event.setCancelled(true);
@@ -58,17 +58,17 @@ public class FactionsChatListener implements Listener {
 			
 			// First send to our online members
 			senderFaction.getWhereOnline(true).forEach(receiver -> {
-				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, allianceChatFormat, rawMessage));
+				receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, allianceChatFormat, rawMessage)));
 			});
 			
 			FPlayerColl.all(true, receiver -> {
 				if (receiver.getFaction().getRelationTo(senderFaction) == Relation.TRUCE) {
 					// Now send to allies 
-					receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, allianceChatFormat, rawMessage));
+					receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, allianceChatFormat, rawMessage)));
 				} else {
 					// Now send to person spying on chat 
 					if (receiver.getFactionId() != senderFaction.getId() && receiver.isSpyingChat()) {
-						receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: alliance) " + ChatColor.RESET + allianceChatFormat, rawMessage));
+						receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: alliance) " + ChatColor.RESET + allianceChatFormat, rawMessage)));
 					}
 				}
 			});
@@ -81,13 +81,13 @@ public class FactionsChatListener implements Listener {
 			
 			// Send to our online members
 			senderFaction.getWhereOnline(true).forEach(receiver -> {
-				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, factionChatFormat, rawMessage));
+				receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, factionChatFormat, rawMessage)));
 			});
 			
 			FPlayerColl.all(true, receiver -> {
 				// Now send to person spying on chat 
 				if (receiver.getFactionId() != senderFaction.getId() && receiver.isSpyingChat()) {
-					receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: faction) " + ChatColor.RESET + factionChatFormat, rawMessage));
+					receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: faction) " + ChatColor.RESET + factionChatFormat, rawMessage)));
 				}				
 			});
 		
@@ -98,17 +98,17 @@ public class FactionsChatListener implements Listener {
 			
 			// First send to our online members
 			senderFaction.getWhereOnline(true).forEach(receiver -> {
-				receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, truceChatFormat, rawMessage));
+				receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, truceChatFormat, rawMessage)));
 			});
 			
 			FPlayerColl.all(true, receiver -> {
 				if (receiver.getFaction().getRelationTo(senderFaction) == Relation.TRUCE) {
 					// Now send to allies 
-					receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, truceChatFormat, rawMessage));
+					receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, truceChatFormat, rawMessage)));
 				} else {
 					// Now send to person spying on chat 
 					if (receiver.getFactionId() != senderFaction.getId() && receiver.isSpyingChat()) {
-						receiver.sendMessage(this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: truce) " + ChatColor.RESET + truceChatFormat, rawMessage));
+						receiver.sendMessage(FactionsPlaceholders.get().parse(sender.getPlayer(), receiver.getPlayer(), this.factionChatPlaceholders(sender, receiver, ChatColor.GRAY + "(fcSpy: truce) " + ChatColor.RESET + truceChatFormat, rawMessage)));
 					}
 				}
 			});
@@ -174,6 +174,7 @@ public class FactionsChatListener implements Listener {
 					listeningPlayer.sendMessage(String.format(yourFormat, talkingPlayer.getDisplayName(), msg));
 				} catch (UnknownFormatConversionException ex) {
 					Conf.chatTagInsertIndex = 0;
+					// TODO: add to wiki
 					Factions.get().error("Critical error in chat message formatting!");
 					Factions.get().error("NOTE: This has been automatically fixed right now by setting chatTagInsertIndex to 0.");
 					Factions.get().error("For a more proper fix, please read this regarding chat configuration: http://massivecraft.com/plugins/factions/config#Chat_configuration");
@@ -191,18 +192,18 @@ public class FactionsChatListener implements Listener {
 	}
 	
 	private String factionChatPlaceholders(FPlayer sender, FPlayer receiver, String format, String message) {
-		format = format.replaceAll("<fc_faction_tag>", sender.getTag());
-		format = format.replaceAll("<fc_role>", sender.getRole().toNiceName());
-		format = format.replaceAll("<fc_role_prefix>", sender.getRole().getPrefix());
-		format = format.replaceAll("<fc_message>", message);
+		format = format.replace("{fc_faction_tag}", sender.getTag());
+		format = format.replace("{fc_role}", sender.getRole().toNiceName());
+		format = format.replace("{fc_role_prefix}", sender.getRole().getPrefix());
+		format = format.replace("{fc_message}", message);
 		
 		// Relation related
-		format = format.replaceAll("<fc_relation>", ChatColor.stripColor(receiver.getFaction().getRelationTo(sender.getFaction()).toNiceName()));
-		format = format.replaceAll("<fc_player_relation>", sender.describeTo(receiver));
+		format = format.replace("{fc_relation}", ChatColor.stripColor(receiver.getFaction().getRelationTo(sender.getFaction()).toNiceName()));
+		format = format.replace("{fc_player_relation}", sender.describeTo(receiver));
 		
 		// Our Placeholders
 		for (FactionsPlaceholder placeholder : FactionsPlaceholders.get().getPlaceholders()) {
-			format = format.replaceAll("<factions_"+placeholder.placeholder()+">", placeholder.get(sender.getPlayer()));
+			format = format.replaceAll("{factions_"+placeholder.placeholder()+"}", placeholder.get(sender.getPlayer()));
 		}
 		
 		return format;

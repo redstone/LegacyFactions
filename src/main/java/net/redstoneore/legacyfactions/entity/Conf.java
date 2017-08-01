@@ -162,16 +162,16 @@ public class Conf {
 	public static boolean chatTagPadBefore = false;
 	public static boolean chatTagPadAfter = true;
 	
-	public static String chatTagFormat = "<factions_player_role_prefix><factions_faction_name>" + ChatColor.WHITE;
+	public static String chatTagFormat = "{factions_player_role_prefix}{factions_faction_name}" + ChatColor.WHITE;
 	public static String chatTagFormatFactionless = "";
 	
 	// Set to true to enable public chat formatting 
 	public static boolean enableChatFormatPublic = false;
 	
-	public static String chatFormatPublic = "<factions_player_role_prefix><factions_faction_name>:" + ChatColor.WHITE + " <fc_message>";
-	public static String chatFormatFaction = ChatColor.GREEN + "<factions_player_role_prefix><factions_player_name>:" + ChatColor.WHITE + " <fc_message>";
-	public static String chatFormatAlliance = ChatColor.LIGHT_PURPLE + "<factions_player_role_prefix><factions_player_name>:" + ChatColor.WHITE + " <fc_message>";
-	public static String chatFormatTruce = ChatColor.DARK_PURPLE + "<factions_player_role_prefix><factions_player_name>:" + ChatColor.WHITE + " <fc_message>";
+	public static String chatFormatPublic = "{factions_player_role_prefix}{factions_faction_name}:" + ChatColor.WHITE + " {fc_message}";
+	public static String chatFormatFaction = ChatColor.GREEN + "{factions_player_role_prefix}{factions_player_name}:" + ChatColor.WHITE + " {fc_message}";
+	public static String chatFormatAlliance = ChatColor.LIGHT_PURPLE + "{factions_player_role_prefix}{factions_player_name}:" + ChatColor.WHITE + " {fc_message}";
+	public static String chatFormatTruce = ChatColor.DARK_PURPLE + "{factions_player_role_prefix}{factions_player_name}:" + ChatColor.WHITE + " {fc_message}";
 
 	// default public channel for chat plugins
 	public static String chatModePublicChannel = "Global";
@@ -269,6 +269,20 @@ public class Conf {
 		"&6Factionless",
 		"Join a faction!"
 	);
+	
+	// ----------------------------------------
+	// TITLES
+	// ----------------------------------------
+	
+	// show territory title on land change
+	public static boolean territoryTitlesShow = true;
+	public static String territoryTitlesHeader = "{factions_location_relation_colour}{factions_location_faction_name}";
+	public static String territoryTitlesFooter = "{factions_location_faction_description}";
+	
+	public static int territoryTitlesTimeFadeIn = 2;
+	public static int territoryTitlesTimeStay = 2;
+	public static int territoryTitlesTimeFadeOut = 2;
+	
 	
 	// ----------------------------------------
 	// WARPS
