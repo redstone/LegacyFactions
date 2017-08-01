@@ -1,3 +1,21 @@
+# 1.4.2
+* 🐞 Bugfix: PlaceholderAPI wasn't working properly, but it works now! 
+* 🐞 Bugfix: `factions_faction_admin` placeholder would throw an NPE if the faction didn't have a leader/admin
+* ⭐️ Feature: Relational placeholders added!
+* ⭐️ Feature: FactionChat has been revamped, and should perform better now.
+* ⭐️ Feature: FactionChat now allows you to customise public chat (for small servers) enable `enableChatFormatPublic` and use  `chatFormatPublic`
+* ⭐️ Feature: `chatFormatFaction`, `chatFormatAlliance`, `chatFormatTruce, also added and support placeholders
+* ⭐️ Feature: Armorstands are now protected against breakage
+* ⭐️ Feature: Faction chat placeholders improved
+* ⭐️ Feature: `allowColorCodesInFaction` has been removed and split into `allowColourCodesInFactionTitle` and `allowColourCodesInFactionDescription`
+* ⭐️ Feature: `enabledScriptSupport` has been added. It allows you to enable other unicode scripts for use in titles and descriptions.
+* ⭐️ Feature: Territory Titles! `territoryTitlesShow` has been added to enable it. Customise using the new conf options `territoryTitlesHeader`, `territoryTitlesFooter`, `territoryTitlesTimeFadeIn`, `territoryTitlesTimeStay`, `territoryTitlesTimeFadeOut`
+* 🇨🇳 Languages: Chinese Language added!
+* 📚 Docs: Placeholder wiki page updated
+* ⌨️ API: `Faction#sendPlainMessage` method added, to send unformatted messages
+* ⌨️ API: `TitleUtil` class added for managing titles
+* ⌨️ API: `substanceChars` has been removed and replaced with `englishCharacters`, it has been switched to private
+
 # 1.4.1
 * 🐞 Bugfix: Scoreboard issues 
 * ⭐️ Feature: new `/f debug` command
