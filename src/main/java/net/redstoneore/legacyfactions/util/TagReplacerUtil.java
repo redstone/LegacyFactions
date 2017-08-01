@@ -164,7 +164,7 @@ public enum TagReplacerUtil {
                 case PLAYER_GROUP:
                     return VaultEngine.getUtils().getPrimaryGroup(Bukkit.getOfflinePlayer(UUID.fromString(fplayer.getId())));
                 case PLAYER_BALANCE:
-                    return (VaultEngine.isSetup() ? VaultEngine.getUtils().getFriendlyBalance(fplayer) : Lang.ECON_OFF.format("balance")) + "aa";
+                    return (VaultEngine.isSetup() ? VaultEngine.getUtils().getFriendlyBalance(fplayer) : Lang.ECON_OFF.format("balance"));
                 case PLAYER_POWER:
                     return String.valueOf(fplayer.getPowerRounded());
                 case PLAYER_MAXPOWER:
