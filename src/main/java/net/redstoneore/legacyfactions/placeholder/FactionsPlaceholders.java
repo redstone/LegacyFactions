@@ -226,6 +226,17 @@ public class FactionsPlaceholders {
 			}
 		});
 		
+		this.placeholders.add(new FactionsPlaceholder("location_relation_colour") {
+			@Override
+			public String get(Player player) {
+				if (player == null) return null;
+				FPlayer fplayer = FPlayerColl.get(player);
+				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
+				
+				return fplayer.getRelationTo(faction).getColor() + "";
+			}
+		});
+		
 		this.placeholders.add(new FactionsPlaceholder("location_faction_name") {
 			@Override
 			public String get(Player player) {
