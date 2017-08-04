@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.entity.persist.memory;
 import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
@@ -20,6 +21,7 @@ import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
@@ -118,10 +120,16 @@ public abstract class MemoryFPlayer implements FPlayer {
 				});
 
 		}
-
-		
 	}
 
+	public ItemStack getItemInMainHand() {
+		return PlayerMixin.getItemInMainHand(this.getPlayer());
+	}
+	
+	public ItemStack getItemInOffHand() {
+		return PlayerMixin.getItemInOffHand(this.getPlayer());
+	}
+	
 	public Faction getFaction() {
 		if (this.factionId == null) {
 			this.factionId = "0";

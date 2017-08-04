@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.entity;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import net.redstoneore.legacyfactions.ChatMode;
 import net.redstoneore.legacyfactions.EconomyParticipator;
@@ -56,6 +57,19 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	String getAccountId();
 
+	/**
+	 * Returns the item in the players main hand
+	 * @return the item in the players main hand
+	 */
+	ItemStack getItemInMainHand();
+	
+	/**
+	 * Returns the item in the players off hand
+	 * @return the item in the players off hand, or an ItemStack with Material.AIR if the server
+	 *         doesn't support it.
+	 */
+	ItemStack getItemInOffHand();
+	
 	// -------------------------------------------------- //
 	// FACTION
 	// -------------------------------------------------- //
