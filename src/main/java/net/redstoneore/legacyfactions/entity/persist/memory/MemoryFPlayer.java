@@ -82,12 +82,12 @@ public abstract class MemoryFPlayer implements FPlayer {
 	protected transient long lastFrostwalkerMessage;
 
 
-	public void login() {
+	public void onLogin() {
 		this.kills = getPlayer().getStatistic(Statistic.PLAYER_KILLS);
 		this.deaths = getPlayer().getStatistic(Statistic.DEATHS);
 	}
 
-	public void logout() {
+	public void onLogout() {
 		// Ensure power is up to date
 		this.getPower();
 		
@@ -162,6 +162,11 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.role = role;
 	}
 
+	@Override
+	public boolean hasPermission(String permission) {
+		return this.getPlayer().hasPermission(permission);
+	}
+	
 	public double getPowerBoost() {
 		return this.powerBoost;
 	}
@@ -319,7 +324,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.territoryTitlesOff = other.territoryTitlesOff;
 	}
 
-	public void resetFactionData(boolean doSpoutUpdate) {
+	public void resetFactionData() {
 		// clean up any territory ownership in old faction, if there is one
 		if (factionId != null && FactionColl.get().isValidFactionId(this.getFactionId())) {
 			Faction currentFaction = this.getFaction();
@@ -333,12 +338,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.chatMode = ChatMode.PUBLIC;
 		this.role = Role.NORMAL;
 		this.title = "";
-		this.autoClaimFor = null;
-	}
-
-	public void resetFactionData() {
-		this.resetFactionData(true);
-	}
+		this.autoClaimFor = null;	}
 
 	// -------------------------------------------- //
 	// Getters And Setters
@@ -1138,6 +1138,15 @@ public abstract class MemoryFPlayer implements FPlayer {
 	@Deprecated
 	public boolean isVanished() {
 		return EssentialsEngine.isVanished(this.getPlayer());
+	}
+	
+	/**
+	 * Use resetFactionData
+	 */
+	@Deprecated
+	@Override
+	public void resetFactionData(boolean doSpoutUpdate) {
+		this.resetFactionData();
 	}
 	
 	/**
