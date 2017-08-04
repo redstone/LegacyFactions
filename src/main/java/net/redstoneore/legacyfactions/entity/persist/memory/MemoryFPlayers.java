@@ -30,7 +30,7 @@ public abstract class MemoryFPlayers extends FPlayerColl {
 			.filter(fplayer -> !FactionColl.get().isValidFactionId(fplayer.getFactionId()))
 			.forEach(fplayer -> {
 				 Factions.get().log("Reset faction data (invalid faction:" + fplayer.getFactionId() + ") for player " + fplayer.getName());
-				 fplayer.resetFactionData(false);
+				 fplayer.resetFactionData();
 			});
 	}
 	

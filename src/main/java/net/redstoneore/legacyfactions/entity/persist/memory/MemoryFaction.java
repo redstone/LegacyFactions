@@ -893,7 +893,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		// Clean the board
 		((MemoryBoard) Board.get()).clean(this.id);
 
-		this.fplayers.forEach(fplayer -> fplayer.resetFactionData(false));
+		this.fplayers.forEach(fplayer -> fplayer.resetFactionData());
 	}
 
 	public Set<FLocation> getAllClaims() {

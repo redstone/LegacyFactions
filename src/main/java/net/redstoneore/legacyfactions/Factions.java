@@ -128,7 +128,7 @@ public class Factions extends FactionsPluginBase {
 			Faction faction = fplayer.getFaction();
 			if (faction == null) {
 				this.log("Invalid faction id on " + fplayer.getName() + ":" + fplayer.getFactionId());
-				fplayer.resetFactionData(false);
+				fplayer.resetFactionData();
 				return;
 			}
 			faction.addFPlayer(fplayer);
