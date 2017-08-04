@@ -13,7 +13,7 @@ public class Expansions {
 	}
 	
 	private static void syncFactionsFly() {
-		if (Conf.expansionFactionsFlyEnabled) {
+		if (Conf.factionsFlyExpansionEnabled) {
 			if (!FactionsFly.get().isEnabled()) {
 				FactionsFly.get().enable();
 			}
