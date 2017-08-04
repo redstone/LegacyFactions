@@ -839,6 +839,21 @@ public class Conf {
 	public static List<String> cmdAliasesWarunclaimall = Lists.newArrayList("warunclaimall");
 	
 	// -------------------------------------------- //
+	// EXPANSION: FACTIONSFLY
+	// -------------------------------------------- //
+	
+	public static boolean factionsFlyExpansionEnabled = false;
+	
+	// Disable Enderpearl when factions fly is enabled 
+	public static boolean factionsFlyNoEnderpearl = true;
+	
+	// Disable Chorus Fruit when factions fly is enabled 
+	public static boolean factionsFlyNoChorusFruit = true;
+	
+	// Max flight height
+	public static double factionsFlyMaxY = -1;
+	
+	// -------------------------------------------- //
 	// Persistance
 	// -------------------------------------------- //
 	
