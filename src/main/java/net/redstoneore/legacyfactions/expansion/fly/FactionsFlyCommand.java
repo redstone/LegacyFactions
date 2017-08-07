@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 
@@ -34,11 +35,14 @@ public class FactionsFlyCommand implements Listener {
 		
 		if (!player.getAllowFlight()) {
 			// If they aren't already flying, get them flying
-			
-			// TODO: add a check for relations in radius
-			
-			player.setAllowFlight(true);
-			player.setFlying(true);
+			if (!FactionsFly.canFlyHere(fplayer, FLocation.valueOf(player.getLocation()))) {
+				
+			} else {
+				// TODO: add a check for relations in radius
+
+				player.setAllowFlight(true);
+				player.setFlying(true);
+			}
 		} else {
 			// Cancel flight, teleport to the ground
 			player.setFlying(false);
