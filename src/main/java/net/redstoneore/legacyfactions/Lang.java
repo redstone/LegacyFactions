@@ -793,6 +793,9 @@ public enum Lang {
 	
 	EXPANSION_FACTIONS_FLY_NO_ENDERPEARL("<b>You can't use enderpearl while flying."),
 	EXPANSION_FACTIONS_FLY_NO_CHORUSFRUIT("<b>You can't use chorus fruit while flying."),
+	EXPANSION_FACTIONS_FLY_NOT_HERE("<b>You can't fly here."),
+	EXPANSION_FACTIONS_FLY_ENABLED("<i>Flight enabled."),
+	EXPANSION_FACTIONS_FLY_DISABLED("<i>Flight disabled."),
 	
 	;
 	
