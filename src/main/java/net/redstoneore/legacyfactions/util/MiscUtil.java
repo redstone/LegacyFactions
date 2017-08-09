@@ -229,4 +229,27 @@ public class MiscUtil {
 		return map;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static <A, B>Map<A, B> newMap(A firstItem, B secondItem, Object... moreItems) {
+		Map<A, B> newMap = new HashMap<>();
+		
+		newMap.put(firstItem, secondItem);
+		
+		A key = null;
+		
+		for (Object item : moreItems) {
+			if (key == null) {
+				key = (A) item;
+				continue;
+			}
+			
+			B value = (B) item;
+			newMap.put(key, value); 
+			
+			// reset
+			key = null;
+		}
+ 		return newMap;
+	}
+	
 }
