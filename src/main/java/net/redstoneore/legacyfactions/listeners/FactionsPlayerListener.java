@@ -81,7 +81,7 @@ public class FactionsPlayerListener implements Listener {
 		// Store player's current FLocation and notify them where they are
 		me.setLastStoodAt(new FLocation(player.getLocation()));
 
-		me.login(); // set kills / deaths
+		me.onLogin(); // set kills / deaths
 
 		// Check for Faction announcements. Let's delay this so they actually see it.
 		Bukkit.getScheduler().runTaskLater(Factions.get(), new Runnable() {
@@ -130,7 +130,7 @@ public class FactionsPlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void playerLogout(PlayerQuitEvent event) {
-		FPlayerColl.get(event.getPlayer()).logout();
+		FPlayerColl.get(event.getPlayer()).onLogout();
 		FScoreboards.remove(FPlayerColl.get(event.getPlayer()));
 	}
 
@@ -418,8 +418,8 @@ public class FactionsPlayerListener implements Listener {
 		// Note about deprecation:
 		// Keep this as getItemInHand() to support older versions of bukkit
 		// TODO: create abstraction
-		if (!rel.isMember() || !otherFaction.playerHasOwnershipRights(me, loc) && player.getInventory().getItemInHand() != null) {
-			switch (player.getInventory().getItemInHand().getType()) {
+		if (!rel.isMember() || !otherFaction.playerHasOwnershipRights(me, loc) && me.getItemInMainHand() != null) {
+			switch (me.getItemInMainHand().getType()) {
 				case CHEST:
 				case SIGN_POST:
 				case TRAPPED_CHEST:

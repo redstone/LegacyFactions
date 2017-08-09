@@ -14,6 +14,7 @@ import net.redstoneore.legacyfactions.cmd.CmdFactions;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.util.VaultUtilPlayer;
+import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 public class VaultUtils extends VaultUtilPlayer {
 
@@ -82,7 +83,7 @@ public class VaultUtils extends VaultUtilPlayer {
 		
 		if (payee instanceof FPlayer) {
 			currentBalance = econ.getBalance(((FPlayer) payee).getPlayer());
-		} else if (this.isUUID(payee.getAccountId())) {
+		} else if (UUIDUtil.isUUID(payee.getAccountId())) {
 			OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(payee.getAccountId()));
 			if (offlinePlayer != null) {
 				currentBalance = econ.getBalance(offlinePlayer);

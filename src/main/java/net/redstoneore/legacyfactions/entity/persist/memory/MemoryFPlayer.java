@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.entity.persist.memory;
 import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
@@ -20,6 +21,8 @@ import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
@@ -82,12 +85,12 @@ public abstract class MemoryFPlayer implements FPlayer {
 	protected transient long lastFrostwalkerMessage;
 
 
-	public void login() {
+	public void onLogin() {
 		this.kills = getPlayer().getStatistic(Statistic.PLAYER_KILLS);
 		this.deaths = getPlayer().getStatistic(Statistic.DEATHS);
 	}
 
-	public void logout() {
+	public void onLogout() {
 		// Ensure power is up to date
 		this.getPower();
 		
@@ -118,10 +121,21 @@ public abstract class MemoryFPlayer implements FPlayer {
 				});
 
 		}
-
-		
 	}
 
+	public ItemStack getItemInMainHand() {
+		return PlayerMixin.getItemInMainHand(this.getPlayer());
+	}
+	
+	public ItemStack getItemInOffHand() {
+		return PlayerMixin.getItemInOffHand(this.getPlayer());
+	}
+	
+	@Override
+	public void teleport(Locality locality) {
+		this.getPlayer().teleport(locality.getLocation());
+	}
+	
 	public Faction getFaction() {
 		if (this.factionId == null) {
 			this.factionId = "0";
@@ -162,6 +176,11 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.role = role;
 	}
 
+	@Override
+	public boolean hasPermission(String permission) {
+		return this.getPlayer().hasPermission(permission);
+	}
+	
 	public double getPowerBoost() {
 		return this.powerBoost;
 	}
@@ -319,7 +338,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.territoryTitlesOff = other.territoryTitlesOff;
 	}
 
-	public void resetFactionData(boolean doSpoutUpdate) {
+	public void resetFactionData() {
 		// clean up any territory ownership in old faction, if there is one
 		if (factionId != null && FactionColl.get().isValidFactionId(this.getFactionId())) {
 			Faction currentFaction = this.getFaction();
@@ -333,12 +352,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.chatMode = ChatMode.PUBLIC;
 		this.role = Role.NORMAL;
 		this.title = "";
-		this.autoClaimFor = null;
-	}
-
-	public void resetFactionData() {
-		this.resetFactionData(true);
-	}
+		this.autoClaimFor = null;	}
 
 	// -------------------------------------------- //
 	// Getters And Setters
@@ -380,6 +394,15 @@ public abstract class MemoryFPlayer implements FPlayer {
 
 	public FLocation getLastStoodAt() {
 		return this.lastStoodAt;
+	}
+	
+	public Locality getLastLocation() {
+		try {
+			return Locality.of(this.lastStoodAt.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void setLastStoodAt(FLocation flocation) {
@@ -1138,6 +1161,15 @@ public abstract class MemoryFPlayer implements FPlayer {
 	@Deprecated
 	public boolean isVanished() {
 		return EssentialsEngine.isVanished(this.getPlayer());
+	}
+	
+	/**
+	 * Use resetFactionData
+	 */
+	@Deprecated
+	@Override
+	public void resetFactionData(boolean doSpoutUpdate) {
+		this.resetFactionData();
 	}
 	
 	/**

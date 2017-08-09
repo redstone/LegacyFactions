@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.entity;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import net.redstoneore.legacyfactions.ChatMode;
 import net.redstoneore.legacyfactions.EconomyParticipator;
@@ -12,6 +13,7 @@ import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 import java.util.List;
@@ -29,59 +31,125 @@ import java.util.List;
  */
 public interface FPlayer extends EconomyParticipator {
 	
-	void login();
-
-	void logout();
-
-	Faction getFaction();
-
-	String getFactionId();
-
-	boolean hasFaction();
-
-	void setFaction(Faction faction);
-
-	boolean willAutoLeave();
-
-	void setAutoLeave(boolean autoLeave);
-
-	long getLastFrostwalkerMessage();
-
-	void setLastFrostwalkerMessage();
-
-	void setMonitorJoins(boolean monitor);
-
-	boolean isMonitoringJoins();
-
-	Role getRole();
-
-	void setRole(Role role);
-
-	double getPowerBoost();
-
-	void setPowerBoost(double powerBoost);
-
-	Faction getAutoClaimFor();
-
-	void setAutoClaimFor(Faction faction);
-
-	boolean isAutoSafeClaimEnabled();
-
-	void setIsAutoSafeClaimEnabled(boolean enabled);
-
-	boolean isAutoWarClaimEnabled();
-
-	void setIsAutoWarClaimEnabled(boolean enabled);
-
-	boolean isAdminBypassing();
+	// -------------------------------------------------- //
+	// PLAYER
+	// -------------------------------------------------- //
+	
+	/**
+	 * Returns the player id
+	 * @return player id
+	 */
+	String getId();
 
 	/**
-	 * Deprecated! Use {@link #isVanished(FPlayer)}<br>
-	 * To be removed after 09/2017
-	 * @return
+	 * Returns the player name
+	 * @return player name
 	 */
-	@Deprecated
-	boolean isVanished();
+	String getName();
+
+	/**
+	 * Gets the Player object 
+	 * @return Player object
+	 */
+	Player getPlayer();
+	
+	/**
+	 * Get the economy account id
+	 */
+	String getAccountId();
+
+	/**
+	 * Returns the item in the players main hand
+	 * @return the item in the players main hand
+	 */
+	ItemStack getItemInMainHand();
+	
+	/**
+	 * Returns the item in the players off hand
+	 * @return the item in the players off hand, or an ItemStack with Material.AIR if the server
+	 *         doesn't support it.
+	 */
+	ItemStack getItemInOffHand();
+	
+	/**
+	 * Teleport a player to a {@link Locality}
+	 * @param {@link Locality}
+	 */
+	void teleport(Locality locality);
+
+	// -------------------------------------------------- //
+	// FACTION
+	// -------------------------------------------------- //
+	
+	/**
+	 * Get faction this player is in
+	 * @return faction they're in, returns wilderness if none 
+	 */
+	Faction getFaction();
+
+	/**
+	 * Set the faction this player is in
+	 * @param faction to set
+	 */
+	void setFaction(Faction faction);
+
+	/**
+	 * Get the id of the faction this player is in
+	 * @return id of the faction this player is in
+	 */
+	String getFactionId();
+	
+	/**
+	 * Check if player has a faction
+	 * @return true if the player is in a faction
+	 */
+	boolean hasFaction();
+	
+	/**
+	 * Get player Role
+	 * @return Role of player
+	 */
+	Role getRole();
+
+	/**
+	 * Set the Rol of the player
+	 * @param new Role
+	 */
+	void setRole(Role role);
+
+	// -------------------------------------------------- //
+	// MISC METHODS
+	// -------------------------------------------------- //
+
+	boolean hasPermission(String permission);
+		
+	// auto leave
+	boolean willAutoLeave();
+	void setAutoLeave(boolean autoLeave);
+
+	// frost walker
+	long getLastFrostwalkerMessage();
+	void setLastFrostwalkerMessage();
+
+	// auto claim
+	Faction getAutoClaimFor();
+	void setAutoClaimFor(Faction faction);
+	
+	// monitoring joines
+	boolean isMonitoringJoins();
+	void setMonitorJoins(boolean monitor);
+
+	// auto safe claim
+	boolean isAutoSafeClaimEnabled();
+	void setIsAutoSafeClaimEnabled(boolean enabled);
+
+	// auto war claim
+	boolean isAutoWarClaimEnabled();
+	void setIsAutoWarClaimEnabled(boolean enabled);
+
+	// admin bypass 
+	boolean isAdminBypassing();
+	void setIsAdminBypassing(boolean enabled);
 	
 	/**
 	 * Is vanished to a player
@@ -89,30 +157,20 @@ public interface FPlayer extends EconomyParticipator {
 	 * @return true if appears vanished
 	 */
 	boolean isVanished(FPlayer viewer);
-
-	void setIsAdminBypassing(boolean val);
-
+	
+	ChatMode getChatMode();
 	void setChatMode(ChatMode chatMode);
 
-	ChatMode getChatMode();
-
+	boolean isIgnoreAllianceChat();
 	void setIgnoreAllianceChat(boolean ignore);
 
-	boolean isIgnoreAllianceChat();
-
+	boolean isSpyingChat();
 	void setSpyingChat(boolean chatSpying);
 
-	boolean isSpyingChat();
-
 	boolean showScoreboard();
-
 	void setShowScoreboard(boolean show);
 
 	// FIELD: account
-	String getAccountId();
-
-	void resetFactionData(boolean doSpoutUpdate);
-
 	void resetFactionData();
 
 	long getLastLoginTime();
@@ -127,13 +185,17 @@ public interface FPlayer extends EconomyParticipator {
 
 	FLocation getLastStoodAt();
 
+	/**
+	 * Fetch the last known location of this player.
+	 * @return last known location in a {@link Locality} for this player.
+	 */
+	Locality getLastLocation();
+	
 	void setLastStoodAt(FLocation flocation);
 
 	String getTitle();
 
 	void setTitle(String title);
-
-	String getName();
 
 	String getTag();
 
@@ -166,7 +228,7 @@ public interface FPlayer extends EconomyParticipator {
 
 	int getDeaths();
 
-
+	
 	// ----------------------------------------
 	// RELATION
 	// ----------------------------------------
@@ -215,6 +277,10 @@ public interface FPlayer extends EconomyParticipator {
 
 	void losePowerFromBeingOffline();
 
+	double getPowerBoost();
+
+	void setPowerBoost(double powerBoost);
+
 	void onDeath();
 	void onDeath(double powerLoss);
 
@@ -253,9 +319,6 @@ public interface FPlayer extends EconomyParticipator {
 	
 	void sendMessage(boolean onlyIfTrue, String str, Object... args);
 
-	String getId();
-
-	Player getPlayer();
 
 	boolean isOnline();
 
@@ -285,9 +348,17 @@ public interface FPlayer extends EconomyParticipator {
 
 	void clearWarmup();
 	
-	// ----------------------------------------
+	// -------------------------------------------------- //
+	// EVENTS
+	// -------------------------------------------------- //
+
+	void onLogin();
+
+	void onLogout();
+
+	// -------------------------------------------------- //
 	// UTIL
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	
 	MemoryFPlayer asMemoryFPlayer();
 	
@@ -307,5 +378,34 @@ public interface FPlayer extends EconomyParticipator {
 	@Deprecated
 	void msg(boolean onlyIfTrue, String str, Object... args);
 
+	/**
+	 * Deprecated, use onLogin
+	 */
+	@Deprecated
+	default void login() {
+		onLogin();
+	}
+	
+	/**
+	 * Deprecated, use onLogout
+	 */
+	@Deprecated
+	default void logout() {
+		onLogout();
+	}
+	
+	/**
+	 * Deprecated! Use {@link #isVanished(FPlayer)}<br>
+	 * To be removed after 09/2017
+	 * @return
+	 */
+	@Deprecated
+	boolean isVanished();
+
+	/**
+	 * Deprecated, spout update no longer included
+	 */
+	@Deprecated
+	void resetFactionData(boolean doSpoutUpdate);
 
 }

@@ -3,7 +3,6 @@ package net.redstoneore.legacyfactions.integration.vault.util;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -16,6 +15,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultUtils;
+import net.redstoneore.legacyfactions.mixin.BukkitMixin;
 import net.redstoneore.legacyfactions.util.RelationUtil;
 
 public abstract class VaultUtilBase {
@@ -46,21 +46,6 @@ public abstract class VaultUtilBase {
 	 */
 	public String moneyString(double amount) {
 		return this.econ.format(amount);
-	}
-	
-	/**
-	 * Check if a string is a UUID
-	 * @param String to check
-	 * @return true if is a UUID
-	 */
-	public boolean isUUID(String uuid) {
-		try {
-			UUID.fromString(uuid);
-		} catch (IllegalArgumentException ex) {
-			return false;
-		}
-
-		return true;
 	}
 	
 	 /**
@@ -283,17 +268,8 @@ public abstract class VaultUtilBase {
 	public boolean modifyMoney(EconomyParticipator what, double delta, String toDoThis, String forDoingThis) {
 		if (!shouldBeUsed()) return false;
 		
-		OfflinePlayer account;
-
-		if (isUUID(what.getAccountId())) {
-			account = Bukkit.getOfflinePlayer(UUID.fromString(what.getAccountId()));
-			if (account.getName() == null) {
-				return false;
-			}
-		} else {
-			account = Bukkit.getOfflinePlayer(what.getAccountId());
-		}
-
+		OfflinePlayer account = BukkitMixin.getOfflinePlayer(what.getAccountId());
+		
 		String You = what.describeTo(what, true);
 
 		if (delta == 0) return true;

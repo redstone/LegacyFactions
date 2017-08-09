@@ -784,9 +784,20 @@ public enum Lang {
 
 	WARMUPS_NOTIFY_TELEPORT("&eYou will teleport to &d%1$s &ein &d%2$d &eseconds."),
 	WARMUPS_ALREADY("&cYou are already warming up."),
-	WARMUPS_CANCELLED("&cYou have cancelled your warmup.");
+	WARMUPS_CANCELLED("&cYou have cancelled your warmup."),
 
 	
+	// -------------------------------------------------- //
+	// Expansion: FactionsFly
+	// -------------------------------------------------- //
+	
+	EXPANSION_FACTIONS_FLY_NO_ENDERPEARL("<b>You can't use enderpearl while flying."),
+	EXPANSION_FACTIONS_FLY_NO_CHORUSFRUIT("<b>You can't use chorus fruit while flying."),
+	EXPANSION_FACTIONS_FLY_NOT_HERE("<b>You can't fly here."),
+	EXPANSION_FACTIONS_FLY_ENABLED("<i>Flight enabled."),
+	EXPANSION_FACTIONS_FLY_DISABLED("<i>Flight disabled."),
+	
+	;
 	
 	// -------------------------------------------------- //
 	// FIELDS

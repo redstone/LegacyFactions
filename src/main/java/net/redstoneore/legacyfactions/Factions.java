@@ -21,6 +21,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
+import net.redstoneore.legacyfactions.expansion.Expansions;
 import net.redstoneore.legacyfactions.integration.Integrations;
 import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
@@ -127,7 +128,7 @@ public class Factions extends FactionsPluginBase {
 			Faction faction = fplayer.getFaction();
 			if (faction == null) {
 				this.log("Invalid faction id on " + fplayer.getName() + ":" + fplayer.getFactionId());
-				fplayer.resetFactionData(false);
+				fplayer.resetFactionData();
 				return;
 			}
 			faction.addFPlayer(fplayer);
@@ -153,6 +154,9 @@ public class Factions extends FactionsPluginBase {
 			BStatsIntegration.get(),
 			VentureChatIntegration.get()
 		);
+		
+		// Sync expansions
+		Expansions.sync();
 		
 		// Add our placeholders.
 		FactionsPlaceholders.get().init();

@@ -839,6 +839,27 @@ public class Conf {
 	public static List<String> cmdAliasesWarunclaimall = Lists.newArrayList("warunclaimall");
 	
 	// -------------------------------------------- //
+	// EXPANSION: FACTIONSFLY
+	// -------------------------------------------- //
+	
+	public static boolean factionsFlyExpansionEnabled = false;
+	
+	// Disable Enderpearl when factions fly is enabled 
+	public static boolean factionsFlyNoEnderpearl = true;
+	
+	// Disable Chorus Fruit when factions fly is enabled 
+	public static boolean factionsFlyNoChorusFruit = true;
+	
+	// Max flight height
+	public static double factionsFlyMaxY = -1;
+	
+	// This will make a player not obtain fall damage when fly is disabled
+	public static boolean factionsFlyNoFirstFallDamage = true;
+	
+	// This will make a player teleport to floor when disable
+	public static boolean factionsFlyTeleportToFloorOnDisable = false;
+	
+	// -------------------------------------------- //
 	// Persistance
 	// -------------------------------------------- //
 	
