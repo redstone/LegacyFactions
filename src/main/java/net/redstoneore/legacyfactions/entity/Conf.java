@@ -857,7 +857,7 @@ public class Conf {
 	public static boolean factionsFlyNoFirstFallDamage = true;
 	
 	// This will make a player teleport to floor when disable
-	public static boolean factionsFlyTeleportToFloorOnDisable = true;
+	public static boolean factionsFlyTeleportToFloorOnDisable = false;
 	
 	// -------------------------------------------- //
 	// Persistance
