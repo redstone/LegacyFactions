@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.expansion;
 import java.util.Collection;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
@@ -47,6 +48,7 @@ public abstract class FactionsExpansion {
 		this.onPostEnable();
 		
 		this.enabled = true;
+		Factions.get().log(ChatColor.DARK_PURPLE + "[Expansion] " + ChatColor.WHITE + this.getName() + " Enabled");
 	}
 	
 	public final void disable() {
@@ -72,6 +74,8 @@ public abstract class FactionsExpansion {
 	// -------------------------------------------------- //
 	// OPTIONAL OVERRIDES
 	// -------------------------------------------------- //
+	
+	public abstract String getName();
 	
 	public void onPreEnable() { }
 	public void onPostEnable() { }

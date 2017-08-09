@@ -1,15 +1,19 @@
 package net.redstoneore.legacyfactions.expansion.fly;
 
-import org.bukkit.Location;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import net.redstoneore.legacyfactions.FLocation;
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 
 public class FactionsFlyListener implements Listener {
@@ -28,6 +32,21 @@ public class FactionsFlyListener implements Listener {
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
 		if (!Conf.factionsFlyExpansionEnabled) return;
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		
+		FPlayer fplayer = FPlayerColl.get(event.getPlayer());
+		
+		if (!fplayer.getPlayer().isFlying() && FactionsFly.get().isFalling(fplayer.getPlayer().getUniqueId())) {
+			if (event.getTo().getBlock().getType() != Material.AIR) {
+				// clean up in a few seconds
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						FactionsFly.get().removeFalling(fplayer.getPlayer().getUniqueId());
+					}
+				}.runTaskLater(Factions.get(), 20 * 3);
+			}
+		}
 		
 		// Max Y
 		if (Conf.factionsFlyMaxY > 0) {
@@ -37,9 +56,8 @@ public class FactionsFlyListener implements Listener {
 			}
 		}
 		
-		if (!FactionsFly.canFlyHere(FPlayerColl.get(event.getPlayer()), FLocation.valueOf(event.getTo()))) {
-			Location location = FactionsFly.getFloor(event.getTo());
-			event.setTo(location);
+		if (!FactionsFly.canFlyHere(fplayer, FLocation.valueOf(event.getTo()))) {
+			FactionsFly.get().cancelFlightFor(fplayer);
 		}
 	}
 	

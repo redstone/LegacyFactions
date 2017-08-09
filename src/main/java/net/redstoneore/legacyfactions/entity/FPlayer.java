@@ -13,6 +13,7 @@ import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 import java.util.List;
@@ -70,6 +71,12 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	ItemStack getItemInOffHand();
 	
+	/**
+	 * Teleport a player to a {@link Locality}
+	 * @param {@link Locality}
+	 */
+	void teleport(Locality locality);
+
 	// -------------------------------------------------- //
 	// FACTION
 	// -------------------------------------------------- //
@@ -114,7 +121,7 @@ public interface FPlayer extends EconomyParticipator {
 	// MISC METHODS
 	// -------------------------------------------------- //
 
-	public boolean hasPermission(String permission);
+	boolean hasPermission(String permission);
 		
 	// auto leave
 	boolean willAutoLeave();
@@ -178,6 +185,12 @@ public interface FPlayer extends EconomyParticipator {
 
 	FLocation getLastStoodAt();
 
+	/**
+	 * Fetch the last known location of this player.
+	 * @return last known location in a {@link Locality} for this player.
+	 */
+	Locality getLastLocation();
+	
 	void setLastStoodAt(FLocation flocation);
 
 	String getTitle();
@@ -215,7 +228,7 @@ public interface FPlayer extends EconomyParticipator {
 
 	int getDeaths();
 
-
+	
 	// ----------------------------------------
 	// RELATION
 	// ----------------------------------------

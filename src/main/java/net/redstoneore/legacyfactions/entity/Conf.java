@@ -853,6 +853,12 @@ public class Conf {
 	// Max flight height
 	public static double factionsFlyMaxY = -1;
 	
+	// This will make a player not obtain fall damage when fly is disabled
+	public static boolean factionsFlyNoFirstFallDamage = true;
+	
+	// This will make a player teleport to floor when disable
+	public static boolean factionsFlyTeleportToFloorOnDisable = true;
+	
 	// -------------------------------------------- //
 	// Persistance
 	// -------------------------------------------- //

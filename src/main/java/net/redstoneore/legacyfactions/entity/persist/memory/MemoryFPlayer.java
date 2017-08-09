@@ -21,6 +21,7 @@ import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
@@ -128,6 +129,11 @@ public abstract class MemoryFPlayer implements FPlayer {
 	
 	public ItemStack getItemInOffHand() {
 		return PlayerMixin.getItemInOffHand(this.getPlayer());
+	}
+	
+	@Override
+	public void teleport(Locality locality) {
+		this.getPlayer().teleport(locality.getLocation());
 	}
 	
 	public Faction getFaction() {
@@ -388,6 +394,15 @@ public abstract class MemoryFPlayer implements FPlayer {
 
 	public FLocation getLastStoodAt() {
 		return this.lastStoodAt;
+	}
+	
+	public Locality getLastLocation() {
+		try {
+			return Locality.of(this.lastStoodAt.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void setLastStoodAt(FLocation flocation) {

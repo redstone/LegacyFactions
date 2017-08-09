@@ -8,6 +8,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.expansion.Expansions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -241,13 +242,14 @@ public class CmdFactionsConfig extends FCommand {
 		}
 
 		if (!success.isEmpty()) {
-			if (sender instanceof Player) {
-				sendMessage(success);
+			if (this.sender instanceof Player) {
+				this.sendMessage(success);
 				Factions.get().log(success + Lang.COMMAND_CONFIG_LOG.format((Player) sender));
-			} else  // using P.get().log() instead of sendMessage if run from server console so that "[Factions v#.#.#]" is prepended in server log
-			{
+			} else {
+				 // using P.get().log() instead of sendMessage if run from server console so that "[Factions v#.#.#]" is prepended in server log
 				Factions.get().log(success);
 			}
+			Expansions.sync();
 		}
 		// save change to disk
 		Conf.save();
