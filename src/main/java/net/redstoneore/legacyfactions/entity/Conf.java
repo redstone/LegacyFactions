@@ -279,9 +279,9 @@ public class Conf {
 	public static String territoryTitlesHeader = "{factions_location_relation_colour}{factions_location_faction_name}";
 	public static String territoryTitlesFooter = "{factions_location_faction_description}";
 	
-	public static int territoryTitlesTimeFadeIn = 2;
-	public static int territoryTitlesTimeStay = 2;
-	public static int territoryTitlesTimeFadeOut = 2;
+	public static int territoryTitlesTimeFadeInTicks = 20;
+	public static int territoryTitlesTimeStayTicks = 20;
+	public static int territoryTitlesTimeFadeOutTicks = 20;
 	
 	
 	// ----------------------------------------
