@@ -788,7 +788,7 @@ public enum Lang {
 
 	
 	// -------------------------------------------------- //
-	// Expansion: Legacy Factions
+	// Expansion: FactionsFly
 	// -------------------------------------------------- //
 	
 	EXPANSION_FACTIONS_FLY_NO_ENDERPEARL("<b>You can't use enderpearl while flying."),
