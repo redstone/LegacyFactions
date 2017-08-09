@@ -101,6 +101,11 @@ permissions:
       factions.top: true
       factions.togglealliancechat: true
       factions.vault: true
+      factions.fly.ally: false
+      factions.fly.enemy: false
+      factions.fly.member: false
+      factions.fly.neutral: false
+      factions.fly.truce: false
   factions.admin:
     description: hand over your admin rights
   factions.admin.any:
