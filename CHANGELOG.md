@@ -9,12 +9,18 @@
 * ⭐️ Feature: Faction chat placeholders improved
 * ⭐️ Feature: `allowColorCodesInFaction` has been removed and split into `allowColourCodesInFactionTitle` and `allowColourCodesInFactionDescription`
 * ⭐️ Feature: `enabledScriptSupport` has been added. It allows you to enable other unicode scripts for use in titles and descriptions.
-* ⭐️ Feature: Territory Titles! `territoryTitlesShow` has been added to enable it. Customise using the new conf options `territoryTitlesHeader`, `territoryTitlesFooter`, `territoryTitlesTimeFadeIn`, `territoryTitlesTimeStay`, `territoryTitlesTimeFadeOut`
+* ⭐️ Feature: Territory Titles! `territoryTitlesShow` has been added to enable it. Customise using the new conf options `territoryTitlesHeader`, `territoryTitlesFooter`, `territoryTitlesTimeFadeInTicks`, `territoryTitlesTimeStayTicks`, `territoryTitlesTimeFadeOutTicks`
+* 🎁 FactionsFly - new expansion!
+* 🎁 FactionsFly ⭐️ Feature: New config options `factionsFlyExpansionEnabled`, `factionsFlyNoEnderpearl`, `factionsFlyNoChorusFruit`, `factionsFlyMaxY`, `factionsFlyNoFirstFallDamage`, `factionsFlyTeleportToFloorOnDisable`
 * 🇨🇳 Languages: Chinese Language added!
 * 📚 Docs: Placeholder wiki page updated
+* 📚 Docs: Expansions wiki page added
+* 📚 Docs: FactionsFly wiki page added
 * ⌨️ API: `Faction#sendPlainMessage` method added, to send unformatted messages
 * ⌨️ API: `TitleUtil` class added for managing titles
 * ⌨️ API: `substanceChars` has been removed and replaced with `englishCharacters`, it has been switched to private
+* ⌨️ API: `Locality` class introduced, it is due to be adopted as a replacement for FLocation
+* ⌨️ API: JavaDocs Improved
 
 # 1.4.1
 * 🐞 Bugfix: Scoreboard issues 
