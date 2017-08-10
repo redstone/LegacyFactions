@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.redstoneore.legacyfactions.FLocation;
@@ -15,6 +14,7 @@ import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.util.cross.CrossTeleportCause;
 
 public class FactionsFlyListener implements Listener {
 
@@ -67,8 +67,10 @@ public class FactionsFlyListener implements Listener {
 		
 		if (!Conf.factionsFlyNoEnderpearl) return;
 		if (!event.getPlayer().isFlying()) return;
-		if (event.getCause().name() != "ENDER_PEARL") return; // use string name to support all versions
-
+		
+		// use cross teleport to support all teleport causes
+		if (CrossTeleportCause.get(event.getCause()) != CrossTeleportCause.ENDER_PEARL) return; 
+		
 		event.setCancelled(true);
 		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONS_FLY_NO_ENDERPEARL.toString());
 	}
@@ -79,7 +81,9 @@ public class FactionsFlyListener implements Listener {
 		
 		if (!Conf.factionsFlyNoChorusFruit) return;
 		if (!event.getPlayer().isFlying()) return;
-		if (event.getCause().name() != "CHORUS_FRUIT") return; // use string name to support all versions
+		
+		// use cross teleport to support all teleport causes
+		if (CrossTeleportCause.get(event.getCause()) != CrossTeleportCause.CHORUS_FRUIT) return;
 		
 		event.setCancelled(true);
 		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONS_FLY_NO_CHORUSFRUIT.toString());
