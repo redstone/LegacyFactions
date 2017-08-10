@@ -67,8 +67,8 @@ public class FactionsFlyListener implements Listener {
 		
 		if (!Conf.factionsFlyNoEnderpearl) return;
 		if (!event.getPlayer().isFlying()) return;
-		
-		// use cross teleport to support all teleport causes
+    
+    // use cross teleport to support all teleport causes
 		if (CrossTeleportCause.get(event.getCause()) != CrossTeleportCause.ENDER_PEARL) return; 
 		
 		event.setCancelled(true);
@@ -81,7 +81,7 @@ public class FactionsFlyListener implements Listener {
 		
 		if (!Conf.factionsFlyNoChorusFruit) return;
 		if (!event.getPlayer().isFlying()) return;
-		
+    
 		// use cross teleport to support all teleport causes
 		if (CrossTeleportCause.get(event.getCause()) != CrossTeleportCause.CHORUS_FRUIT) return;
 		
