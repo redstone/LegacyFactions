@@ -67,8 +67,8 @@ public class FactionsFlyListener implements Listener {
 		
 		if (!Conf.factionsFlyNoEnderpearl) return;
 		if (!event.getPlayer().isFlying()) return;
-		if (event.getCause() != TeleportCause.ENDER_PEARL) return;
-		
+		if (event.getCause().name() != "ENDER_PEARL") return; // use string name to support all versions
+
 		event.setCancelled(true);
 		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONS_FLY_NO_ENDERPEARL.toString());
 	}
@@ -79,7 +79,7 @@ public class FactionsFlyListener implements Listener {
 		
 		if (!Conf.factionsFlyNoChorusFruit) return;
 		if (!event.getPlayer().isFlying()) return;
-		if (event.getCause() != TeleportCause.CHORUS_FRUIT) return;
+		if (event.getCause().name() != "CHORUS_FRUIT") return; // use string name to support all versions
 		
 		event.setCancelled(true);
 		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONS_FLY_NO_CHORUSFRUIT.toString());
