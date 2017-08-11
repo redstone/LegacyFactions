@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public abstract class FPlayerColl {
@@ -43,6 +44,10 @@ public abstract class FPlayerColl {
 		if (o instanceof Player) {
 			Player player = (Player) o;
 			return instance.getByPlayer(player);
+		}
+		
+		if (o instanceof UUID) {
+			return instance.getById(o.toString());
 		}
 		
 		if (o instanceof String) {
