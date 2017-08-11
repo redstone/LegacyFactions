@@ -1,5 +1,6 @@
 # 1.4.2
 * 🐞 Bugfix: PlaceholderAPI wasn't working properly, but it works now! 
+* 🐞 Bugfix: Factionless Scoreboards were not refreshing
 * 🐞 Bugfix: `factions_faction_admin` placeholder would throw an NPE if the faction didn't have a leader/admin
 * ⭐️ Feature: Relational placeholders added!
 * ⭐️ Feature: FactionChat has been revamped, and should perform better now.
@@ -12,10 +13,13 @@
 * ⭐️ Feature: Territory Titles! `territoryTitlesShow` has been added to enable it. Customise using the new conf options `territoryTitlesHeader`, `territoryTitlesFooter`, `territoryTitlesTimeFadeInTicks`, `territoryTitlesTimeStayTicks`, `territoryTitlesTimeFadeOutTicks`
 * 🎁 FactionsFly - new expansion!
 * 🎁 FactionsFly ⭐️ Feature: New config options `factionsFlyExpansionEnabled`, `factionsFlyNoEnderpearl`, `factionsFlyNoChorusFruit`, `factionsFlyMaxY`, `factionsFlyNoFirstFallDamage`, `factionsFlyTeleportToFloorOnDisable`
+* 🎁 FactionsChat - now a expansion!
+* 🎁 FactionsChat ⭐️ Feature: New config options `factionsChatExpansionEnabled`, `factionsChatEnableAllianceChat`, `factionsChatEnableTruceChat`, `factionsChatEnableFormatPublicChat`, `factionsChatFormatPublic`, `factionsChatFormatFaction`, `factionsChatFormatAlliance`, `factionsChatFormatTruce`, `factionsChatFormatSpy`, `factionChatChannelUse`, `factionChatChannelGlobal`, `chatTagEnabled`, `chatTagRelationalOverride`, `chatTagPlaceholder`, `chatTagFormatDefault`, `chatTagFormatFactionless`
 * 🇨🇳 Languages: Chinese Language added!
 * 📚 Docs: Placeholder wiki page updated
 * 📚 Docs: Expansions wiki page added
 * 📚 Docs: FactionsFly wiki page added
+* 📚 Docs: FactionsChat wiki page added
 * ⌨️ API: `Faction#sendPlainMessage` method added, to send unformatted messages
 * ⌨️ API: `TitleUtil` class added for managing titles
 * ⌨️ API: `substanceChars` has been removed and replaced with `englishCharacters`, it has been switched to private
