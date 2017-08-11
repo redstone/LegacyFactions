@@ -21,7 +21,7 @@ public class FDefaultSidebar extends FSidebarProvider {
 			return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardDefault));
 		} else {
 			if (Conf.scoreboardFactionlessEnabled) {
-				return this.getOutput(fplayer, Conf.scoreboardFactionless);
+				return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardFactionless));
 			}
 		}
 		return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardDefault)); // no faction, factionless-board disabled
