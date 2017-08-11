@@ -3,7 +3,6 @@ package net.redstoneore.legacyfactions.integration.venturechat;
 import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.integration.Integration;
 
 public class VentureChatIntegration extends Integration {
@@ -18,7 +17,7 @@ public class VentureChatIntegration extends Integration {
 
 	@Override
 	public boolean isEnabled() {
-		return Bukkit.getPluginManager().isPluginEnabled(this.getName()) && Conf.factionChatChannelRoute;
+		return Bukkit.getPluginManager().isPluginEnabled(this.getName());
 	}
 
 	@Override

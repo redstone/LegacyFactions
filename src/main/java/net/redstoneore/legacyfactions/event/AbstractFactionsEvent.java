@@ -13,12 +13,18 @@ public abstract class AbstractFactionsEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private final Faction faction;
-
+    private boolean called = false;
+    
     public AbstractFactionsEvent(Faction faction) {
         this.faction = faction;
     }
     
     public void call() {
+    	// Don't allow duplicate calls
+    	if (this.called == true) return;
+    	this.called = true;
+    	
+    	// Call the event.
     	Bukkit.getServer().getPluginManager().callEvent(this);
     }
 

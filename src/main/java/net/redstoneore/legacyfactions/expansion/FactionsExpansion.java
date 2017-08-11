@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
+import net.redstoneore.legacyfactions.cmd.CmdFactionsHelp;
 import net.redstoneore.legacyfactions.cmd.FCommand;
 
 /**
@@ -33,11 +34,17 @@ public abstract class FactionsExpansion {
 	public final void enable() {
 		this.onPreEnable();
 		
-		this.getCommands().forEach(command -> 
-			CmdFactions.get().addSubCommand(command)
-		);
+		if (this.getCommands().size() > 0) {
+			this.getCommands().forEach(command -> 
+				CmdFactions.get().addSubCommand(command)
+			);
+			
+			// Clear the help page cache.
+			CmdFactionsHelp.get().clearHelpPageCache();
+			
+			this.onCommandsEnabled();
+		}
 		
-		this.onCommandsEnabled();
 		
 		this.getListeners().forEach(listener -> 
 			Bukkit.getPluginManager().registerEvents(listener, Factions.get())
@@ -54,11 +61,16 @@ public abstract class FactionsExpansion {
 	public final void disable() {
 		this.onPreDisable();
 		
-		this.getCommands().forEach(command -> 
-			CmdFactions.get().subCommands.remove(command)
-		);
-		
-		this.onCommandsDisabled();
+		if (this.getCommands().size() > 0) {
+			this.getCommands().forEach(command -> 
+				CmdFactions.get().subCommands.remove(command)
+			);
+			
+			// Clear the help page cache.
+			CmdFactionsHelp.get().clearHelpPageCache();
+			
+			this.onCommandsDisabled();
+		}
 		
 		this.getListeners().forEach(listener -> 
 			HandlerList.unregisterAll(listener)
@@ -106,5 +118,11 @@ public abstract class FactionsExpansion {
 	 * @return listeners for this expansion
 	 */
 	public abstract Collection<Listener> getListeners();
+	
+	/**
+	 * Should this expansion be enabled?
+	 * @return true if should be enabled
+	 */
+	public abstract boolean shouldEnable();
 	
 }

@@ -52,6 +52,7 @@ public class FactionsFly extends FactionsExpansion {
 	
 	private static FactionsFly i = new FactionsFly();
 	public static FactionsFly get() { return i; }
+	private FactionsFly() { }
 	
 	// -------------------------------------------------- //
 	// FIELDS
@@ -85,6 +86,11 @@ public class FactionsFly extends FactionsExpansion {
 	@Override
 	public Collection<Listener> getListeners() {
 		return this.listeners;
+	}
+	
+	@Override
+	public boolean shouldEnable() {
+		return Conf.factionsFlyExpansionEnabled == true;
 	}
 	
 	public void cancelFlightFor(FPlayer fplayer) {

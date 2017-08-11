@@ -15,6 +15,9 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class CmdFactionsTop extends FCommand {
 
@@ -99,7 +102,10 @@ public class CmdFactionsTop extends FCommand {
 		
 		// Can sort by: money, members, online, allies, enemies, power, land.
 		// Get all Factions and remove non player ones.
-		ArrayList<Faction> factionList = FactionColl.get().getAllFactions();
+		List<Faction> factionList = FactionColl.get().getAllFactions().stream().filter(faction -> {
+			return !faction.isWarZone() && !faction.isSafeZone() && !faction.isWilderness();
+		}).collect(Collectors.toList());
+		
 		factionList.remove(FactionColl.get().getWilderness());
 		factionList.remove(FactionColl.get().getSafeZone());
 		factionList.remove(FactionColl.get().getWarZone());

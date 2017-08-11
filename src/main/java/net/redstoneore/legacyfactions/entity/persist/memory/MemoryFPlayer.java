@@ -17,13 +17,13 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
+import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
-import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FInfoSidebar;
@@ -262,12 +262,13 @@ public abstract class MemoryFPlayer implements FPlayer {
 	public void setChatMode(ChatMode chatMode) {
 		this.chatMode = chatMode;
 	}
-
+	
 	public ChatMode getChatMode() {
-		if (this.factionId.equals("0") || !Conf.factionOnlyChat) {
+		// If we're in the wilderness or factions chat is disabled, default to public chat
+		if (this.factionId.equals("0") || !Conf.factionsChatExpansionEnabled) {
 			this.chatMode = ChatMode.PUBLIC;
 		}
-		return chatMode;
+		return this.chatMode;
 	}
 
 	public void setIgnoreAllianceChat(boolean ignore) {
@@ -477,16 +478,14 @@ public abstract class MemoryFPlayer implements FPlayer {
 		
 		if (this.hasFaction()) {
 			// Clone from the configuration 
-			format = Conf.chatTagFormat.toString();
+			format = Conf.chatTagFormatDefault.toString();
 		} else {
 			// Clone from the configuration
 			format = Conf.chatTagFormatFactionless.toString();
 		}
 		
-		// Attach to our inbuilt placeholders
-		for (FactionsPlaceholder placeholder : FactionsPlaceholders.get().getPlaceholders()) {
-			format = format.replace("<factions_" + placeholder.placeholder() + ">", placeholder.get(this.getPlayer()));
-		}
+		// Format with Placeholders
+		format = FactionsPlaceholders.get().parse(this, format);
 		
 		return format;
 	}

@@ -1,17 +1,25 @@
-package net.redstoneore.legacyfactions.cmd;
+package net.redstoneore.legacyfactions.expansion.chat.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsChatspy extends FCommand {
 
+    // -------------------------------------------------- //
+    // INSTANCE
+    // -------------------------------------------------- //
+	
+	private static CmdFactionsChatspy instance = new CmdFactionsChatspy();
+	public static CmdFactionsChatspy get() { return instance; }
+
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsChatspy() {
+	private CmdFactionsChatspy() {
 		this.aliases.addAll(Conf.cmdAliasesChatspy);
 
 		this.optionalArgs.put("on/off", "flip");
@@ -32,14 +40,14 @@ public class CmdFactionsChatspy extends FCommand {
 
 	@Override
 	public void perform() {
-		this.fme.setSpyingChat(this.argAsBool(0, !fme.isSpyingChat()));
+		this.fme.setSpyingChat(this.argAsBool(0, !this.fme.isSpyingChat()));
 
 		if (this.fme.isSpyingChat()) {
 			this.fme.sendMessage(Lang.COMMAND_CHATSPY_ENABLE);
-			Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_ENABLELOG.toString());
+			Factions.get().log(this.fme.getName() + Lang.COMMAND_CHATSPY_ENABLELOG.toString());
 		} else {
 			this.fme.sendMessage(Lang.COMMAND_CHATSPY_DISABLE);
-			Factions.get().log(fme.getName() + Lang.COMMAND_CHATSPY_DISABLELOG.toString());
+			Factions.get().log(this.fme.getName() + Lang.COMMAND_CHATSPY_DISABLELOG.toString());
 		}
 	}
 
