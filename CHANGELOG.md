@@ -5,7 +5,6 @@
 * ⭐️ Feature: Relational placeholders added!
 * ⭐️ Feature: FactionChat has been revamped, and should perform better now.
 * ⭐️ Feature: FactionChat now allows you to customise public chat (for small servers) enable `enableChatFormatPublic` and use  `chatFormatPublic`
-* ⭐️ Feature: `chatFormatFaction`, `chatFormatAlliance`, `chatFormatTruce, also added and support placeholders
 * ⭐️ Feature: Armorstands are now protected against breakage
 * ⭐️ Feature: Faction chat placeholders improved
 * ⭐️ Feature: `allowColorCodesInFaction` has been removed and split into `allowColourCodesInFactionTitle` and `allowColourCodesInFactionDescription`
