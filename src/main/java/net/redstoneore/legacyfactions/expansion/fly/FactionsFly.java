@@ -18,6 +18,7 @@ import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansion;
 import net.redstoneore.legacyfactions.locality.Locality;
 
@@ -28,7 +29,8 @@ public class FactionsFly extends FactionsExpansion {
 	// -------------------------------------------------- //
 	
 	public static boolean canFlyHere(FPlayer fplayer, FLocation location) {
-		Relation relation = fplayer.getRelationTo(Board.get().getFactionAt(location));
+		Faction factionAtLocation = Board.get().getFactionAt(location);
+		Relation relation = fplayer.getRelationTo(factionAtLocation);
 		
 		switch (relation) {
 		case ALLY:
@@ -42,6 +44,16 @@ public class FactionsFly extends FactionsExpansion {
 		case TRUCE:
 			return fplayer.hasPermission("factions.fly.truce");
 		default:
+			if (factionAtLocation.isWilderness()) {
+				return fplayer.hasPermission("factions.fly.wilderness");
+			}
+			if (factionAtLocation.isWarZone()) {
+				return fplayer.hasPermission("factions.fly.warzone");
+			}
+			if (factionAtLocation.isSafeZone()) {
+				return fplayer.hasPermission("factions.fly.safezone");
+			}
+			
 			return false;
 		}
 	}
