@@ -1,16 +1,24 @@
-package net.redstoneore.legacyfactions.cmd;
+package net.redstoneore.legacyfactions.expansion.chat.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsToggleAllianceChat extends FCommand {
 
+    // -------------------------------------------------- //
+    // INSTANCE
+    // -------------------------------------------------- //
+	
+	private static CmdFactionsToggleAllianceChat instance = new CmdFactionsToggleAllianceChat();
+	public static CmdFactionsToggleAllianceChat get() { return instance; }
+	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsToggleAllianceChat() {
+	private CmdFactionsToggleAllianceChat() {
 		this.aliases.addAll(Conf.cmdAliasesToggleAllianceChat);
 
 		this.disableOnLock = false;
@@ -30,7 +38,7 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
 
 	@Override
 	public void perform() {
-		if (!Conf.factionOnlyChat) {
+		if (!Conf.factionsChatEnableAllianceChat) {
 			sendMessage(Lang.COMMAND_CHAT_DISABLED.toString());
 			return;
 		}

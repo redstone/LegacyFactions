@@ -21,7 +21,8 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
-import net.redstoneore.legacyfactions.expansion.Expansions;
+import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
+import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.Integrations;
 import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
@@ -31,10 +32,15 @@ import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsInteg
 import net.redstoneore.legacyfactions.integration.vault.VaultIntegration;
 import net.redstoneore.legacyfactions.integration.venturechat.VentureChatIntegration;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
-import net.redstoneore.legacyfactions.listeners.*;
+import net.redstoneore.legacyfactions.listeners.FactionsBlockListener;
+import net.redstoneore.legacyfactions.listeners.FactionsCommandsListener;
+import net.redstoneore.legacyfactions.listeners.FactionsEntityListener;
+import net.redstoneore.legacyfactions.listeners.FactionsExploitListener;
+import net.redstoneore.legacyfactions.listeners.FactionsPlayerListener;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.AutoLeaveTask;
-import net.redstoneore.legacyfactions.util.*;
+import net.redstoneore.legacyfactions.util.LazyLocation;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -156,7 +162,7 @@ public class Factions extends FactionsPluginBase {
 		);
 		
 		// Sync expansions
-		Expansions.sync();
+		FactionsExpansions.sync();
 		
 		// Add our placeholders.
 		FactionsPlaceholders.get().init();
@@ -165,7 +171,6 @@ public class Factions extends FactionsPluginBase {
 		// Register Event Handlers
 		this.register(
 			FactionsPlayerListener.get(),
-			FactionsChatListener.get(),
 			FactionsEntityListener.get(),
 			FactionsExploitListener.get(),
 			FactionsBlockListener.get()
@@ -289,7 +294,7 @@ public class Factions extends FactionsPluginBase {
 		if (me == null) return tag;
 		
 		// if listener isn't set, or config option is disabled, give back uncolored tag
-		if (listener == null || !Conf.chatTagRelationColored) {
+		if (listener == null) {
 			tag = me.getChatTag().trim();
 		} else {
 			FPlayer you = FPlayerColl.get(listener);

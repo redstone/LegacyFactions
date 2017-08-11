@@ -10,7 +10,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.cmd.CmdFactions;
+import net.redstoneore.legacyfactions.cmd.CmdFactionsHelp;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.util.VaultUtilPlayer;
@@ -64,7 +64,7 @@ public class VaultUtils extends VaultUtilPlayer {
 		}
 		
 		// Update help menu.
-		CmdFactions.get().cmdHelp.updateHelp();
+		CmdFactionsHelp.get().updateHelp();
 	}
 	
 	// -------------------------------------------------- //

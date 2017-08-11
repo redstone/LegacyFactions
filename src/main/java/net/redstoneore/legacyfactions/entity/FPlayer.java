@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.redstoneore.legacyfactions.ChatMode;
 import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
@@ -13,6 +12,7 @@ import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
+import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 

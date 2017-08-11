@@ -2,9 +2,9 @@ package net.redstoneore.legacyfactions.event;
 
 import org.bukkit.event.Cancellable;
 
-import net.redstoneore.legacyfactions.ChatMode;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 
 public class EventFactionsChatModeChange extends AbstractFactionsPlayerEvent implements Cancellable {
 
@@ -22,7 +22,7 @@ public class EventFactionsChatModeChange extends AbstractFactionsPlayerEvent imp
 	// FIELDS
 	// -------------------------------------------------- //
 	
-	private final ChatMode chatMode;
+	private ChatMode chatMode;
 	private boolean silent = false;
 	private boolean cancelled = false;
 	
@@ -54,6 +54,10 @@ public class EventFactionsChatModeChange extends AbstractFactionsPlayerEvent imp
 	
 	public void setSilent(boolean silent) {
 		this.silent = silent;
+	}
+	
+	public void setChatMode(ChatMode chatMode) {
+		this.chatMode = chatMode;
 	}
 	
 }

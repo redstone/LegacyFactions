@@ -418,7 +418,7 @@ public class FactionsPlaceholders {
 	
 	/**
 	 * Parse a string with FactionsPlaceholders 
-	 * @param player name
+	 * @param player
 	 * @param string to replace
 	 * @return new string
 	 */
@@ -446,6 +446,16 @@ public class FactionsPlaceholders {
 			string = string.replace("{factions_" + placeholder.placeholder() + "}", placeholder.get(player1)+"");
 		}
 		return string;
+	}
+
+	/**
+	 * Parse a string with FactionsPlaceholders.
+	 * @param FPlayer to parse for
+	 * @param format 
+	 * @return Parsed string.
+	 */
+	public String parse(FPlayer fplayer, String format) {
+		return this.parse(fplayer.getPlayer(), format);
 	}
 
 }

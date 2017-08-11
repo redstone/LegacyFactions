@@ -145,36 +145,80 @@ public class Conf {
 	// Disallow joining/leaving/kicking while power is negative
 	public static boolean canLeaveWithNegativePower = true;
 
-	// Configuration for faction-only chat
-	public static boolean factionOnlyChat = true;
+	// -------------------------------------------------- //
+	// EXPANSION: FactionsChat - Misc
+	// -------------------------------------------------- // 
 	
-	// If a chat manager plugin supports it, should be route the faction chat command to the channel?
-	public static boolean factionChatChannelRoute = false;
+	// Enable faction chat
+	public static boolean factionsChatExpansionEnabled = true;
 	
-	// Configuration on the Faction tag in chat messages.
+	// Enable alliance chat
+	public static boolean factionsChatEnableAllianceChat = true;
+	
+	// Enable truce chat
+	public static boolean factionsChatEnableTruceChat = true;
+	
+	// Enable formatting public chat
+	public static boolean factionsChatEnableFormatPublicChat = false;
+		
+	public static String factionsChatFormatPublic = "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
+	public static String factionsChatFormatFaction = ChatColor.GREEN + "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
+	public static String factionsChatFormatAlliance = ChatColor.LIGHT_PURPLE + "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
+	public static String factionsChatFormatTruce = ChatColor.DARK_PURPLE + "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
+	public static String factionsChatFormatSpy = ChatColor.GRAY + "(spy) {factions_player_role_prefix}%s:" + ChatColor.GRAY + " %s";
+	
+	// -------------------------------------------------- //
+	// EXPANSION: FactionsChat - Channels
+	// -------------------------------------------------- // 
+	
+	// Use chat channels in external plugins when available 
+	public static boolean factionChatChannelUse = true;
+	
+	// Default global channel, if empty we try to find it ourselves
+	public static String factionChatChannelGlobal = "";
+	
+	// -------------------------------------------------- //
+	// EXPANSION: FactionsChat - Chat Tag
+	// -------------------------------------------------- // 
+	
+	// Injected Chat Tag will cancel the Chat event and send it to players on its own, but allows for relational colours.
 	public static boolean chatTagEnabled = true;
-	public static transient boolean chatTagHandledByAnotherPlugin = false;
-	public static boolean chatTagRelationColored = true;
-	public static String chatTagReplaceString = "[FACTION]";
-	public static String chatTagInsertAfterString = "";
-	public static String chatTagInsertBeforeString = "";
-	public static int chatTagInsertIndex = 0;
-	public static boolean chatTagPadBefore = false;
-	public static boolean chatTagPadAfter = true;
 	
-	public static String chatTagFormat = "{factions_player_role_prefix}{factions_faction_name}" + ChatColor.WHITE;
+	// If you want to use relational placeholders we must cancel and handle the chat ourselves. 
+	public static boolean chatTagRelationalOverride = false;
+	
+	// Chat Tag placeholder.
+	public static String chatTagPlaceholder = "{factions_chat_tag}";
+	
+	// Chat Tag format for default.
+	public static String chatTagFormatDefault = "{factions_player_role_prefix}{factions_faction_name}" + ChatColor.WHITE;
+	
+	// Chat Tag format for factionless.
 	public static String chatTagFormatFactionless = "";
 	
-	// Set to true to enable public chat formatting 
-	public static boolean enableChatFormatPublic = false;
+	// -------------------------------------------- //
+	// EXPANSION: FactionsFly
+	// -------------------------------------------- //
 	
-	public static String chatFormatPublic = "{factions_player_role_prefix}{factions_faction_name}:" + ChatColor.WHITE + " {fc_message}";
-	public static String chatFormatFaction = ChatColor.GREEN + "{factions_player_role_prefix}{factions_player_name}:" + ChatColor.WHITE + " {fc_message}";
-	public static String chatFormatAlliance = ChatColor.LIGHT_PURPLE + "{factions_player_role_prefix}{factions_player_name}:" + ChatColor.WHITE + " {fc_message}";
-	public static String chatFormatTruce = ChatColor.DARK_PURPLE + "{factions_player_role_prefix}{factions_player_name}:" + ChatColor.WHITE + " {fc_message}";
-
-	// default public channel for chat plugins
-	public static String chatModePublicChannel = "Global";
+	public static boolean factionsFlyExpansionEnabled = false;
+	
+	// Disable Enderpearl when factions fly is enabled 
+	public static boolean factionsFlyNoEnderpearl = true;
+	
+	// Disable Chorus Fruit when factions fly is enabled 
+	public static boolean factionsFlyNoChorusFruit = true;
+	
+	// Max flight height
+	public static double factionsFlyMaxY = -1;
+	
+	// This will make a player not obtain fall damage when fly is disabled
+	public static boolean factionsFlyNoFirstFallDamage = true;
+	
+	// This will make a player teleport to floor when disable
+	public static boolean factionsFlyTeleportToFloorOnDisable = false;
+	
+	
+	
 	
 	public static boolean broadcastDescriptionChanges = false;
 	public static boolean broadcastTagChanges = false;
@@ -837,28 +881,7 @@ public class Conf {
 	public static List<String> cmdAliasesVersion = Lists.newArrayList("version");
 	public static List<String> cmdAliasesWarp = Lists.newArrayList("warp", "warps");
 	public static List<String> cmdAliasesWarunclaimall = Lists.newArrayList("warunclaimall");
-	
-	// -------------------------------------------- //
-	// EXPANSION: FACTIONSFLY
-	// -------------------------------------------- //
-	
-	public static boolean factionsFlyExpansionEnabled = false;
-	
-	// Disable Enderpearl when factions fly is enabled 
-	public static boolean factionsFlyNoEnderpearl = true;
-	
-	// Disable Chorus Fruit when factions fly is enabled 
-	public static boolean factionsFlyNoChorusFruit = true;
-	
-	// Max flight height
-	public static double factionsFlyMaxY = -1;
-	
-	// This will make a player not obtain fall damage when fly is disabled
-	public static boolean factionsFlyNoFirstFallDamage = true;
-	
-	// This will make a player teleport to floor when disable
-	public static boolean factionsFlyTeleportToFloorOnDisable = false;
-	
+		
 	// -------------------------------------------- //
 	// Persistance
 	// -------------------------------------------- //

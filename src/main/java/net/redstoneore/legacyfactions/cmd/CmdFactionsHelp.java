@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 import mkremins.fanciful.FancyMessage;
@@ -8,6 +9,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 import java.util.ArrayList;
@@ -19,10 +21,17 @@ import java.util.Map;
 public class CmdFactionsHelp extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsHelp instance = new CmdFactionsHelp();
+	public static CmdFactionsHelp get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsHelp() {
+	private CmdFactionsHelp() {
 		this.aliases.addAll(Conf.cmdAliasesHelp);
 
 		this.optionalArgs.put("page", "1");
@@ -73,40 +82,40 @@ public class CmdFactionsHelp extends FCommand {
 			}
 			sendMessage(helpPages.get(page));
 			return;
-		}
-		
+		}	
 		
 		String id = "console";
 		if (!(sender instanceof ConsoleCommandSender)) {
-		id = fme.getId();
+			id = fme.getId();
 		}
+		
 		// Otherwise, those that want an automatically generated menu
 		if (!this.helpPageCache.containsKey(id)) {
 			int line = 0;
-		List<List<FancyMessage>> pages = new ArrayList<>();
-		List<FancyMessage> lines = new ArrayList<>();
-		
-		for (MCommand<?> command : CmdFactions.get().subCommands) {
-		if (!(sender instanceof ConsoleCommandSender) && command.permission != null && !fme.getPlayer().hasPermission(command.permission)) continue;
-		line++;
-		
-		String suggest = "/" + CmdFactions.get().aliases.get(0) + " " + command.aliases.get(0);
-		
-		FancyMessage fm = new FancyMessage();
-		fm.text(command.getUseageTemplate(true));
-		fm.suggest(suggest);
-		fm.tooltip(suggest);
-		
-		lines.add(fm);
-		
-		if (line == 10) {
-		pages.add(lines);
-		lines = new ArrayList<>();
-		line = 0;
-		}
-		}
-		
-		this.helpPageCache.put(id, pages);
+			List<List<FancyMessage>> pages = new ArrayList<>();
+			List<FancyMessage> lines = new ArrayList<>();
+			
+			for (MCommand<?> command : CmdFactions.get().subCommands) {
+				if (!(sender instanceof ConsoleCommandSender) && command.permission != null && !fme.getPlayer().hasPermission(command.permission)) continue;
+				line++;
+				
+				String suggest = "/" + CmdFactions.get().aliases.get(0) + " " + command.aliases.get(0);
+				
+				FancyMessage fm = new FancyMessage();
+				fm.text(command.getUseageTemplate(true));
+				fm.suggest(suggest);
+				fm.tooltip(suggest);
+				
+				lines.add(fm);
+				
+				if (line == 10) {
+					pages.add(lines);
+					lines = new ArrayList<>();
+					line = 0;
+				}
+			}
+			
+			this.helpPageCache.put(id, pages);
 		}
 		
 		int page = this.argAsInt(0, 1);
@@ -122,36 +131,54 @@ public class CmdFactionsHelp extends FCommand {
 		FancyMessage fm = new FancyMessage("[<] ");
 		
 		if (page == 1) {
-		fm.tooltip(ChatColor.GRAY + "No previous page.");
-		fm.color(ChatColor.GRAY);
+			fm.tooltip(ChatColor.GRAY + "No previous page.");
+			fm.color(ChatColor.GRAY);
 		} else {
-		int prevPage = page-1;
-		fm.tooltip(ChatColor.AQUA + "Go to page " + prevPage);
-		fm.style(ChatColor.BOLD);
-		fm.command("/f help " + prevPage);
+			int prevPage = page-1;
+			fm.tooltip(ChatColor.AQUA + "Go to page " + prevPage);
+			fm.style(ChatColor.BOLD);
+			fm.command("/f help " + prevPage);
 		}
 		
 		fm.then(title);
 		fm.then(" [>]");
 		
 		if (page == maxPages) {
-		fm.tooltip(ChatColor.GRAY + "No next page.");
-		fm.color(ChatColor.GRAY);
+			fm.tooltip(ChatColor.GRAY + "No next page.");
+			fm.color(ChatColor.GRAY);
 		} else {
-		int nextPage = page+1;
-		fm.tooltip(ChatColor.AQUA + "Go to page " + nextPage);
-		fm.style(ChatColor.BOLD);
-		fm.command("/f help " + nextPage);
+			int nextPage = page+1;
+			fm.tooltip(ChatColor.AQUA + "Go to page " + nextPage);
+			fm.style(ChatColor.BOLD);
+			fm.command("/f help " + nextPage);
 		}
 		
 		fm.send(this.sender);
 		
 		this.helpPageCache.get(id).get(page-1).forEach(line -> {
-		line.send(this.sender);
+			line.send(this.sender);
 		});
 	}
 	
 	private Map<String, List<List<FancyMessage>>> helpPageCache = new HashMap<>();
+	
+	
+	public void clearHelpPageCache(CommandSender sender) {
+		String id = "console";
+		if (!(sender instanceof ConsoleCommandSender)) {
+			id = fme.getId();
+		}
+		
+		this.helpPageCache.remove(id);
+	}
+	
+	public void clearHelpPageCache(FPlayer fplayer) {
+		this.clearHelpPageCache(fplayer.getPlayer());
+	}
+	
+	public void clearHelpPageCache() {
+		this.helpPageCache.clear();
+	}
 	
 	//----------------------------------------------//
 	// Old help pages
@@ -164,14 +191,12 @@ public class CmdFactionsHelp extends FCommand {
 		ArrayList<String> pageLines;
 
 		pageLines = new ArrayList<>();
-		pageLines.add(CmdFactions.get().cmdHelp.getUseageTemplate(true));
+		pageLines.add(CmdFactionsHelp.get().getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdList.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdShow.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdPower.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdJoin.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdLeave.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdChat.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdToggleAllianceChat.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdHome.getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_NEXTCREATE.toString()));
 		this.helpPages.add(pageLines);
@@ -279,7 +304,6 @@ public class CmdFactionsHelp extends FCommand {
 
 		pageLines = new ArrayList<>();
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_MOAR_2.toString()));
-		pageLines.add(CmdFactions.get().cmdChatSpy.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdPermanent.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdPermanentPower.getUseageTemplate(true));
 		pageLines.add(CmdFactions.get().cmdPowerBoost.getUseageTemplate(true));
