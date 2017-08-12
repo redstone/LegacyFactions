@@ -7,6 +7,7 @@ import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
@@ -14,6 +15,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
 public class CmdFactionsKick extends FCommand {
 	
@@ -43,66 +45,90 @@ public class CmdFactionsKick extends FCommand {
 
 	@Override
 	public void perform() {
-		FPlayer toKick = this.argIsSet(0) ? this.argAsBestFPlayerMatch(0) : null;
+		FPlayer toKick = this.argIsSet(0) ? this.argAsBestFPlayerMatch(0, null, false) : null;
 		if (toKick == null) {
-			FancyMessage msg = new FancyMessage(Lang.COMMAND_KICK_CANDIDATES.toString()).color(ChatColor.GOLD);
+			
+			if (this.argIsSet(0)) {
+				// Player must be offline
+				// Use final here as we don't want to risk how these variables could change when we
+				// go off thread, and then back on (argAsPlayerToMojangUUID does this)
+				final FPlayer fsender = this.fme;
+				final Faction senderFaction = this.myFaction;
+				final CommandSender commandSender = this.sender;	 
+				final boolean isConsole = this.senderIsConsole;
+				
+				this.argAsPlayerToMojangUUID(0, null, (uuid, exception) -> {
+					if (exception.isPresent()) {
+						Factions.get().error("Failed to lookup UUID because of an exception");
+						exception.get().printStackTrace();					
+						return;
+					}
+					FPlayer found = FPlayerColl.get(uuid);
+					
+					// Resume here
+					resume(fsender, found, senderFaction, commandSender, isConsole);					
+				});
+				return;
+			}
+			
+			FancyMessage fancyMessage = new FancyMessage(Lang.COMMAND_KICK_CANDIDATES.toString()).color(ChatColor.GOLD);
 
 			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
 				String name = player.getName();
-				msg.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + Conf.baseCommandAliases.get(0) + " kick " + name);
+				fancyMessage.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + name);
 			}
 
 			if (fme.getRole().isAtLeast(Role.COLEADER)) {
 				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.MODERATOR)) {
 					String s = player.getName();
-					msg.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " kick " + s);
+					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + s);
 				}
 			}
 
-			if(fme.getRole() == Role.ADMIN) {
+			if (fme.getRole() == Role.ADMIN) {
 				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.COLEADER)) {
 					String s = player.getName();
-					msg.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " kick " + s);
+					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + s);
 				}
 			}
-
-			sendFancyMessage(msg);
-			return;
+			this.sendFancyMessage(fancyMessage);
 		}
-
-		if (fme == toKick) {
-			sendMessage(Lang.COMMAND_KICK_SELF);
-			sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdLeave.getUseageTemplate(false));
+	}
+	
+	public void resume(FPlayer fsender, FPlayer toKick, Faction senderFaction, CommandSender commandSender, boolean senderIsConsole) {
+		if (fsender == toKick) {
+			fsender.sendMessage(Lang.COMMAND_KICK_SELF.toString());
+			fsender.sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdLeave.getUseageTemplate(false));
 			return;
 		}
 
 		Faction toKickFaction = toKick.getFaction();
 
 		if (toKickFaction.isWilderness()) {
-			sender.sendMessage(Lang.COMMAND_KICK_NONE.toString());
+			commandSender.sendMessage(Lang.COMMAND_KICK_NONE.toString());
 			return;
 		}
 
 		// players with admin-level "disband" permission can bypass these requirements
-		if (!Permission.KICK_ANY.has(sender)) {
-			if (toKickFaction != myFaction) {
-				sendMessage(Lang.COMMAND_KICK_NOTMEMBER, toKick.describeTo(fme, true), myFaction.describeTo(fme));
+		if (!Permission.KICK_ANY.has(commandSender)) {
+			if (toKickFaction != fsender.getFaction()) {
+				fsender.sendMessage(Lang.COMMAND_KICK_NOTMEMBER, toKick.describeTo(fsender, true), senderFaction.describeTo(fsender));
 				return;
 			}
 
-			if (toKick.getRole().isAtLeast(fme.getRole())) {
-				sendMessage(Lang.COMMAND_KICK_INSUFFICIENTRANK);
+			if (toKick.getRole().isAtLeast(fsender.getRole())) {
+				fsender.sendMessage(Lang.COMMAND_KICK_INSUFFICIENTRANK);
 				return;
 			}
 
 			if (!Conf.canLeaveWithNegativePower && toKick.getPower() < 0) {
-				sendMessage(Lang.COMMAND_KICK_NEGATIVEPOWER);
+				fsender.sendMessage(Lang.COMMAND_KICK_NEGATIVEPOWER);
 				return;
 			}
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-		if (!canAffordCommand(Conf.econCostKick, Lang.COMMAND_KICK_TOKICK.toString())) {
+		if (!fsender.canAffordCommand(Conf.econCostKick, Lang.COMMAND_KICK_TOKICK.toString())) {
 			return;
 		}
 
@@ -114,19 +140,19 @@ public class CmdFactionsKick extends FCommand {
 		}
 
 		// then make 'em pay (if applicable)
-		if (!payForCommand(Conf.econCostKick, Lang.COMMAND_KICK_TOKICK.toString(), Lang.COMMAND_KICK_FORKICK.toString())) {
+		if (!fsender.payForCommand(Conf.econCostKick, Lang.COMMAND_KICK_TOKICK.toString(), Lang.COMMAND_KICK_FORKICK.toString())) {
 			return;
 		}
 
-		toKickFaction.sendMessage(Lang.COMMAND_KICK_FACTION, fme.describeTo(toKickFaction, true), toKick.describeTo(toKickFaction, true));
-		toKick.sendMessage(Lang.COMMAND_KICK_KICKED, fme.describeTo(toKick, true), toKickFaction.describeTo(toKick));
-		if (toKickFaction != myFaction) {
-			fme.sendMessage(Lang.COMMAND_KICK_KICKS, toKick.describeTo(fme), toKickFaction.describeTo(fme));
+		toKickFaction.sendMessage(Lang.COMMAND_KICK_FACTION, fsender.describeTo(toKickFaction, true), toKick.describeTo(toKickFaction, true));
+		toKick.sendMessage(Lang.COMMAND_KICK_KICKED, fsender.describeTo(toKick, true), toKickFaction.describeTo(toKick));
+		if (toKickFaction != senderFaction) {
+			fsender.sendMessage(Lang.COMMAND_KICK_KICKS, toKick.describeTo(fsender), toKickFaction.describeTo(fsender));
 		}
 
 		if (Conf.logFactionKick) {
 			// TODO:TL
-			Factions.get().log((senderIsConsole ? "A console command" : fme.getName()) + " kicked " + toKick.getName() + " from the faction: " + toKickFaction.getTag());
+			Factions.get().log((senderIsConsole ? "A console command" : fsender.getName()) + " kicked " + toKick.getName() + " from the faction: " + toKickFaction.getTag());
 		}
 
 		if (toKick.getRole() == Role.ADMIN) {
