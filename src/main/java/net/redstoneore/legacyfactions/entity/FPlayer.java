@@ -362,6 +362,10 @@ public interface FPlayer extends EconomyParticipator {
 	
 	MemoryFPlayer asMemoryFPlayer();
 	
+	boolean canAffordCommand(double econCostJoin, String string);
+	
+	boolean payForCommand(double cost, String toDoThis, String forDoingThis);
+	
 	// -------------------------------------------------- //
 	// DEPRECATED
 	// -------------------------------------------------- //
@@ -407,5 +411,5 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	@Deprecated
 	void resetFactionData(boolean doSpoutUpdate);
-
+	
 }

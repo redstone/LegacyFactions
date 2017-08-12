@@ -1151,6 +1151,35 @@ public abstract class MemoryFPlayer implements FPlayer {
 	}
 	
 	// -------------------------------------------------- //
+	// UTILS
+	// -------------------------------------------------- //
+	
+	public boolean payForCommand(double cost, String toDoThis, String forDoingThis) {
+		if (!VaultEngine.getUtils().shouldBeUsed() || cost == 0.0 || this.isAdminBypassing()) {
+			return true;
+		}
+
+		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && this.hasFaction()) {
+			return VaultEngine.getUtils().modifyMoney(this.getFaction(), -cost, toDoThis, forDoingThis);
+		} else {
+			return VaultEngine.getUtils().modifyMoney(this, -cost, toDoThis, forDoingThis);
+		}
+	}
+	
+	// like above, but just make sure they can pay; returns true unless person can't afford the cost
+	public boolean canAffordCommand(double cost, String toDoThis) {
+		if (!VaultEngine.getUtils().shouldBeUsed() || cost == 0.0 || this.isAdminBypassing()) {
+			return true;
+		}
+
+		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && this.hasFaction()) {
+			return VaultEngine.getUtils().hasAtLeast(this.getFaction(), cost, toDoThis);
+		} else {
+			return VaultEngine.getUtils().hasAtLeast(this, cost, toDoThis);
+		}
+	}
+
+	// -------------------------------------------------- //
 	// DEPRECATED
 	// -------------------------------------------------- //
 	
