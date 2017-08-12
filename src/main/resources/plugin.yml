@@ -106,6 +106,9 @@ permissions:
       factions.fly.member: false
       factions.fly.neutral: false
       factions.fly.truce: false
+      factions.fly.wilderness: false
+      factions.fly.safezone: false
+      factions.fly.warzone: false
   factions.admin:
     description: hand over your admin rights
   factions.admin.any:

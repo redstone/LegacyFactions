@@ -5,16 +5,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.callback.Callback;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.UUIDUtil;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 
 public abstract class FCommand extends MCommand<Factions> {
@@ -150,11 +154,10 @@ public abstract class FCommand extends MCommand<Factions> {
 			// Bukkit.getPlayer is case-insensitive and attempts to match
 			// so we don't need our own loop for this
 			Player player = Bukkit.getPlayer(name);
-			if (player == null) return null;
-			
-			String id = player.getUniqueId().toString();
-			
-			ret = FPlayerColl.get(id);
+			if (player != null) {
+				String id = player.getUniqueId().toString();
+				ret = FPlayerColl.get(id);				
+			}				
 		}
 
 		if (msg && ret == null) {
@@ -192,8 +195,33 @@ public abstract class FCommand extends MCommand<Factions> {
 	public FPlayer argAsBestFPlayerMatch(int idx) {
 		return this.argAsBestFPlayerMatch(idx, null);
 	}
+	
+	// -------------------------------------------------- //
+	// UUID
+	// -------------------------------------------------- //
+	
+	public void argAsPlayerToMojangUUID(int idx, UUID def, final Callback<UUID> callback) {
+		final String playerName = this.argAsString(idx);
+		
+		// Okay, lets go async and off the main thread
+		UUIDUtil.getUUIDOf(playerName, (uuid, exception) -> {
+			if (exception.isPresent()) {
+				callback.then(null, exception);
+				return;
+			}
+			
+			// For sanity sake, set the player name
+			FPlayer found = FPlayerColl.get(uuid);
+			found.asMemoryFPlayer().setName(playerName);
+			
+			callback.then(uuid, Optional.empty());
+		});		
+	}
 
-	// FACTION ======================
+	// -------------------------------------------------- //
+	// FACTION
+	// -------------------------------------------------- //
+	
 	public Faction strAsFaction(String name, Faction def, boolean msg) {
 		Faction ret = def;
 
