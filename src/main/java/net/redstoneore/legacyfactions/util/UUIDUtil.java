@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.util;
 
 import com.google.common.collect.ImmutableList;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,7 +11,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 /**
@@ -94,6 +99,13 @@ public class UUIDUtil implements Callable<Map<String, UUID>> {
 		return new UUID(mostSignificant, leastSignificant);
 	}
 
+	/**
+	 * Get UUID of a player. <br>
+	 * WARNING: This is thread blocking, run async!
+	 * @param name name of player
+	 * @return UUID {@link UUID} of player
+	 * @throws Exception
+	 */
 	public static UUID getUUIDOf(String name) throws Exception {
 		return new UUIDUtil(Arrays.asList(name)).call().get(name);
 	}
