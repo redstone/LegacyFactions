@@ -45,32 +45,32 @@ public class CmdFactionsKick extends FCommand {
 	public void perform() {
 		FPlayer toKick = this.argIsSet(0) ? this.argAsBestFPlayerMatch(0) : null;
 		if (toKick == null) {
-			FancyMessage msg = new FancyMessage(Lang.COMMAND_KICK_CANDIDATES.toString()).color(ChatColor.GOLD);
+			FancyMessage fancyMessage = new FancyMessage(Lang.COMMAND_KICK_CANDIDATES.toString()).color(ChatColor.GOLD);
 
 			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
 				String name = player.getName();
-				msg.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + Conf.baseCommandAliases.get(0) + " kick " + name);
+				fancyMessage.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + name);
 			}
 
 			if (fme.getRole().isAtLeast(Role.COLEADER)) {
 				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.MODERATOR)) {
 					String s = player.getName();
-					msg.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " kick " + s);
+					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + s);
 				}
 			}
 
-			if(fme.getRole() == Role.ADMIN) {
+			if (fme.getRole() == Role.ADMIN) {
 				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.COLEADER)) {
 					String s = player.getName();
-					msg.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " kick " + s);
+					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + s);
 				}
 			}
 
-			sendFancyMessage(msg);
+			sendFancyMessage(fancyMessage);
 			return;
 		}
 
-		if (fme == toKick) {
+		if (this.fme == toKick) {
 			sendMessage(Lang.COMMAND_KICK_SELF);
 			sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdLeave.getUseageTemplate(false));
 			return;
