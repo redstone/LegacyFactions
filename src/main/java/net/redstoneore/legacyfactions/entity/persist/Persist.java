@@ -94,6 +94,7 @@ public class Persist {
 	}
 
 	public boolean save(Object instance, File file) {
+		Factions.get().debug("Saving " + file.getAbsolutePath());
 		assert instance != null;
 		assert file != null;
 		assert Factions.get().gson != null;

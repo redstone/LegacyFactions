@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -234,10 +235,10 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + ERROR_PREFIX + this.getTextUtil().parse(str, args));
 	}
 
-	public void debug(String msg) {
-		if ( ! Conf.debug) return;
-		
-		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + DEBUG_PREFIX + msg);
+	public void debug(String message) {
+		if (!Conf.debug) return;
+		this.getLogger().log(Level.FINE, message);
+		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + DEBUG_PREFIX + message);
 	}
 	
 	// -------------------------------------------- //

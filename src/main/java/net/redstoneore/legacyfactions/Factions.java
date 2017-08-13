@@ -126,6 +126,13 @@ public class Factions extends FactionsPluginBase {
 		// Load Conf from disk
 		Conf.load();
 		Conf.save();
+		if (this.getDescription().getVersion().contains("PRE") || this.getDescription().getVersion().contains("SNAPSHOT")) {
+			Conf.debug = true;
+			this.debug("Debug mode has been enabled for this snapshot/pre-release.");
+			this.debug("conf.json `debug` has been set to 'true' ");
+			this.debug("Please put this entire log file on pastebin.com when reporting an issue.");
+			Conf.save();
+		}
 		
 		FPlayerColl.load();
 		FactionColl.get().load();
@@ -178,7 +185,7 @@ public class Factions extends FactionsPluginBase {
 		
 		// since some other plugins execute commands directly through this command interface, provide it
 		Conf.baseCommandAliases.forEach(ref -> this.getCommand(ref).setExecutor(this));
-
+		
 		this.log("<white>=== ENABLE DONE (Took " + (System.currentTimeMillis() - this.timeEnableStart) + "ms) ===");
 		
 		this.loadSuccessful = true;
@@ -342,7 +349,7 @@ public class Factions extends FactionsPluginBase {
 	
 	public void debug(Level level, String s) {
 		if (Conf.debug) {
-			this.getLogger().log(level, s);
+			this.debug(s);
 		}
 	}
 	
