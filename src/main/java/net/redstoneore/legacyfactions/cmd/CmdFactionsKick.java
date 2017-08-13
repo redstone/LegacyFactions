@@ -54,7 +54,6 @@ public class CmdFactionsKick extends FCommand {
 	public void perform() {
 		FPlayer toKick = this.argIsSet(0) ? this.argAsBestFPlayerMatch(0, null, false) : null;
 		if (toKick == null) {
-			
 			if (this.argIsSet(0)) {
 				// Player must be offline
 				// Use final here as we don't want to risk how these variables could change when we
@@ -63,6 +62,7 @@ public class CmdFactionsKick extends FCommand {
 				final Faction senderFaction = this.myFaction;
 				final CommandSender commandSender = this.sender;	 
 				final boolean isConsole = this.senderIsConsole;
+				final String playerName = this.argAsString(0);
 				
 				this.argAsPlayerToMojangUUID(0, null, (uuid, exception) -> {
 					if (exception.isPresent()) {
@@ -70,7 +70,15 @@ public class CmdFactionsKick extends FCommand {
 						exception.get().printStackTrace();					
 						return;
 					}
+					
+					if (uuid == null) {
+						fsender.sendMessage(Lang.COMMAND_KICK_NONE.toString());
+						return;
+					}
+					
+					// Update name in memory as they could potentially not have a name
 					FPlayer found = FPlayerColl.get(uuid);
+					found.asMemoryFPlayer().setName(playerName);
 					
 					// Resume here
 					resume(fsender, found, senderFaction, commandSender, isConsole);					
@@ -99,10 +107,13 @@ public class CmdFactionsKick extends FCommand {
 				}
 			}
 			this.sendFancyMessage(fancyMessage);
+			return;
 		}
+		
+		resume(this.fme, toKick, this.myFaction, this.sender, this.senderIsConsole);
 	}
 	
-	public void resume(FPlayer fsender, FPlayer toKick, Faction senderFaction, CommandSender commandSender, boolean senderIsConsole) {
+	private static void resume(FPlayer fsender, FPlayer toKick, Faction senderFaction, CommandSender commandSender, boolean senderIsConsole) {
 		if (fsender == toKick) {
 			fsender.sendMessage(Lang.COMMAND_KICK_SELF.toString());
 			fsender.sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactionsLeave.get().getUseageTemplate(false));

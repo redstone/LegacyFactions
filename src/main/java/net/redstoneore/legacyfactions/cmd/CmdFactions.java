@@ -117,6 +117,9 @@ public class CmdFactions extends FCommand {
 	// -------------------------------------------------- //
 	// DEPRECATED FIELDS
 	// -------------------------------------------------- // 
+	// These fields were used previously but are now linked to the static methods. These will be
+	// removed at some point in the future. But to maximise backwards compatibility they will stay
+	// as fields here for now.
 	
 	/**
 	 * Deprecated, now using the static method {@link CmdFactionsAdmin#get}

@@ -68,11 +68,19 @@ public class CmdFactionsJoin extends FCommand {
 				final FPlayer fsender = this.fme;
 				final Faction newFaction = faction;
 				final CommandSender commandSender = sender;
+				final String playerName = this.argAsString(1);
 				
 				this.argAsPlayerToMojangUUID(1, null, (uuid, exception) -> {
 					if (exception.isPresent()) {
+						exception.get().printStackTrace();
 						return;
 					}
+					
+					if (uuid == null) {
+						fsender.sendMessage(Lang.COMMAND_JOIN_NOT_PLAYER.toString().replace("<name>", playerName));
+						return;
+					}
+					
 					resume(fsender, uuid, newFaction, commandSender);
 				});
 				return;
@@ -80,15 +88,15 @@ public class CmdFactionsJoin extends FCommand {
 		}
 		
 		// Go as normal
-		this.resume(this.fme, fplayer, faction, this.sender);
+		resume(this.fme, fplayer, faction, this.sender);
 	}
 	
-	public final void resume(FPlayer fsender, UUID uuidPlayer, Faction faction, CommandSender commandSender) {
+	private static final void resume(FPlayer fsender, UUID uuidPlayer, Faction faction, CommandSender commandSender) {
 		FPlayer fplayer = FPlayerColl.get(Bukkit.getOfflinePlayer(uuidPlayer));
-		this.resume(this.fme, fplayer, faction, this.sender);		
+		resume(fsender, fplayer, faction, commandSender);		
 	}
 	
-	public final void resume(FPlayer fsender, FPlayer fplayer, Faction faction, CommandSender commandSender) {
+	private static final void resume(FPlayer fsender, FPlayer fplayer, Faction faction, CommandSender commandSender) {
 		boolean samePlayer = fplayer == fsender;
 
 		if (!samePlayer && !Permission.JOIN_OTHERS.has(commandSender, false)) {
@@ -167,7 +175,6 @@ public class CmdFactionsJoin extends FCommand {
 			}
 		}
 	}
-
 
 	@Override
 	public String getUsageTranslation() {

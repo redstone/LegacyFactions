@@ -288,6 +288,7 @@ public enum Lang {
 	COMMAND_JOIN_JOINEDLOG("%1$s joined the faction %2$s."),
 	COMMAND_JOIN_MOVEDLOG("%1$s moved the player %2$s into the faction %3$s."),
 	COMMAND_JOIN_DESCRIPTION("Join a faction"),
+	COMMAND_JOIN_NOT_PLAYER("<name><b> is not a player."),
 
 	COMMAND_KICK_CANDIDATES("Players you can kick: "),
 	COMMAND_KICK_CLICKTOKICK("Click to kick "),
