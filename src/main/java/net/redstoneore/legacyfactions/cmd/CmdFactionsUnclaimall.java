@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -71,11 +72,9 @@ public class CmdFactionsUnclaimall extends FCommand {
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if (event.isCancelled()) return;
 		
-		for (FLocation location : event.getTransactions().keySet()) {
-			myFaction.clearClaimOwnership(location);
-		}
-
-		myFaction.sendMessage(Lang.COMMAND_UNCLAIMALL_UNCLAIMED, fme.describeTo(myFaction, true));
+		event.getTransactions().keySet().forEach(location -> Board.get().removeAt(location));
+		
+		this.myFaction.sendMessage(Lang.COMMAND_UNCLAIMALL_UNCLAIMED, fme.describeTo(myFaction, true));
 
 		if (Conf.logLandUnclaims) {
 			Factions.get().log(Lang.COMMAND_UNCLAIMALL_LOG.format(fme.getName(), myFaction.getTag()));

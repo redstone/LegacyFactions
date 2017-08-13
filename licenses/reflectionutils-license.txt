@@ -1,0 +1,8 @@
+ReflectionUtils
+This class provides useful methods which makes dealing with reflection much easier, especially when working with Bukkit
+
+You are welcome to use it, modify it and redistribute it under the following conditions:
+- Don't claim this class as your own
+- Don't remove this disclaimer
+
+It would be nice if you provide credit to me if you use this class in a published project.
