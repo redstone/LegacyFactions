@@ -13,10 +13,17 @@ import net.redstoneore.legacyfactions.util.TagUtil;
 public class CmdFactionsList extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsList instance = new CmdFactionsList();
+	public static CmdFactionsList get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
-	public CmdFactionsList() {
+	private CmdFactionsList() {
 		this.aliases.addAll(Conf.cmdAliasesList);
 
 		this.optionalArgs.put("page", "1");

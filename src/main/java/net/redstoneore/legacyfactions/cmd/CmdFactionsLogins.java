@@ -7,10 +7,17 @@ import net.redstoneore.legacyfactions.Lang;
 public class CmdFactionsLogins extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsLogins instance = new CmdFactionsLogins();
+	public static CmdFactionsLogins get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsLogins() {
+	private CmdFactionsLogins() {
 		this.aliases.addAll(Conf.cmdAliasesLogins);
 		
 		this.senderMustBePlayer = true;

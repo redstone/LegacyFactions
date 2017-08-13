@@ -17,8 +17,8 @@ public class CmdFactionsDebug extends FCommand {
 	// SINGLETON
 	// -------------------------------------------------- //
 	
-	private static CmdFactionsDebug i = new CmdFactionsDebug();
-	public static CmdFactionsDebug get() { return i; }
+	private static CmdFactionsDebug instance = new CmdFactionsDebug();
+	public static CmdFactionsDebug get() { return instance; }
 	
 	// -------------------------------------------------- //
 	// CONSTRUCT

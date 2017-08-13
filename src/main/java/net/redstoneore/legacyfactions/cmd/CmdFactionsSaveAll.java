@@ -10,10 +10,17 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 public class CmdFactionsSaveAll extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsSaveAll instance = new CmdFactionsSaveAll();
+	public static CmdFactionsSaveAll get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsSaveAll() {
+	private CmdFactionsSaveAll() {
 		this.aliases.addAll(Conf.cmdAliasesSaveAll);
 
 		this.permission = Permission.SAVE.getNode();

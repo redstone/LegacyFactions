@@ -19,10 +19,17 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 public class CmdFactionsUnclaimall extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsUnclaimall instance = new CmdFactionsUnclaimall();
+	public static CmdFactionsUnclaimall get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsUnclaimall() {
+	private CmdFactionsUnclaimall() {
 		this.aliases.addAll(Conf.cmdAliasesUnclaimAll);
 		
 		this.permission = Permission.UNCLAIM_ALL.getNode();

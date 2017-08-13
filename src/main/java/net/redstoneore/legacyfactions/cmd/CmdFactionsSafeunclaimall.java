@@ -10,10 +10,17 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 public class CmdFactionsSafeunclaimall extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsSafeunclaimall instance = new CmdFactionsSafeunclaimall();
+	public static CmdFactionsSafeunclaimall get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsSafeunclaimall() {
+	private CmdFactionsSafeunclaimall() {
 		this.aliases.addAll(Conf.cmdAliasesSafeunclaimall);
 		
 		this.permission = Permission.MANAGE_SAFE_ZONE.getNode();

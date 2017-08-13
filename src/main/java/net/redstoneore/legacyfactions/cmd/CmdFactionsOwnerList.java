@@ -8,12 +8,19 @@ import net.redstoneore.legacyfactions.entity.Conf;
 
 
 public class CmdFactionsOwnerList extends FCommand {
+
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsOwnerList instance = new CmdFactionsOwnerList();
+	public static CmdFactionsOwnerList get() { return instance; }
 	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsOwnerList() {
+	private CmdFactionsOwnerList() {
 		this.aliases.addAll(Conf.cmdAliasesOwnerList);
 
 		//this.requiredArgs.add("");

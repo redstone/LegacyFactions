@@ -16,10 +16,17 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 public class CmdFactionsStuck extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsStuck instance = new CmdFactionsStuck();
+	public static CmdFactionsStuck get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsStuck() {
+	private CmdFactionsStuck() {
 		this.aliases.addAll(Conf.cmdAliasesStuck);
 
 		this.permission = Permission.STUCK.getNode();

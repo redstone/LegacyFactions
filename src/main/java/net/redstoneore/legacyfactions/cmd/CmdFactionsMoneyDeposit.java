@@ -13,11 +13,18 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyDeposit extends FCommand {
 
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsMoneyDeposit instance = new CmdFactionsMoneyDeposit();
+	public static CmdFactionsMoneyDeposit get() { return instance; }
+	
     // -------------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------------- //
 
-    public CmdFactionsMoneyDeposit() {
+    private CmdFactionsMoneyDeposit() {
         this.aliases.addAll(Conf.cmdAliasesMoneyDeposit);
 
         this.requiredArgs.add("amount");

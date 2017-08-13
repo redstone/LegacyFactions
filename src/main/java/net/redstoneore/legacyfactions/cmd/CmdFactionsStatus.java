@@ -13,10 +13,17 @@ import java.util.ArrayList;
 public class CmdFactionsStatus extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsStatus instance = new CmdFactionsStatus();
+	public static CmdFactionsStatus get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsStatus() {
+	private CmdFactionsStatus() {
 		this.aliases.addAll(Conf.cmdAliasesStatus);
 
 		this.permission = Permission.STATUS.getNode();

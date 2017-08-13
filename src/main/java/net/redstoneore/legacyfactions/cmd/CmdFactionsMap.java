@@ -10,10 +10,17 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsMap extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsMap instance = new CmdFactionsMap();
+	public static CmdFactionsMap get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsMap() {
+	private CmdFactionsMap() {
 		this.aliases.addAll(Conf.cmdAliasesMap);
 
 		this.optionalArgs.put("on/off", "once");

@@ -7,10 +7,17 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsBoom extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsBoom instance = new CmdFactionsBoom();
+	public static CmdFactionsBoom get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsBoom() {
+	private CmdFactionsBoom() {
 		this.aliases.addAll(Conf.cmdAliasesBoom);
 
 		this.optionalArgs.put("on/off", "flip");

@@ -10,10 +10,17 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 public class CmdFactionsWarunclaimall extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsWarunclaimall instance = new CmdFactionsWarunclaimall();
+	public static CmdFactionsWarunclaimall get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsWarunclaimall() {
+	private CmdFactionsWarunclaimall() {
 		this.aliases.addAll(Conf.cmdAliasesWarunclaimall);
 		
 		this.permission = Permission.MANAGE_WAR_ZONE.getNode();

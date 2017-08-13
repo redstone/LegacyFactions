@@ -7,10 +7,17 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsLeave extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsLeave instance = new CmdFactionsLeave();
+	public static CmdFactionsLeave get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsLeave() {
+	private CmdFactionsLeave() {
 		this.aliases.addAll(Conf.cmdAliasesLeave);
 
 		this.permission = Permission.LEAVE.getNode();

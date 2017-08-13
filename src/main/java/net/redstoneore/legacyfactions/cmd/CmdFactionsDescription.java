@@ -9,10 +9,17 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 public class CmdFactionsDescription extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsDescription instance = new CmdFactionsDescription();
+	public static CmdFactionsDescription get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsDescription() {
+	private CmdFactionsDescription() {
 		this.aliases.addAll(Conf.cmdAliasesDescription);
 
 		this.requiredArgs.add("desc");

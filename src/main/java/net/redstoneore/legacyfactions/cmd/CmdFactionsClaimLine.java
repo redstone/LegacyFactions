@@ -19,10 +19,17 @@ import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCa
 public class CmdFactionsClaimLine extends FCommand {
 
 	// -------------------------------------------------- //
-	// FIELDS
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsClaimLine instance = new CmdFactionsClaimLine();
+	public static CmdFactionsClaimLine get() { return instance; }
+	
+	// -------------------------------------------------- //
+	// STATIC FIELDS
 	// -------------------------------------------------- //
 
-	public static final BlockFace[] axis = {BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST};
+	private static final BlockFace[] axis = {BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.EAST};
 
 	// -------------------------------------------------- //
 	// CONSTRUCT

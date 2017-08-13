@@ -13,10 +13,17 @@ import org.bukkit.ChatColor;
 public class CmdFactionsMod extends FCommand {
 	
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsMod instance = new CmdFactionsMod();
+	public static CmdFactionsMod get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsMod() {
+	private CmdFactionsMod() {
 		this.aliases.addAll(Conf.cmdAliasesMod);
 
 		this.requiredArgs.add("player name");

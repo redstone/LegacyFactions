@@ -16,85 +16,7 @@ public class CmdFactions extends FCommand {
 	// -------------------------------------------------- // 
 	
 	private static CmdFactions instance = new CmdFactions();
-	
-	/**
-	 * Get the base command instance.
-	 * @return CmdFactions instance
-	 */
 	public static CmdFactions get() { return instance; }
-	
-	// -------------------------------------------------- //
-	// FIELDS
-	// -------------------------------------------------- // 
-
-	// TODO: singletons..
-	public CmdFactionsAdmin cmdAdmin = new CmdFactionsAdmin();
-	public CmdFactionsAutoclaim cmdAutoClaim = new CmdFactionsAutoclaim();
-	public CmdFactionsBoom cmdBoom = new CmdFactionsBoom();
-	public CmdFactionsBypass cmdBypass = new CmdFactionsBypass();
-	public CmdFactionsClaim cmdClaim = new CmdFactionsClaim();
-	public CmdFactionsColeader cmdColeader = new CmdFactionsColeader();
-	public CmdFactionsConfig cmdConfig = new CmdFactionsConfig();
-	public CmdFactionsCreate cmdCreate = new CmdFactionsCreate();
-	public CmdFactionsDeinvite cmdDeinvite = new CmdFactionsDeinvite();
-	public CmdFactionsDescription cmdDescription = new CmdFactionsDescription();
-	public CmdFactionsDisband cmdDisband = new CmdFactionsDisband();	
-	public CmdFactionsHome cmdHome = new CmdFactionsHome();
-	public CmdFactionsInvite cmdInvite = new CmdFactionsInvite();
-	public CmdFactionsJoin cmdJoin = new CmdFactionsJoin();
-	public CmdFactionsKick cmdKick = new CmdFactionsKick();
-	public CmdFactionsLeave cmdLeave = new CmdFactionsLeave();
-	public CmdFactionsList cmdList = new CmdFactionsList();
-	public CmdFactionsLock cmdLock = new CmdFactionsLock();
-	public CmdFactionsMap cmdMap = new CmdFactionsMap();
-	public CmdFactionsMod cmdMod = new CmdFactionsMod();
-	public CmdFactionsMoney cmdMoney = new CmdFactionsMoney();
-	public CmdFactionsOpen cmdOpen = new CmdFactionsOpen();
-	public CmdFactionsOwner cmdOwner = new CmdFactionsOwner();
-	public CmdFactionsOwnerList cmdOwnerList = new CmdFactionsOwnerList();
-	public CmdFactionsPeaceful cmdPeaceful = new CmdFactionsPeaceful();
-	public CmdFactionsPermanent cmdPermanent = new CmdFactionsPermanent();
-	public CmdFactionsPermanentPower cmdPermanentPower = new CmdFactionsPermanentPower();
-	public CmdFactionsPowerBoost cmdPowerBoost = new CmdFactionsPowerBoost();
-	public CmdFactionsPower cmdPower = new CmdFactionsPower();
-	public CmdFactionsRelationAlly cmdRelationAlly = new CmdFactionsRelationAlly();
-	public CmdFactionsRelationTruce cmdRelationTruce = new CmdFactionsRelationTruce();
-	public CmdFactionsRelationEnemy cmdRelationEnemy = new CmdFactionsRelationEnemy();
-	public CmdFactionsRelationNeutral cmdRelationNeutral = new CmdFactionsRelationNeutral();
-	public CmdFactionsReload cmdReload = new CmdFactionsReload();
-	public CmdFactionsSafeunclaimall cmdSafeunclaimall = new CmdFactionsSafeunclaimall();
-	public CmdFactionsSaveAll cmdSaveAll = new CmdFactionsSaveAll();
-	public CmdFactionsSethome cmdSethome = new CmdFactionsSethome();
-	public CmdFactionsShow cmdShow = new CmdFactionsShow();
-	public CmdFactionsStatus cmdStatus = new CmdFactionsStatus();
-	public CmdFactionsStuck cmdStuck = new CmdFactionsStuck();
-	public CmdFactionsTag cmdTag = new CmdFactionsTag();
-	public CmdFactionsTitle cmdTitle = new CmdFactionsTitle();
-	public CmdFactionsUnclaim cmdUnclaim = new CmdFactionsUnclaim();
-	public CmdFactionsUnclaimall cmdUnclaimall = new CmdFactionsUnclaimall();
-	public CmdFactionsVersion cmdVersion = new CmdFactionsVersion();
-	public CmdFactionsWarunclaimall cmdWarunclaimall = new CmdFactionsWarunclaimall();
-	public CmdFactionsScoreboard cmdSB = new CmdFactionsScoreboard();
-	public CmdFactionsShowInvites cmdShowInvites = new CmdFactionsShowInvites();
-	public CmdFactionsAnnounce cmdAnnounce = new CmdFactionsAnnounce();
-	public CmdFactionsSeeChunk cmdSeeChunk = new CmdFactionsSeeChunk();
-	public CmdFactionsConvert cmdConvert = new CmdFactionsConvert();
-	public CmdFactionsWarp cmdFWarp = new CmdFactionsWarp();
-	public CmdFactionsSetwarp cmdSetFWarp = new CmdFactionsSetwarp();
-	public CmdFactionsDelwarp cmdDelFWarp = new CmdFactionsDelwarp();
-	public CmdFactionsModifyPower cmdModifyPower = new CmdFactionsModifyPower();
-	public CmdFactionsLogins cmdLogins = new CmdFactionsLogins();
-	public CmdFactionsClaimLine cmdClaimLine = new CmdFactionsClaimLine();
-	
-	// -------------------------------------------------- //
-	// DEPRECATED FIELDS
-	// -------------------------------------------------- // 
-	
-	/**
-	 * Deprecated, now using the static method {@link CmdFactionsHelp#get}!
-	 */
-	@Deprecated
-	public CmdFactionsHelp cmdHelp = CmdFactionsHelp.get();
 	
 	// -------------------------------------------------- //
 	// CONSTRUCT
@@ -115,65 +37,65 @@ public class CmdFactions extends FCommand {
 		this.setHelpShort("The faction base command");
 		this.helpLong.add(Factions.get().getTextUtil().parseTags("<i>This command contains all faction stuff."));
 		
-		this.addSubCommand(this.cmdAdmin);
-		this.addSubCommand(this.cmdAutoClaim);
-		this.addSubCommand(this.cmdBoom);
-		this.addSubCommand(this.cmdBypass);
-		this.addSubCommand(this.cmdClaim);
-		this.addSubCommand(this.cmdColeader);
-		this.addSubCommand(this.cmdConfig);
-		this.addSubCommand(this.cmdCreate);
+		this.addSubCommand(CmdFactionsAdmin.get());
+		this.addSubCommand(CmdFactionsAutoclaim.get());
+		this.addSubCommand(CmdFactionsBoom.get());
+		this.addSubCommand(CmdFactionsBypass.get());
+		this.addSubCommand(CmdFactionsClaim.get());
+		this.addSubCommand(CmdFactionsColeader.get());
+		this.addSubCommand(CmdFactionsConfig.get());
+		this.addSubCommand(CmdFactionsCreate.get());
 		this.addSubCommand(CmdFactionsDebug.get());
-		this.addSubCommand(this.cmdDeinvite);
-		this.addSubCommand(this.cmdDescription);
-		this.addSubCommand(this.cmdDisband);
-		this.addSubCommand(this.cmdHelp);
-		this.addSubCommand(this.cmdHome);
-		this.addSubCommand(this.cmdInvite);
-		this.addSubCommand(this.cmdJoin);
-		this.addSubCommand(this.cmdKick);
-		this.addSubCommand(this.cmdLeave);
-		this.addSubCommand(this.cmdList);
-		this.addSubCommand(this.cmdLock);
-		this.addSubCommand(this.cmdMap);
-		this.addSubCommand(this.cmdMod);
-		this.addSubCommand(this.cmdMoney);
-		this.addSubCommand(this.cmdOpen);
-		this.addSubCommand(this.cmdOwner);
-		this.addSubCommand(this.cmdOwnerList);
-		this.addSubCommand(this.cmdPeaceful);
-		this.addSubCommand(this.cmdPermanent);
-		this.addSubCommand(this.cmdPermanentPower);
-		this.addSubCommand(this.cmdPower);
-		this.addSubCommand(this.cmdPowerBoost);
-		this.addSubCommand(this.cmdRelationAlly);
-		this.addSubCommand(this.cmdRelationTruce);
-		this.addSubCommand(this.cmdRelationEnemy);
-		this.addSubCommand(this.cmdRelationNeutral);
-		this.addSubCommand(this.cmdReload);
-		this.addSubCommand(this.cmdSafeunclaimall);
-		this.addSubCommand(this.cmdSaveAll);
-		this.addSubCommand(this.cmdSethome);
-		this.addSubCommand(this.cmdShow);
-		this.addSubCommand(this.cmdStatus);
-		this.addSubCommand(this.cmdStuck);
-		this.addSubCommand(this.cmdTag);
-		this.addSubCommand(this.cmdTitle);
-		this.addSubCommand(this.cmdUnclaim);
-		this.addSubCommand(this.cmdUnclaimall);
-		this.addSubCommand(this.cmdVersion);
-		this.addSubCommand(this.cmdWarunclaimall);
-		this.addSubCommand(this.cmdSB);
-		this.addSubCommand(this.cmdShowInvites);
-		this.addSubCommand(this.cmdAnnounce);
-		this.addSubCommand(this.cmdSeeChunk);
-		this.addSubCommand(this.cmdConvert);
-		this.addSubCommand(this.cmdFWarp);
-		this.addSubCommand(this.cmdSetFWarp);
-		this.addSubCommand(this.cmdDelFWarp);
-		this.addSubCommand(this.cmdModifyPower);
-		this.addSubCommand(this.cmdLogins);
-		this.addSubCommand(this.cmdClaimLine);
+		this.addSubCommand(CmdFactionsDeinvite.get());
+		this.addSubCommand(CmdFactionsDescription.get());
+		this.addSubCommand(CmdFactionsDisband.get());
+		this.addSubCommand(CmdFactionsHelp.get());
+		this.addSubCommand(CmdFactionsHome.get());
+		this.addSubCommand(CmdFactionsInvite.get());
+		this.addSubCommand(CmdFactionsJoin.get());
+		this.addSubCommand(CmdFactionsKick.get());
+		this.addSubCommand(CmdFactionsLeave.get());
+		this.addSubCommand(CmdFactionsList.get());
+		this.addSubCommand(CmdFactionsLock.get());
+		this.addSubCommand(CmdFactionsMap.get());
+		this.addSubCommand(CmdFactionsMod.get());
+		this.addSubCommand(CmdFactionsMoney.get());
+		this.addSubCommand(CmdFactionsOpen.get());
+		this.addSubCommand(CmdFactionsOwner.get());
+		this.addSubCommand(CmdFactionsOwnerList.get());
+		this.addSubCommand(CmdFactionsPeaceful.get());
+		this.addSubCommand(CmdFactionsPermanent.get());
+		this.addSubCommand(CmdFactionsPermanentPower.get());
+		this.addSubCommand(CmdFactionsPower.get());
+		this.addSubCommand(CmdFactionsPowerBoost.get());
+		this.addSubCommand(CmdFactionsRelationAlly.get());
+		this.addSubCommand(CmdFactionsRelationTruce.get());
+		this.addSubCommand(CmdFactionsRelationNeutral.get());
+		this.addSubCommand(CmdFactionsRelationNeutral.get());
+		this.addSubCommand(CmdFactionsReload.get());
+		this.addSubCommand(CmdFactionsSafeunclaimall.get());
+		this.addSubCommand(CmdFactionsSaveAll.get());
+		this.addSubCommand(CmdFactionsSethome.get());
+		this.addSubCommand(CmdFactionsShow.get());
+		this.addSubCommand(CmdFactionsStatus.get());
+		this.addSubCommand(CmdFactionsStuck.get());
+		this.addSubCommand(CmdFactionsTag.get());
+		this.addSubCommand(CmdFactionsTitle.get());
+		this.addSubCommand(CmdFactionsUnclaim.get());
+		this.addSubCommand(CmdFactionsUnclaimall.get());
+		this.addSubCommand(CmdFactionsVersion.get());
+		this.addSubCommand(CmdFactionsWarunclaimall.get());
+		this.addSubCommand(CmdFactionsScoreboard.get());
+		this.addSubCommand(CmdFactionsShowInvites.get());
+		this.addSubCommand(CmdFactionsAnnounce.get());
+		this.addSubCommand(CmdFactionsSeeChunk.get());
+		this.addSubCommand(CmdFactionsConvert.get());
+		this.addSubCommand(CmdFactionsWarp.get());
+		this.addSubCommand(CmdFactionsSetwarp.get());
+		this.addSubCommand(CmdFactionsDelwarp.get());
+		this.addSubCommand(CmdFactionsModifyPower.get());
+		this.addSubCommand(CmdFactionsLogins.get());
+		this.addSubCommand(CmdFactionsClaimLine.get());
 		this.addSubCommand(CmdFactionsTop.get());
 	}
 	
@@ -184,12 +106,364 @@ public class CmdFactions extends FCommand {
 	@Override
 	public void perform() {
 		this.commandChain.add(this);
-		this.cmdHelp.execute(this.sender, this.args, this.commandChain);
+		CmdFactionsHelp.get().execute(this.sender, this.args, this.commandChain);
 	}
 
 	@Override
 	public String getUsageTranslation() {
 		return Lang.GENERIC_PLACEHOLDER.toString();
 	}
+	
+	// -------------------------------------------------- //
+	// DEPRECATED FIELDS
+	// -------------------------------------------------- // 
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsAdmin#get}
+	 */
+	@Deprecated
+	public CmdFactionsAdmin cmdAdmin = CmdFactionsAdmin.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsAutoclaim#get}
+	 */
+	@Deprecated
+	public CmdFactionsAutoclaim cmdAutoClaim = CmdFactionsAutoclaim.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsBoom#get}
+	 */
+	@Deprecated
+	public CmdFactionsBoom cmdBoom = CmdFactionsBoom.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsBypass#get}
+	 */
+	@Deprecated
+	public CmdFactionsBypass cmdBypass = CmdFactionsBypass.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsClaim#get}
+	 */
+	@Deprecated
+	public CmdFactionsClaim cmdClaim = CmdFactionsClaim.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsColeader#get}
+	 */
+	@Deprecated
+	public CmdFactionsColeader cmdColeader = CmdFactionsColeader.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsConfig#get}
+	 */
+	@Deprecated
+	public CmdFactionsConfig cmdConfig = CmdFactionsConfig.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsCreate#get}
+	 */
+	@Deprecated
+	public CmdFactionsCreate cmdCreate = CmdFactionsCreate.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsDeinvite#get}
+	 */
+	@Deprecated
+	public CmdFactionsDeinvite cmdDeinvite = CmdFactionsDeinvite.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsDescription#get}
+	 */
+	@Deprecated
+	public CmdFactionsDescription cmdDescription = CmdFactionsDescription.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsDisband#get}
+	 */
+	@Deprecated
+	public CmdFactionsDisband cmdDisband = CmdFactionsDisband.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsHome#get}
+	 */
+	@Deprecated
+	public CmdFactionsHome cmdHome = CmdFactionsHome.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsInvite#get}
+	 */
+	@Deprecated
+	public CmdFactionsInvite cmdInvite = CmdFactionsInvite.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsJoin#get}
+	 */
+	@Deprecated
+	public CmdFactionsJoin cmdJoin = CmdFactionsJoin.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsKick#get}
+	 */
+	@Deprecated
+	public CmdFactionsKick cmdKick = CmdFactionsKick.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsLeave#get}
+	 */
+	@Deprecated
+	public CmdFactionsLeave cmdLeave = CmdFactionsLeave.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsList#get}
+	 */
+	@Deprecated
+	public CmdFactionsList cmdList = CmdFactionsList.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsLock#get}
+	 */
+	@Deprecated
+	public CmdFactionsLock cmdLock = CmdFactionsLock.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsMap#get}
+	 */
+	@Deprecated
+	public CmdFactionsMap cmdMap = CmdFactionsMap.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsMod#get}
+	 */
+	@Deprecated
+	public CmdFactionsMod cmdMod = CmdFactionsMod.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsAnnounce#get}
+	 */
+	@Deprecated
+	public CmdFactionsAnnounce cmdAnnounce = CmdFactionsAnnounce.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsConvert#get}
+	 */
+	@Deprecated
+	public CmdFactionsConvert cmdConvert = CmdFactionsConvert.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsDelwarp#get}
+	 */
+	@Deprecated
+	public CmdFactionsDelwarp cmdDelFWarp = CmdFactionsDelwarp.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsModifyPower#get}
+	 */
+	@Deprecated
+	public CmdFactionsModifyPower cmdModifyPower = CmdFactionsModifyPower.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsLogins#get}
+	 */
+	@Deprecated
+	public CmdFactionsLogins cmdLogins = CmdFactionsLogins.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsClaimLine#get}
+	 */
+	@Deprecated
+	public CmdFactionsClaimLine cmdClaimLine = CmdFactionsClaimLine.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsMoney#get}
+	 */
+	@Deprecated
+	public CmdFactionsMoney cmdMoney = CmdFactionsMoney.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsOpen#get}
+	 */
+	@Deprecated
+	public CmdFactionsOpen cmdOpen = CmdFactionsOpen.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsOwner#get}
+	 */
+	@Deprecated
+	public CmdFactionsOwner cmdOwner = CmdFactionsOwner.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsOwnerList#get}
+	 */
+	@Deprecated
+	public CmdFactionsOwnerList cmdOwnerList = CmdFactionsOwnerList.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsPeaceful#get}
+	 */
+	@Deprecated
+	public CmdFactionsPeaceful cmdPeaceful = CmdFactionsPeaceful.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsPermanent#get}
+	 */
+	@Deprecated
+	public CmdFactionsPermanent cmdPermanent = CmdFactionsPermanent.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsPermanentPower#get}
+	 */
+	@Deprecated
+	public CmdFactionsPermanentPower cmdPermanentPower = CmdFactionsPermanentPower.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsPowerBoost#get}
+	 */
+	@Deprecated
+	public CmdFactionsPowerBoost cmdPowerBoost = CmdFactionsPowerBoost.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsPower#get}
+	 */
+	@Deprecated
+	public CmdFactionsPower cmdPower = CmdFactionsPower.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsRelationAlly#get}
+	 */
+	@Deprecated
+	public CmdFactionsRelationAlly cmdRelationAlly = CmdFactionsRelationAlly.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsRelationTruce#get}
+	 */
+	@Deprecated
+	public CmdFactionsRelationTruce cmdRelationTruce = CmdFactionsRelationTruce.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsRelationEnemy#get}
+	 */
+	@Deprecated
+	public CmdFactionsRelationEnemy cmdRelationEnemy = CmdFactionsRelationEnemy.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsRelationNeutral#get}
+	 */
+	@Deprecated
+	public CmdFactionsRelationNeutral cmdRelationNeutral = CmdFactionsRelationNeutral.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsHelp#get}!
+	 */
+	@Deprecated
+	public CmdFactionsHelp cmdHelp = CmdFactionsHelp.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsSetwarp#get}
+	 */
+	@Deprecated
+	public CmdFactionsSetwarp cmdSetFWarp = CmdFactionsSetwarp.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsWarunclaimall#get}
+	 */
+	@Deprecated
+	public CmdFactionsWarunclaimall cmdWarunclaimall = CmdFactionsWarunclaimall.get();
+
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsScoreboard#get}
+	 */
+	@Deprecated
+	public CmdFactionsScoreboard cmdSB = CmdFactionsScoreboard.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsShowInvites#get}
+	 */
+	@Deprecated
+	public CmdFactionsShowInvites cmdShowInvites = CmdFactionsShowInvites.get();
+
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsSeeChunk#get}
+	 */
+	@Deprecated
+	public CmdFactionsSeeChunk cmdSeeChunk = CmdFactionsSeeChunk.get();
+
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsWarp#get}
+	 */
+	@Deprecated
+	public CmdFactionsWarp cmdFWarp = CmdFactionsWarp.get();
+
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsUnclaimall#get}
+	 */
+	@Deprecated
+	public CmdFactionsUnclaimall cmdUnclaimall = CmdFactionsUnclaimall.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsVersion#get}
+	 */
+	@Deprecated
+	public CmdFactionsVersion cmdVersion = CmdFactionsVersion.get();
+
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsUnclaim#get}
+	 */
+	@Deprecated
+	public CmdFactionsUnclaim cmdUnclaim = CmdFactionsUnclaim.get();
+
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsTitle#get}
+	 */
+	@Deprecated
+	public CmdFactionsTitle cmdTitle = CmdFactionsTitle.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsTag#get}
+	 */
+	@Deprecated
+	public CmdFactionsTag cmdTag = CmdFactionsTag.get();
+
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsStuck#get}
+	 */
+	@Deprecated
+	public CmdFactionsStuck cmdStuck = CmdFactionsStuck.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsReload#get}
+	 */
+	@Deprecated
+	public CmdFactionsReload cmdReload = CmdFactionsReload.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsSafeunclaimall#get}
+	 */
+	@Deprecated
+	public CmdFactionsSafeunclaimall cmdSafeunclaimall = CmdFactionsSafeunclaimall.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsSaveAll#get}
+	 */
+	@Deprecated
+	public CmdFactionsSaveAll cmdSaveAll = CmdFactionsSaveAll.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsSethome#get}
+	 */
+	@Deprecated
+	public CmdFactionsSethome cmdSethome = CmdFactionsSethome.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsShow#get}
+	 */
+	@Deprecated
+	public CmdFactionsShow cmdShow = CmdFactionsShow.get();
+	
+	/**
+	 * Deprecated, now using the static method {@link CmdFactionsStatus#get}
+	 */
+	@Deprecated
+	public CmdFactionsStatus cmdStatus = CmdFactionsStatus.get();
 
 }

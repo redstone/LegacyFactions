@@ -8,10 +8,17 @@ import net.redstoneore.legacyfactions.Lang;
 public class CmdFactionsLock extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsLock instance = new CmdFactionsLock();
+	public static CmdFactionsLock get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsLock() {
+	private CmdFactionsLock() {
 		this.aliases.addAll(Conf.cmdAliasesLock);
 
 		this.optionalArgs.put("on/off", "flip");

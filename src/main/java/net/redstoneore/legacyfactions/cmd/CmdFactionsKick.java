@@ -20,10 +20,17 @@ import org.bukkit.command.CommandSender;
 public class CmdFactionsKick extends FCommand {
 	
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsKick instance = new CmdFactionsKick();
+	public static CmdFactionsKick get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsKick() {
+	private CmdFactionsKick() {
 		this.aliases.addAll(Conf.cmdAliasesKick);
 
 		this.optionalArgs.put("player name", "player name");
@@ -98,7 +105,7 @@ public class CmdFactionsKick extends FCommand {
 	public void resume(FPlayer fsender, FPlayer toKick, Faction senderFaction, CommandSender commandSender, boolean senderIsConsole) {
 		if (fsender == toKick) {
 			fsender.sendMessage(Lang.COMMAND_KICK_SELF.toString());
-			fsender.sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactions.get().cmdLeave.getUseageTemplate(false));
+			fsender.sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactionsLeave.get().getUseageTemplate(false));
 			return;
 		}
 

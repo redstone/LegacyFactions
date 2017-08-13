@@ -9,10 +9,17 @@ import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 public class CmdFactionsScoreboard extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsScoreboard instance = new CmdFactionsScoreboard();
+	public static CmdFactionsScoreboard get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsScoreboard() {
+	private CmdFactionsScoreboard() {
 		this.aliases.addAll(Conf.cmdAliasesScoreboard);
 		
 		this.permission = Permission.SCOREBOARD.getNode();

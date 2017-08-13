@@ -17,10 +17,17 @@ import net.redstoneore.legacyfactions.task.SpiralTask;
 public class CmdFactionsUnclaim extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsUnclaim instance = new CmdFactionsUnclaim();
+	public static CmdFactionsUnclaim get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsUnclaim() {
+	private CmdFactionsUnclaim() {
 		this.aliases.addAll(Conf.cmdAliasesUnclaim);
 
 		this.optionalArgs.put("radius", "1");

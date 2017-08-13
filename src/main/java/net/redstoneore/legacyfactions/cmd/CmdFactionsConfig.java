@@ -19,7 +19,14 @@ import java.util.Set;
 public class CmdFactionsConfig extends FCommand {
 	
 	// -------------------------------------------------- //
-	// FIELDS
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsConfig instance = new CmdFactionsConfig();
+	public static CmdFactionsConfig get() { return instance; }
+	
+	// -------------------------------------------------- //
+	// STATIC FIELDS
 	// -------------------------------------------------- //
 
 	private static HashMap<String, String> properFieldNames = new HashMap<>();
@@ -28,7 +35,7 @@ public class CmdFactionsConfig extends FCommand {
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsConfig() {
+	private CmdFactionsConfig() {
 		this.aliases.addAll(Conf.cmdAliasesConfig);
 
 		this.requiredArgs.add("setting");

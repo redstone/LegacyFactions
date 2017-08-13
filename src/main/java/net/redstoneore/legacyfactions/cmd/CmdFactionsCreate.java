@@ -18,10 +18,17 @@ import org.bukkit.Bukkit;
 public class CmdFactionsCreate extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsCreate instance = new CmdFactionsCreate();
+	public static CmdFactionsCreate get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsCreate() {
+	private CmdFactionsCreate() {
 		this.aliases.addAll(Conf.cmdAliasesCreate);
 
 		this.requiredArgs.add("faction tag");
@@ -103,7 +110,7 @@ public class CmdFactionsCreate extends FCommand {
 			follower.sendMessage(Lang.COMMAND_CREATE_CREATED, fme.describeTo(follower, true), faction.getTag(follower));
 		}
 
-		sendMessage(Lang.COMMAND_CREATE_YOUSHOULD, CmdFactions.get().cmdDescription.getUseageTemplate());
+		this.sendMessage(Lang.COMMAND_CREATE_YOUSHOULD, CmdFactionsDescription.get().getUseageTemplate());
 
 		if (Conf.logFactionCreate) {
 			Factions.get().log(fme.getName() + Lang.COMMAND_CREATE_CREATEDLOG.toString() + tag);
