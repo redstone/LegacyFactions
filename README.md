@@ -17,7 +17,7 @@ _It's free for everyone!_ But many people have requested to make a donation, you
 * New help menu with new JSON button support (can be disabled)
 * Faction warps have passwords (can be disabled with permission)
 * Much better API
-* Loads more! check out 
+* Loads more! [check out the wiki ](https://github.com/redstone/LegacyFactions/wiki)
 
 ## Installation
 1. Download the latest release.
