@@ -12,10 +12,17 @@ import org.bukkit.ChatColor;
 public class CmdFactionsShowInvites extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsShowInvites instance = new CmdFactionsShowInvites();
+	public static CmdFactionsShowInvites get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsShowInvites() {
+	private CmdFactionsShowInvites() {
 		this.aliases.addAll(Conf.cmdAliasesShowInvites);
 		
 		this.permission = Permission.SHOW_INVITES.getNode();

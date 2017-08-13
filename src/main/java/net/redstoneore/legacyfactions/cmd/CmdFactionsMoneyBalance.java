@@ -7,12 +7,19 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 public class CmdFactionsMoneyBalance extends FCommand {
-
+	
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsMoneyBalance instance = new CmdFactionsMoneyBalance();
+	public static CmdFactionsMoneyBalance get() { return instance; }
+	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsMoneyBalance() {
+	private CmdFactionsMoneyBalance() {
 		this.aliases.addAll(Conf.cmdAliasesMoneyBalance);
 		
 		this.optionalArgs.put("faction", "yours");

@@ -17,10 +17,17 @@ import java.util.ArrayList;
 public class CmdFactionsTag extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsTag instance = new CmdFactionsTag();
+	public static CmdFactionsTag get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsTag() {
+	private CmdFactionsTag() {
 		this.aliases.addAll(Conf.cmdAliasesTag);
 
 		this.requiredArgs.add("faction tag");

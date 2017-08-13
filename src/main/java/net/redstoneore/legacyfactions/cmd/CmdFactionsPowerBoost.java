@@ -9,11 +9,18 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsPowerBoost extends FCommand {
 
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsPowerBoost instance = new CmdFactionsPowerBoost();
+	public static CmdFactionsPowerBoost get() { return instance; }
+	
     // -------------------------------------------------- //
     // CONSTRUCT
     // -------------------------------------------------- //
 
-    public CmdFactionsPowerBoost() {
+    private CmdFactionsPowerBoost() {
         this.aliases.addAll(Conf.cmdAliasesPowerBoost);
 
         this.requiredArgs.add("p|f|player|faction");

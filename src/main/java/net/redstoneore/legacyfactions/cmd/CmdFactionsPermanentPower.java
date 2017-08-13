@@ -8,11 +8,18 @@ import net.redstoneore.legacyfactions.entity.Faction;
 
 public class CmdFactionsPermanentPower extends FCommand {
 
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsPermanentPower instance = new CmdFactionsPermanentPower();
+	public static CmdFactionsPermanentPower get() { return instance; }
+	
     // -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-    public CmdFactionsPermanentPower() {
+    private CmdFactionsPermanentPower() {
         this.aliases.addAll(Conf.cmdAliasesPermanentPower);
 
         this.requiredArgs.add("faction");

@@ -9,10 +9,17 @@ import net.redstoneore.legacyfactions.Lang;
 public class CmdFactionsVersion extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsVersion instance = new CmdFactionsVersion();
+	public static CmdFactionsVersion get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsVersion() {
+	private CmdFactionsVersion() {
 		this.aliases.addAll(Conf.cmdAliasesVersion);
 		
 		this.permission = Permission.VERSION.getNode();

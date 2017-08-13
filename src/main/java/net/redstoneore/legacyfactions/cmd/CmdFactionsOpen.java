@@ -6,12 +6,19 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 
 public class CmdFactionsOpen extends FCommand {
-
+	
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsOpen instance = new CmdFactionsOpen();
+	public static CmdFactionsOpen get() { return instance; }
+	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsOpen() {
+	private CmdFactionsOpen() {
 		this.aliases.addAll(Conf.cmdAliasesOpen);
 
 		this.optionalArgs.put("yes/no", "flip");

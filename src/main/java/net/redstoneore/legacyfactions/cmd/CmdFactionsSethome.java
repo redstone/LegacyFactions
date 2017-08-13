@@ -11,10 +11,17 @@ import net.redstoneore.legacyfactions.entity.Faction;
 public class CmdFactionsSethome extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsSethome instance = new CmdFactionsSethome();
+	public static CmdFactionsSethome get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsSethome() {
+	private CmdFactionsSethome() {
 		this.aliases.addAll(Conf.cmdAliasesSethome);
 
 		this.optionalArgs.put("faction tag", "mine");
@@ -72,7 +79,7 @@ public class CmdFactionsSethome extends FCommand {
 		faction.setHome(me.getLocation());
 
 		faction.sendMessage(Lang.COMMAND_SETHOME_SET, fme.describeTo(myFaction, true));
-		faction.sendMessage(CmdFactions.get().cmdHome.getUseageTemplate());
+		faction.sendMessage(CmdFactionsHome.get().getUseageTemplate());
 		if (faction != myFaction) {
 			fme.sendMessage(Lang.COMMAND_SETHOME_SETOTHER, faction.getTag(fme));
 		}

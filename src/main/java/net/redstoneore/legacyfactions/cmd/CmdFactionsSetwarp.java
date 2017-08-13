@@ -10,10 +10,17 @@ import net.redstoneore.legacyfactions.util.LazyLocation;
 public class CmdFactionsSetwarp extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsSetwarp instance = new CmdFactionsSetwarp();
+	public static CmdFactionsSetwarp get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsSetwarp() {
+	private CmdFactionsSetwarp() {
 		this.aliases.addAll(Conf.cmdAliasesSetwarp);
 		
 		this.requiredArgs.add("warp name");

@@ -9,10 +9,17 @@ import net.redstoneore.legacyfactions.Lang;
 public class CmdFactionsAnnounce extends FCommand {
 	
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsAnnounce instance = new CmdFactionsAnnounce();
+	public static CmdFactionsAnnounce get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
-	public CmdFactionsAnnounce() {
+	private CmdFactionsAnnounce() {
 		this.aliases.addAll(Conf.cmdAliasesAnnounce);
 		
 		this.requiredArgs.add("message");

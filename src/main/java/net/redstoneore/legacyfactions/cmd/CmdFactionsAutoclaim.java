@@ -18,10 +18,17 @@ import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCa
 public class CmdFactionsAutoclaim extends FCommand {
 	
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsAutoclaim instance = new CmdFactionsAutoclaim();
+	public static CmdFactionsAutoclaim get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
-	public CmdFactionsAutoclaim() {
+	private CmdFactionsAutoclaim() {
 		this.aliases.addAll(Conf.cmdAliasesAutoclaim);
 
 		this.optionalArgs.put("faction", "your");

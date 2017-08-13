@@ -8,10 +8,17 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 public class CmdFactionsModifyPower extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsModifyPower instance = new CmdFactionsModifyPower();
+	public static CmdFactionsModifyPower get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsModifyPower() {
+	private CmdFactionsModifyPower() {
 		this.aliases.addAll(Conf.cmdAliasesModifyPower);
 
 		this.requiredArgs.add("name");

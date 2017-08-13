@@ -14,10 +14,17 @@ import net.redstoneore.legacyfactions.util.VisualizeUtil;
 public class CmdFactionsSeeChunk extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsSeeChunk instance = new CmdFactionsSeeChunk();
+	public static CmdFactionsSeeChunk get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsSeeChunk() {
+	private CmdFactionsSeeChunk() {
 		this.aliases.addAll(Conf.cmdAliasesSeeChunk);
 
 		this.permission = Permission.SEECHUNK.getNode();

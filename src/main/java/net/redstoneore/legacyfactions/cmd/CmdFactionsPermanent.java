@@ -8,14 +8,20 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 
-
 public class CmdFactionsPermanent extends FCommand {
 
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsPermanent instance = new CmdFactionsPermanent();
+	public static CmdFactionsPermanent get() { return instance; }
+	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsPermanent() {
+	private CmdFactionsPermanent() {
 		this.aliases.addAll(Conf.cmdAliasesPermanent);
 
 		this.requiredArgs.add("faction tag");

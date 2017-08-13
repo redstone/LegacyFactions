@@ -14,10 +14,17 @@ import java.util.List;
 public class CmdFactionsShow extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsShow instance = new CmdFactionsShow();
+	public static CmdFactionsShow get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsShow() {
+	private CmdFactionsShow() {
 		this.aliases.addAll(Conf.cmdAliasesShow);
 		
 		this.optionalArgs.put("faction tag", "yours");

@@ -10,10 +10,17 @@ import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
 public class CmdFactionsConvert extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsConvert instance = new CmdFactionsConvert();
+	public static CmdFactionsConvert get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsConvert() {
+	private CmdFactionsConvert() {
 		this.aliases.addAll(Conf.cmdAliasesConvert);
 
 		this.requiredArgs.add("[MYSQL|JSON]");

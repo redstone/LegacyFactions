@@ -19,10 +19,17 @@ import java.util.UUID;
 public class CmdFactionsWarp extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsWarp instance = new CmdFactionsWarp();
+	public static CmdFactionsWarp get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsWarp() {
+	private CmdFactionsWarp() {
 		this.aliases.addAll(Conf.cmdAliasesWarp);
 		
 		this.optionalArgs.put("warpname", "warpname");

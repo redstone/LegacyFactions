@@ -11,10 +11,17 @@ import net.redstoneore.legacyfactions.warp.FactionWarp;
 public class CmdFactionsDelwarp extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsDelwarp instance = new CmdFactionsDelwarp();
+	public static CmdFactionsDelwarp get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsDelwarp() {
+	private CmdFactionsDelwarp() {
 		this.aliases.addAll(Conf.cmdAliasesDelwarp);
 		
 		this.requiredArgs.add("warp name");

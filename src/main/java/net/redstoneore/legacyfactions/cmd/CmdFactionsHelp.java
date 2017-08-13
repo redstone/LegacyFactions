@@ -192,25 +192,25 @@ public class CmdFactionsHelp extends FCommand {
 
 		pageLines = new ArrayList<>();
 		pageLines.add(CmdFactionsHelp.get().getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdList.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdShow.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdPower.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdJoin.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdLeave.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdHome.getUseageTemplate(true));
+		pageLines.add(CmdFactionsList.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsShow.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsPower.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsJoin.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsLeave.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsHome.get().getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_NEXTCREATE.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
-		pageLines.add(CmdFactions.get().cmdCreate.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdDescription.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdTag.getUseageTemplate(true));
+		pageLines.add(CmdFactionsCreate.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsDescription.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsTag.get().getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_INVITATIONS.toString()));
-		pageLines.add(CmdFactions.get().cmdOpen.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdInvite.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdDeinvite.getUseageTemplate(true));
+		pageLines.add(CmdFactionsOpen.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsInvite.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsDeinvite.get().getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_HOME.toString()));
-		pageLines.add(CmdFactions.get().cmdSethome.getUseageTemplate(true));
+		pageLines.add(CmdFactionsSethome.get().getUseageTemplate(true));
 		this.helpPages.add(pageLines);
 
 		if (VaultEngine.isSetup() && Conf.econEnabled && Conf.bankEnabled) {
@@ -220,7 +220,7 @@ public class CmdFactionsHelp extends FCommand {
 			pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_BANK_2.toString()));
 			pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_BANK_3.toString()));
 			pageLines.add("");
-			pageLines.add(CmdFactions.get().cmdMoney.getUseageTemplate(true));
+			pageLines.add(CmdFactionsMoney.get().getUseageTemplate(true));
 			pageLines.add("");
 			pageLines.add("");
 			pageLines.add("");
@@ -228,37 +228,37 @@ public class CmdFactionsHelp extends FCommand {
 		}
 
 		pageLines = new ArrayList<>();
-		pageLines.add(CmdFactions.get().cmdClaim.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdAutoClaim.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdUnclaim.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdUnclaimall.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdKick.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdMod.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdColeader.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdAdmin.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdTitle.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdSB.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdSeeChunk.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdStatus.getUseageTemplate(true));
+		pageLines.add(CmdFactionsClaim.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsAutoclaim.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsUnclaim.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsUnclaimall.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsKick.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsMod.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsColeader.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsAdmin.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsTitle.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsScoreboard.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsSeeChunk.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsStatus.get().getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PLAYERTITLES.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
-		pageLines.add(CmdFactions.get().cmdMap.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdBoom.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdOwner.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdOwnerList.getUseageTemplate(true));
+		pageLines.add(CmdFactionsMap.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsBoom.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsOwner.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsOwnerList.get().getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_1.toString()));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_2.toString()));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_3.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
-		pageLines.add(CmdFactions.get().cmdDisband.getUseageTemplate(true));
+		pageLines.add(CmdFactionsDisband.get().getUseageTemplate(true));
 		pageLines.add("");
-		pageLines.add(CmdFactions.get().cmdRelationAlly.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdRelationNeutral.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdRelationEnemy.getUseageTemplate(true));
+		pageLines.add(CmdFactionsRelationAlly.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsRelationNeutral.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsRelationEnemy.get().getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_1.toString()));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_2.toString()));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_3.toString()));
@@ -291,31 +291,31 @@ public class CmdFactionsHelp extends FCommand {
 
 		pageLines = new ArrayList<>();
 		pageLines.add(Lang.COMMAND_HELP_MOAR_1.toString());
-		pageLines.add(CmdFactions.get().cmdBypass.getUseageTemplate(true));
+		pageLines.add(CmdFactionsBypass.get().getUseageTemplate(true));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_ADMIN_1.toString()));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_ADMIN_2.toString()));
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_ADMIN_3.toString()));
-		pageLines.add(CmdFactions.get().cmdSafeunclaimall.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdWarunclaimall.getUseageTemplate(true));
+		pageLines.add(CmdFactionsSafeunclaimall.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsWarunclaimall.get().getUseageTemplate(true));
 		
-		pageLines.add(Factions.get().getTextUtil().parse("<i>Note: " + CmdFactions.get().cmdUnclaim.getUseageTemplate(false) + Factions.get().getTextUtil().parse("<i>") + " works on safe/war zones as well."));
-		pageLines.add(CmdFactions.get().cmdPeaceful.getUseageTemplate(true));
+		pageLines.add(Factions.get().getTextUtil().parse("<i>Note: " + CmdFactionsUnclaim.get().getUseageTemplate(false) + Factions.get().getTextUtil().parse("<i>") + " works on safe/war zones as well."));
+		pageLines.add(CmdFactionsPeaceful.get().getUseageTemplate(true));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_MOAR_2.toString()));
-		pageLines.add(CmdFactions.get().cmdPermanent.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdPermanentPower.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdPowerBoost.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdConfig.getUseageTemplate(true));
+		pageLines.add(CmdFactionsPermanent.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsPermanentPower.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsPowerBoost.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsConfig.get().getUseageTemplate(true));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
 		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_MOAR_3.toString()));
-		pageLines.add(CmdFactions.get().cmdLock.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdReload.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdSaveAll.getUseageTemplate(true));
-		pageLines.add(CmdFactions.get().cmdVersion.getUseageTemplate(true));
+		pageLines.add(CmdFactionsLock.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsReload.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsSaveAll.get().getUseageTemplate(true));
+		pageLines.add(CmdFactionsVersion.get().getUseageTemplate(true));
 		this.helpPages.add(pageLines);
 	}
 

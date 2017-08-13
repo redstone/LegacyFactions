@@ -8,10 +8,17 @@ import net.redstoneore.legacyfactions.Lang;
 public class CmdFactionsBypass extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsBypass instance = new CmdFactionsBypass();
+	public static CmdFactionsBypass get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsBypass() {
+	private CmdFactionsBypass() {
 		this.aliases.addAll(Conf.cmdAliasesBypass);
 
 		this.optionalArgs.put("on/off", "flip");

@@ -23,13 +23,15 @@ import java.util.UUID;
 
 public abstract class FCommand extends MCommand<Factions> {
 	
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
 	public SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Lang.DATE_FORMAT.toString());
 
 	// Due to safety reasons it defaults to disable on lock.
 	public boolean disableOnLock = true;
 
-	public FPlayer fme;
-	public Faction myFaction;
 	public boolean senderMustBeMember = false;
 	public boolean senderMustBeModerator = false;
 	public boolean senderMustBeColeader = false;
@@ -37,7 +39,18 @@ public abstract class FCommand extends MCommand<Factions> {
 
 	// The money commands must be disabled if money should not be used.
 	public boolean isMoneyCommand = false;
+	
+	// -------------------------------------------------- //
+	// RUNTIME FIELDS
+	// -------------------------------------------------- //
 
+	public FPlayer fme;
+	public Faction myFaction;
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
 	@Override
 	public void execute(CommandSender sender, List<String> args, List<MCommand<?>> commandChain) {
 		if (sender instanceof Player) {
@@ -52,38 +65,40 @@ public abstract class FCommand extends MCommand<Factions> {
 
 	@Override
 	public boolean isEnabled() {
+		// If factions is locked and this command is set to disable on lock
 		if (Factions.get().isLocked() && this.disableOnLock) {
-			sendMessage(Lang.COMMAND_ERRORS_FACTIONSLOCKED.toString());
+			this.sendMessage(Lang.COMMAND_ERRORS_FACTIONSLOCKED.toString());
 			return false;
 		}
-
+		
+		// If this is an economy-only command command and economy is disabled
 		if (this.isMoneyCommand && !Conf.econEnabled) {
-			sendMessage(Lang.COMMAND_ERRORS_ECONOMYDISABLED.toString());
+			this.sendMessage(Lang.COMMAND_ERRORS_ECONOMYDISABLED.toString());
 			return false;
 		}
-
+		
+		// If this is an economy-only command command and banks are disabled
 		if (this.isMoneyCommand && !Conf.bankEnabled) {
-			sendMessage(Lang.COMMAND_ERRORS_BANKSDISABLED.toString());
+			this.sendMessage(Lang.COMMAND_ERRORS_BANKSDISABLED.toString());
 			return false;
 		}
-
+		
 		return true;
 	}
 
 	@Override
 	public boolean validSenderType(CommandSender sender, boolean informSenderIfNot) {
-		boolean superValid = super.validSenderType(sender, informSenderIfNot);
-		if (!superValid) {
-			return false;
-		}
-
+		// What does the super class say?
+		if (!super.validSenderType(sender, informSenderIfNot)) return false;
+		
+		// if senderMustBeMember, senderMustBeModerator, senderMustBeAdmin, and senderMustBeColeader are not set
+		// TODO: [REQUIREMENTS] move to Requirements classes 
 		if (!(this.senderMustBeMember || this.senderMustBeModerator || this.senderMustBeAdmin || this.senderMustBeColeader)) {
 			return true;
 		}
-
-		if (!(sender instanceof Player)) {
-			return false;
-		}
+		
+		// If they aren't a player 
+		if (!(sender instanceof Player)) return false;
 
 		if (!fme.hasFaction()) {
 			sender.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMEMBER.toString()));

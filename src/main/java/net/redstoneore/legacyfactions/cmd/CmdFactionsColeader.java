@@ -14,10 +14,17 @@ import org.bukkit.ChatColor;
 public class CmdFactionsColeader extends FCommand {
 	
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsColeader instance = new CmdFactionsColeader();
+	public static CmdFactionsColeader get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsColeader() {
+	private CmdFactionsColeader() {
 		this.aliases.addAll(Conf.cmdAliasesColeader);
 
 		this.requiredArgs.add("player name");

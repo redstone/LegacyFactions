@@ -23,10 +23,17 @@ import java.util.List;
 public class CmdFactionsHome extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsHome instance = new CmdFactionsHome();
+	public static CmdFactionsHome get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsHome() {
+	private CmdFactionsHome() {
 		this.aliases.addAll(Conf.cmdAliasesHome);
 
 		this.optionalArgs.put("who", "you");
@@ -82,7 +89,7 @@ public class CmdFactionsHome extends FCommand {
 
 		if (!faction.hasHome()) {
 			fme.sendMessage(Lang.COMMAND_HOME_NOHOME.toString() + (fme.getRole().getValue() < Role.MODERATOR.getValue() ? Lang.GENERIC_ASKYOURLEADER.toString() : Lang.GENERIC_YOUSHOULD.toString()));
-			fme.sendMessage(CmdFactions.get().cmdSethome.getUseageTemplate());
+			fme.sendMessage(CmdFactionsSethome.get().getUseageTemplate());
 			return;
 		}
 

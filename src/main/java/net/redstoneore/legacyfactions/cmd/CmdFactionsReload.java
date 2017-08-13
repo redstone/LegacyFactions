@@ -8,10 +8,17 @@ import net.redstoneore.legacyfactions.entity.Conf;
 public class CmdFactionsReload extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsReload instance = new CmdFactionsReload();
+	public static CmdFactionsReload get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsReload() {
+	private CmdFactionsReload() {
 		this.aliases.addAll(Conf.cmdAliasesReload);
 
 		this.optionalArgs.put("file", "all");

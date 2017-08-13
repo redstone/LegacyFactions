@@ -15,17 +15,17 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 public class CmdFactionsAdmin extends FCommand {
 	
 	// -------------------------------------------------- //
-	// SINGLETON
+	// INSTANCE
 	// -------------------------------------------------- //
 	
-	private static CmdFactionsAdmin i = new CmdFactionsAdmin();
-	public static CmdFactionsAdmin get() { return i; }
+	private static CmdFactionsAdmin instance = new CmdFactionsAdmin();
+	public static CmdFactionsAdmin get() { return instance; }
 	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsAdmin() {
+	private CmdFactionsAdmin() {
 		this.aliases.addAll(Conf.cmdAliasesAdmin);
 		
 		this.requiredArgs.add("player name");

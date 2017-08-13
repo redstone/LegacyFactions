@@ -16,10 +16,17 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 public class CmdFactionsJoin extends FCommand {
 	
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsJoin instance = new CmdFactionsJoin();
+	public static CmdFactionsJoin get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsJoin() {
+	private CmdFactionsJoin() {
 		this.aliases.addAll(Conf.cmdAliasesJoin);
 
 		this.requiredArgs.add("faction name");

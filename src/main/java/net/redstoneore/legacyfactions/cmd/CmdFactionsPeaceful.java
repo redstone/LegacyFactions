@@ -10,14 +10,21 @@ import net.redstoneore.legacyfactions.entity.Faction;
 public class CmdFactionsPeaceful extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsPeaceful instance = new CmdFactionsPeaceful();
+	public static CmdFactionsPeaceful get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsPeaceful() {
+	private CmdFactionsPeaceful() {
 		this.aliases.addAll(Conf.cmdAliasesPeaceful);
 
 		this.requiredArgs.add("faction tag");
-		
+			
 		this.permission = Permission.SET_PEACEFUL.getNode();
 		this.disableOnLock = true;
 

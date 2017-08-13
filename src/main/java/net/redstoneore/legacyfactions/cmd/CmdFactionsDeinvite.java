@@ -13,10 +13,17 @@ import org.bukkit.ChatColor;
 public class CmdFactionsDeinvite extends FCommand {
 
 	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static CmdFactionsDeinvite instance = new CmdFactionsDeinvite();
+	public static CmdFactionsDeinvite get() { return instance; }
+	
+	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
 
-	public CmdFactionsDeinvite() {
+	private CmdFactionsDeinvite() {
 		this.aliases.addAll(Conf.cmdAliasesDeinvite);
 
 		this.optionalArgs.put("player name", "name");
@@ -57,8 +64,8 @@ public class CmdFactionsDeinvite extends FCommand {
 		}
 
 		if (you.getFaction() == myFaction) {
-			sendMessage(Lang.COMMAND_DEINVITE_ALREADYMEMBER, you.getName(), myFaction.getTag());
-			sendMessage(Lang.COMMAND_DEINVITE_MIGHTWANT, CmdFactions.get().cmdKick.getUseageTemplate(false));
+			this.sendMessage(Lang.COMMAND_DEINVITE_ALREADYMEMBER, you.getName(), this.myFaction.getTag());
+			this.sendMessage(Lang.COMMAND_DEINVITE_MIGHTWANT, CmdFactionsKick.get().getUseageTemplate(false));
 			return;
 		}
 
