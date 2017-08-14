@@ -218,7 +218,7 @@ public abstract class FCommand extends MCommand<Factions> {
 	public void argAsPlayerToMojangUUID(int idx, UUID def, final Callback<UUID> callback) {
 		final String playerName = this.argAsString(idx);
 		
-		// Okay, lets go async and off the main thread
+		// getUUIDOf will go async and return a sync callback
 		UUIDUtil.getUUIDOf(playerName, (uuid, exception) -> {
 			if (exception.isPresent()) {
 				callback.then(null, exception);
@@ -299,6 +299,7 @@ public abstract class FCommand extends MCommand<Factions> {
 			return;
 		}
 		
+		// This callback will be sync 
 		this.argAsPlayerToMojangUUID(idx, null, new Callback<UUID>() {
 			@Override
 			public void then(UUID result, Optional<Exception> exception) {

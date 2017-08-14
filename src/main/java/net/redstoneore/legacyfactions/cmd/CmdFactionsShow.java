@@ -88,8 +88,6 @@ public class CmdFactionsShow extends FCommand {
 	}
 	
 	private static void resume(CommandSender sender, FPlayer fme, Faction faction) {
-		
-		
 		// Check they have permission to do this
 		if (!Permission.SHOW_BYPASSEXEMPT.has(sender) && Conf.showExempt.contains(faction.getTag())) {
 			sender.sendMessage(Lang.COMMAND_SHOW_EXEMPT.toString());
