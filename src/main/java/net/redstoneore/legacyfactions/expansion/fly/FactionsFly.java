@@ -27,41 +27,46 @@ public class FactionsFly extends FactionsExpansion {
 	// -------------------------------------------------- //
 	// STATIC METHODS
 	// -------------------------------------------------- //
-	
+
 	public static boolean canFlyHere(FPlayer fplayer, FLocation location) {
+		return canFlyHere(fplayer, location, false);
+	}
+	
+	public static boolean canFlyHere(FPlayer fplayer, FLocation location, boolean debugVerbose) {
 		Faction factionAtLocation = Board.get().getFactionAt(location);
 		Relation relation = fplayer.getRelationTo(factionAtLocation);
 		
+		if (factionAtLocation.isWilderness()) {
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in wilderness");
+			return fplayer.hasPermission("factions.fly.wilderness");
+		}
+		if (factionAtLocation.isWarZone()) {
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in warzone");
+			return fplayer.hasPermission("factions.fly.warzone");
+		}
+		if (factionAtLocation.isSafeZone()) {
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in safezone");
+			return fplayer.hasPermission("factions.fly.safezone");
+		}
+		
 		switch (relation) {
 		case ALLY:
-			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in ally land");
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in ally land");
 			return fplayer.hasPermission("factions.fly.ally");
 		case ENEMY:
-			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in enemy land");
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in enemy land");
 			return fplayer.hasPermission("factions.fly.enemy");
 		case MEMBER:
-			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in member land");
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in member land");
 			return fplayer.hasPermission("factions.fly.member");
 		case NEUTRAL:
-			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in neutral land");
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in neutral land");
 			return fplayer.hasPermission("factions.fly.neutral");
 		case TRUCE:
-			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in truce land");
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in truce land");
 			return fplayer.hasPermission("factions.fly.truce");
 		default:
-			if (factionAtLocation.isWilderness()) {
-				Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in wilderness");
-				return fplayer.hasPermission("factions.fly.wilderness");
-			}
-			if (factionAtLocation.isWarZone()) {
-				Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in warzone");
-				return fplayer.hasPermission("factions.fly.warzone");
-			}
-			if (factionAtLocation.isSafeZone()) {
-				Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in safezone");
-				return fplayer.hasPermission("factions.fly.safezone");
-			}
-			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in unknown land");
+			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in unknown land");
 			return false;
 		}
 	}

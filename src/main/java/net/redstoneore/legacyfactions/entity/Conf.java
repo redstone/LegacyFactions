@@ -36,7 +36,6 @@ public class Conf {
 	// Allow no slash required for commands.
 	public static boolean allowNoSlashCommand = true;
 
-
 	// -------------------------------------------------- //
 	// WARMUPS
 	// -------------------------------------------------- //
@@ -147,34 +146,43 @@ public class Conf {
 	// Disallow joining/leaving/kicking while power is negative
 	public static boolean canLeaveWithNegativePower = true;
 
+	public static boolean disablePistonsInTerritory = false;
+
 	// -------------------------------------------------- //
 	// EXPANSION: FactionsChat
 	// -------------------------------------------------- // 
 	
 	public static FactionsChatConfig expansionsFactionsChat = new FactionsChatConfig();
 	
-	// -------------------------------------------- //
+	// -------------------------------------------------- //
 	// EXPANSION: FactionsFly
-	// -------------------------------------------- //
+	// -------------------------------------------------- //
 	
 	public static FactionsFlyConfig expansionFactionsFly = new FactionsFlyConfig();
 	
+	// -------------------------------------------- //
 	// BROADCAST
+	// -------------------------------------------- //
 	
 	public static boolean broadcastDescriptionChanges = false;
 	public static boolean broadcastTagChanges = false;
-
 	
+	// -------------------------------------------- //
+	// TASKS
+	// -------------------------------------------- //
+
 	public static double saveToFileEveryXMinutes = 30.0;
 
-	public static double autoLeaveAfterDaysOfInactivity = 28.0;
+	public static long autoLeaveAfterDaysOfInactivity = 28;
 	public static double autoLeaveRoutineRunsEveryXMinutes = 5.0;
 	public static int autoLeaveRoutineMaxMillisecondsPerTick = 5;  // 1 server tick is roughly 50ms, so default max 10% of a tick
 	public static boolean removePlayerDataWhenBanned = true;
 	public static boolean autoLeaveDeleteFPlayerData = false; // Deletes all player data when they auto leave (odd feature?)
-
-	public static boolean disablePistonsInTerritory = false;
 	
+	// -------------------------------------------- //
+	// FORMAT
+	// -------------------------------------------- //
+
 	public static Map<Character.UnicodeScript, Boolean> enabledScriptSupport = MiscUtil.map(
 		Character.UnicodeScript.ARABIC, false,
 		Character.UnicodeScript.BALINESE, false,
@@ -255,9 +263,9 @@ public class Conf {
 		"Join a faction!"
 	);
 	
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// TITLES
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	
 	// show territory title on land change
 	public static boolean territoryTitlesShow = true;
@@ -269,9 +277,9 @@ public class Conf {
 	public static int territoryTitlesTimeFadeOutTicks = 20;
 	
 	
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// WARPS
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	
 	public static int warpsMax = 5;
 	public static Map<String, Double> warpCost = MiscUtil.map(

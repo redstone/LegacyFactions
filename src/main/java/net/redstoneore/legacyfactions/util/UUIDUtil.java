@@ -120,25 +120,33 @@ public class UUIDUtil implements Callable<Map<String, UUID>> {
 	
 	/**
 	 * Get UUID of a player
-	 * @param name naem of player
+	 * @param name name of player
 	 * @param callback a {@link Callback} object
 	 */
 	public static void getUUIDOf(String name, Callback<UUID> callback) {
 		new BukkitRunnable() {
-
 			@Override
 			public void run() {
 				try {
-					UUID uuid = new UUIDUtil(Arrays.asList(name)).call().get(name);
+					UUID uuid;
+					try {
+						uuid = new UUIDUtil(Arrays.asList(name)).call().get(name);
+					} catch (Exception e) {
+						uuid = null; 
+					}
 					
-					Bukkit.getOfflinePlayer(uuid);
+					final UUID foundUUID = uuid;
 					
 					new BukkitRunnable() {
 						@Override
 						public void run() {
-							callback.then(uuid, Optional.empty());							
+							if (foundUUID != null) {
+								Bukkit.getOfflinePlayer(foundUUID);
+								callback.then(foundUUID, Optional.empty());							
+							} else {
+								callback.then(null, Optional.empty());
+							}
 						}
-						
 					}.runTask(Factions.get());
 				} catch (Exception e) {
 					new BukkitRunnable() {
