@@ -84,14 +84,12 @@ public class FactionsPlayerListener implements Listener {
 		me.onLogin(); // set kills / deaths
 
 		// Check for Faction announcements. Let's delay this so they actually see it.
-		Bukkit.getScheduler().runTaskLater(Factions.get(), new Runnable() {
-			@Override
-			public void run() {
-				if (me.isOnline()) {
-					me.getFaction().sendUnreadAnnouncements(me);
-				}
+		Bukkit.getScheduler().runTaskLater(Factions.get(), () -> {
+			if (me.isOnline()) {
+				me.getFaction().sendUnreadAnnouncements(me);
 			}
-		}, 33L); // Don't ask me why.
+
+		}, 33L);
 		
 		// Start the scoreboard up
 		if (Conf.scoreboardDefaultEnabled) {
@@ -415,9 +413,6 @@ public class FactionsPlayerListener implements Listener {
 		Faction myFaction = me.getFaction();
 		Relation rel = myFaction.getRelationTo(otherFaction);
 		
-		// Note about deprecation:
-		// Keep this as getItemInHand() to support older versions of bukkit
-		// TODO: create abstraction
 		if (!rel.isMember() || !otherFaction.playerHasOwnershipRights(me, loc) && me.getItemInMainHand() != null) {
 			switch (me.getItemInMainHand().getType()) {
 				case CHEST:

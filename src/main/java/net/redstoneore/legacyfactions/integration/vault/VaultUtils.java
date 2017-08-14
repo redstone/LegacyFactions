@@ -10,10 +10,12 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.cmd.CmdFactionsHelp;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.util.VaultUtilPlayer;
+import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 public class VaultUtils extends VaultUtilPlayer {
@@ -35,19 +37,25 @@ public class VaultUtils extends VaultUtilPlayer {
 		
 		// Attempt to setup Vault Economy 
 		
-		// TODO: Lang
-		String integrationFail = "Economy integration is " + (Conf.econEnabled ? "enabled, but" : "disabled, and") + " the plugin \"Vault\" ";
-		
 		// Check for vault
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-			Factions.get().log(integrationFail + "is not installed.");
+			if (Conf.econEnabled) {
+				Factions.get().log(Lang.ECON_ERROR_ONE.toString());
+			} else {
+				Factions.get().log(Lang.ECON_ERROR_TWO.toString());
+
+			}
 			return;
 		}
 		try {
 			RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
 			
 			if (rsp == null) {
-				Factions.get().log(integrationFail + "is not hooked into an economy plugin.");
+				if (Conf.econEnabled) {
+					Factions.get().log(Lang.ECON_ERROR_THREE.toString());
+				} else {
+					Factions.get().log(Lang.ECON_ERROR_FOUR.toString());
+				}
 				return;
 			}
 			
@@ -96,7 +104,12 @@ public class VaultUtils extends VaultUtilPlayer {
 
 		if (currentBalance < delta) {
 			if (forAction != null && !forAction.isEmpty()) {
-				payee.sendMessage("<h>%s<i> can't afford <h>%s<i> %s.", payee.describeTo(payee, true), moneyString(delta), forAction);
+				String message = Lang.ECON_CANTAFFORD.toString();
+				message = message.replace("<player>", payee.describeTo(payee, true));
+				message = message.replace("<amount>", moneyString(delta));
+				message = message.replace("<forwhat>", forAction);
+				
+				payee.sendMessage(TextUtil.parseColor(message));
 			}
 			
 			return false;
@@ -111,8 +124,11 @@ public class VaultUtils extends VaultUtilPlayer {
 			return;
 		}
 		
-		// TODO: lang
-		receiver.sendMessage("<a>%s's<i> balance is <h>%s<i>.", about.describeTo(receiver, true), this.moneyString(this.getBalance(about.getAccountId())));
+		String message = Lang.ECON_BALANCE.toString();
+		message = message.replace("<player>", about.describeTo(receiver, true));
+		message = message.replace("<amount>", this.moneyString(this.getBalance(about.getAccountId())));
+		
+		receiver.sendMessage(TextUtil.parseColor(message));
 	}
 	
 }

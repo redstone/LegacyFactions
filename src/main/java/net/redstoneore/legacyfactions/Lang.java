@@ -274,9 +274,11 @@ public enum Lang {
 
 	COMMAND_JOIN_CANNOTFORCE("<b>You do not have permission to move other players into a faction."),
 	COMMAND_JOIN_SYSTEMFACTION("<b>Players may only join normal factions. This is a system faction."),
-	COMMAND_JOIN_ALREADYMEMBER("<b>%1$s %2$s already a member of %3$s"),
+	COMMAND_JOIN_ALREADYMEMBER_YOU("<b><player> are already a member of <faction>"),
+	COMMAND_JOIN_ALREADYMEMBER_SOMEONE("<b><player> is already a member of <faction>"),
 	COMMAND_JOIN_ATLIMIT(" <b>!<white> The faction %1$s is at the limit of %2$d members, so %3$s cannot currently join."),
-	COMMAND_JOIN_INOTHERFACTION("<b>%1$s must leave %2$s current faction first."),
+	COMMAND_JOIN_INOTHERFACTION_YOU("<b><player> must leave your current faction first."),
+	COMMAND_JOIN_INOTHERFACTION_SOMEONE("<b><player> must leave their current faction first."),
 	COMMAND_JOIN_NEGATIVEPOWER("<b>%1$s cannot join a faction with a negative power level."),
 	COMMAND_JOIN_REQUIRESINVITATION("<i>This faction requires invitation."),
 	COMMAND_JOIN_ATTEMPTEDJOIN("%1$s<i> tried to join your faction."),
@@ -584,7 +586,9 @@ public enum Lang {
 	LEAVE_DISBANDED("<i>%s<i> was disbanded."),
 	LEAVE_DISBANDEDLOG("The faction %s (%s) was disbanded due to the last player (%s) leaving."),
 	LEAVE_DESCRIPTION("Leave your faction"),
-
+	LEAVE_NEWADMINPROMOTED_PLAYER("<i>Faction admin <h><player><i> has been removed. <new-admin><i> has been promoted as the new faction admin."),
+	LEAVE_NEWADMINPROMOTED_UNKNOWN("<i>Faction admin has been removed. <new-admin><i> has been promoted as the new faction admin."),
+	
 	// -------------------------------------------------- //
 	// Claiming
 	// -------------------------------------------------- //
@@ -649,6 +653,8 @@ public enum Lang {
 	GENERIC_FACTIONTAG_TOOLONG("<i>The faction tag can't be longer than <h>%s<i> chars."),
 	GENERIC_FACTIONTAG_ALPHANUMERIC("<i>Faction tag must be alphanumeric. \"<h>%s<i>\" is not allowed."),
 	GENERIC_PLACEHOLDER("<This is a placeholder for a message you should not see>"),
+	GENERIC_HOMEREMOVED("<b>Your faction home has been un-set since it is no longer in your territory."),
+	GENERIC_NULLPLAYER("null player"),
 
 	// -------------------------------------------------- //
 	// Compass
@@ -673,7 +679,16 @@ public enum Lang {
 	// -------------------------------------------------- //
 	
 	ECON_OFF("no %s"), // no balance, no value, no refund, etc
-
+	ECON_TRANSFER_CANTAFFORD("<h><from><b> can't afford to transfer <h><amount><b> to <target><b>."), 
+	ECON_TRANSFER_UNABLE("Unable to transfer <amount><b> to <h><target><b> from <h><from><b>."), 
+	ECON_BALANCE("<a><player>'s<i> balance is <h><amount><i>."), 
+	ECON_CANTAFFORD("<h><player><i> can't afford <h><amount><i> <forwhat>."), 
+	ECON_ERROR_ONE("Economy integration is enabled, but the plugin \"Vault\" is not installed."),
+	ECON_ERROR_TWO("Economy integration is disabled, but the plugin \"Vault\" is not installed."),
+	ECON_ERROR_THREE("Economy integration is enabled, but the plugin \"Vault\" is not hooked into an economy plugin."),
+	ECON_ERROR_FOUR("Economy integration is disabled, but the plugin \"Vault\" is not hooked into an economy plugin."),
+	ECON_LACKSCONTROL("<h><player><i> lacks permission to control <h><target>'s<i> money"),
+	
 	// -------------------------------------------------- //
 	// Relations
 	// -------------------------------------------------- //
@@ -745,7 +760,56 @@ public enum Lang {
 
 	PLAYER_PVP_NEUTRALFAIL("<i>You can't hurt %s<i> in their own territory unless you declare them as an enemy."),
 	PLAYER_PVP_TRIED("%s<i> tried to hurt you."),
+	
+	PLAYER_PAINFUL_FACTION_BUILD("<b>It is painful to try to build in the territory of <name>"),
+	PLAYER_PAINFUL_FACTION_DESTROY("<b>It is painful to try to destroy in the territory of <name>"),
+	PLAYER_PAINFUL_FACTION_USE("<b>It is painful to try to use in the territory of <name>"),
+	PLAYER_PAINFUL_FACTION_FROSTWALK("<b>It is painful to try to frost walk in the territory of <name>"),
+	PLAYER_PAINFUL_FACTION_PLACEPAINTING("<b>It is painful to try to place paintings in the territory of <name>"),
+	PLAYER_PAINFUL_FACTION_BREAKPAINTING("<b>It is painful to try to break paintings in the territory of <name>"),
+	
+	PLAYER_CANT_FACTION_BUILD("<b>You can't build in the territory of <name>"),
+	PLAYER_CANT_FACTION_DESTROY("<b>You can't destroy in the territory of <name>"),
+	PLAYER_CANT_FACTION_USE("<b>You can't use this in the territory of <name>"),
+	PLAYER_CANT_FACTION_FROSTWALK("<b>You can't frost walk in the territory of <name>"),
+	PLAYER_CANT_FACTION_PLACEPAINTING("<b>You can't place paintings in the territory of <name>"),
+	PLAYER_CANT_FACTION_BREAKPAINTING("<b>You can't break paintings in the territory of <name>"),
 
+	PLAYER_PAINFUL_OWNED_BUILD("<b>It is painful to try to build in this territory, it is owned by: <who>"),
+	PLAYER_PAINFUL_OWNED_DESTROY("<b>It is painful to try to destroy in this territory, it is owned by: <who>"),
+	PLAYER_PAINFUL_OWNED_USE("<b>It is painful to try to use this in this territory, it is owned by: <who>"),
+	PLAYER_PAINFUL_OWNED_FROSTWALK("<b>It is painful to try to frost walk in this territory, it is owned by: <who>"),
+	PLAYER_PAINFUL_OWNED_PLACEPAINTING("<b>It is painful to try to place paintings in this territory, it is owned by: <who>"),
+	PLAYER_PAINFUL_OWNED_BREAKPAINTING("<b>It is painful to try to break paintings in this territory, it is owned by: <who>"),
+
+	PLAYER_CANT_OWNED_BUILD("<b>You can't build in this territory, it is owned by <who>"),
+	PLAYER_CANT_OWNED_DESTROY("<b>You can't destroy in this territory, it is owned by <who>"),
+	PLAYER_CANT_OWNED_USE("<b>You can't use this in this territory, it is owned by <who>"),
+	PLAYER_CANT_OWNED_FROSTWALK("<b>You can't frost walk in this territory, it is owned by <who>"),
+	PLAYER_CANT_OWNED_PLACEPAINTING("<b>You can't place paintings in this territory, it is owned by <who>"),
+	PLAYER_CANT_OWNED_BREAKPAINTING("<b>You can't break paintings in this territory, it is owned by <who>"),
+	
+	PLAYER_CANT_SAFEZONE_BUILD("<b>You can't build in the wilderness."),
+	PLAYER_CANT_SAFEZONE_DESTROY("<b>You can't destroy in the wilderness."),
+	PLAYER_CANT_SAFEZONE_USE("<b>You can't use this in the wilderness."),
+	PLAYER_CANT_SAFEZONE_FROSTWALK("<b>You can't frostwalk in the wilderness."),
+	PLAYER_CANT_SAFEZONE_PLACEPAINTING("<b>You can't place paintings in the wilderness."),
+	PLAYER_CANT_SAFEZONE_BREAKPAINTING("<b>You can't break paintings in the wilderness."),
+
+	PLAYER_CANT_WILDERNESS_BUILD("<b>You can't build in the wilderness."),
+	PLAYER_CANT_WILDERNESS_DESTROY("<b>You can't destroy in the wilderness."),
+	PLAYER_CANT_WILDERNESS_USE("<b>You can't use this in the wilderness."),
+	PLAYER_CANT_WILDERNESS_FROSTWALK("<b>You can't frostwalk in the wilderness."),
+	PLAYER_CANT_WILDERNESS_PLACEPAINTING("<b>You can't place paintings in the wilderness."),
+	PLAYER_CANT_WILDERNESS_BREAKPAINTING("<b>You can't break paintings in the wilderness."),
+
+	PLAYER_CANT_WARZONE_BUILD("<b>You can't build in a warzone."),
+	PLAYER_CANT_WARZONE_DESTROY("<b>You can't destroy in a warzone."),
+	PLAYER_CANT_WARZONE_USE("<b>You can't use this in a warzone."),
+	PLAYER_CANT_WARZONE_FROSTWALK("<b>You can't frostwalk in a warzone."),
+	PLAYER_CANT_WARZONE_PLACEPAINTING("<b>You can't place paintings in a warzone."),
+	PLAYER_CANT_WARZONE_BREAKPAINTING("<b>You can't break paintings in a warzone."),
+	
 	// -------------------------------------------------- //
 	// Pages
 	// -------------------------------------------------- //
@@ -792,11 +856,11 @@ public enum Lang {
 	// Expansion: FactionsFly
 	// -------------------------------------------------- //
 	
-	EXPANSION_FACTIONS_FLY_NO_ENDERPEARL("<b>You can't use enderpearl while flying."),
-	EXPANSION_FACTIONS_FLY_NO_CHORUSFRUIT("<b>You can't use chorus fruit while flying."),
-	EXPANSION_FACTIONS_FLY_NOT_HERE("<b>You can't fly here."),
-	EXPANSION_FACTIONS_FLY_ENABLED("<i>Flight enabled."),
-	EXPANSION_FACTIONS_FLY_DISABLED("<i>Flight disabled."),
+	EXPANSION_FACTIONSFLY_NO_ENDERPEARL("<b>You can't use enderpearl while flying."),
+	EXPANSION_FACTIONSFLY_NO_CHORUSFRUIT("<b>You can't use chorus fruit while flying."),
+	EXPANSION_FACTIONSFLY_NOT_HERE("<b>You can't fly here."),
+	EXPANSION_FACTIONSFLY_ENABLED("<i>Flight enabled."),
+	EXPANSION_FACTIONSFLY_DISABLED("<i>Flight disabled."),
 	
 	;
 	

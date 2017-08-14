@@ -72,7 +72,7 @@ public class FactionsFlyListener implements Listener {
 		if (CrossTeleportCause.get(event.getCause()) != CrossTeleportCause.ENDER_PEARL) return; 
 		
 		event.setCancelled(true);
-		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONS_FLY_NO_ENDERPEARL.toString());
+		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONSFLY_NO_ENDERPEARL.toString());
 	}
 	
 	@EventHandler
@@ -86,7 +86,7 @@ public class FactionsFlyListener implements Listener {
 		if (CrossTeleportCause.get(event.getCause()) != CrossTeleportCause.CHORUS_FRUIT) return;
 		
 		event.setCancelled(true);
-		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONS_FLY_NO_CHORUSFRUIT.toString());
+		event.getPlayer().sendMessage(Lang.EXPANSION_FACTIONSFLY_NO_CHORUSFRUIT.toString());
 	}
 	
 }
