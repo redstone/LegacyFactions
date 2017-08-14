@@ -2,7 +2,7 @@
 * 🐞 Bugfix: PlaceholderAPI wasn't working properly, but it works now! 
 * 🐞 Bugfix: Factionless Scoreboards were not refreshing
 * 🐞 Bugfix: `factions_faction_admin` placeholder would throw an NPE if the faction didn't have a leader/admin
-* 🐞 Bugfix: Offline players didn't work too well with kick/join - but thats been fixed now
+* 🐞 Bugfix: Offline players didn't work too well with kick/join/who/owner - but thats been fixed now
 * ⭐️ Feature: Relational placeholders added!
 * ⭐️ Feature: FactionChat has been revamped, and should perform better now.
 * ⭐️ Feature: FactionChat now allows you to customise public chat (for small servers) enable `enableChatFormatPublic` and use  `chatFormatPublic`
