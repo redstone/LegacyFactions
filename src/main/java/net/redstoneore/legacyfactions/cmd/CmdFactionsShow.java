@@ -3,7 +3,6 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.callback.Callback;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -13,7 +12,6 @@ import net.redstoneore.legacyfactions.util.TagReplacerUtil;
 import net.redstoneore.legacyfactions.util.TagUtil;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bukkit.command.CommandSender;
 
@@ -90,25 +88,30 @@ public class CmdFactionsShow extends FCommand {
 	}
 	
 	private static void resume(CommandSender sender, FPlayer fme, Faction faction) {
+		
+		
 		// Check they have permission to do this
 		if (!Permission.SHOW_BYPASSEXEMPT.has(sender) && Conf.showExempt.contains(faction.getTag())) {
-			fme.sendMessage(Lang.COMMAND_SHOW_EXEMPT);
+			sender.sendMessage(Lang.COMMAND_SHOW_EXEMPT.toString());
 			return;
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!fme.payForCommand(Conf.econCostShow, Lang.COMMAND_SHOW_TOSHOW.toString(), Lang.COMMAND_SHOW_FORSHOW.toString())) {
+		if (fme != null && !fme.payForCommand(Conf.econCostShow, Lang.COMMAND_SHOW_TOSHOW.toString(), Lang.COMMAND_SHOW_FORSHOW.toString())) {
 			return;
 		}
 		
 		if (!faction.isNormal()) {
-			String tag = faction.getTag(fme);
+			String tag = faction.getTag();
+			if (fme != null) {
+				tag = faction.getTag(fme);
+			}
 			// send header and that's all
 			String header = Conf.showLines.get(0);
 			if (TagReplacerUtil.HEADER.contains(header)) {
-				fme.sendMessage(Factions.get().getTextUtil().titleize(tag));
+				sender.sendMessage(Factions.get().getTextUtil().titleize(tag));
 			} else {
-				fme.sendMessage(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
+				sender.sendMessage(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
 			}
 			return; // we only show header for non-normal factions
 		}
@@ -121,14 +124,11 @@ public class CmdFactionsShow extends FCommand {
 			if (TagUtil.hasFancy(parsed)) {
 				List<FancyMessage> fancy = null;
 				
-				// TODO: add support for console sender
-				if (fme == null) continue;
-				
 				fancy = TagUtil.parseFancy(faction, fme, parsed);
 				if (fancy == null) continue;
 				
 				fancy.forEach(message -> {
-					message.send(fme.getPlayer());
+					message.send(sender);
 				});
 				continue;
 			}
@@ -141,7 +141,7 @@ public class CmdFactionsShow extends FCommand {
 				if (parsed.contains("%")) {
 					parsed = parsed.replaceAll("%", ""); // Just in case it got in there before we disallowed it.
 				}
-				fme.sendMessage(Factions.get().getTextUtil().parse(parsed));
+				sender.sendMessage(Factions.get().getTextUtil().parse(parsed));
 			}
 		}
 	}
