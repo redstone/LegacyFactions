@@ -51,6 +51,6 @@ public class EventFactionsDisband extends AbstractFactionsEvent implements Cance
     }
 
     public enum DisbandReason {
-        DISBAND_COMMAND, LEAVE, PLUGIN
+        DISBAND_COMMAND, LEAVE, PLUGIN, INACTIVITY
     }
 }
