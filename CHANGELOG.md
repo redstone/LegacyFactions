@@ -3,6 +3,7 @@
 * 🐞 Bugfix: Factionless Scoreboards were not refreshing
 * 🐞 Bugfix: `factions_faction_admin` placeholder would throw an NPE if the faction didn't have a leader/admin
 * 🐞 Bugfix: Offline players didn't work too well with kick/join/who/owner - but thats been fixed now
+* 🐞 Bugfix: Lots of language fields were missing that have now been added
 * ⭐️ Feature: Relational placeholders added!
 * ⭐️ Feature: FactionChat has been revamped, and should perform better now.
 * ⭐️ Feature: FactionChat now allows you to customise public chat (for small servers) enable `enableChatFormatPublic` and use  `chatFormatPublic`
@@ -20,6 +21,7 @@
 * 📚 Docs: Expansions wiki page added
 * 📚 Docs: FactionsFly wiki page added
 * 📚 Docs: FactionsChat wiki page added
+* 📚 Docs: What's the difference? wiki page added
 * ⌨️ API: `Faction#sendPlainMessage` method added, to send unformatted messages
 * ⌨️ API: `TitleUtil` class added for managing titles
 * ⌨️ API: `substanceChars` has been removed and replaced with `englishCharacters`, it has been switched to private
