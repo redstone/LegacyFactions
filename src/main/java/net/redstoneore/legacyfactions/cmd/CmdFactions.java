@@ -70,7 +70,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(CmdFactionsPowerBoost.get());
 		this.addSubCommand(CmdFactionsRelationAlly.get());
 		this.addSubCommand(CmdFactionsRelationTruce.get());
-		this.addSubCommand(CmdFactionsRelationNeutral.get());
+		this.addSubCommand(CmdFactionsRelationEnemy.get());
 		this.addSubCommand(CmdFactionsRelationNeutral.get());
 		this.addSubCommand(CmdFactionsReload.get());
 		this.addSubCommand(CmdFactionsSafeunclaimall.get());
