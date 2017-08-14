@@ -43,10 +43,10 @@ public class CmdFactionsInvite extends FCommand {
 
 	@Override
 	public void perform() {
-		FPlayer who = this.argAsBestFPlayerMatch(0);
+		FPlayer who = this.argAsBestFPlayerMatch(0, null, true);
 
-		if (who == null) return; // TODO: does this send a message?
-
+		if (who == null) return;
+		
 		if (who.getFaction() == myFaction) {
 			this.sendMessage(Lang.COMMAND_INVITE_ALREADYMEMBER, who.getName(), myFaction.getTag());
 			this.sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactionsKick.get().getUseageTemplate(false));
