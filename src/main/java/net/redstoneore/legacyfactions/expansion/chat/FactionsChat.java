@@ -58,7 +58,7 @@ public class FactionsChat extends FactionsExpansion {
 	
 	@Override
 	public boolean shouldEnable() {
-		return Conf.factionsChatExpansionEnabled == true;
+		return Conf.expansionsFactionsChat.enabled == true;
 	}
 
 }

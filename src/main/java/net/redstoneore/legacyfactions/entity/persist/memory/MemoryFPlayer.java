@@ -47,7 +47,12 @@ import java.util.UUID;
  * The FPlayer is linked to a bukkit player using the player name.
  * <p/>
  * The same instance is always returned for the same player. This means you can use the == operator. No .equals method
- * necessary.
+ * necessary.<br>
+ * <br>
+ * MemoryFPlayer should be used carefully by developers. You should be able to do what you want
+ * with the available methods in FPlayer. If something is missing, open an issue on GitHub.<br>
+ * <br>
+ * Do not store references to any fields. Always use the methods available.  
  */
 public abstract class MemoryFPlayer implements FPlayer {
 	
@@ -265,7 +270,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 	
 	public ChatMode getChatMode() {
 		// If we're in the wilderness or factions chat is disabled, default to public chat
-		if (this.factionId.equals("0") || !Conf.factionsChatExpansionEnabled) {
+		if (this.factionId.equals("0") || !Conf.expansionsFactionsChat.enabled) {
 			this.chatMode = ChatMode.PUBLIC;
 		}
 		return this.chatMode;
@@ -478,10 +483,10 @@ public abstract class MemoryFPlayer implements FPlayer {
 		
 		if (this.hasFaction()) {
 			// Clone from the configuration 
-			format = Conf.chatTagFormatDefault.toString();
+			format = Conf.expansionsFactionsChat.chatTagFormatDefault.toString();
 		} else {
 			// Clone from the configuration
-			format = Conf.chatTagFormatFactionless.toString();
+			format = Conf.expansionsFactionsChat.chatTagFormatFactionless.toString();
 		}
 		
 		// Format with Placeholders
@@ -727,7 +732,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
 		boolean perm = myFaction.isPermanent();
 
-		if (!perm && this.getRole() == Role.ADMIN && myFaction.getFPlayers().size() > 1) {
+		if (!perm && this.getRole() == Role.ADMIN && myFaction.getMembers().size() > 1) {
 			this.sendMessage(Lang.LEAVE_PASSADMIN);
 			return;
 		}
@@ -754,7 +759,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 
 		// Am I the last one in the faction?
-		if (myFaction.getFPlayers().size() == 1) {
+		if (myFaction.getMembers().size() == 1) {
 			// Transfer all money
 			if (VaultEngine.getUtils().shouldBeUsed()) {
 				VaultAccount.get(myFaction).transfer(VaultAccount.get(this), VaultAccount.get(myFaction).getBalance(), VaultAccount.get(this));
@@ -774,7 +779,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		myFaction.removeAnnouncements(this);
 		this.resetFactionData();
 
-		if (myFaction.isNormal() && !perm && myFaction.getFPlayers().isEmpty()) {
+		if (myFaction.isNormal() && !perm && myFaction.getMembers().isEmpty()) {
 			EventFactionsDisband disbandEvent = new EventFactionsDisband(getPlayer(), myFaction.getId(), false,
 					EventFactionsDisband.DisbandReason.LEAVE);
 			Bukkit.getPluginManager().callEvent(disbandEvent);
@@ -846,7 +851,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 		
 		// Check for minimum members
-		if (forFaction.getFPlayers().size() < Conf.claimsRequireMinFactionMembers) {
+		if (forFaction.getMembers().size() < Conf.claimsRequireMinFactionMembers) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_MEMBERS, Conf.claimsRequireMinFactionMembers);
 			return false;
 		}

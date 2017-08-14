@@ -26,7 +26,7 @@ public class VentureChatEngine extends IntegrationEngine {
 	
 	@EventHandler
 	public void onChatModeChange(EventFactionsChatModeChange event) {
-		if (!Conf.factionChatChannelUse) return;
+		if (!Conf.expansionsFactionsChat.chatPluginChannelUse) return;
 		
 		// let's handle this
 		event.setCancelled(true);
@@ -53,10 +53,10 @@ public class VentureChatEngine extends IntegrationEngine {
 		}
 		
 		fplayer.setChatMode(ChatMode.PUBLIC);
-		if (Conf.factionChatChannelGlobal == "") {
+		if (Conf.expansionsFactionsChat.chatPluginChannelGlobal == "") {
 			cplayer.setCurrentChannel(MineverseChat.ccInfo.getDefaultChannel());
 		} else {
-			cplayer.setCurrentChannel(MineverseChat.ccInfo.getChannelInfo(Conf.factionChatChannelGlobal));
+			cplayer.setCurrentChannel(MineverseChat.ccInfo.getChannelInfo(Conf.expansionsFactionsChat.chatPluginChannelGlobal));
 		}
 	}
 	

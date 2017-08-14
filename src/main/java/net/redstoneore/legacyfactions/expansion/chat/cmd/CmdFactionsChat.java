@@ -44,7 +44,7 @@ public class CmdFactionsChat extends FCommand {
 
 	@Override
 	public void perform() {
-		if (!Conf.factionsChatExpansionEnabled) {
+		if (!Conf.expansionsFactionsChat.enabled) {
 			sendMessage(Lang.COMMAND_CHAT_DISABLED.toString());
 			return;
 		}

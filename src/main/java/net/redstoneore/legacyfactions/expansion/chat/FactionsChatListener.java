@@ -61,7 +61,7 @@ public class FactionsChatListener implements Listener {
 				
 			});
 			
-			format = Conf.factionsChatFormatAlliance.toString();
+			format = Conf.expansionsFactionsChat.chatFormatAlliance.toString();
 			break;
 			
 		case FACTION:
@@ -79,14 +79,14 @@ public class FactionsChatListener implements Listener {
 					}
 				}
 			});
-			format = Conf.factionsChatFormatFaction.toString();
+			format = Conf.expansionsFactionsChat.chatFormatFaction.toString();
 			break;
 			
 		case PUBLIC:
-			if (!Conf.factionsChatEnableFormatPublicChat) return;
+			if (!Conf.expansionsFactionsChat.enableFormatPublicChat) return;
 			
 			// Simply format.
-			format = Conf.factionsChatFormatPublic.toString();
+			format = Conf.expansionsFactionsChat.chatFormatPublic.toString();
 			break;
 			
 		case TRUCE:
@@ -102,7 +102,7 @@ public class FactionsChatListener implements Listener {
 					}
 				}
 			});
-			format = Conf.factionsChatFormatTruce.toString();
+			format = Conf.expansionsFactionsChat.chatFormatTruce.toString();
 			break;		
 		}
 		
@@ -117,7 +117,7 @@ public class FactionsChatListener implements Listener {
 		event.setFormat(format);
 		// Notify anyone who is spying
 		if (!spying.isEmpty()) {
-			String message = String.format(Conf.factionsChatFormatSpy.toString(), event.getPlayer().getDisplayName(), event.getMessage());
+			String message = String.format(Conf.expansionsFactionsChat.chatFormatSpy.toString(), event.getPlayer().getDisplayName(), event.getMessage());
 			
 			spying.forEach(spy -> spy.sendMessage(message));
 		}
@@ -130,21 +130,21 @@ public class FactionsChatListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void chatTagReplacer(AsyncPlayerChatEvent event) {
-		if (!Conf.chatTagEnabled) return;
+		if (!Conf.expansionsFactionsChat.chatTagEnabled) return;
 		
 		FPlayer fplayer = FPlayerColl.get(event.getPlayer());
 		
 		String chatTag = "";
 		
 		if (fplayer.hasFaction()) {
-			chatTag = Conf.chatTagFormatDefault.toString();
+			chatTag = Conf.expansionsFactionsChat.chatTagFormatDefault.toString();
 		} else {
-			chatTag = Conf.chatTagFormatFactionless.toString();
+			chatTag = Conf.expansionsFactionsChat.chatTagFormatFactionless.toString();
 		}
 		
 		chatTag = FactionsPlaceholders.get().parse(fplayer, chatTag);
 		
-		event.setFormat(event.getFormat().replace(Conf.chatTagPlaceholder.toString(), chatTag));
+		event.setFormat(event.getFormat().replace(Conf.expansionsFactionsChat.chatTagPlaceholder.toString(), chatTag));
 	}
 	
 	/**
@@ -156,7 +156,7 @@ public class FactionsChatListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void chatOverride(AsyncPlayerChatEvent event) {
-		if (!Conf.chatTagRelationalOverride) return;
+		if (!Conf.expansionsFactionsChat.chatTagRelationalOverride) return;
 		
 		// Cancel this event. We want to be bad and handle it ourselves. 
 		event.setCancelled(true);
