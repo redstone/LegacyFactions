@@ -291,6 +291,35 @@ public abstract class FCommand extends MCommand<Factions> {
 	public Faction argAsFaction(int idx) {
 		return this.argAsFaction(idx, null);
 	}
+	
+	public void argAsFactionOrPlayersFaction(int idx, Callback<Faction> callback) {
+		Faction faction = (this.argAsFaction(idx, null,false));
+		if (faction != null) {
+			callback.then(faction, Optional.empty());
+			return;
+		}
+		
+		this.argAsPlayerToMojangUUID(idx, null, new Callback<UUID>() {
+			@Override
+			public void then(UUID result, Optional<Exception> exception) {
+				if (exception.isPresent()) {
+					callback.then(null, exception);
+					return;
+				}
+				if (result == null) {
+					callback.then(null, Optional.empty());
+					return;
+				}
+				
+				FPlayer fplayer = FPlayerColl.get(result);
+				if (fplayer == null) {
+					callback.then(null, Optional.empty());
+					return;
+				}
+				callback.then(fplayer.getFaction(), Optional.empty());
+			}
+		});
+	}
 
 	// -------------------------------------------- //
 	// Commonly used logic

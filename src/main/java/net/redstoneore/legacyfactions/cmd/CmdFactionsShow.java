@@ -3,13 +3,19 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.callback.Callback;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.util.TagReplacerUtil;
 import net.redstoneore.legacyfactions.util.TagUtil;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.bukkit.command.CommandSender;
 
 public class CmdFactionsShow extends FCommand {
 
@@ -43,21 +49,55 @@ public class CmdFactionsShow extends FCommand {
 
 	@Override
 	public void perform() {
+		// default to our faction
 		Faction faction = this.myFaction;
-		if (this.argIsSet(0)) {
-			faction = this.argAsFaction(0, null);
+		if (this.senderIsConsole) {
+			// if we're the console, we're in the wilderness
+			faction = FactionColl.get().getWilderness();
 		}
 		
-		if (faction == null) return;
+		// unless we've specified one otherwise
+		if (this.argIsSet(0)) {
+			faction = this.argAsFaction(0, null, false);
+		}
 		
-		if (!Permission.SHOW_BYPASSEXEMPT.has(sender)
-				&& Conf.showExempt.contains(faction.getTag())) {
-			sendMessage(Lang.COMMAND_SHOW_EXEMPT);
+		if (faction == null) { 
+			// Okay it's null 
+			final CommandSender consoleSender = this.sender;
+			final FPlayer fplayer = this.fme;
+			final String searching = this.argAsString(0);
+			
+			this.argAsFactionOrPlayersFaction(0, (foundFaction, exception) -> {
+				if (exception.isPresent()) {
+					exception.get().printStackTrace();
+					return;
+				}
+				
+				if (foundFaction == null) {
+					fplayer.sendMessage(Lang.COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND.toString().replaceAll("<name>", searching));
+					return;
+				}
+				
+				// Resume
+				resume(consoleSender, fplayer, foundFaction);
+			});
+			
+			return;
+		}
+		
+		// Resume
+		resume(this.sender, this.fme, faction);
+	}
+	
+	private static void resume(CommandSender sender, FPlayer fme, Faction faction) {
+		// Check they have permission to do this
+		if (!Permission.SHOW_BYPASSEXEMPT.has(sender) && Conf.showExempt.contains(faction.getTag())) {
+			fme.sendMessage(Lang.COMMAND_SHOW_EXEMPT);
 			return;
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostShow, Lang.COMMAND_SHOW_TOSHOW, Lang.COMMAND_SHOW_FORSHOW)) {
+		if (!fme.payForCommand(Conf.econCostShow, Lang.COMMAND_SHOW_TOSHOW.toString(), Lang.COMMAND_SHOW_FORSHOW.toString())) {
 			return;
 		}
 		
@@ -66,15 +106,15 @@ public class CmdFactionsShow extends FCommand {
 			// send header and that's all
 			String header = Conf.showLines.get(0);
 			if (TagReplacerUtil.HEADER.contains(header)) {
-				sendMessage(Factions.get().getTextUtil().titleize(tag));
+				fme.sendMessage(Factions.get().getTextUtil().titleize(tag));
 			} else {
-				sendMessage(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
+				fme.sendMessage(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
 			}
 			return; // we only show header for non-normal factions
 		}
 
 		for (String line : Conf.showLines) {
-			String parsed = TagUtil.parsePlain(faction, this.fme, line); // use relations
+			String parsed = TagUtil.parsePlain(faction, fme, line); // use relations
 			
 			if (parsed == null) continue; // Due to minimal f show.
 			
@@ -82,11 +122,14 @@ public class CmdFactionsShow extends FCommand {
 				List<FancyMessage> fancy = null;
 				
 				// TODO: add support for console sender
-				if (this.fme == null) continue;
+				if (fme == null) continue;
 				
-				fancy = TagUtil.parseFancy(faction, this.fme, parsed);
+				fancy = TagUtil.parseFancy(faction, fme, parsed);
 				if (fancy == null) continue;
-				sendFancyMessage(fancy);
+				
+				fancy.forEach(message -> {
+					message.send(fme.getPlayer());
+				});
 				continue;
 			}
 			
@@ -98,7 +141,7 @@ public class CmdFactionsShow extends FCommand {
 				if (parsed.contains("%")) {
 					parsed = parsed.replaceAll("%", ""); // Just in case it got in there before we disallowed it.
 				}
-				sendMessage(Factions.get().getTextUtil().parse(parsed));
+				fme.sendMessage(Factions.get().getTextUtil().parse(parsed));
 			}
 		}
 	}
