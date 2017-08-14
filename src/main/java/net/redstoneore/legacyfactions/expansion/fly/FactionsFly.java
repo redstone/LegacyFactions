@@ -34,26 +34,34 @@ public class FactionsFly extends FactionsExpansion {
 		
 		switch (relation) {
 		case ALLY:
+			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in ally land");
 			return fplayer.hasPermission("factions.fly.ally");
 		case ENEMY:
+			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in enemy land");
 			return fplayer.hasPermission("factions.fly.enemy");
 		case MEMBER:
+			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in member land");
 			return fplayer.hasPermission("factions.fly.member");
 		case NEUTRAL:
+			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in neutral land");
 			return fplayer.hasPermission("factions.fly.neutral");
 		case TRUCE:
+			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in truce land");
 			return fplayer.hasPermission("factions.fly.truce");
 		default:
 			if (factionAtLocation.isWilderness()) {
+				Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in wilderness");
 				return fplayer.hasPermission("factions.fly.wilderness");
 			}
 			if (factionAtLocation.isWarZone()) {
+				Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in warzone");
 				return fplayer.hasPermission("factions.fly.warzone");
 			}
 			if (factionAtLocation.isSafeZone()) {
+				Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in safezone");
 				return fplayer.hasPermission("factions.fly.safezone");
 			}
-			
+			Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in unknown land");
 			return false;
 		}
 	}
@@ -102,7 +110,7 @@ public class FactionsFly extends FactionsExpansion {
 	
 	@Override
 	public boolean shouldEnable() {
-		return Conf.factionsFlyExpansionEnabled == true;
+		return Conf.expansionFactionsFly.enabled == true;
 	}
 	
 	public void cancelFlightFor(FPlayer fplayer) {
@@ -115,12 +123,12 @@ public class FactionsFly extends FactionsExpansion {
 		
 		fplayer.sendMessage(Factions.get().getTextUtil().parse(Lang.EXPANSION_FACTIONS_FLY_DISABLED.toString()));
 		 
-		if (Conf.factionsFlyTeleportToFloorOnDisable) {
+		if (Conf.expansionFactionsFly.onDisableTeleportToFloor) {
 			Locality floor = fplayer.getLastLocation().getFloorDown();
 			if (floor == null) return; 
 			
 			fplayer.teleport(floor);				
-		} else if (Conf.factionsFlyNoFirstFallDamage) {
+		} else if (Conf.expansionFactionsFly.onDisableNoFallDamage) {
 			this.addFalling(player.getUniqueId());
 		}
 	}

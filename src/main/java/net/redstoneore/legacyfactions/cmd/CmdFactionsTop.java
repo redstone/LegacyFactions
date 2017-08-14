@@ -113,8 +113,8 @@ public class CmdFactionsTop extends FCommand {
 			Collections.sort(factionList, new Comparator<Faction>() {
 				@Override
 				public int compare(Faction f1, Faction f2) {
-					int f1Size = f1.getFPlayers().size();
-					int f2Size = f2.getFPlayers().size();
+					int f1Size = f1.getMembers().size();
+					int f2Size = f2.getMembers().size();
 					if (f1Size < f2Size) {
 						return 1;
 					} else if (f1Size > f2Size) {
@@ -186,11 +186,11 @@ public class CmdFactionsTop extends FCommand {
 				public int compare(Faction f1, Faction f2) {
 					double f1Size = VaultEngine.getUtils().getBalance(f1.getAccountId());
 					// Lets get the balance of /all/ the players in the Faction.
-					for (FPlayer fp : f1.getFPlayers()) {
+					for (FPlayer fp : f1.getMembers()) {
 						f1Size = f1Size + VaultEngine.getUtils().getBalance(fp.getAccountId());
 					}
 					double f2Size = VaultEngine.getUtils().getBalance(f2.getAccountId());
-					for (FPlayer fp : f2.getFPlayers()) {
+					for (FPlayer fp : f2.getMembers()) {
 						f2Size = f2Size + VaultEngine.getUtils().getBalance(fp.getAccountId());
 					}
 					if (f1Size < f2Size) {
@@ -243,7 +243,7 @@ public class CmdFactionsTop extends FCommand {
 			return Lang.sdf.format(faction.getFoundedDate());
 		}
 		if (criteria.equalsIgnoreCase("members")) {
-			return String.valueOf(faction.getFPlayers().size());
+			return String.valueOf(faction.getMembers().size());
 		}
 		if (criteria.equalsIgnoreCase("land")) {
 			return String.valueOf(faction.getLandRounded());
@@ -257,7 +257,7 @@ public class CmdFactionsTop extends FCommand {
 		
 		// Last one is balance, and it has 3 different things it could be.
 		double balance = VaultEngine.getUtils().getBalance(faction.getAccountId());
-		for (FPlayer fp : faction.getFPlayers()) {
+		for (FPlayer fp : faction.getMembers()) {
 			balance = balance + VaultEngine.getUtils().getBalance(fp.getAccountId());
 		}
 		return String.valueOf(balance);

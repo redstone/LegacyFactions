@@ -257,7 +257,7 @@ public abstract class VaultUtilBase {
 		if (what instanceof FPlayer) {
 			fplayers.add((FPlayer) what);
 		} else if (what instanceof Faction) {
-			fplayers.addAll(((Faction) what).getFPlayers());
+			fplayers.addAll(((Faction) what).getMembers());
 		}
 		
 		return fplayers;

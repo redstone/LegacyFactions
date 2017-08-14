@@ -38,7 +38,7 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
 
 	@Override
 	public void perform() {
-		if (!Conf.factionsChatEnableAllianceChat) {
+		if (!Conf.expansionsFactionsChat.enableAllianceChat) {
 			sendMessage(Lang.COMMAND_CHAT_DISABLED.toString());
 			return;
 		}

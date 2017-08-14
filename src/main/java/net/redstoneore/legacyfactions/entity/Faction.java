@@ -20,7 +20,7 @@ public interface Faction extends EconomyParticipator {
 	HashMap<String, List<String>> getAnnouncements();
 
 	FactionWarps warps();
-
+	
 	int getMaxVaults();
 
 	void setMaxVaults(int value);
@@ -167,9 +167,9 @@ public interface Faction extends EconomyParticipator {
 
 	boolean hasLandInflation();
 
-	// -------------------------------
+	// -------------------------------------------------- //
 	// FPlayers
-	// -------------------------------
+	// -------------------------------------------------- //
 
 	// maintain the reference list of FPlayers in this faction
 	void refreshFPlayers();
@@ -180,7 +180,7 @@ public interface Faction extends EconomyParticipator {
 
 	int getSize();
 
-	Set<FPlayer> getFPlayers();
+	Set<FPlayer> getMembers();
 
 	Set<FPlayer> getWhereOnline(boolean online);
 
@@ -200,9 +200,9 @@ public interface Faction extends EconomyParticipator {
 	// promotes new leader, or disbands faction if no other members left
 	void promoteNewLeader();
 
-	// ----------------------------------------------//
-	// Messages
-	// ----------------------------------------------//
+	// -------------------------------------------------- //
+	// MESSAGES
+	// -------------------------------------------------- //
 	
 	/**
 	 * Send a message to the faction
@@ -211,14 +211,14 @@ public interface Faction extends EconomyParticipator {
 	void sendMessage(String message);
 
 	void sendMessage(List<String> messages);
-	
+		
 	void sendPlainMessage(String message);
 	
 	void sendPlainMessage(List<String> messages);
 
-	// ----------------------------------------------//
-	// Ownership of specific claims
-	// ----------------------------------------------//
+	// -------------------------------------------------- //
+	// OWNERSHIP
+	// -------------------------------------------------- //
 
 	Map<FLocation, Set<String>> getClaimOwnership();
 
@@ -245,19 +245,20 @@ public interface Faction extends EconomyParticipator {
 	boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
 
 
-	// ----------------------------------------------//
+	// -------------------------------------------------- //
 	// Persistance and entity management
-	// ----------------------------------------------//
+	// -------------------------------------------------- //
+	
 	void remove();
 
 	Set<FLocation> getAllClaims();
 
 	void setId(String id);
 
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// UTIL
-	// ----------------------------------------
-
+	// -------------------------------------------------- //
+	
 	MemoryFaction asMemoryFaction();
 
 	// -------------------------------------------------- //
@@ -301,5 +302,13 @@ public interface Faction extends EconomyParticipator {
 	 */
 	@Deprecated
 	void msg(String message, Object... args);
+	
+	/**
+	 * Deprecated, use {@link getMembers} 
+	 */
+	default Set<FPlayer> getFPlayers() {
+		return this.getMembers();
+	}
+
 
 }

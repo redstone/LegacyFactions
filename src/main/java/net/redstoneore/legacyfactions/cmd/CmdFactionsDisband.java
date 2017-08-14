@@ -83,7 +83,7 @@ public class CmdFactionsDisband extends FCommand {
 		if (disbandEvent.isCancelled()) return;
 
 		// Send event for each player in the faction
-		faction.getFPlayers().forEach(fplayer -> {
+		faction.getMembers().forEach(fplayer -> {
 			EventFactionsChange changeEvent = new EventFactionsChange(fplayer, faction, FactionColl.get().getWilderness(), false, ChangeReason.DISBAND);
 			Bukkit.getServer().getPluginManager().callEvent(changeEvent);
 		});

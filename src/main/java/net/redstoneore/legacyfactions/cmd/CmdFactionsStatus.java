@@ -41,7 +41,7 @@ public class CmdFactionsStatus extends FCommand {
 	@Override
 	public void perform() {
 		ArrayList<String> ret = new ArrayList<>();
-		for (FPlayer fp : myFaction.getFPlayers()) {
+		for (FPlayer fp : myFaction.getMembers()) {
 			String humanized = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - fp.getLastLoginTime(), true, true) + Lang.COMMAND_STATUS_AGOSUFFIX;
 			String last = fp.isOnline() ? ChatColor.GREEN + Lang.COMMAND_STATUS_ONLINE.toString() : (System.currentTimeMillis() - fp.getLastLoginTime() < 432000000 ? ChatColor.YELLOW + humanized : ChatColor.RED + humanized);
 			String power = ChatColor.YELLOW + String.valueOf(fp.getPowerRounded()) + " / " + String.valueOf(fp.getPowerMaxRounded()) + ChatColor.RESET;

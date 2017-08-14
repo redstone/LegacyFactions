@@ -519,7 +519,7 @@ public class DynmapEngine extends IntegrationEngine {
 
         Set<String> ret = new HashSet<String>();
 
-        for (FPlayer fplayer : faction.getFPlayers()) {
+        for (FPlayer fplayer : faction.getMembers()) {
             // NOTE: We add both UUID and name. This might be a good idea for future proofing.
             ret.add(fplayer.getId());
             ret.add(fplayer.getName());
@@ -626,7 +626,7 @@ public class DynmapEngine extends IntegrationEngine {
 
 
         // Players
-        Set<FPlayer> playersList = faction.getFPlayers();
+        Set<FPlayer> playersList = faction.getMembers();
         String playersCount = String.valueOf(playersList.size());
         String players = getHtmlPlayerString(playersList);
 

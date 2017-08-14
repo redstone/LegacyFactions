@@ -31,7 +31,7 @@ public class FactionsFlyListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if (!Conf.factionsFlyExpansionEnabled) return;
+		if (!Conf.expansionFactionsFly.enabled) return;
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		
 		FPlayer fplayer = FPlayerColl.get(event.getPlayer());
@@ -49,8 +49,8 @@ public class FactionsFlyListener implements Listener {
 		}
 		
 		// Max Y
-		if (Conf.factionsFlyMaxY > 0) {
-			if (event.getTo().getY() >= Conf.factionsFlyMaxY) {
+		if (Conf.expansionFactionsFly.maxY > 0) {
+			if (event.getTo().getY() >= Conf.expansionFactionsFly.maxY) {
 				event.setTo(event.getFrom().add(0, -1, 0));
 				return;
 			}
@@ -63,12 +63,12 @@ public class FactionsFlyListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerEnderpearl(PlayerTeleportEvent event) {
-		if (!Conf.factionsFlyExpansionEnabled) return;
+		if (!Conf.expansionFactionsFly.enabled) return;
 		
-		if (!Conf.factionsFlyNoEnderpearl) return;
+		if (!Conf.expansionFactionsFly.disableEnderpearlWhileFlying) return;
 		if (!event.getPlayer().isFlying()) return;
     
-    // use cross teleport to support all teleport causes
+		// use cross teleport to support all teleport causes
 		if (CrossTeleportCause.get(event.getCause()) != CrossTeleportCause.ENDER_PEARL) return; 
 		
 		event.setCancelled(true);
@@ -77,9 +77,9 @@ public class FactionsFlyListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerChorusFruit(PlayerTeleportEvent event) {
-		if (!Conf.factionsFlyExpansionEnabled) return;
+		if (!Conf.expansionFactionsFly.enabled) return;
 		
-		if (!Conf.factionsFlyNoChorusFruit) return;
+		if (!Conf.expansionFactionsFly.disableChorusFruitWhileFlying) return;
 		if (!event.getPlayer().isFlying()) return;
     
 		// use cross teleport to support all teleport causes

@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
+import net.redstoneore.legacyfactions.expansion.fly.FactionsFlyConfig;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapStyle;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
@@ -146,79 +148,18 @@ public class Conf {
 	public static boolean canLeaveWithNegativePower = true;
 
 	// -------------------------------------------------- //
-	// EXPANSION: FactionsChat - Misc
+	// EXPANSION: FactionsChat
 	// -------------------------------------------------- // 
 	
-	// Enable faction chat
-	public static boolean factionsChatExpansionEnabled = true;
-	
-	// Enable alliance chat
-	public static boolean factionsChatEnableAllianceChat = true;
-	
-	// Enable truce chat
-	public static boolean factionsChatEnableTruceChat = true;
-	
-	// Enable formatting public chat
-	public static boolean factionsChatEnableFormatPublicChat = false;
-		
-	public static String factionsChatFormatPublic = "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
-	public static String factionsChatFormatFaction = ChatColor.GREEN + "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
-	public static String factionsChatFormatAlliance = ChatColor.LIGHT_PURPLE + "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
-	public static String factionsChatFormatTruce = ChatColor.DARK_PURPLE + "{factions_player_role_prefix}%s:" + ChatColor.WHITE + " %s";
-	public static String factionsChatFormatSpy = ChatColor.GRAY + "(spy) {factions_player_role_prefix}%s:" + ChatColor.GRAY + " %s";
-	
-	// -------------------------------------------------- //
-	// EXPANSION: FactionsChat - Channels
-	// -------------------------------------------------- // 
-	
-	// Use chat channels in external plugins when available 
-	public static boolean factionChatChannelUse = true;
-	
-	// Default global channel, if empty we try to find it ourselves
-	public static String factionChatChannelGlobal = "";
-	
-	// -------------------------------------------------- //
-	// EXPANSION: FactionsChat - Chat Tag
-	// -------------------------------------------------- // 
-	
-	// Injected Chat Tag will cancel the Chat event and send it to players on its own, but allows for relational colours.
-	public static boolean chatTagEnabled = true;
-	
-	// If you want to use relational placeholders we must cancel and handle the chat ourselves. 
-	public static boolean chatTagRelationalOverride = false;
-	
-	// Chat Tag placeholder.
-	public static String chatTagPlaceholder = "{factions_chat_tag}";
-	
-	// Chat Tag format for default.
-	public static String chatTagFormatDefault = "{factions_player_role_prefix}{factions_faction_name}" + ChatColor.WHITE;
-	
-	// Chat Tag format for factionless.
-	public static String chatTagFormatFactionless = "";
+	public static FactionsChatConfig expansionsFactionsChat = new FactionsChatConfig();
 	
 	// -------------------------------------------- //
 	// EXPANSION: FactionsFly
 	// -------------------------------------------- //
 	
-	public static boolean factionsFlyExpansionEnabled = false;
+	public static FactionsFlyConfig expansionFactionsFly = new FactionsFlyConfig();
 	
-	// Disable Enderpearl when factions fly is enabled 
-	public static boolean factionsFlyNoEnderpearl = true;
-	
-	// Disable Chorus Fruit when factions fly is enabled 
-	public static boolean factionsFlyNoChorusFruit = true;
-	
-	// Max flight height
-	public static double factionsFlyMaxY = -1;
-	
-	// This will make a player not obtain fall damage when fly is disabled
-	public static boolean factionsFlyNoFirstFallDamage = true;
-	
-	// This will make a player teleport to floor when disable
-	public static boolean factionsFlyTeleportToFloorOnDisable = false;
-	
-	
-	
+	// BROADCAST
 	
 	public static boolean broadcastDescriptionChanges = false;
 	public static boolean broadcastTagChanges = false;

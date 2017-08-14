@@ -25,6 +25,12 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+/**
+ * MemoryFaction should be used carefully by developers. You should be able to do what you want
+ * with the available methods in Faction. If something is missing, open an issue on GitHub.<br>
+ * <br>
+ * Do not store references to any fields. Always use the methods available.  
+ */
 public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	
 	// -------------------------------------------------- //
@@ -332,7 +338,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 	public int getKills() {
 		int kills = 0;
-		for (FPlayer fplayer : this.getFPlayers()) {
+		for (FPlayer fplayer : this.getMembers()) {
 			kills += fplayer.getKills();
 		}
 
@@ -341,7 +347,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 	public int getDeaths() {
 		int deaths = 0;
-		for (FPlayer fplayer : this.getFPlayers()) {
+		for (FPlayer fplayer : this.getMembers()) {
 			deaths += fplayer.getDeaths();
 		}
 
@@ -596,7 +602,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		return fplayers.size();
 	}
 
-	public Set<FPlayer> getFPlayers() {
+	public Set<FPlayer> getMembers() {
 		// return a shallow copy of the FPlayer list, to prevent tampering and
 		// concurrency issues
 		return new HashSet<>(this.fplayers);
@@ -609,7 +615,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	public Set<FPlayer> getWhereOnline(boolean online) {
 		if (!this.isNormal()) return new HashSet<>();
 		
-		return this.getFPlayers().stream()
+		return this.getMembers().stream()
 				.filter(fplayer -> fplayer.isOnline() == online)
 				.collect(Collectors.toSet());
 	}
@@ -621,7 +627,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	public FPlayer getOwner() {
 		if (!this.isNormal()) return null;
 		
-		return this.getFPlayers().stream()
+		return this.getMembers().stream()
 				.filter(fplayer -> fplayer.getRole() == Role.ADMIN)
 				.findFirst()
 				.orElse(null);
@@ -634,7 +640,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	public ArrayList<FPlayer> getWhereRole(Role role) {
 		if (!this.isNormal()) return new ArrayList<>();
 
-		return this.getFPlayers().stream()
+		return this.getMembers().stream()
 				.filter(fplayer -> fplayer.getRole() == role)
 				.collect(Collectors.toCollection(ArrayList::new));
 
