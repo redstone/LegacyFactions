@@ -126,9 +126,9 @@ public class Factions extends FactionsPluginBase {
 		// Load Conf from disk
 		Conf.load();
 		Conf.save();
-		if (this.getDescription().getVersion().contains("PRE") || this.getDescription().getVersion().contains("SNAPSHOT")) {
+		if (this.getDescription().getVersion().contains("RC") || this.getDescription().getVersion().contains("SNAPSHOT")) {
 			Conf.debug = true;
-			this.debug("Debug mode has been enabled for this snapshot/pre-release.");
+			this.debug("Debug mode has been enabled for this snapshot.");
 			this.debug("conf.json `debug` has been set to 'true' ");
 			this.debug("Please put this entire log file on pastebin.com when reporting an issue.");
 			Conf.save();
