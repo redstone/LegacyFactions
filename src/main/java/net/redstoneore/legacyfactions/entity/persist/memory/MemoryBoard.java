@@ -18,7 +18,12 @@ import org.bukkit.World;
 import java.util.*;
 import java.util.Map.Entry;
 
-
+/**
+ * MemoryBoard should be used carefully by developers. You should be able to do what you want
+ * with the available methods in Board. If something is missing, open an issue on GitHub.<br>
+ * <br>
+ * Do not store references to any fields. Always use the methods available.  
+ */
 public abstract class MemoryBoard extends Board {
     
     public class MemoryBoardMap extends HashMap<FLocation, String> {
@@ -75,7 +80,7 @@ public abstract class MemoryBoard extends Board {
         if (!flocationIds.containsKey(flocation)) {
             return "0";
         }
-
+        
         return flocationIds.get(flocation);
     }
 

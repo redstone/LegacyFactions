@@ -206,7 +206,7 @@ public class TagUtil {
             case OFFLINE_LIST:
                 FancyMessage currentOffline = Factions.get().getTextUtil().parseFancy(prefix);
                 boolean firstOffline = true;
-                for (FPlayer p : MiscUtil.rankOrder(target.getFPlayers())) {
+                for (FPlayer p : MiscUtil.rankOrder(target.getMembers())) {
                     String name = p.getNameAndTitle();
                     if (!p.isOnline()) {
                         currentOffline.then(firstOffline ? name : ", " + name);

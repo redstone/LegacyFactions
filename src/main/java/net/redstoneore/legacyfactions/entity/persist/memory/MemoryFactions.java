@@ -13,6 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * MemoryFactions should be used carefully by developers. You should be able to do what you want
+ * with the available methods in FactionColl. If something is missing, open an issue on GitHub.<br>
+ * <br>
+ * Do not store references to any fields. Always use the methods available.  
+ */
 public abstract class MemoryFactions extends FactionColl {
     public Map<String, Faction> factions = new ConcurrentHashMap<String, Faction>();
     public int nextId = 1;

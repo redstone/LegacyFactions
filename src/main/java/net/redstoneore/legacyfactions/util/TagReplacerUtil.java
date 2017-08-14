@@ -232,9 +232,9 @@ public enum TagReplacerUtil {
             case ONLINE_COUNT:
                 return String.valueOf(faction.getOnlinePlayers().size());
             case OFFLINE_COUNT:
-                return String.valueOf(faction.getFPlayers().size() - faction.getOnlinePlayers().size());
+                return String.valueOf(faction.getMembers().size() - faction.getOnlinePlayers().size());
             case FACTION_SIZE:
-                return String.valueOf(faction.getFPlayers().size());
+                return String.valueOf(faction.getMembers().size());
             case FACTION_KILLS:
                 return String.valueOf(faction.getKills());
             case FACTION_DEATHS:

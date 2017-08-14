@@ -66,8 +66,8 @@ public class CmdFactionsList extends FCommand {
 
 		// Sort by total followers first
 		Collections.sort(factionList, (Faction faction1, Faction faction2) -> {
-			int faction1Size = faction1.getFPlayers().size();
-			int faction2Size = faction2.getFPlayers().size();
+			int faction1Size = faction1.getMembers().size();
+			int faction2Size = faction2.getMembers().size();
 			
 			if (faction1Size < faction2Size) return 1;
 			if (faction1Size > faction2Size) return -1;
