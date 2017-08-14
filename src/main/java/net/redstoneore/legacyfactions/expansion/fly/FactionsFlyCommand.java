@@ -51,7 +51,7 @@ public class FactionsFlyCommand implements Listener {
 		
 		if (!player.getAllowFlight()) {
 			// If they aren't already flying, get them flying
-			if (!FactionsFly.canFlyHere(fplayer, FLocation.valueOf(player.getLocation()))) {
+			if (!FactionsFly.canFlyHere(fplayer, FLocation.valueOf(player.getLocation()), true)) {
 				fplayer.sendMessage(Factions.get().getTextUtil().parse(Lang.EXPANSION_FACTIONS_FLY_NOT_HERE.toString()));
 			} else {
 				// TODO: add a check for relations in radius
