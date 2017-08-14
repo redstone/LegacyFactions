@@ -12,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsJoin extends FCommand {
 	
@@ -110,8 +111,16 @@ public class CmdFactionsJoin extends FCommand {
 		}
 
 		if (faction == fplayer.getFaction()) {
-			// TODO:TL
-			fsender.sendMessage(Lang.COMMAND_JOIN_ALREADYMEMBER, fplayer.describeTo(fsender, true), (samePlayer ? "are" : "is"), faction.getTag(fsender));
+			String message;
+			if (samePlayer) {
+				message = Lang.COMMAND_JOIN_ALREADYMEMBER_YOU.toString();
+			} else {
+				message = Lang.COMMAND_JOIN_ALREADYMEMBER_SOMEONE.toString();
+			}
+			message = message.replace("<player>", fplayer.describeTo(fsender, true));
+			message = message.replace("<faction>", faction.getTag(fsender));
+			
+			fsender.sendMessage(TextUtil.parseColor(message));
 			return;
 		}
 
@@ -121,8 +130,14 @@ public class CmdFactionsJoin extends FCommand {
 		}
 
 		if (fplayer.hasFaction()) {
-			// TODO:TL
-			fsender.sendMessage(Lang.COMMAND_JOIN_INOTHERFACTION, fplayer.describeTo(fsender, true), (samePlayer ? "your" : "their"));
+			String message;
+			if (samePlayer) {
+				message = Lang.COMMAND_JOIN_INOTHERFACTION_YOU.toString();
+			} else {
+				message = Lang.COMMAND_JOIN_INOTHERFACTION_SOMEONE.toString();
+			}
+			message = message.replace("<player>", fplayer.describeTo(fsender, true));
+			fsender.sendMessage(TextUtil.parseColor(message));
 			return;
 		}
 

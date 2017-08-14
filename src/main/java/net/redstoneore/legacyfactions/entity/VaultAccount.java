@@ -8,7 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import net.redstoneore.legacyfactions.EconomyParticipator;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 @SuppressWarnings("deprecation")
 public class VaultAccount {
@@ -96,8 +98,11 @@ public class VaultAccount {
 		// ... and they have enough in their balance ...
 		if (!this.has(amount)) {
 			if (invoker != null && notify) {
-				// TODO: Add to Lang
-				invoker.getEconomyParticipator().sendMessage("<h>%s<b> can't afford to transfer <h>%s<b> to %s<b>.", this.getEconomyParticipator().describeTo(invoker.getEconomyParticipator(), true), VaultEngine.getUtils().moneyString(amount), to.getEconomyParticipator().describeTo(invoker.getEconomyParticipator()));
+				String message = Lang.ECON_TRANSFER_CANTAFFORD.toString();
+				message = message.replace("<from>", this.getEconomyParticipator().describeTo(invoker.getEconomyParticipator(), true));
+				message = message.replace("<amount>", VaultEngine.getUtils().moneyString(amount));
+				message = message.replace("<target>", to.getEconomyParticipator().describeTo(invoker.getEconomyParticipator()));
+				invoker.getEconomyParticipator().sendMessage(TextUtil.parseColor(message));
 			}
 			return false;
 		}
@@ -105,7 +110,12 @@ public class VaultAccount {
 		// .. attempt a withdraw, if we couldn't withdraw, we don't continue. 
 		if (!this.withdraw(amount)) {
 			if (notify) {
-				invoker.getEconomyParticipator().msg("Unable to transfer %s<b> to <h>%s<b> from <h>%s<b>.", VaultEngine.getUtils().moneyString(amount), to.getEconomyParticipator().describeTo(invoker.getEconomyParticipator()), this.getEconomyParticipator().describeTo(invoker.getEconomyParticipator(), true));
+				String message = Lang.ECON_TRANSFER_UNABLE.toString();
+				message = message.replace("<amount>", VaultEngine.getUtils().moneyString(amount));
+				message = message.replace("<target>", to.getEconomyParticipator().describeTo(invoker.getEconomyParticipator()));
+				message = message.replace("<from>", this.getEconomyParticipator().describeTo(invoker.getEconomyParticipator(), true));
+				
+				invoker.getEconomyParticipator().sendMessage(TextUtil.parseColor(message));
 			}
 			
 			return false;
@@ -159,6 +169,5 @@ public class VaultAccount {
 			return VaultEngine.getUtils().getEcon().withdrawPlayer(this.named, amount).transactionSuccess();
 		}
 	}
-
 	
 }

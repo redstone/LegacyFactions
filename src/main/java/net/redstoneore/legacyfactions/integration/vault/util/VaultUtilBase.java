@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.redstoneore.legacyfactions.EconomyParticipator;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.Conf;
@@ -17,6 +18,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultUtils;
 import net.redstoneore.legacyfactions.mixin.BukkitMixin;
 import net.redstoneore.legacyfactions.util.RelationUtil;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public abstract class VaultUtilBase {
 
@@ -118,8 +120,11 @@ public abstract class VaultUtilBase {
 		}
 
 		// Can't do this.
-		// TODO: Lang
-		who.sendMessage("<h>%s<i> lacks permission to control <h>%s's<i> money.", who.describeTo(who, true), you.describeTo(who));
+		String message = Lang.ECON_LACKSCONTROL.toString();
+		message = message.replace("<player>", who.describeTo(who, true));
+		message = message.replace("<target>", you.describeTo(who));
+		
+		who.sendMessage(TextUtil.parseColor(message));
 		return false;
 	}
 	/*

@@ -126,7 +126,7 @@ public class FactionsFly extends FactionsExpansion {
 		player.setFlying(false);
 		player.setAllowFlight(false);
 		
-		fplayer.sendMessage(Factions.get().getTextUtil().parse(Lang.EXPANSION_FACTIONS_FLY_DISABLED.toString()));
+		fplayer.sendMessage(Factions.get().getTextUtil().parse(Lang.EXPANSION_FACTIONSFLY_DISABLED.toString()));
 		 
 		if (Conf.expansionFactionsFly.onDisableTeleportToFloor) {
 			Locality floor = fplayer.getLastLocation().getFloorDown();

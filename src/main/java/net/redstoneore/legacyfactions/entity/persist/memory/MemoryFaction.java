@@ -18,6 +18,7 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.RelationUtil;
+import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 
 import java.util.*;
@@ -286,8 +287,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 			return;
 		}
 		
-		// TODO: lang
-		this.sendMessage("<b>Your faction home has been un-set since it is no longer in your territory.");
+		this.sendMessage(TextUtil.parseColor(Lang.GENERIC_HOMEREMOVED.toString()));
 		this.home = null;
 	}
 
@@ -711,7 +711,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 			}
 
 			for (FPlayer fplayer : FPlayerColl.all()) {
-				fplayer.sendMessage("The faction %s<i> was disbanded.", this.getTag(fplayer));
+				fplayer.sendMessage(Lang.LEAVE_DISBANDED, this.getTag(fplayer));
 			}
 
 			FactionColl.get().removeFaction(getId());
@@ -720,8 +720,16 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 				oldLeader.setRole(Role.NORMAL);
 			}
 			replacements.get(0).setRole(Role.ADMIN);
-			//TODO:TL
-			this.sendMessage("<i>Faction admin <h>%s<i> has been removed. %s<i> has been promoted as the new faction admin.", oldLeader == null ? "" : oldLeader.getName(), replacements.get(0).getName());
+			
+			String message = null;
+			if (oldLeader != null) { 
+				message = Lang.LEAVE_NEWADMINPROMOTED_PLAYER.toString().replace("<player>", oldLeader.getName());
+			} else {
+				message = Lang.LEAVE_NEWADMINPROMOTED_UNKNOWN.toString();
+			}
+			message = message.replaceAll("<new-admin>", replacements.get(0).getName());
+			
+			this.sendMessage(TextUtil.parseColor(message));
 			Factions.get().log("Faction " + this.getTag() + " (" + this.getId() + ") admin was removed. Replacement admin: " + replacements.get(0).getName());
 		}
 	}
@@ -859,8 +867,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 				ownerList += ", ";
 			}
 			OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(owner));
-			//TODO:TL
-			ownerList += offlinePlayer != null ? offlinePlayer.getName() : "null player";
+			ownerList += offlinePlayer != null ? offlinePlayer.getName() : Lang.GENERIC_NULLPLAYER.toString();
 		}
 		return ownerList;
 	}

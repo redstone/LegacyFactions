@@ -20,6 +20,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class FactionsBlockListener implements Listener {
 	
@@ -42,19 +43,19 @@ public class FactionsBlockListener implements Listener {
 		// special case for flint&steel, which should only be prevented by DenyUsage list
 		if (event.getBlockPlaced().getType() == Material.FIRE) return;
 		
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "build", false, event);
+		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.BUILD, false, event);
 	}
 		
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerCanBuildDestroyBlock(BlockBreakEvent event) {
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "destroy", false, event);
+		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.DESTROY, false, event);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerCanBuildDestroyBlock(BlockDamageEvent event) {
 		if (!event.getInstaBreak()) return;
 		
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "destroy", false, event);
+		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.DESTROY, false, event);
 	}
 	
 	// -------------------------------------------------- //
@@ -67,9 +68,8 @@ public class FactionsBlockListener implements Listener {
 		
 		if (entityRightClicked != EntityType.ARMOR_STAND) return;
 		
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getRightClicked().getLocation(), "destroy", false, event);
+		playerCanBuildDestroyBlock(event.getPlayer(), event.getRightClicked().getLocation(), LandAction.ENTITY, false, event);
 	}
-
 	
 	// -------------------------------------------------- //
 	// PISTON CAN MOVE BLOCK
@@ -173,7 +173,7 @@ public class FactionsBlockListener implements Listener {
 		}
 
 		// Check if they have build permissions here. If not, block this from happening.
-		if (!playerCanBuildDestroyBlock(player, location, "frost walk", justCheck)) {
+		if (!playerCanBuildDestroyBlock(player, location, LandAction.FROST_WALK, justCheck)) {
 			event.setCancelled(true);
 		}
 	}
@@ -191,7 +191,7 @@ public class FactionsBlockListener implements Listener {
 	 * @param event to cancel
 	 * @return true if a player can destroy a block at the location.
 	 */
-	public static boolean playerCanBuildDestroyBlock(Player player, Location location, String action, boolean justCheck, Cancellable event) {
+	public static boolean playerCanBuildDestroyBlock(Player player, Location location, LandAction action, boolean justCheck, Cancellable event) {
 		Boolean result = playerCanBuildDestroyBlock(player, location, action, justCheck);
 			
 		if (!result) event.setCancelled(true);
@@ -199,7 +199,7 @@ public class FactionsBlockListener implements Listener {
 		return result;
 	}
 	
-	public static boolean playerCanBuildDestroyBlock(Player player, Location location, String action, boolean justCheck) {
+	public static boolean playerCanBuildDestroyBlock(Player player, Location location, LandAction action, boolean justCheck) {
 		String name = player.getName();
 		
 		if (Conf.playersWhoBypassAllProtection.contains(name)) return true;
@@ -221,8 +221,34 @@ public class FactionsBlockListener implements Listener {
 			}
 
 			if (!justCheck) {
-				// TODO: lang
-				me.sendMessage("<b>You can't " + action + " in the wilderness.");
+				String message = null;
+				
+				switch (action) {
+				case BUILD:
+					message = Lang.PLAYER_CANT_WILDERNESS_BUILD.toString();
+					break;
+				case DESTROY:
+					message = Lang.PLAYER_CANT_WILDERNESS_DESTROY.toString();
+					break;
+				case ENTITY:
+					message = Lang.PLAYER_CANT_WILDERNESS_USE.toString();
+					break;
+				case FROST_WALK:
+					message = Lang.PLAYER_CANT_WILDERNESS_FROSTWALK.toString();
+					break;
+				case PLACE_PAINTING:
+					message = Lang.PLAYER_CANT_WILDERNESS_PLACEPAINTING.toString();
+					break;
+				case REMOVE_PAINTING:
+					message = Lang.PLAYER_CANT_WILDERNESS_BREAKPAINTING.toString();
+					break;
+				default:
+					return false;
+				}
+				
+				if (message != null) {
+					me.sendMessage(TextUtil.parseColor(message));
+				}
 			}
 
 			return false;
@@ -236,8 +262,33 @@ public class FactionsBlockListener implements Listener {
 			}
 
 			if (!justCheck) {
-				// TODO: lang
-				me.sendMessage("<b>You can't " + action + " in a safe zone.");
+				String message = null;
+				switch (action) {
+				case BUILD:
+					message = Lang.PLAYER_CANT_SAFEZONE_BUILD.toString();
+					break;
+				case DESTROY:
+					message = Lang.PLAYER_CANT_SAFEZONE_DESTROY.toString();
+					break;
+				case ENTITY:
+					message = Lang.PLAYER_CANT_SAFEZONE_USE.toString();
+					break;
+				case FROST_WALK:
+					message = Lang.PLAYER_CANT_SAFEZONE_FROSTWALK.toString();
+					break;
+				case PLACE_PAINTING:
+					message = Lang.PLAYER_CANT_SAFEZONE_PLACEPAINTING.toString();
+					break;
+				case REMOVE_PAINTING:
+					message = Lang.PLAYER_CANT_SAFEZONE_BREAKPAINTING.toString();
+					break;
+				default:
+					break;
+				}
+				
+				if (message != null) {
+					me.sendMessage(TextUtil.parseColor(message));					
+				}
 			}
 
 			return false;
@@ -251,8 +302,33 @@ public class FactionsBlockListener implements Listener {
 			}
 
 			if (!justCheck) {
-				// TODO: lang
-				me.sendMessage("<b>You can't " + action + " in a war zone.");
+				String message = null;
+				switch (action) {
+				case BUILD:
+					message = Lang.PLAYER_CANT_WARZONE_BUILD.toString();
+					break;
+				case DESTROY:
+					message = Lang.PLAYER_CANT_WARZONE_DESTROY.toString();
+					break;
+				case ENTITY:
+					message = Lang.PLAYER_CANT_WARZONE_USE.toString();
+					break;
+				case FROST_WALK:
+					message = Lang.PLAYER_CANT_WARZONE_FROSTWALK.toString();
+					break;
+				case PLACE_PAINTING:
+					message = Lang.PLAYER_CANT_WARZONE_PLACEPAINTING.toString();
+					break;
+				case REMOVE_PAINTING:
+					message = Lang.PLAYER_CANT_WARZONE_BREAKPAINTING.toString();
+					break;
+				default:
+					break;
+				}
+				
+				if (message != null) {
+					me.sendMessage(TextUtil.parseColor(message));
+				}
 			}
 
 			return false;
@@ -272,16 +348,69 @@ public class FactionsBlockListener implements Listener {
 			player.damage(Conf.actionDeniedPainAmount);
 
 			if (!deny) {
-				// TODO: lang
-				me.sendMessage("<b>It is painful to try to " + action + " in the territory of " + otherFaction.getTag(myFaction));
+				String message = null;
+				
+				switch(action) {
+				case BUILD:
+					message = Lang.PLAYER_PAINFUL_FACTION_BUILD.toString();
+					break;
+				case DESTROY:
+					message = Lang.PLAYER_PAINFUL_FACTION_DESTROY.toString();
+					break;
+				case ENTITY:
+					message = Lang.PLAYER_PAINFUL_FACTION_USE.toString();
+					break;
+				case FROST_WALK:
+					message = Lang.PLAYER_PAINFUL_FACTION_FROSTWALK.toString();
+					break;
+				case PLACE_PAINTING:
+					message = Lang.PLAYER_PAINFUL_FACTION_PLACEPAINTING.toString();
+					break;
+				case REMOVE_PAINTING:
+					message = Lang.PLAYER_PAINFUL_FACTION_BREAKPAINTING.toString();
+					break;
+				default:
+					break;
+				}
+				
+				if (message != null) {
+					me.sendMessage(TextUtil.parseColor(message.replace("<name>", otherFaction.getTag(myFaction))));					
+				}
 			}
 		}
 
 		// cancel building/destroying in other territory?
 		if (deny) {
 			if (!justCheck) {
-				// TODO: lang
-				me.sendMessage("<b>You can't " + action + " in the territory of " + otherFaction.getTag(myFaction));
+				String message = null;
+				
+				switch (action) {
+				case BUILD:
+					message = Lang.PLAYER_CANT_FACTION_BUILD.toString();
+					break;
+				case DESTROY:
+					message = Lang.PLAYER_CANT_FACTION_DESTROY.toString();
+					break;
+				case ENTITY:
+					message = Lang.PLAYER_CANT_FACTION_USE.toString();
+					break;
+				case FROST_WALK:
+					message = Lang.PLAYER_CANT_FACTION_FROSTWALK.toString();
+					break;	
+				case PLACE_PAINTING:
+					message = Lang.PLAYER_CANT_FACTION_PLACEPAINTING.toString();
+					break;
+				case REMOVE_PAINTING:
+					message = Lang.PLAYER_CANT_FACTION_BREAKPAINTING.toString();
+					break;
+				default:
+					break;
+				}
+				
+				if (message != null) {
+					message = message.replace("<name>", otherFaction.getTag(myFaction));
+					me.sendMessage(TextUtil.parseColor(message));					
+				}
 			}
 
 			return false;
@@ -293,14 +422,64 @@ public class FactionsBlockListener implements Listener {
 				player.damage(Conf.actionDeniedPainAmount);
 
 				if (!Conf.ownedAreaDenyBuild) {
-					// TODO: lang
-					me.sendMessage("<b>It is painful to try to " + action + " in this territory, it is owned by: " + otherFaction.getOwnerListString(loc));
+					String message = null;
+					switch(action) {
+					case BUILD:
+						message = Lang.PLAYER_PAINFUL_OWNED_BUILD.toString();
+						break;
+					case DESTROY:
+						message = Lang.PLAYER_PAINFUL_OWNED_DESTROY.toString();
+						break;
+					case ENTITY:
+						message = Lang.PLAYER_PAINFUL_OWNED_USE.toString();
+						break;
+					case FROST_WALK:
+						message = Lang.PLAYER_PAINFUL_OWNED_FROSTWALK.toString();
+						break;
+					case PLACE_PAINTING:
+						message = Lang.PLAYER_PAINFUL_OWNED_PLACEPAINTING.toString();
+						break;
+					case REMOVE_PAINTING:
+						message = Lang.PLAYER_PAINFUL_OWNED_BREAKPAINTING.toString();
+						break;
+					default:
+						break;
+					}
+					
+					if (message != null) {
+						me.sendMessage(TextUtil.parseColor(message.replace("<who>", otherFaction.getOwnerListString(loc))));
+					}
 				}
 			}
 			if (Conf.ownedAreaDenyBuild) {
 				if (!justCheck) {
-					// TODO: lang
-					me.sendMessage("<b>You can't " + action + " in this territory, it is owned by: " + otherFaction.getOwnerListString(loc));
+					String message = null;
+					switch (action) {
+					case BUILD:
+						message = Lang.PLAYER_CANT_OWNED_BUILD.toString();
+						break;
+					case DESTROY:
+						message = Lang.PLAYER_CANT_OWNED_DESTROY.toString();
+						break;
+					case ENTITY:
+						message = Lang.PLAYER_CANT_OWNED_USE.toString();
+						break;
+					case FROST_WALK:
+						message = Lang.PLAYER_CANT_OWNED_FROSTWALK.toString();
+						break;
+					case PLACE_PAINTING:
+						message = Lang.PLAYER_CANT_OWNED_PLACEPAINTING.toString();
+						break;
+					case REMOVE_PAINTING:
+						message = Lang.PLAYER_CANT_OWNED_BREAKPAINTING.toString();
+						break;
+					default:
+						break;
+					}
+					
+					if (message != null) {
+						me.sendMessage(TextUtil.parseColor(message.replace("<who>", otherFaction.getOwnerListString(loc))));
+					}
 				}
 
 				return false;

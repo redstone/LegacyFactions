@@ -511,14 +511,14 @@ public class FactionsEntityListener implements Listener {
             return;
         }
 
-        if (!FactionsBlockListener.playerCanBuildDestroyBlock((Player) breaker, event.getEntity().getLocation(), "remove paintings", false)) {
+        if (!FactionsBlockListener.playerCanBuildDestroyBlock((Player) breaker, event.getEntity().getLocation(), LandAction.REMOVE_PAINTING, false)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPaintingPlace(HangingPlaceEvent event) {
-        if (!FactionsBlockListener.playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), "place paintings", false)) {
+        if (!FactionsBlockListener.playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.PLACE_PAINTING, false)) {
             event.setCancelled(true);
         }
     }
