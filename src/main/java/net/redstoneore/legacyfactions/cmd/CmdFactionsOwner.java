@@ -1,9 +1,14 @@
 package net.redstoneore.legacyfactions.cmd;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.callback.Callback;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 
 
@@ -63,7 +68,7 @@ public class CmdFactionsOwner extends FCommand {
 			return;
 		}
 
-		FLocation flocation = new FLocation(fme);
+		final FLocation flocation = new FLocation(fme);
 
 		Faction factionHere = Board.get().getFactionAt(flocation);
 		if (factionHere != myFaction) {
@@ -79,8 +84,48 @@ public class CmdFactionsOwner extends FCommand {
 
 		}
 
-		FPlayer target = this.argAsBestFPlayerMatch(0, this.fme);
-		if (target == null) return;
+		FPlayer target = this.fme;
+		if (this.argIsSet(0)) {
+			target = this.argAsBestFPlayerMatch(0, null, false);
+			
+			if (target == null) {
+				// Finals for callback
+				final FPlayer fplayer = fme;
+				final Faction fplayerFaction = myFaction;
+				final boolean emptyArgs = args.isEmpty();
+				final String playerName = this.argAsString(0);
+				
+				this.argAsPlayerToMojangUUID(0, null, new Callback<UUID>() {
+					@Override
+					public void then(UUID result, Optional<Exception> exception) {
+						if (exception.isPresent()) {
+							exception.get().printStackTrace();
+							return;
+						}
+						
+						if (result == null) {
+							fme.sendMessage(Lang.COMMAND_ERRORS_PLAYERNOTFOUND.toString().replace("<name>", playerName));
+							return;
+						}
+						
+						FPlayer targetfplayer = FPlayerColl.get(result);
+						if (fplayer == null) {
+							fme.sendMessage(Lang.COMMAND_ERRORS_PLAYERNOTFOUND.toString().replace("<name>", playerName));
+							return;
+						}
+						
+						resume(fplayer, targetfplayer, fplayerFaction, flocation, emptyArgs);
+					}
+				});
+				
+				return;
+			}
+		}
+		
+		resume(this.fme, target, this.myFaction, flocation, args.isEmpty());
+	}
+	
+	private static void resume(FPlayer fme, FPlayer target, Faction myFaction, FLocation flocation, Boolean emptyArgs) {
 
 		String playerName = target.getName();
 
@@ -90,7 +135,7 @@ public class CmdFactionsOwner extends FCommand {
 		}
 
 		// if no player name was passed, and this claim does already have owners set, clear them
-		if (args.isEmpty() && myFaction.doesLocationHaveOwnersSet(flocation)) {
+		if (emptyArgs && myFaction.doesLocationHaveOwnersSet(flocation)) {
 			myFaction.clearClaimOwnership(flocation);
 			fme.sendMessage(Lang.COMMAND_OWNER_CLEARED);
 			return;
@@ -103,7 +148,7 @@ public class CmdFactionsOwner extends FCommand {
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostOwner, Lang.COMMAND_OWNER_TOSET, Lang.COMMAND_OWNER_FORSET)) {
+		if (!fme.payForCommand(Conf.econCostOwner, Lang.COMMAND_OWNER_TOSET.toString(), Lang.COMMAND_OWNER_FORSET.toString())) {
 			return;
 		}
 
