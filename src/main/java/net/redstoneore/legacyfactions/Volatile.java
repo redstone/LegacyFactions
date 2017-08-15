@@ -9,7 +9,7 @@ import java.util.UUID;
 import net.redstoneore.legacyfactions.cmd.MCommand;
 
 /**
- * This class contains volatile information that is not stored and is simply stored in memory
+ * This class contains volatile information that is not kept and is simply stored in memory
  * and never saved for later use.
  */
 public class Volatile {
