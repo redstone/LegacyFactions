@@ -491,7 +491,7 @@ public class Locality implements Serializable {
 	}
 	
 	/**
-	 * Attempts to find the floor upwards, if it fails it reverts to {@link Locality#getFloorUp}, if that fails it returns null
+	 * Attempts to find the floor upwards, if it fails it reverts to {@link Locality#getFloorDown}, if that fails it returns null
 	 * @return {@link Locality} with floor, or null if none
 	 */
 	public Locality getFloorUp() {
@@ -515,6 +515,10 @@ public class Locality implements Serializable {
 		return at;
 	}
 	
+	/**
+	 * Attempts to find the floor downwards, if it fails it reverts to {@link Locality#getFloorUp}, if that fails it returns null
+	 * @return {@link Locality} with floor, or null if none
+	 */
 	public Locality getFloorDown() {
 		return this.getFloorDownLogic(false);
 	}
@@ -588,6 +592,10 @@ public class Locality implements Serializable {
 		}
 	}
 	
+	/**
+	 * Create a clean copy of this {@link Locality}
+	 * @return a clean copy of this {@link Locality}
+	 */
 	public Locality copy() {
 		Locality locality = new Locality();
 		locality.blockX = this.blockX;

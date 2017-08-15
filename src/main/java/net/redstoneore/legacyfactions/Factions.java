@@ -87,7 +87,10 @@ public class Factions extends FactionsPluginBase {
 	private boolean locked = false;
 	
 	private Integer saveTask = null;
-
+	
+	/**
+	 * {@link Gson} object used by LegacyFactions
+	 */
     public final Gson gson = this.getGsonBuilder().create();
     	
 	private boolean autoSave = true;
@@ -97,19 +100,35 @@ public class Factions extends FactionsPluginBase {
 	// METHODS
 	// -------------------------------------------------- //
     
+	/**
+	 * Check if writing is currently locked.
+	 * @return true if locked
+	 */
 	public boolean isLocked() {
 		return this.locked;
 	}
 	
+	/**
+	 * Lock the database from writing. 
+	 * @param locked 
+	 */
 	public void setLocked(boolean locked) {
 		this.locked = locked;
 		this.setAutoSave(locked);
 	}
 	
+	/**
+	 * Get the autosave state.
+	 * @return autosave state
+	 */
 	public boolean getAutoSave() {
 		return this.autoSave;
 	}
 
+	/**
+	 * Set the autosave state.
+	 * @param autoSave the autosave state.
+	 */
 	public void setAutoSave(boolean autoSave) {
 		this.autoSave = autoSave;
 	}

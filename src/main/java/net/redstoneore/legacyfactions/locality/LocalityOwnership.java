@@ -31,35 +31,58 @@ public class LocalityOwnership {
 	// METHODS
 	// -------------------------------------------------- //
 	
+	/**
+	 * Remove all owners at this location.
+	 */
 	public void removeAll() {
 		Board.get().clearOwnershipAt(new FLocation(locality.getChunk()));
 	}
 	
+	/**
+	 * Get list of owners at this location.
+	 * @return
+	 */
 	public List<FPlayer> getAccess() {
-		if (!Board.get().getFactionAt(this.flocation).doesLocationHaveOwnersSet(this.flocation)) return new ArrayList<>();
+		if (!this.isOwned()) return new ArrayList<>();
 		
 		List<FPlayer> access = new ArrayList<>();
 		
-		Board.get().getFactionAt(this.flocation).getOwnerList(this.flocation).forEach(playerId -> {
-			access.add(FPlayerColl.get(UUID.fromString(playerId)));
-		});
+		Board.get().getFactionAt(this.flocation).getOwnerList(this.flocation).forEach(playerId -> 
+			access.add(FPlayerColl.get(UUID.fromString(playerId)))
+		);
 		
 		return access;
 	}
 	
+	/**
+	 * Returns true if this location is owned.
+	 * @return true if this location is owned.
+	 */
 	public boolean isOwned() {
-		// TODO
-		return false;
+		return Board.get().getFactionAt(this.flocation).doesLocationHaveOwnersSet(this.flocation);
 	}
 	
+	/**
+	 * Add a player to the owner access list.
+	 * @param fplayer the player to add.
+	 */
 	public void addAccess(FPlayer fplayer) {
-		// TODO;
+		Board.get().getFactionAt(this.flocation).setPlayerAsOwner(fplayer, this.flocation);
 	}
 	
+	/**
+	 * Check if a player is on the owner list.
+	 * @param fplayer the fplayer to check.
+	 * @return true if they are on the owner list.
+	 */
 	public boolean hasAccess(FPlayer fplayer) {
 		return Board.get().getFactionAt(this.flocation).isPlayerInOwnerList(fplayer, this.flocation);
 	}
 	
+	/**
+	 * Remove a player from the owner access list.
+	 * @param fplayer the player to remove.
+	 */
 	public void removeAccess(FPlayer fplayer) {
 		Board.get().getFactionAt(this.flocation).removePlayerAsOwner(fplayer, this.flocation);
 	}
