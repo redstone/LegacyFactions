@@ -42,6 +42,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(CmdFactionsBoom.get());
 		this.addSubCommand(CmdFactionsBypass.get());
 		this.addSubCommand(CmdFactionsClaim.get());
+		this.addSubCommand(CmdFactionsClaimLine.get());
 		this.addSubCommand(CmdFactionsColeader.get());
 		this.addSubCommand(CmdFactionsConfig.get());
 		this.addSubCommand(CmdFactionsCreate.get());
@@ -79,6 +80,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(CmdFactionsShow.get());
 		this.addSubCommand(CmdFactionsStatus.get());
 		this.addSubCommand(CmdFactionsStuck.get());
+		this.addSubCommand(CmdFactionsStyle.get());
 		this.addSubCommand(CmdFactionsTag.get());
 		this.addSubCommand(CmdFactionsTitle.get());
 		this.addSubCommand(CmdFactionsUnclaim.get());
@@ -95,7 +97,6 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(CmdFactionsDelwarp.get());
 		this.addSubCommand(CmdFactionsModifyPower.get());
 		this.addSubCommand(CmdFactionsLogins.get());
-		this.addSubCommand(CmdFactionsClaimLine.get());
 		this.addSubCommand(CmdFactionsTop.get());
 	}
 	

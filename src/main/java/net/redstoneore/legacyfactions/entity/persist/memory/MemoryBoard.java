@@ -290,24 +290,32 @@ public abstract class MemoryBoard extends Board {
                     FLocation flocationHere = topLeft.getRelative(dx, dz);
                     Faction factionHere = getFactionAt(flocationHere);
                     Relation relation = faction.getRelationTo(factionHere);
-                    if (factionHere.isWilderness()) {
-                        row += ChatColor.GRAY + "-";
-                    } else if (factionHere.isSafeZone()) {
-                        row += Conf.colorPeaceful + "+";
-                    } else if (factionHere.isWarZone()) {
-                        row += ChatColor.DARK_RED + "+";
+                    
+                    // Wilderness, safezone, and warzone all have forced colours and characters
+                    if (factionHere.isWilderness() || factionHere.isSafeZone() || factionHere.isWarZone()) {
+                        row += factionHere.getForcedMapColour() + "" + factionHere.getForcedMapCharacter();
                     } else if (factionHere == faction ||
                                        factionHere == factionLoc ||
                                        relation.isAtLeast(Relation.ALLY) ||
                                        (Conf.showNeutralFactionsOnMap && relation.equals(Relation.NEUTRAL)) ||
                                        (Conf.showEnemyFactionsOnMap && relation.equals(Relation.ENEMY))) {
                         if (!fList.containsKey(factionHere.getTag())) {
-                            fList.put(factionHere.getTag(), Conf.mapKeyChrs[Math.min(chrIdx++, Conf.mapKeyChrs.length - 1)]);
+                        	if (factionHere.hasForcedMapCharacter()) {
+                                fList.put(factionHere.getTag(), factionHere.getForcedMapCharacter());                        		
+                        	} else {
+                                fList.put(factionHere.getTag(), Conf.mapKeyChrs[Math.min(chrIdx++, Conf.mapKeyChrs.length - 1)]);                        		
+                        	}
                         }
-                        char tag = fList.get(factionHere.getTag());
-                        row += factionHere.getColorTo(faction) + "" + tag;
+                        char mapCharacter = fList.get(factionHere.getTag());
+                        
+                        if (factionHere.hasForcedMapColour()){
+                            row += factionHere.getForcedMapColour() + "" + mapCharacter;
+                        } else {
+                            row += factionHere.getColorTo(faction) + "" + mapCharacter;                        	
+                        }
                     } else {
-                        row += ChatColor.GRAY + "-";
+                    	// Assume wilderness
+                    	row += FactionColl.get().getWilderness().getForcedMapColour() + "" + FactionColl.get().getWilderness().getForcedMapCharacter();
                     }
                 }
             }

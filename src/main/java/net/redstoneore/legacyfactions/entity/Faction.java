@@ -77,6 +77,18 @@ public interface Faction extends EconomyParticipator {
 
 	void setDescription(String value);
 
+	boolean hasForcedMapCharacter();
+	
+	void setForcedMapCharacter(char character);
+	
+	Character getForcedMapCharacter();
+	
+	boolean hasForcedMapColour();
+	
+	void setForcedMapColour(ChatColor colour);
+	
+	ChatColor getForcedMapColour();
+	
 	void setHome(Location home);
 
 	boolean hasHome();

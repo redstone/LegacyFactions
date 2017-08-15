@@ -1,3 +1,12 @@
+# 1.4.3
+* ⭐️ Feature: New `/f style` command for changing map colours and characters of factions
+* ⌨️ API: `Faction#hasForcedMapCharacter` method added
+* ⌨️ API: `Faction#setForcedMapCharacter` method added
+* ⌨️ API: `Faction#getForcedMapCharacter` method added
+* ⌨️ API: `Faction#hasForcedMapColour` method added
+* ⌨️ API: `Faction#setForcedMapColour` method added
+* ⌨️ API: `Faction#getForcedMapColour` method added
+
 # 1.4.2
 * 🐞 Bugfix: PlaceholderAPI wasn't working properly, but it works now! 
 * 🐞 Bugfix: Factionless Scoreboards were not refreshing
