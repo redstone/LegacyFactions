@@ -1,6 +1,13 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.callback.Callback;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.google.common.collect.Lists;
+
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -40,16 +47,37 @@ public class CmdFactionsTitle extends FCommand {
 
 	@Override
 	public void perform() {
-		FPlayer you = this.argAsBestFPlayerMatch(0);
-		if (you == null) return;
-
-		this.args.remove(0);
-		String title = TextUtil.implode(args, " ");
+		List<String> titleItems = Lists.newArrayList(this.args);
+		titleItems.remove(0);
 		
-		if (!this.canIAdministerYou(this.fme, you)) return;
+		final String title = TextUtil.implode(titleItems, " ");
+		
+		FPlayer you = this.argAsBestFPlayerMatch(0, null, false);
+		final FPlayer fplayer = this.fme;
+		
+		if (you == null) {
+			this.argAsPlayerToMojangFPlayer(0, null, new Callback<FPlayer>() {
+				@Override
+				public void then(FPlayer you, Optional<Exception> exception) {
+					if (exception.isPresent()) {
+						exception.get().printStackTrace();
+						return;
+					}
+					
+					resume(fplayer, you, title);
+				}
+			});
+			return;
+		}
 
+		resume(fplayer, you, title);
+	}
+	
+	private static void resume(FPlayer fme, FPlayer you, String title) {
+		if (!fme.canAdminister(you)) return;
+		
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostTitle, Lang.COMMAND_TITLE_TOCHANGE, Lang.COMMAND_TITLE_FORCHANGE)) {
+		if (!fme.payForCommand(Conf.econCostTitle, Lang.COMMAND_TITLE_TOCHANGE.toString(), Lang.COMMAND_TITLE_FORCHANGE.toString())) {
 			return;
 		}
 
@@ -60,7 +88,7 @@ public class CmdFactionsTitle extends FCommand {
 		you.setTitle(title);
 
 		// Inform
-		this.myFaction.sendMessage(Lang.COMMAND_TITLE_CHANGED, this.fme.describeTo(this.myFaction, true), you.describeTo(this.myFaction, true));
+		you.getFaction().sendMessage(Lang.COMMAND_TITLE_CHANGED, fme.describeTo(you.getFaction(), true), you.describeTo(fme.getFaction(), true));
 	}
 
 	@Override

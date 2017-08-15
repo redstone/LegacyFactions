@@ -232,6 +232,24 @@ public abstract class FCommand extends MCommand<Factions> {
 			callback.then(uuid, Optional.empty());
 		});		
 	}
+	
+	public void argAsPlayerToMojangFPlayer(int idx, FPlayer def, final Callback<FPlayer> callback) {
+		final String playerName = this.argAsString(idx);
+		
+		// getUUIDOf will go async and return a sync callback
+		UUIDUtil.getUUIDOf(playerName, (uuid, exception) -> {
+			if (exception.isPresent()) {
+				callback.then(null, exception);
+				return;
+			}
+			
+			// For sanity sake, set the player name
+			FPlayer found = FPlayerColl.get(uuid);
+			found.asMemoryFPlayer().setName(playerName);
+			
+			callback.then(found, Optional.empty());
+		});		
+	}
 
 	// -------------------------------------------------- //
 	// FACTION
@@ -326,32 +344,7 @@ public abstract class FCommand extends MCommand<Factions> {
 	// Commonly used logic
 	// -------------------------------------------- //
 
-	public boolean canIAdministerYou(FPlayer who, FPlayer you) {
-		if (!who.getFaction().equals(you.getFaction())) {
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTSAME.toString().replaceAll("<name>", you.describeTo(who, true))));
-			return false;
-		}
 
-		if (who.getRole().isMoreThan(you.getRole()) || who.getRole().equals(Role.ADMIN)) {
-			return true;
-		}
-
-		if (you.getRole().equals(Role.ADMIN)) {
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
-		} else if (who.getRole().equals(Role.MODERATOR)) {
-			if (who == you) return true;
-
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
-		} else if (who.getRole().equals(Role.COLEADER)) {
-			if (who == you) return true;
-
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_COLEADERSCANT.toString()));
-		} else {
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
-		}
-
-		return false;
-	}
 
 	// if economy is enabled and they're not on the bypass list, make 'em pay; returns true unless person can't afford the cost
 	public boolean payForCommand(double cost, String toDoThis, String forDoingThis) {
@@ -390,4 +383,16 @@ public abstract class FCommand extends MCommand<Factions> {
 	public void doWarmUp(FPlayer player, WarmUpUtil.Warmup warmup, Lang translationKey, String action, Runnable runnable, long delay) {
 		WarmUpUtil.process(player, warmup, translationKey, action, runnable, delay);
 	}
+	
+	/**
+	 * Deprecated use {@link FPlayer#canAdminister}
+	 * @param who
+	 * @param you
+	 * @return
+	 */
+	@Deprecated
+	public boolean canIAdministerYou(FPlayer who, FPlayer you) {
+		return who.canAdminister(you);
+	}
+	
 }
