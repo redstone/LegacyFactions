@@ -8,6 +8,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.entity.Conf;
 
 public class FactionsCommandsListener implements Listener {
 	
@@ -31,7 +32,7 @@ public class FactionsCommandsListener implements Listener {
 		event.setCancelled(true);
 		
 		// ... and we're logging ...
-		if (!Factions.get().logPlayerCommands()) return;
+		if (!Conf.logPlayerCommands) return;
 		
 		// ... log it.
 		Bukkit.getLogger().info("[PLAYER_COMMAND] " + event.getPlayer().getName() + ": " + event.getMessage());
@@ -46,8 +47,7 @@ public class FactionsCommandsListener implements Listener {
 		event.setCancelled(true);
 		
 		// ... and we're logging ...
-		if (!Factions.get().logPlayerCommands()) return;
-		
+		if (!Conf.logPlayerCommands) return;
 		
 		// ... log it.
 		Bukkit.getLogger().info("[PLAYER_COMMAND] " + event.getPlayer().getName() + ": " + event.getMessage());

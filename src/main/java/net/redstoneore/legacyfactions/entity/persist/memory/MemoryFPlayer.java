@@ -107,9 +107,9 @@ public abstract class MemoryFPlayer implements FPlayer {
 		this.deaths = getPlayer().getStatistic(Statistic.DEATHS);
 		
 		// Remove from stuck map
-		if (Factions.get().getStuckMap().containsKey(this.getPlayer().getUniqueId())) {
-			Factions.get().getStuckMap().remove(this.getPlayer().getUniqueId());
-			Factions.get().getTimers().remove(this.getPlayer().getUniqueId());
+		if (Volatile.get().stuckMap().containsKey(this.getPlayer().getUniqueId())) {
+			Volatile.get().stuckMap().remove(this.getPlayer().getUniqueId());
+			Volatile.get().stuckTimers().remove(this.getPlayer().getUniqueId());
 		}
 		
 		if (!this.getFaction().isWilderness()) {

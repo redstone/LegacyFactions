@@ -50,8 +50,8 @@ public class CmdFactionsStuck extends FCommand {
 		final long delay = Conf.stuckDelay;
 		final int radius = Conf.stuckRadius;
 
-		if (Factions.get().getStuckMap().containsKey(player.getUniqueId())) {
-			long wait = Factions.get().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
+		if (Volatile.get().stuckMap().containsKey(player.getUniqueId())) {
+			long wait = Volatile.get().stuckTimers().get(player.getUniqueId()) - System.currentTimeMillis();
 			String time = DurationFormatUtils.formatDuration(wait, Lang.COMMAND_STUCK_TIMEFORMAT.toString(), true);
 			sendMessage(Lang.COMMAND_STUCK_EXISTS, time);
 		} else {
@@ -66,7 +66,7 @@ public class CmdFactionsStuck extends FCommand {
 
 				@Override
 				public void run() {
-					if (!Factions.get().getStuckMap().containsKey(player.getUniqueId())) {
+					if (!Volatile.get().stuckMap().containsKey(player.getUniqueId())) {
 						return;
 					}
 
@@ -74,8 +74,8 @@ public class CmdFactionsStuck extends FCommand {
 					final World world = chunk.getWorld();
 					if (world.getUID() != player.getWorld().getUID() || sentAt.distance(player.getLocation()) > radius) {
 						sendMessage(Lang.COMMAND_STUCK_OUTSIDE.format(radius));
-						Factions.get().getTimers().remove(player.getUniqueId());
-						Factions.get().getStuckMap().remove(player.getUniqueId());
+						Volatile.get().stuckTimers().remove(player.getUniqueId());
+						Volatile.get().stuckMap().remove(player.getUniqueId());
 						return;
 					}
 
@@ -93,8 +93,8 @@ public class CmdFactionsStuck extends FCommand {
 								int y = world.getHighestBlockYAt(cx, cz);
 								Location tp = new Location(world, cx, y, cz);
 								sendMessage(Lang.COMMAND_STUCK_TELEPORT, tp.getBlockX(), tp.getBlockY(), tp.getBlockZ());
-								Factions.get().getTimers().remove(player.getUniqueId());
-								Factions.get().getStuckMap().remove(player.getUniqueId());
+								Volatile.get().stuckTimers().remove(player.getUniqueId());
+								Volatile.get().stuckMap().remove(player.getUniqueId());
 								if (!EssentialsEngine.handleTeleport(player, tp)) {
 									player.teleport(tp);
 									Factions.get().debug("/f stuck used regular teleport, not essentials!");
@@ -108,11 +108,11 @@ public class CmdFactionsStuck extends FCommand {
 				}
 			}, delay * 20).getTaskId();
 
-			Factions.get().getTimers().put(player.getUniqueId(), System.currentTimeMillis() + (delay * 1000));
-			long wait = Factions.get().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();
+			Volatile.get().stuckTimers().put(player.getUniqueId(), System.currentTimeMillis() + (delay * 1000));
+			long wait = Volatile.get().stuckTimers().get(player.getUniqueId()) - System.currentTimeMillis();
 			String time = DurationFormatUtils.formatDuration(wait, Lang.COMMAND_STUCK_TIMEFORMAT.toString(), true);
 			sendMessage(Lang.COMMAND_STUCK_START, time);
-			Factions.get().getStuckMap().put(player.getUniqueId(), id);
+			Volatile.get().stuckMap().put(player.getUniqueId(), id);
 		}
 	}
 
