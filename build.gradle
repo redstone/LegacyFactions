@@ -9,7 +9,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 allprojects {
-	version = "1.4.2-SNAPSHOT-RC5"
+	version = "1.4.2"
 	group = "net.redstoneore"
 }
 
@@ -49,7 +49,7 @@ dependencies {
 
 	compileOnly group: "be.maximvdw", name: "MVdWPlaceholderAPI", version: "1.0.2-SNAPSHOT";
 	compileOnly group: "me.clip", name: "placeholderapi", version: "2.8.2";
-
+	
 	compileOnly group: "org.dynmap", name: "dynmap", version: "2.0";
 
 	compileOnly files("lib/PlayerVaults.jar")
