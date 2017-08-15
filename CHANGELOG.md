@@ -28,6 +28,7 @@
 * ⌨️ API: `Locality` class introduced, it is due to be adopted as a replacement for FLocation
 * ⌨️ API: JavaDocs Improved
 * ⌨️ API: Callback classes added
+* ⌨️ API: PlayerMixin updated to include action checks
 
 # 1.4.1
 * 🐞 Bugfix: Scoreboard issues 
