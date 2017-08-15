@@ -94,6 +94,8 @@ public enum Permission {
 	TOP("top"),
 	VAULT("vault"),
 	SETMAXVAULTS("setmaxvaults"),
+	STYLE("style"),
+	STYLE_ANY("style.any");
 	;
 	
 	// -------------------------------------------------- //

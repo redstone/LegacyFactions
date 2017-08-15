@@ -4,10 +4,12 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 
 public class RelationUtil {
 
@@ -105,11 +107,11 @@ public class RelationUtil {
             }
 
             if (thatFaction.isSafeZone() && thatFaction != getFaction(me)) {
-                return Conf.colorPeaceful;
+                return FactionColl.get().getSafeZone().getForcedMapColour();
             }
 
             if (thatFaction.isWarZone() && thatFaction != getFaction(me)) {
-                return Conf.colorWar;
+                return FactionColl.get().getWarZone().getForcedMapColour();
             }
         }
 

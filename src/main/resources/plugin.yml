@@ -290,3 +290,7 @@ permissions:
     description: Access faction vault.
   factions.setmaxvault:
     description: Set a faction's max vaults.
+  factions.style:
+    description: Change map style options.
+  factions.style.any:
+    description: Change map style options for any faction

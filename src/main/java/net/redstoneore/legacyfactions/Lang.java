@@ -574,6 +574,15 @@ public enum Lang {
 	COMMAND_WARUNCLAIMALL_SUCCESS("<i>You unclaimed ALL war zone land."),
 	COMMAND_WARUNCLAIMALL_LOG("%1$s unclaimed all war zones."),
 
+	COMMAND_STYLE_DESCRIPTION("Set a factions styles"),
+	COMMAND_STYLE_ARG_CHARACTER("character"),
+	COMMAND_STYLE_ARG_COLOUR("color"),
+	COMMAND_STYLE_ARG_VALUE("value"),
+	COMMAND_STYLE_INVALIDSTYLE("<b>Invalid type, you can only set color or character!"),	
+	COMMAND_STYLE_INVALIDCOLOUR("<b>Invalid colour!"),	
+	COMMAND_STYLE_COLOURUPDATED("<i>Forced map colour set to <colour><i>."),	
+	COMMAND_STYLE_CHARACTERUPDATED("<i>Forced map character set to <character><i>."),	
+	
 	// -------------------------------------------------- //
 	// Leaving
 	// -------------------------------------------------- //

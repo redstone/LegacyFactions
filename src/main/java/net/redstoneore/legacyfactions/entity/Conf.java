@@ -69,7 +69,6 @@ public class Conf {
 	public static ChatColor colorEnemy = ChatColor.RED;
 
 	public static ChatColor colorPeaceful = ChatColor.GOLD;
-	public static ChatColor colorWar = ChatColor.DARK_RED;
 
 	// -------------------------------------------------- //
  	// TOOLTIPS
@@ -830,7 +829,8 @@ public class Conf {
 	public static List<String> cmdAliasesVersion = Lists.newArrayList("version");
 	public static List<String> cmdAliasesWarp = Lists.newArrayList("warp", "warps");
 	public static List<String> cmdAliasesWarunclaimall = Lists.newArrayList("warunclaimall");
-		
+	public static List<String> cmdAliasesStyle = Lists.newArrayList("style");	
+	
 	// -------------------------------------------- //
 	// Persistance
 	// -------------------------------------------- //

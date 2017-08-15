@@ -43,6 +43,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	protected boolean permanent;
 	protected String tag;
 	protected String description;
+	protected Character forcedMapCharacter = null;
+	protected ChatColor forcedMapColour = null;
 	protected boolean open;
 	protected boolean peaceful;
 	protected Integer permanentPower;
@@ -257,6 +259,51 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	public void setDescription(String value) {
 		this.description = value;
 	}
+
+	public boolean hasForcedMapCharacter() {
+		return this.getForcedMapCharacter() != null;
+	}
+	
+	public void setForcedMapCharacter(char character) {
+		this.forcedMapCharacter = character;
+	}
+	
+	public Character getForcedMapCharacter() {
+		if (this.isWilderness() && this.forcedMapCharacter == null) {
+			this.forcedMapCharacter = "-".charAt(0);
+		}
+		if (this.isSafeZone() && this.forcedMapCharacter == null) {
+			this.forcedMapCharacter = "+".charAt(0);
+		}
+		if (this.isWarZone() && this.forcedMapCharacter == null) {
+			this.forcedMapCharacter = "+".charAt(0);
+		}
+		
+		return this.forcedMapCharacter;
+	}
+	
+	public boolean hasForcedMapColour() {
+		return this.getForcedMapColour() != null;
+	}
+	
+	public void setForcedMapColour(ChatColor colour) {
+		this.forcedMapColour = colour;
+	}
+	
+	public ChatColor getForcedMapColour() {
+		if (this.isWilderness() && this.forcedMapColour == null) {
+			this.forcedMapColour = ChatColor.GRAY;
+		}
+		if (this.isSafeZone() && this.forcedMapColour == null) {
+			this.forcedMapColour = ChatColor.GOLD;
+		}
+		if (this.isWarZone() && this.forcedMapColour == null) {
+			this.forcedMapColour = ChatColor.DARK_RED;
+		}
+		
+		return this.forcedMapColour;
+	}
+	
 
 	public void setHome(Location home) {
 		this.home = new LazyLocation(home);
