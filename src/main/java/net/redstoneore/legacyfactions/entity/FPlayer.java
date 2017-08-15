@@ -116,6 +116,8 @@ public interface FPlayer extends EconomyParticipator {
 	 * @param new Role
 	 */
 	void setRole(Role role);
+	
+	boolean canAdminister(FPlayer who);
 
 	// -------------------------------------------------- //
 	// MISC METHODS

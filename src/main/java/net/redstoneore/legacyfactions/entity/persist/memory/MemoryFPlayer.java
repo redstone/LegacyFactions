@@ -172,13 +172,41 @@ public abstract class MemoryFPlayer implements FPlayer {
 	public boolean isMonitoringJoins() {
 		return this.monitorJoins;
 	}
-
+	
 	public Role getRole() {
 		return this.role;
 	}
-
+	
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	
+	@Override
+	public boolean canAdminister(FPlayer who) {
+		if (!who.getFaction().equals(this.getFaction())) {
+			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTSAME.toString().replaceAll("<name>", this.describeTo(who, true))));
+			return false;
+		}
+
+		if (who.getRole().isMoreThan(this.getRole()) || who.getRole().equals(Role.ADMIN)) {
+			return true;
+		}
+
+		if (this.getRole().equals(Role.ADMIN)) {
+			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
+		} else if (who.getRole().equals(Role.MODERATOR)) {
+			if (who == this) return true;
+			
+			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
+		} else if (who.getRole().equals(Role.COLEADER)) {
+			if (who == this) return true;
+
+			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_COLEADERSCANT.toString()));
+		} else {
+			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
+		}
+		
+		return false;
 	}
 
 	@Override
