@@ -73,8 +73,7 @@ public class Factions extends FactionsPluginBase {
 	// INSTANCE & CONSTRUCT 
 	// -------------------------------------------------- //
 	
-	private static Factions instance;
-	public Factions() { instance = this; }
+	private static Factions instance = null;
 	public static Factions get() { return instance; }
 	
 	// -------------------------------------------------- //
@@ -109,6 +108,11 @@ public class Factions extends FactionsPluginBase {
 	
 	@Override
 	public void onEnable() {
+		if (instance != null) {
+			this.warn("Unsafe reload detected!");
+		}
+		instance = this;
+		
 		this.loadSuccessful = false;
 		
 		// Ensure plugin folder exists
