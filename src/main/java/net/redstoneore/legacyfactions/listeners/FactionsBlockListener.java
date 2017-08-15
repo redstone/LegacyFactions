@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.listeners;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -18,9 +19,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
-import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
-import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
-import net.redstoneore.legacyfactions.util.TextUtil;
+import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 
 public class FactionsBlockListener implements Listener {
 	
@@ -43,19 +42,24 @@ public class FactionsBlockListener implements Listener {
 		// special case for flint&steel, which should only be prevented by DenyUsage list
 		if (event.getBlockPlaced().getType() == Material.FIRE) return;
 		
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.BUILD, false, event);
+		if (PlayerMixin.canDoAction(event.getPlayer(), event.getBlock(), LandAction.BUILD, false)) return;
+		
+		event.setCancelled(true);
 	}
 		
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerCanBuildDestroyBlock(BlockBreakEvent event) {
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.DESTROY, false, event);
+		if (PlayerMixin.canDoAction(event.getPlayer(), event.getBlock(), LandAction.DESTROY, false)) return;
+		
+		event.setCancelled(true);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerCanBuildDestroyBlock(BlockDamageEvent event) {
 		if (!event.getInstaBreak()) return;
+		if (PlayerMixin.canDoAction(event.getPlayer(), event.getBlock(), LandAction.DESTROY, false)) return;
 		
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.DESTROY, false, event);
+		event.setCancelled(true);;
 	}
 	
 	// -------------------------------------------------- //
@@ -64,11 +68,13 @@ public class FactionsBlockListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerInteractEntity(PlayerInteractAtEntityEvent event) {
-		EntityType entityRightClicked = event.getRightClicked().getType();
+		Entity rightClicked = event.getRightClicked();
 		
-		if (entityRightClicked != EntityType.ARMOR_STAND) return;
+		if (rightClicked.getType() != EntityType.ARMOR_STAND) return;
 		
-		playerCanBuildDestroyBlock(event.getPlayer(), event.getRightClicked().getLocation(), LandAction.ENTITY, false, event);
+		if (PlayerMixin.canDoAction(event.getPlayer(), rightClicked, LandAction.ENTITY, false)) return;
+		
+		event.setCancelled(true);
 	}
 	
 	// -------------------------------------------------- //
@@ -167,22 +173,25 @@ public class FactionsBlockListener implements Listener {
 
 		// only notify every 10 seconds
 		FPlayer fPlayer = FPlayerColl.get(player);
-		boolean justCheck = fPlayer.getLastFrostwalkerMessage() + 10000 > System.currentTimeMillis();
-		if (!justCheck) {
+		boolean notify = fPlayer.getLastFrostwalkerMessage() + 10000 > System.currentTimeMillis();
+		if (!notify) {
 			fPlayer.setLastFrostwalkerMessage();
 		}
 
-		// Check if they have build permissions here. If not, block this from happening.
-		if (!playerCanBuildDestroyBlock(player, location, LandAction.FROST_WALK, justCheck)) {
-			event.setCancelled(true);
-		}
+		// Check if they have build permissions here. 
+		if (PlayerMixin.canDoAction(player, location, LandAction.FROST_WALK, notify)) return;
+		
+		// They can't, block this from happening. 
+		event.setCancelled(true);
+		
 	}
 
 	// -------------------------------------------------- //
-	// METHODS
+	// DEPRECATED METHODS
 	// -------------------------------------------------- //
 	
 	/**
+	 * Deprecated. Use {@link PlayerMixin#canDoAction(Player, Location, LandAction, boolean)}<br><br>
 	 * Returns true if a player can destroy a block at the location.
 	 * @param player the player to check
 	 * @param location the location to check on
@@ -191,302 +200,68 @@ public class FactionsBlockListener implements Listener {
 	 * @param event to cancel
 	 * @return true if a player can destroy a block at the location.
 	 */
+	@Deprecated
 	public static boolean playerCanBuildDestroyBlock(Player player, Location location, LandAction action, boolean justCheck, Cancellable event) {
-		Boolean result = playerCanBuildDestroyBlock(player, location, action, justCheck);
+		Boolean result = PlayerMixin.canDoAction(player, location, action, justCheck);
 			
 		if (!result) event.setCancelled(true);
 		
 		return result;
 	}
 	
+	/**
+	 * Deprecated. Use {@link PlayerMixin#canDoAction(Player, Location, LandAction, boolean)}<br><br>
+	 */
+	@Deprecated
 	public static boolean playerCanBuildDestroyBlock(Player player, Location location, LandAction action, boolean justCheck) {
-		String name = player.getName();
-		
-		if (Conf.playersWhoBypassAllProtection.contains(name)) return true;
-		
-
-		FPlayer me = FPlayerColl.get(player);
-		if (me.isAdminBypassing()) return true;
-		
-		FLocation loc = new FLocation(location);
-		Faction otherFaction = Board.get().getFactionAt(loc);
-
-		if (otherFaction.isWilderness()) {
-			if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
-				return true;
-			}
-
-			if (!Conf.wildernessDenyBuild || Conf.worldsNoWildernessProtection.contains(location.getWorld().getName())) {
-				return true; // This is not faction territory. Use whatever you like here.
-			}
-
-			if (!justCheck) {
-				String message = null;
-				
-				switch (action) {
-				case BUILD:
-					message = Lang.PLAYER_CANT_WILDERNESS_BUILD.toString();
-					break;
-				case DESTROY:
-					message = Lang.PLAYER_CANT_WILDERNESS_DESTROY.toString();
-					break;
-				case ENTITY:
-					message = Lang.PLAYER_CANT_WILDERNESS_USE.toString();
-					break;
-				case FROST_WALK:
-					message = Lang.PLAYER_CANT_WILDERNESS_FROSTWALK.toString();
-					break;
-				case PLACE_PAINTING:
-					message = Lang.PLAYER_CANT_WILDERNESS_PLACEPAINTING.toString();
-					break;
-				case REMOVE_PAINTING:
-					message = Lang.PLAYER_CANT_WILDERNESS_BREAKPAINTING.toString();
-					break;
-				default:
-					return false;
-				}
-				
-				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message));
-				}
-			}
-
-			return false;
-		} else if (otherFaction.isSafeZone()) {
-			if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
-				return true;
-			}
-
-			if (!Conf.safeZoneDenyBuild || Permission.MANAGE_SAFE_ZONE.has(player)) {
-				return true;
-			}
-
-			if (!justCheck) {
-				String message = null;
-				switch (action) {
-				case BUILD:
-					message = Lang.PLAYER_CANT_SAFEZONE_BUILD.toString();
-					break;
-				case DESTROY:
-					message = Lang.PLAYER_CANT_SAFEZONE_DESTROY.toString();
-					break;
-				case ENTITY:
-					message = Lang.PLAYER_CANT_SAFEZONE_USE.toString();
-					break;
-				case FROST_WALK:
-					message = Lang.PLAYER_CANT_SAFEZONE_FROSTWALK.toString();
-					break;
-				case PLACE_PAINTING:
-					message = Lang.PLAYER_CANT_SAFEZONE_PLACEPAINTING.toString();
-					break;
-				case REMOVE_PAINTING:
-					message = Lang.PLAYER_CANT_SAFEZONE_BREAKPAINTING.toString();
-					break;
-				default:
-					break;
-				}
-				
-				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message));					
-				}
-			}
-
-			return false;
-		} else if (otherFaction.isWarZone()) {
-			if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
-				return true;
-			}
-
-			if (!Conf.warZoneDenyBuild || Permission.MANAGE_WAR_ZONE.has(player)) {
-				return true;
-			}
-
-			if (!justCheck) {
-				String message = null;
-				switch (action) {
-				case BUILD:
-					message = Lang.PLAYER_CANT_WARZONE_BUILD.toString();
-					break;
-				case DESTROY:
-					message = Lang.PLAYER_CANT_WARZONE_DESTROY.toString();
-					break;
-				case ENTITY:
-					message = Lang.PLAYER_CANT_WARZONE_USE.toString();
-					break;
-				case FROST_WALK:
-					message = Lang.PLAYER_CANT_WARZONE_FROSTWALK.toString();
-					break;
-				case PLACE_PAINTING:
-					message = Lang.PLAYER_CANT_WARZONE_PLACEPAINTING.toString();
-					break;
-				case REMOVE_PAINTING:
-					message = Lang.PLAYER_CANT_WARZONE_BREAKPAINTING.toString();
-					break;
-				default:
-					break;
-				}
-				
-				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message));
-				}
-			}
-
-			return false;
-		}
-		if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
-			return true;
-		}
-
-		Faction myFaction = me.getFaction();
-		Relation rel = myFaction.getRelationTo(otherFaction);
-		boolean online = otherFaction.hasPlayersOnline();
-		boolean pain = !justCheck && rel.confPainBuild(online);
-		boolean deny = rel.confDenyBuild(online);
-
-		// hurt the player for building/destroying in other territory?
-		if (pain) {
-			player.damage(Conf.actionDeniedPainAmount);
-
-			if (!deny) {
-				String message = null;
-				
-				switch(action) {
-				case BUILD:
-					message = Lang.PLAYER_PAINFUL_FACTION_BUILD.toString();
-					break;
-				case DESTROY:
-					message = Lang.PLAYER_PAINFUL_FACTION_DESTROY.toString();
-					break;
-				case ENTITY:
-					message = Lang.PLAYER_PAINFUL_FACTION_USE.toString();
-					break;
-				case FROST_WALK:
-					message = Lang.PLAYER_PAINFUL_FACTION_FROSTWALK.toString();
-					break;
-				case PLACE_PAINTING:
-					message = Lang.PLAYER_PAINFUL_FACTION_PLACEPAINTING.toString();
-					break;
-				case REMOVE_PAINTING:
-					message = Lang.PLAYER_PAINFUL_FACTION_BREAKPAINTING.toString();
-					break;
-				default:
-					break;
-				}
-				
-				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message.replace("<name>", otherFaction.getTag(myFaction))));					
-				}
-			}
-		}
-
-		// cancel building/destroying in other territory?
-		if (deny) {
-			if (!justCheck) {
-				String message = null;
-				
-				switch (action) {
-				case BUILD:
-					message = Lang.PLAYER_CANT_FACTION_BUILD.toString();
-					break;
-				case DESTROY:
-					message = Lang.PLAYER_CANT_FACTION_DESTROY.toString();
-					break;
-				case ENTITY:
-					message = Lang.PLAYER_CANT_FACTION_USE.toString();
-					break;
-				case FROST_WALK:
-					message = Lang.PLAYER_CANT_FACTION_FROSTWALK.toString();
-					break;	
-				case PLACE_PAINTING:
-					message = Lang.PLAYER_CANT_FACTION_PLACEPAINTING.toString();
-					break;
-				case REMOVE_PAINTING:
-					message = Lang.PLAYER_CANT_FACTION_BREAKPAINTING.toString();
-					break;
-				default:
-					break;
-				}
-				
-				if (message != null) {
-					message = message.replace("<name>", otherFaction.getTag(myFaction));
-					me.sendMessage(TextUtil.parseColor(message));					
-				}
-			}
-
-			return false;
-		}
-
-		// Also cancel and/or cause pain if player doesn't have ownership rights for this claim
-		if (Conf.ownedAreasEnabled && (Conf.ownedAreaDenyBuild || Conf.ownedAreaPainBuild) && !otherFaction.playerHasOwnershipRights(me, loc)) {
-			if (!pain && Conf.ownedAreaPainBuild && !justCheck) {
-				player.damage(Conf.actionDeniedPainAmount);
-
-				if (!Conf.ownedAreaDenyBuild) {
-					String message = null;
-					switch(action) {
-					case BUILD:
-						message = Lang.PLAYER_PAINFUL_OWNED_BUILD.toString();
-						break;
-					case DESTROY:
-						message = Lang.PLAYER_PAINFUL_OWNED_DESTROY.toString();
-						break;
-					case ENTITY:
-						message = Lang.PLAYER_PAINFUL_OWNED_USE.toString();
-						break;
-					case FROST_WALK:
-						message = Lang.PLAYER_PAINFUL_OWNED_FROSTWALK.toString();
-						break;
-					case PLACE_PAINTING:
-						message = Lang.PLAYER_PAINFUL_OWNED_PLACEPAINTING.toString();
-						break;
-					case REMOVE_PAINTING:
-						message = Lang.PLAYER_PAINFUL_OWNED_BREAKPAINTING.toString();
-						break;
-					default:
-						break;
-					}
-					
-					if (message != null) {
-						me.sendMessage(TextUtil.parseColor(message.replace("<who>", otherFaction.getOwnerListString(loc))));
-					}
-				}
-			}
-			if (Conf.ownedAreaDenyBuild) {
-				if (!justCheck) {
-					String message = null;
-					switch (action) {
-					case BUILD:
-						message = Lang.PLAYER_CANT_OWNED_BUILD.toString();
-						break;
-					case DESTROY:
-						message = Lang.PLAYER_CANT_OWNED_DESTROY.toString();
-						break;
-					case ENTITY:
-						message = Lang.PLAYER_CANT_OWNED_USE.toString();
-						break;
-					case FROST_WALK:
-						message = Lang.PLAYER_CANT_OWNED_FROSTWALK.toString();
-						break;
-					case PLACE_PAINTING:
-						message = Lang.PLAYER_CANT_OWNED_PLACEPAINTING.toString();
-						break;
-					case REMOVE_PAINTING:
-						message = Lang.PLAYER_CANT_OWNED_BREAKPAINTING.toString();
-						break;
-					default:
-						break;
-					}
-					
-					if (message != null) {
-						me.sendMessage(TextUtil.parseColor(message.replace("<who>", otherFaction.getOwnerListString(loc))));
-					}
-				}
-
-				return false;
-			}
-		}
-
-		return true;
+		return PlayerMixin.canDoAction(player, location, action, justCheck);
 	}
 	
+	/**
+	 * Deprecated. Use {@link PlayerMixin#canDoAction(Player, Location, LandAction, boolean)}<br><br>
+	 */
+	@Deprecated
+	public static boolean playerCanBuildDestroyBlock(Player player, Location location, String action, boolean justCheck, Cancellable event) {
+		LandAction landAction = stringToLandAction(action);
+		
+		return playerCanBuildDestroyBlock(player, location, landAction, justCheck, event);
+	}
+
+	/**
+	 * Deprecated. Use {@link PlayerMixin#canDoAction(Player, Location, LandAction, boolean)}<br><br>
+	 * @param player
+	 * @param location
+	 * @param action
+	 * @param justCheck
+	 * @return
+	 */
+	@Deprecated
+	public static boolean playerCanBuildDestroyBlock(Player player, Location location, String action, boolean justCheck) {
+		LandAction landAction = stringToLandAction(action);
+
+		return playerCanBuildDestroyBlock(player, location, landAction, justCheck);
+
+	}	
+	
+	/**
+	 * Useful utility to convert the old string names to the new LandAction enum.
+	 * @param string of action
+	 * @return {@link LandAction}
+	 */
+	public static LandAction stringToLandAction(String action) {
+		switch (action) {
+		case "frost walk":
+			return LandAction.FROST_WALK;
+		case "remove paintings":
+			return LandAction.REMOVE_PAINTING;
+		case "place paintings":
+			return LandAction.PLACE_PAINTING;
+		case "build":
+			return LandAction.BUILD;
+		case "destory":
+			return LandAction.DESTROY;
+		}
+		return null;
+	}
+
 }
