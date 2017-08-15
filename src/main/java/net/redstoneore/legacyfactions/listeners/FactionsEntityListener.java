@@ -26,6 +26,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsPowerLoss;
+import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
 import java.util.*;
@@ -511,16 +512,19 @@ public class FactionsEntityListener implements Listener {
             return;
         }
 
-        if (!FactionsBlockListener.playerCanBuildDestroyBlock((Player) breaker, event.getEntity().getLocation(), LandAction.REMOVE_PAINTING, false)) {
-            event.setCancelled(true);
-        }
+        if (PlayerMixin.canDoAction((Player) breaker, event.getEntity(), LandAction.REMOVE_PAINTING, false)) return;
+        
+        event.setCancelled(true);
+        
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPaintingPlace(HangingPlaceEvent event) {
-        if (!FactionsBlockListener.playerCanBuildDestroyBlock(event.getPlayer(), event.getBlock().getLocation(), LandAction.PLACE_PAINTING, false)) {
-            event.setCancelled(true);
-        }
+        if (PlayerMixin.canDoAction((Player) event.getPlayer(), event.getEntity(), LandAction.PLACE_PAINTING, false)) return;
+
+        if (PlayerMixin.canDoAction(event.getPlayer(), event.getBlock(), LandAction.PLACE_PAINTING, false)) return;
+        
+        event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)

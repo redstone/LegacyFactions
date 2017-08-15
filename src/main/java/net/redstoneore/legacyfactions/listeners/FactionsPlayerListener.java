@@ -614,5 +614,5 @@ public class FactionsPlayerListener implements Listener {
 		FTeamWrapper.applyUpdatesLater(event.getFactionNew());
 		FTeamWrapper.applyUpdatesLater(event.getFactionOld());
 	}
-	
+		
 }
