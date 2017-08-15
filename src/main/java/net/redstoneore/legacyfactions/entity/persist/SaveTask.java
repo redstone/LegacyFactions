@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.entity.persist;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 
@@ -23,11 +24,10 @@ public class SaveTask implements Runnable {
 		}
 		running = true;
 		
-		Factions.get().preAutoSave();
 		FactionColl.get().forceSave(false);
 		FPlayerColl.save(false);
 		Board.get().forceSave(false);
-		Factions.get().postAutoSave();
+		Conf.save();
 		
 		running = false;
 	}

@@ -1,6 +1,5 @@
 package net.redstoneore.legacyfactions.integration.vault;
 
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.integration.Integration;
 
 public class VaultIntegration extends Integration {
@@ -28,7 +27,7 @@ public class VaultIntegration extends Integration {
 	}
 	
 	public boolean hasPermissions() {
-		return Factions.get().getPerms() != null;
+		return VaultEngine.getUtils().getPerms() != null;
 	}
 	
 }

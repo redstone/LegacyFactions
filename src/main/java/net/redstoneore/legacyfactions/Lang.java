@@ -940,11 +940,11 @@ public enum Lang {
 	
 	public static void reload() {
 		File lang = new File(Factions.get().getDataFolder(), "lang.yml");
-		OutputStream out = null;
 		InputStream defLangStream = Factions.get().getResource("lang.yml");
 		
 		Boolean langFailed = false;
 		
+		OutputStream out = null;
 		if (!lang.exists()) {
 			try {
 				Factions.get().getDataFolder().mkdir();
@@ -992,22 +992,31 @@ public enum Lang {
 		}
 
 		if (!langFailed) {
-			YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);
+			// Now we're going to populate a new YamlConfiguration so old Lang values are removed.
+			YamlConfiguration currentLang = YamlConfiguration.loadConfiguration(lang);
+			YamlConfiguration newLang = new YamlConfiguration();
+			
 			for (Lang item : Lang.values()) {
-				if (conf.getString(item.getPath()) != null) continue;
-				conf.set(item.getPath(), item.getDefault());
+				if (currentLang.getString(item.getPath()) != null) {
+					newLang.set(item.getPath(), currentLang.getString(item.getPath()));
+				} else {
+					newLang.set(item.getPath(), item.getDefault());					
+				}
 			}
-	
-			if (conf.getString(Lang.COMMAND_SHOW_POWER.getPath(), "").contains("%5$s")) {
-				conf.set(Lang.COMMAND_SHOW_POWER.getPath(), Lang.COMMAND_SHOW_POWER.getDefault());
+			
+			// Migrations
+			if (currentLang.getString(Lang.COMMAND_SHOW_POWER.getPath(), "").contains("%5$s")) {
+				newLang.set(Lang.COMMAND_SHOW_POWER.getPath(), Lang.COMMAND_SHOW_POWER.getDefault());
 			}
-	
-			Lang.setFile(conf);
+			
+			// Set the lang to use the new one
+			Lang.setFile(newLang);
 			
 			try {
-				conf.save(lang);
+				// Save it
+				newLang.save(lang);
 			} catch (IOException e) {
-				Factions.get().log("[warn] Failed to save lang.yml.");
+				Factions.get().warn("Failed to save lang.yml.");
 				e.printStackTrace();
 			}
 		}

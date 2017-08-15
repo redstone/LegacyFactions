@@ -135,9 +135,9 @@ public class FactionsEntityListener implements Listener {
             return;
         }
         UUID uuid = player.getUniqueId();
-        if (Factions.get().getStuckMap().containsKey(uuid)) {
+        if (Volatile.get().stuckMap().containsKey(uuid)) {
             FPlayerColl.get(player).sendMessage(Lang.COMMAND_STUCK_CANCELLED);
-            Factions.get().getStuckMap().remove(uuid);
+            Volatile.get().stuckMap().remove(uuid);
         }
     }
 

@@ -131,4 +131,8 @@ public class VaultUtils extends VaultUtilPlayer {
 		receiver.sendMessage(TextUtil.parseColor(message));
 	}
 	
+	public Permission getPerms() {
+		return this.perms;
+	}
+	
 }

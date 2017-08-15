@@ -5,7 +5,6 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,25 +45,26 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
- *   A high-performance maintained version of Factions 1.6.
- *   Copyright (C) 2011 Olof Larsson  
- *   Copyright (C) 2011 - 2017 contributors 
+ *  A high-performance maintained version of Factions 1.6.
+ *  Copyright (C) 2011 Olof Larsson  
+ *  Copyright (C) 2011 - 2017 contributors 
  *
- *   This program is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 public class Factions extends FactionsPluginBase {
@@ -73,8 +73,7 @@ public class Factions extends FactionsPluginBase {
 	// INSTANCE & CONSTRUCT 
 	// -------------------------------------------------- //
 	
-	private static Factions instance;
-	public Factions() { instance = this; }
+	private static Factions instance = null;
 	public static Factions get() { return instance; }
 	
 	// -------------------------------------------------- //
@@ -83,17 +82,17 @@ public class Factions extends FactionsPluginBase {
 
 	private GsonBuilder gsonBuilder = null;
 
-	private Permission perms = null;
 	private Integer taskAutoLeave = null;
 	
 	private boolean locked = false;
 	
-	private long timeEnableStart;
-
 	private Integer saveTask = null;
 
     public final Gson gson = this.getGsonBuilder().create();
-    
+    	
+	private boolean autoSave = true;
+	protected boolean loadSuccessful = false;
+	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -107,15 +106,26 @@ public class Factions extends FactionsPluginBase {
 		this.setAutoSave(locked);
 	}
 	
+	public boolean getAutoSave() {
+		return this.autoSave;
+	}
+
+	public void setAutoSave(boolean autoSave) {
+		this.autoSave = autoSave;
+	}
+	
 	@Override
-	public void onEnable() {
+	public void enable() {
+		if (instance != null) {
+			this.warn("Unsafe reload detected!");
+		}
+		instance = this;
+		
 		this.loadSuccessful = false;
 		
 		// Ensure plugin folder exists
 		this.getDataFolder().mkdirs();
-		
-		this.log("<white>=== ENABLE START ===");
-		
+				
 		this.timeEnableStart = System.currentTimeMillis();
 		
 		// Create and register player command listener
@@ -154,7 +164,7 @@ public class Factions extends FactionsPluginBase {
 		this.startTasks();
 
 		// Add base commands.
-		this.getBaseCommands().add(CmdFactions.get());
+		Volatile.get().baseCommands().add(CmdFactions.get());
 
 		// Add our integrations.
 		Integrations.add(
@@ -185,9 +195,7 @@ public class Factions extends FactionsPluginBase {
 		
 		// since some other plugins execute commands directly through this command interface, provide it
 		Conf.baseCommandAliases.forEach(ref -> this.getCommand(ref).setExecutor(this));
-		
-		this.log("<white>=== ENABLE DONE (Took " + (System.currentTimeMillis() - this.timeEnableStart) + "ms) ===");
-		
+				
 		this.loadSuccessful = true;
 		
 		FactionColl.all();
@@ -233,16 +241,6 @@ public class Factions extends FactionsPluginBase {
 	}
 
 	@Override
-	public void postAutoSave() {
-		Conf.save();
-	}
-
-	@Override
-	public boolean logPlayerCommands() {
-		return Conf.logPlayerCommands;
-	}
-
-	@Override
 	public boolean handleCommand(CommandSender sender, String commandString, boolean testOnly) {
 		return sender instanceof Player && FactionsPlayerListener.preventCommand(commandString, (Player) sender, testOnly) || super.handleCommand(sender, commandString, testOnly);
 	}
@@ -256,11 +254,11 @@ public class Factions extends FactionsPluginBase {
 		return this.handleCommand(sender, cmd + " " + TextUtil.implode(Arrays.asList(split), " "), false);
 	}
 
-
-	// -------------------------------------------- //
+	// -------------------------------------------------- //
 	// Functions for other plugins to hook into
-	// -------------------------------------------- //
-
+	// -------------------------------------------------- //
+	// TODO: move to mixins
+	
 	// Simply put, should this chat event be left for Factions to handle? For now, that means players with Faction Chat
 	// enabled or use of the Factions f command without a slash; combination of isPlayerFactionChatting() and isFactionsCommand()
 
@@ -320,7 +318,7 @@ public class Factions extends FactionsPluginBase {
 	}
 	
 	/**
-	 * Register recurring tasks
+	 * Start recurring tasks
 	 */
 	private void startTasks() {
 		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
@@ -347,14 +345,14 @@ public class Factions extends FactionsPluginBase {
 		}
 	}
 	
-	public void debug(Level level, String s) {
-		if (Conf.debug) {
-			this.debug(s);
-		}
-	}
+	// -------------------------------------------------- //
+	// LISTENERS
+	// -------------------------------------------------- //
 	
-	public Permission getPerms() {
-		return this.perms;
+	public void register(Listener... listeners) {
+		for (Listener listener : listeners) {
+			this.getServer().getPluginManager().registerEvents(listener, this);
+		}
 	}
 	
 }

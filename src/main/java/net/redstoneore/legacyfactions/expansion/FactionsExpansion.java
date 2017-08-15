@@ -45,7 +45,6 @@ public abstract class FactionsExpansion {
 			this.onCommandsEnabled();
 		}
 		
-		
 		this.getListeners().forEach(listener -> 
 			Bukkit.getPluginManager().registerEvents(listener, Factions.get())
 		);

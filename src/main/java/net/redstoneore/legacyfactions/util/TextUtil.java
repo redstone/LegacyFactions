@@ -17,7 +17,7 @@ public class TextUtil {
     public TextUtil() {
         this.tags = new HashMap<>();
     }
-
+    
     // -------------------------------------------- //
     // Top-level parsing functions.
     // -------------------------------------------- //
