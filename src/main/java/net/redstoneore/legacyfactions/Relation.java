@@ -164,15 +164,15 @@ public enum Relation {
 	 */
 	public ChatColor getColor() {
 		if (this == MEMBER) {
-			return Conf.colorMember;
+			return Conf.colorMember.toColor();
 		} else if (this == ALLY) {
-			return Conf.colorAlly;
+			return Conf.colorAlly.toColor();
 		} else if (this == NEUTRAL) {
-			return Conf.colorNeutral;
+			return Conf.colorNeutral.toColor();
 		} else if (this == TRUCE) {
-			return Conf.colorTruce;
+			return Conf.colorTruce.toColor();
 		} else {
-			return Conf.colorEnemy;
+			return Conf.colorEnemy.toColor();
 		}
 	}
 

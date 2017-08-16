@@ -28,6 +28,7 @@ import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FDefaultSidebar;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.VisualizeUtil;
+import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -321,11 +322,11 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		if (otherFaction.hasPlayersOnline()) {
-			if (!Conf.territoryDenyUseageMaterials.contains(material)) {
+			if (!Conf.territoryDenyUseageMaterials.contains(CrossMaterial.valueOf(material.name()))) {
 				return true; // Item isn't one we're preventing for online factions.
 			}
 		} else {
-			if (!Conf.territoryDenyUseageMaterialsWhenOffline.contains(material)) {
+			if (!Conf.territoryDenyUseageMaterialsWhenOffline.contains(CrossMaterial.valueOf(material.name()))) {
 				return true; // Item isn't one we're preventing for offline factions.
 			}
 		}
@@ -429,11 +430,11 @@ public class FactionsPlayerListener implements Listener {
 
 		// We only care about some material types.
 		if (otherFaction.hasPlayersOnline()) {
-			if (!Conf.territoryProtectedMaterials.contains(material)) {
+			if (!Conf.territoryProtectedMaterials.contains(CrossMaterial.valueOf(material.name()))) {
 				return true;
 			}
 		} else {
-			if (!Conf.territoryProtectedMaterialsWhenOffline.contains(material)) {
+			if (!Conf.territoryProtectedMaterialsWhenOffline.contains(CrossMaterial.valueOf(material.name()))) {
 				return true;
 			}
 		}

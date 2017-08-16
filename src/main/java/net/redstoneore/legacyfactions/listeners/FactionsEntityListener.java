@@ -28,6 +28,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsPowerLoss;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.util.MiscUtil;
+import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
 
 import java.util.*;
 
@@ -457,7 +458,7 @@ public class FactionsEntityListener implements Listener {
             return;
         }
 
-        if (Conf.safeZoneNerfedCreatureTypes.contains(event.getEntityType()) && Board.get().getFactionAt(new FLocation(event.getLocation())).noMonstersInTerritory()) {
+        if (Conf.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(event.getEntityType().name())) && Board.get().getFactionAt(new FLocation(event.getLocation())).noMonstersInTerritory()) {
             event.setCancelled(true);
         }
     }
@@ -471,7 +472,7 @@ public class FactionsEntityListener implements Listener {
         }
 
         // We are interested in blocking targeting for certain mobs:
-        if (!Conf.safeZoneNerfedCreatureTypes.contains(MiscUtil.creatureTypeFromEntity(event.getEntity()))) {
+        if (!Conf.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(MiscUtil.creatureTypeFromEntity(event.getEntity()).name()))) {
             return;
         }
 

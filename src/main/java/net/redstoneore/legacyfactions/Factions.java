@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import net.redstoneore.legacyfactions.adapter.CrossColourAdapter;
+import net.redstoneore.legacyfactions.adapter.CrossEntityTypeAdapter;
 import net.redstoneore.legacyfactions.adapter.LazyLocationAdapter;
 import net.redstoneore.legacyfactions.adapter.MapFlocationSetAdapter;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
@@ -40,6 +42,8 @@ import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.AutoLeaveTask;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.TextUtil;
+import net.redstoneore.legacyfactions.util.cross.CrossColour;
+import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -226,7 +230,10 @@ public class Factions extends FactionsPluginBase {
 			
 			this.gsonBuilder = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
 					.registerTypeAdapter(LazyLocation.class, new LazyLocationAdapter())
-					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter());
+					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter())
+					.registerTypeAdapter(CrossColour.class, new CrossColourAdapter())
+					.registerTypeAdapter(CrossEntityType.class, new CrossEntityTypeAdapter())
+					;
 		}
 
 		return this.gsonBuilder;
