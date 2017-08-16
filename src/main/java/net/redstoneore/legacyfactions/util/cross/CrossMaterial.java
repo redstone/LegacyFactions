@@ -2,10 +2,8 @@ package net.redstoneore.legacyfactions.util.cross;
 
 import java.util.Optional;
 
-import org.bukkit.Material;
-
 /**
- * This class provides a replication of the bukkit {@link Material} enum.<br>
+ * This class provides a replication of the bukkit {@link org.bukkit.Material} enum.<br>
  * By doing this we are able to easily support older versions of Minecraft, this class also
  * exposes some helpful utility methods.
  */
@@ -541,8 +539,8 @@ public enum CrossMaterial implements Cross<CrossMaterial> {
 	 * Converts to a Bukkit Material.
 	 * @return {@link Material}, or null
 	 */
-	public Material toBukkitMaterial() {
-		return Material.valueOf(this.name());
+	public org.bukkit.Material toBukkitMaterial() {
+		return org.bukkit.Material.valueOf(this.name());
 	}
 	
 	/**
@@ -550,7 +548,7 @@ public enum CrossMaterial implements Cross<CrossMaterial> {
 	 * @return true if supported
 	 */
 	public boolean isSupported() {
-		return Material.matchMaterial(this.name()) != null;
+		return org.bukkit.Material.matchMaterial(this.name()) != null;
 	}
 	
 	@Override

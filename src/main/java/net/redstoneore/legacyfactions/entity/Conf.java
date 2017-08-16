@@ -2,79 +2,139 @@ package net.redstoneore.legacyfactions.entity;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.cli.doc.DocDescription;
+import net.redstoneore.legacyfactions.cli.doc.DocSection;
 import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
 import net.redstoneore.legacyfactions.expansion.fly.FactionsFlyConfig;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapStyle;
 import net.redstoneore.legacyfactions.util.MiscUtil;
+import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
+import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
+import net.redstoneore.legacyfactions.util.cross.CrossColour;
+import net.redstoneore.legacyfactions.util.cross.CrossColour.DefaultChatColour;
+import net.redstoneore.legacyfactions.util.cross.CrossEntityType.DefaultEntityType;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class Conf {
-	
 	
 	// -------------------------------------------------- //
 	// MISC
 	// -------------------------------------------------- //
+	@DocSection(name = "Misc")
 	
-	// Enable debug mode, this will help diagnose problems. 
+	@DocDescription(
+		title = "Debug Mode",
+		description = "If enabled, fine details will be sent to the console."
+	)
 	public static boolean debug = false;
-	
-	// Enable metrics, this will send useful statistics to MCStats or bstats.
-	public static boolean enableMetrics = true;
+		
+	@DocDescription(
+		title = "Metrics",
+		description = "If enabled, useful statistics will be uploaded about your server. This helps with development and planning!"
+	)
+	public static boolean logStatistics = true;
 	
 	// -------------------------------------------------- //
 	// COMMANDS
 	// -------------------------------------------------- //
+	@DocSection(name = "Commands")
 	
-	// Allow no slash required for commands.
+	@DocDescription(
+		title = "Allow no slash commands",
+		description = "If enabled it will allow using factions commands without the initial slash. <br>" + 
+		              "For example typing 'f claim' instead of '/f claim'"
+	)
 	public static boolean allowNoSlashCommand = true;
 
 	// -------------------------------------------------- //
 	// WARMUPS
 	// -------------------------------------------------- //
-
-	// Warm up in seconds for warps 
+	@DocSection(name = "Warmups")
+	
+	@DocDescription(
+		title = "Warp Warmup",
+		description = "How long (in seconds) the warmup for warps should be"
+	)
 	public static long warmupWarp = 0;
 	
-	// Warm up in seconds for home command
+	@DocDescription(
+		title = "Warp Warmup",
+		description = "How long (in seconds) the warmup for homes should be"
+	)
 	public static long warmupHome = 0;
 	
 	// -------------------------------------------------- //
-	// MAX RELATIONS
+	// RELATIONS
 	// -------------------------------------------------- //
-	
-	// max relations for each relationship type
+	@DocSection(name = "Relations")
+
+	@DocDescription(
+		title = "Max Relations per Relationship",
+		description = "The maximum relationship for each type, set to -1 to disable"
+	)
 	public static Map<Relation, Integer> maxRelations = MiscUtil.map(
 		Relation.ALLY, -1,
 		Relation.TRUCE, -1,
 		Relation.NEUTRAL, -1,
 		Relation.ENEMY, -1
 	);
-		
-	// -------------------------------------------------- //
-	// COLOURS
-	// -------------------------------------------------- //
+	
+	@DocDescription(
+		title = "Member Relation Colour",
+		description = "The colour used to define the realtion member"
+	)
+	public static CrossColour colorMember = CrossColour.of(DefaultChatColour.GREEN);
+	
+	@DocDescription(
+		title = "Ally Relation Colour",
+		description = "The colour used to define the realtion elly"
+	)
+	public static CrossColour colorAlly = CrossColour.of(DefaultChatColour.LIGHT_PURPLE);
+	
+	@DocDescription(
+		title = "truce Relation Colour",
+		description = "The colour used to define the relation truce"
+	)
+	public static CrossColour colorTruce = CrossColour.of(DefaultChatColour.DARK_PURPLE);
+	
+	@DocDescription(
+		title = "Neutral Relation Colour",
+		description = "The colour used to define the relation neutral"
+	)
+	public static CrossColour colorNeutral = CrossColour.of(DefaultChatColour.WHITE);
+	
+	@DocDescription(
+		title = "Enemy Relation Colour",
+		description = "The colour used to define the relation enemy"
+	)
+	public static CrossColour colorEnemy = CrossColour.of(DefaultChatColour.RED);
 
-	public static ChatColor colorMember = ChatColor.GREEN;
-	public static ChatColor colorAlly = ChatColor.LIGHT_PURPLE;
-	public static ChatColor colorTruce = ChatColor.DARK_PURPLE;
-	public static ChatColor colorNeutral = ChatColor.WHITE;
-	public static ChatColor colorEnemy = ChatColor.RED;
-
-	public static ChatColor colorPeaceful = ChatColor.GOLD;
-
+	@DocDescription(
+		title = "Peaceful Relation Colour",
+		description = "The colour used to define the relation peaceful"
+	)
+	public static CrossColour colorPeaceful = CrossColour.of(DefaultChatColour.GOLD);
+	
 	// -------------------------------------------------- //
  	// TOOLTIPS
 	// -------------------------------------------------- //
-
-	// Tooltip templates
+	@DocSection(name = "Tooltips")
+	
+	@DocDescription(
+		title = "Tooltip Templates",
+		description = "These are the templates for tooltips"
+	)
 	public static Map<String, List<String>> tooltips = MiscUtil.map(
 		"list", Lists.newArrayList(
 			"&6Leader: &f{leader}",
@@ -95,29 +155,89 @@ public class Conf {
 	// -------------------------------------------------- //
 	// POWER
 	// -------------------------------------------------- //
+	@DocSection(name = "Power")
 
+	@DocDescription(
+		title = "Max Player Power",
+		description = "The maximum player power"
+	)
 	public static double powerPlayerMax = 10.0;
+	
+	@DocDescription(
+		title = "Minimum Player Power",
+		description = "The minimum player power"
+	)
 	public static double powerPlayerMin = -10.0;
+	
+	@DocDescription(
+		title = "Default Starting Player Power",
+		description = "The power a player starts on when they first join"
+	)
 	public static double powerPlayerStarting = 0.0;
+	
+	@DocDescription(
+		title = "Power Regenerated Per Minute",
+		description = "The amount of power regenerated pre minute. 0.2 = 5 minute to heal 1 power (aka 50 minutes for 10 power)"
+	)
 	public static double powerPerMinute = 0.2; // Default health rate... it takes 5 min to heal one power
-	public static double powerPerDeath = 4.0; // A death makes you lose 4 power
-	public static boolean powerRegenOffline = false;  // does player power regenerate even while they're offline?
-	public static double powerOfflineLossPerDay = 0.0;  // players will lose this much power per day offline
-	public static double powerOfflineLossLimit = 0.0;  // players will no longer lose power from being offline once their power drops to this amount or less
-	public static double powerFactionMax = 0.0;  // if greater than 0, the cap on how much power a faction can have (additional power from players beyond that will act as a "buffer" of sorts)
+	
+	@DocDescription(
+		title = "Power Loss Per Death",
+		description = "The amount of power lost on death"
+	)
+	public static double powerPerDeath = 4.0; 
+	
+	@DocDescription(
+		title = "Power Regen Offline",
+		description = "If enabled, players will regenerate power while they're offline."
+	)
+	public static boolean powerRegenOffline = false; 
+	
+	@DocDescription(
+		title = "Offline Power Loss Per Day",
+		description = "How much power a player will lose per day they are offline"
+	)
+	public static double powerOfflineLossPerDay = 0.0;
+	
+	@DocDescription(
+		title = "Offline Power Loss Limit",
+		description = "Offline power loss will not continue dropping once their drop drops to this amount or less"
+	)
+	public static double powerOfflineLossLimit = 0.0;
+	
+	@DocDescription(
+		title = "Faction Max Power",
+		description = "Set to 0 to disable. If greated than 0, this will be the maximum power a faction can have. Additional power will act as a 'buffer'."
+	)
+	public static double powerFactionMax = 0.0; 
 
 	// -------------------------------------------------- //
-	// PREFIX
+	// PLAYER PREFIX
 	// -------------------------------------------------- //
+	@DocSection(name = "Player Prefix")
 
+	@DocDescription(
+		title = "Admin Prefix",
+		description = "The prefix for faction admins"
+	)
 	public static String playerPrefixAdmin = "***";
+	
+	@DocDescription(
+		title = "Coleader Prefix",
+		description = "The prefix for faction coloeaders"
+	)
 	public static String playerPrefixColeader = "**";
+	
+	@DocDescription(
+		title = "Coleader Prefix",
+		description = "The prefix for faction moderators"
+	)
 	public static String playerPrefixMod = "*";
 
 	// -------------------------------------------------- //
 	// FACTION
 	// -------------------------------------------------- //
-
+	
 	public static String factionDefaultRelation = "neutral";
 	
 	public static int factionTagLengthMin = 3;
@@ -421,82 +541,82 @@ public class Conf {
 
 	public static boolean pistonProtectionThroughDenyBuild = true;
 	
-	public static Set<Material> territoryProtectedMaterials = EnumSet.of(
-		Material.WOODEN_DOOR,
-		Material.TRAP_DOOR,
-		Material.FENCE_GATE,
-		Material.DISPENSER,
-		Material.CHEST,
-		Material.FURNACE,
-		Material.BURNING_FURNACE,
-		Material.DIODE_BLOCK_OFF,
-		Material.DIODE_BLOCK_ON,
-		Material.JUKEBOX,
-		Material.BREWING_STAND,
-		Material.ENCHANTMENT_TABLE,
-		Material.CAULDRON,
-		Material.SOIL,
-		Material.BEACON,
-		Material.ANVIL,
-		Material.TRAPPED_CHEST,
-		Material.DROPPER,
-		Material.HOPPER
+	public static Set<CrossMaterial> territoryProtectedMaterials = EnumSet.of(
+		CrossMaterial.WOODEN_DOOR,
+		CrossMaterial.TRAP_DOOR,
+		CrossMaterial.FENCE_GATE,
+		CrossMaterial.DISPENSER,
+		CrossMaterial.CHEST,
+		CrossMaterial.FURNACE,
+		CrossMaterial.BURNING_FURNACE,
+		CrossMaterial.DIODE_BLOCK_OFF,
+		CrossMaterial.DIODE_BLOCK_ON,
+		CrossMaterial.JUKEBOX,
+		CrossMaterial.BREWING_STAND,
+		CrossMaterial.ENCHANTMENT_TABLE,
+		CrossMaterial.CAULDRON,
+		CrossMaterial.SOIL,
+		CrossMaterial.BEACON,
+		CrossMaterial.ANVIL,
+		CrossMaterial.TRAPPED_CHEST,
+		CrossMaterial.DROPPER,
+		CrossMaterial.HOPPER
 	);
 	
-	public static Set<Material> territoryDenyUseageMaterials = EnumSet.of(
-		Material.FIREBALL,
-		Material.FLINT_AND_STEEL,
-		Material.BUCKET,
-		Material.WATER_BUCKET,
-		Material.LAVA_BUCKET
+	public static Set<CrossMaterial> territoryDenyUseageMaterials = EnumSet.of(
+		CrossMaterial.FIREBALL,
+		CrossMaterial.FLINT_AND_STEEL,
+		CrossMaterial.BUCKET,
+		CrossMaterial.WATER_BUCKET,
+		CrossMaterial.LAVA_BUCKET
 	);
 	
-	public static Set<Material> territoryProtectedMaterialsWhenOffline = EnumSet.of(
-		Material.WOODEN_DOOR,
-		Material.TRAP_DOOR,
-		Material.FENCE_GATE,
-		Material.DISPENSER,
-		Material.CHEST,
-		Material.FURNACE,
-		Material.BURNING_FURNACE,
-		Material.DIODE_BLOCK_OFF,
-		Material.DIODE_BLOCK_ON,
-		Material.JUKEBOX,
-		Material.BREWING_STAND,
-		Material.ENCHANTMENT_TABLE,
-		Material.CAULDRON,
-		Material.SOIL,
-		Material.BEACON,
-		Material.ANVIL,
-		Material.TRAPPED_CHEST,
-		Material.DROPPER,
-		Material.HOPPER
+	public static Set<CrossMaterial> territoryProtectedMaterialsWhenOffline = EnumSet.of(
+		CrossMaterial.WOODEN_DOOR,
+		CrossMaterial.TRAP_DOOR,
+		CrossMaterial.FENCE_GATE,
+		CrossMaterial.DISPENSER,
+		CrossMaterial.CHEST,
+		CrossMaterial.FURNACE,
+		CrossMaterial.BURNING_FURNACE,
+		CrossMaterial.DIODE_BLOCK_OFF,
+		CrossMaterial.DIODE_BLOCK_ON,
+		CrossMaterial.JUKEBOX,
+		CrossMaterial.BREWING_STAND,
+		CrossMaterial.ENCHANTMENT_TABLE,
+		CrossMaterial.CAULDRON,
+		CrossMaterial.SOIL,
+		CrossMaterial.BEACON,
+		CrossMaterial.ANVIL,
+		CrossMaterial.TRAPPED_CHEST,
+		CrossMaterial.DROPPER,
+		CrossMaterial.HOPPER
 	);
 	
-	public static Set<Material> territoryDenyUseageMaterialsWhenOffline = EnumSet.of(
-		Material.FIREBALL,
-		Material.FLINT_AND_STEEL,
-		Material.BUCKET,
-		Material.WATER_BUCKET,
-		Material.LAVA_BUCKET
+	public static Set<CrossMaterial> territoryDenyUseageMaterialsWhenOffline = EnumSet.of(
+		CrossMaterial.FIREBALL,
+		CrossMaterial.FLINT_AND_STEEL,
+		CrossMaterial.BUCKET,
+		CrossMaterial.WATER_BUCKET,
+		CrossMaterial.LAVA_BUCKET
 	);
 	
-	public static transient Set<EntityType> safeZoneNerfedCreatureTypes = EnumSet.of(
-		EntityType.BLAZE,
-		EntityType.CAVE_SPIDER,
-		EntityType.CREEPER,
-		EntityType.ENDER_DRAGON,
-		EntityType.ENDERMAN,
-		EntityType.GHAST,
-		EntityType.MAGMA_CUBE,
-		EntityType.PIG_ZOMBIE,
-		EntityType.SILVERFISH,
-		EntityType.SKELETON,
-		EntityType.SPIDER,
-		EntityType.SLIME,
-		EntityType.WITCH,
-		EntityType.WITHER,
-		EntityType.ZOMBIE
+	public static transient Set<CrossEntityType> safeZoneNerfedCreatureTypes = Sets.newHashSet(
+		CrossEntityType.of(DefaultEntityType.BLAZE),
+		CrossEntityType.of(DefaultEntityType.CAVE_SPIDER),
+		CrossEntityType.of(DefaultEntityType.CREEPER),
+		CrossEntityType.of(DefaultEntityType.ENDER_DRAGON),
+		CrossEntityType.of(DefaultEntityType.ENDERMAN),
+		CrossEntityType.of(DefaultEntityType.GHAST),
+		CrossEntityType.of(DefaultEntityType.MAGMA_CUBE),
+		CrossEntityType.of(DefaultEntityType.PIG_ZOMBIE),
+		CrossEntityType.of(DefaultEntityType.SILVERFISH),
+		CrossEntityType.of(DefaultEntityType.SKELETON),
+		CrossEntityType.of(DefaultEntityType.SPIDER),
+		CrossEntityType.of(DefaultEntityType.SLIME),
+		CrossEntityType.of(DefaultEntityType.WITCH),
+		CrossEntityType.of(DefaultEntityType.WITHER),
+		CrossEntityType.of(DefaultEntityType.ZOMBIE)
 	);
 	
 	// Economy settings

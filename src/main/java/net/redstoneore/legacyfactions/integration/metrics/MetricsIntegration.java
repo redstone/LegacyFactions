@@ -14,7 +14,7 @@ public class MetricsIntegration extends Integration {
 	
 	@Override
 	public boolean isEnabled() {
-		return Conf.enableMetrics;
+		return Conf.logStatistics;
 	}
 
 	@Override
