@@ -69,7 +69,7 @@ public class Conf {
 	public static long warmupWarp = 0;
 	
 	@DocDescription(
-		title = "Warp Warmup",
+		title = "Home Warmup",
 		description = "How long (in seconds) the warmup for homes should be"
 	)
 	public static long warmupHome = 0;
@@ -237,70 +237,163 @@ public class Conf {
 	// -------------------------------------------------- //
 	// FACTION
 	// -------------------------------------------------- //
-	
+	@DocSection(name = "Faction")
+
+	@DocDescription(
+		title = "Default Relation",
+		description = "The default relation of factions"
+	)
 	public static String factionDefaultRelation = "neutral";
 	
+	@DocDescription(
+		title = "Faction Tag Minimum Length",
+		description = "The minimum length of a faction tag"
+	)
 	public static int factionTagLengthMin = 3;
+	
+	@DocDescription(
+		title = "Faction Tag Maxmimum Length",
+		description = "The maximum length of a faction tag"
+	)
 	public static int factionTagLengthMax = 10;
+	
+	@DocDescription(
+		title = "Faction Tag Force Upper Case",
+		description = "Force the tag to be uppercase."
+	)
 	public static boolean factionTagForceUpperCase = false;
 
+	@DocDescription(
+		title = "Default to Open",
+		description = "If true, factions will default to open."
+	)
 	public static boolean newFactionsDefaultOpen = false;
 
-	// when faction membership hits this limit, players will no longer be able to join using /f join; default is 0, no limit
+	@DocDescription(
+		title = "Member Limit",
+		description = "Set to 0 to disable. If a faction hits this limit, players will no longer be able to join using `/f join`"
+	)
 	public static int factionMemberLimit = 0;
-
-	// what faction ID to start new players in when they first join the server; default is 0, "no faction"
+	
+	@DocDescription(
+		title = "New Player Starting Faction ID",
+		description = "This is default set to 0 (no faction), but if you want players to automatically join a faction set this to that ID."
+	)
 	public static String newPlayerStartingFactionID = "0";
 
+	@DocDescription(
+		title = "Show Faction Keys on Map",
+		description = "If true, faction names will show as keys on the faction map."
+	)
 	public static boolean showMapFactionKey = true;
+	
+	@DocDescription(
+		title = "Show Neutral Factions On Map",
+		description = "If true, neutral factions will be visible on the map."
+	)
 	public static boolean showNeutralFactionsOnMap = true;
+	
+	@DocDescription(
+		title = "Show Enemy Factions On Map",
+		description = "If true, enemy factions will be visible on the map."
+	)
 	public static boolean showEnemyFactionsOnMap = true;
 
-	// Allow colour codes in faction title.
+	@DocDescription(
+		title = "Allow Colour Codes In Faction Title",
+		description = "If true, colour codes will be allowed in faction titles."
+	)
 	public static boolean allowColourCodesInFactionTitle = false;
 	
-	// Allow colour codes in faction description.
+	@DocDescription(
+		title = "Allow Colour Codes In Faction Description",
+		description = "If true, colour codes will be allowed in faction descriptions."
+	)
 	public static boolean allowColourCodesInFactionDescription = false;
 
-	// Disallow joining/leaving/kicking while power is negative
+	@DocDescription(
+		title = "Disallow Leaving with negative power",
+		description = "If false, players can not join, leave, or be kicekd while power is negative."
+	)
 	public static boolean canLeaveWithNegativePower = true;
 
+	@DocDescription(
+		title = "Disable Pistons In Territory",
+		description = "If true, pistons will be disable in territories."
+	)
 	public static boolean disablePistonsInTerritory = false;
+
+	@DocDescription(
+		title = "Broadcast Description Changes",
+		description = "If true, a broadcast will be sent when a faction description is changed."
+	)
+	public static boolean broadcastDescriptionChanges = false;
+	
+	@DocDescription(
+		title = "Broadcast Tag Changes",
+		description = "If true, a broadcast will be sent when a faction name tag is changed."
+	)
+	public static boolean broadcastTagChanges = false;
 
 	// -------------------------------------------------- //
 	// EXPANSION: FactionsChat
 	// -------------------------------------------------- // 
-	
+	@DocSection(name = "Expansion: FactionsChat")
+
 	public static FactionsChatConfig expansionsFactionsChat = new FactionsChatConfig();
 	
 	// -------------------------------------------------- //
 	// EXPANSION: FactionsFly
 	// -------------------------------------------------- //
-	
-	public static FactionsFlyConfig expansionFactionsFly = new FactionsFlyConfig();
-	
-	// -------------------------------------------- //
-	// BROADCAST
-	// -------------------------------------------- //
-	
-	public static boolean broadcastDescriptionChanges = false;
-	public static boolean broadcastTagChanges = false;
-	
-	// -------------------------------------------- //
-	// TASKS
-	// -------------------------------------------- //
+	@DocSection(name = "Expansion: FactionsFly")
 
+	public static FactionsFlyConfig expansionFactionsFly = new FactionsFlyConfig();
+		
+	// -------------------------------------------------- //
+	// TASKS
+	// -------------------------------------------------- //
+	@DocSection(name = "Tasks")
+
+	@DocDescription(
+		title = "Save Interval",
+		description = "How often (in minutes) should we save files."
+	)
 	public static double saveToFileEveryXMinutes = 30.0;
 
+	@DocDescription(
+		title = "Inactivity Autoleave: how many days?",
+		description = "After how many days of inactivty should a player autoleave their faction"
+	)
 	public static long autoLeaveAfterDaysOfInactivity = 28;
-	public static double autoLeaveRoutineRunsEveryXMinutes = 5.0;
-	public static int autoLeaveRoutineMaxMillisecondsPerTick = 5;  // 1 server tick is roughly 50ms, so default max 10% of a tick
-	public static boolean removePlayerDataWhenBanned = true;
-	public static boolean autoLeaveDeleteFPlayerData = false; // Deletes all player data when they auto leave (odd feature?)
 	
-	// -------------------------------------------- //
+	@DocDescription(
+		title = "Inactivity Autoleave: timer frequency",
+		description = "How often (in minutes) should we run the autoleave task"
+	)
+	public static double autoLeaveRoutineRunsEveryXMinutes = 5.0;
+	
+	@DocDescription(
+		title = "Inactivity Autoleave: max ms per tick",
+		description = "The max ms per tick that the task can run -  1 server tick is roughly 50ms, so the default (5) is 10% of a tick"
+	)
+	public static int autoLeaveRoutineMaxMillisecondsPerTick = 5;
+	
+	@DocDescription(
+		title = "Remove Player Data When Banned",
+		description = "Removes all player data when they are banned. This is destructive, consider wisely."
+	)
+	public static boolean removePlayerDataWhenBanned = false;
+	
+	@DocDescription(
+		title = "Remove Player From Autoleave",
+		description = "Removes all player data when they autoleave from inactivty. This is destructive, consider wisely."
+	)
+	public static boolean autoLeaveDeleteFPlayerData = false; 
+	
+	// -------------------------------------------------- //
 	// FORMAT
-	// -------------------------------------------- //
+	// -------------------------------------------------- //
+	@DocSection(name = "Format")
 
 	public static Map<Character.UnicodeScript, Boolean> enabledScriptSupport = MiscUtil.map(
 		Character.UnicodeScript.ARABIC, false,
