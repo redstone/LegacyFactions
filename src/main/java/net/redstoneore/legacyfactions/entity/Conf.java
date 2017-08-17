@@ -729,6 +729,7 @@ public class Conf {
 	public static double econCostLeave = 0.0;
 	public static double econCostKick = 0.0;
 	public static double econCostBan = 0.0;
+	public static double econCostUnban = 0.0;
 	public static double econCostInvite = 0.0;
 	public static double econCostHome = 0.0;
 	public static double econCostTag = 0.0;

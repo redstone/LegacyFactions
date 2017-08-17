@@ -96,7 +96,15 @@ public enum Lang {
 	COMMAND_BAN_CANTYOURSELF("<b>You can't ban yourself!"),
 	COMMAND_BAN_TOBAN("to ban someone from the faction"),
 	COMMAND_BAN_FORBAN("for banning someone from the faction"),
+	COMMAND_BAN_NOTFOUND("<b>Unknown player <player>, so we can't ban them."),
 
+	COMMAND_UNBAN_NOTFOUND("<b>Unknown player <player>, so we can't unban them."),
+	COMMAND_UNBAN_NOTBANNED("<b><player> is not banned."),
+	COMMAND_UNBAN_TOUNBAN("to unban someone from the faction"),
+	COMMAND_UNBAN_FORUNBAN("for unbanning someone from the faction"),
+	COMMAND_UNBAN_YOUUNBAN("<i>You have unbanned <name> from your faction."),
+	COMMAND_UNBAN_SOMEONEUNBAN("<i><someone> has unbanned <name> from your faction."),
+	
 	COMMAND_BOOM_PEACEFULONLY("<b>This command is only usable by factions which are specifically designated as peaceful."),
 	COMMAND_BOOM_TOTOGGLE("to toggle explosions"),
 	COMMAND_BOOM_FORTOGGLE("for toggling explosions"),
@@ -301,6 +309,8 @@ public enum Lang {
 	COMMAND_JOIN_MOVEDLOG("%1$s moved the player %2$s into the faction %3$s."),
 	COMMAND_JOIN_DESCRIPTION("Join a faction"),
 	COMMAND_JOIN_NOT_PLAYER("<name><b> is not a player."),
+	COMMAND_JOIN_ISBANNED("<b><name> is banned from this faction, they must be unbanned first."),
+	COMMAND_JOIN_YOUBANNED("<b>You are banned from this faction and can not join it."),
 
 	COMMAND_KICK_CANDIDATES("Players you can kick: "),
 	COMMAND_KICK_CLICKTOKICK("Click to kick "),

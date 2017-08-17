@@ -100,7 +100,17 @@ public class CmdFactionsJoin extends FCommand {
 	
 	private static final void resume(FPlayer fsender, FPlayer fplayer, Faction faction, CommandSender commandSender) {
 		boolean samePlayer = fplayer == fsender;
+		
+		if (faction.isBanned(fplayer)) {
+			if (samePlayer) {
+				fsender.sendMessage(TextUtil.parseColor(Lang.COMMAND_JOIN_YOUBANNED.toString()));
+				return;
+			} 
+			fsender.sendMessage(TextUtil.parseColor(Lang.COMMAND_JOIN_ISBANNED.toString()).replace("<player>", fplayer.getName()));
 
+			return;
+		}
+		
 		if (!samePlayer && !Permission.JOIN_OTHERS.has(commandSender, false)) {
 			fsender.sendMessage(Lang.COMMAND_JOIN_CANNOTFORCE);
 			return;

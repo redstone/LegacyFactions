@@ -177,7 +177,14 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 	@Override
 	public void ban(FPlayer fplayer) {
+		if (fplayer == null) return;
 		this.bannedPlayerIds.add(fplayer.getId());
+	}
+	
+	@Override
+	public void unban(FPlayer fplayer) {
+		if (fplayer == null) return;
+		this.bannedPlayerIds.remove(fplayer.getId());
 	}
 	
 	@Override
