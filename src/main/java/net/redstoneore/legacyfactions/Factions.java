@@ -160,6 +160,11 @@ public class Factions extends FactionsPluginBase {
 		// Load Conf from disk
 		Conf.load();
 		Conf.save();
+		
+		// Load command aliases from disk
+		CommandAliases.load();
+		CommandAliases.save();
+		
 		if (this.getDescription().getVersion().contains("RC") || this.getDescription().getVersion().contains("SNAPSHOT")) {
 			Conf.debug = true;
 			this.debug("Debug mode has been enabled for this snapshot.");
@@ -245,6 +250,7 @@ public class Factions extends FactionsPluginBase {
 		// only save data if plugin actually completely loaded successfully
 		if (this.loadSuccessful) {
 			Conf.save();
+			CommandAliases.save();
 			FactionColl.get().forceSave();
 			FPlayerColl.save();
 			Board.get().forceSave();
