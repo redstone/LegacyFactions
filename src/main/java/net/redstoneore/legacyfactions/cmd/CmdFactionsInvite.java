@@ -7,6 +7,7 @@ import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 import org.bukkit.ChatColor;
 
@@ -53,6 +54,12 @@ public class CmdFactionsInvite extends FCommand {
 			this.sendMessage(Lang.GENERIC_YOUMAYWANT.toString() + CmdFactionsKick.get().getUseageTemplate(false));
 			return;
 		}
+		
+		if (this.myFaction.isBanned(who)) {
+			this.fme.sendMessage(TextUtil.parseColor(Lang.COMMAND_JOIN_ISBANNED.toString()).replace("<player>", who.getName()));
+
+			return;
+		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
 		if (!payForCommand(Conf.econCostInvite, Lang.COMMAND_INVITE_TOINVITE.toString(), Lang.COMMAND_INVITE_FORINVITE.toString())) {
@@ -65,12 +72,12 @@ public class CmdFactionsInvite extends FCommand {
 		// Tooltips, colors, and commands only apply to the string immediately before it.
 		FancyMessage message = new FancyMessage(fme.describeTo(who, true))
 				.tooltip(Lang.COMMAND_INVITE_CLICKTOJOIN.toString())
-				.command("/" + CommandAliases.baseCommandAliases.get(0) + " join " + myFaction.getTag())
+				.command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesJoin.get(0) + " " + this.myFaction.getTag())
 			.then(Lang.COMMAND_INVITE_INVITEDYOU.toString())
 				.color(ChatColor.YELLOW).tooltip(Lang.COMMAND_INVITE_CLICKTOJOIN.toString())
-				.command("/" + CommandAliases.baseCommandAliases.get(0) + " join " + myFaction.getTag())
+				.command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesJoin.get(0) + " " + this.myFaction.getTag())
 			.then(myFaction.describeTo(who)).tooltip(Lang.COMMAND_INVITE_CLICKTOJOIN.toString())
-				.command("/" + CommandAliases.baseCommandAliases.get(0) + " join " + myFaction.getTag());
+				.command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesJoin.get(0) + " " + this.myFaction.getTag());
 
 		message.send(who.getPlayer());
 

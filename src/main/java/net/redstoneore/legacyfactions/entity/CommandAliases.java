@@ -82,6 +82,7 @@ public class CommandAliases {
 	public static List<String> cmdAliasesTitle = Lists.newArrayList("title");
 	public static List<String> cmdAliasesToggleAllianceChat = Lists.newArrayList("ac", "togglealiancechat", "tac");
 	public static List<String> cmdAliasesTop = Lists.newArrayList("top");
+	public static List<String> cmdAliasesUnban = Lists.newArrayList("unban");
 	public static List<String> cmdAliasesUnclaim = Lists.newArrayList("unclaim");
 	public static List<String> cmdAliasesUnclaimAll = Lists.newArrayList("unclaimall");
 	public static List<String> cmdAliasesVersion = Lists.newArrayList("version");
