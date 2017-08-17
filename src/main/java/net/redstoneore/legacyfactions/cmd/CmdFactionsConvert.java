@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import org.bukkit.command.ConsoleCommandSender;
 
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Conf.Backend;
 import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
@@ -21,7 +22,7 @@ public class CmdFactionsConvert extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsConvert() {
-		this.aliases.addAll(Conf.cmdAliasesConvert);
+		this.aliases.addAll(CommandAliases.cmdAliasesConvert);
 
 		this.requiredArgs.add("[MYSQL|JSON]");
 	}

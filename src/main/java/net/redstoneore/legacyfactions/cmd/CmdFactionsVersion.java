@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.Lang;
 
 
@@ -20,7 +20,7 @@ public class CmdFactionsVersion extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsVersion() {
-		this.aliases.addAll(Conf.cmdAliasesVersion);
+		this.aliases.addAll(CommandAliases.cmdAliasesVersion);
 		
 		this.permission = Permission.VERSION.getNode();
 		this.disableOnLock = false;

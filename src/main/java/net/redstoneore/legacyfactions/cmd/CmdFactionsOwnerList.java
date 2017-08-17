@@ -4,6 +4,7 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 
@@ -21,7 +22,7 @@ public class CmdFactionsOwnerList extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsOwnerList() {
-		this.aliases.addAll(Conf.cmdAliasesOwnerList);
+		this.aliases.addAll(CommandAliases.cmdAliasesOwnerList);
 
 		//this.requiredArgs.add("");
 		//this.optionalArgs.put("", "");

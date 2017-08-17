@@ -5,7 +5,7 @@ import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 
@@ -25,7 +25,7 @@ public class CmdFactionsColeader extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsColeader() {
-		this.aliases.addAll(Conf.cmdAliasesColeader);
+		this.aliases.addAll(CommandAliases.cmdAliasesColeader);
 
 		this.requiredArgs.add("player name");
 
@@ -50,7 +50,7 @@ public class CmdFactionsColeader extends FCommand {
 			FancyMessage message = new FancyMessage(Lang.COMMAND_COLEADER_CANDIDATES.toString()).color(ChatColor.GOLD);
 			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
 				String name = player.getName();
-				message.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_COLEADER_CLICKTOPROMOTE.toString() + name).command("/" + Conf.baseCommandAliases.get(0) + " coleader " + name);
+				message.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_COLEADER_CLICKTOPROMOTE.toString() + name).command("/" + CommandAliases.baseCommandAliases.get(0) + " coleader " + name);
 			}
 
 			this.sendFancyMessage(message);

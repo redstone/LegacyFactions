@@ -307,6 +307,8 @@ public interface FPlayer extends EconomyParticipator {
 	// ----------------------------------------
 
 	void leave(boolean makePay);
+	
+	void leave(boolean makePay, boolean silent);
 
 	boolean canClaimForFaction(Faction forFaction);
 

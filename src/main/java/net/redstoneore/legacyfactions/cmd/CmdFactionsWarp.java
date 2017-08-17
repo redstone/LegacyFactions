@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsWarpUse;
@@ -30,7 +31,7 @@ public class CmdFactionsWarp extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsWarp() {
-		this.aliases.addAll(Conf.cmdAliasesWarp);
+		this.aliases.addAll(CommandAliases.cmdAliasesWarp);
 		
 		this.optionalArgs.put("warpname", "warpname");
 		this.optionalArgs.put("password", "password");
@@ -52,7 +53,7 @@ public class CmdFactionsWarp extends FCommand {
 			FancyMessage msg = new FancyMessage(Lang.COMMAND_FWARP_WARPS.toString()).color(ChatColor.GOLD);
 			Collection<FactionWarp> warps = myFaction.warps().getAll();
 			for (FactionWarp warp : warps) {
-				msg.then(warp.getName() + " ").tooltip(Lang.COMMAND_FWARP_CLICKTOWARP.toString()).command("/" + Conf.baseCommandAliases.get(0) + " warp " + warp.getName()).color(ChatColor.WHITE);
+				msg.then(warp.getName() + " ").tooltip(Lang.COMMAND_FWARP_CLICKTOWARP.toString()).command("/" + CommandAliases.baseCommandAliases.get(0) + " warp " + warp.getName()).color(ChatColor.WHITE);
 			}
 			sendFancyMessage(msg);
 			return;

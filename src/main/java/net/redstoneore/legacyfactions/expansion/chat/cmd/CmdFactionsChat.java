@@ -6,6 +6,7 @@ import net.redstoneore.legacyfactions.cmd.FCommand;
 import java.util.Optional;
 
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.event.EventFactionsChatModeChange;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
@@ -24,7 +25,7 @@ public class CmdFactionsChat extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsChat() {
-		this.aliases.addAll(Conf.cmdAliasesChat);
+		this.aliases.addAll(CommandAliases.cmdAliasesChat);
 
 		this.optionalArgs.put("mode", "next");
 

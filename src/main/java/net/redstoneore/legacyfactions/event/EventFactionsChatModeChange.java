@@ -6,7 +6,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 
-public class EventFactionsChatModeChange extends AbstractFactionsPlayerEvent implements Cancellable {
+public class EventFactionsChatModeChange extends AbstractFactionsPlayerEvent<EventFactionsChatModeChange> implements Cancellable {
 
 	// -------------------------------------------------- //
 	// CONSTRUCT

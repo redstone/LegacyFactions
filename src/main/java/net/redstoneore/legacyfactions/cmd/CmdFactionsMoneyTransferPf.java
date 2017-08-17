@@ -6,6 +6,7 @@ import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.VaultAccount;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
@@ -25,7 +26,7 @@ public class CmdFactionsMoneyTransferPf extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsMoneyTransferPf() {
-		this.aliases.addAll(Conf.cmdAliasesMoneyTransferPf);
+		this.aliases.addAll(CommandAliases.cmdAliasesMoneyTransferPf);
 
 		this.requiredArgs.add("amount");
 		this.requiredArgs.add("player");

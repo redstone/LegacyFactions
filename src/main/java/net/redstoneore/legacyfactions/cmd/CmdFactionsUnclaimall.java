@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -31,7 +32,7 @@ public class CmdFactionsUnclaimall extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsUnclaimall() {
-		this.aliases.addAll(Conf.cmdAliasesUnclaimAll);
+		this.aliases.addAll(CommandAliases.cmdAliasesUnclaimAll);
 		
 		this.permission = Permission.UNCLAIM_ALL.getNode();
 		this.disableOnLock = true;

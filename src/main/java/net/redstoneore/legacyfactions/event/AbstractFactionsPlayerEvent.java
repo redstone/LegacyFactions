@@ -6,7 +6,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 /**
  * Represents an event involving a Faction and a FPlayer.
  */
-public abstract class AbstractFactionsPlayerEvent extends AbstractFactionsEvent {
+public abstract class AbstractFactionsPlayerEvent<P> extends AbstractFactionsEvent<P> {
 
     private final FPlayer fPlayer;
 

@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.expansion.chat.cmd;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsToggleAllianceChat extends FCommand {
@@ -19,7 +20,7 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsToggleAllianceChat() {
-		this.aliases.addAll(Conf.cmdAliasesToggleAllianceChat);
+		this.aliases.addAll(CommandAliases.cmdAliasesToggleAllianceChat);
 
 		this.disableOnLock = false;
 

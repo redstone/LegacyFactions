@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Relation;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 
 public class CmdFactionsRelationNeutral extends FCommandRelation {
 	
@@ -17,7 +17,7 @@ public class CmdFactionsRelationNeutral extends FCommandRelation {
 	// -------------------------------------------------- //
 
 	private CmdFactionsRelationNeutral() {
-		this.aliases.addAll(Conf.cmdAliasesRelationNeutral);
+		this.aliases.addAll(CommandAliases.cmdAliasesRelationNeutral);
 		this.targetRelation = Relation.NEUTRAL;
 	}
 

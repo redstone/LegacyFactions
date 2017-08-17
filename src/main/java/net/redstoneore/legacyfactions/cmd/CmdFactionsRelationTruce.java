@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Relation;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 
 public class CmdFactionsRelationTruce extends FCommandRelation {
 
@@ -17,7 +17,7 @@ public class CmdFactionsRelationTruce extends FCommandRelation {
 	// -------------------------------------------------- //
 
 	private CmdFactionsRelationTruce() {
-		this.aliases.addAll(Conf.cmdAliasesRelationTruce);
+		this.aliases.addAll(CommandAliases.cmdAliasesRelationTruce);
 		this.targetRelation = Relation.TRUCE;
 	}
 

@@ -6,7 +6,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
-public class EventFactionsWarpDelete extends AbstractFactionsPlayerEvent implements Cancellable {
+public class EventFactionsWarpDelete extends AbstractFactionsPlayerEvent<EventFactionsWarpDelete> implements Cancellable {
 	
 	// -------------------------------------------------- //
 	// CONSTRUCT

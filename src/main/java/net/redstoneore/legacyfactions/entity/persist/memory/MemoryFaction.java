@@ -57,6 +57,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	protected Map<FLocation, Set<String>> claimOwnership = new ConcurrentHashMap<>();
 	protected transient Set<FPlayer> fplayers = new HashSet<>();
 	protected Set<String> invites = new HashSet<>();
+	protected Set<String> bannedPlayerIds = new HashSet<>();
 	protected HashMap<String, List<String>> announcements = new HashMap<>();
 	protected ConcurrentHashMap<String, LazyLocation> warps = new ConcurrentHashMap<>();
 	protected ConcurrentHashMap<String, String> warpPasswords = new ConcurrentHashMap<>();
@@ -172,6 +173,16 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 	public boolean isInvited(FPlayer fplayer) {
 		return this.invites.contains(fplayer.getId());
+	}
+
+	@Override
+	public void ban(FPlayer fplayer) {
+		this.bannedPlayerIds.add(fplayer.getId());
+	}
+	
+	@Override
+	public boolean isBanned(FPlayer fplayer) {
+		return this.bannedPlayerIds.contains(fplayer.getId());
 	}
 
 	public boolean getOpen() {

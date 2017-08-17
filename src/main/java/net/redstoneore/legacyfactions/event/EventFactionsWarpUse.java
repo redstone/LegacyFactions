@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
-public class EventFactionsWarpUse extends AbstractFactionsPlayerEvent implements Cancellable {
+public class EventFactionsWarpUse extends AbstractFactionsPlayerEvent<EventFactionsWarpUse> implements Cancellable {
 
 	public EventFactionsWarpUse(FPlayer fplayer, FactionWarp warp) {
 		super(fplayer.getFaction(), fplayer);

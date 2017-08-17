@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -21,7 +22,7 @@ public class CmdFactionsSaveAll extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsSaveAll() {
-		this.aliases.addAll(Conf.cmdAliasesSaveAll);
+		this.aliases.addAll(CommandAliases.cmdAliasesSaveAll);
 
 		this.permission = Permission.SAVE.getNode();
 		this.disableOnLock = false;

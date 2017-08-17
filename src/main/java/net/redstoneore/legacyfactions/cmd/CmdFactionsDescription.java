@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.util.TextUtil;
@@ -20,7 +21,7 @@ public class CmdFactionsDescription extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsDescription() {
-		this.aliases.addAll(Conf.cmdAliasesDescription);
+		this.aliases.addAll(CommandAliases.cmdAliasesDescription);
 
 		this.requiredArgs.add("desc");
 		this.errorOnToManyArgs = false;

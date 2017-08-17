@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.event.EventFactionsWarpCreate;
 import net.redstoneore.legacyfactions.util.LazyLocation;
@@ -21,7 +22,7 @@ public class CmdFactionsSetwarp extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsSetwarp() {
-		this.aliases.addAll(Conf.cmdAliasesSetwarp);
+		this.aliases.addAll(CommandAliases.cmdAliasesSetwarp);
 		
 		this.requiredArgs.add("warp name");
 		this.optionalArgs.put("password", "password");

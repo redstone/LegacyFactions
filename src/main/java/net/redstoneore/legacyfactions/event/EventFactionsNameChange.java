@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
-public class EventFactionsNameChange extends AbstractFactionsPlayerEvent implements Cancellable {
+public class EventFactionsNameChange extends AbstractFactionsPlayerEvent<EventFactionsNameChange> implements Cancellable {
 
     private boolean cancelled = false;
     private String tag;

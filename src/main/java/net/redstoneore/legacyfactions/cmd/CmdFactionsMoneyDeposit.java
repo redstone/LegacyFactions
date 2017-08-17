@@ -6,6 +6,7 @@ import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.VaultAccount;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
@@ -25,7 +26,7 @@ public class CmdFactionsMoneyDeposit extends FCommand {
     // -------------------------------------------------- //
 
     private CmdFactionsMoneyDeposit() {
-        this.aliases.addAll(Conf.cmdAliasesMoneyDeposit);
+        this.aliases.addAll(CommandAliases.cmdAliasesMoneyDeposit);
 
         this.requiredArgs.add("amount");
         this.optionalArgs.put("faction", "yours");

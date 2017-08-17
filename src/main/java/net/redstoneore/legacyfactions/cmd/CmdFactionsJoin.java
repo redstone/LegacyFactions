@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -28,7 +29,7 @@ public class CmdFactionsJoin extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsJoin() {
-		this.aliases.addAll(Conf.cmdAliasesJoin);
+		this.aliases.addAll(CommandAliases.cmdAliasesJoin);
 
 		this.requiredArgs.add("faction name");
 		this.optionalArgs.put("player", "you");

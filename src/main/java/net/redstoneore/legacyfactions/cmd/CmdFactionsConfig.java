@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
 
@@ -36,7 +37,7 @@ public class CmdFactionsConfig extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsConfig() {
-		this.aliases.addAll(Conf.cmdAliasesConfig);
+		this.aliases.addAll(CommandAliases.cmdAliasesConfig);
 
 		this.requiredArgs.add("setting");
 		this.requiredArgs.add("value");

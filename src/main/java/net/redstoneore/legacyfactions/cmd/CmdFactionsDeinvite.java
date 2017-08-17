@@ -4,7 +4,7 @@ import mkremins.fanciful.FancyMessage;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 
@@ -24,7 +24,7 @@ public class CmdFactionsDeinvite extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsDeinvite() {
-		this.aliases.addAll(Conf.cmdAliasesDeinvite);
+		this.aliases.addAll(CommandAliases.cmdAliasesDeinvite);
 
 		this.optionalArgs.put("player name", "name");
 
@@ -57,7 +57,7 @@ public class CmdFactionsDeinvite extends FCommand {
 				message.then(name + " ")
 					.color(ChatColor.WHITE)
 					.tooltip(Lang.COMMAND_DEINVITE_CLICKTODEINVITE.format(name))
-					.command("/" + Conf.baseCommandAliases.get(0) + " deinvite " + name);
+					.command("/" + CommandAliases.baseCommandAliases.get(0) + " deinvite " + name);
 			}
 			sendFancyMessage(message);
 			return;

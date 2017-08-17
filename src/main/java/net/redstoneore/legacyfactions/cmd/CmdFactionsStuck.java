@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
@@ -27,7 +28,7 @@ public class CmdFactionsStuck extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsStuck() {
-		this.aliases.addAll(Conf.cmdAliasesStuck);
+		this.aliases.addAll(CommandAliases.cmdAliasesStuck);
 
 		this.permission = Permission.STUCK.getNode();
 		this.disableOnLock = true;

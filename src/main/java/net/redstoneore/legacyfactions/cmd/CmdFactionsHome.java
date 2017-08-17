@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -34,7 +35,7 @@ public class CmdFactionsHome extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsHome() {
-		this.aliases.addAll(Conf.cmdAliasesHome);
+		this.aliases.addAll(CommandAliases.cmdAliasesHome);
 
 		this.optionalArgs.put("who", "you");
 		this.optionalArgs.put("type", "faction/player");

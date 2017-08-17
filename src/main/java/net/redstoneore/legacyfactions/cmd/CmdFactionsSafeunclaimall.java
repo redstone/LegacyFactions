@@ -4,6 +4,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 
@@ -21,7 +22,7 @@ public class CmdFactionsSafeunclaimall extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsSafeunclaimall() {
-		this.aliases.addAll(Conf.cmdAliasesSafeunclaimall);
+		this.aliases.addAll(CommandAliases.cmdAliasesSafeunclaimall);
 		
 		this.permission = Permission.MANAGE_SAFE_ZONE.getNode();
 		this.disableOnLock = true;

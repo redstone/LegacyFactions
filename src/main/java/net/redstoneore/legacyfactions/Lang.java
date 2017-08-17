@@ -86,6 +86,16 @@ public enum Lang {
 	COMMAND_AUTOCLAIM_DESCRIPTION("Auto-claim land as you walk around"),
 
 	COMMAND_AUTOHELP_HELPFOR("Help for command \""),
+	
+	COMMAND_BAN_DESCRIPTION("Bans a player from the faction preventing them from rejoining."),
+	COMMAND_BAN_YOUBANNED("<i>You have banned <name> from your faction."),
+	COMMAND_BAN_SOMEONEBANNED("<i><someone> has banned <name> from your faction."),
+	COMMAND_BAN_YOUBANKICKED("<i>You have banned and kicked <name> from your faction."),
+	COMMAND_BAN_SOMEONEBANKICKED("<i><someone> has banned and kicked <name> from your faction."),
+	COMMAND_BAN_CANT("<b>You are <your-rank> and <name> is <their-rank> so you can't ban them."),
+	COMMAND_BAN_CANTYOURSELF("<b>You can't ban yourself!"),
+	COMMAND_BAN_TOBAN("to ban someone from the faction"),
+	COMMAND_BAN_FORBAN("for banning someone from the faction"),
 
 	COMMAND_BOOM_PEACEFULONLY("<b>This command is only usable by factions which are specifically designated as peaceful."),
 	COMMAND_BOOM_TOTOGGLE("to toggle explosions"),

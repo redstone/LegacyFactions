@@ -16,6 +16,7 @@ import net.redstoneore.legacyfactions.adapter.LazyLocationAdapter;
 import net.redstoneore.legacyfactions.adapter.MapFlocationSetAdapter;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -217,7 +218,7 @@ public class Factions extends FactionsPluginBase {
 		);
 		
 		// since some other plugins execute commands directly through this command interface, provide it
-		Conf.baseCommandAliases.forEach(ref -> this.getCommand(ref).setExecutor(this));
+		CommandAliases.baseCommandAliases.forEach(ref -> this.getCommand(ref).setExecutor(this));
 				
 		this.loadSuccessful = true;
 		
@@ -276,7 +277,7 @@ public class Factions extends FactionsPluginBase {
 		if (split.length == 0) return this.handleCommand(sender, "/f help", false);
 		
 		// otherwise, needs to be handled; presumably another plugin directly ran the command
-		String cmd = Conf.baseCommandAliases.isEmpty() ? "/f" : "/" + Conf.baseCommandAliases.get(0);
+		String cmd = CommandAliases.baseCommandAliases.isEmpty() ? "/f" : "/" + CommandAliases.baseCommandAliases.get(0);
 		return this.handleCommand(sender, cmd + " " + TextUtil.implode(Arrays.asList(split), " "), false);
 	}
 

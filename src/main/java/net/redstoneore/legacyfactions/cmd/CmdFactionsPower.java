@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
@@ -19,7 +20,7 @@ public class CmdFactionsPower extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsPower() {
-		this.aliases.addAll(Conf.cmdAliasesPower);
+		this.aliases.addAll(CommandAliases.cmdAliasesPower);
 
 		this.optionalArgs.put("player name", "you");
 

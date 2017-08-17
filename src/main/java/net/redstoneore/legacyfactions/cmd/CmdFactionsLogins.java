@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsLogins extends FCommand {
@@ -18,7 +18,7 @@ public class CmdFactionsLogins extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsLogins() {
-		this.aliases.addAll(Conf.cmdAliasesLogins);
+		this.aliases.addAll(CommandAliases.cmdAliasesLogins);
 		
 		this.senderMustBePlayer = true;
 		this.senderMustBeMember = true;

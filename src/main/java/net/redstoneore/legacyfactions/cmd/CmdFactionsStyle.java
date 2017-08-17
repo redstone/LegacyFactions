@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
@@ -22,7 +22,7 @@ public class CmdFactionsStyle extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsStyle() {
-		this.aliases.addAll(Conf.cmdAliasesStyle);
+		this.aliases.addAll(CommandAliases.cmdAliasesStyle);
 
 		this.requiredArgs.add(Lang.COMMAND_STYLE_ARG_CHARACTER.toString() + "|" + Lang.COMMAND_STYLE_ARG_COLOUR.toString());
 		this.requiredArgs.add(Lang.COMMAND_STYLE_ARG_VALUE.toString());

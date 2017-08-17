@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.ArrayList;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -29,7 +30,7 @@ public class CmdFactionsCreate extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsCreate() {
-		this.aliases.addAll(Conf.cmdAliasesCreate);
+		this.aliases.addAll(CommandAliases.cmdAliasesCreate);
 
 		this.requiredArgs.add("faction tag");
 

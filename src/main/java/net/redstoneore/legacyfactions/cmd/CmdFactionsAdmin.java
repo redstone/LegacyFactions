@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -26,7 +26,7 @@ public class CmdFactionsAdmin extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsAdmin() {
-		this.aliases.addAll(Conf.cmdAliasesAdmin);
+		this.aliases.addAll(CommandAliases.cmdAliasesAdmin);
 		
 		this.requiredArgs.add("player name");
 		

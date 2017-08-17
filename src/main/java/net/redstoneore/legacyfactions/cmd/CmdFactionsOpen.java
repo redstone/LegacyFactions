@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 
@@ -19,7 +20,7 @@ public class CmdFactionsOpen extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsOpen() {
-		this.aliases.addAll(Conf.cmdAliasesOpen);
+		this.aliases.addAll(CommandAliases.cmdAliasesOpen);
 
 		this.optionalArgs.put("yes/no", "flip");
 

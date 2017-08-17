@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsBypass extends FCommand {
@@ -19,7 +19,7 @@ public class CmdFactionsBypass extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsBypass() {
-		this.aliases.addAll(Conf.cmdAliasesBypass);
+		this.aliases.addAll(CommandAliases.cmdAliasesBypass);
 
 		this.optionalArgs.put("on/off", "flip");
 
