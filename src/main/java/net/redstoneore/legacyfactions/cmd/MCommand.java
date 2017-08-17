@@ -38,7 +38,17 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
 	// The different names this commands will react to
 	public List<String> aliases = Lists.newArrayList();
+	
 	public boolean allowNoSlashAccess = false;
+
+	public boolean allowNoSlashAccess() {
+		return this.allowNoSlashAccess;
+	}
+	
+	public void allowNoSlashAccess(boolean allow) {
+		this.allowNoSlashAccess = allow;
+	}
+	
 
 	// Information on the args
 	public List<String> requiredArgs = Lists.newArrayList();

@@ -145,7 +145,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 		}
 
 		for (final MCommand<?> command : Volatile.get().baseCommands()) {
-			if (noSlash && !command.allowNoSlashAccess) {
+			if (noSlash && !command.allowNoSlashAccess()) {
 				continue;
 			}
 
