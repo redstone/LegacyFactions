@@ -1,11 +1,17 @@
 # 1.4.3
 * ⭐️ Feature: New `/f style` command for changing map colours and characters of factions
+* ⭐️ Feature: New `/f ban` command to stop players from rejoining a faction
 * ⌨️ API: `Faction#hasForcedMapCharacter` method added
 * ⌨️ API: `Faction#setForcedMapCharacter` method added
 * ⌨️ API: `Faction#getForcedMapCharacter` method added
 * ⌨️ API: `Faction#hasForcedMapColour` method added
 * ⌨️ API: `Faction#setForcedMapColour` method added
 * ⌨️ API: `Faction#getForcedMapColour` method added
+* ⌨️ API: `Faction#ban` method added
+* ⌨️ API: `Faction#unban` method added
+* ⌨️ API: `Faction#isbanned` method added
+* ⌨️ API: Event `EventFactionsBan` added
+* ⌨️ API: Event `EventFactionsUnban` added
 
 # 1.4.2
 * 🐞 Bugfix: PlaceholderAPI wasn't working properly, but it works now! 
