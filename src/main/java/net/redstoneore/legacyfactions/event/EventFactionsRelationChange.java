@@ -6,7 +6,7 @@ import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 
-public class EventFactionsRelationChange extends AbstractFactionsPlayerEvent implements Cancellable {
+public class EventFactionsRelationChange extends AbstractFactionsPlayerEvent<EventFactionsRelationChange> implements Cancellable {
     private final Faction targetFaction;
     private final Relation currentRelation;
     private final Relation targetRelation;

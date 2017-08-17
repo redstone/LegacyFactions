@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 
@@ -23,7 +23,7 @@ public class CmdFactionsShowInvites extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsShowInvites() {
-		this.aliases.addAll(Conf.cmdAliasesShowInvites);
+		this.aliases.addAll(CommandAliases.cmdAliasesShowInvites);
 		
 		this.permission = Permission.SHOW_INVITES.getNode();
 
@@ -44,7 +44,7 @@ public class CmdFactionsShowInvites extends FCommand {
 		for (String id : myFaction.getInvites()) {
 			FPlayer fp = FPlayerColl.get(id);
 			String name = fp != null ? fp.getName() : id;
-			msg.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_SHOWINVITES_CLICKTOREVOKE.format(name)).command("/" + Conf.baseCommandAliases.get(0) + " deinvite " + name);
+			msg.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_SHOWINVITES_CLICKTOREVOKE.format(name)).command("/" + CommandAliases.baseCommandAliases.get(0) + " deinvite " + name);
 		}
 
 		sendFancyMessage(msg);

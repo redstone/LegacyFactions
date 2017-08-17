@@ -5,6 +5,7 @@ import java.util.*;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -24,7 +25,7 @@ public class CmdFactionsList extends FCommand {
 	// -------------------------------------------------- //
 	
 	private CmdFactionsList() {
-		this.aliases.addAll(Conf.cmdAliasesList);
+		this.aliases.addAll(CommandAliases.cmdAliasesList);
 
 		this.optionalArgs.put("page", "1");
 

@@ -4,7 +4,7 @@ import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 
@@ -24,7 +24,7 @@ public class CmdFactionsMod extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsMod() {
-		this.aliases.addAll(Conf.cmdAliasesMod);
+		this.aliases.addAll(CommandAliases.cmdAliasesMod);
 
 		this.requiredArgs.add("player name");
 		
@@ -49,7 +49,7 @@ public class CmdFactionsMod extends FCommand {
 			FancyMessage msg = new FancyMessage(Lang.COMMAND_MOD_CANDIDATES.toString()).color(ChatColor.GOLD);
 			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
 				String s = player.getName();
-				msg.then(s + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_MOD_CLICKTOPROMOTE.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " mod " + s);
+				msg.then(s + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_MOD_CLICKTOPROMOTE.toString() + s).command("/" + CommandAliases.baseCommandAliases.get(0) + " mod " + s);
 			}
 
 			sendFancyMessage(msg);

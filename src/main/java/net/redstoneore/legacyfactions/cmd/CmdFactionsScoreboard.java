@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboard;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
@@ -20,7 +20,7 @@ public class CmdFactionsScoreboard extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsScoreboard() {
-		this.aliases.addAll(Conf.cmdAliasesScoreboard);
+		this.aliases.addAll(CommandAliases.cmdAliasesScoreboard);
 		
 		this.permission = Permission.SCOREBOARD.getNode();
 		this.senderMustBePlayer = true;

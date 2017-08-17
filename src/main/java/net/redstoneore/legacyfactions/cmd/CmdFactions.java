@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 /**
@@ -23,7 +24,7 @@ public class CmdFactions extends FCommand {
 	// -------------------------------------------------- // 
 
 	private CmdFactions() {
-		this.aliases.addAll(Conf.baseCommandAliases);
+		this.aliases.addAll(CommandAliases.baseCommandAliases);
 		this.aliases.removeAll(Collections.<String>singletonList(null));  // remove any nulls from extra commas
 		this.allowNoSlashAccess = Conf.allowNoSlashCommand;
 		

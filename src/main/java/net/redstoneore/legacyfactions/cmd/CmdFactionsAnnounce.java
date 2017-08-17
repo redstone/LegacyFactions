@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.StringJoiner;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsAnnounce extends FCommand {
@@ -20,7 +20,7 @@ public class CmdFactionsAnnounce extends FCommand {
 	// -------------------------------------------------- //
 	
 	private CmdFactionsAnnounce() {
-		this.aliases.addAll(Conf.cmdAliasesAnnounce);
+		this.aliases.addAll(CommandAliases.cmdAliasesAnnounce);
 		
 		this.requiredArgs.add("message");
 		this.errorOnToManyArgs = false;

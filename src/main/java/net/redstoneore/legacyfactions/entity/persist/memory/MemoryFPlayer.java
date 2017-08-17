@@ -750,6 +750,10 @@ public abstract class MemoryFPlayer implements FPlayer {
 	// -------------------------------
 
 	public void leave(boolean makePay) {
+		this.leave(makePay, false);
+	}
+	
+	public void leave(boolean makePay, boolean silent) {
 		Faction myFaction = this.getFaction();
 		makePay = makePay && VaultEngine.getUtils().shouldBeUsed() && !this.isAdminBypassing();
 
@@ -759,7 +763,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 
 		boolean perm = myFaction.isPermanent();
-
+		
 		if (!perm && this.getRole() == Role.ADMIN && myFaction.getMembers().size() > 1) {
 			this.sendMessage(Lang.LEAVE_PASSADMIN);
 			return;

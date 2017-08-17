@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.util.TextUtil;
@@ -27,7 +28,7 @@ public class CmdFactionsTitle extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsTitle() {
-		this.aliases.addAll(Conf.cmdAliasesTitle);
+		this.aliases.addAll(CommandAliases.cmdAliasesTitle);
 
 		this.requiredArgs.add("player name");
 		this.optionalArgs.put("title", "");

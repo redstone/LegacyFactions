@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsReload extends FCommand {
@@ -19,7 +20,7 @@ public class CmdFactionsReload extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsReload() {
-		this.aliases.addAll(Conf.cmdAliasesReload);
+		this.aliases.addAll(CommandAliases.cmdAliasesReload);
 
 		this.optionalArgs.put("file", "all");
 

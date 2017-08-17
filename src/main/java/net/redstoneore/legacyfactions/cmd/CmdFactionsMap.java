@@ -4,6 +4,7 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 
 
@@ -21,7 +22,7 @@ public class CmdFactionsMap extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsMap() {
-		this.aliases.addAll(Conf.cmdAliasesMap);
+		this.aliases.addAll(CommandAliases.cmdAliasesMap);
 
 		this.optionalArgs.put("on/off", "once");
 

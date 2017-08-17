@@ -10,7 +10,7 @@ import net.redstoneore.legacyfactions.util.LazyLocation;
 /**
  * This event is called when a player creates a warp.
  */
-public class EventFactionsWarpCreate extends AbstractFactionsPlayerEvent implements Cancellable {
+public class EventFactionsWarpCreate extends AbstractFactionsPlayerEvent<EventFactionsWarpCreate> implements Cancellable {
 	
 	// -------------------------------------------------- //
 	// CONSTRUCT

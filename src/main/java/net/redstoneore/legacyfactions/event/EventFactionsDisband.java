@@ -10,7 +10,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 /**
  * Event called when a faction is disbanded.
  */
-public class EventFactionsDisband extends AbstractFactionsEvent implements Cancellable {
+public class EventFactionsDisband extends AbstractFactionsEvent<EventFactionsDisband> implements Cancellable {
 
     private final boolean canCancel;
     private final DisbandReason reason;

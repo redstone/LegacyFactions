@@ -40,6 +40,10 @@ public interface Faction extends EconomyParticipator {
 	void deinvite(FPlayer fplayer);
 
 	boolean isInvited(FPlayer fplayer);
+	
+	void ban(FPlayer fplayer);
+	
+	boolean isBanned(FPlayer fplayer);
 
 	boolean getOpen();
 

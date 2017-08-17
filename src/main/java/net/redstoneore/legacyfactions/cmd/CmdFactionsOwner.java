@@ -6,6 +6,7 @@ import java.util.UUID;
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.callback.Callback;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -26,7 +27,7 @@ public class CmdFactionsOwner extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsOwner() {
-		this.aliases.addAll(Conf.cmdAliasesOwner);
+		this.aliases.addAll(CommandAliases.cmdAliasesOwner);
 
 		this.optionalArgs.put("player name", "you");
 

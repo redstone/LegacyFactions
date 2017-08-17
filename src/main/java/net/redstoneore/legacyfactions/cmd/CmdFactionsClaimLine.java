@@ -11,6 +11,7 @@ import org.bukkit.block.BlockFace;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -38,7 +39,7 @@ public class CmdFactionsClaimLine extends FCommand {
 	public CmdFactionsClaimLine() {
 
 		// Aliases
-		this.aliases.addAll(Conf.cmdAliasesClaimLine);
+		this.aliases.addAll(CommandAliases.cmdAliasesClaimLine);
 
 		// Args
 		this.optionalArgs.put("amount", "1");

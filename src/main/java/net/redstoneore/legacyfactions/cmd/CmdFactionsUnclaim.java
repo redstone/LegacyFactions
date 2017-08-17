@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -28,7 +29,7 @@ public class CmdFactionsUnclaim extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsUnclaim() {
-		this.aliases.addAll(Conf.cmdAliasesUnclaim);
+		this.aliases.addAll(CommandAliases.cmdAliasesUnclaim);
 
 		this.optionalArgs.put("radius", "1");
 		this.optionalArgs.put("faction", "your");

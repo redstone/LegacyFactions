@@ -8,6 +8,7 @@ import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
@@ -32,7 +33,7 @@ public class CmdFactionsHelp extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsHelp() {
-		this.aliases.addAll(Conf.cmdAliasesHelp);
+		this.aliases.addAll(CommandAliases.cmdAliasesHelp);
 
 		this.optionalArgs.put("page", "1");
 

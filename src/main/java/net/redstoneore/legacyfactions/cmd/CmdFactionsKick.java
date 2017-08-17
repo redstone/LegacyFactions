@@ -5,6 +5,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -31,7 +32,7 @@ public class CmdFactionsKick extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsKick() {
-		this.aliases.addAll(Conf.cmdAliasesKick);
+		this.aliases.addAll(CommandAliases.cmdAliasesKick);
 
 		this.optionalArgs.put("player name", "player name");
 		//this.optionalArgs.put("", "");
@@ -90,20 +91,20 @@ public class CmdFactionsKick extends FCommand {
 
 			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
 				String name = player.getName();
-				fancyMessage.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + name);
+				fancyMessage.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesKick.get(0) + " " + name);
 			}
 
 			if (fme.getRole().isAtLeast(Role.COLEADER)) {
 				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.MODERATOR)) {
 					String s = player.getName();
-					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + s);
+					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesKick.get(0) + " " + s);
 				}
 			}
 
 			if (fme.getRole() == Role.ADMIN) {
 				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.COLEADER)) {
 					String s = player.getName();
-					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + Conf.baseCommandAliases.get(0) + " " + Conf.cmdAliasesKick.get(0) + " " + s);
+					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesKick.get(0) + " " + s);
 				}
 			}
 			this.sendFancyMessage(fancyMessage);

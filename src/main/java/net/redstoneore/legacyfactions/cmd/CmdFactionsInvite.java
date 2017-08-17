@@ -4,6 +4,7 @@ import mkremins.fanciful.FancyMessage;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
@@ -23,7 +24,7 @@ public class CmdFactionsInvite extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsInvite() {
-		this.aliases.addAll(Conf.cmdAliasesInvite);
+		this.aliases.addAll(CommandAliases.cmdAliasesInvite);
 
 		this.requiredArgs.add("player name");
 
@@ -64,12 +65,12 @@ public class CmdFactionsInvite extends FCommand {
 		// Tooltips, colors, and commands only apply to the string immediately before it.
 		FancyMessage message = new FancyMessage(fme.describeTo(who, true))
 				.tooltip(Lang.COMMAND_INVITE_CLICKTOJOIN.toString())
-				.command("/" + Conf.baseCommandAliases.get(0) + " join " + myFaction.getTag())
+				.command("/" + CommandAliases.baseCommandAliases.get(0) + " join " + myFaction.getTag())
 			.then(Lang.COMMAND_INVITE_INVITEDYOU.toString())
 				.color(ChatColor.YELLOW).tooltip(Lang.COMMAND_INVITE_CLICKTOJOIN.toString())
-				.command("/" + Conf.baseCommandAliases.get(0) + " join " + myFaction.getTag())
+				.command("/" + CommandAliases.baseCommandAliases.get(0) + " join " + myFaction.getTag())
 			.then(myFaction.describeTo(who)).tooltip(Lang.COMMAND_INVITE_CLICKTOJOIN.toString())
-				.command("/" + Conf.baseCommandAliases.get(0) + " join " + myFaction.getTag());
+				.command("/" + CommandAliases.baseCommandAliases.get(0) + " join " + myFaction.getTag());
 
 		message.send(who.getPlayer());
 

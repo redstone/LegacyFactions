@@ -9,7 +9,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 /**
  * Represents an event involving a Faction.
  */
-public abstract class AbstractFactionsEvent extends Event {
+public abstract class AbstractFactionsEvent<P> extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private final Faction faction;
@@ -19,13 +19,16 @@ public abstract class AbstractFactionsEvent extends Event {
         this.faction = faction;
     }
     
-    public void call() {
+    @SuppressWarnings("unchecked")
+	public P call() {
     	// Don't allow duplicate calls
-    	if (this.called == true) return;
+    	if (this.called == true) return (P) this;
     	this.called = true;
     	
     	// Call the event.
     	Bukkit.getServer().getPluginManager().callEvent(this);
+    	
+    	 return (P) this;
     }
 
     /**

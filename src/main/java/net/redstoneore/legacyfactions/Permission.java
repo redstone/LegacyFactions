@@ -21,6 +21,7 @@ public enum Permission {
 	AUTOCLAIM("autoclaim"),
 	AUTO_LEAVE_BYPASS("autoleavebypass"),
 	BYPASS("bypass"),
+	BAN("ban"),
 	CHAT("chat"),
 	CHATSPY("chatspy"),
 	CLAIM("claim"),

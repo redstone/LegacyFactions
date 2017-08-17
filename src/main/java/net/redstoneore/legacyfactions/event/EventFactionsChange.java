@@ -69,7 +69,17 @@ public class EventFactionsChange extends Event implements Cancellable {
     }
 	
 	public enum ChangeReason {
-		KICKED, DISBAND, RESET, JOINOTHER, LEAVE, CREATE, LEADER, COMMAND
+		KICKED,
+		BANNED,
+		DISBAND,
+		RESET,
+		JOINOTHER,
+		LEAVE,
+		CREATE,
+		LEADER,
+		COMMAND,
+		
+		;
 	}
 	
 }

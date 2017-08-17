@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -28,7 +29,7 @@ public class CmdFactionsTag extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsTag() {
-		this.aliases.addAll(Conf.cmdAliasesTag);
+		this.aliases.addAll(CommandAliases.cmdAliasesTag);
 
 		this.requiredArgs.add("faction tag");
 		

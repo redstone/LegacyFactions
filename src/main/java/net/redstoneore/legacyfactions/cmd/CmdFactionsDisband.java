@@ -4,6 +4,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
@@ -31,7 +32,7 @@ public class CmdFactionsDisband extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsDisband() {
-		this.aliases.addAll(Conf.cmdAliasesDisband);
+		this.aliases.addAll(CommandAliases.cmdAliasesDisband);
 		
 		this.optionalArgs.put("faction tag", "yours");
 		

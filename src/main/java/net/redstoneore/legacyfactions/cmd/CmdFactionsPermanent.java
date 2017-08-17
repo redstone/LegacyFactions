@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -22,7 +22,7 @@ public class CmdFactionsPermanent extends FCommand {
 	// -------------------------------------------------- //
 
 	private CmdFactionsPermanent() {
-		this.aliases.addAll(Conf.cmdAliasesPermanent);
+		this.aliases.addAll(CommandAliases.cmdAliasesPermanent);
 
 		this.requiredArgs.add("faction tag");
 

@@ -8,7 +8,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 /**
  * Event called when a player loses power.
  */
-public class EventFactionsPowerLoss extends AbstractFactionsPlayerEvent implements Cancellable {
+public class EventFactionsPowerLoss extends AbstractFactionsPlayerEvent<EventFactionsPowerLoss> implements Cancellable {
 
     
     public EventFactionsPowerLoss(Faction f, FPlayer p, double powerLoss) {
