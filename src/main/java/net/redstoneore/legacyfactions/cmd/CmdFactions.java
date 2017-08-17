@@ -26,7 +26,6 @@ public class CmdFactions extends FCommand {
 	private CmdFactions() {
 		this.aliases.addAll(CommandAliases.baseCommandAliases);
 		this.aliases.removeAll(Collections.<String>singletonList(null));  // remove any nulls from extra commas
-		this.allowNoSlashAccess = Conf.allowNoSlashCommand;
 		
 		this.senderMustBePlayer = false;
 		this.senderMustBeMember = false;
@@ -40,6 +39,7 @@ public class CmdFactions extends FCommand {
 		
 		this.addSubCommand(CmdFactionsAdmin.get());
 		this.addSubCommand(CmdFactionsAutoclaim.get());
+		this.addSubCommand(CmdFactionsBan.get());
 		this.addSubCommand(CmdFactionsBoom.get());
 		this.addSubCommand(CmdFactionsBypass.get());
 		this.addSubCommand(CmdFactionsClaim.get());
@@ -84,6 +84,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(CmdFactionsStyle.get());
 		this.addSubCommand(CmdFactionsTag.get());
 		this.addSubCommand(CmdFactionsTitle.get());
+		this.addSubCommand(CmdFactionsUnban.get());
 		this.addSubCommand(CmdFactionsUnclaim.get());
 		this.addSubCommand(CmdFactionsUnclaimall.get());
 		this.addSubCommand(CmdFactionsVersion.get());
@@ -114,6 +115,11 @@ public class CmdFactions extends FCommand {
 	@Override
 	public String getUsageTranslation() {
 		return Lang.GENERIC_PLACEHOLDER.toString();
+	}
+	
+	@Override
+	public boolean allowNoSlashAccess() {
+		return Conf.allowNoSlashCommand;
 	}
 	
 	// -------------------------------------------------- //
