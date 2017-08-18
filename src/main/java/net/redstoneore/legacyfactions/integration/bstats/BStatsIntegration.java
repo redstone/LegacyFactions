@@ -5,9 +5,17 @@ import net.redstoneore.legacyfactions.integration.Integration;
 
 public class BStatsIntegration extends Integration {
 	
-	private static BStatsIntegration i = new BStatsIntegration();
-	public static BStatsIntegration get() { return i; }
-		
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static BStatsIntegration instance = new BStatsIntegration();
+	public static BStatsIntegration get() { return instance; }
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
 	@Override
 	public String getName() {
 		return "bStats";
