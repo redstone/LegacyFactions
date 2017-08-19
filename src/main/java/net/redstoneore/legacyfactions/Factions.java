@@ -1,7 +1,11 @@
 package net.redstoneore.legacyfactions;
 
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +27,10 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
+import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
+import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
+import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
+import net.redstoneore.legacyfactions.entity.persist.json.JSONFactions;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.Integrations;
@@ -139,7 +147,7 @@ public class Factions extends FactionsPluginBase {
 	}
 	
 	@Override
-	public void enable() {
+	public void enable() throws Exception {
 		if (instance != null) {
 			this.warn("Unsafe reload detected!");
 		}
@@ -149,7 +157,9 @@ public class Factions extends FactionsPluginBase {
 		
 		// Ensure plugin folder exists
 		this.getDataFolder().mkdirs();
-				
+		
+		this.migrations();
+		
 		this.timeEnableStart = System.currentTimeMillis();
 		
 		// Create and register player command listener
@@ -228,6 +238,47 @@ public class Factions extends FactionsPluginBase {
 		this.loadSuccessful = true;
 		
 		FactionColl.all();
+	}
+	
+	private void migrations() throws IOException {
+		// Move all database files in database folder 
+		if (!FactionsJSON.getDatabaseFolder().exists()) {
+			FactionsJSON.getDatabaseFolder().mkdirs();
+		}
+		
+		Path oldBoardJson = Paths.get(this.getDataFolder().toString(), "board.json");
+		Path oldFactionsJson = Paths.get(this.getDataFolder().toString(), "factions.json");
+		Path oldPlayersJson = Paths.get(this.getDataFolder().toString(), "players.json");
+		
+		if (Files.exists(oldBoardJson)) {
+			if (Files.exists(JSONBoard.getBoardPath())) {
+				Files.move(JSONBoard.getBoardPath(), Paths.get(JSONBoard.getBoardPath().toString() + ".backup"));
+				Factions.get().log("Moving 'database/board.json' -> 'database/board.json.backup'");
+			}
+			
+			Files.move(oldBoardJson, JSONBoard.getBoardPath());
+			Factions.get().log("Moving 'board.json' -> 'database/board.json'");
+		}
+		
+		if (Files.exists(oldFactionsJson)) {
+			if (Files.exists(JSONFactions.getFactionsPath())) {
+				Files.move(JSONFactions.getFactionsPath(), Paths.get(JSONFactions.getFactionsPath().toString() + ".backup"));
+				Factions.get().log("Moving 'database/factions.json' -> 'database/factions.json.backup'");
+			}
+			
+			Files.move(oldFactionsJson, JSONFactions.getFactionsPath());
+			Factions.get().log("Moving 'factions.json' -> 'database/factions.json'");
+		}
+		
+		if (Files.exists(oldPlayersJson)) {
+			if (Files.exists(JSONFPlayers.getPlayersPath())) {
+				Files.move(JSONFPlayers.getPlayersPath(), Paths.get(JSONFPlayers.getPlayersPath().toString() + ".backup"));
+				Factions.get().log("Moving 'database/players.json' -> 'database/players.json.backup'");
+			}
+			
+			Files.move(oldPlayersJson, JSONFPlayers.getPlayersPath());
+			Factions.get().log("Moving 'players.json' -> 'database/players.json'");
+		}
 	}
 	
 	public GsonBuilder getGsonBuilder() {

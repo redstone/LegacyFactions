@@ -18,13 +18,46 @@ import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class JSONFactions extends MemoryFactions {
+	
+	// -------------------------------------------------- //
+	// STATIC 
+	// -------------------------------------------------- // 
+	
+    private static transient File file = new File(FactionsJSON.getDatabaseFolder(), "factions.json");
+    public static Path getFactionsPath() { return Paths.get(file.getAbsolutePath()); }
+
+    public static File getFactionsFile() {
+        return file;
+    }
+
+
+
+    // -------------------------------------------- //
+    // CONSTRUCTORS
+    // -------------------------------------------- //
+
+    public JSONFactions() {
+        this.gson = Factions.get().gson;
+        this.nextId = 1;
+    }
+
+	// -------------------------------------------------- //
+	// FIELDS 
+	// -------------------------------------------------- // 
+
     // Info on how to persist
     private Gson gson;
+
+	// -------------------------------------------------- //
+	// METHODS 
+	// -------------------------------------------------- // 
 
     public Gson getGson() {
         return gson;
@@ -34,26 +67,8 @@ public class JSONFactions extends MemoryFactions {
         this.gson = gson;
     }
 
-    private File file;
 
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    // -------------------------------------------- //
-    // CONSTRUCTORS
-    // -------------------------------------------- //
-
-    public JSONFactions() {
-        this.file = new File(Factions.get().getDataFolder(), "factions.json");
-        this.gson = Factions.get().gson;
-        this.nextId = 1;
-    }
-
+    
     public void forceSave() {
         forceSave(true);
     }
@@ -83,11 +98,11 @@ public class JSONFactions extends MemoryFactions {
     }
 
     private Map<String, JSONFaction> loadCore() {
-        if (!this.file.exists()) {
+        if (!file.exists()) {
             return new HashMap<String, JSONFaction>();
         }
 
-        String content = DiscUtil.readCatch(this.file);
+        String content = DiscUtil.readCatch(file);
         if (content == null) {
             return null;
         }
@@ -116,14 +131,14 @@ public class JSONFactions extends MemoryFactions {
 
             // First we'll make a backup, because god forbid anybody heed a
             // warning
-            File file = new File(this.file.getParentFile(), "factions.json.old");
+            File oldFile = new File(getFactionsFile(), "factions.json.old");
             try {
-                file.createNewFile();
+                oldFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            saveCore(file, (Map<String, JSONFaction>) data, true);
-            Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + file.getAbsolutePath());
+            saveCore(oldFile, (Map<String, JSONFaction>) data, true);
+            Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + oldFile.getAbsolutePath());
 
             Bukkit.getLogger().log(Level.INFO, "Please wait while Factions converts " + needsUpdate + " old player names to UUID. This may take a while.");
 
@@ -182,7 +197,7 @@ public class JSONFactions extends MemoryFactions {
                 }
             }
 
-            saveCore(this.file, (Map<String, JSONFaction>) data, true); // Update the flatfile
+            saveCore(oldFile, (Map<String, JSONFaction>) data, true); // Update the flatfile
             Bukkit.getLogger().log(Level.INFO, "Done converting factions.json to UUID.");
         }
         return data;

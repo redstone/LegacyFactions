@@ -10,6 +10,8 @@ import net.redstoneore.legacyfactions.util.DiscUtil;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,11 +19,17 @@ import java.util.TreeMap;
 
 
 public class JSONBoard extends MemoryBoard {
-    private static transient File file = new File(Factions.get().getDataFolder(), "board.json");
-
-    // -------------------------------------------- //
-    // Persistance
-    // -------------------------------------------- //
+	
+	// -------------------------------------------------- //
+	// STATIC 
+	// -------------------------------------------------- // 
+	
+    private static transient File file = new File(FactionsJSON.getDatabaseFolder(), "board.json");
+    public static Path getBoardPath() { return Paths.get(file.getAbsolutePath()); }
+    
+	// -------------------------------------------------- //
+    // PERSISTANCE
+	// -------------------------------------------------- //
 
     public Map<String, Map<String, String>> dumpAsSaveFormat() {
         Map<String, Map<String, String>> worldCoordIds = new HashMap<String, Map<String, String>>();
