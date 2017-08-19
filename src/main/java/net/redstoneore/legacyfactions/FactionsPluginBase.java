@@ -81,7 +81,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 		this.log(ChatColor.WHITE + "=== ENABLE DONE (Took " + (System.currentTimeMillis() - this.timeEnableStart) + "ms) ===");	
 	}
 	
-	public abstract void enable();
+	public abstract void enable() throws Exception;
 
 	// -------------------------------------------------- //
 	// LANG AND TAGS

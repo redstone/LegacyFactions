@@ -12,10 +12,19 @@ import net.redstoneore.legacyfactions.entity.persist.memory.MemoryBoard;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayers;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactions;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 public class FactionsJSON {
 
+	// -------------------------------------------------- //
+	// STATIC METHODS
+	// -------------------------------------------------- // 
+	
+	public static File getDatabaseFolder() {
+		return new File(Factions.get().getDataFolder(), "database");
+	}
+	
     public static void convertTo() {
         new BukkitRunnable() {
             @Override
@@ -39,4 +48,5 @@ public class FactionsJSON {
             }
         }.runTaskAsynchronously(Factions.get());
     }
+    
 }
