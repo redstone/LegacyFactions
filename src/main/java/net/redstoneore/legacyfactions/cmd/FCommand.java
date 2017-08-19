@@ -225,9 +225,11 @@ public abstract class FCommand extends MCommand<Factions> {
 				return;
 			}
 			
-			// For sanity sake, set the player name
-			FPlayer found = FPlayerColl.get(uuid);
-			found.asMemoryFPlayer().setName(playerName);
+			if (uuid != null) {
+				// For sanity sake, set the player name
+				FPlayer found = FPlayerColl.get(uuid);
+				found.asMemoryFPlayer().setName(playerName);
+			}
 			
 			callback.then(uuid, Optional.empty());
 		});		
