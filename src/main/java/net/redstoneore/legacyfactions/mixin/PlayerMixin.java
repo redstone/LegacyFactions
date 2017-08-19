@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.redstoneore.legacyfactions.FLocation;
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.LandAction;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
@@ -154,7 +155,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message));
+					me.sendMessage(Factions.get().getTextUtil().parse(message));
 				}
 			}
 
@@ -194,7 +195,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message));					
+					me.sendMessage(Factions.get().getTextUtil().parse(message));					
 				}
 			}
 
@@ -234,7 +235,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message));
+					me.sendMessage(Factions.get().getTextUtil().parse(message));
 				}
 			}
 
@@ -281,7 +282,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(TextUtil.parseColor(message.replace("<name>", otherFaction.getTag(myFaction))));					
+					me.sendMessage(Factions.get().getTextUtil().parse(message.replace("<name>", otherFaction.getTag(myFaction))));					
 				}
 			}
 		}
@@ -316,7 +317,7 @@ public class PlayerMixin {
 				
 				if (message != null) {
 					message = message.replace("<name>", otherFaction.getTag(myFaction));
-					me.sendMessage(TextUtil.parseColor(message));					
+					me.sendMessage(Factions.get().getTextUtil().parse(message));					
 				}
 			}
 
@@ -354,7 +355,7 @@ public class PlayerMixin {
 					}
 					
 					if (message != null) {
-						me.sendMessage(TextUtil.parseColor(message.replace("<who>", otherFaction.getOwnerListString(loc))));
+						me.sendMessage(Factions.get().getTextUtil().parse(message.replace("<who>", otherFaction.getOwnerListString(loc))));
 					}
 				}
 			}
@@ -385,7 +386,7 @@ public class PlayerMixin {
 					}
 					
 					if (message != null) {
-						me.sendMessage(TextUtil.parseColor(message.replace("<who>", otherFaction.getOwnerListString(loc))));
+						me.sendMessage(Factions.get().getTextUtil().parse(message.replace("<who>", otherFaction.getOwnerListString(loc))));
 					}
 				}
 
