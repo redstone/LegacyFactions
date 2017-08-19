@@ -26,6 +26,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
 import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
 import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
@@ -178,6 +179,10 @@ public class Factions extends FactionsPluginBase {
 		// Load command aliases from disk
 		CommandAliases.load();
 		CommandAliases.save();
+		
+		// Load meta from disk
+		Meta.get().load();
+		Meta.get().save();
 		
 		if (this.getDescription().getVersion().contains("RC") || this.getDescription().getVersion().contains("SNAPSHOT")) {
 			Conf.debug = true;

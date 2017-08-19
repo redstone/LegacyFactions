@@ -28,6 +28,11 @@ import java.util.UUID;
 
 public class Conf {
 	
+	/**
+	 * Version of this config, used for migrations.
+	 */
+	public static transient double version = 1.0;
+	
 	// -------------------------------------------------- //
 	// MISC
 	// -------------------------------------------------- //
