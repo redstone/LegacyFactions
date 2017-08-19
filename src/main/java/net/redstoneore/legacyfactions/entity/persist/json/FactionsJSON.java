@@ -12,7 +12,8 @@ import net.redstoneore.legacyfactions.entity.persist.memory.MemoryBoard;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayers;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactions;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public class FactionsJSON {
@@ -21,8 +22,8 @@ public class FactionsJSON {
 	// STATIC METHODS
 	// -------------------------------------------------- // 
 	
-	public static File getDatabaseFolder() {
-		return new File(Factions.get().getDataFolder(), "database");
+	public static Path getDatabasePath() {
+		return Paths.get(Factions.get().getPluginFolder().toString(), "database");
 	}
 	
     public static void convertTo() {

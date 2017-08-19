@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
@@ -16,8 +17,9 @@ import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 import org.bukkit.Bukkit;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -30,15 +32,9 @@ public class JSONFactions extends MemoryFactions {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-    private static transient File file = new File(FactionsJSON.getDatabaseFolder(), "factions.json");
-    public static Path getFactionsPath() { return Paths.get(file.getAbsolutePath()); }
-
-    public static File getFactionsFile() {
-        return file;
-    }
-
-
-
+    private static transient Path file = Paths.get(FactionsJSON.getDatabasePath().toString(), "factions.json");
+    public static Path getJsonFile() { return file; }
+    
     // -------------------------------------------- //
     // CONSTRUCTORS
     // -------------------------------------------- //
@@ -66,8 +62,6 @@ public class JSONFactions extends MemoryFactions {
     public void setGson(Gson gson) {
         this.gson = gson;
     }
-
-
     
     public void forceSave() {
         forceSave(true);
@@ -81,8 +75,8 @@ public class JSONFactions extends MemoryFactions {
 
         saveCore(file, entitiesThatShouldBeSaved, sync);
     }
-
-    private boolean saveCore(File target, Map<String, JSONFaction> entities, boolean sync) {
+    
+    private boolean saveCore(Path target, Map<String, JSONFaction> entities, boolean sync) {
         return DiscUtil.writeCatch(target, this.gson.toJson(entities), sync);
     }
 
@@ -98,18 +92,18 @@ public class JSONFactions extends MemoryFactions {
     }
 
     private Map<String, JSONFaction> loadCore() {
-        if (!file.exists()) {
-            return new HashMap<String, JSONFaction>();
-        }
-
+    	if (!Files.exists(file)) {
+            return new HashMap<String, JSONFaction>();    		
+    	}
+    	
         String content = DiscUtil.readCatch(file);
         if (content == null) {
             return null;
         }
-
-        Map<String, JSONFaction> data = this.gson.fromJson(content, new TypeToken<Map<String, JSONFaction>>() {
-        }.getType());
-
+        
+	    JsonReader jsonReader = new JsonReader((new StringReader(content)));
+	    Map<String, JSONFaction> data = this.gson.fromJson(jsonReader, new TypeToken<Map<String, JSONFaction>>() {}.getType());
+	    
         this.nextId = 1;
         // Do we have any names that need updating in claims or invites?
 
@@ -131,14 +125,14 @@ public class JSONFactions extends MemoryFactions {
 
             // First we'll make a backup, because god forbid anybody heed a
             // warning
-            File oldFile = new File(getFactionsFile(), "factions.json.old");
+            Path oldFile = Paths.get(getJsonFile().toString(), "factions.json.old");
             try {
-                oldFile.createNewFile();
+            	Files.createFile(oldFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             saveCore(oldFile, (Map<String, JSONFaction>) data, true);
-            Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + oldFile.getAbsolutePath());
+            Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + oldFile.toAbsolutePath());
 
             Bukkit.getLogger().log(Level.INFO, "Please wait while Factions converts " + needsUpdate + " old player names to UUID. This may take a while.");
 

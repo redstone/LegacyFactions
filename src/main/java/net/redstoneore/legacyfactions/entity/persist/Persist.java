@@ -1,17 +1,21 @@
 package net.redstoneore.legacyfactions.entity.persist;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Random;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 
-// TODO: Give better name and place to differentiate from the entity-orm-ish system in "com.massivecraft.core.persist".
-
 public class Persist {
 
 	// ------------------------------------------------------------ //
-	// GET NAME - What should we call this type of object?
+	// GET NAME
+	// These methods determine a user friendly name for this object.
 	// ------------------------------------------------------------ //
 
 	public static String getName(Class<?> clazz) {
@@ -27,36 +31,155 @@ public class Persist {
 	}
 
 	// ------------------------------------------------------------ //
-	// GET FILE - In which file would we like to store this object?
+	// GET PATH
+	// These methods determine what path to use for this object.
 	// ------------------------------------------------------------ //
-
-	public File getFile(String name) {
-		return new File(Factions.get().getDataFolder(), name + ".json");
+	
+	public Path getPath(String name) {
+		return Paths.get(Factions.get().getDataFolder().getAbsolutePath(), name + ".json");
 	}
 
-	public File getFile(Class<?> clazz) {
-		return getFile(getName(clazz));
+	public Path getPath(Class<?> clazz) {
+		return getPath(getName(clazz));
 	}
 
-	public File getFile(Object obj) {
-		return getFile(getName(obj));
+	public Path getPath(Object obj) {
+		return getPath(getName(obj));
 	}
 
-	public File getFile(Type type) {
-		return getFile(getName(type));
+	public Path getPath(Type type) {
+		return getPath(getName(type));
 	}
-
-
+	
+	// ------------------------------------------------------------ //
 	// NICE WRAPPERS
-
+	// ------------------------------------------------------------ //
+	
 	public <T> T loadOrSaveDefault(T def, Class<T> clazz) {
-		return loadOrSaveDefault(def, clazz, getFile(clazz));
+		return this.loadOrSaveDefault(def, clazz, getPath(clazz));
 	}
 
 	public <T> T loadOrSaveDefault(T def, Class<T> clazz, String name) {
-		return loadOrSaveDefault(def, clazz, getFile(name));
+		return this.loadOrSaveDefault(def, clazz, getPath(name));
+	}
+	
+	public <T> T loadOrSaveDefault(T instance, Class<T> clazz, Path file) {
+		if (!Files.exists(file)) {
+			Factions.get().log("Creating default: " + file);
+			this.save(instance, file);
+			return instance;
+		}
+		
+		T loadedInstance = this.load(clazz, file);
+		
+		if (loadedInstance == null) {
+			Factions.get().warn("Using default. Failed to load: " + file);
+			
+			Path backup = Paths.get(file + "_" + System.currentTimeMillis() + "_bad");
+			if (Files.exists(backup)) {
+				try {
+					Path backup2 = Paths.get(backup +"_" + new Random().nextInt());
+					
+					// This should never happen
+					if (Files.exists(backup2)) {
+						Files.delete(backup2);
+						Factions.get().warn("Removed old backup: " + backup2);
+						
+						Files.move(backup, backup2);
+					}
+				
+					Files.move(backup, backup2);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return instance;
+		}
+		
+		return loadedInstance;
+	}
+	
+	// ------------------------------------------------------------ //
+	// SAVE
+	// ------------------------------------------------------------ //
+
+	public boolean save(Object instance) {
+		return save(instance, this.getPath(instance));
 	}
 
+	public boolean save(Object instance, String name) {
+		return save(instance, this.getPath(name));
+	}
+
+	public boolean save(Object instance, Path file) {
+		Factions.get().debug("Saving " + file.toAbsolutePath());
+		assert instance != null;
+		assert file != null;
+		assert Factions.get().gson != null;
+		
+		return DiscUtil.writeCatch(file, Factions.get().gson.toJson(instance), true);
+	}
+
+	// ------------------------------------------------------------ //
+	// LOAD BY CLASS
+	// ------------------------------------------------------------ //
+	
+	public <T> T load(Class<T> clazz) {
+		return load(clazz, this.getPath(clazz));
+	}
+
+	public <T> T load(Class<T> clazz, String name) {
+		return load(clazz, this.getPath(name));
+	}
+
+	public <T> T load(Class<T> clazz, Path file) {
+		String content = DiscUtil.readCatch(file);
+		if (content == null) {
+			return null;
+		}
+
+		try {
+			T instance = Factions.get().gson.fromJson(content, clazz);
+			return instance;
+		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
+			Factions.get().warn(ex.getMessage());
+		}
+
+		return null;
+	}
+
+	// ------------------------------------------------------------ //
+	// LOAD BY TYPE
+	// ------------------------------------------------------------ //
+	
+	@SuppressWarnings("unchecked")
+	public <T> T load(Type typeOfT, String name) {
+		return (T) load(typeOfT, this.getPath(name));
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T load(Type typeOfT, Path file) {
+		String content = DiscUtil.readCatch(file);
+		if (content == null) {
+			return null;
+		}
+
+		try {
+			return (T) Factions.get().gson.fromJson(content, typeOfT);
+		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
+			Factions.get().warn(ex.getMessage());
+		}
+
+		return null;
+
+	}
+	
+	// ------------------------------------------------------------ //
+	// DEPRECATED: NICE WRAPPERS
+	// ------------------------------------------------------------ //
+	
+	@Deprecated
 	public <T> T loadOrSaveDefault(T def, Class<T> clazz, File file) {
 		if (!file.exists()) {
 			Factions.get().log("Creating default: " + file);
@@ -82,17 +205,12 @@ public class Persist {
 
 		return loaded;
 	}
-
-	// SAVE
-
-	public boolean save(Object instance) {
-		return save(instance, getFile(instance));
-	}
-
-	public boolean save(Object instance, String name) {
-		return save(instance, getFile(name));
-	}
-
+	
+	// ------------------------------------------------------------ //
+	// DEPRECATED: FILE SAVE
+	// ------------------------------------------------------------ //
+	
+	@Deprecated
 	public boolean save(Object instance, File file) {
 		Factions.get().debug("Saving " + file.getAbsolutePath());
 		assert instance != null;
@@ -101,17 +219,12 @@ public class Persist {
 		
 		return DiscUtil.writeCatch(file, Factions.get().gson.toJson(instance), true);
 	}
+	
+	// ------------------------------------------------------------ //
+	// DEPRECATED: FILE LOAD
+	// ------------------------------------------------------------ //
 
-	// LOAD BY CLASS
-
-	public <T> T load(Class<T> clazz) {
-		return load(clazz, getFile(clazz));
-	}
-
-	public <T> T load(Class<T> clazz, String name) {
-		return load(clazz, getFile(name));
-	}
-
+	@Deprecated
 	public <T> T load(Class<T> clazz, File file) {
 		String content = DiscUtil.readCatch(file);
 		if (content == null) {
@@ -127,15 +240,9 @@ public class Persist {
 
 		return null;
 	}
-
-
-	// LOAD BY TYPE
+	
 	@SuppressWarnings("unchecked")
-	public <T> T load(Type typeOfT, String name) {
-		return (T) load(typeOfT, getFile(name));
-	}
-
-	@SuppressWarnings("unchecked")
+	@Deprecated
 	public <T> T load(Type typeOfT, File file) {
 		String content = DiscUtil.readCatch(file);
 		if (content == null) {
@@ -151,4 +258,29 @@ public class Persist {
 		return null;
 	}
 	
+	// ------------------------------------------------------------ //
+	// DEPRECATED: GET FILE
+	// ------------------------------------------------------------ //
+
+	@Deprecated
+	public File getFile(String name) {
+		return new File(Factions.get().getDataFolder(), name + ".json");
+	}
+
+	@Deprecated
+	public File getFile(Class<?> clazz) {
+		return getFile(getName(clazz));
+	}
+
+	@Deprecated
+	public File getFile(Object obj) {
+		return getFile(getName(obj));
+	}
+
+	@Deprecated
+	public File getFile(Type type) {
+		return getFile(getName(type));
+	}
+
 }
+

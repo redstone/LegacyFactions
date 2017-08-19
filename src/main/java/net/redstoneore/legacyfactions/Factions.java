@@ -146,6 +146,10 @@ public class Factions extends FactionsPluginBase {
 		this.autoSave = autoSave;
 	}
 	
+	public Path getPluginFolder() {
+		return Paths.get(this.getDataFolder().getAbsolutePath());
+	}
+	
 	@Override
 	public void enable() throws Exception {
 		if (instance != null) {
@@ -242,8 +246,8 @@ public class Factions extends FactionsPluginBase {
 	
 	private void migrations() throws IOException {
 		// Move all database files in database folder 
-		if (!FactionsJSON.getDatabaseFolder().exists()) {
-			FactionsJSON.getDatabaseFolder().mkdirs();
+		if (!Files.exists(FactionsJSON.getDatabasePath())) {
+			Files.createDirectories(FactionsJSON.getDatabasePath());
 		}
 		
 		Path oldBoardJson = Paths.get(this.getDataFolder().toString(), "board.json");
@@ -251,41 +255,45 @@ public class Factions extends FactionsPluginBase {
 		Path oldPlayersJson = Paths.get(this.getDataFolder().toString(), "players.json");
 		
 		if (Files.exists(oldBoardJson)) {
-			if (Files.exists(JSONBoard.getBoardPath())) {
-				Files.move(JSONBoard.getBoardPath(), Paths.get(JSONBoard.getBoardPath().toString() + ".backup"));
+			if (Files.exists(JSONBoard.getJsonFile())) {
+				Files.move(JSONBoard.getJsonFile(), Paths.get(JSONBoard.getJsonFile().toString() + ".backup"));
 				Factions.get().log("Moving 'database/board.json' -> 'database/board.json.backup'");
 			}
 			
-			Files.move(oldBoardJson, JSONBoard.getBoardPath());
+			Files.move(oldBoardJson, JSONBoard.getJsonFile());
 			Factions.get().log("Moving 'board.json' -> 'database/board.json'");
 		}
 		
 		if (Files.exists(oldFactionsJson)) {
-			if (Files.exists(JSONFactions.getFactionsPath())) {
-				Files.move(JSONFactions.getFactionsPath(), Paths.get(JSONFactions.getFactionsPath().toString() + ".backup"));
+			if (Files.exists(JSONFactions.getJsonFile())) {
+				Files.move(JSONFactions.getJsonFile(), Paths.get(JSONFactions.getJsonFile().toString() + ".backup"));
 				Factions.get().log("Moving 'database/factions.json' -> 'database/factions.json.backup'");
 			}
 			
-			Files.move(oldFactionsJson, JSONFactions.getFactionsPath());
+			Files.move(oldFactionsJson, JSONFactions.getJsonFile());
 			Factions.get().log("Moving 'factions.json' -> 'database/factions.json'");
 		}
 		
 		if (Files.exists(oldPlayersJson)) {
-			if (Files.exists(JSONFPlayers.getPlayersPath())) {
-				Files.move(JSONFPlayers.getPlayersPath(), Paths.get(JSONFPlayers.getPlayersPath().toString() + ".backup"));
+			if (Files.exists(JSONFPlayers.getJsonFile())) {
+				Files.move(JSONFPlayers.getJsonFile(), Paths.get(JSONFPlayers.getJsonFile().toString() + ".backup"));
 				Factions.get().log("Moving 'database/players.json' -> 'database/players.json.backup'");
 			}
 			
-			Files.move(oldPlayersJson, JSONFPlayers.getPlayersPath());
+			Files.move(oldPlayersJson, JSONFPlayers.getJsonFile());
 			Factions.get().log("Moving 'players.json' -> 'database/players.json'");
 		}
+	}
+	
+	public Gson getGson() {
+		return this.gson;
 	}
 	
 	public GsonBuilder getGsonBuilder() {
 		if (this.gsonBuilder == null) {
 			Type mapFLocToStringSetType = new TypeToken<Map<FLocation, Set<String>>>() { }.getType();
 			
-			this.gsonBuilder = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
+			this.gsonBuilder = new GsonBuilder().setPrettyPrinting().setLenient().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
 					.registerTypeAdapter(LazyLocation.class, new LazyLocationAdapter())
 					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter())
 					.registerTypeAdapter(CrossColour.class, new CrossColourAdapter())
