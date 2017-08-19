@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -16,8 +17,10 @@ import net.redstoneore.legacyfactions.util.UUIDUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -30,10 +33,12 @@ public class JSONFPlayers extends MemoryFPlayers {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-	private transient static File file = new File(FactionsJSON.getDatabaseFolder(), "players.json");
-	public static Path getPlayersPath() { return Paths.get(file.getAbsolutePath()); }
-	private static File getPlayersFile() { return file; }
-
+	private transient static Path file = Paths.get(FactionsJSON.getDatabasePath().toString(), "players.json");
+	public static Path getJsonFile() { return file; }
+	
+	public static Type getMapType() {
+		return new TypeToken<Map<String, JSONFPlayer>>() {}.getType();
+	}
 	// -------------------------------------------------- //
 	// CONSTRUCT 
 	// -------------------------------------------------- // 
@@ -84,10 +89,10 @@ public class JSONFPlayers extends MemoryFPlayers {
 			}
 		}
 
-		saveCore(getPlayersFile(), entitiesThatShouldBeSaved, sync);
+		saveCore(getJsonFile(), entitiesThatShouldBeSaved, sync);
 	}
 
-	private boolean saveCore(File target, Map<String, JSONFPlayer> data, boolean sync) {
+	private boolean saveCore(Path target, Map<String, JSONFPlayer> data, boolean sync) {
 		return DiscUtil.writeCatch(target, this.gson.toJson(data), sync);
 	}
 
@@ -102,17 +107,18 @@ public class JSONFPlayers extends MemoryFPlayers {
 	}
 
 	private Map<String, JSONFPlayer> loadCore() {
-		if (!getPlayersFile().exists()) {
+		if (!Files.exists(getJsonFile())) {
 			return new HashMap<String, JSONFPlayer>();
 		}
 
-		String content = DiscUtil.readCatch(getPlayersFile());
-		if (content == null) {
-			return null;
-		}
-
-		Map<String, JSONFPlayer> data = this.gson.fromJson(content, new TypeToken<Map<String, JSONFPlayer>>() {
-		}.getType());
+		String content = DiscUtil.readCatch(getJsonFile());
+		if (content == null) return null;
+		System.out.println(content);
+		
+	    JsonReader jsonReader = new JsonReader((new StringReader(content)));
+	    Map<String, JSONFPlayer> data = this.gson.fromJson(jsonReader, getMapType());
+	    
+		//Map<String, JSONFPlayer> data = this.gson.fromJson(content, getMapType());
 		Set<String> list = new HashSet<String>();
 		Set<String> invalidList = new HashSet<String>();
 		for (Entry<String, JSONFPlayer> entry : data.entrySet()) {
@@ -132,28 +138,25 @@ public class JSONFPlayers extends MemoryFPlayers {
 			Bukkit.getLogger().log(Level.INFO, "Factions is now updating players.json");
 
 			// First we'll make a backup, because god forbid anybody need a warning
-			File oldFile = new File(getPlayersFile().getParentFile(), "players.json.old");
+			Path oldFile = Paths.get(getJsonFile().toString(), "players.json.old");
 			try {
-				oldFile.createNewFile();
+				Files.createFile(oldFile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			saveCore(oldFile, (Map<String, JSONFPlayer>) data, true);
-			Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + oldFile.getAbsolutePath());
+			Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + oldFile.toAbsolutePath());
 
 			// Start fetching those UUIDs
 			Bukkit.getLogger().log(Level.INFO, "Please wait while Factions converts " + list.size() + " old player names to UUID. This may take a while.");
 			UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
 			try {
 				Map<String, UUID> response = fetcher.call();
-				for (String s : list) {
-					// Are we missing any responses?
-					if (!response.containsKey(s)) {
-						// They don't have a UUID so they should just be removed
-						invalidList.add(s);
-					}
-				}
-				for (String value : response.keySet()) {
+				list.forEach(item -> {
+					if(!response.containsKey(item)) invalidList.add(item);
+				});// -> invalidItem.add(item));
+				
+				response.keySet().forEach(value -> {
 					// For all the valid responses, let's replace their old
 					// named entry with a UUID key
 					String id = response.get(value).toString();
@@ -163,17 +166,19 @@ public class JSONFPlayers extends MemoryFPlayers {
 					if (player == null) {
 						// The player never existed here, and shouldn't persist
 						invalidList.add(value);
-						continue;
+						return;
 					}
 
 					player.setId(id); // Update the object so it knows
 
 					data.remove(value); // Out with the old...
 					data.put(id, player); // And in with the new
-				}
+				});
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
 			if (invalidList.size() > 0) {
 				for (String name : invalidList) {
 					// Remove all the invalid names we collected

@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.entity.persist.json;
 
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
@@ -8,8 +9,8 @@ import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryBoard;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 
-import java.io.File;
-import java.lang.reflect.Type;
+import java.io.StringReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -24,8 +25,8 @@ public class JSONBoard extends MemoryBoard {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-    private static transient File file = new File(FactionsJSON.getDatabaseFolder(), "board.json");
-    public static Path getBoardPath() { return Paths.get(file.getAbsolutePath()); }
+    private static transient Path file = Paths.get(FactionsJSON.getDatabasePath().toString(), "board.json");
+    public static Path getJsonFile() { return file; }
     
 	// -------------------------------------------------- //
     // PERSISTANCE
@@ -82,16 +83,17 @@ public class JSONBoard extends MemoryBoard {
     public boolean load() {
         Factions.get().log("Loading board from disk");
 
-        if (!file.exists()) {
+       
+        if (!Files.exists(file)) {
             Factions.get().log("No board to load from disk. Creating new file.");
             forceSave();
             return true;
         }
 
         try {
-            Type type = new TypeToken<Map<String, Map<String, String>>>() {
-            }.getType();
-            Map<String, Map<String, String>> worldCoordIds = Factions.get().gson.fromJson(DiscUtil.read(file), type);
+    	    JsonReader jsonReader = new JsonReader((new StringReader(DiscUtil.read(file))));
+    	    Map<String, Map<String, String>> worldCoordIds = Factions.get().getGson().fromJson(jsonReader, new TypeToken<Map<String, Map<String, String>>>() {}.getType());
+
             loadFromSaveFormat(worldCoordIds);
             Factions.get().log("Loaded " + flocationIds.size() + " board locations");
         } catch (Exception e) {
