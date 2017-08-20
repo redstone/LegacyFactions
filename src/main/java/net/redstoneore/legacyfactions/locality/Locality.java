@@ -13,7 +13,9 @@ import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 
+import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.mixin.LocalityMixin;
 
 /**
@@ -262,6 +264,10 @@ public class Locality implements Serializable {
 	
 	public Location getLocation() {
 		return new Location(this.getWorld(), this.X(), this.Y(), this.Z(), this.getYaw(), this.getPitch());
+	}
+	
+	public Faction getFactionHere() {
+		return Board.get().getFactionAt(this);
 	}
 	
 	// -------------------------------------------------- //

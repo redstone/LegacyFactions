@@ -341,6 +341,76 @@ public class Conf {
 	public static boolean broadcastTagChanges = false;
 
 	// -------------------------------------------------- //
+	// DAMAGE MODIFIER
+	// -------------------------------------------------- //
+	@DocSection(name = "Damage Modifier")
+	
+	@DocDescription(
+		title = "Damage Modifier For Relation To Player",
+		description = "Damage modifier as a percent for each relation. 100 = default. 120 = 20% "+
+		              "extra. These will be used in conjuction with wilderness/safezone/warzone " +
+		              "damage modifiers"
+	)
+	public static Map<Relation, Double> damageModifierPercentRelationPlayer = MiscUtil.newMap(
+		Relation.ALLY, 100.0,
+		Relation.ENEMY, 100.0,
+		Relation.MEMBER, 100.0,
+		Relation.NEUTRAL, 100.0,
+		Relation.TRUCE, 100.0
+	);
+	
+	@DocDescription(
+		title = "Damage Modifier By Player For Relation To Location",
+		description = "Damage modifier as a percent for each relation. 100 = default. 120 = 20% "+
+		              "extra. These will be used in conjuction with wilderness/safezone/warzone " +
+		              "damage modifiers"
+	)
+	public static Map<Relation, Double> damageModifierPercentRelationLocationByPlayer = MiscUtil.newMap(
+		Relation.ALLY, 100.0,
+		Relation.ENEMY, 100.0,
+		Relation.MEMBER, 100.0,
+		Relation.NEUTRAL, 100.0,
+		Relation.TRUCE, 100.0
+	);
+	
+	@DocDescription(
+		title = "Damage Modifier By Mob For Relation To Location",
+		description = "Damage modifier as a percent for each relation. 100 = default. 120 = 20% "+
+		              "extra. These will be used in conjuction with wilderness/safezone/warzone " +
+			          "damage modifiers"
+	)
+	public static Map<Relation, Double> damageModifierPercentRelationLocationByMob = MiscUtil.newMap(
+		Relation.ALLY, 100.0,
+		Relation.ENEMY, 100.0,
+		Relation.MEMBER, 100.0,
+		Relation.NEUTRAL, 100.0,
+		Relation.TRUCE, 100.0
+	);
+		
+		
+	
+	@DocDescription(
+		title = "Damage Modifier For Wilderness",
+		description = "Damage modifier as a percent for wilderness. 100 = default. 120 = 20% extra."+
+		              " This will be used in conjunction with relation damage modifiers."
+	)
+	public static double damageModifierPercentWilderness = 100.0;
+	
+	@DocDescription(
+		title = "Damage Modifier For Safezone",
+		description = "Damage modifier as a percent for safezone. 100 = default. 120 = 20% extra."+
+		              " This will be used in conjunction with relation damage modifiers."
+	)
+	public static double damageModifierPercentSafezone = 100.0;
+	
+	@DocDescription(
+		title = "Damage Modifier For Warzone",
+		description = "Damage modifier as a percent for warzone. 100 = default. 120 = 20% extra"+ 
+		              " This will be used in conjunction with relation damage modifiers."
+	)
+	public static double damageModifierPercentWarzone = 100.0;
+	
+	// -------------------------------------------------- //
 	// EXPANSION: FactionsChat
 	// -------------------------------------------------- // 
 	@DocSection(name = "Expansion: FactionsChat")

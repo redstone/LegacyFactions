@@ -8,6 +8,7 @@ import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.AsciiCompass;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
@@ -76,6 +77,7 @@ public abstract class MemoryBoard extends Board {
     //----------------------------------------------//
     // Get and Set
     //----------------------------------------------//
+        
     public String getIdAt(FLocation flocation) {
         if (!flocationIds.containsKey(flocation)) {
             return "0";
@@ -83,9 +85,21 @@ public abstract class MemoryBoard extends Board {
         
         return flocationIds.get(flocation);
     }
+    
+    @Override
+    public String getIdAt(Locality locality) {
+		FLocation flocation = new FLocation(locality.getWorld().getName(), locality.getChunkX(), locality.getChunkZ());
+		return this.getIdAt(flocation);
+    }
+
 
     public Faction getFactionAt(FLocation flocation) {
-        return FactionColl.get().getFactionById(getIdAt(flocation));
+        return FactionColl.get().getFactionById(this.getIdAt(flocation));
+    }
+    
+    @Override
+    public Faction getFactionAt(Locality locality) {
+        return FactionColl.get().getFactionById(this.getIdAt(locality));
     }
 
     public void setIdAt(String id, FLocation flocation) {
