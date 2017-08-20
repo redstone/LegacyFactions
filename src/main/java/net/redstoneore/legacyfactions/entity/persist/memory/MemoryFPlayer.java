@@ -720,6 +720,19 @@ public abstract class MemoryFPlayer implements FPlayer {
 			String titleHeader = FactionsPlaceholders.get().parse(this.getPlayer(), Conf.territoryTitlesHeader.trim());
 			String titleFooter = FactionsPlaceholders.get().parse(this.getPlayer(), Conf.territoryTitlesFooter.trim());
 			
+			// Hide footer if needed
+			if (this.getLastLocation().getFactionHere().isWarZone() && Conf.hideFooterForWarzone) {
+				titleFooter = "";
+			}
+			
+			if (this.getLastLocation().getFactionHere().isSafeZone() && Conf.hideFooterForSafezone) {
+				titleFooter = "";
+			}
+			
+			if (this.getLastLocation().getFactionHere().isWilderness() && Conf.hideFooterForWilderness) {
+				titleFooter = "";
+			}
+			
 			TitleUtil.sendTitle(this.getPlayer(), Conf.territoryTitlesTimeFadeInTicks, Conf.territoryTitlesTimeStayTicks, Conf.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
 		}
 	}
