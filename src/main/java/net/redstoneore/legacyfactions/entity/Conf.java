@@ -564,6 +564,10 @@ public class Conf {
 	public static int territoryTitlesTimeStayTicks = 20;
 	public static int territoryTitlesTimeFadeOutTicks = 20;
 	
+	public static boolean hideFooterForWilderness = false;
+	public static boolean hideFooterForWarzone = false;
+	public static boolean hideFooterForSafezone = false;
+	
 	// -------------------------------------------------- //
 	// TERRITORY CHANGE
 	// -------------------------------------------------- //
