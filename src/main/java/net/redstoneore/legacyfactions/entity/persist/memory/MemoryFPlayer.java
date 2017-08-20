@@ -711,7 +711,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 		
 		// Territory change chat message
-		if (showInChat) {
+		if (showInChat && Conf.territoryChangeText) {
 			this.sendMessage(Factions.get().getTextUtil().parse(Lang.FACTION_LEAVE.format(factionFrom.getTag(this), factionHere.getTag(this))));
 		}
 		
