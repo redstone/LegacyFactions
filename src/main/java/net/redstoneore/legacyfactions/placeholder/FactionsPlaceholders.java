@@ -211,6 +211,19 @@ public class FactionsPlaceholders {
 			}
 		});
 		
+		this.placeholders.add(new FactionsPlaceholderRelation("player_chattag") {
+			
+			@Override
+			public String get(Player player) {
+				return FPlayerColl.get(player).getChatTag();
+			}
+
+			@Override
+			public String get(Player one, Player two) {
+				return FPlayerColl.get(one).getChatTag(FPlayerColl.get(two));
+			}
+		});
+		
 		// LOCATION SPECIFIC PLACEHOLDERS
 		
 		this.placeholders.add(new FactionsPlaceholder("location_relation") {

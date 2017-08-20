@@ -567,7 +567,18 @@ public class Conf {
 	public static boolean hideFooterForWilderness = false;
 	public static boolean hideFooterForWarzone = false;
 	public static boolean hideFooterForSafezone = false;
+
+	// -------------------------------------------------- //
+	// TERRITORY CHANGE
+	// -------------------------------------------------- //
+	@DocSection(name = "Territory Change")
 	
+	@DocDescription(
+		title = "Territory Change Text Enabled",
+		description = "If set to false players will never receive land change messages when they move between territories."
+	)
+	public static boolean territoryChangeText = true;
+
 	// -------------------------------------------------- //
 	// TERRITORY CHANGE
 	// -------------------------------------------------- //
