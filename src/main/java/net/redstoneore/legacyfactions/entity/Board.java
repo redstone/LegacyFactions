@@ -7,6 +7,7 @@ import org.bukkit.World;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 
 public abstract class Board {
@@ -26,8 +27,12 @@ public abstract class Board {
 	//----------------------------------------------//
 	
 	public abstract String getIdAt(FLocation flocation);
+	
+	public abstract String getIdAt(Locality flocation);
 
 	public abstract Faction getFactionAt(FLocation flocation);
+	
+	public abstract Faction getFactionAt(Locality locality);
 
 	public abstract void setIdAt(String id, FLocation flocation);
 

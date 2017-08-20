@@ -5,10 +5,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.util.NumberConversions;
 
@@ -605,7 +607,68 @@ public class FactionsPlayerListener implements Listener {
 		badGuy.leave(false);
 		badGuy.remove();
 	}
+	
+	// -------------------------------------------------- //
+	// DAMAGE MODIFIER
+	// -------------------------------------------------- //
+	
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void damageModifier(EntityDamageByEntityEvent event) {
+		if (!(event.getEntity() instanceof Player)) return;
+		if (event.getDamage() == 0) return;
+		
+		FPlayer fplayer = FPlayerColl.get(event.getEntity());
+		FPlayer damager = null;
+		
+		Relation relationToLocation = fplayer.getRelationTo(fplayer.getLastLocation().getFactionHere());
 
+		if (event.getDamager() instanceof Projectile) {
+			Projectile projectile = (Projectile) event.getDamager();
+			if (!(projectile.getShooter() instanceof Player)) return;
+			damager = FPlayerColl.get(projectile.getShooter());
+		} else if (event.getDamager() instanceof Player) {
+			damager = FPlayerColl.get(event.getDamager());
+		} else {
+			// must be a mob attacking 
+			if (Conf.damageModifierPercentRelationLocationByMob.containsKey(relationToLocation)) {
+				double extraDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation)/100);
+				event.setDamage(event.getDamage() + extraDamage);
+			}
+		}
+		
+		if (damager == null) return;
+		
+		// Damage modifier based on location 
+		if (fplayer.getLastLocation().getFactionHere().isWilderness() && Conf.damageModifierPercentWilderness != 100) {
+			double extraDamage = event.getDamage() * (Conf.damageModifierPercentWilderness/100);
+			event.setDamage(event.getDamage() + extraDamage);
+		}
+		
+		if (fplayer.getLastLocation().getFactionHere().isWarZone() && Conf.damageModifierPercentWarzone != 100) {
+			double extraDamage = event.getDamage() * (Conf.damageModifierPercentWarzone/100);
+			event.setDamage(event.getDamage() + extraDamage);
+		}
+		
+		if (fplayer.getLastLocation().getFactionHere().isSafeZone() && Conf.damageModifierPercentSafezone != 100) {
+			double extraDamage = event.getDamage() * (Conf.damageModifierPercentSafezone/100);
+			event.setDamage(event.getDamage() + extraDamage);
+		}
+		
+		// Check for damager modifier by relation to player
+		Relation relationToDamager = fplayer.getRelationTo(damager);
+		if (Conf.damageModifierPercentRelationPlayer.containsKey(relationToDamager)) {
+			double extraDamage = event.getDamage() * (Conf.damageModifierPercentRelationPlayer.get(relationToDamager)/100);
+			event.setDamage(event.getDamage() + extraDamage);
+		}
+		
+		// Check for damager modifier by relation to location
+		if (Conf.damageModifierPercentRelationLocationByPlayer.containsKey(relationToLocation)) {
+			double extraDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByPlayer.get(relationToLocation)/100);
+			event.setDamage(event.getDamage() + extraDamage);
+		}
+		
+	}
+	
 	// -------------------------------------------------- //
 	// SCOREBOARD CLEANUP
 	// -------------------------------------------------- //	

@@ -21,7 +21,6 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
-import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class PlayerMixin {
 
