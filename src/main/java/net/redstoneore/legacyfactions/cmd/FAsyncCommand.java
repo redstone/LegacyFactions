@@ -27,24 +27,18 @@ public abstract class FAsyncCommand extends MCommand<Factions> {
 		Bukkit.getScheduler().runTaskAsynchronously(Factions.get(), () -> execute(arguments, fplayer));
 	}
 	
-	public final void sync(Callback<Callback<Boolean>> sync) {
-		this.sync(sync, null);
-	}
-	
-	public final void sync(Callback<Callback<Boolean>> sync, final Callback<Boolean> completed) {
-		if (sync == null) {
-			Bukkit.getScheduler().runTaskAsynchronously(Factions.get(), () -> completed.then(true, Optional.empty()));
-			return;
-		}
-		
+	public final void sync(Callback<Boolean> sync) {
 		Bukkit.getScheduler().runTask(Factions.get(), () -> 
-			sync.then((result, exception) -> {
-				if (completed != null) {
-					Bukkit.getScheduler().runTaskAsynchronously(Factions.get(), () -> completed.then(true, Optional.empty()));					
-				}
-			}, Optional.empty())
+			sync.then(true, Optional.empty())
 		);
 	}
+	
+	public final void async(Callback<Boolean> async) {
+		Bukkit.getScheduler().runTaskAsynchronously(Factions.get(), () -> 
+			async.then(true, Optional.empty())
+		);
+	}
+	
 	
 	public abstract void execute(final Arguments arguments, final FPlayer fplayer);
 	

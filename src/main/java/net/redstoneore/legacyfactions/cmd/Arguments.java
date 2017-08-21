@@ -12,6 +12,8 @@ import com.google.common.collect.Lists;
 import net.redstoneore.legacyfactions.callback.Callback;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 public class Arguments {
@@ -36,56 +38,107 @@ public class Arguments {
 	// METHODS
 	// -------------------------------------------------- //
 	
-	public Optional<String> get(Class<? extends String> type, int arg) {
-		if (!this.args.contains(arg)) {
-			return Optional.empty();
-		}
-		
-		return Optional.of(this.args.get(arg));
-	}
-	
-	public void get(Class<? extends FPlayer> type, final int arg, FPlayer defaultValue, final Callback<FPlayer> callback) {
-		if (!this.args.contains(arg)) {
-			callback.then(null,  Optional.empty());
+	/**
+	 * Get an argument variable
+	 * @param type argument type
+	 * @param arg argument number to grab
+	 * @param callback the resulting callback in async
+	 */
+	@SuppressWarnings("unchecked")
+	public <T>void get(final Class<? extends T> type, final int arg, final Callback<Optional<T>> callback) {
+		if (this.args.size() < arg) {
+			command.async((done, e) -> 
+				callback.then(Optional.empty(), Optional.of(new NullPointerException("Argument does not exist")))
+			);
 			return;
 		}
 		
 		final String value = this.args.get(arg);
 		
-		command.sync((done, e) -> {
-			// Sync
-			final Player player = Bukkit.getPlayer(value);
+		command.async((done, e) -> {
+			// String
+			if (type.getClass() == String.class.getClass()) {
+				callback.then(Optional.of((T) value), Optional.empty());
+				return;
+			}
 			
-			command.sync((done2, e2) -> {
-				// Sync
-				done2.then(true, Optional.empty());
-			}, (done3, e3) -> {
-				// Async
-				if (player != null) {
-					FPlayer fplayer = FPlayerColl.get(player);
-					callback.then(fplayer, Optional.empty());
-					return;
+			// Double
+			if (type.getClass() == Double.class.getClass()) {
+				callback.then(Optional.of((T)Double.valueOf(value)), Optional.empty());
+				return;
+			}
+			
+			// Integer
+			if (type.getClass() == Integer.class.getClass()) {
+				callback.then(Optional.of((T)Integer.valueOf(value)), Optional.empty());
+				return;
+			}
+			
+			// Float
+			if (type.getClass() == Float.class.getClass()) {
+				callback.then(Optional.of((T)Float.valueOf(value)), Optional.empty());
+				return;
+			}
+			
+			// Long
+			if (type.getClass() == Long.class.getClass()) {
+				callback.then(Optional.of((T)Long.valueOf(value)), Optional.empty());
+				return;
+			}
+			
+			// Faction
+			if (type.getClass() == Faction.class.getClass()) {
+				Faction faction = FactionColl.get(value);
+				
+				if (faction == null) {
+					callback.then(Optional.empty(), Optional.empty());
+
 				}
+				return;
+			}
+			
+			// FPlayer
+			if (type.getClass() == FPlayer.class.getClass()) {
 				
-				UUID uuid = null;
-				try {
-					uuid = UUIDUtil.getUUIDOf(value);
-				} catch (Exception exception) {
-					callback.then(null, Optional.of(exception));
-					return;
-				}
+				command.sync((done2, e2) -> {
+					// Sync
+					final Player player = Bukkit.getPlayer(value);
+					
+					command.async((done3, e3) -> {
+						// Async
+						if (player != null) {
+							FPlayer fplayer = FPlayerColl.get(player);
+							callback.then(Optional.of((T) fplayer), Optional.empty());
+							return;
+						}
+						
+						UUID uuid = null;
+						try {
+							uuid = UUIDUtil.getUUIDOf(value);
+						} catch (Exception exception) {
+							callback.then(Optional.empty(), Optional.of(exception));
+							return;
+						}
+						
+						if (uuid == null) {
+							callback.then(Optional.empty(), Optional.empty());
+							return;
+						}
+						
+						FPlayer fplayer = FPlayerColl.get(uuid);
+						fplayer.asMemoryFPlayer().setName(value);
+						
+						callback.then(Optional.of((T) fplayer), Optional.empty());
+					});
+				});	
 				
-				if (uuid == null) {
-					callback.then(null, Optional.empty());
-					return;
-				}
-				
-				FPlayer fplayer = FPlayerColl.get(uuid);
-				fplayer.asMemoryFPlayer().setName(value);
-				
-				callback.then(fplayer, Optional.empty());
-			});
-		});		
+				return;
+			}
+			
+			callback.then(Optional.empty(), Optional.of(new NullPointerException("Argument type not supported.")));			
+		});
+
 	}
+
 	
 }
