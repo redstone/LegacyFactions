@@ -13,6 +13,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import net.redstoneore.legacyfactions.lang.LangBuilder;
+
 // TODO: Ensure we're not restricted to this anywhere
 // TODO: Organise this a little better 
 public enum Lang {
@@ -211,6 +213,7 @@ public enum Lang {
 	COMMAND_DESCRIPTION_CHANGED("<i>The faction %1$s<i> changed their description to:"),
 	COMMAND_DESCRIPTION_TOCHANGE("to change faction description"),
 	COMMAND_DESCRIPTION_FORCHANGE("for changing faction description"),
+	COMMAND_DESCRIPTION_TOOLONG("<b>The maximum length of your faction description is <max-length>, your description was <length>"),
 	COMMAND_DESCRIPTION_DESCRIPTION("Change the faction description"),
 
 	COMMAND_DISBAND_IMMUTABLE("<i>You cannot disband the Wilderness, SafeZone, or WarZone."),
@@ -965,6 +968,10 @@ public enum Lang {
 	 */
 	public String getPath() {
 		return this.path;
+	}
+	
+	public LangBuilder getBuilder() {
+		return new LangBuilder(this.toString());
 	}
 	
 	public static void reload() {

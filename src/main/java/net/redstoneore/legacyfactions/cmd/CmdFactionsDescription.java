@@ -46,14 +46,31 @@ public class CmdFactionsDescription extends FCommand {
 		if (!payForCommand(Conf.econCostDesc, Lang.COMMAND_DESCRIPTION_TOCHANGE, Lang.COMMAND_DESCRIPTION_FORCHANGE)) {
 			return;
 		}
+		
+		String newDescription;
 
 		// Replace all the % because it messes with string formatting and this is easy way around that.
 		if (Conf.allowColourCodesInFactionDescription) {
-			this.myFaction.setDescription(TextUtil.implode(this.args, " ").replaceAll("%", ""));
+			newDescription = (TextUtil.implode(this.args, " ").replaceAll("%", ""));
 		} else {
-			this.myFaction.setDescription(TextUtil.implode(this.args, " ").replaceAll("%", "").replaceAll("(&([a-f0-9klmnor]))", "& $2"));
+			newDescription = (TextUtil.implode(this.args, " ").replaceAll("%", "").replaceAll("(&([a-f0-9klmnor]))", "& $2"));
 		}
-
+		
+		// Check the max length
+		if (Conf.factionDescriptionLengthMax > -1) {
+			if (newDescription.length() > Conf.factionDescriptionLengthMax) {
+				Lang.COMMAND_DESCRIPTION_TOOLONG.getBuilder()
+					.parse()
+					.replace("<max-length>", Conf.factionDescriptionLengthMax)
+					.replace("<length>", newDescription.length())
+					.sendTo(this.fme);
+				
+				return;
+			}
+		}
+		
+		this.myFaction.setDescription(newDescription);
+		
 		if (!Conf.broadcastDescriptionChanges) {
 			this.fme.sendMessage(Lang.COMMAND_DESCRIPTION_CHANGED, this.myFaction.describeTo(this.fme));
 			this.fme.sendMessage(this.myFaction.getDescription());
@@ -64,7 +81,6 @@ public class CmdFactionsDescription extends FCommand {
 		FPlayerColl.all(true).forEach(fplayer -> {
 			fplayer.sendMessage(Lang.COMMAND_DESCRIPTION_CHANGES, this.myFaction.describeTo(fplayer));
 			fplayer.sendMessage(myFaction.getDescription());  // players can inject "&" or "`" or "<i>" or whatever in their description; &k is particularly interesting looking
-
 		});
 	}
 

@@ -261,13 +261,19 @@ public class Conf {
 		description = "The maximum length of a faction tag"
 	)
 	public static int factionTagLengthMax = 10;
-	
+		
 	@DocDescription(
 		title = "Faction Tag Force Upper Case",
 		description = "Force the tag to be uppercase."
 	)
 	public static boolean factionTagForceUpperCase = false;
 
+	@DocDescription(
+		title = "Faction Description Maxmimum Length",
+		description = "The maximum length of a faction description. Set to -1 to disable."
+	)
+	public static int factionDescriptionLengthMax = -1;
+	
 	@DocDescription(
 		title = "Default to Open",
 		description = "If true, factions will default to open."
