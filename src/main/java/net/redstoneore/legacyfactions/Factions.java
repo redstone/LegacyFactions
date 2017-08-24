@@ -297,8 +297,15 @@ public class Factions extends FactionsPluginBase {
 	public GsonBuilder getGsonBuilder() {
 		if (this.gsonBuilder == null) {
 			Type mapFLocToStringSetType = new TypeToken<Map<FLocation, Set<String>>>() { }.getType();
+			GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 			
-			this.gsonBuilder = new GsonBuilder().setPrettyPrinting().setLenient().disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
+			try {
+				builder.setLenient();
+			} catch (NoSuchMethodError e) {
+				// older minecraft plugins don't have this in their version of Gson
+			}
+			
+			this.gsonBuilder = builder.disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
 					.registerTypeAdapter(LazyLocation.class, new LazyLocationAdapter())
 					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter())
 					.registerTypeAdapter(CrossColour.class, new CrossColourAdapter())
