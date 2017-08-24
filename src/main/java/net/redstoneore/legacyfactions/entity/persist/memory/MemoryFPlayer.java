@@ -17,6 +17,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
+import net.redstoneore.legacyfactions.event.EventFactionsRoleChanged;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
@@ -178,7 +179,9 @@ public abstract class MemoryFPlayer implements FPlayer {
 	}
 	
 	public void setRole(Role role) {
+		Role previousRole = this.role;
 		this.role = role;
+		EventFactionsRoleChanged.create(this.getFaction(), this, previousRole, role).call();
 	}
 	
 	@Override
