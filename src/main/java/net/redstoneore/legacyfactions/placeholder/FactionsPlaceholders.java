@@ -99,10 +99,30 @@ public class FactionsPlaceholders {
 			}
 		});
 		
+		this.placeholders.add(new FactionsPlaceholder("faction_name_blankwild") {
+			@Override
+			public String get(Player player) {
+				if (player == null) return null;
+				if (FPlayerColl.get(player).getFaction().isWilderness()) return "";
+				
+				return FPlayerColl.get(player).getFaction().getTag();
+			}
+		});
+		
 		this.placeholders.add(new FactionsPlaceholder("faction_description") {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
+				return FPlayerColl.get(player).getFaction().getDescription();
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholder("faction_description_blankwild") {
+			@Override
+			public String get(Player player) {
+				if (player == null) return null;
+				if (FPlayerColl.get(player).getFaction().isWilderness()) return "";
+				
 				return FPlayerColl.get(player).getFaction().getDescription();
 			}
 		});
