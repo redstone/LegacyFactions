@@ -36,6 +36,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
 
+import net.redstoneore.legacyfactions.entity.Conf;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -248,21 +250,7 @@ public class Metrics {
      */
     public boolean isOptOut() {
         synchronized (optOutLock) {
-            try {
-                // Reload the metrics file
-                configuration.load(getConfigFile());
-            } catch (IOException ex) {
-                if (debug) {
-                    Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
-                }
-                return true;
-            } catch (InvalidConfigurationException ex) {
-                if (debug) {
-                    Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
-                }
-                return true;
-            }
-            return configuration.getBoolean("opt-out", false);
+            return Conf.logStatistics == false;
         }
     }
 
@@ -274,12 +262,6 @@ public class Metrics {
     public void enable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
         synchronized (optOutLock) {
-            // Check if the server owner has already set opt-out, if not, set it.
-            if (isOptOut()) {
-                configuration.set("opt-out", false);
-                configuration.save(configurationFile);
-            }
-
             // Enable Task, if it is not running
             if (task == null) {
                 start();
@@ -295,12 +277,6 @@ public class Metrics {
     public void disable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
         synchronized (optOutLock) {
-            // Check if the server owner has already set opt-out, if not, set it.
-            if (!isOptOut()) {
-                configuration.set("opt-out", true);
-                configuration.save(configurationFile);
-            }
-
             // Disable Task, if it is running
             if (task != null) {
                 task.cancel();
