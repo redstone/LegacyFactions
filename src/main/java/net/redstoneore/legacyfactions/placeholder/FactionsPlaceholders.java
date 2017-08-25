@@ -457,7 +457,9 @@ public class FactionsPlaceholders {
 	 */
 	public String parse(Player player, String string) {
 		for (FactionsPlaceholder placeholder : this.getPlaceholders()) {
-			string = string.replace("{factions_" + placeholder.placeholder() + "}", placeholder.get(player)+"");
+			if (string.contains("{factions_" + placeholder.placeholder() + "}")) {
+				string = string.replace("{factions_" + placeholder.placeholder() + "}", placeholder.get(player)+"");
+			}
 		}
 		return string;
 	}
@@ -473,10 +475,14 @@ public class FactionsPlaceholders {
 			if (placeholder instanceof FactionsPlaceholderRelation) {
 				FactionsPlaceholderRelation placeholderRel = (FactionsPlaceholderRelation) placeholder;
 				
-				string = string.replace("{rel_factions_" + placeholderRel.placeholder() + "}", placeholderRel.get(player1, player2)+"");
+				if (string.contains("{rel_factions_" + placeholderRel.placeholder() + "}")) {
+					string = string.replace("{rel_factions_" + placeholderRel.placeholder() + "}", placeholderRel.get(player1, player2)+"");
+				}
 			} 
 			
-			string = string.replace("{factions_" + placeholder.placeholder() + "}", placeholder.get(player1)+"");
+			if (string.contains("{factions_" + placeholder.placeholder() + "}")) {
+				string = string.replace("{factions_" + placeholder.placeholder() + "}", placeholder.get(player1)+"");
+			}
 		}
 		return string;
 	}
