@@ -469,15 +469,16 @@ public class FactionsEntityListener implements Listener {
 	public void onEntityTarget(EntityTargetEvent event) {
 		// if there is a target
 		Entity target = event.getTarget();
-		if (target == null) {
-			return;
+		if (target == null) return;
+		
+		EntityType creatureType = MiscUtil.creatureTypeFromEntity(event.getEntity());
+		if (creatureType != null) {
+			// We are interested in blocking targeting for certain mobs:
+			if (!Conf.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(creatureType.name()))) {
+				return;
+			}
 		}
-
-		// We are interested in blocking targeting for certain mobs:
-		if (!Conf.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(MiscUtil.creatureTypeFromEntity(event.getEntity()).name()))) {
-			return;
-		}
-
+		
 		// in case the target is in a safe zone.
 		if (Board.get().getFactionAt(new FLocation(target.getLocation())).noMonstersInTerritory()) {
 			event.setCancelled(true);
