@@ -30,6 +30,7 @@ import net.redstoneore.legacyfactions.scoreboards.FScoreboard;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FDefaultSidebar;
+import net.redstoneore.legacyfactions.struct.InteractAttemptSpam;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.VisualizeUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
@@ -37,7 +38,6 @@ import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Map.Entry;
 
 public class FactionsPlayerListener implements Listener {
@@ -57,7 +57,7 @@ public class FactionsPlayerListener implements Listener {
 		// When initialised we want to init all players that are already online.
 		Factions.get().getServer().getOnlinePlayers()
 			.stream()
-			.forEach(player -> this.initPlayer(player));
+			.forEach(this::initPlayer);
 	}
 
 	// -------------------------------------------------- //
@@ -141,9 +141,6 @@ public class FactionsPlayerListener implements Listener {
 	// PLAYER MOVE
 	// -------------------------------------------------- //
 
-	// Holds the next time a player can have a map shown.
-	private HashMap<UUID, Long> showTimes = new HashMap<>();
-
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -179,13 +176,13 @@ public class FactionsPlayerListener implements Listener {
 		boolean changedFaction = (factionFrom != factionTo);
 
 		if (me.isMapAutoUpdating()) {
-			if (showTimes.containsKey(player.getUniqueId()) && (showTimes.get(player.getUniqueId()) > System.currentTimeMillis())) {
+			if (Volatile.get().showTimes().containsKey(player.getUniqueId()) && (Volatile.get().showTimes().get(player.getUniqueId()) > System.currentTimeMillis())) {
 				if (Conf.findFactionsExploitLog) {
 					Factions.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
 				}
 			} else {
 				me.sendMessage(Board.get().getMap(me.getFaction(), to, player.getLocation().getYaw()));
-				showTimes.put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldown);
+				Volatile.get().showTimes().put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldown);
 			}
 		} else {
 			Faction myFaction = me.getFaction();
@@ -268,10 +265,10 @@ public class FactionsPlayerListener implements Listener {
 			event.setCancelled(true);
 			if (Conf.handleExploitInteractionSpam) {
 				String name = player.getName();
-				InteractAttemptSpam attempt = interactSpammers.get(name);
+				InteractAttemptSpam attempt = Volatile.get().interactSpammers().get(name);
 				if (attempt == null) {
 					attempt = new InteractAttemptSpam();
-					interactSpammers.put(name, attempt);
+					Volatile.get().interactSpammers().put(name, attempt);
 				}
 				int count = attempt.increment();
 				if (count >= 10) {
@@ -288,29 +285,7 @@ public class FactionsPlayerListener implements Listener {
 			event.setCancelled(true);
 		}
 	}
-
-
-	// for handling people who repeatedly spam attempts to open a door (or similar) in another faction's territory
-	private Map<String, InteractAttemptSpam> interactSpammers = new HashMap<>();
-
-	private static class InteractAttemptSpam {
-		private int attempts = 0;
-		private long lastAttempt = System.currentTimeMillis();
-
-		// returns the current attempt count
-		public int increment() {
-			long Now = System.currentTimeMillis();
-			if (Now > lastAttempt + 2000) {
-				attempts = 1;
-			} else {
-				attempts++;
-			}
-			lastAttempt = Now;
-			return attempts;
-		}
-	}
-
-
+	
 	public static boolean playerCanUseItemHere(Player player, Location location, Material material, boolean justCheck) {
 		String name = player.getName();
 		if (Conf.playersWhoBypassAllProtection.contains(name)) {
