@@ -22,8 +22,10 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
+import net.redstoneore.legacyfactions.event.EventFactionsChangedTerritory;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboard;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
@@ -191,6 +193,10 @@ public class FactionsPlayerListener implements Listener {
 
 			if (changedFaction) {
 				me.sendFactionHereMessage(factionFrom);
+				
+				EventFactionsChangedTerritory eventChangedTerritory = new EventFactionsChangedTerritory(me, factionFrom, factionTo, me.getLastLocation(), Locality.of(event.getTo()));
+				Bukkit.getServer().getPluginManager().callEvent(eventChangedTerritory);
+				
 				if (Conf.ownedAreasEnabled && Conf.ownedMessageOnBorder && myFaction == factionTo && !ownersTo.isEmpty()) {
 					me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
 				}
