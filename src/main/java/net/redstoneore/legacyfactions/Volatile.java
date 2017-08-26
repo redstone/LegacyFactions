@@ -1,12 +1,13 @@
 package net.redstoneore.legacyfactions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.redstoneore.legacyfactions.cmd.MCommand;
+import net.redstoneore.legacyfactions.struct.InteractAttemptSpam;
 
 /**
  * This class contains volatile information that is not kept and is simply stored in memory
@@ -25,7 +26,7 @@ public class Volatile {
 	// BASE COMMANDS
 	// -------------------------------------------------- //
 	
-	private List<MCommand<?>> baseCommands = new ArrayList<>();
+	private List<MCommand<?>> baseCommands = new Vector<>();
 	public List<MCommand<?>> baseCommands() {
 		return this.baseCommands;
 	}
@@ -34,7 +35,7 @@ public class Volatile {
 	// STUCK TIMERS
 	// -------------------------------------------------- //
 	
-	private Map<UUID, Long> stuckTimers = new HashMap<>();
+	private Map<UUID, Long> stuckTimers = new ConcurrentHashMap<>();
 	public Map<UUID, Long> stuckTimers() {
 		return this.stuckTimers;
 	}
@@ -43,11 +44,28 @@ public class Volatile {
 	// STUCK MAP
 	// -------------------------------------------------- //
 	
-	public Map<UUID, Integer> stuckMap = new HashMap<>();
+	private Map<UUID, Integer> stuckMap = new ConcurrentHashMap<>();
 	public Map<UUID, Integer> stuckMap() {
 		return this.stuckMap;
 	}
 
-
+	// -------------------------------------------------- //
+	// SHOW TIMES
+	// -------------------------------------------------- //
+	
+	// Holds the next time a player can have a map shown.
+	private Map<UUID, Long> showTimes = new ConcurrentHashMap<>();
+	public Map<UUID, Long> showTimes() {
+		return this.showTimes;
+	}
+	
+	// -------------------------------------------------- //
+	// INTERACT SPAMMERS
+	// -------------------------------------------------- //
+	
+	private Map<String, InteractAttemptSpam> interactSpammers = new ConcurrentHashMap<>();
+	public Map<String, InteractAttemptSpam> interactSpammers() {
+		return this.interactSpammers;
+	}
 	
 }
