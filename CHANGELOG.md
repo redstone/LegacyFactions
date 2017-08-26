@@ -1,6 +1,21 @@
 # 1.4.3
+* 🐞 Bugfix-ish: Database structure has change, backup before updating!
+* 🐞 Bugfix: Fixed a bug with script support generating blank comparison strings
+* 🐞 Bugfix: None the less, Placeholders work 100% now
+* ⭐️ Feature: New placeholder `factions_player_chattag`
+* ⭐️ Feature: Now using Java NIO2 - I/O operations should be quicker
+* ⭐️ Feature: JSON file is now lenient (if we can be)
 * ⭐️ Feature: New `/f style` command for changing map colours and characters of factions
 * ⭐️ Feature: New `/f ban` command to stop players from rejoining a faction
+* ⭐️ Feature: New config option: `damageModifierPercentRelationPlayer`
+* ⭐️ Feature: New config option: `damageModifierPercentRelationLocationByPlayer`
+* ⭐️ Feature: New config option: `damageModifierPercentRelationLocationByMob`
+* ⭐️ Feature: New config option: `damageModifierPercentWilderness`
+* ⭐️ Feature: New config option: `damageModifierPercentSafezone`
+* ⭐️ Feature: New config option: `damageModifierPercentWarzone`
+* ⭐️ Feature: New config option: `factionDescriptionLengthMax`
+* ⭐️ Feature: New _blankwild placeholders (see docs)
+* ⭐️ Feature: New config option: `territoryChangeText`
 * ⌨️ API: `Faction#hasForcedMapCharacter` method added
 * ⌨️ API: `Faction#setForcedMapCharacter` method added
 * ⌨️ API: `Faction#getForcedMapCharacter` method added
@@ -12,6 +27,12 @@
 * ⌨️ API: `Faction#isbanned` method added
 * ⌨️ API: Event `EventFactionsBan` added
 * ⌨️ API: Event `EventFactionsUnban` added
+* ⌨️ API: Event `EventFactionsRoleChanged` added
+* ⌨️ API: Event `EventFactionsChangeTerritory` added
+* ⌨️ API: New LangBuilder class
+* 📚 Docs: Multilingual Script Support wiki page added
+* 📚 Docs: Placeholder docs updated
+* 📊 Stats: Now storing stats about factions, warps, claims, and expansions! 
 
 # 1.4.2
 * 🐞 Bugfix: PlaceholderAPI wasn't working properly, but it works now! 
