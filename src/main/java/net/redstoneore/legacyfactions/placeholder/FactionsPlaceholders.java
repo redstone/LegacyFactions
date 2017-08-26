@@ -235,6 +235,7 @@ public class FactionsPlaceholders {
 			
 			@Override
 			public String get(Player player) {
+				if (player == null) return null;
 				return FPlayerColl.get(player).getChatTag();
 			}
 
