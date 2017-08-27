@@ -67,6 +67,9 @@ public enum Relation {
 		case "ally":
 			return ALLY;
 		case "truce":
+			if (!Conf.enableTruces) {
+				return NEUTRAL;
+			}
 			return TRUCE;
 		case "enemy":
 			return ENEMY;

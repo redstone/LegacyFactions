@@ -109,10 +109,13 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 		if (args.size() > 0) {
 			for (MCommand<?> subCommand : this.subCommands) {
 				if (subCommand.aliases.contains(args.get(0).toLowerCase())) {
-					args.remove(0);
-					commandChain.add(this);
-					subCommand.execute(sender, args, commandChain);
-					return;
+					if (subCommand.isAvailable()) {
+						args.remove(0);
+						commandChain.add(this);
+						subCommand.execute(sender, args, commandChain);
+						
+						return;
+					}
 				}
 			}
 		}
@@ -134,6 +137,13 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
 	// This is where the command action is performed.
 	public abstract void perform();
+	
+	// Override this if you want to change the availability of this command, returning false will make it seem invisible:
+	// - it won't show in help
+	// - it will fail if you try to use it
+	public boolean isAvailable() {
+		return true;
+	}
 
 
 	// -------------------------------------------- //

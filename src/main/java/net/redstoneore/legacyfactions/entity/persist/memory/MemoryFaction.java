@@ -536,12 +536,19 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 	public Relation getRelationWish(Faction otherFaction) {
 		if (this.relationWish.containsKey(otherFaction.getId())) {
+			if (this.relationWish.get(otherFaction.getId()) == Relation.TRUCE && !Conf.enableTruces) {
+				this.relationWish.put(otherFaction.getId(), Relation.NEUTRAL);
+			}
 			return this.relationWish.get(otherFaction.getId());
 		}
 		return Relation.fromString(Conf.factionDefaultRelation); // Always default to old behavior.
 	}
 
 	public void setRelationWish(Faction otherFaction, Relation relation) {
+		if (relation == Relation.TRUCE && !Conf.enableTruces) {
+			relation = Relation.NEUTRAL;
+		}
+		
 		if (this.relationWish.containsKey(otherFaction.getId()) && relation.equals(Relation.NEUTRAL)) {
 			this.relationWish.remove(otherFaction.getId());
 		} else {
