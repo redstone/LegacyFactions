@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -401,7 +402,7 @@ public class FactionsPlaceholders {
 		
 			@Override
 			public String get(Player one, Player two) {
-				return (FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)) == Relation.TRUCE) ? "true" : "false";
+				return (FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)) == Relation.TRUCE && Conf.enableTruces) ? "true" : "false";
 			}
 		});
 		

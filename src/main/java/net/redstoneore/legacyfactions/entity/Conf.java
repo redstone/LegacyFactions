@@ -51,6 +51,16 @@ public class Conf {
 	public static boolean logStatistics = true;
 	
 	// -------------------------------------------------- //
+	// Non-1.6 Features
+	// -------------------------------------------------- //
+	@DocSection(name = "Non 1.6 Features")
+	
+	@DocDescription(title = "Truces", description = "To disable truces, set to false.")
+	public static boolean enableTruces = true;
+	public static boolean enableColeaders = true;
+	
+	
+	// -------------------------------------------------- //
 	// COMMANDS
 	// -------------------------------------------------- //
 	@DocSection(name = "Commands")
