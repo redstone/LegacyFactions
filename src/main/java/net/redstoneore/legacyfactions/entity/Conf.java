@@ -476,6 +476,10 @@ public class Conf {
 	// -------------------------------------------------- //
 	@DocSection(name = "Format")
 
+	@DocDescription(
+			title = "Enabled Script Support",
+			description = "Add script support for characters other than English. See: https://github.com/redstone/LegacyFactions/wiki/Multilingual-Script-Support"
+		)
 	public static Map<Character.UnicodeScript, Boolean> enabledScriptSupport = MiscUtil.map(
 		Character.UnicodeScript.ARABIC, false,
 		Character.UnicodeScript.BALINESE, false,
@@ -486,46 +490,159 @@ public class Conf {
 	// -------------------------------------------------- //
 	// SERVER LOGGING
 	// -------------------------------------------------- //
-	
+	@DocSection(name = "Server Logging")
+
+	@DocDescription(
+			title = "Log Factions Create",
+			description = "Log Factions Create Event"
+		)
 	public static boolean logFactionCreate = true;
+	
+	@DocDescription(
+			title = "Log Factions Disband",
+			description = "Log Factions Disband Event"
+		)
 	public static boolean logFactionDisband = true;
+	
+	@DocDescription(
+			title = "Log Factions Join",
+			description = "Log Factions Join Event"
+		)
 	public static boolean logFactionJoin = true;
+	
+	@DocDescription(
+			title = "Log Factions Kick",
+			description = "Log Factions Kick Event"
+		)
 	public static boolean logFactionKick = true;
+	
+	@DocDescription(
+			title = "Log Factions Ban",
+			description = "Log Factions Ban Event"
+		)
 	public static boolean logFactionBan = true;
+	
+	@DocDescription(
+			title = "Log Factions Leave",
+			description = "Log Factions Leave Event"
+		)
 	public static boolean logFactionLeave = true;
+	
+	@DocDescription(
+			title = "Log Factions Claim Events",
+			description = "Log Factions Claim Events"
+		)
 	public static boolean logLandClaims = true;
+	
+	@DocDescription(
+			title = "Log Factions Unclaim Events",
+			description = "Log Factions Unclaim Event"
+		)
 	public static boolean logLandUnclaims = true;
+	
+	@DocDescription(
+			title = "Log Factions Money Transaction Events",
+			description = "Log Factions Money Transaction Events"
+		)
 	public static boolean logMoneyTransactions = true;
+	
+	@DocDescription(
+			title = "Log Player Commands",
+			description = "Log Player Commands"
+		)
 	public static boolean logPlayerCommands = true;
 
-	// ----------------------------------------
+	// -------------------------------------------------- //
 	// EXPLOIT
-	// ----------------------------------------
+	// -------------------------------------------------- //
+	@DocSection(name = "Exploits")
 
+	@DocDescription(
+			title = "Obsidian Generators",
+			description = "Block Obsidian Generators"
+		)
 	public static boolean handleExploitObsidianGenerators = true;
+	
+	@DocDescription(
+			title = "Ender Pearl Clipping",
+			description = "Block Ender Pearl Clipping"
+		)
 	public static boolean handleExploitEnderPearlClipping = true;
+	
+	@DocDescription(
+			title = "Interaction Spam",
+			description = "Block Interaction Spam"
+		)
 	public static boolean handleExploitInteractionSpam = true;
+	
+	@DocDescription(
+			title = "TNT Waterlog",
+			description = "Block TNT Waterlog"
+		)
 	public static boolean handleExploitTNTWaterlog = false;
+	
+	@DocDescription(
+			title = "Liquid Flow",
+			description = "Block liquid flow between territories"
+		)
 	public static boolean handleExploitLiquidFlow = false;
 
+	@DocDescription(
+			title = "Factions Find Exploit Log",
+			description = "Log when a factions find exploit is triggered"
+		)
 	public static boolean findFactionsExploitLog = false;
-	public static long findFactionsExploitCooldown = 2000;
+	
+	@DocDescription(
+			title = "Factions Find Exploit Cooldown",
+			description = "Cooldown between map updating"
+		)
+	public static long findFactionsExploitCooldownMils = 2000;
 	
 	// -------------------------------------------------- //
 	// PORTALS
 	// -------------------------------------------------- //
-	
+	@DocSection(name = "Portals")
+
+	@DocDescription(
+			title = "Portals Limit",
+			description = "Limits exit portal creation to where they're allowed to based on relation"
+		)
 	public static boolean portalsLimit = false;
+	
+	@DocDescription(
+			title = "Portals Limit Minimum Relation",
+			description = "The minimum relation where we can create exit portals (if portalsLimit is true)"
+		)
 	public static String portalsMinimumRelation = "MEMBER";
 	
 	// -------------------------------------------------- //
 	// SCOREBOARD
 	// -------------------------------------------------- //
+	@DocSection(name = "Scoreboard")
 
+	@DocDescription(
+			title = "Scoreboard In Chat",
+			description = "Should we also show the scoreboard in chat?"
+		)
 	public static boolean scoreboardInChat = false;
+	
+	@DocDescription(
+			title = "Scoreboard Expires",
+			description = "After how many seconds does the scoreboard expire"
+		)
 	public static long scoreboardExpiresSecs = 6;
 	
+	@DocDescription(
+			title = "Scoreboard Info",
+			description = "Should we enable the info scoreboard?"
+		)
 	public static boolean scoreboardInfoEnabled = false;
+	
+	@DocDescription(
+			title = "Scoreboard Info",
+			description = "Layout of info scoreboard"
+		)
 	public static List<String> scoreboardInfo = Lists.newArrayList(
 		"&6Power",
 		"{power}",
@@ -537,11 +654,34 @@ public class Conf {
 		"{chunks}"
 	);
 	
+	@DocDescription(
+			title = "Scoreboard Default",
+			description = "Is scoreobard default enabled?"
+		)
 	public static boolean scoreboardDefaultEnabled = false;
+	
+	@DocDescription(
+			title = "Scoreboard Default Title",
+			description = "Default title"
+		)
 	public static String scoreboardDefaultTitle = "Default Title";
+	
+	@DocDescription(
+			title = "Scoreboard Update Interval",
+			description = "How long (in seconds) between scoreboard updates?"
+		)
 	public static int scoreboardDefaultUpdateIntervalSecs = 2;
+	
+	@DocDescription(
+			title = "Scoreboard Default Prefixes",
+			description = "Should we enable the scoreboard default prefixes?"
+		)
 	public static boolean scoreboardDefaultPrefixes = true;
 	
+	@DocDescription(
+			title = "Scoreboard Default",
+			description = "Layout of default scoreboard"
+		)
 	public static List<String> scoreboardDefault = Lists.newArrayList(
 		"&6Your Faction",
 		"{faction}",
@@ -551,7 +691,13 @@ public class Conf {
 		"${player-balance}"
 	);
 	
+	@DocDescription(
+			title = "Scoreboard Factionless Enabled",
+			description = "Should we enable the Factionless scoreboard?"
+		)
 	public static boolean scoreboardFactionlessEnabled = false;
+	
+	@DocDescription(title = "Scoreboard Factionless", description = "Layout of Factionless scoreboard")
 	public static List<String> scoreboardFactionless = Lists.newArrayList(
 		"&6Factionless",
 		"Join a faction!"
@@ -560,18 +706,34 @@ public class Conf {
 	// -------------------------------------------------- //
 	// TITLES
 	// -------------------------------------------------- //
-	
+	@DocSection(name = "Titles")
+
 	// show territory title on land change
+	@DocDescription(title = "Territory Titles Show", description = "Should titles be shown for territory changes?")
 	public static boolean territoryTitlesShow = true;
+	
+	@DocDescription(title = "Territory Titles Header", description = "Header format for titles")
 	public static String territoryTitlesHeader = "{factions_location_relation_colour}{factions_location_faction_name}";
+	
+	@DocDescription(title = "Territory Titles Footer", description = "Footer format for titles")
 	public static String territoryTitlesFooter = "{factions_location_faction_description}";
 	
+	@DocDescription(title = "Territory Titles Fade In Time", description = "The time (in ticks) that it will take for a title to fade in.")
 	public static int territoryTitlesTimeFadeInTicks = 20;
+	
+	@DocDescription(title = "Territory Titles Stay Time", description = "The time (in ticks) that it will take for a title to stay for.")
 	public static int territoryTitlesTimeStayTicks = 20;
+	
+	@DocDescription(title = "Territory Titles Fade Out Time", description = "The time (in ticks) that it will take for a title to fade out.")
 	public static int territoryTitlesTimeFadeOutTicks = 20;
 	
+	@DocDescription(title = "Hide Footer for Wilderness", description = "Should the footer be hidden for wilderness?")
 	public static boolean hideFooterForWilderness = false;
+	
+	@DocDescription(title = "Hide Footer for Warzone", description = "Should the footer be hidden for warzone?")
 	public static boolean hideFooterForWarzone = false;
+	
+	@DocDescription(title = "Hide Footer for Safezone", description = "Should the footer be hidden for safezone?")
 	public static boolean hideFooterForSafezone = false;
 
 	// -------------------------------------------------- //
@@ -588,8 +750,12 @@ public class Conf {
 	// -------------------------------------------------- //
 	// WARPS
 	// -------------------------------------------------- //
-	
+	@DocSection(name = "Warps")
+
+	@DocDescription(title = "Warps Max", description = "The max amount of wars per faction")
 	public static int warpsMax = 5;
+	
+	@DocDescription(title = "Warp Cost", description = "The cost oer set/delete/use of warps")
 	public static Map<String, Double> warpCost = MiscUtil.map(
 		"set", 5.0,
 		"delete", 5.0,

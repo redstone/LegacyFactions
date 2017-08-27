@@ -182,7 +182,7 @@ public class FactionsPlayerListener implements Listener {
 				}
 			} else {
 				me.sendMessage(Board.get().getMap(me.getFaction(), to, player.getLocation().getYaw()));
-				Volatile.get().showTimes().put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldown);
+				Volatile.get().showTimes().put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldownMils);
 			}
 		} else {
 			Faction myFaction = me.getFaction();
