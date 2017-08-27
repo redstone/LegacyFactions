@@ -48,7 +48,9 @@ public class CmdFactionsReload extends FCommand {
 		
 		long timeReload = (System.currentTimeMillis() - timeInitStart);
 
-		sendMessage(Lang.COMMAND_RELOAD_TIME, timeReload);
+		CmdFactionsHelp.get().clearHelpPageCache();
+		
+		this.sendMessage(Lang.COMMAND_RELOAD_TIME, timeReload);
 	}
 
 	@Override
