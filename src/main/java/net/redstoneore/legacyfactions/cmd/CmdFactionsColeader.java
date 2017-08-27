@@ -6,6 +6,7 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 
@@ -93,6 +94,11 @@ public class CmdFactionsColeader extends FCommand {
 		}
 	}
 
+	@Override
+	public boolean isAvailable() {
+		return Conf.enableColeaders == true;
+	}
+	
 	@Override
 	public String getUsageTranslation() {
 		return Lang.COMMAND_COLEADER_DESCRIPTION.toString();
