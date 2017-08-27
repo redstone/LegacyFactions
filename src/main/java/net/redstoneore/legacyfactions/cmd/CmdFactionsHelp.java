@@ -135,7 +135,7 @@ public class CmdFactionsHelp extends FCommand {
 			return;
 		}
 		
-		String title = Factions.get().getTextUtil().titleize("Factions Help (" + page + "/" + maxPages + ")");
+		String title = Factions.get().getTextUtil().titleize(Lang.COMMAND_HELP_PAGES_TITLE.getBuilder().replace("<current>", page).replace("<total>", maxPages).toString());
 		
 		FancyMessage fm = new FancyMessage(Lang.COMMAND_HELP_PAGES_BTN_LEFT.getBuilder().parse().toString() +" ");
 		
