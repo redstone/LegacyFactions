@@ -43,7 +43,7 @@ public class MigrationUtil {
         Factions.get().log("=== MIGRATION START ===");
 
 		Conf.debug = Factions.get().getConfig().getBoolean("debug", false);
-		Conf.findFactionsExploitCooldown = Factions.get().getConfig().getLong("findfactionsexploit.cooldown", 2000);
+		Conf.findFactionsExploitCooldownMils = Factions.get().getConfig().getLong("findfactionsexploit.cooldown", 2000);
 		Conf.findFactionsExploitLog = Factions.get().getConfig().getBoolean("findfactionsexploit.log", false);
 		Conf.factionDefaultRelation = Factions.get().getConfig().getString("default-relation", "neutral");
 		Conf.portalsLimit = Factions.get().getConfig().getBoolean("portals.limit", false);
