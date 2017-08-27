@@ -175,10 +175,19 @@ public abstract class MemoryFPlayer implements FPlayer {
 	}
 	
 	public Role getRole() {
+		// Coleader check
+		if (this.role == Role.COLEADER && Conf.enableColeaders == false) {
+			this.role = Role.NORMAL;
+		}
 		return this.role;
 	}
 	
 	public void setRole(Role role) {
+		// Coleader check
+		if (role == Role.COLEADER && Conf.enableColeaders == false) {
+			role = Role.NORMAL;
+		}
+
 		Role previousRole = this.role;
 		this.role = role;
 		EventFactionsRoleChanged.create(this.getFaction(), this, previousRole, role).call();

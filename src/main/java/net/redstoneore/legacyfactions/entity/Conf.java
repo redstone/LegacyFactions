@@ -57,8 +57,9 @@ public class Conf {
 	
 	@DocDescription(title = "Truces", description = "To disable truces, set to false.")
 	public static boolean enableTruces = true;
-	public static boolean enableColeaders = true;
 	
+	@DocDescription(title = "Coleaders", description = "To disable coleaders, set to false.")
+	public static boolean enableColeaders = true;
 	
 	// -------------------------------------------------- //
 	// COMMANDS
