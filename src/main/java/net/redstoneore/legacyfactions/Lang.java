@@ -275,6 +275,13 @@ public enum Lang {
 	COMMAND_HELP_MOAR_3("<i>Even more commands for server admins:"),
 	COMMAND_HELP_DESCRIPTION("Display a help page"),
 
+	COMMAND_HELP_PAGES_TITLE("Factions Help (<current>/<total>)"),
+	COMMAND_HELP_PAGES_NOPREV("<gray>No previous page."),
+	COMMAND_HELP_PAGES_NONEXT("<gray>No next page."),
+	COMMAND_HELP_PAGES_GOTO("<aqua>Go to page <number>."),
+	COMMAND_HELP_PAGES_BTN_LEFT("[<]"),
+	COMMAND_HELP_PAGES_BTN_RIGHT("[>]"),
+	
 	COMMAND_HOME_DISABLED("<b>Sorry, Faction homes are disabled on this server."),
 	COMMAND_HOME_TELEPORTDISABLED("<b>Sorry, the ability to teleport to Faction homes is disabled on this server."),
 	COMMAND_HOME_NOHOME("<b>Your faction does not have a home. "),

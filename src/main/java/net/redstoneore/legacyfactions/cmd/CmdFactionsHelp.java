@@ -48,6 +48,12 @@ public class CmdFactionsHelp extends FCommand {
 	}
 
 	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
+	private Map<String, List<List<FancyMessage>>> helpPageCache = new HashMap<>();
+	
+	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 
@@ -73,7 +79,7 @@ public class CmdFactionsHelp extends FCommand {
 			if (helpPages == null) this.updateHelp();
 			
 			int page = this.argAsInt(0, 1);
-			sendMessage(Factions.get().getTextUtil().titleize("Factions Help (" + page + "/" + helpPages.size() + ")"));
+			sendMessage(Factions.get().getTextUtil().titleize(Lang.COMMAND_HELP_PAGES_TITLE.getBuilder().replace("<current>", page).replace("<total>", helpPages.size()).toString()));
 
 			page -= 1;
 
@@ -98,6 +104,8 @@ public class CmdFactionsHelp extends FCommand {
 			
 			for (MCommand<?> command : CmdFactions.get().subCommands) {
 				if (!(sender instanceof ConsoleCommandSender) && command.permission != null && !fme.getPlayer().hasPermission(command.permission)) continue;
+				if (!command.isAvailable()) continue;
+				
 				line++;
 				
 				String suggest = "/" + CmdFactions.get().aliases.get(0) + " " + command.aliases.get(0);
@@ -129,29 +137,29 @@ public class CmdFactionsHelp extends FCommand {
 		
 		String title = Factions.get().getTextUtil().titleize("Factions Help (" + page + "/" + maxPages + ")");
 		
-		FancyMessage fm = new FancyMessage("[<] ");
+		FancyMessage fm = new FancyMessage(Lang.COMMAND_HELP_PAGES_BTN_LEFT.getBuilder().parse().toString() +" ");
 		
 		if (page == 1) {
-			fm.tooltip(ChatColor.GRAY + "No previous page.");
+			fm.tooltip(Lang.COMMAND_HELP_PAGES_NOPREV.getBuilder().parse().toString());
 			fm.color(ChatColor.GRAY);
 		} else {
 			int prevPage = page-1;
-			fm.tooltip(ChatColor.AQUA + "Go to page " + prevPage);
+			fm.tooltip(Lang.COMMAND_HELP_PAGES_GOTO.getBuilder().replace("<number>", prevPage).toString());
 			fm.style(ChatColor.BOLD);
-			fm.command("/f help " + prevPage);
+			fm.command("/" + CmdFactions.get().aliases.get(0) +" " + this.aliases.get(0) + " " + prevPage);
 		}
 		
 		fm.then(title);
-		fm.then(" [>]");
+		fm.then(" " + Lang.COMMAND_HELP_PAGES_BTN_RIGHT.getBuilder().parse().toString());
 		
 		if (page == maxPages) {
-			fm.tooltip(ChatColor.GRAY + "No next page.");
+			fm.tooltip(Lang.COMMAND_HELP_PAGES_NONEXT.getBuilder().parse().toString());
 			fm.color(ChatColor.GRAY);
 		} else {
 			int nextPage = page+1;
-			fm.tooltip(ChatColor.AQUA + "Go to page " + nextPage);
+			fm.tooltip(Lang.COMMAND_HELP_PAGES_GOTO.getBuilder().replace("<number>", nextPage).toString());
 			fm.style(ChatColor.BOLD);
-			fm.command("/f help " + nextPage);
+			fm.command("/" + CmdFactions.get().aliases.get(0) +" " + this.aliases.get(0) + " " + nextPage);
 		}
 		
 		fm.send(this.sender);
@@ -159,10 +167,7 @@ public class CmdFactionsHelp extends FCommand {
 		this.helpPageCache.get(id).get(page-1).forEach(line -> {
 			line.send(this.sender);
 		});
-	}
-	
-	private Map<String, List<List<FancyMessage>>> helpPageCache = new HashMap<>();
-	
+	}	
 	
 	public void clearHelpPageCache(CommandSender sender) {
 		String id = "console";
