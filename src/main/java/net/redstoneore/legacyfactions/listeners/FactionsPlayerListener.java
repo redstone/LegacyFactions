@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -608,13 +609,19 @@ public class FactionsPlayerListener implements Listener {
 
 		if (event.getDamager() instanceof Projectile) {
 			Projectile projectile = (Projectile) event.getDamager();
-			if (!(projectile.getShooter() instanceof Player)) return;
-			damager = FPlayerColl.get(projectile.getShooter());
+			if (projectile.getShooter() instanceof Player) {
+				damager = FPlayerColl.get(projectile.getShooter());				
+			} if (!(projectile.getShooter() instanceof Creature)) {
+				// Not a player or a creature
+				return;
+			}
 		} else if (event.getDamager() instanceof Player) {
 			damager = FPlayerColl.get(event.getDamager());
-		} else {
+		}
+		
+		if (damager == null) {
 			// must be a mob attacking 
-			if (Conf.damageModifierPercentRelationLocationByMob.containsKey(relationToLocation)) {
+			if (Conf.damageModifierPercentRelationLocationByMob.containsKey(relationToLocation) && Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation) != null) {
 				double extraDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation)/100);
 				event.setDamage(event.getDamage() + extraDamage);
 			}
