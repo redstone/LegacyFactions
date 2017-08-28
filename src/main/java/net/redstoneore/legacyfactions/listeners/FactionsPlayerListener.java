@@ -21,6 +21,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChangedTerritory;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -77,7 +78,9 @@ public class FactionsPlayerListener implements Listener {
 		// Make sure that all online players do have a fplayer.
 		final FPlayer me = FPlayerColl.get(player);
 		
-		me.asMemoryFPlayer().setName(player.getName());
+		if (me instanceof MemoryFPlayer) {
+			((MemoryFPlayer) me).setName(player.getName());
+		}
 		
 		// Update the lastLoginTime for this fplayer
 		me.setLastLoginTime(System.currentTimeMillis());

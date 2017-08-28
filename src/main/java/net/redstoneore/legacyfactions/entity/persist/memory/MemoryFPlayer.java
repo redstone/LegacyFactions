@@ -340,7 +340,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
 	public MemoryFPlayer(String id) {
 		this.id = id;
-		this.resetFactionData(false);
+		this.resetFactionData();
 		this.power = Conf.powerPlayerStarting;
 		this.lastPowerUpdateTime = System.currentTimeMillis();
 		this.lastLoginTime = System.currentTimeMillis();
