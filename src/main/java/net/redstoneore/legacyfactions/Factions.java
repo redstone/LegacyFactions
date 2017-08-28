@@ -63,22 +63,22 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
- *  A high-performance maintained version of Factions 1.6.
- *  Copyright (C) 2011 Olof Larsson  
- *  Copyright (C) 2011 - 2017 contributors 
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  A high-performance maintained version of Factions 1.6.<br>
+ *  Copyright (C) 2011 Olof Larsson  <br>
+ *  Copyright (C) 2011 - 2017 contributors <br>
+ * <br>
+ *  This program is free software: you can redistribute it and/or modify<br>
+ *  it under the terms of the GNU General Public License as published by<br>
+ *  the Free Software Foundation, either version 3 of the License, or<br>
+ *  (at your option) any later version.<br>
+ *  <br>
+ *  This program is distributed in the hope that it will be useful,<br>
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the<br>
+ *  GNU General Public License for more details.<br>
+ *  <br>
+ *  You should have received a copy of the GNU General Public License<br>
+ *  along with this program.  If not, see http://www.gnu.org/licenses/
  *
  */
 public class Factions extends FactionsPluginBase {
@@ -97,17 +97,15 @@ public class Factions extends FactionsPluginBase {
 	private GsonBuilder gsonBuilder = null;
 
 	private Integer taskAutoLeave = null;
-	
-	private boolean locked = false;
-	
+		
 	private Integer saveTask = null;
 	
 	/**
-	 * {@link Gson} object used by LegacyFactions
+	 * Stop. Use {@link getGson}. This will be set to private in the future
 	 */
+	@Deprecated
     public final Gson gson = this.getGsonBuilder().create();
     	
-	private boolean autoSave = true;
 	protected boolean loadSuccessful = false;
 	
 	// -------------------------------------------------- //
@@ -119,7 +117,7 @@ public class Factions extends FactionsPluginBase {
 	 * @return true if locked
 	 */
 	public boolean isLocked() {
-		return this.locked;
+		return Volatile.get().locked();
 	}
 	
 	/**
@@ -127,7 +125,7 @@ public class Factions extends FactionsPluginBase {
 	 * @param locked 
 	 */
 	public void setLocked(boolean locked) {
-		this.locked = locked;
+		Volatile.get().locked(locked);
 		this.setAutoSave(locked);
 	}
 	
@@ -136,7 +134,7 @@ public class Factions extends FactionsPluginBase {
 	 * @return autosave state
 	 */
 	public boolean getAutoSave() {
-		return this.autoSave;
+		return Volatile.get().autosave();
 	}
 
 	/**
@@ -144,7 +142,7 @@ public class Factions extends FactionsPluginBase {
 	 * @param autoSave the autosave state.
 	 */
 	public void setAutoSave(boolean autoSave) {
-		this.autoSave = autoSave;
+		Volatile.get().autosave(autoSave);
 	}
 	
 	public Path getPluginFolder() {
@@ -187,8 +185,9 @@ public class Factions extends FactionsPluginBase {
 		if (this.getDescription().getVersion().contains("RC") || this.getDescription().getVersion().contains("SNAPSHOT")) {
 			Conf.debug = true;
 			this.debug("Debug mode has been enabled for this snapshot.");
-			this.debug("conf.json `debug` has been set to 'true' ");
+			this.debug("conf.json 'debug' has been set to 'true' ");
 			this.debug("Please put this entire log file on pastebin.com when reporting an issue.");
+			this.debug("To disable this type use the command `/f config debug false`");
 			Conf.save();
 		}
 		

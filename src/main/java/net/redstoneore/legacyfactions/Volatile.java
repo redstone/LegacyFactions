@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.redstoneore.legacyfactions.cmd.MCommand;
 import net.redstoneore.legacyfactions.struct.InteractAttemptSpam;
@@ -68,4 +69,20 @@ public class Volatile {
 		return this.interactSpammers;
 	}
 	
+	// -------------------------------------------------- //
+	// LOCKED
+	// -------------------------------------------------- //
+	
+	private AtomicBoolean locked = new AtomicBoolean(false);
+	public Boolean locked() { return this.locked.get(); }
+	public void locked(boolean locked) { this.locked.set(locked); }
+	
+	// -------------------------------------------------- //
+	// AUTOSAVE
+	// -------------------------------------------------- //
+		
+	private AtomicBoolean autosave = new AtomicBoolean(true);
+	public Boolean autosave() { return this.locked.get(); }
+	public void autosave(boolean autosave) { this.autosave.set(autosave); }
+		
 }

@@ -14,6 +14,18 @@ import net.redstoneore.legacyfactions.util.DiscUtil;
 public class Persist {
 
 	// ------------------------------------------------------------ //
+	// INSTANCE
+	// ------------------------------------------------------------ //
+	
+	private static Persist instance = null;
+	public static Persist get() {
+		if (instance == null) {
+			instance = new Persist();
+		}
+		return instance;
+	}
+	
+	// ------------------------------------------------------------ //
 	// GET NAME
 	// These methods determine a user friendly name for this object.
 	// ------------------------------------------------------------ //
@@ -116,9 +128,9 @@ public class Persist {
 		Factions.get().debug("Saving " + file.toAbsolutePath());
 		assert instance != null;
 		assert file != null;
-		assert Factions.get().gson != null;
+		assert Factions.get().getGson() != null;
 		
-		return DiscUtil.writeCatch(file, Factions.get().gson.toJson(instance), true);
+		return DiscUtil.writeCatch(file, Factions.get().getGson().toJson(instance), true);
 	}
 
 	// ------------------------------------------------------------ //
@@ -140,7 +152,7 @@ public class Persist {
 		}
 
 		try {
-			T instance = Factions.get().gson.fromJson(content, clazz);
+			T instance = Factions.get().getGson().fromJson(content, clazz);
 			return instance;
 		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
 			Factions.get().warn(ex.getMessage());
@@ -166,7 +178,7 @@ public class Persist {
 		}
 
 		try {
-			return (T) Factions.get().gson.fromJson(content, typeOfT);
+			return (T) Factions.get().getGson().fromJson(content, typeOfT);
 		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
 			Factions.get().warn(ex.getMessage());
 		}

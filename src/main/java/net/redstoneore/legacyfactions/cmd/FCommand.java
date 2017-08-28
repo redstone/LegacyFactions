@@ -12,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
@@ -101,26 +102,26 @@ public abstract class FCommand extends MCommand<Factions> {
 		if (!(sender instanceof Player)) return false;
 
 		if (!fme.hasFaction()) {
-			sender.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMEMBER.toString()));
+			sender.sendMessage(TextUtil.get().parse(Lang.COMMAND_ERRORS_NOTMEMBER.toString()));
 			return false;
 		}
 
 		if (this.senderMustBeModerator && !fme.getRole().isAtLeast(Role.MODERATOR)) {
-			String message = Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYMODERATORSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
+			String message = TextUtil.get().parse(Lang.COMMAND_ERRORS_ONLYMODERATORSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
 
 			sender.sendMessage(message);
 			return false;
 		}
 
 		if (this.senderMustBeColeader && !fme.getRole().isAtLeast(Role.COLEADER)) {
-			String message = Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYCOLEADERSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
+			String message = TextUtil.get().parse(Lang.COMMAND_ERRORS_ONLYCOLEADERSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
 
 			sender.sendMessage(message);
 			return false;
 		}
 
 		if (this.senderMustBeAdmin && !fme.getRole().isAtLeast(Role.ADMIN)) {
-			String message = Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYADMINSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
+			String message = TextUtil.get().parse(Lang.COMMAND_ERRORS_ONLYADMINSCAN.toString().replaceAll("<theaction>", this.getHelpShort()));
 
 			sender.sendMessage(message);
 			return false;

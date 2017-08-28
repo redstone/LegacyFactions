@@ -2,16 +2,68 @@ package net.redstoneore.legacyfactions.util;
 
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.persist.Persist;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextUtil {
 
+	// -------------------------------------------------- //
+	// STATIC FIELDS
+	// -------------------------------------------------- //
+	
+	public static Map<String, String> RAW_TAGS = MiscUtil.newMap(
+		"l", "<green>",
+		"a", "<gold>",
+		"b", "<silver>",
+		"i", "<yellow>",
+		"g", "<lime>",
+		"b", "<rose>",
+		"h", "<pink>",
+		"c", "<aqua>",
+		"p", "<teal>"
+	);
+	
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static TextUtil instance = null;
+	public static TextUtil get() {
+		if (instance == null) {
+			TextUtil textUtil = new TextUtil();
+
+			Type type = new TypeToken<Map<String, String>>() { }.getType();
+			
+			Map<String, String> tagsFromFile = null;
+			try { 
+				tagsFromFile = Persist.get().load(type, "tags");
+			} catch (Exception e) {
+				// Fail silently
+			}
+			
+			if (tagsFromFile != null) {
+				RAW_TAGS.putAll(tagsFromFile);
+			}
+			Persist.get().save(RAW_TAGS, "tags");
+			
+			RAW_TAGS.entrySet().forEach(rawTag -> {
+				textUtil.tags.put(rawTag.getKey(), TextUtil.parseColor(rawTag.getValue()));
+			});
+			
+			instance = textUtil;
+		}
+		return instance;
+	}
+	
     public Map<String, String> tags;
 
     public TextUtil() {

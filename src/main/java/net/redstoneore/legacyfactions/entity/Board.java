@@ -12,7 +12,11 @@ import net.redstoneore.legacyfactions.locality.Locality;
 
 public abstract class Board {
 	
-	protected static Board i = getImpl();
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- // 
+	
+	protected static Board instance = getImpl();
 	private static Board getImpl() {
 		switch (Conf.backEnd) {
 			case JSON:
@@ -20,11 +24,11 @@ public abstract class Board {
 		}
 		return null;
 	}
-	public static Board get() { return i; }
+	public static Board get() { return instance; }
 	
-	//----------------------------------------------//
-	// Get and Set
-	//----------------------------------------------//
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- // 
 	
 	public abstract String getIdAt(Locality locality);
 	public abstract String getIdAt(FLocation flocation);
@@ -32,7 +36,6 @@ public abstract class Board {
 	public abstract Faction getFactionAt(Locality locality);
 	public abstract Faction getFactionAt(FLocation flocation);
 	
-
 	public abstract void setIdAt(String id, Locality locality);
 	public abstract void setIdAt(String id, FLocation flocation);
 

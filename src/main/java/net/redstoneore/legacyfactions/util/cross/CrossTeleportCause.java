@@ -70,9 +70,9 @@ public enum CrossTeleportCause implements Cross<CrossTeleportCause> {
 	// -------------------------------------------------- // 
 	
 	/**
-	 * Attempt to get a CrossMaterial by their name
-	 * @param materialName name of material
-	 * @return {@link Optional}
+	 * Attempt to get a CrossTeleportCause by their name
+	 * @param teleportCauseName Name of cause
+	 * @return {@link Optional} of {@link CrossTeleportCause}
 	 */
 	public static Optional<CrossTeleportCause> get(String teleportCauseName) {
 		for (CrossTeleportCause teleportCause : values()) {

@@ -146,7 +146,7 @@ public enum Relation {
 	}
 
 	/**
-	 * Returns true if they are at least a relation. Order of enemy -> member
+	 * Returns true if they are at least a relation. Order of enemy to member
 	 * @return true if is at least
 	 */
 	public boolean isAtLeast(Relation relation) {
@@ -154,7 +154,7 @@ public enum Relation {
 	}
 
 	/**
-	 * Returns true if they are at most a relation. Order of enemy -> member
+	 * Returns true if they are at most a relation. Order of enemy to member
 	 * @return true if is at most
 	 */
 	public boolean isAtMost(Relation relation) {

@@ -4,7 +4,7 @@ public abstract interface Cross<T> {
 	
 	/**
 	 * Does this cross object match another cross item
-	 * @param whatobject to compare to
+	 * @param what Object to compare to
 	 * @return true if objects match
 	 */
 	public abstract boolean is(T what);

@@ -28,6 +28,7 @@ import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FInfoSidebar;
 import net.redstoneore.legacyfactions.util.RelationUtil;
+import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.TitleUtil;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
@@ -41,15 +42,15 @@ import java.util.UUID;
  * Logged in players always have exactly one FPlayer instance. Logged out players may or may not have an FPlayer
  * instance. They will always have one if they are part of a faction. This is because only players with a faction are
  * saved to disk (in order to not waste disk space).
- * <p/>
+ * <br><br>
  * The FPlayer is linked to a bukkit player using the player name.
- * <p/>
+ * <br><br>
  * The same instance is always returned for the same player. This means you can use the == operator. No .equals method
- * necessary.<br>
- * <br>
+ * necessary.
+ * <br><br>
  * MemoryFPlayer should be used carefully by developers. You should be able to do what you want
- * with the available methods in FPlayer. If something is missing, open an issue on GitHub.<br>
- * <br>
+ * with the available methods in FPlayer. If something is missing, open an issue on GitHub.
+ * <br><br>
  * Do not store references to any fields. Always use the methods available.  
  */
 public abstract class MemoryFPlayer implements FPlayer {
@@ -193,7 +194,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 	@Override
 	public boolean canAdminister(FPlayer who) {
 		if (!who.getFaction().equals(this.getFaction())) {
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTSAME.toString().replaceAll("<name>", this.describeTo(who, true))));
+			who.sendMessage(TextUtil.get().parse(Lang.COMMAND_ERRORS_NOTSAME.toString().replaceAll("<name>", this.describeTo(who, true))));
 			return false;
 		}
 
@@ -202,17 +203,17 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 
 		if (this.getRole().equals(Role.ADMIN)) {
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
+			who.sendMessage(TextUtil.get().parse(Lang.COMMAND_ERRORS_ONLYFACTIONADMIN.toString()));
 		} else if (who.getRole().equals(Role.MODERATOR)) {
 			if (who == this) return true;
 			
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
+			who.sendMessage(TextUtil.get().parse(Lang.COMMAND_ERRORS_MODERATORSCANT.toString()));
 		} else if (who.getRole().equals(Role.COLEADER)) {
 			if (who == this) return true;
 
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_COLEADERSCANT.toString()));
+			who.sendMessage(TextUtil.get().parse(Lang.COMMAND_ERRORS_COLEADERSCANT.toString()));
 		} else {
-			who.sendMessage(Factions.get().getTextUtil().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
+			who.sendMessage(TextUtil.get().parse(Lang.COMMAND_ERRORS_NOTMODERATOR.toString()));
 		}
 		
 		return false;
@@ -721,7 +722,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		
 		// Territory change chat message
 		if (showInChat && Conf.territoryChangeText) {
-			this.sendMessage(Factions.get().getTextUtil().parse(Lang.FACTION_LEAVE.format(factionFrom.getTag(this), factionHere.getTag(this))));
+			this.sendMessage(TextUtil.get().parse(Lang.FACTION_LEAVE.format(factionFrom.getTag(this), factionHere.getTag(this))));
 		}
 		
 		// Territory change title message 
@@ -1108,7 +1109,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 	}
 
 	public void sendMessage(String str, Object... args) {
-		this.sendMessage(Factions.get().getTextUtil().parse(str, args));
+		this.sendMessage(TextUtil.get().parse(str, args));
 	}
 
 	public void sendMessage(boolean onlyIfTrue, Lang translation, Object... args) {

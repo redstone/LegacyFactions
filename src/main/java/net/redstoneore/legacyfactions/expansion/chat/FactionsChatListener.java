@@ -148,7 +148,7 @@ public class FactionsChatListener implements Listener {
 	}
 	
 	/**
-	 * Using {@link Conf#chatTagRelationalOverride} is discouraged but sometimes required. It will
+	 * Using {@link FactionsChatConfig#chatTagRelationalOverride} is discouraged but sometimes required. It will
 	 * cancel the event so we can use relational placeholders by sending it ourselves. <br><br>
 	 * This can break compatibility with plugins that listen on MONITOR to send to external chat
 	 * services like Discord, Slack, or IRC.

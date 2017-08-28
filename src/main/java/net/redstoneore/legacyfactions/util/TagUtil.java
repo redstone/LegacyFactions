@@ -2,7 +2,6 @@ package net.redstoneore.legacyfactions.util;
 
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -129,7 +128,7 @@ public class TagUtil {
 
         switch (type) {
             case ALLIES_LIST:
-                FancyMessage currentAllies = Factions.get().getTextUtil().parseFancy(prefix);
+                FancyMessage currentAllies = TextUtil.get().parseFancy(prefix);
                 boolean firstAlly = true;
                 for (Faction otherFaction : FactionColl.get().getAllFactions()) {
                     if (otherFaction == target) {
@@ -149,7 +148,7 @@ public class TagUtil {
                 fancyMessages.add(currentAllies);
                 return firstAlly && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case TRUCES_LIST:
-                FancyMessage currentTruces = Factions.get().getTextUtil().parseFancy(prefix);
+                FancyMessage currentTruces = TextUtil.get().parseFancy(prefix);
                 boolean firstTruce = true;
                 for (Faction otherFaction : FactionColl.get().getAllFactions()) {
                     if (otherFaction == target) {
@@ -169,7 +168,7 @@ public class TagUtil {
                 fancyMessages.add(currentTruces);
                 return firstTruce && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case ENEMIES_LIST:
-                FancyMessage currentEnemies = Factions.get().getTextUtil().parseFancy(prefix);
+                FancyMessage currentEnemies = TextUtil.get().parseFancy(prefix);
                 boolean firstEnemy = true;
                 for (Faction otherFaction : FactionColl.get().getAllFactions()) {
                     if (otherFaction == target) {
@@ -189,7 +188,7 @@ public class TagUtil {
                 fancyMessages.add(currentEnemies);
                 return firstEnemy && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case ONLINE_LIST:
-                FancyMessage currentOnline = Factions.get().getTextUtil().parseFancy(prefix);
+                FancyMessage currentOnline = TextUtil.get().parseFancy(prefix);
                 boolean firstOnline = true;
                 for (FPlayer p : MiscUtil.rankOrder(target.getWhereOnline(true))) {
                     String name = p.getNameAndTitle();
@@ -204,7 +203,7 @@ public class TagUtil {
                 fancyMessages.add(currentOnline);
                 return firstOnline && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case OFFLINE_LIST:
-                FancyMessage currentOffline = Factions.get().getTextUtil().parseFancy(prefix);
+                FancyMessage currentOffline = TextUtil.get().parseFancy(prefix);
                 boolean firstOffline = true;
                 for (FPlayer p : MiscUtil.rankOrder(target.getMembers())) {
                     String name = p.getNameAndTitle();

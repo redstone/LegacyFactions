@@ -7,13 +7,15 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 public class WarmUpUtil {
 
     /**
+     * Process warmup.<br>
+     * Note: for translations: %s = action, %d = delay
      * @param player         The player to notify.
+     * @param warmup         The warmup
      * @param translationKey The translation key used for notifying.
      * @param action         The action, inserted into the notification message.
      * @param runnable       The task to run after the delay. If the delay is 0, the task is instantly ran.
      * @param delay          The time used, in seconds, for the delay.
-     *                       <p/>
-     *                       note: for translations: %s = action, %d = delay
+     *                    
      */
     public static void process(final FPlayer player, Warmup warmup, Lang translationKey, String action, final Runnable runnable, long delay) {
         if (delay > 0) {

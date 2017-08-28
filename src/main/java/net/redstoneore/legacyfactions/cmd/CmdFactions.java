@@ -2,10 +2,10 @@ package net.redstoneore.legacyfactions.cmd;
 
 import java.util.Collections;
 
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 /**
  * Base command for Factions, and child commands if you want them to be used in the factions command.
@@ -35,7 +35,7 @@ public class CmdFactions extends FCommand {
 		this.disableOnLock = false;
 
 		this.setHelpShort("The faction base command");
-		this.helpLong.add(Factions.get().getTextUtil().parseTags("<i>This command contains all faction stuff."));
+		this.helpLong.add(TextUtil.get().parseTags("<i>This command contains all faction stuff."));
 		
 		this.addSubCommand(CmdFactionsAdmin.get());
 		this.addSubCommand(CmdFactionsAutoclaim.get());

@@ -5,13 +5,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +69,7 @@ public class CmdFactionsHelp extends FCommand {
 				return;
 			}
 			
-			page.forEach(line -> this.sendMessage(Factions.get().getTextUtil().parse(line)));
+			page.forEach(line -> this.sendMessage(TextUtil.get().parse(line)));
 				
 			return;
 		}
@@ -79,7 +79,7 @@ public class CmdFactionsHelp extends FCommand {
 			if (helpPages == null) this.updateHelp();
 			
 			int page = this.argAsInt(0, 1);
-			sendMessage(Factions.get().getTextUtil().titleize(Lang.COMMAND_HELP_PAGES_TITLE.getBuilder().replace("<current>", page).replace("<total>", helpPages.size()).toString()));
+			sendMessage(TextUtil.get().titleize(Lang.COMMAND_HELP_PAGES_TITLE.getBuilder().replace("<current>", page).replace("<total>", helpPages.size()).toString()));
 
 			page -= 1;
 
@@ -135,7 +135,7 @@ public class CmdFactionsHelp extends FCommand {
 			return;
 		}
 		
-		String title = Factions.get().getTextUtil().titleize(Lang.COMMAND_HELP_PAGES_TITLE.getBuilder().replace("<current>", page).replace("<total>", maxPages).toString());
+		String title = TextUtil.get().titleize(Lang.COMMAND_HELP_PAGES_TITLE.getBuilder().replace("<current>", page).replace("<total>", maxPages).toString());
 		
 		FancyMessage fm = new FancyMessage(Lang.COMMAND_HELP_PAGES_BTN_LEFT.getBuilder().parse().toString() +" ");
 		
@@ -204,27 +204,27 @@ public class CmdFactionsHelp extends FCommand {
 		pageLines.add(CmdFactionsJoin.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsLeave.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsHome.get().getUseageTemplate(true));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_NEXTCREATE.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_NEXTCREATE.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
 		pageLines.add(CmdFactionsCreate.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsDescription.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsTag.get().getUseageTemplate(true));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_INVITATIONS.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_INVITATIONS.toString()));
 		pageLines.add(CmdFactionsOpen.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsInvite.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsDeinvite.get().getUseageTemplate(true));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_HOME.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_HOME.toString()));
 		pageLines.add(CmdFactionsSethome.get().getUseageTemplate(true));
 		this.helpPages.add(pageLines);
 
 		if (VaultEngine.isSetup() && Conf.econEnabled && Conf.bankEnabled) {
 			pageLines = new ArrayList<>();
 			pageLines.add("");
-			pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_BANK_1.toString()));
-			pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_BANK_2.toString()));
-			pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_BANK_3.toString()));
+			pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_BANK_1.toString()));
+			pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_BANK_2.toString()));
+			pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_BANK_3.toString()));
 			pageLines.add("");
 			pageLines.add(CmdFactionsMoney.get().getUseageTemplate(true));
 			pageLines.add("");
@@ -246,7 +246,7 @@ public class CmdFactionsHelp extends FCommand {
 		pageLines.add(CmdFactionsScoreboard.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsSeeChunk.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsStatus.get().getUseageTemplate(true));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PLAYERTITLES.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PLAYERTITLES.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
@@ -254,9 +254,9 @@ public class CmdFactionsHelp extends FCommand {
 		pageLines.add(CmdFactionsBoom.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsOwner.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsOwnerList.get().getUseageTemplate(true));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_1.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_2.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_OWNERSHIP_3.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_OWNERSHIP_1.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_OWNERSHIP_2.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_OWNERSHIP_3.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
@@ -265,51 +265,51 @@ public class CmdFactionsHelp extends FCommand {
 		pageLines.add(CmdFactionsRelationAlly.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsRelationNeutral.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsRelationEnemy.get().getUseageTemplate(true));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_1.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_2.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_3.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_4.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_1.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_2.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_3.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_4.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_5.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_6.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_7.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_5.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_6.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_7.toString()));
 		pageLines.add(Lang.COMMAND_HELP_RELATIONS_8.toString());
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_9.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_10.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_11.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_12.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_RELATIONS_13.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_9.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_10.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_11.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_12.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_RELATIONS_13.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_1.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_2.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_3.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_1.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_2.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_3.toString()));
 		pageLines.add(Lang.COMMAND_HELP_PERMISSIONS_4.toString());
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_5.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_6.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_7.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_8.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_PERMISSIONS_9.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_5.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_6.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_7.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_8.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_PERMISSIONS_9.toString()));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
 		pageLines.add(Lang.COMMAND_HELP_MOAR_1.toString());
 		pageLines.add(CmdFactionsBypass.get().getUseageTemplate(true));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_ADMIN_1.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_ADMIN_2.toString()));
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_ADMIN_3.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_ADMIN_1.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_ADMIN_2.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_ADMIN_3.toString()));
 		pageLines.add(CmdFactionsSafeunclaimall.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsWarunclaimall.get().getUseageTemplate(true));
 		
-		pageLines.add(Factions.get().getTextUtil().parse("<i>Note: " + CmdFactionsUnclaim.get().getUseageTemplate(false) + Factions.get().getTextUtil().parse("<i>") + " works on safe/war zones as well."));
+		pageLines.add(TextUtil.get().parse("<i>Note: " + CmdFactionsUnclaim.get().getUseageTemplate(false) + TextUtil.get().parse("<i>") + " works on safe/war zones as well."));
 		pageLines.add(CmdFactionsPeaceful.get().getUseageTemplate(true));
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_MOAR_2.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_MOAR_2.toString()));
 		pageLines.add(CmdFactionsPermanent.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsPermanentPower.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsPowerBoost.get().getUseageTemplate(true));
@@ -317,7 +317,7 @@ public class CmdFactionsHelp extends FCommand {
 		this.helpPages.add(pageLines);
 
 		pageLines = new ArrayList<>();
-		pageLines.add(Factions.get().getTextUtil().parse(Lang.COMMAND_HELP_MOAR_3.toString()));
+		pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_MOAR_3.toString()));
 		pageLines.add(CmdFactionsLock.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsReload.get().getUseageTemplate(true));
 		pageLines.add(CmdFactionsSaveAll.get().getUseageTemplate(true));

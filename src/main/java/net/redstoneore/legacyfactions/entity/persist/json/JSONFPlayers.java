@@ -44,26 +44,15 @@ public class JSONFPlayers extends MemoryFPlayers {
 	// -------------------------------------------------- // 
 	
 	public JSONFPlayers() {
-		this.gson = Factions.get().gson;
-	}
 
-	// -------------------------------------------------- //
-	// FIELDS 
-	// -------------------------------------------------- // 
-	
-	// Info on how to persist
-	private Gson gson;
+	}
 
 	// -------------------------------------------------- //
 	// METHODS 
 	// -------------------------------------------------- // 
 	
 	public Gson getGson() {
-		return gson;
-	}
-
-	public void setGson(Gson gson) {
-		this.gson = gson;
+		return Factions.get().getGson();
 	}
 	
 	public void convertFrom(MemoryFPlayers old) {
@@ -93,7 +82,7 @@ public class JSONFPlayers extends MemoryFPlayers {
 	}
 
 	private boolean saveCore(Path target, Map<String, JSONFPlayer> data, boolean sync) {
-		return DiscUtil.writeCatch(target, this.gson.toJson(data), sync);
+		return DiscUtil.writeCatch(target, this.getGson().toJson(data), sync);
 	}
 
 	public void loadColl() {
@@ -116,7 +105,7 @@ public class JSONFPlayers extends MemoryFPlayers {
 		System.out.println(content);
 		
 	    JsonReader jsonReader = new JsonReader((new StringReader(content)));
-	    Map<String, JSONFPlayer> data = this.gson.fromJson(jsonReader, getMapType());
+	    Map<String, JSONFPlayer> data = this.getGson().fromJson(jsonReader, getMapType());
 	    
 		//Map<String, JSONFPlayer> data = this.gson.fromJson(content, getMapType());
 		Set<String> list = new HashSet<String>();

@@ -1,8 +1,8 @@
 package net.redstoneore.legacyfactions.lang;
 
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class LangBuilder {
 
@@ -22,7 +22,7 @@ public class LangBuilder {
 	}
 	
 	public LangBuilder parse() {
-		this.message = Factions.get().getTextUtil().parse(this.message);
+		this.message = TextUtil.get().parse(this.message);
 		return this;
 	}
 	
@@ -32,7 +32,7 @@ public class LangBuilder {
 	}
 	
 	public LangBuilder sendToParsed(FPlayer fplayer) {
-		fplayer.sendMessage(Factions.get().getTextUtil().parse(this.message));
+		fplayer.sendMessage(TextUtil.get().parse(this.message));
 		return this;
 	}
 	
@@ -42,7 +42,7 @@ public class LangBuilder {
 	}
 	
 	public LangBuilder sendToParsed(Faction faction) {
-		faction.sendMessage(Factions.get().getTextUtil().parse(this.message));
+		faction.sendMessage(TextUtil.get().parse(this.message));
 		return this;
 	}
 	

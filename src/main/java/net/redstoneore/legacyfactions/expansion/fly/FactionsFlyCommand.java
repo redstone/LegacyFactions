@@ -14,6 +14,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class FactionsFlyCommand implements Listener {
 
@@ -52,13 +53,13 @@ public class FactionsFlyCommand implements Listener {
 		if (!player.getAllowFlight()) {
 			// If they aren't already flying, get them flying
 			if (!FactionsFly.canFlyHere(fplayer, FLocation.valueOf(player.getLocation()), true)) {
-				fplayer.sendMessage(Factions.get().getTextUtil().parse(Lang.EXPANSION_FACTIONSFLY_NOT_HERE.toString()));
+				fplayer.sendMessage(TextUtil.get().parse(Lang.EXPANSION_FACTIONSFLY_NOT_HERE.toString()));
 			} else {
 				// TODO: add a check for relations in radius
 				player.setAllowFlight(true);
 				player.setFlying(true);
 				
-				fplayer.sendMessage(Factions.get().getTextUtil().parse(Lang.EXPANSION_FACTIONSFLY_ENABLED.toString()));
+				fplayer.sendMessage(TextUtil.get().parse(Lang.EXPANSION_FACTIONSFLY_ENABLED.toString()));
 			}
 		} else {
 			// Just cancel

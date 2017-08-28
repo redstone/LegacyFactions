@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.cli.doc.DocDescription;
 import net.redstoneore.legacyfactions.cli.doc.DocSection;
+import net.redstoneore.legacyfactions.entity.persist.Persist;
 import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
 import net.redstoneore.legacyfactions.expansion.fly.FactionsFlyConfig;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapStyle;
@@ -1243,11 +1243,11 @@ public class Conf {
 	private static transient Conf i = new Conf();
 
 	public static void load() {
-		Factions.get().getPersist().loadOrSaveDefault(i, Conf.class, "conf");
+		Persist.get().loadOrSaveDefault(i, Conf.class, "conf");
 	}
 
 	public static void save() {
-		Factions.get().getPersist().save(i);
+		Persist.get().save(i);
 	}
 
 	public enum Backend {

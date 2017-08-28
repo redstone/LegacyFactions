@@ -1,6 +1,5 @@
 package net.redstoneore.legacyfactions;
 
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -8,7 +7,6 @@ import net.redstoneore.legacyfactions.cmd.MCommand;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 import net.redstoneore.legacyfactions.mixin.DebugMixin;
-import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.PermUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
@@ -16,8 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.google.gson.reflect.TypeToken;
 
 public abstract class FactionsPluginBase extends JavaPlugin {
 	
@@ -36,21 +32,13 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 	
 	protected long timeEnableStart;
 	
-	private Persist utilPersist = null;
-	private TextUtil utilText = null;
 	private PermUtil utilPerm = null;
 	
-	public Map<String, String> rawTags = MiscUtil.newMap(
-			"l", "<green>",
-			"a", "<gold>",
-			"b", "<silver>",
-			"i", "<yellow>",
-			"g", "<lime>",
-			"b", "<rose>",
-			"h", "<pink>",
-			"c", "<aqua>",
-			"p", "<teal>"
-		);
+	/**
+	 * Use {@link TextUtil#RAW_TAGS}
+	 */
+	@Deprecated
+	public Map<String, String> rawTags = TextUtil.RAW_TAGS;
 	
 	// -------------------------------------------------- //
 	// ENABLE
@@ -87,32 +75,12 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 	// LANG AND TAGS
 	// -------------------------------------------------- //
 	
+	/**
+	 * Use TextUtil.get()
+	 */
+	@Deprecated
 	public TextUtil getTextUtil() {
-		if (this.utilText == null) {
-			// Init this now
-			TextUtil txt = new TextUtil();
-
-			Type type = new TypeToken<Map<String, String>>() { }.getType();
-			
-			Map<String, String> tagsFromFile = null;
-			try { 
-				tagsFromFile = this.getPersist().load(type, "tags");
-			} catch (Exception e) {
-				// Fail silently
-			}
-			
-			if (tagsFromFile != null) {
-				this.rawTags.putAll(tagsFromFile);
-			}
-			this.getPersist().save(this.rawTags, "tags");
-			
-			this.rawTags.entrySet().forEach(rawTag -> {
-				txt.tags.put(rawTag.getKey(), TextUtil.parseColor(rawTag.getValue()));
-			});
-			
-			this.utilText = txt;
-		}
-		return this.utilText;
+		return TextUtil.get();
 	}
 	
 	public PermUtil getPermUtil() {
@@ -122,11 +90,12 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 		return this.utilPerm;
 	}
 	
+	/**
+	 * Use Persist.get()
+	 */
+	@Deprecated
 	public Persist getPersist() {
-		if (this.utilPersist == null) {
-			this.utilPersist = new Persist();
-		}
-		return this.utilPersist;
+		return Persist.get();
 	}
 	// -------------------------------------------------- //
 	// COMMAND HANDLING

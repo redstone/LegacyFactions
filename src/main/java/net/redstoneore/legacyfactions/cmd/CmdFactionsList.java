@@ -2,7 +2,6 @@ package net.redstoneore.legacyfactions.cmd;
 
 import java.util.*;
 
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
@@ -10,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.util.TagUtil;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsList extends FCommand {
 
@@ -108,15 +108,15 @@ public class CmdFactionsList extends FCommand {
 				.replace("{pagenumber}", String.valueOf(pagenumber))
 				.replace("{pagecount}", String.valueOf(pagecount));
 		
-		this.sendMessage(Factions.get().getTextUtil().parse(header));
+		this.sendMessage(TextUtil.get().parse(header));
 
 		factionList.subList(start, end).forEach(faction -> {
 			if (faction.isWilderness()) {
-				this.sendMessage(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, Conf.listFactionless)));
+				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, Conf.listFactionless)));
 				return;
 			}
 			
-			this.sendMessage(Factions.get().getTextUtil().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
+			this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
 		});
 	}
 

@@ -212,7 +212,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	public String getUseageTemplate(List<MCommand<?>> commandChain, boolean addShortHelp, boolean colours) {
 		StringBuilder ret = new StringBuilder();
 		
-		if (colours) ret.append(Factions.get().getTextUtil().parseTags("<c>"));
+		if (colours) ret.append(TextUtil.get().parseTags("<c>"));
 		
 		
 		ret.append('/');
@@ -242,7 +242,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
 		if (args.size() > 0) {
 			if (colours) {
-				ret.append(Factions.get().getTextUtil().parseTags("<p> "));
+				ret.append(TextUtil.get().parseTags("<p> "));
 			} else {
 				ret.append(" ");
 			}
@@ -251,7 +251,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
 		if (addShortHelp) {
 			if (colours)  {
-				ret.append(Factions.get().getTextUtil().parseTags(" <i>"));
+				ret.append(TextUtil.get().parseTags(" <i>"));
 			} else {
 				ret.append(" ");
 			}
@@ -278,15 +278,15 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	// -------------------------------------------- //
 
 	public void sendMessage(String str, Object... args) {
-		this.sender.sendMessage(Factions.get().getTextUtil().parse(str, args));
+		this.sender.sendMessage(TextUtil.get().parse(str, args));
 	}
 
 	public void sendMessage(Lang translation, Object... args) {
-		this.sender.sendMessage(Factions.get().getTextUtil().parse(translation.toString(), args));
+		this.sender.sendMessage(TextUtil.get().parse(translation.toString(), args));
 	}
 
 	public void sendMessage(String msg) {
-		this.sender.sendMessage(Factions.get().getTextUtil().parse(msg));
+		this.sender.sendMessage(TextUtil.get().parse(msg));
 	}
 
 	public void sendMessage(List<String> messages) {
