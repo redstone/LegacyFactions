@@ -55,7 +55,7 @@ public class Locality implements Serializable {
 	public static Locality of(Chunk chunk) {
 		return new Locality(chunk);
 	}
-	
+		
 	public static Locality of(World world, int chunkX, int chunkZ) {
 		return of(world.getChunkAt(chunkX, chunkZ));
 	}
@@ -112,7 +112,7 @@ public class Locality implements Serializable {
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
-	
+		
 	protected Locality(Location location) {
 		this.localityType = Type.Location;
 		
@@ -126,6 +126,9 @@ public class Locality implements Serializable {
 		this.blockY = location.getBlockY();
 		this.blockZ = location.getBlockZ();
 		
+		this.yaw = location.getYaw();
+		this.pitch = location.getPitch();
+		
 		this.chunkX = location.getChunk().getX();
 		this.chunkZ = location.getChunk().getZ();
 	}
@@ -135,9 +138,12 @@ public class Locality implements Serializable {
 		
 		this.world = block.getWorld().getUID();
 		
-		this.locationX = block.getX();
-		this.locationY = block.getY();
-		this.locationZ = block.getZ();
+		this.locationX = block.getLocation().getX();
+		this.locationY = block.getLocation().getY();
+		this.locationZ = block.getLocation().getZ();
+		
+		this.yaw = block.getLocation().getYaw();
+		this.pitch = block.getLocation().getPitch();
 		
 		this.blockX = block.getX();
 		this.blockY = block.getY();
@@ -156,10 +162,23 @@ public class Locality implements Serializable {
 		this.chunkZ = chunk.getZ();
 	}
 	
+	// -------------------------------------------------- //
+	// LAZY CONSTRUCTORS
+	// -------------------------------------------------- //
+	
+	protected Locality(UUID world, int chunkX, int chunkZ) {
+		this.localityType = Type.Chunk;
+		
+		this.world = world;
+		
+		this.chunkX = chunkX;
+		this.chunkZ = chunkZ;
+	}
+	
 	/**
 	 * only used when fields are being set manually from static {@link Locality Locality#of} methods
 	 */
-	private Locality() { }
+	protected Locality() { }
 
 	// -------------------------------------------------- //
 	// FIELDS

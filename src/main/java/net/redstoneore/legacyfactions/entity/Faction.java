@@ -11,6 +11,7 @@ import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 
 import java.util.*;
@@ -242,8 +243,8 @@ public interface Faction extends EconomyParticipator {
 
 	void clearAllClaimOwnership();
 
+	void clearClaimOwnership(Locality locality);
 	void clearClaimOwnership(FLocation loc);
-
 	void clearClaimOwnership(FPlayer player);
 
 	int getCountOfClaimsWithOwners();

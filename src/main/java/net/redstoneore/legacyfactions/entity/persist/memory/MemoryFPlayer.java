@@ -16,7 +16,6 @@ import net.redstoneore.legacyfactions.entity.VaultAccount;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
-import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import net.redstoneore.legacyfactions.event.EventFactionsRoleChanged;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
@@ -32,10 +31,8 @@ import net.redstoneore.legacyfactions.util.RelationUtil;
 import net.redstoneore.legacyfactions.util.TitleUtil;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -853,19 +850,22 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 	}
 
+	@Override
 	public boolean canClaimForFaction(Faction forFaction) {
 		return !forFaction.isWilderness() && (this.isAdminBypassing() || (forFaction == this.getFaction() && this.getRole().isAtLeast(Role.MODERATOR)) || (forFaction.isSafeZone() && Permission.MANAGE_SAFE_ZONE.has(getPlayer())) || (forFaction.isWarZone() && Permission.MANAGE_WAR_ZONE.has(getPlayer())));
 	}
 
+	@Override
 	public boolean canClaimForFactionAtLocation(Faction forFaction, Location location, boolean notifyFailure) {
 		FLocation flocation = new FLocation(location);
 		
 		return canClaimForFactionAtLocation(forFaction, flocation, notifyFailure);
 	}
 	
-	public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation flocation, boolean notifyFailure) {
+	@Override
+	public boolean canClaimForFactionAtLocation(Faction forFaction, Locality locality, boolean notifyFailure) {
 		Faction myFaction = this.getFaction();
-		Faction currentFaction = Board.get().getFactionAt(flocation);
+		Faction currentFaction = Board.get().getFactionAt(locality);
 		int ownedLand = forFaction.getLandRounded();
 		
 		// Admin Bypass needs no further checks
@@ -878,13 +878,13 @@ public abstract class MemoryFPlayer implements FPlayer {
 		if (forFaction.isWarZone() && Permission.MANAGE_WAR_ZONE.has(getPlayer())) return true;
 
 		// Checks for WorldGuard regions in the chunk attempting to be claimed
-		if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(flocation)) {
+		if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(locality.getChunk())) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_PROTECTED);
 			return false;
 		}
 		
 		// Check if this is a no-claim world
-		if (Conf.worldsNoClaiming.contains(flocation.getWorldName())) {
+		if (Conf.worldsNoClaiming.contains(locality.getWorld().getName())) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_DISABLED);
 			return false;
 		} 
@@ -944,7 +944,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		} 
 
 		// Check if must be connected
-		if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(flocation.getWorld()) > 0 && !Board.get().isConnectedLocation(flocation, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
+		if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(locality.getWorld()) > 0 && !Board.get().isConnectedLocation(locality, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
 			if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
 				this.sendMessage(notifyFailure, Lang.CLAIM_CONTIGIOUS);
 			} else {
@@ -954,13 +954,13 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 		
 		// Check for buffer
-		if (Conf.bufferFactions > 0 && Board.get().hasFactionWithin(flocation, myFaction, Conf.bufferFactions)) {
+		if (Conf.bufferFactions > 0 && Board.get().hasFactionWithin(locality, myFaction, Conf.bufferFactions)) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(Conf.bufferFactions));
 			return false;
 		}
 		
 		// Border check
-		if (Conf.claimsCanBeOutsideBorder == false && flocation.isOutsideWorldBorder(Conf.bufferWorldBorder)) {
+		if (Conf.claimsCanBeOutsideBorder == false && locality.isOutsideWorldBorder(Conf.bufferWorldBorder)) {
 			if (Conf.bufferWorldBorder > 0) {
 				this.sendMessage(notifyFailure, Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Conf.bufferWorldBorder));
 			} else {
@@ -1000,7 +1000,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 				return false;
 			}
 			
-			if (!Board.get().isBorderLocation(flocation)) {
+			if (!Board.get().isBorderLocation(locality)) {
 				this.sendMessage(notifyFailure, Lang.CLAIM_BORDER);
 				return false;
 			}
@@ -1010,18 +1010,38 @@ public abstract class MemoryFPlayer implements FPlayer {
 		return true;
 	}
 	
-	public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
-		FLocation flocation = new FLocation(location);
-		
-		return this.attemptClaim(forFaction, flocation, notifyFailure, eventLandChange);
+	@Override
+	public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation flocation, boolean notifyFailure) {
+		return this.canClaimForFactionAtLocation(forFaction, Locality.of(flocation.getChunk()), notifyFailure);
 	}
 	
+	@Override
+	public boolean attemptClaim(Faction forFaction, Locality locality, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
+		return this.attemptClaim(forFaction, locality, notifyFailure, notifyFailure);
+	}
+	
+	@Override
+	public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
+		return this.attemptClaim(forFaction, location, notifyFailure, notifyFailure);
+	}
+		
+	@Override
+	public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, boolean notifySuccess) {		
+		return this.attemptClaim(forFaction, Locality.of(location), notifyFailure, notifySuccess);
+	}
+	
+	@Override
 	public boolean attemptClaim(Faction forFaction, FLocation flocation, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
-		Faction currentFaction = Board.get().getFactionAt(flocation);
+		return this.attemptClaim(forFaction, Locality.of(flocation.getChunk()), notifyFailure, notifyFailure);
+	}
+	
+	@Override
+	public boolean attemptClaim(Faction forFaction, Locality locality, boolean notifyFailure, boolean notifySuccess) {
+		Faction currentFaction = Board.get().getFactionAt(locality);
 		
 		int ownedLand = forFaction.getLandRounded();
 
-		if (!this.canClaimForFactionAtLocation(forFaction, flocation, notifyFailure)) {
+		if (!this.canClaimForFactionAtLocation(forFaction, locality, notifyFailure)) {
 			return false;
 		}
 
@@ -1032,7 +1052,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		if (mustPay) {
 			cost = VaultEngine.getUtils().calculateClaimCost(ownedLand, currentFaction.isNormal());
 
-			if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(flocation.getWorld()) > 0 && !Board.get().isConnectedLocation(flocation, forFaction)) {
+			if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(locality.getWorld()) > 0 && !Board.get().isConnectedLocation(locality, forFaction)) {
 				cost += Conf.econClaimUnconnectedFee;
 			}
 
@@ -1047,20 +1067,6 @@ public abstract class MemoryFPlayer implements FPlayer {
 			}
 		}
 		
-		Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
-		transactions.put(flocation, forFaction);
-		
-		EventFactionsLandChange event = new EventFactionsLandChange(this, transactions, LandChangeCause.Claim);
-		
-		Bukkit.getServer().getPluginManager().callEvent(event);
-		if (event.isCancelled()) {
-			return false;
-		}
-		
-		
-		// in case it was updated in the event 
-		//flocation = event.getLocation();
-
 		// then make 'em pay (if applicable)
 		if (mustPay && !VaultEngine.getUtils().modifyMoney(payee, -cost, Lang.CLAIM_TOCLAIM.toString(), Lang.CLAIM_FORCLAIM.toString())) {
 			return false;
@@ -1073,17 +1079,18 @@ public abstract class MemoryFPlayer implements FPlayer {
 		}
 
 		// announce success
-		Set<FPlayer> informTheseFPlayers = new HashSet<FPlayer>();
-		informTheseFPlayers.add(this);
-		informTheseFPlayers.addAll(forFaction.getWhereOnline(true));
-		for (FPlayer fp : informTheseFPlayers) {
-			fp.sendMessage(Lang.CLAIM_CLAIMED, this.describeTo(fp, true), forFaction.describeTo(fp), currentFaction.describeTo(fp));
+		if (notifySuccess) {
+			Set<FPlayer> informTheseFPlayers = new HashSet<FPlayer>();
+			informTheseFPlayers.add(this);
+			informTheseFPlayers.addAll(forFaction.getWhereOnline(true));
+			
+			informTheseFPlayers.forEach(fplayer -> fplayer.sendMessage(Lang.CLAIM_CLAIMED, this.describeTo(fplayer, true), forFaction.describeTo(fplayer), currentFaction.describeTo(fplayer)));
 		}
-
-		Board.get().setFactionAt(forFaction, flocation);
+		
+		Board.get().setFactionAt(forFaction, locality);
 
 		if (Conf.logLandClaims) {
-			Factions.get().log(Lang.CLAIM_CLAIMEDLOG.toString(), this.getName(), flocation.getCoordString(), forFaction.getTag());
+			Factions.get().log(Lang.CLAIM_CLAIMEDLOG.toString(), this.getName(), locality.getCoordString(), forFaction.getTag());
 		}
 
 		return true;

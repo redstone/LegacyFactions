@@ -1,7 +1,10 @@
 package net.redstoneore.legacyfactions.cmd;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 
@@ -9,11 +12,14 @@ import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
-import net.redstoneore.legacyfactions.task.SpiralTask;
+import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.task.NewSpiralTask;
 
 public class CmdFactionsUnclaim extends FCommand {
 
@@ -57,141 +63,168 @@ public class CmdFactionsUnclaim extends FCommand {
 			return;
 		}
 
+		
+		Map<Locality, Faction> transactions = new HashMap<>();
+		final FPlayer fplayer = this.fme;
+
 		if (radius < 2) {
-			// single chunk
-			unClaim(new FLocation(me));
+			transactions.put(fplayer.getLastLocation(), FactionColl.get().getWilderness());
 		} else {
 			// radius claim
 			if (!Permission.CLAIM_RADIUS.has(sender, false)) {
 				sendMessage(Lang.COMMAND_CLAIM_DENIED);
 				return;
 			}
-
-			new SpiralTask(new FLocation(me), radius) {
-				private int failCount = 0;
-				private final int limit = Conf.radiusClaimFailureLimit - 1;
-
-				@Override
-				public boolean work() {
-					boolean success = unClaim(this.currentFLocation());
-					if (success) {
-						failCount = 0;
-					} else if (failCount++ >= limit) {
-						this.stop();
-						return false;
-					}
-
-					return true;
-				}
-			};
+			
+			// Okay, use NewSpiralTask to grab the chunks in async. 
+			NewSpiralTask.of(this.fme.getLastLocation(), radius).then((localities, e) -> {	
+				localities.forEach(locality -> 
+					transactions.put(locality, FactionColl.get().getWilderness())
+				);
+				
+				resume(fplayer, transactions, radius);
+			});
+			return;
 		}
+		
+		resume(fplayer, transactions, 1);
+
 	}
-
-	private boolean unClaim(FLocation target) {
+	
+	protected static void resume(FPlayer fplayer, Map<Locality, Faction> transactions, int radius) {
+		Locality target = fplayer.getLastLocation();
 		Faction targetFaction = Board.get().getFactionAt(target);
+		
 		if (targetFaction.isSafeZone()) {
-			if (Permission.MANAGE_SAFE_ZONE.has(sender)) {
+			if (Permission.MANAGE_SAFE_ZONE.has(fplayer.getPlayer())) {
 				Board.get().removeAt(target);
-				sendMessage(Lang.COMMAND_UNCLAIM_SAFEZONE_SUCCESS);
-
+				
+				Lang.COMMAND_UNCLAIM_SAFEZONE_SUCCESS.getBuilder().parse().sendTo(fplayer);
+				
 				if (Conf.logLandUnclaims) {
-					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fme.getName(), target.getCoordString(), targetFaction.getTag()));
+					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), target.getCoordString(), targetFaction.getTag()));
 				}
-				return true;
+				return;
 			} else {
-				sendMessage(Lang.COMMAND_UNCLAIM_SAFEZONE_NOPERM);
-				return false;
+				fplayer.sendMessage(Lang.COMMAND_UNCLAIM_SAFEZONE_NOPERM);
+				return;
 			}
 		} else if (targetFaction.isWarZone()) {
-			if (Permission.MANAGE_WAR_ZONE.has(sender)) {
+			if (Permission.MANAGE_WAR_ZONE.has(fplayer.getPlayer())) {
 				Board.get().removeAt(target);
-				sendMessage(Lang.COMMAND_UNCLAIM_WARZONE_SUCCESS);
-
+				Lang.COMMAND_UNCLAIM_WARZONE_SUCCESS.getBuilder().parse().sendTo(fplayer);
 				if (Conf.logLandUnclaims) {
-					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fme.getName(), target.getCoordString(), targetFaction.getTag()));
+					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), target.getCoordString(), targetFaction.getTag()));
 				}
-				return true;
+				return;
 			} else {
-				sendMessage(Lang.COMMAND_UNCLAIM_WARZONE_NOPERM);
-				return false;
+				Lang.COMMAND_UNCLAIM_WARZONE_NOPERM.getBuilder().parse().sendTo(fplayer);
+				return;
 			}
 		}
-
-		if (fme.isAdminBypassing()) {
-			Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+		
+		if (fplayer.isAdminBypassing()) {
+			EventFactionsLandChange event = new EventFactionsLandChange(fplayer, transactions, LandChangeCause.Unclaim);
+			Bukkit.getServer().getPluginManager().callEvent(event);
+			if (event.isCancelled()) return;
 			
-			transactions.put(target, targetFaction);
-
-			EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Unclaim);
+			event.transactions((locality, faction) -> Board.get().removeAt(locality));
 			
-			if (event.isCancelled()) return false;
-			
-			for (FLocation location : event.getTransactions().keySet()) {
-				Board.get().removeAt(location);
-			}
-			
-			targetFaction.sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMED, fme.describeTo(targetFaction, true));
-			sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMS);
+			targetFaction.sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMED, fplayer.describeTo(targetFaction, true));
+			fplayer.sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMS);
 
 			if (Conf.logLandUnclaims) {
-				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fme.getName(), target.getCoordString(), targetFaction.getTag()));
+				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), target.getCoordString(), targetFaction.getTag()));
 			}
 
-			return true;
+			return;
 		}
 
-		if (!assertHasFaction()) {
-			return false;
+		if (!fplayer.hasFaction()) {
+			Lang.COMMAND_ERRORS_NOTMEMBER.getBuilder().parse().sendTo(fplayer);
+			return;
 		}
 
-		if (!assertMinRole(Role.MODERATOR)) {
-			return false;
-		}
-
-
-		if (myFaction != targetFaction) {
-			sendMessage(Lang.COMMAND_UNCLAIM_WRONGFACTION);
-			return false;
+		if (fplayer.getRole().isLessThan(Role.MODERATOR)) {
+			Lang.COMMAND_ERRORS_YOUMUSTBE.getBuilder()
+					.parse()
+					.replace("<therole>", Role.MODERATOR.toNiceName())
+					.replace("<theaction>", "unclaim").sendTo(fplayer);
+			return;
 		}
 		
-		Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
-
-		transactions.put(FLocation.valueOf(me.getLocation()), targetFaction);
+		if (fplayer.getFaction() != targetFaction) {
+			Lang.COMMAND_UNCLAIM_WRONGFACTION.getBuilder().parse().sendTo(fplayer);
+			return;
+		}
 		
-		EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Unclaim);
+		EventFactionsLandChange event = new EventFactionsLandChange(fplayer, transactions, LandChangeCause.Unclaim);
 		Bukkit.getServer().getPluginManager().callEvent(event);
-		if (event.isCancelled()) return false;
+		if (event.isCancelled()) return;
 
 		if (VaultEngine.getUtils().shouldBeUsed()) {
-			double refund = VaultEngine.getUtils().calculateClaimRefund(myFaction.getLandRounded());
+			double refund = VaultEngine.getUtils().calculateClaimRefund(fplayer.getFaction().getLandRounded());
 
 			if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
-				if (!VaultEngine.getUtils().modifyMoney(myFaction, refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
-					return false;
+				if (!VaultEngine.getUtils().modifyMoney(fplayer.getFaction(), refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
+					return;
 				}
 			} else {
-				if (!VaultEngine.getUtils().modifyMoney(fme, refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
-					return false;
+				if (!VaultEngine.getUtils().modifyMoney(fplayer, refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
+					return;
 				}
 			}
 		}
-
-		event.getTransactions().entrySet().stream().forEach(entry -> {
-			FLocation thisLocation = entry.getKey();
-			Faction thisFaction = entry.getValue();
+				
+		if (event.transactions().size() < 2) {
+			if (event.transactions().isEmpty()) {
+				// Other plugin modified this and removed all transactions
+				return;
+			}
+			
+			Entry<Locality, Faction> entry = event.transactions().entrySet().stream().findFirst().get();
 			
 			Board.get().removeAt(entry.getKey());
-			thisFaction.sendMessage(Lang.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fme.describeTo(myFaction, true));
 			
-
-			if (!Conf.logLandUnclaims) return;
-			Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fme.getName(), thisLocation.getCoordString(), thisFaction.getTag()));
+			entry.getValue().sendMessage(Lang.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fplayer.describeTo(entry.getValue(), true));
 			
-		});
+			if (Conf.logLandUnclaims) {
+				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), entry.getKey().getCoordString(), entry.getValue().getTag()));
+			}
+			
+			return;
+		}
+		// TODO: add option to click on the 
+		List<String> locations = new ArrayList<>();
 		
-		return true;
+		event.transactions((locality, faction) -> {
+			locations.add(locality.getChunkX() + "," + locality.getChunkZ());
+			
+			Board.get().removeAt(locality);
+			
+			if (Conf.logLandUnclaims) {
+				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), locality.getCoordString(), faction.getTag()));
+			}
+		});
+				
+		if (fplayer.getFaction() != targetFaction) {
+			Lang.COMMAND_UNCLAIM_FACTIONUNCLAIMEDAMOUNT.getBuilder()
+				.parse()
+				.replace("<amount>", locations.size())
+				.replace("<radius>", radius)
+				.replace("<chunk>", fplayer.getLastLocation().getCoordString())
+				.sendTo(targetFaction)
+				.sendTo(fplayer);
+		} else {
+			Lang.COMMAND_UNCLAIM_FACTIONUNCLAIMEDAMOUNT.getBuilder()
+			.parse()
+			.replace("<amount>", locations.size())
+			.replace("<radius>", radius)
+			.replace("<chunk>", fplayer.getLastLocation().getCoordString())
+			.sendTo(targetFaction);
+		}		
 	}
-
+	
 	@Override
 	public String getUsageTranslation() {
 		return Lang.COMMAND_UNCLAIM_DESCRIPTION.toString();

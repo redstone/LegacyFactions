@@ -137,6 +137,7 @@ public enum Lang {
 	COMMAND_CLAIM_INVALIDRADIUS("<b>If you specify a radius, it must be at least 1."),
 	COMMAND_CLAIM_DENIED("<b>You do not have permission to claim in a radius."),
 	COMMAND_CLAIM_DESCRIPTION("Claim land from where you are standing"),
+	COMMAND_CLAIM_RADIUSAMOUNT("<player><i> claimed <teal><amount> <i>chunks in a radius of <teal><radius><i> from <teal><chunk>"),
 
 	COMMAND_CLAIMLINE_INVALIDRADIUS("<b>If you specify a distance, it must be at least 1."),
 	COMMAND_CLAIMLINE_DENIED("<b>You do not have permission to claim in a line."),
@@ -589,6 +590,7 @@ public enum Lang {
 	COMMAND_UNCLAIM_TOUNCLAIM("to unclaim this land"),
 	COMMAND_UNCLAIM_FORUNCLAIM("for unclaiming this land"),
 	COMMAND_UNCLAIM_FACTIONUNCLAIMED("%1$s<i> unclaimed some land."),
+	COMMAND_UNCLAIM_FACTIONUNCLAIMEDAMOUNT("<player><i> unclaimed <teal><amount> <i>chunks in a radius of <teal><radius> <i>from <teal><chunk>"),
 	COMMAND_UNCLAIM_DESCRIPTION("Unclaim the land where you are standing"),
 
 	COMMAND_UNCLAIMALL_TOUNCLAIM("to unclaim all faction land"),

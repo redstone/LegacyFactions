@@ -313,16 +313,15 @@ public interface FPlayer extends EconomyParticipator {
 	boolean canClaimForFaction(Faction forFaction);
 
 	boolean canClaimForFactionAtLocation(Faction forFaction, Location location, boolean notifyFailure);
-
 	boolean canClaimForFactionAtLocation(Faction forFaction, FLocation location, boolean notifyFailure);
-
-	boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
-	boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
-
+	boolean canClaimForFactionAtLocation(Faction forFaction, Locality location, boolean notifyFailure);
+	
+	boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, boolean notifySuccess);
+	boolean attemptClaim(Faction forFaction, Locality location, boolean notifyFailure, boolean notifySuccess);
+	
 	void sendMessage(String str, Object... args);
 	
 	void sendMessage(boolean onlyIfTrue, String str, Object... args);
-
 
 	boolean isOnline();
 
@@ -416,4 +415,13 @@ public interface FPlayer extends EconomyParticipator {
 	@Deprecated
 	void resetFactionData(boolean doSpoutUpdate);
 	
+	@Deprecated
+	boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+	
+	@Deprecated
+	boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+	
+	@Deprecated
+	boolean attemptClaim(Faction forFaction, Locality location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+
 }

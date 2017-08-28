@@ -38,7 +38,6 @@ import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class FactionsPlayerListener implements Listener {
 	
@@ -210,19 +209,20 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		if (me.getAutoClaimFor() != null) {
-			Map<FLocation, Faction> transactions = new HashMap<>();
+			Map<Locality, Faction> transactions = new HashMap<>();
 
-			transactions.put(FLocation.valueOf(event.getTo()), me.getAutoClaimFor());
+			transactions.put(Locality.of(event.getTo()), me.getAutoClaimFor());
 		   
 			EventFactionsLandChange landChangeEvent = new EventFactionsLandChange(me, transactions, LandChangeCause.Claim);
 			Bukkit.getServer().getPluginManager().callEvent(landChangeEvent);
 			if (landChangeEvent.isCancelled()) return;
 			
-			for(Entry<FLocation, Faction> claimLocation : landChangeEvent.getTransactions().entrySet()) {
-				if ( ! me.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, landChangeEvent)) {
+			landChangeEvent.transactions((locality, faction) -> {
+				if ( ! me.attemptClaim(faction, locality.getLocation(), true, true)) {
 					return;
 				}
-			}
+			});
+
 			
 		} else if (me.isAutoSafeClaimEnabled()) {
 			if (!Permission.MANAGE_SAFE_ZONE.has(player)) {

@@ -15,6 +15,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.RelationUtil;
@@ -854,6 +855,10 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		claimOwnership.clear();
 	}
 
+	public void clearClaimOwnership(Locality locality) {
+		claimOwnership.remove(new FLocation(locality.getChunk()));
+	}
+	
 	public void clearClaimOwnership(FLocation loc) {
 		claimOwnership.remove(loc);
 	}
