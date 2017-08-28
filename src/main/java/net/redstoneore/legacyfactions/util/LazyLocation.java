@@ -6,93 +6,161 @@ import org.bukkit.World;
 
 import java.io.Serializable;
 
-/*
- * This class provides a lazy-load Location, so that World doesn't need to be initialized
- * yet when an object of this class is created, only when the Location is first accessed.
+/**
+ * This class provides a lazy-load Location, so that World doesn't need to be initialised
+ * yet when an object of this class is created, only when the Location is first accessed. *
  */
-
 public class LazyLocation implements Serializable {
-    private static final long serialVersionUID = -6049901271320963314L;
-    private transient Location location = null;
-    private String worldName;
-    private double x;
-    private double y;
-    private double z;
-    private float pitch;
-    private float yaw;
+	
+	// -------------------------------------------------- //
+	// STATIC FIELDS
+	// -------------------------------------------------- //
+	
+	private static final long serialVersionUID = -6049901271320963314L;
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public LazyLocation(Location loc) {
-        setLocation(loc);
-    }
+	/**
+	 * Construct a LazyLocation using a location
+	 * @param loc
+	 */
+	public LazyLocation(Location location) {
+		this.setLocation(location);
+	}
 
-    public LazyLocation(final String worldName, final double x, final double y, final double z) {
-        this(worldName, x, y, z, 0, 0);
-    }
+	/**
+	 * Construct a LazyLocation from fields
+	 * @param worldName Location World
+	 * @param x Location X
+	 * @param y Location Y
+	 * @param z Location Z
+	 */
+	public LazyLocation(final String worldName, final double x, final double y, final double z) {
+		this(worldName, x, y, z, 0, 0);
+	}
+	
+	/**
+	 * Construct a LazyLocation from fields
+	 * @param worldName Location World
+	 * @param x Location X
+	 * @param y Location Z
+	 * @param z Location Z
+	 * @param yaw Location Yaw
+	 * @param pitch Location Pitch
+	 */
+	public LazyLocation(final String worldName, final double x, final double y, final double z, final float yaw, final float pitch) {
+		this.worldName = worldName;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.yaw = yaw;
+		this.pitch = pitch;
+	}
+	
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
+	private transient Location location = null;
+	private String worldName;
+	private double x;
+	private double y;
+	private double z;
+	private float pitch;
+	private float yaw;
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
+	/**
+	 * This returns the actual location
+	 * @return {@link Location}
+	 */
+	public final Location getLocation() {
+		// if location is already initialized, simply return
+		if (location != null) {
+			return this.location;
+		}
 
-    public LazyLocation(final String worldName, final double x, final double y, final double z, final float yaw, final float pitch) {
-        this.worldName = worldName;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.yaw = yaw;
-        this.pitch = pitch;
-    }
+		// get World; hopefully it's initialized at this point
+		World world = Bukkit.getWorld(worldName);
+		if (world == null) {
+			return null;
+		}
 
-    // This returns the actual Location
-    public final Location getLocation() {
-        // if location is already initialized, simply return
-        if (location != null) {
-            return this.location;
-        }
+		// store the Location for future calls, and pass it on
+		location = new Location(world, x, y, z, yaw, pitch);
+		if (location == null) {
+			return null;
+		}
+		
+		return this.location;
+	}
 
-        // get World; hopefully it's initialized at this point
-        World world = Bukkit.getWorld(worldName);
-        if (world == null) {
-            return null;
-        }
-
-        // store the Location for future calls, and pass it on
-        location = new Location(world, x, y, z, yaw, pitch);
-        if (location == null) {
-        	return null;
-        }
-        
-        return this.location;
-    }
-
-    // change the Location
-    public final void setLocation(Location loc) {
-        this.location = loc;
-        this.worldName = loc.getWorld().getName();
-        this.x = loc.getX();
-        this.y = loc.getY();
-        this.z = loc.getZ();
-        this.yaw = loc.getYaw();
-        this.pitch = loc.getPitch();
-    }
+	/**
+	 * Change the location
+	 * @param location to set to
+	 */
+	public final void setLocation(Location location) {
+		this.location = location;
+		this.worldName = location.getWorld().getName();
+		this.x = location.getX();
+		this.y = location.getY();
+		this.z = location.getZ();
+		this.yaw = location.getYaw();
+		this.pitch = location.getPitch();
+	}
 
 
-    public final String getWorldName() {
-        return worldName;
-    }
+	/**
+	 * Get the world name
+	 * @return world name
+	 */
+	public final String getWorldName() {
+		return worldName;
+	}
 
-    public final double getX() {
-        return x;
-    }
+	/**
+	 * Get the location X
+	 * @return location X
+	 */
+	public final double getX() {
+		return x;
+	}
 
-    public final double getY() {
-        return y;
-    }
+	/**
+	 * Get the location Y
+	 * @return location Y
+	 */
+	public final double getY() {
+		return y;
+	}
 
-    public final double getZ() {
-        return z;
-    }
+	/**
+	 * Get the location Z
+	 * @return location Z
+	 */
+	public final double getZ() {
+		return z;
+	}
 
-    public final double getPitch() {
-        return pitch;
-    }
-
-    public final double getYaw() {
-        return yaw;
-    }
+	/**
+	 * Get the location pitch
+	 * @return location pitch
+	 */
+	public final double getPitch() {
+		return pitch;
+	}
+	
+	/**
+	 * Get the location yaw
+	 * @return location yaw
+	 */
+	public final double getYaw() {
+		return yaw;
+	}
+	
 }
