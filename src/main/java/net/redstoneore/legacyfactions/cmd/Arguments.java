@@ -14,6 +14,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 public class Arguments {
@@ -126,7 +127,10 @@ public class Arguments {
 						}
 						
 						FPlayer fplayer = FPlayerColl.get(uuid);
-						fplayer.asMemoryFPlayer().setName(value);
+						
+						if (fplayer instanceof MemoryFPlayer) {
+							((MemoryFPlayer)fplayer).setName(value);
+						}
 						
 						callback.then(Optional.of((T) fplayer), Optional.empty());
 					});
