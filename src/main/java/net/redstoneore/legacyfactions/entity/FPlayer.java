@@ -77,6 +77,24 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	void teleport(Locality locality);
 
+	/**
+	 * Check if this player is online
+	 * @return true of online
+	 */
+	boolean isOnline();
+	
+	/**
+	 * Get the players last known login time
+	 * @return Last login time.
+	 */
+	long getLastLoginTime();
+
+	/**
+	 * Set the players last login time
+	 * @param lastLoginTime Last login time.
+	 */
+	void setLastLoginTime(long lastLoginTime);
+	
 	// -------------------------------------------------- //
 	// FACTION
 	// -------------------------------------------------- //
@@ -117,8 +135,31 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	void setRole(Role role);
 	
+	/**
+	 * Determine if this FPlayer can administer another FPlayer
+	 * @param who FPlayer to check. 
+	 * @return true if can be administered.
+	 */
 	boolean canAdminister(FPlayer who);
 
+	/**
+	 * Get players title
+	 * @return players title
+	 */
+	String getTitle();
+
+	/**
+	 * Set players title
+	 * @param title Title to set.
+	 */
+	void setTitle(String title);
+
+	/**
+	 * Get players faction tag.
+	 * @return tag, or blank if they don't have a faction.
+	 */
+	String getTag();
+	
 	// -------------------------------------------------- //
 	// MISC METHODS
 	// -------------------------------------------------- //
@@ -174,11 +215,7 @@ public interface FPlayer extends EconomyParticipator {
 
 	// FIELD: account
 	void resetFactionData();
-
-	long getLastLoginTime();
-
-	void setLastLoginTime(long lastLoginTime);
-
+	
 	boolean isMapAutoUpdating();
 
 	void setMapAutoUpdating(boolean mapAutoUpdating);
@@ -195,11 +232,6 @@ public interface FPlayer extends EconomyParticipator {
 	
 	void setLastStoodAt(FLocation flocation);
 
-	String getTitle();
-
-	void setTitle(String title);
-
-	String getTag();
 
 	// Base concatenations:
 
@@ -323,8 +355,6 @@ public interface FPlayer extends EconomyParticipator {
 	
 	void sendMessage(boolean onlyIfTrue, String str, Object... args);
 
-	boolean isOnline();
-
 	void sendMessage(String message);
 
 	void sendMessage(List<String> messages);
@@ -362,9 +392,7 @@ public interface FPlayer extends EconomyParticipator {
 	// -------------------------------------------------- //
 	// UTIL
 	// -------------------------------------------------- //
-	
-	MemoryFPlayer asMemoryFPlayer();
-	
+		
 	boolean canAffordCommand(double econCostJoin, String string);
 	
 	boolean payForCommand(double cost, String toDoThis, String forDoingThis);
@@ -374,54 +402,70 @@ public interface FPlayer extends EconomyParticipator {
 	// -------------------------------------------------- //
 	
 	/**
-	 * Deprecated, use sendMessage
-	 */
-	@Deprecated
-	void msg(String str, Object... args);
-	
-	/**
-	 * Deprecated, use sendMessage
-	 */
-	@Deprecated
-	void msg(boolean onlyIfTrue, String str, Object... args);
-
-	/**
-	 * Deprecated, use onLogin
-	 */
-	@Deprecated
-	default void login() {
-		onLogin();
-	}
-	
-	/**
-	 * Deprecated, use onLogout
-	 */
-	@Deprecated
-	default void logout() {
-		onLogout();
-	}
-	
-	/**
 	 * Deprecated! Use {@link #isVanished(FPlayer)}<br>
 	 * To be removed after 09/2017
 	 * @return
 	 */
 	@Deprecated
 	boolean isVanished();
-
+	
 	/**
-	 * Deprecated, spout update no longer included
+	 * Deprecated! Use {@link #sendMessage(String, Object...)} 
+	 * To be removed after 11/2017
 	 */
 	@Deprecated
-	void resetFactionData(boolean doSpoutUpdate);
+	void msg(String str, Object... args);
 	
+	/**
+	 * Deprecated! use {@link #sendMessage(boolean, String, Object...)}
+	 * To be removed after 11/2017
+	 */
+	@Deprecated
+	void msg(boolean onlyIfTrue, String str, Object... args);
+	
+	/**
+	 * Deprecated! Use {@link #attemptClaim(Faction, Locality, boolean, boolean)}<br>
+	 * To be removed after 11/2017
+	 * @param forFaction
+	 * @param location
+	 * @param notifyFailure
+	 * @param eventLandChange
+	 * @return
+	 */
 	@Deprecated
 	boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
 	
+	/**
+	 * Deprecated! Use {@link #attemptClaim(Faction, Locality, boolean, boolean)}<br>
+	 * To be removed after 11/2017
+	 * @param forFaction
+	 * @param location
+	 * @param notifyFailure
+	 * @param eventLandChange
+	 * @return
+	 */
 	@Deprecated
 	boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
 	
+	/**
+	 * Deprecated! Use {@link #attemptClaim(Faction, Locality, boolean, boolean)}<br>
+	 * To be removed after 11/2017
+	 * @param forFaction
+	 * @param location
+	 * @param notifyFailure
+	 * @param eventLandChange
+	 * @return
+	 */
 	@Deprecated
 	boolean attemptClaim(Faction forFaction, Locality location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+
+	/**
+	 * Deprecated! Don't rely on MemoryFPlayer.<br>
+	 * Cast to MemoryFPlayer if needed.<br>
+	 * To be removed after 11/2017
+	 * @return
+	 */
+	@Deprecated
+	MemoryFPlayer asMemoryFPlayer();
 
 }
