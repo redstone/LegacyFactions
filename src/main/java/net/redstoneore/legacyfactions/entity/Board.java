@@ -26,19 +26,22 @@ public abstract class Board {
 	// Get and Set
 	//----------------------------------------------//
 	
+	public abstract String getIdAt(Locality locality);
 	public abstract String getIdAt(FLocation flocation);
 	
-	public abstract String getIdAt(Locality flocation);
-
+	public abstract Faction getFactionAt(Locality locality);
 	public abstract Faction getFactionAt(FLocation flocation);
 	
-	public abstract Faction getFactionAt(Locality locality);
 
+	public abstract void setIdAt(String id, Locality locality);
 	public abstract void setIdAt(String id, FLocation flocation);
 
+	public abstract void setFactionAt(Faction faction, Locality locality);
 	public abstract void setFactionAt(Faction faction, FLocation flocation);
 
 	public abstract void removeAt(FLocation flocation);
+	
+	public abstract void removeAt(Locality flocation);
 
 	public abstract Set<FLocation> getAllClaims(String factionId);
 
@@ -47,17 +50,21 @@ public abstract class Board {
 	public abstract Set<FLocation> getAllClaims();
 
 	// not to be confused with claims, ownership referring to further member-specific ownership of a claim
+	public abstract void clearOwnershipAt(Locality locality);
 	public abstract void clearOwnershipAt(FLocation flocation);
 
 	public abstract void unclaimAll(String factionId);
 
 	// Is this coord NOT completely surrounded by coords claimed by the same faction?
 	// Simpler: Is there any nearby coord with a faction other than the faction here?
+	public abstract boolean isBorderLocation(Locality locality);
 	public abstract boolean isBorderLocation(FLocation flocation);
 
 	// Is this coord connected to any coord claimed by the specified faction?
+	public abstract boolean isConnectedLocation(Locality locality, Faction faction);
 	public abstract boolean isConnectedLocation(FLocation flocation, Faction faction);
 
+	public abstract boolean hasFactionWithin(Locality locality, Faction faction, int radius);
 	public abstract boolean hasFactionWithin(FLocation flocation, Faction faction, int radius);
 
 	//----------------------------------------------//

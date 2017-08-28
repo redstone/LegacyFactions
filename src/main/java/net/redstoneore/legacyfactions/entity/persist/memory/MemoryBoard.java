@@ -102,6 +102,19 @@ public abstract class MemoryBoard extends Board {
         return FactionColl.get().getFactionById(this.getIdAt(locality));
     }
 
+    @Override
+    public void setIdAt(String id, Locality locality) {
+        clearOwnershipAt(locality);
+
+        if (id.equals("0")) {
+            this.removeAt(locality);
+        }
+
+        this.flocationIds.put(new FLocation(locality.getChunk()), id);
+
+    }
+    
+    @Override
     public void setIdAt(String id, FLocation flocation) {
         clearOwnershipAt(flocation);
 
@@ -109,25 +122,36 @@ public abstract class MemoryBoard extends Board {
             removeAt(flocation);
         }
 
-        flocationIds.put(flocation, id);
+        this.flocationIds.put(flocation, id);
     }
 
+    @Override
+    public void setFactionAt(Faction faction, Locality locality) {
+        this.setIdAt(faction.getId(), locality);
+    }
+    
+    @Override
     public void setFactionAt(Faction faction, FLocation flocation) {
-        setIdAt(faction.getId(), flocation);
+    		this.setIdAt(faction.getId(), flocation);
     }
+    
 
-    public void removeAt(FLocation flocation) {
-        Faction faction = getFactionAt(flocation);
+    public void removeAt(Locality locality) {
+        Faction faction = this.getFactionAt(locality);
         Collection<FactionWarp> warps = faction.warps().getAll();
         
-        for(FactionWarp warp : warps) {
-            if (flocation.isInChunk(warp.getLocation())) {
+        warps.forEach(warp -> {
+            if (locality.isInChunk(Locality.of(warp.getLocation()))) {
                 warp.delete();
             }
-        }
+        });
         
-        clearOwnershipAt(flocation);
-        flocationIds.remove(flocation);
+        this.clearOwnershipAt(new FLocation(locality.getChunk()));
+        flocationIds.remove(new FLocation(locality.getChunk()));
+    }
+    
+    public void removeAt(FLocation flocation) {
+        this.removeAt(Locality.of(flocation.getChunk()));
     }
 
     public Set<FLocation> getAllClaims(String factionId) {
@@ -154,6 +178,16 @@ public abstract class MemoryBoard extends Board {
     }
     
     // not to be confused with claims, ownership referring to further member-specific ownership of a claim
+    @Override
+    public void clearOwnershipAt(Locality locality) {
+        Faction faction = this.getFactionAt(locality);
+        if (faction != null && faction.isNormal()) {
+            faction.clearClaimOwnership(locality);
+        }
+
+    }
+    
+    @Override
     public void clearOwnershipAt(FLocation flocation) {
         Faction faction = getFactionAt(flocation);
         if (faction != null && faction.isNormal()) {
@@ -176,6 +210,17 @@ public abstract class MemoryBoard extends Board {
 
     // Is this coord NOT completely surrounded by coords claimed by the same faction?
     // Simpler: Is there any nearby coord with a faction other than the faction here?
+    
+    public boolean isBorderLocation(Locality locality) {
+        Faction faction = this.getFactionAt(locality);
+        Locality a = locality.getRelative(1, 0);
+        Locality b = locality.getRelative(-1, 0);
+        Locality c = locality.getRelative(0, 1);
+        Locality d = locality.getRelative(0, -1);
+        return faction != this.getFactionAt(a) || faction != this.getFactionAt(b) || faction != this.getFactionAt(c) || faction != this.getFactionAt(d);
+
+    }
+    
     public boolean isBorderLocation(FLocation flocation) {
         Faction faction = getFactionAt(flocation);
         FLocation a = flocation.getRelative(1, 0);
@@ -185,6 +230,15 @@ public abstract class MemoryBoard extends Board {
         return faction != getFactionAt(a) || faction != getFactionAt(b) || faction != getFactionAt(c) || faction != getFactionAt(d);
     }
 
+    public boolean isConnectedLocation(Locality locality, Faction faction) {
+    		Locality a = locality.getRelative(1, 0);
+    		Locality b = locality.getRelative(-1, 0);
+    		Locality c = locality.getRelative(0, 1);
+    		Locality d = locality.getRelative(0, -1);
+        return faction == this.getFactionAt(a) || faction == this.getFactionAt(b) || faction == this.getFactionAt(c) || faction == this.getFactionAt(d);
+
+    }
+    
     // Is this coord connected to any coord claimed by the specified faction?
     public boolean isConnectedLocation(FLocation flocation, Faction faction) {
         FLocation a = flocation.getRelative(1, 0);
@@ -204,14 +258,14 @@ public abstract class MemoryBoard extends Board {
      *
      * @return true if another Faction is within the radius, otherwise false.
      */
-    public boolean hasFactionWithin(FLocation flocation, Faction faction, int radius) {
+    public boolean hasFactionWithin(Locality locality, Faction faction, int radius) {
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
                 if (x == 0 && z == 0) {
                     continue;
                 }
 
-                FLocation relative = flocation.getRelative(x, z);
+                Locality relative = locality.getRelative(x, z);
                 Faction other = getFactionAt(relative);
 
                 if (other.isNormal() && other != faction) {
@@ -221,7 +275,11 @@ public abstract class MemoryBoard extends Board {
         }
         return false;
     }
-
+    
+    @Deprecated
+    public boolean hasFactionWithin(FLocation flocation, Faction faction, int radius) {
+        return this.hasFactionWithin(Locality.of(flocation.getChunk()), faction, radius);
+    }
 
     //----------------------------------------------//
     // Cleaner. Remove orphaned foreign keys

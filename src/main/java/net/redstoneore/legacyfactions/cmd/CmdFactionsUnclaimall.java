@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
@@ -17,6 +16,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 public class CmdFactionsUnclaimall extends FCommand {
 
@@ -51,7 +51,7 @@ public class CmdFactionsUnclaimall extends FCommand {
 	@Override
 	public void perform() {
 		if (VaultEngine.getUtils().shouldBeUsed()) {
-			double refund = VaultEngine.getUtils().calculateTotalLandRefund(myFaction.getLandRounded());
+			double refund = VaultEngine.getUtils().calculateTotalLandRefund(this.myFaction.getLandRounded());
 			if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
 				if (!VaultEngine.getUtils().modifyMoney(myFaction, refund, Lang.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
 					return;
@@ -63,20 +63,20 @@ public class CmdFactionsUnclaimall extends FCommand {
 			}
 		}
 
-		Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
+		Map<Locality, Faction> transactions = new HashMap<Locality, Faction>();
 		
-		for (FLocation location : myFaction.getAllClaims()) {
-			transactions.put(location, FactionColl.get().getWilderness());
-		}
+		this.myFaction.getAllClaims().forEach(location -> {
+			transactions.put(Locality.of(location.getChunk()), FactionColl.get().getWilderness());
+		});
 		
-		EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Unclaim);
+		EventFactionsLandChange event = new EventFactionsLandChange(this.fme, transactions, LandChangeCause.Unclaim);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if (event.isCancelled()) return;
 		
-		event.getTransactions().keySet().forEach(location -> Board.get().removeAt(location));
+		event.transactions((location, faction) -> Board.get().removeAt(location));
 		
-		this.myFaction.sendMessage(Lang.COMMAND_UNCLAIMALL_UNCLAIMED, fme.describeTo(myFaction, true));
-
+		this.myFaction.sendMessage(Lang.COMMAND_UNCLAIMALL_UNCLAIMED, this.fme.describeTo(this.myFaction, true));
+		
 		if (Conf.logLandUnclaims) {
 			Factions.get().log(Lang.COMMAND_UNCLAIMALL_LOG.format(fme.getName(), myFaction.getTag()));
 		}

@@ -6,15 +6,15 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
-import net.redstoneore.legacyfactions.task.SpiralTask;
+import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.task.NewSpiralTask;
 
 
 public class CmdFactionsClaim extends FCommand {
@@ -53,69 +53,44 @@ public class CmdFactionsClaim extends FCommand {
 	@Override
 	public void perform() {
 		// Read and validate input
-		int radius = this.argAsInt(0, 1); // Default to 1
-		final Faction forFaction = this.argAsFaction(1, myFaction); // Default to own
+		final int radius = this.argAsInt(0, 1); // Default to 1
+		final Faction forFaction = this.argAsFaction(1, this.myFaction);
 
 		if (radius < 1) {
-			sendMessage(Lang.COMMAND_CLAIM_INVALIDRADIUS);
+			Lang.COMMAND_CLAIM_INVALIDRADIUS.getBuilder()
+				.parse()
+				.sendTo(this.fme);
+			
 			return;
 		}
-
+		
+		Map<Locality, Faction> transactions = new HashMap<Locality, Faction>();
+		final FPlayer fplayer = this.fme;
+		
 		if (radius < 2) {
 			// single chunk
-			Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
-
-			transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
+			transactions.put(Locality.of(me.getLocation()), forFaction);
 		   
-			EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
-			Bukkit.getServer().getPluginManager().callEvent(event);
-			if (event.isCancelled()) return;
-			
-			for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
-				if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
-					return;
-				}
-			}
-		} else {
-			// radius claim
-			if (!Permission.CLAIM_RADIUS.has(sender, false)) {
-				sendMessage(Lang.COMMAND_CLAIM_DENIED);
-				return;
-			}
-
-			new SpiralTask(new FLocation(me), radius) {
-				private int failCount = 0;
-				private final int limit = Conf.radiusClaimFailureLimit - 1;
-
-				@Override
-				public boolean work() {
-					Map<FLocation, Faction> transactions = new HashMap<FLocation, Faction>();
-
-					transactions.put(FLocation.valueOf(this.currentLocation()), forFaction);
-				   
-					EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
-					Bukkit.getServer().getPluginManager().callEvent(event);
-					if (event.isCancelled()) return false;
-					boolean success = false;
-					for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
-						if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
-							success = false;
-						} else {
-							success = true;
-						}
-					}
-					
-					if (success) {
-						failCount = 0;
-					} else if (failCount++ >= limit) {
-						this.stop();
-						return false;
-					}
-
-					return true;
-				}
-			};
+			resume(fplayer, transactions, forFaction, radius);
+			return;
+		} 
+				
+		// Claiming in a radius, ensure they have permission.
+		if (!Permission.CLAIM_RADIUS.has(this.sender, false)) {
+			Lang.COMMAND_CLAIM_DENIED.getBuilder()
+				.parse()
+				.sendTo(fplayer);
+			return;
 		}
+		
+		// Okay, use NewSpiralTask to grab the chunks in async. 
+		NewSpiralTask.of(this.fme.getLastLocation(), radius).then((localities, e) -> {	
+			localities.forEach(locality -> 
+				transactions.put(locality, forFaction)
+			);
+			
+			resume(fplayer, transactions, forFaction, radius);
+		});
 	}
 
 	@Override
@@ -123,4 +98,49 @@ public class CmdFactionsClaim extends FCommand {
 		return Lang.COMMAND_CLAIM_DESCRIPTION.toString();
 	}
 
+	protected static void resume(FPlayer fplayer, Map<Locality, Faction> transactions, Faction forFaction, int radius) {
+		EventFactionsLandChange event = new EventFactionsLandChange(fplayer, transactions, LandChangeCause.Claim);
+		Bukkit.getServer().getPluginManager().callEvent(event);
+		if (event.isCancelled()) return;
+		
+		int successClaims = 0;
+		
+		for (Entry<Locality, Faction> claimLocation : event.transactions().entrySet()) {
+			if (!fplayer.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, false)) {
+				break;
+			}
+			successClaims++;
+		}
+		
+		if (successClaims == 0) return;
+		
+		if (radius == 1) {
+			if (forFaction == fplayer.getFaction()) {
+				forFaction.sendMessage(Lang.CLAIM_CLAIMED, forFaction.describeTo(fplayer, true), forFaction.describeTo(fplayer), forFaction.describeTo(fplayer));				
+			} else {
+				forFaction.sendMessage(Lang.CLAIM_CLAIMED, forFaction.describeTo(fplayer, true), forFaction.describeTo(fplayer), forFaction.describeTo(fplayer));
+				fplayer.sendMessage(Lang.CLAIM_CLAIMED, fplayer.describeTo(fplayer, true), fplayer.describeTo(fplayer), fplayer.describeTo(fplayer));
+			}
+		} else {
+			if (forFaction == fplayer.getFaction()) {
+				Lang.COMMAND_CLAIM_RADIUSAMOUNT.getBuilder()
+					.parse()
+					.replace("<amount>", successClaims)
+					.replace("<radius>", radius)
+					.replace("<player>", fplayer.getName())
+					.replace("<chunk>", fplayer.getLastLocation().getCoordString())
+					.sendTo(forFaction);	
+			} else {
+				Lang.COMMAND_CLAIM_RADIUSAMOUNT.getBuilder()
+					.parse()
+					.replace("<amount>", successClaims)
+					.replace("<radius>", radius)
+					.replace("<player>", fplayer.getName())
+					.replace("<chunk>", fplayer.getLastLocation().getCoordString())
+					.sendTo(forFaction)
+					.sendTo(fplayer);
+			}
+		}
+	}
+	
 }

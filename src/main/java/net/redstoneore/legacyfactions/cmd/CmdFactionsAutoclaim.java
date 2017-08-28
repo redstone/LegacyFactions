@@ -2,11 +2,9 @@ package net.redstoneore.legacyfactions.cmd;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
@@ -14,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 public class CmdFactionsAutoclaim extends FCommand {
 	
@@ -68,21 +67,17 @@ public class CmdFactionsAutoclaim extends FCommand {
 
 		fme.setAutoClaimFor(forFaction);
 
-		sendMessage(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
+		this.sendMessage(Lang.COMMAND_AUTOCLAIM_ENABLED, forFaction.describeTo(fme));
 		
-		Map<FLocation, Faction> transactions = new HashMap<>();
+		Map<Locality, Faction> transactions = new HashMap<>();
 
-		transactions.put(FLocation.valueOf(me.getLocation()), forFaction);
+		transactions.put(fme.getLastLocation(), forFaction);
 	   
 		EventFactionsLandChange event = new EventFactionsLandChange(fme, transactions, LandChangeCause.Claim);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if (event.isCancelled()) return;
 		
-		for(Entry<FLocation, Faction> claimLocation : event.getTransactions().entrySet()) {
-			if ( ! fme.attemptClaim(claimLocation.getValue(), claimLocation.getKey(), true, event)) {
-				return;
-			}
-		}
+		CmdFactionsClaim.resume(fme, transactions, forFaction, 1);
 	}
 
 	@Override
