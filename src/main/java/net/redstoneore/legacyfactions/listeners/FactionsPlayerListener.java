@@ -622,8 +622,8 @@ public class FactionsPlayerListener implements Listener {
 		if (damager == null) {
 			// must be a mob attacking 
 			if (Conf.damageModifierPercentRelationLocationByMob.containsKey(relationToLocation) && Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation) != null) {
-				double extraDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation)/100);
-				event.setDamage(event.getDamage() + extraDamage);
+				double newDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation)/100);
+				event.setDamage(newDamage);
 			}
 		}
 		
@@ -631,31 +631,31 @@ public class FactionsPlayerListener implements Listener {
 		
 		// Damage modifier based on location 
 		if (fplayer.getLastLocation().getFactionHere().isWilderness() && Conf.damageModifierPercentWilderness != 100) {
-			double extraDamage = event.getDamage() * (Conf.damageModifierPercentWilderness/100);
-			event.setDamage(event.getDamage() + extraDamage);
+			double newDamage = event.getDamage() * (Conf.damageModifierPercentWilderness/100);
+			event.setDamage(newDamage);
 		}
 		
 		if (fplayer.getLastLocation().getFactionHere().isWarZone() && Conf.damageModifierPercentWarzone != 100) {
-			double extraDamage = event.getDamage() * (Conf.damageModifierPercentWarzone/100);
-			event.setDamage(event.getDamage() + extraDamage);
+			double newDamage = event.getDamage() * (Conf.damageModifierPercentWarzone/100);
+			event.setDamage(newDamage);
 		}
 		
 		if (fplayer.getLastLocation().getFactionHere().isSafeZone() && Conf.damageModifierPercentSafezone != 100) {
-			double extraDamage = event.getDamage() * (Conf.damageModifierPercentSafezone/100);
-			event.setDamage(event.getDamage() + extraDamage);
+			double newDamage = event.getDamage() * (Conf.damageModifierPercentSafezone/100);
+			event.setDamage(newDamage);
 		}
 		
 		// Check for damager modifier by relation to player
 		Relation relationToDamager = fplayer.getRelationTo(damager);
-		if (Conf.damageModifierPercentRelationPlayer.containsKey(relationToDamager)) {
-			double extraDamage = event.getDamage() * (Conf.damageModifierPercentRelationPlayer.get(relationToDamager)/100);
-			event.setDamage(event.getDamage() + extraDamage);
+		if (Conf.damageModifierPercentRelationPlayer.containsKey(relationToDamager) && Conf.damageModifierPercentRelationPlayer.get(relationToDamager) != 100) {
+			double newDamage = event.getDamage() * (Conf.damageModifierPercentRelationPlayer.get(relationToDamager)/100);
+			event.setDamage(newDamage);
 		}
 		
 		// Check for damager modifier by relation to location
-		if (Conf.damageModifierPercentRelationLocationByPlayer.containsKey(relationToLocation)) {
-			double extraDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByPlayer.get(relationToLocation)/100);
-			event.setDamage(event.getDamage() + extraDamage);
+		if (Conf.damageModifierPercentRelationLocationByPlayer.containsKey(relationToLocation) && Conf.damageModifierPercentRelationLocationByPlayer.get(relationToLocation) != 100) {
+			double newDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByPlayer.get(relationToLocation)/100);
+			event.setDamage(newDamage);
 		}
 		
 	}
