@@ -14,6 +14,22 @@ root:
     REGION: 中国
     STATE: 全部已翻译但不完全准确
 COMMAND:
+  ERRORS:
+    PLAYERNOTFOUND: <b>没有找到 "<p><name><b>" 玩家.
+    PLAYERORFACTIONNOTFOUND: <b>没有找到派系|玩家 "<p><name><b>".
+    ONLYFACTIONADMIN: <b>只有派系管理员才能这样.
+    MODERATORSCANT: <b>初级管理不能互相控制...
+    COLEADERSCANT: <b>副管理无法互相控制...
+    NOTMODERATOR: <b>你必须成为派系副管理才可以这样.
+    NOTMEMBER: <b>你没有加入任何派系.
+    NOTSAME: <name> <b>没有和你在同一个派系中.
+    YOUMUSTBE: <b>You <h>必须是 <therole><b> 到 <theaction>.
+    ONLYMODERATORSCAN: <b>只有派系初级管理才能 <theaction>.
+    ONLYCOLEADERSCAN: <b>只有派系副管理才可以 <theaction>.
+    ONLYADMINSCAN: <b>只有派系管理员才能 <theaction>.
+    FACTIONSLOCKED: <b>派系已经被管理员锁定. 请稍后尝试.
+    ECONOMYDISABLED: <b>派系经济没有启用.
+    BANKSDISABLED: <b>派系银行系统没有启用.
   ADMIN:
     NOTMEMBER: '%1$s<i> 不是你派系的成员.'
     NOTADMIN: <b> 不是派系的管理员.
@@ -23,6 +39,15 @@ COMMAND:
     PROMOTES: <i>你已经将 %1$s<i> 升级到派系管理员的职位了.
     PROMOTED: '%1$s<i> 将派系管理交给了 %2$s<i>'
     DESCRIPTION: 转交派系的管理权限
+  AHOME:
+    DESCRIPTION: 强制传送玩家回派系传送点.
+    NOHOME: '%1$s 没有派系传送点.'
+    SUCCESS: $1%s 被传送会派系传送点.
+    OFFLINE: '%1$s 不在线.'
+    TARGET: 你被传送到派系传送点.
+  ANNOUNCE:
+    DESCRIPTION: 给派系成员发送一条通知.
+    TEMPLATE: <green><tag> <yellow>[<gray><player><yellow>]<white> <message>
   AUTOCLAIM:
     ENABLED: <i>现在自动为<h>%1$s<i>领取领地.
     DISABLED: <i>自动领取领取功能已关闭.
@@ -31,6 +56,24 @@ COMMAND:
     DESCRIPTION: 自动划取领地
   AUTOHELP:
     HELPFOR: 命令帮助"
+  BAN:
+    DESCRIPTION: 将玩家从派系封禁来防止他们再次加入.
+    YOUBANNED: <i>你将玩家 <name> 从你的派系封禁了.
+    SOMEONEBANNED: <i><someone> 在你的派系中封禁了玩家 <name>.
+    YOUBANKICKED: <i>你被玩家 <name> 从派系中封禁和移出了.
+    SOMEONEBANKICKED: <i><someone> 封禁并踢出 <name> 从你的派系.
+    CANT: <b>你的职位是 <your-rank> 但 <name> 的职位是 <their-rank> 所以你不能封禁他.
+    CANTYOURSELF: <b>你不能封禁你自己!
+    TOBAN: 将某人从你的派系封禁
+    FORBAN: 将某人从你的派系封禁
+    NOTFOUND: <b>未知玩家 <player>, 无法封禁.
+  UNBAN:
+    NOTFOUND: <b>未知玩家 <player>, 所以你不能解封.
+    NOTBANNED: <b><player> 没有被封禁.
+    TOUNBAN: 来解封玩家
+    FORUNBAN: 来解封玩家
+    YOUUNBAN: <i>你解封了玩家 <name> 从你的派系.
+    SOMEONEUNBAN: <i><someone> 解封了玩家 <name> 从你的派系.
   BOOM:
     PEACEFULONLY: <b>这个命令只能在派系和平的情况下使用
     TOTOGGLE: 来切换防爆功能
@@ -46,12 +89,12 @@ COMMAND:
   CHAT:
     DISABLED: <b>此服务器已经禁用了聊天频道
     INVALIDMODE: <b>未知模式. <i>请输入 'a', 'f', 'p', 或者 't'
+    DESCRIPTION: 切换聊天模式
     MODE:
       PUBLIC: <i>切换为公共模式.
       ALLIANCE: <i>切换为联盟聊天模式.
-      FACTION: <i>切换为派内聊天模式.
       TRUCE: <i>切换为停止聊天模式.
-    DESCRIPTION: 切换聊天模式
+      FACTION: <i>切换为派内聊天模式.
   CHATSPY:
     ENABLE: <i>你开启了聊天频道间谍模式.
     ENABLELOG: ' 开启了聊天间谍模式'
@@ -62,6 +105,25 @@ COMMAND:
     INVALIDRADIUS: <b>如果指定半径，至少为1.
     DENIED: <b>你没有权限认领.
     DESCRIPTION: 认领你脚下的区域为派系领地
+    RADIUSAMOUNT: <player><i> 从 <chunk> 领取 <teal><amount> <i>半径为 <radius>的区域.
+  CLAIMLINE:
+    INVALIDRADIUS: <b>如果指定距离, 至少为1.
+    DENIED: <b>你没有领取的权限.
+    DESCRIPTION: 以直线领取领地.
+    ABOVEMAX: <b>领取的最大数量为<b>%s<b>.
+    NOTVALID: '%s<b> 不是一个方向. 你可以使用 <h>north<b>, <h>east<b>, <h>south <b>或是 <h>west<b>.'
+  COLEADER:
+    CANDIDATES: '你可以升职的玩家: '
+    CLICKTOPROMOTE: '点击升职 '
+    NOTMEMBER: '%1$s<b> 不是你派系的成员.'
+    NOTADMIN: <b>你不是派系管理员.
+    SELF: <b>指定的玩家不能是你自己.
+    TARGETISADMIN: <b>目标玩家是派系管理员.
+    REVOKES: <i>你从 %1$s<i> 撤销了副管理权限.
+    REVOKED: '%1$s<i> 不再是副管理了.'
+    PROMOTES: '%1$s<i> 晋升为派系副管理.'
+    PROMOTED: <i>你把玩家 %1$s<i> 提升为副管理.
+    DESCRIPTION: 给予或取消玩家的副管理权限
   CONFIG:
     NOEXIST: <b>配置文件中没有 "<h>%1$s<b>" .
     SET:
@@ -83,12 +145,17 @@ COMMAND:
     MATERIAL:
       ADDED: '"%1$s" 设置: Material "%2$s" 已添加.'
       REMOVED: '"%1$s" set: Material "%2$s" removed已移除'
+    LOG: ' (命令使用者 %1$s.)'
     ERROR:
       SETTING: 错误的设置 "%1$s" 为 "%2$s".
       MATCHING: 配置文件设置 "%1$s" 不能匹配，但应该是...请报告此错误
       TYPE: '''%1$s'' 是 ''%2$s'' 类型,不能使用此命令修改.'
     DESCRIPTION: 前台修改conf.json文件的内容
-    LOG: ' (命令使用者 %1$s.)'
+  CONVERT:
+    BACKEND:
+      RUNNING: 服务器已经在使用哪种格式了.
+      INVALID: 未知格式
+    DESCRIPTION: 转换插件文件格式
   CREATE:
     MUSTLEAVE: <b>你需要退出你当前的派系.
     INUSE: <b>那个名称已经被其他派系使用了.
@@ -99,6 +166,8 @@ COMMAND:
     YOUSHOULD: '<i>你现在可以: %1$s'
     CREATEDLOG: ' 创建了一个新派系: '
     DESCRIPTION: 建立一个新派系
+  DEBUG:
+    DESCRIPTION: <b>发送调试信息给服务器.
   DEINVITE:
     CANDEINVITE: '你可以取消邀请的玩家: '
     CLICKTODEINVITE: 点击撤销 %1$s 的邀请
@@ -118,6 +187,7 @@ COMMAND:
     CHANGED: '<i>派系 %1$s<i> 修改了他们的介绍:'
     TOCHANGE: 来修改派系介绍
     FORCHANGE: 来修改派系介绍
+    TOOLONG: <b>派系简介的最大长度为 <max-length>, 你的简介长度为 <length>
     DESCRIPTION: 修改派系介绍
   DISBAND:
     IMMUTABLE: <i>你不能解散荒野, 安全区域, 或是战争区域.
@@ -184,6 +254,14 @@ COMMAND:
       '2': '<i>服务器管理员可以使用的命令:'
       '3': '<i>更多服务器管理员的命令:'
     DESCRIPTION: 显示帮助页面
+    PAGES:
+      TITLE: 派系帮助 (<current>/<total>)
+      NOPREV: <gray>没有上一页.
+      NONEXT: <gray>没有下一页.
+      GOTO: <aqua>到第 <number> 页.
+      BTN:
+        LEFT: '[<]'
+        RIGHT: '[>]'
   HOME:
     DISABLED: <b>抱歉，此服务器上未开放此功能.
     TELEPORTDISABLED: <b>抱歉，服务器上未开放此功能.
@@ -205,9 +283,13 @@ COMMAND:
   JOIN:
     CANNOTFORCE: <b>你没有权限把其他玩家移进派系.
     SYSTEMFACTION: <b>玩家只能加入普通派系，这是系统派系.
-    ALREADYMEMBER: <b>%1$s %2$s 已经是 %3$s 的成员了
+    ALREADYMEMBER:
+      YOU: <b><player> 已经是 <faction> 的成员了.
+      SOMEONE: <b><player> 已经是 <faction> 的成员了.
     ATLIMIT: ' <b>!<white> 派系 %1$s 成员到达 %2$d 人上限了, 所以 %3$s 目前无法加入.'
-    INOTHERFACTION: <b>%1$s 必须先退出 %2$s 派系.
+    INOTHERFACTION:
+      YOU: <b><player> 必须先离开你的当前派系.
+      SOMEONE: <b><player> 必须先离开他的当前派系.
     NEGATIVEPOWER: <b>%1$s 不能加入权力为负的派系.
     REQUIRESINVITATION: <i>这个派系需要邀请才能加入.
     ATTEMPTEDJOIN: '%1$s<i> 想要加入你的派系.'
@@ -219,6 +301,10 @@ COMMAND:
     JOINEDLOG: '%1$s 加入了派系 %2$s.'
     MOVEDLOG: '%1$s 将玩家 %2$s 移到派系 %3$s.'
     DESCRIPTION: 加入一个派系
+    NOT:
+      PLAYER: <name><b> 不是玩家.
+    ISBANNED: <b><name> 被派系封禁了, 首先他必须解禁.
+    YOUBANNED: <b>你被派系封禁了.
   KICK:
     CANDIDATES: '可以被踢的玩家: '
     CLICKTOKICK: '点击踢出玩家 '
@@ -269,32 +355,26 @@ COMMAND:
     ADDED: '<i>增加 <a>%1$f <i>权力给 <a>%2$s. <i>现在的权力为: <a>%3$d'
     DESCRIPTION: 为派系或玩家增加权力
   MONEY:
-    SHORT: 派系经济命令
     LONG: <i>派系经济命令.
     DESCRIPTION: 派系经济命令
   MONEYBALANCE:
     SHORT: 显示派系的账户
     DESCRIPTION: 显示你派系的当前账户
   MONEYDEPOSIT:
-    SHORT: 存钱
-    DEPOSITED: '%1$s 存入 %2$s 到派系账户: %3$s'
     DESCRIPTION: 存钱
+    DEPOSITED: '%1$s 存入 %2$s 到派系账户: %3$s'
   MONEYTRANSFERFF:
-    SHORT: 转让资金 派系 -> 派系
-    TRANSFER: '%1$s 转移资金 %2$s 从派系 "%3$s" 给派系 "%4$s"'
     DESCRIPTION: 转让资金 派系 -> 派系
+    TRANSFER: '%1$s 转移资金 %2$s 从派系 "%3$s" 给派系 "%4$s"'
   MONEYTRANSFERFP:
-    SHORT: 转让资金 派系 -> 玩家
-    TRANSFER: '%1$s 转移资金 %2$s 从派系 "%3$s" 给玩家 "%4$s"'
     DESCRIPTION: 转让资金 派系 -> 玩家
+    TRANSFER: '%1$s 转移资金 %2$s 从派系 "%3$s" 给玩家 "%4$s"'
   MONEYTRANSFERPF:
-    SHORT: 转让资金 玩家 -> 派系
-    TRANSFER: '%1$s 转移资金 %2$s 从玩家 "%3$s" 给派系 "%4$s"'
     DESCRIPTION: 转让资金 玩家 -> 派系
+    TRANSFER: '%1$s 转移资金 %2$s 从玩家 "%3$s" 给派系 "%4$s"'
   MONEYWITHDRAW:
-    SHORT: 取钱
-    WITHDRAW: '%1$s 取出 %2$s 从银行: %3$s'
     DESCRIPTION: 取钱
+    WITHDRAW: '%1$s 取出 %2$s 从银行: %3$s'
   OPEN:
     TOOPEN: 来切换封闭或开放派系
     FOROPEN: 来切换封闭或开放派系
@@ -322,201 +402,6 @@ COMMAND:
     NONE: <i>这个地方没有设置主人，派系中的所有人都可以访问
     OWNERS: '<i>这块土地目前的主人: %1$s'
     DESCRIPTION: 列出这块土地的所有主人
-  POWER:
-    TOSHOW: 来显示玩家的权力信息
-    FORSHOW: 来显示玩家的权力信息
-    POWER: '%1$s<a> - 权力 / 最大权力: <i>%2$d / %3$d %4$s'
-    BONUS: ' (奖励: '
-    PENALTY: ' (惩罚: '
-    DESCRIPTION: 显示玩家权力信息
-  POWERBOOST:
-    HELP:
-      '1': <b>你必须在前面输入 "p" 或 "f" 指定 "玩家" 或 "派系".
-      '2': <b>例如：/f powerboost p SomePlayer 0.5 或者 /f powerboost f SomeFaction -5
-    INVALIDNUM: <b>请输入一个有效的数值.
-    PLAYER: 玩家 "%1$s"
-    FACTION: 派系 "%1$s"
-    BOOST: <i>%1$s 现在有一个权力更变 %2$d 到最小或最大的权力等级.
-    BOOSTLOG: '%1$s 对 %3$d 进行了权力修改 %2$s.'
-    DESCRIPTION: 对指定玩家/派系永久增加/减少权力
-  RELOAD:
-    TIME: <i>重新加载 <h>conf.json<i>文件, 耗时 <h>%1$d 毫秒<i>.
-    DESCRIPTION: 重载插件
-  SAFEUNCLAIMALL:
-    SHORT: 取消领取一块安全区域
-    UNCLAIMED: <i>你取消领取了所有安全区域.
-    UNCLAIMEDLOG: '%1$s 取消领取了所有安全区域.'
-    DESCRIPTION: 取消领取所有安全区域.
-  SAVEALL:
-    SUCCESS: <i>派系已保存!
-    DESCRIPTION: 保存所有数据文件
-  SETFWARP:
-    NOTCLAIMED: <i>你只能在派系领地设置地标
-    LIMIT: <i>你的派系地标已经到达上限 <a>(%1$d).
-    SET: <i>设置地标 <a>%1$s <i>到你的位置.
-    TOSET: 来设置地标
-    FORSET: 来设置地标
-    DESCRIPTION: 设置一个地标
-    NOPASSWORD: <b>你没有权限创建传送密码.
-  SETHOME:
-    DISABLED: <b>抱歉，此功能服务器未开启.
-    NOTCLAIMED: <b>你的派系传送点只能在派系领地内设置.
-    TOSET: 来设置你的派系传送点
-    FORSET: 来设置你的派系传送点
-    SET: '%1$s<i> 为你的派系设置传送点. 你现在可以使用:'
-    SETOTHER: <b>你为派系 %1$s<i> 设置了传送点.
-    DESCRIPTION: 设置派系传送点
-  SHOW:
-    NOFACTION:
-      SELF: 你不在派系中
-      OTHER: 没有这个派系
-    TOSHOW: 来显示派系信息
-    FORSHOW: 来显示派系信息
-    DESCRIPTION: '<a>介绍: <i>%1$s'
-    PEACEFUL: 这个派系正处于和平状态
-    PERMANENT: <a>这个派系是永久存在的
-    JOINING: '<a>加入: <i>%1$s '
-    INVITATION: 需要邀请
-    UNINVITED: 没有邀请需求
-    POWER: '<a>区域 / 权力 / 最大权力: <i> %1$d/%2$d/%3$d %4$s'
-    BONUS: ' (奖励: '
-    PENALTY: ' (惩罚: '
-    DEPRECIATED: (%1$s 贬值)
-    LANDVALUE: '<a>土地总值: <i>%1$s %2$s'
-    BANKCONTAINS: '<a>银行资金: <i>%1$s'
-    ALLIES: '盟友: '
-    ENEMIES: '敌人: '
-    MEMBERSONLINE: '在线成员: '
-    MEMBERSOFFLINE: '离线成员: '
-    NOHOME: 无
-    COMMANDDESCRIPTION: 显示派系信息
-    DEATHS:
-      TIL:
-        RAIDABLE: '<i>DTR: %1$d'
-    EXEMPT: <b>这个派系是隐藏的,不会被看到.
-  SHOWINVITES:
-    PENDING: '还有邀请未处理: '
-    CLICKTOREVOKE: 点击拒绝 %1$s 的邀请
-    DESCRIPTION: 显示未处理的派系邀请
-  STATUS:
-    FORMAT: '%1$s 权力: %2$s 最后一次上线: %3$s'
-    ONLINE: 在线
-    AGOSUFFIX: ' 之前.'
-    DESCRIPTION: 显示玩家数据
-  TAG:
-    TAKEN: <b>这个名字已经被其他派系取了
-    TOCHANGE: 来修改派系名称
-    FORCHANGE: 来修改派系名称
-    FACTION: '%1$s<i> 更换你的派系名称为 %2$s'
-    CHANGED: <i>派系 %1$s<i> 更名为 %2$s.
-    DESCRIPTION: 派系更名
-  TITLE:
-    TOCHANGE: 修改成员称号
-    FORCHANGE: 来修改成员称号
-    CHANGED: '%1$s<i> 修改称号为: %2$s'
-    DESCRIPTION: 设置或删除一个成员的称号
-  UNCLAIM:
-    SAFEZONE:
-      SUCCESS: <i>安全区域未被领取.
-      NOPERM: <b>这是一个安全区域，你没有取消领取的权限.
-    WARZONE:
-      SUCCESS: <i>战争区域.
-      NOPERM: <b>这是一个战争区域. 你没有权限取消领取.
-    UNCLAIMED: '%1$s<i> 你的领地未被领取.'
-    UNCLAIMS: <i>你领取了这块区域.
-    LOG: '%1$s 取消领取 (%2$s) 从派系: %3$s'
-    WRONGFACTION: <b>你没有这块土地.
-    TOUNCLAIM: 来取消领取这块土地
-    FORUNCLAIM: 来取消领取这块土地
-    FACTIONUNCLAIMED: '%1$s<i> 取消领取了一些区域.'
-    DESCRIPTION: 取消领取一个区域
-  UNCLAIMALL:
-    TOUNCLAIM: 取消领取所有派系区域
-    FORUNCLAIM: 来取消领取所有派系区域
-    UNCLAIMED: '%1$s<i> 取消领取了所有派系领地.'
-    LOG: '%1$s 取消领取所有: %2$s'
-    DESCRIPTION: 取消领取所有派系领地
-  VERSION:
-    VERSION: <i>服务器正在运行 %1$s
-    DESCRIPTION: 显示插件信息
-  WARUNCLAIMALL:
-    SHORT: 取消领取所有战争区域
-    SUCCESS: <i>你放弃了所有战争区域.
-    LOG: '%1$s 放弃了所有战争区域.'
-    DESCRIPTION: 取消领取所有战争区域
-  RELATIONS:
-    ALLTHENOPE: <b>不，你不能这样.
-    MORENOPE: <b>你不能声明与自己派系的关系 :)
-    ALREADYINRELATIONSHIP: <b>目前已经处于这种关系了 %1$s.
-    TOMARRY: 来修改你想要的关系
-    FORMARRY: 来修改你想要的关系
-    MUTUAL: <i>你的派系现在与 %1$s<i> 为 %2$s
-    PEACEFUL: <i>当你们派系处于和平状态时，这是没有用的.
-    PEACEFULOTHER: <i>在派系和平状态下没有任何效果.
-    PROPOSAL:
-      '1': '%1$s<i> 希望成为你的 %2$s'
-      '2': <i>Type <c>/%1$s %2$s %3$s<i> 来同意.
-      SENT: '%1$s<i> 知道了你希望成为 %2$s'
-    INVALID:
-      TARGET: <b>目标派系无效.
-      NOTNORMAL: <b>不，不能这样做
-      SELF: <b>你不能声明与自己派系的关系 :)
-      ALREADYINRELATIONSHIP: <b>你已经希望的关系 %1$s.
-    DESCRIPTION: 设置希望与另一个派系的关系
-    EXCEEDS:
-      ME: <i>设置失败. 你只能 %1$s %2$s.
-      THEY: <i>设置失败. 你只能 %1$s %2$s.
-  ERRORS:
-    PLAYERNOTFOUND: <b>没有找到 "<p><name><b>" 玩家.
-    PLAYERORFACTIONNOTFOUND: <b>没有找到派系|玩家 "<p><name><b>".
-    ONLYFACTIONADMIN: <b>只有派系管理员才能这样.
-    MODERATORSCANT: <b>副管理不能互相控制...
-    COLEADERSCANT: <b>Coleaders can't control each other...
-    NOTMODERATOR: <b>你必须成为派系副管理才可以这样.
-    NOTMEMBER: <b>你没有加入任何派系.
-    NOTSAME: <name> <b>没有和你在同一个派系中.
-    YOUMUSTBE: <b>You <h>必须是 <therole><b> 到 <theaction>.
-    ONLYMODERATORSCAN: <b>只有派系副管理才能 <theaction>.
-    ONLYCOLEADERSCAN: <b>Only faction coleaders can <theaction>.
-    ONLYADMINSCAN: <b>只有派系管理员才能 <theaction>.
-    FACTIONSLOCKED: <b>派系已经被管理员锁定. 请稍后尝试.
-    ECONOMYDISABLED: <b>派系经济没有启用.
-    BANKSDISABLED: <b>派系银行系统没有启用.
-  AHOME:
-    DESCRIPTION: 强制传送玩家回派系传送点.
-    NOHOME: '%1$s 没有派系传送点.'
-    SUCCESS: $1%s 被传送会派系传送点.
-    OFFLINE: '%1$s 不在线.'
-    TARGET: 你被传送到派系传送点.
-  ANNOUNCE:
-    DESCRIPTION: 给派系成员发送一条通知.
-    TEMPLATE: <green><tag> <yellow>[<gray><player><yellow>]<white> <message>
-  CLAIMLINE:
-    INVALIDRADIUS: <b>如果指定距离, 至少为1.
-    DENIED: <b>你没有领取的权限.
-    DESCRIPTION: 以直线领取领地.
-    ABOVEMAX: <b>领取的最大数量为<b>%s<b>.
-    NOTVALID: '%s<b> 不是一个方向. 你可以使用 <h>north<b>, <h>east<b>,
-      <h>south <b>或是 <h>west<b>.'
-  COLEADER:
-    CANDIDATES: '你可以升职的玩家: '
-    CLICKTOPROMOTE: '点击升职 '
-    NOTMEMBER: '%1$s<b> 不是你派系的成员.'
-    NOTADMIN: <b>你不是派系管理员.
-    SELF: <b>指定的玩家不能是你自己.
-    TARGETISADMIN: <b>目标玩家是派系管理员.
-    REVOKES: <i>你从 %1$s<i> 撤销了副管理权限.
-    REVOKED: '%1$s<i> 不再是副管理了.'
-    PROMOTES: '%1$s<i> 晋升为派系副管理.'
-    PROMOTED: <i>你把玩家 %1$s<i> 提升为副管理.
-    DESCRIPTION: 给予或取消玩家的副管理权限
-  CONVERT:
-    BACKEND:
-      RUNNING: 服务器已经在使用哪种格式了.
-      INVALID: 未知格式
-    DESCRIPTION: 转换插件文件格式
-  DEBUG:
-    DESCRIPTION: <b>发送调试信息给服务器.
   PEACEFUL:
     DESCRIPTION: 设置一个派系为和平模式
     YOURS: '%1$s 切换 %2$s 为你的派系'
@@ -535,14 +420,113 @@ COMMAND:
     REVOKE: 移除派系永久性从
     SUCCESS: <i>你 %s <h>%s<i>.
     FACTION: '%s<i> %s 你的派系'
+  POWER:
+    TOSHOW: 来显示玩家的权力信息
+    FORSHOW: 来显示玩家的权力信息
+    POWER: '%1$s<a> - 权力 / 最大权力: <i>%2$d / %3$d %4$s'
+    BONUS: ' (奖励: '
+    PENALTY: ' (惩罚: '
+    DESCRIPTION: 显示玩家权力信息
+  POWERBOOST:
+    HELP:
+      '1': <b>你必须在前面输入 "p" 或 "f" 指定 "玩家" 或 "派系".
+      '2': <b>例如：/f powerboost p SomePlayer 0.5 或者 /f powerboost f SomeFaction -5
+    INVALIDNUM: <b>请输入一个有效的数值.
+    PLAYER: 玩家 "%1$s"
+    FACTION: 派系 "%1$s"
+    BOOST: <i>%1$s 现在有一个权力更变 %2$d 到最小或最大的权力等级.
+    BOOSTLOG: '%1$s 对 %3$d 进行了权力修改 %2$s.'
+    DESCRIPTION: 对指定玩家/派系永久增加/减少权力
+  RELATIONS:
+    INVALID:
+      TARGET: <b>目标派系无效.
+      NOTNORMAL: <b>不，不能这样做
+      SELF: <b>你不能声明与自己派系的关系 :)
+      ALREADYINRELATIONSHIP: <b>你已经希望的关系 %1$s.
+    TOMARRY: 来修改你想要的关系
+    FORMARRY: 来修改你想要的关系
+    MUTUAL: <i>你的派系现在与 %1$s<i> 为 %2$s
+    PEACEFUL: <i>当你们派系处于和平状态时，这是没有用的.
+    PEACEFULOTHER: <i>在派系和平状态下没有任何效果.
+    DESCRIPTION: 设置希望与另一个派系的关系
+    EXCEEDS:
+      ME: <i>设置失败. 你只能 %1$s %2$s.
+      THEY: <i>设置失败. 你只能 %1$s %2$s.
+    PROPOSAL:
+      '1': '%1$s<i> 希望成为你的 %2$s'
+      '2': <i>Type <c>/%1$s %2$s %3$s<i> 来同意.
+      SENT: '%1$s<i> 知道了你希望成为 %2$s'
+  RELOAD:
+    TIME: <i>重新加载 <h>conf.json<i>文件, 耗时 <h>%1$d 毫秒<i>.
+    DESCRIPTION: 重载插件
+  SAFEUNCLAIMALL:
+    DESCRIPTION: 取消领取所有安全区域.
+    UNCLAIMED: <i>你取消领取了所有安全区域.
+    UNCLAIMEDLOG: '%1$s 取消领取了所有安全区域.'
+  SAVEALL:
+    SUCCESS: <i>派系已保存!
+    DESCRIPTION: 保存所有数据文件
   SCOREBOARD:
     DESCRIPTION: 计分板
+  SETFWARP:
+    NOTCLAIMED: <i>你只能在派系领地设置地标
+    LIMIT: <i>你的派系地标已经到达上限 <a>(%1$d).
+    SET: <i>设置地标 <a>%1$s <i>到你的位置.
+    TOSET: 来设置地标
+    FORSET: 来设置地标
+    DESCRIPTION: 设置一个地标
+    NOPASSWORD: <b>你没有权限创建传送密码.
+  SETHOME:
+    DISABLED: <b>抱歉，此功能服务器未开启.
+    NOTCLAIMED: <b>你的派系传送点只能在派系领地内设置.
+    TOSET: 来设置你的派系传送点
+    FORSET: 来设置你的派系传送点
+    SET: '%1$s<i> 为你的派系设置传送点. 你现在可以使用:'
+    SETOTHER: <b>你为派系 %1$s<i> 设置了传送点.
+    DESCRIPTION: 设置派系传送点
   SETMAXVAULTS:
     DESCRIPTION: 设置派系的最大值.
     SUCCESS: '&a设置最大值给 &e%s &a到 &b%d'
   VAULT:
     DESCRIPTION: /f vault <number> 打开派系值中的一个.
     TOOHIGH: '&c你尝试打开 %d 但是你的派系只有 %d 值.'
+  SHOW:
+    NOFACTION:
+      SELF: 你不在派系中
+      OTHER: 没有这个派系
+    TOSHOW: 来显示派系信息
+    FORSHOW: 来显示派系信息
+    DESCRIPTION: '<a>介绍: <i>%1$s'
+    PEACEFUL: 这个派系正处于和平状态
+    PERMANENT: <a>这个派系是永久存在的
+    JOINING: '<a>加入: <i>%1$s '
+    INVITATION: 需要邀请
+    UNINVITED: 没有邀请需求
+    NOHOME: 无
+    POWER: '<a>区域 / 权力 / 最大权力: <i> %1$d/%2$d/%3$d %4$s'
+    BONUS: ' (奖励: '
+    PENALTY: ' (惩罚: '
+    DEPRECIATED: (%1$s 贬值)
+    LANDVALUE: '<a>土地总值: <i>%1$s %2$s'
+    BANKCONTAINS: '<a>银行资金: <i>%1$s'
+    ALLIES: '盟友: '
+    ENEMIES: '敌人: '
+    MEMBERSONLINE: '在线成员: '
+    MEMBERSOFFLINE: '离线成员: '
+    COMMANDDESCRIPTION: 显示派系信息
+    DEATHS:
+      TIL:
+        RAIDABLE: '<i>DTR: %1$d'
+    EXEMPT: <b>这个派系是隐藏的,不会被看到.
+  SHOWINVITES:
+    PENDING: '还有邀请未处理: '
+    CLICKTOREVOKE: 点击拒绝 %1$s 的邀请
+    DESCRIPTION: 显示未处理的派系邀请
+  STATUS:
+    FORMAT: '%1$s 权力: %2$s 最后一次上线: %3$s'
+    ONLINE: 在线
+    AGOSUFFIX: ' 之前.'
+    DESCRIPTION: 显示玩家数据
   STUCK:
     TIMEFORMAT: m '分', s '秒.'
     CANCELLED: <a>传送已取消，因为你受到伤害了
@@ -553,6 +537,18 @@ COMMAND:
     TOSTUCK: 来安全传送 %1$s 出去
     FORSTUCK: 来 %1$s 进行安全传送
     DESCRIPTION: 成功将你传送出敌方领地
+  TAG:
+    TAKEN: <b>这个名字已经被其他派系取了
+    TOCHANGE: 来修改派系名称
+    FORCHANGE: 来修改派系名称
+    FACTION: '%1$s<i> 更换你的派系名称为 %2$s'
+    CHANGED: <i>派系 %1$s<i> 更名为 %2$s.
+    DESCRIPTION: 派系更名
+  TITLE:
+    TOCHANGE: 修改成员称号
+    FORCHANGE: 来修改成员称号
+    CHANGED: '%1$s<i> 修改称号为: %2$s'
+    DESCRIPTION: 设置或删除一个成员的称号
   TOGGLEALLIANCECHAT:
     DESCRIPTION: 切换是否会看到盟友聊天
     IGNORE: 已忽略盟友聊天
@@ -573,11 +569,47 @@ COMMAND:
       ENEMIES: 敌视排行
       POWER: 权力排行
       LAND: 领土排行
+  UNCLAIM:
+    SAFEZONE:
+      SUCCESS: <i>安全区域未被领取.
+      NOPERM: <b>这是一个安全区域，你没有取消领取的权限.
+    WARZONE:
+      SUCCESS: <i>战争区域.
+      NOPERM: <b>这是一个战争区域. 你没有权限取消领取.
+    UNCLAIMED: '%1$s<i> 你的领地未被领取.'
+    UNCLAIMS: <i>你领取了这块区域.
+    LOG: '%1$s 取消领取 (%2$s) 从派系: %3$s'
+    WRONGFACTION: <b>你没有这块土地.
+    TOUNCLAIM: 来取消领取这块土地
+    FORUNCLAIM: 来取消领取这块土地
+    FACTIONUNCLAIMED: '%1$s<i> 取消领取了一些区域.'
+    FACTIONUNCLAIMEDAMOUNT: <player><i> 取消领取了 <teal><amount> <i>区块在
+      半径 <radius> 内从 <chunk>
+    DESCRIPTION: 取消领取一个区域
+  UNCLAIMALL:
+    TOUNCLAIM: 取消领取所有派系区域
+    FORUNCLAIM: 来取消领取所有派系区域
+    UNCLAIMED: '%1$s<i> 取消领取了所有派系领地.'
+    LOG: '%1$s 取消领取所有: %2$s'
+    DESCRIPTION: 取消领取所有派系领地
+  VERSION:
+    VERSION: <i>服务器正在运行 %1$s
+    DESCRIPTION: 显示插件信息
+  WARUNCLAIMALL:
+    DESCRIPTION: 取消领取所有战争区域
+    SUCCESS: <i>你放弃了所有战争区域.
+    LOG: '%1$s 放弃了所有战争区域.'
+  STYLE:
+    DESCRIPTION: 设置派系风格
+    ARG:
+      CHARACTER: 字符
+      COLOUR: 颜色
+      VALUE: 数值
+    INVALIDSTYLE: <b>错误的种类，你只能设置字符或是颜色!
+    INVALIDCOLOUR: <b>这不是一个颜色!
+    COLOURUPDATED: <i>强制设置地图颜色 <colour><i>.
+    CHARACTERUPDATED: <i>强制设置地图字符为 <character><i>.
 command:
-  convert:
-    backend:
-      running: 已经在运行那个了.
-      invalid: 未知格式
   help:
     invitations: '<i>你可能需要关闭它并使用邀请:'
 LEAVE:
@@ -589,6 +621,9 @@ LEAVE:
   DISBANDED: <i>%s<i> 已经被解散.
   DISBANDEDLOG: 派系 %s (%s) 已被解散因为最后一个成员 (%s) 退出了.
   DESCRIPTION: 退出派系
+  NEWADMINPROMOTED:
+    PLAYER: <i>派系管理员 <h><player><i> 已被移除. <new-admin><i> 成为了新的派系管理员.
+    UNKNOWN: <i>派系管理员已被移除. <new-admin><i> 成为了新的派系管理员.
 CLAIM:
   PROTECTED: <b>这片区域受到保护
   DISABLED: <b>抱歉，这个世界没有开启此功能.
@@ -609,16 +644,18 @@ CLAIM:
   BORDER: <b> 你只能领取领地边界的土地.
   TOCLAIM: 来领取这块领地
   FORCLAIM: 来领取这块领地
-  CLAIMED: <h>%s<i> 为 <h>%s<i> 领取了 <h>%s<i> 的区域作为领地.
-  CLAIMEDLOG: '%s 在 (%s) 为派系领取了土地: %s'
   TOOVERCLAIM: 来领取更多的土地
   FOROVERCLAIM: 来领取更多的土地
+  CLAIMED: <h>%s<i> 为 <h>%s<i> 领取了 <h>%s<i> 的区域作为领地.
+  CLAIMEDLOG: '%s 在 (%s) 为派系领取了土地: %s'
   OVERCLAIM:
     DISABLED: <i>超越领取在此服务器已关闭.
   TOOCLOSETOOTHERFACTION: <i>你领取的地方与其他派系太接近了 %d
   OUTSIDEWORLDBORDER: <i>你领取的地方在边界之外.
   OUTSIDEBORDERBUFFER: <i>你领取的地方超过了边界. %d 区块.
 GENERIC:
+  YOU: 你
+  YOURFACTION: 你的派系
   NOPERMISSION: <b>你没有权限做 %1$s.
   DOTHAT: do that
   NOPLAYERMATCH: <b>找不到玩家 "<p>%1$s<b>".
@@ -626,12 +663,14 @@ GENERIC:
   ARGS:
     TOOFEW: '<b>缺少参数. <i>请按照这种格式:'
     TOOMANY: '<b>参数错误 "<p>%1$s<b>". <i>像这样使用命令:'
+  DEFAULTDESCRIPTION: 你的默认派系介绍 :(
   OWNERS: '所有者: %1$s'
   PUBLICLAND: 公共派系区域.
   FACTIONLESS: 无派系
   SERVERADMIN: 一个服务器管理员
   DISABLED: 已关闭
   ENABLED: 已开启
+  INFINITY: ∞
   CONSOLEONLY: 你不能以玩家的身份运行此命令.
   PLAYERONLY: <b>这个命令只能在游戏里面的玩家执行.
   ASKYOURLEADER: '<i> 找你的管理:'
@@ -645,11 +684,9 @@ GENERIC:
     TOOSHORT: <i>派系名称不能少于 <h>%1$s<i> 个字符.
     TOOLONG: <i>派系名称不能多于 <h>%s<i> 个字符.
     ALPHANUMERIC: <i>派系名称必须是字母或数字. "<h>%s<i>" 不允许使用.
-  YOU: 你
-  YOURFACTION: 你的派系
-  DEFAULTDESCRIPTION: 你的默认派系介绍 :(
-  INFINITY: ∞
   PLACEHOLDER: 查看你当前所处的区块
+  HOMEREMOVED: <b>你的派系传送点已经消失了，因为它不在你的领土上.
+  NULLPLAYER: 没有玩家
 COMPASS:
   SHORT:
     NORTH: 北
@@ -659,8 +696,21 @@ COMPASS:
 CHAT:
   FACTION: 派系内部通讯
   ALLIANCE: 盟友内部通讯
-  PUBLIC: 公共通讯
   TRUCE: 休战通讯
+  PUBLIC: 公共通讯
+ECON:
+  'OFF': 没有 %s
+  TRANSFER:
+    CANTAFFORD: <h><from><b> 无法转让 <h><amount><b> 到 <target><b>.
+    UNABLE: 未能转让 <amount><b> 从 <h><from><b>到 <h><target><b>.
+  BALANCE: <a><player>的<i>账户<h><amount><i>.
+  CANTAFFORD: <h><player><i>无法支付<h><amount><i> <forwhat>.
+  ERROR:
+    ONE: 在启用经济时出现错误, 因为无法找到"Vault"插件.
+    TWO: 在启用经济时出现错误, 因为无法找到"Vault"插件.
+    THREE: 在启用经济时出现错误, 因为无法找到可以配合"Vault"的经济插件.
+    FOUR: 在启用经济时出现错误, 因为无法找到可以配合"Vault"的经济插件.
+  LACKSCONTROL: <h><player><i> 缺少控制 <h><target>的<i> 金钱的权限
 RELATION:
   MEMBER:
     SINGULAR: 成员
@@ -668,35 +718,15 @@ RELATION:
   ALLY:
     SINGULAR: 盟友
     PLURAL: 盟友
+  TRUCE:
+    SINGULAR: 休战
+    PLURAL: 休战
   NEUTRAL:
     SINGULAR: 中立
     PLURAL: 中立
   ENEMY:
     SINGULAR: 敌人
     PLURAL: 敌人
-  TRUCE:
-    SINGULAR: 休战
-    PLURAL: 休战
-NOPAGES: <i>抱歉. 没有这一页.
-INVALIDPAGE: <i>没有这一页. 请在1到 %1$d 之间输入
-title: '&b派系 &0|&r'
-wilderness: '&2野外'
-wilderness-description: ''
-warzone: '&4战争区域'
-warzone-description: 没有最安全的地方.
-safezone: '&6安全区域'
-safezone-description: 用于玩家和派系之间PVP的区域.
-toggle-sb: 你已经把计分板设置为 {value}
-default-prefix: '{relationcolor}[{faction}] &r'
-faction-login: '&e%1$s &9登入了.'
-faction-logout: '&e%1$s &9离开了..'
-WARMUPS:
-  NOTIFY:
-    TELEPORT: '&e你将会被传送到 &d%1$s &e在 &d%2$d &e秒后.'
-  ALREADY: '&c你已经在传送了.'
-  CANCELLED: '&c你取消了地标传送.'
-ECON:
-  'OFF': no %s
 ROLE:
   ADMIN: 管理员
   COLEADER: 副管理
@@ -746,8 +776,88 @@ PLAYER:
     CANTHURT: <i>你不能伤害 %s<i>.
     NEUTRALFAIL: <i>你不能伤害 %s<i> 除非他们是你派系的敌人.
     TRIED: '%s<i> 想要攻击你.'
+  PAINFUL:
+    FACTION:
+      BUILD: <b>玩家 <name> 消耗生命地在领地上建造.
+      DESTROY: <b>玩家 <name> 消耗生命地在领地上破坏.
+      USE: <b>玩家 <name> 消耗生命地在领地上使用物品.
+      FROSTWALK: <b>玩家 <name> 消耗生命地在领地上使用冰霜行者.
+      PLACEPAINTING: <b>玩家 <name> 消耗生命地在领地上放置画.
+      BREAKPAINTING: <b>玩家 <name> 消耗生命地在领地上破坏画.
+    OWNED:
+      BUILD: '<b>消耗生命地在领地上建造, 建造者：<who>'
+      DESTROY: '<b>消耗生命地在领地上破坏, 破坏者：<who>'
+      USE: '<b>消耗生命地在领使用物品, 使用者：<who>'
+      FROSTWALK: '<b>消耗生命地在领地上使用冰霜行者, 使用者: <who>'
+      PLACEPAINTING: '<b>消耗生命地在领地上放置画,放置者: <who>'
+      BREAKPAINTING: '<b>消耗生命地在领地上破坏画,破坏者: <who>'
+  CANT:
+    FACTION:
+      BUILD: <b>你不能在领地 <name> 上建筑
+      DESTROY: <b>你不能在领地 <name> 上破坏
+      USE: <b>你不能在领地 <name> 上使用这个
+      FROSTWALK: <b>你不能在领地 <name> 上使用冰霜行者
+      PLACEPAINTING: <b>你不能在领地 <name> 上放置画
+      BREAKPAINTING: <b>你不能在领地 <name> 上破坏画
+    OWNED:
+      BUILD: <b>你不能在这块领地上建造, 它的主人是 <who>
+      DESTROY: <b>你不能在这块领地上破坏, 它的主人是 <who>
+      USE: <b>你不能在这块领地上使用这个, 它的主人是 <who>
+      FROSTWALK: <b>你不能在这块领地上使用冰霜行者, 它的主人是 <who>
+      PLACEPAINTING: <b>你不能在这块领地上放置画, 它的主人是
+        <who>
+      BREAKPAINTING: <b>你不能在这块领地上破坏画, 它的主人是
+        <who>
+    SAFEZONE:
+      BUILD: <b>你不能在安全区域建筑.
+      DESTROY: <b>你不能在安全区域进行破坏.
+      USE: <b>你不能在安全区域使用这个.
+      FROSTWALK: <b>你不能在安全区域使用冰霜行者.
+      PLACEPAINTING: <b>你不能在安全区域摆放画.
+      BREAKPAINTING: <b>你不能在安全区域破坏画.
+    WILDERNESS:
+      BUILD: <b>你不能在野外建筑.
+      DESTROY: <b>你不能在野外进行破坏.
+      USE: <b>你不能在野外使用这个.
+      FROSTWALK: <b>你不能在野外使用冰霜行者.
+      PLACEPAINTING: <b>你不能在野外摆放画.
+      BREAKPAINTING: <b>你不能在野外破坏画.
+    WARZONE:
+      BUILD: <b>你不能在战争区域建筑.
+      DESTROY: <b>你不能在战争区域进行破坏.
+      USE: <b>你不能在战争区域使用这个.
+      FROSTWALK: <b>你不能在战争区域使用冰霜行者.
+      PLACEPAINTING: <b>你不能在战争区域摆放画.
+      BREAKPAINTING: <b>你不能在战争区域破坏画.
+NOPAGES: <i>抱歉. 没有这一页.
+INVALIDPAGE: <i>没有这一页. 请在1到 %1$d 之间输入
+title: '&b派系 &0|&r'
+wilderness: '&2野外'
+wilderness-description: ''
+warzone: '&4战争区域'
+warzone-description: 没有最安全的地方.
+safezone: '&6安全区域'
+safezone-description: 用于玩家和派系之间PVP的区域.
+toggle-sb: 你已经把计分板设置为 {value}
 faction-leave: <a>你离开了 %1$s, <a>进入了 %2$s
+default-prefix: '{relationcolor}[{faction}] &r'
+faction-login: '&e%1$s &9登入了.'
+faction-logout: '&e%1$s &9离开了..'
 nofactions-prefix: '&6[&a4-&6]&r'
-date-format: MM/d/yy h:ma
-raidable-true: 'true'
-raidable-false: 'false'
+date-format: yy/MM/d h:ma
+raidable-true: '开启'
+raidable-false: '关闭'
+WARMUPS:
+  NOTIFY:
+    TELEPORT: '&e你将会被传送到 &d%1$s &e在 &d%2$d &e秒后.'
+  ALREADY: '&c你已经在传送了.'
+  CANCELLED: '&c你取消了地标传送.'
+EXPANSION:
+  FACTIONSFLY:
+    'NO':
+      ENDERPEARL: <b>在飞行时无法使用末影珍珠.
+      CHORUSFRUIT: <b>你无法在飞行时使用紫影果.
+    NOT:
+      HERE: <b>你不能在这里飞行.
+    ENABLED: <i>飞行已开启.
+    DISABLED: <i>飞行已关闭.
