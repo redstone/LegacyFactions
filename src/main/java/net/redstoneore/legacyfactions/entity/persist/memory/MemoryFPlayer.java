@@ -1262,15 +1262,6 @@ public abstract class MemoryFPlayer implements FPlayer {
 	}
 	
 	/**
-	 * Use resetFactionData
-	 */
-	@Deprecated
-	@Override
-	public void resetFactionData(boolean doSpoutUpdate) {
-		this.resetFactionData();
-	}
-	
-	/**
 	 * use sendMessage
 	 */
 	@Deprecated
