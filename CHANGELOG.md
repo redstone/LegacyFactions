@@ -1,3 +1,15 @@
+# 1.4.4
+* 🐞 Bugfix: Damage modifiers weren't working properly, causing a rare NPE, and modifying power incorrectly
+* ⭐️ Feature: You can now disable truces
+* ⭐️ Feature: You can now disable coleaders
+* ⭐️ Feature: Radius claims no longer spam you! ;-)
+* ⌨️ API: Commands can override a `isAvailable` method to make the command unavailable
+* ⌨️ API: Land change transactions can now be fully modified
+* ⌨️ API: New `NewSpiralTask` class allows calculating chunks in a radius without blocking the main thread
+* ⌨️ API: New `LocalityLazy` class allows create a chunk Locality without referencing bukkit 
+* 🇨🇳 Languages: Chinese Language updated!
+* 📚 Docs: JavaDoc added
+
 # 1.4.3
 * 🐞 Bugfix-ish: Database structure has change, backup before updating!
 * 🐞 Bugfix: Fixed a bug with script support generating blank comparison strings
