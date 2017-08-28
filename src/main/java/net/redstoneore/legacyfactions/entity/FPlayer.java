@@ -22,10 +22,10 @@ import java.util.List;
 /**
  * Logged in players always have exactly one FPlayer instance. Logged out players may or may not have an FPlayer
  * instance. They will always have one if they are part of a faction. This is because only players with a faction are
- * saved to disk (in order to not waste disk space).
- * <p/>
- * The FPlayer is linked to a minecraft player using the player name.
- * <p/>
+ * saved to disk (in order to not waste disk space).<br>
+ * <br>
+ * The FPlayer is linked to a minecraft player using the player name.<br>
+ * <br>
  * The same instance is always returned for the same player. This means you can use the == operator. No .equals method
  * necessary.
  */
@@ -73,7 +73,7 @@ public interface FPlayer extends EconomyParticipator {
 	
 	/**
 	 * Teleport a player to a {@link Locality}
-	 * @param {@link Locality}
+	 * @param locality {@link Locality}
 	 */
 	void teleport(Locality locality);
 
@@ -113,7 +113,7 @@ public interface FPlayer extends EconomyParticipator {
 
 	/**
 	 * Set the Rol of the player
-	 * @param new Role
+	 * @param role New role
 	 */
 	void setRole(Role role);
 	
@@ -155,7 +155,7 @@ public interface FPlayer extends EconomyParticipator {
 	
 	/**
 	 * Is vanished to a player
-	 * @param FPlayer viewing
+	 * @param viewer FPlayer viewing this.
 	 * @return true if appears vanished
 	 */
 	boolean isVanished(FPlayer viewer);

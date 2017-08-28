@@ -77,7 +77,7 @@ public class FScoreboard {
 	
 	/**
 	 * Set the sidebar visibility 
-	 * @param true of visible 
+	 * @param visible True if visible.
 	 */
 	public void setSidebarVisibility(boolean visible) {
 		if (!FScoreboards.isSupportedByServer()) return;
@@ -87,8 +87,8 @@ public class FScoreboard {
 	
 	/**
 	 * Set the default scoreboard 
-	 * @param FSidebarProvider to set
-	 * @param int in seconds of how frequency we update
+	 * @param provider FSidebarProvider to set
+	 * @param updateIntervalSecs Time in seconds of how frequency we update.
 	 */
 	public void setDefaultSidebar(final FSidebarProvider provider, int updateIntervalSecs) {
 		if (!FScoreboards.isSupportedByServer()) return;

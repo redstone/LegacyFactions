@@ -43,7 +43,7 @@ public abstract class VaultUtilBase {
 	
 	/**
 	 * Format money string based on server's set currency type, like "24 gold" or "$24.50"
-	 * @param amount
+	 * @param amount Amount to format.
 	 * @return String of currency in format
 	 */
 	public String moneyString(double amount) {
@@ -52,7 +52,7 @@ public abstract class VaultUtilBase {
 	
 	 /**
 	  * Calculate refund amount for unclaiming land
-	  * @param land
+	  * @param amountChunks Amount
 	  * @return double of amount
 	  */
 	public double calculateClaimRefund(int amountChunks) {
@@ -61,7 +61,7 @@ public abstract class VaultUtilBase {
 
 	/**
 	 * Calculate value of all owned land
-	 * @param amountChunks
+	 * @param amountChunks Amount
 	 * @return double of amount
 	 */
 	public double calculateTotalLandValue(int amountChunks) {
@@ -74,7 +74,7 @@ public abstract class VaultUtilBase {
 
 	/**
 	 * Calculate refund amount for all owned land
-	 * @param amountChunks
+	 * @param amountChunks Amount
 	 * @return double of amount
 	 */
 	public double calculateTotalLandRefund(int amountChunks) {
@@ -127,107 +127,6 @@ public abstract class VaultUtilBase {
 		who.sendMessage(TextUtil.parseColor(message));
 		return false;
 	}
-	/*
-	public boolean transferMoney(EconomyParticipator invoker, EconomyParticipator from, EconomyParticipator to, double amount) {
-		return this.transferMoney(invoker, from, to, amount, true);
-	}
-	
-	public boolean transferMoney(EconomyParticipator invoker, EconomyParticipator from, EconomyParticipator to, double amount, boolean notify) {
-		if (!this.shouldBeUsed()) return false;
-
-		// The amount must be positive.
-		// If the amount is negative we must flip and multiply amount with -1.
-		if (amount < 0) {
-			amount *= -1;
-			EconomyParticipator temp = from;
-			from = to;
-			to = temp;
-		}
-
-		// Check the rights
-		if (!this.canIControllYou(invoker, from)) return false;
-		
-		boolean fromHasBalance = false;
-		
-		if (from instanceof FPlayer) {
-			// Is FPlayer
-			if (econ.has(((FPlayer)from).getPlayer(), amount)) {
-				fromHasBalance = true;
-			}
-		} else if(this.isUUID(from.getAccountId())) {
-			// Is player UUID
-			OfflinePlayer offlinePlayerFrom = Bukkit.getOfflinePlayer(UUID.fromString(from.getAccountId()));
-			
-			if (econ.has(offlinePlayerFrom, amount)) {
-				fromHasBalance = true;
-			}
-		} else {
-			// Is name account
-			if (econ.has(from.getAccountId(), amount)) {
-				fromHasBalance = true;
-			}
-		}
-		
-		if (!fromHasBalance) {
-			if (invoker != null && notify) {
-				invoker.sendMessage("<h>%s<b> can't afford to transfer <h>%s<b> to %s<b>.", from.describeTo(invoker, true), moneyString(amount), to.describeTo(invoker));
-			}
-			return false;
-		}
-		
-		
-		
-		OfflinePlayer fromAccount;
-		OfflinePlayer toAccount;
-		
-		if (this.isUUID(from.getAccountId())) {
-			fromAccount = Bukkit.getOfflinePlayer(UUID.fromString(from.getAccountId()));
-			if (fromAccount.getName() == null) return false;
-		} else {
-			fromAccount = Bukkit.getOfflinePlayer(from.getAccountId());
-		}
-
-		if (this.isUUID(to.getAccountId())) {
-			toAccount = Bukkit.getOfflinePlayer(UUID.fromString(to.getAccountId()));
-			if (toAccount.getName() == null) return false;
-		} else {
-			toAccount = Bukkit.getOfflinePlayer(to.getAccountId());
-		}
-		
-		// Is there enough money for the transaction to happen?
-		if (!econ.has(fromAccount, amount)) {
-			// There was not enough money to pay
-			if (invoker != null && notify) {
-				invoker.sendMessage("<h>%s<b> can't afford to transfer <h>%s<b> to %s<b>.", from.describeTo(invoker, true), moneyString(amount), to.describeTo(invoker));
-			}
-
-			return false;
-		}
-
-		// Transfer money
-		EconomyResponse economyResponseWithdraw = econ.withdrawPlayer(fromAccount, amount);
-
-		if (economyResponseWithdraw.transactionSuccess()) {
-			EconomyResponse economyResponseDeposit = econ.depositPlayer(toAccount, amount);
-			if (economyResponseDeposit.transactionSuccess()) {
-				if (notify) {
-					sendTransferInfo(invoker, from, to, amount);
-				}
-				return true;
-			} else {
-				// transaction failed, refund account
-				econ.depositPlayer(fromAccount, amount);
-			}
-		}
-
-		// if we get here something with the transaction failed
-		if (notify) {
-			invoker.sendMessage("Unable to transfer %s<b> to <h>%s<b> from <h>%s<b>.", moneyString(amount), to.describeTo(invoker), from.describeTo(invoker, true));
-		}
-
-
-		return false;
-	}		 */
 	
 	public void sendTransferInfo(EconomyParticipator invoker, EconomyParticipator from, EconomyParticipator to, double amount) {
 		Set<FPlayer> recipients = new HashSet<FPlayer>();

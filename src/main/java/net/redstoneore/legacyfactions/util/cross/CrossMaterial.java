@@ -537,14 +537,14 @@ public enum CrossMaterial implements Cross<CrossMaterial> {
 	
 	/**
 	 * Converts to a Bukkit Material.
-	 * @return {@link Material}, or null
+	 * @return {@link org.bukkit.Material}, or null
 	 */
 	public org.bukkit.Material toBukkitMaterial() {
 		return org.bukkit.Material.valueOf(this.name());
 	}
 	
 	/**
-	 * Attempts to cross match to bukkits {@link Material}
+	 * Attempts to cross match to {@link org.bukkit.Material}
 	 * @return true if supported
 	 */
 	public boolean isSupported() {

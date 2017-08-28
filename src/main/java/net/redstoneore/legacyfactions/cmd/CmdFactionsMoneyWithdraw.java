@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.VaultAccount;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 
 public class CmdFactionsMoneyWithdraw extends FCommand {
@@ -53,7 +54,7 @@ public class CmdFactionsMoneyWithdraw extends FCommand {
 		boolean success = VaultAccount.get(from).transfer(VaultAccount.get(this.fme), amount, VaultAccount.get(this.fme));
 
 		if (success && Conf.logMoneyTransactions) {
-			Factions.get().log(ChatColor.stripColor(Factions.get().getTextUtil().parse(Lang.COMMAND_MONEYWITHDRAW_WITHDRAW.toString(), this.fme.getName(), VaultEngine.getUtils().moneyString(amount), from.describe())));
+			Factions.get().log(ChatColor.stripColor(TextUtil.get().parse(Lang.COMMAND_MONEYWITHDRAW_WITHDRAW.toString(), this.fme.getName(), VaultEngine.getUtils().moneyString(amount), from.describe())));
 		}
 	}
 

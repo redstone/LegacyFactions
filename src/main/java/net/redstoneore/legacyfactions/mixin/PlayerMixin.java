@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.redstoneore.legacyfactions.FLocation;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.LandAction;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
@@ -21,6 +20,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class PlayerMixin {
 
@@ -154,7 +154,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(Factions.get().getTextUtil().parse(message));
+					me.sendMessage(TextUtil.get().parse(message));
 				}
 			}
 
@@ -194,7 +194,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(Factions.get().getTextUtil().parse(message));					
+					me.sendMessage(TextUtil.get().parse(message));					
 				}
 			}
 
@@ -234,7 +234,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(Factions.get().getTextUtil().parse(message));
+					me.sendMessage(TextUtil.get().parse(message));
 				}
 			}
 
@@ -281,7 +281,7 @@ public class PlayerMixin {
 				}
 				
 				if (message != null) {
-					me.sendMessage(Factions.get().getTextUtil().parse(message.replace("<name>", otherFaction.getTag(myFaction))));					
+					me.sendMessage(TextUtil.get().parse(message.replace("<name>", otherFaction.getTag(myFaction))));					
 				}
 			}
 		}
@@ -316,7 +316,7 @@ public class PlayerMixin {
 				
 				if (message != null) {
 					message = message.replace("<name>", otherFaction.getTag(myFaction));
-					me.sendMessage(Factions.get().getTextUtil().parse(message));					
+					me.sendMessage(TextUtil.get().parse(message));					
 				}
 			}
 
@@ -354,7 +354,7 @@ public class PlayerMixin {
 					}
 					
 					if (message != null) {
-						me.sendMessage(Factions.get().getTextUtil().parse(message.replace("<who>", otherFaction.getOwnerListString(loc))));
+						me.sendMessage(TextUtil.get().parse(message.replace("<who>", otherFaction.getOwnerListString(loc))));
 					}
 				}
 			}
@@ -385,7 +385,7 @@ public class PlayerMixin {
 					}
 					
 					if (message != null) {
-						me.sendMessage(Factions.get().getTextUtil().parse(message.replace("<who>", otherFaction.getOwnerListString(loc))));
+						me.sendMessage(TextUtil.get().parse(message.replace("<who>", otherFaction.getOwnerListString(loc))));
 					}
 				}
 

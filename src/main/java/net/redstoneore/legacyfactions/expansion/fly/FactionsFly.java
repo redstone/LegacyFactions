@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.FLocation;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.cmd.FCommand;
@@ -37,36 +36,27 @@ public class FactionsFly extends FactionsExpansion {
 		Relation relation = fplayer.getRelationTo(factionAtLocation);
 		
 		if (factionAtLocation.isWilderness()) {
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in wilderness");
 			return fplayer.hasPermission("factions.fly.wilderness");
 		}
 		if (factionAtLocation.isWarZone()) {
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in warzone");
 			return fplayer.hasPermission("factions.fly.warzone");
 		}
 		if (factionAtLocation.isSafeZone()) {
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " + fplayer.getName() + " is attempting to fly in safezone");
 			return fplayer.hasPermission("factions.fly.safezone");
 		}
 		
 		switch (relation) {
 		case ALLY:
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in ally land");
 			return fplayer.hasPermission("factions.fly.ally");
 		case ENEMY:
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in enemy land");
 			return fplayer.hasPermission("factions.fly.enemy");
 		case MEMBER:
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in member land");
 			return fplayer.hasPermission("factions.fly.member");
 		case NEUTRAL:
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in neutral land");
 			return fplayer.hasPermission("factions.fly.neutral");
 		case TRUCE:
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in truce land");
 			return fplayer.hasPermission("factions.fly.truce");
 		default:
-			if (debugVerbose) Factions.get().debug("[FactionsFly] " +fplayer.getName() + " is attempting to fly in unknown land");
 			return false;
 		}
 	}
@@ -126,8 +116,8 @@ public class FactionsFly extends FactionsExpansion {
 		player.setFlying(false);
 		player.setAllowFlight(false);
 		
-		fplayer.sendMessage(Factions.get().getTextUtil().parse(Lang.EXPANSION_FACTIONSFLY_DISABLED.toString()));
-		 
+		Lang.EXPANSION_FACTIONSFLY_DISABLED.getBuilder().parse().sendTo(fplayer);
+		
 		if (Conf.expansionFactionsFly.onDisableTeleportToFloor) {
 			Locality floor = fplayer.getLastLocation().getFloorDown();
 			if (floor == null) return; 

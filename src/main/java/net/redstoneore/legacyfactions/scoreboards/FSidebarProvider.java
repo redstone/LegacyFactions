@@ -2,11 +2,11 @@ package net.redstoneore.legacyfactions.scoreboards;
 
 import java.util.List;
 
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.util.TagUtil;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public abstract class FSidebarProvider {
 	
@@ -34,7 +34,7 @@ public abstract class FSidebarProvider {
             // we assume it's broken up into two lines, so returning our tl will suffice.
             return Lang.COMMAND_SHOW_NOHOME.toString();
         }
-        return Factions.get().getTextUtil().parse(line); // finally add color :)
+        return TextUtil.get().parse(line); // finally add color :)
     }
     
     

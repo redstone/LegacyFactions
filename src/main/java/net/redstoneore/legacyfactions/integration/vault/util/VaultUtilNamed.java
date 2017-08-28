@@ -7,7 +7,7 @@ public abstract class VaultUtilNamed extends VaultUtilBase {
 	
 	/**
 	 * Check if a named account exists
-	 * @param account name
+	 * @param name Account name.
 	 * @return true if the account exists
 	 */
 	public boolean hasAccount(String name) {
@@ -16,8 +16,8 @@ public abstract class VaultUtilNamed extends VaultUtilBase {
 	
 	/**
 	 * Get the balance from a named account
-	 * @param account name
-	 * @return double of balance
+	 * @param account Account name.
+	 * @return Balance.
 	 */
 	public double getBalance(String account) {
 		return this.econ.getBalance(account);
@@ -25,8 +25,8 @@ public abstract class VaultUtilNamed extends VaultUtilBase {
 	
 	/**
 	 * Set the balance of a named account
-	 * @param account name
-	 * @param balance amount
+	 * @param account Account name.
+	 * @param amount New balance amount.
 	 * @return true if success
 	 */
 	public boolean setBalance(String account, double amount) {
@@ -48,8 +48,8 @@ public abstract class VaultUtilNamed extends VaultUtilBase {
 	
 	/**
 	 * Deposit an amount to a named account
-	 * @param account to deposit to
-	 * @param amount to deposit
+	 * @param account Account to deposit to
+	 * @param amount Amount to deposit
 	 * @return true if success
 	 */
 	public boolean deposit(String account, double amount) {
@@ -57,9 +57,9 @@ public abstract class VaultUtilNamed extends VaultUtilBase {
 	}
 	
 	/**
-	 * Withdraw an accmount from a named account
-	 * @param account to withdraw from
-	 * @param amount to withdraw
+	 * Withdraw an amount from a named account
+	 * @param account Account to withdraw from
+	 * @param amount Amount to withdraw
 	 * @return true if success
 	 */
 	public boolean withdraw(String account, double amount) {

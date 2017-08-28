@@ -15,8 +15,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.redstoneore.legacyfactions.lang.LangBuilder;
 
-// TODO: Ensure we're not restricted to this anywhere
-// TODO: Organise this a little better 
+/**
+ * This language enum is use for in built messages throughout LegacyFactions. If you are creating
+ * an add on plugin your should use your own language file.
+ */
 public enum Lang {
 	
 	// -------------------------------------------------- //

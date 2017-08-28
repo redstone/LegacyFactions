@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsAutohelp extends MCommand<Factions> {
 
@@ -47,7 +48,7 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
 			}
 		}
 
-		sendMessage(Factions.get().getTextUtil().getPage(lines, this.argAsInt(0, 1), Lang.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
+		sendMessage(TextUtil.get().getPage(lines, this.argAsInt(0, 1), Lang.COMMAND_AUTOHELP_HELPFOR.toString() + pcmd.aliases.get(0) + "\""));
 	}
 
 	@Override

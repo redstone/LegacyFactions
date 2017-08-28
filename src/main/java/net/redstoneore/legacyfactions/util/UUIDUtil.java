@@ -27,7 +27,6 @@ import java.util.concurrent.Callable;
 /**
  * @author evilmidget38
  */
-
 public class UUIDUtil implements Callable<Map<String, UUID>> {
 	private static final double PROFILES_PER_REQUEST = 100;
 	private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
@@ -164,7 +163,7 @@ public class UUIDUtil implements Callable<Map<String, UUID>> {
 	
 	/**
 	 * Check if a string is a UUID
-	 * @param String to check
+	 * @param uuid String of UUID to check
 	 * @return true if is a UUID
 	 */
 	public static boolean isUUID(String uuid) {

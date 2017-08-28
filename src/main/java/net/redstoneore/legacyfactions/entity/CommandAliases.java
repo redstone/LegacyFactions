@@ -2,7 +2,8 @@ package net.redstoneore.legacyfactions.entity;
 
 import com.google.common.collect.Lists;
 
-import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.entity.persist.Persist;
+
 import java.util.List;
 
 
@@ -97,11 +98,11 @@ public class CommandAliases {
 	private static transient CommandAliases i = new CommandAliases();
 
 	public static void load() {
-		Factions.get().getPersist().loadOrSaveDefault(i, CommandAliases.class, "commandAliases");
+		Persist.get().loadOrSaveDefault(i, CommandAliases.class, "commandAliases");
 	}
 
 	public static void save() {
-		Factions.get().getPersist().save(i);
+		Persist.get().save(i);
 	}
 }
 

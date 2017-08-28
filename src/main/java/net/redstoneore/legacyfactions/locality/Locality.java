@@ -584,7 +584,7 @@ public class Locality implements Serializable {
 	 * For example, if this Type is a Chunk. We will chunkX and chunkZ to otherObject. Even if
 	 * otherObject is a Block.
 	 * 
-	 * @param object to compare
+	 * @param otherObject Other object to compare to.
 	 * @return true if they equal
 	 */
 	@Override

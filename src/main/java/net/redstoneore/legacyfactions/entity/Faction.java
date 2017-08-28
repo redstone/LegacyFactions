@@ -18,6 +18,24 @@ import java.util.*;
 
 public interface Faction extends EconomyParticipator {
 	
+	String getId();
+
+	String getTag();
+
+	String getTag(String prefix);
+
+	String getTag(Faction otherFaction);
+
+	String getTag(FPlayer otherFplayer);
+
+	void setTag(String str);
+
+	String getComparisonTag();
+
+	String getDescription();
+
+	void setDescription(String value);
+	
 	HashMap<String, List<String>> getAnnouncements();
 
 	FactionWarps warps();
@@ -33,8 +51,6 @@ public interface Faction extends EconomyParticipator {
 	void removeAnnouncements(FPlayer fPlayer);
 
 	Set<String> getInvites();
-
-	String getId();
 
 	void invite(FPlayer fplayer);
 
@@ -67,22 +83,6 @@ public interface Faction extends EconomyParticipator {
 	boolean isPermanent();
 
 	void setPermanent(boolean isPermanent);
-
-	String getTag();
-
-	String getTag(String prefix);
-
-	String getTag(Faction otherFaction);
-
-	String getTag(FPlayer otherFplayer);
-
-	void setTag(String str);
-
-	String getComparisonTag();
-
-	String getDescription();
-
-	void setDescription(String value);
 
 	boolean hasForcedMapCharacter();
 	

@@ -77,7 +77,7 @@ public class JSONBoard extends MemoryBoard {
     }
 
     public void forceSave(boolean sync) {
-        DiscUtil.writeCatch(file, Factions.get().gson.toJson(dumpAsSaveFormat()), sync);
+        DiscUtil.writeCatch(file, Factions.get().getGson().toJson(dumpAsSaveFormat()), sync);
     }
 
     public boolean load() {
@@ -109,6 +109,6 @@ public class JSONBoard extends MemoryBoard {
     public void convertFrom(MemoryBoard old) {
         this.flocationIds = old.flocationIds;
         forceSave();
-        Board.i = this;
+        Board.instance = this;
     }
 }

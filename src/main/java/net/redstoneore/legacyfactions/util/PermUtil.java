@@ -18,7 +18,7 @@ public class PermUtil {
     }
 
     public String getForbiddenMessage(String perm) {
-        return Factions.get().getTextUtil().parse(Lang.GENERIC_NOPERMISSION.toString(), getPermissionDescription(perm));
+        return TextUtil.get().parse(Lang.GENERIC_NOPERMISSION.toString(), getPermissionDescription(perm));
     }
 
     /**

@@ -32,243 +32,232 @@ public class JSONFactions extends MemoryFactions {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-    private static transient Path file = Paths.get(FactionsJSON.getDatabasePath().toString(), "factions.json");
-    public static Path getJsonFile() { return file; }
-    
-    // -------------------------------------------- //
-    // CONSTRUCTORS
-    // -------------------------------------------- //
+	private static transient Path file = Paths.get(FactionsJSON.getDatabasePath().toString(), "factions.json");
+	public static Path getJsonFile() { return file; }
+	
+	// -------------------------------------------- //
+	// CONSTRUCTORS
+	// -------------------------------------------- //
 
-    public JSONFactions() {
-        this.gson = Factions.get().gson;
-        this.nextId = 1;
-    }
-
-	// -------------------------------------------------- //
-	// FIELDS 
-	// -------------------------------------------------- // 
-
-    // Info on how to persist
-    private Gson gson;
+	public JSONFactions() {
+		this.nextId = 1;
+	}
 
 	// -------------------------------------------------- //
 	// METHODS 
 	// -------------------------------------------------- // 
 
-    public Gson getGson() {
-        return gson;
-    }
+	public Gson getGson() {
+		return Factions.get().getGson();
+	}
+	
+	public void forceSave() {
+		forceSave(true);
+	}
 
-    public void setGson(Gson gson) {
-        this.gson = gson;
-    }
-    
-    public void forceSave() {
-        forceSave(true);
-    }
+	public void forceSave(boolean sync) {
+		final Map<String, JSONFaction> entitiesThatShouldBeSaved = new HashMap<String, JSONFaction>();
+		for (Faction entity : this.factions.values()) {
+			entitiesThatShouldBeSaved.put(entity.getId(), (JSONFaction) entity);
+		}
 
-    public void forceSave(boolean sync) {
-        final Map<String, JSONFaction> entitiesThatShouldBeSaved = new HashMap<String, JSONFaction>();
-        for (Faction entity : this.factions.values()) {
-            entitiesThatShouldBeSaved.put(entity.getId(), (JSONFaction) entity);
-        }
+		saveCore(file, entitiesThatShouldBeSaved, sync);
+	}
+	
+	private boolean saveCore(Path target, Map<String, JSONFaction> entities, boolean sync) {
+		return DiscUtil.writeCatch(target, this.getGson().toJson(entities), sync);
+	}
 
-        saveCore(file, entitiesThatShouldBeSaved, sync);
-    }
-    
-    private boolean saveCore(Path target, Map<String, JSONFaction> entities, boolean sync) {
-        return DiscUtil.writeCatch(target, this.gson.toJson(entities), sync);
-    }
+	public void load() {
+		Map<String, JSONFaction> factions = this.loadCore();
+		if (factions == null) {
+			return;
+		}
+		this.factions.putAll(factions);
 
-    public void load() {
-        Map<String, JSONFaction> factions = this.loadCore();
-        if (factions == null) {
-            return;
-        }
-        this.factions.putAll(factions);
+		super.load();
+		Factions.get().log("Loaded " + factions.size() + " Factions");
+	}
 
-        super.load();
-        Factions.get().log("Loaded " + factions.size() + " Factions");
-    }
+	private Map<String, JSONFaction> loadCore() {
+			if (!Files.exists(file)) {
+				return new HashMap<String, JSONFaction>();			
+			}
+		
+		String content = DiscUtil.readCatch(file);
+		if (content == null) {
+			return null;
+		}
+		
+		JsonReader jsonReader = new JsonReader((new StringReader(content)));
+		Map<String, JSONFaction> data = this.getGson().fromJson(jsonReader, new TypeToken<Map<String, JSONFaction>>() {}.getType());
+		
+		this.nextId = 1;
+		// Do we have any names that need updating in claims or invites?
 
-    private Map<String, JSONFaction> loadCore() {
-    	if (!Files.exists(file)) {
-            return new HashMap<String, JSONFaction>();    		
-    	}
-    	
-        String content = DiscUtil.readCatch(file);
-        if (content == null) {
-            return null;
-        }
-        
-	    JsonReader jsonReader = new JsonReader((new StringReader(content)));
-	    Map<String, JSONFaction> data = this.gson.fromJson(jsonReader, new TypeToken<Map<String, JSONFaction>>() {}.getType());
-	    
-        this.nextId = 1;
-        // Do we have any names that need updating in claims or invites?
+		int needsUpdate = 0;
+		for (Entry<String, JSONFaction> entry : data.entrySet()) {
+			String id = entry.getKey();
+			Faction f = entry.getValue();
+			f.setId(id);
+			this.updateNextIdForId(id);
+			needsUpdate += whichKeysNeedMigration(f.getInvites()).size();
+			for (Set<String> keys : f.getClaimOwnership().values()) {
+				needsUpdate += whichKeysNeedMigration(keys).size();
+			}
+		}
 
-        int needsUpdate = 0;
-        for (Entry<String, JSONFaction> entry : data.entrySet()) {
-            String id = entry.getKey();
-            Faction f = entry.getValue();
-            f.setId(id);
-            this.updateNextIdForId(id);
-            needsUpdate += whichKeysNeedMigration(f.getInvites()).size();
-            for (Set<String> keys : f.getClaimOwnership().values()) {
-                needsUpdate += whichKeysNeedMigration(keys).size();
-            }
-        }
+		if (needsUpdate > 0) {
+			// We've got some converting to do!
+			Bukkit.getLogger().log(Level.INFO, "Factions is now updating factions.json");
 
-        if (needsUpdate > 0) {
-            // We've got some converting to do!
-            Bukkit.getLogger().log(Level.INFO, "Factions is now updating factions.json");
+			// First we'll make a backup, because god forbid anybody heed a
+			// warning
+			Path oldFile = Paths.get(getJsonFile().toString(), "factions.json.old");
+			try {
+				Files.createFile(oldFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			saveCore(oldFile, (Map<String, JSONFaction>) data, true);
+			Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + oldFile.toAbsolutePath());
 
-            // First we'll make a backup, because god forbid anybody heed a
-            // warning
-            Path oldFile = Paths.get(getJsonFile().toString(), "factions.json.old");
-            try {
-            	Files.createFile(oldFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            saveCore(oldFile, (Map<String, JSONFaction>) data, true);
-            Bukkit.getLogger().log(Level.INFO, "Backed up your old data at " + oldFile.toAbsolutePath());
+			Bukkit.getLogger().log(Level.INFO, "Please wait while Factions converts " + needsUpdate + " old player names to UUID. This may take a while.");
 
-            Bukkit.getLogger().log(Level.INFO, "Please wait while Factions converts " + needsUpdate + " old player names to UUID. This may take a while.");
+			// Update claim ownership
 
-            // Update claim ownership
+			for (String string : data.keySet()) {
+				Faction f = data.get(string);
+				Map<FLocation, Set<String>> claims = f.getClaimOwnership();
+				for (FLocation key : claims.keySet()) {
+					Set<String> set = claims.get(key);
 
-            for (String string : data.keySet()) {
-                Faction f = data.get(string);
-                Map<FLocation, Set<String>> claims = f.getClaimOwnership();
-                for (FLocation key : claims.keySet()) {
-                    Set<String> set = claims.get(key);
+					Set<String> list = whichKeysNeedMigration(set);
 
-                    Set<String> list = whichKeysNeedMigration(set);
+					if (list.size() > 0) {
+						UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
+						try {
+							Map<String, UUID> response = fetcher.call();
+							for (String value : response.keySet()) {
+								// Let's replace their old named entry with a
+								// UUID key
+								String id = response.get(value).toString();
+								set.remove(value.toLowerCase()); // Out with the
+								// old...
+								set.add(id); // And in with the new
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						claims.put(key, set); // Update
+					}
+				}
+			}
 
-                    if (list.size() > 0) {
-                        UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
-                        try {
-                            Map<String, UUID> response = fetcher.call();
-                            for (String value : response.keySet()) {
-                                // Let's replace their old named entry with a
-                                // UUID key
-                                String id = response.get(value).toString();
-                                set.remove(value.toLowerCase()); // Out with the
-                                // old...
-                                set.add(id); // And in with the new
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        claims.put(key, set); // Update
-                    }
-                }
-            }
+			// Update invites
 
-            // Update invites
+			for (String string : data.keySet()) {
+				Faction f = data.get(string);
+				Set<String> invites = f.getInvites();
+				Set<String> list = whichKeysNeedMigration(invites);
 
-            for (String string : data.keySet()) {
-                Faction f = data.get(string);
-                Set<String> invites = f.getInvites();
-                Set<String> list = whichKeysNeedMigration(invites);
+				if (list.size() > 0) {
+					UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
+					try {
+						Map<String, UUID> response = fetcher.call();
+						for (String value : response.keySet()) {
+							// Let's replace their old named entry with a UUID
+							// key
+							String id = response.get(value).toString();
+							invites.remove(value.toLowerCase()); // Out with the
+							// old...
+							invites.add(id); // And in with the new
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
 
-                if (list.size() > 0) {
-                    UUIDUtil fetcher = new UUIDUtil(new ArrayList<String>(list));
-                    try {
-                        Map<String, UUID> response = fetcher.call();
-                        for (String value : response.keySet()) {
-                            // Let's replace their old named entry with a UUID
-                            // key
-                            String id = response.get(value).toString();
-                            invites.remove(value.toLowerCase()); // Out with the
-                            // old...
-                            invites.add(id); // And in with the new
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+			saveCore(oldFile, (Map<String, JSONFaction>) data, true); // Update the flatfile
+			Bukkit.getLogger().log(Level.INFO, "Done converting factions.json to UUID.");
+		}
+		return data;
+	}
 
-            saveCore(oldFile, (Map<String, JSONFaction>) data, true); // Update the flatfile
-            Bukkit.getLogger().log(Level.INFO, "Done converting factions.json to UUID.");
-        }
-        return data;
-    }
+	private Set<String> whichKeysNeedMigration(Set<String> keys) {
+		HashSet<String> list = new HashSet<String>();
+		for (String value : keys) {
+			if (!value.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")) {
+				// Not a valid UUID..
+				if (value.matches("[a-zA-Z0-9_]{2,16}")) {
+					// Valid playername, we'll mark this as one for conversion
+					// to UUID
+					list.add(value);
+				}
+			}
+		}
+		return list;
+	}
 
-    private Set<String> whichKeysNeedMigration(Set<String> keys) {
-        HashSet<String> list = new HashSet<String>();
-        for (String value : keys) {
-            if (!value.matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")) {
-                // Not a valid UUID..
-                if (value.matches("[a-zA-Z0-9_]{2,16}")) {
-                    // Valid playername, we'll mark this as one for conversion
-                    // to UUID
-                    list.add(value);
-                }
-            }
-        }
-        return list;
-    }
+	// -------------------------------------------- //
+	// ID MANAGEMENT
+	// -------------------------------------------- //
 
-    // -------------------------------------------- //
-    // ID MANAGEMENT
-    // -------------------------------------------- //
+	public String getNextId() {
+		while (!isIdFree(this.nextId)) {
+			this.nextId += 1;
+		}
+		return Integer.toString(this.nextId);
+	}
 
-    public String getNextId() {
-        while (!isIdFree(this.nextId)) {
-            this.nextId += 1;
-        }
-        return Integer.toString(this.nextId);
-    }
+	public boolean isIdFree(String id) {
+		return !this.factions.containsKey(id);
+	}
 
-    public boolean isIdFree(String id) {
-        return !this.factions.containsKey(id);
-    }
+	public boolean isIdFree(int id) {
+		return this.isIdFree(Integer.toString(id));
+	}
 
-    public boolean isIdFree(int id) {
-        return this.isIdFree(Integer.toString(id));
-    }
+	protected synchronized void updateNextIdForId(int id) {
+		if (this.nextId < id) {
+			this.nextId = id + 1;
+		}
+	}
 
-    protected synchronized void updateNextIdForId(int id) {
-        if (this.nextId < id) {
-            this.nextId = id + 1;
-        }
-    }
+	protected void updateNextIdForId(String id) {
+		try {
+			int idAsInt = Integer.parseInt(id);
+			this.updateNextIdForId(idAsInt);
+		} catch (Exception ignored) {
+		}
+	}
 
-    protected void updateNextIdForId(String id) {
-        try {
-            int idAsInt = Integer.parseInt(id);
-            this.updateNextIdForId(idAsInt);
-        } catch (Exception ignored) {
-        }
-    }
+	@Override
+	public Faction generateFactionObject() {
+		String id = getNextId();
+		Faction faction = new JSONFaction(id);
+		updateNextIdForId(id);
+		return faction;
+	}
 
-    @Override
-    public Faction generateFactionObject() {
-        String id = getNextId();
-        Faction faction = new JSONFaction(id);
-        updateNextIdForId(id);
-        return faction;
-    }
+	@Override
+	public Faction generateFactionObject(String id) {
+		Faction faction = new JSONFaction(id);
+		return faction;
+	}
 
-    @Override
-    public Faction generateFactionObject(String id) {
-        Faction faction = new JSONFaction(id);
-        return faction;
-    }
-
-    @Override
-    public void convertFrom(MemoryFactions old) {
-        this.factions.putAll(Maps.transformValues(old.factions, new Function<Faction, JSONFaction>() {
-            @Override
-            public JSONFaction apply(Faction arg0) {
-                return new JSONFaction((MemoryFaction) arg0);
-            }
-        }));
-        this.nextId = old.nextId;
-        forceSave();
-        FactionColl.i = this;
-    }
+	@Override
+	public void convertFrom(MemoryFactions old) {
+		this.factions.putAll(Maps.transformValues(old.factions, new Function<Faction, JSONFaction>() {
+			@Override
+			public JSONFaction apply(Faction arg0) {
+				return new JSONFaction((MemoryFaction) arg0);
+			}
+		}));
+		this.nextId = old.nextId;
+		forceSave();
+		FactionColl.i = this;
+	}
+	
 }

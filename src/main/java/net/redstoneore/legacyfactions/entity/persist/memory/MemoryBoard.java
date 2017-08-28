@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.AsciiCompass;
+import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
 import org.bukkit.Bukkit;
@@ -252,9 +253,9 @@ public abstract class MemoryBoard extends Board {
      * Checks if there is another faction within a given radius other than Wilderness. Used for HCF feature that
      * requires a 'buffer' between factions.
      *
-     * @param flocation - center location.
-     * @param faction   - faction checking for.
-     * @param radius    - chunk radius to check.
+     * @param locality  center location.
+     * @param faction   faction checking for.
+     * @param radius    chunk radius to check.
      *
      * @return true if another Faction is within the radius, otherwise false.
      */
@@ -336,7 +337,7 @@ public abstract class MemoryBoard extends Board {
     public ArrayList<String> getMap(Faction faction, FLocation flocation, double inDegrees) {
         ArrayList<String> ret = new ArrayList<String>();
         Faction factionLoc = getFactionAt(flocation);
-        ret.add(Factions.get().getTextUtil().titleize("(" + flocation.getCoordString() + ") " + factionLoc.getTag(faction)));
+        ret.add(TextUtil.get().titleize("(" + flocation.getCoordString() + ") " + factionLoc.getTag(faction)));
 
         int halfWidth = Conf.mapWidth / 2;
         int halfHeight = Conf.mapHeight / 2;
@@ -395,7 +396,7 @@ public abstract class MemoryBoard extends Board {
         }
 
         // Get the compass
-        ArrayList<String> asciiCompass = AsciiCompass.getAsciiCompass(inDegrees, ChatColor.RED, Factions.get().getTextUtil().parse("<a>"));
+        ArrayList<String> asciiCompass = AsciiCompass.getAsciiCompass(inDegrees, ChatColor.RED, TextUtil.get().parse("<a>"));
 
         // Add the compass
         ret.set(1, asciiCompass.get(0) + ret.get(1).substring(3 * 3));

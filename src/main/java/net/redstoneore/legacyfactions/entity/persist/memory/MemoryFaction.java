@@ -72,6 +72,60 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	// -------------------------------------------------- //
 		
 	@Override
+	public String getId() {
+		return this.id;
+	}
+	
+	@Override
+	public String getTag() {
+		return this.tag;
+	}
+	
+	@Override
+	public String getTag(String prefix) {
+		return prefix + this.tag;
+	}
+
+	@Override
+	public String getTag(Faction otherFaction) {
+		if (otherFaction == null) {
+			return this.getTag();
+		}
+		return this.getTag(this.getColorTo(otherFaction).toString());
+	}
+	
+	@Override
+	public String getTag(FPlayer otherFplayer) {
+		if (otherFplayer == null) {
+			return this.getTag();
+		}
+		return this.getTag(this.getColorTo(otherFplayer).toString());
+	}
+
+	@Override
+	public void setTag(String str) {
+		if (Conf.factionTagForceUpperCase) {
+			str = str.toUpperCase();
+		}
+		this.tag = str;
+	}
+
+	@Override
+	public String getComparisonTag() {
+		return MiscUtil.getComparisonString(this.tag);
+	}
+
+	@Override
+	public String getDescription() {
+		return this.description;
+	}
+
+	@Override
+	public void setDescription(String value) {
+		this.description = value;
+	}
+	
+	@Override
 	public FactionWarps warps() {
 		return factionWarps;
 	}
@@ -156,10 +210,6 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		return invites;
 	}
 
-	public String getId() {
-		return id;
-	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -236,47 +286,6 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 	public void setPermanent(boolean isPermanent) {
 		permanent = isPermanent;
-	}
-
-	public String getTag() {
-		return this.tag;
-	}
-
-	public String getTag(String prefix) {
-		return prefix + this.tag;
-	}
-
-	public String getTag(Faction otherFaction) {
-		if (otherFaction == null) {
-			return getTag();
-		}
-		return this.getTag(this.getColorTo(otherFaction).toString());
-	}
-
-	public String getTag(FPlayer otherFplayer) {
-		if (otherFplayer == null) {
-			return getTag();
-		}
-		return this.getTag(this.getColorTo(otherFplayer).toString());
-	}
-
-	public void setTag(String str) {
-		if (Conf.factionTagForceUpperCase) {
-			str = str.toUpperCase();
-		}
-		this.tag = str;
-	}
-
-	public String getComparisonTag() {
-		return MiscUtil.getComparisonString(this.tag);
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String value) {
-		this.description = value;
 	}
 
 	public boolean hasForcedMapCharacter() {
@@ -812,7 +821,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	// ----------------------------------------------//
 	
 	public void sendMessage(String message, Object... args) {
-		message = Factions.get().getTextUtil().parse(message, args);
+		message = TextUtil.get().parse(message, args);
 
 		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
 			fplayer.sendMessage(message);

@@ -11,8 +11,8 @@ public abstract class VaultUtilPlayer extends VaultUtilNamed {
 
 	/**
 	 * Get the user friendly representation of a players balance
-	 * @param UUID of player
-	 * @return String with user friendy balance
+	 * @param uuid UUID of player to get friendly balance of.
+	 * @return String with user friendly balance
 	 */
 	public String getFriendlyBalance(UUID uuid) {
 		OfflinePlayer offline = Bukkit.getOfflinePlayer(uuid);
@@ -23,8 +23,8 @@ public abstract class VaultUtilPlayer extends VaultUtilNamed {
 
 	/**
 	 * Get the user friendly representation of a players balance
-	 * @param UUID of player
-	 * @return String with user friendy balance
+	 * @param player Player to get friendly balance of.
+	 * @return String with user friendly balance
 	 */
 	public String getFriendlyBalance(FPlayer player) {
 		return this.getFriendlyBalance(UUID.fromString(player.getId()));

@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.entity;
 
-import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.entity.persist.Persist;
 
 public class Meta {
 
@@ -22,11 +22,11 @@ public class Meta {
 	// -------------------------------------------------- //
 
 	public void load() {
-		Factions.get().getPersist().loadOrSaveDefault(instance, Meta.class, "database/meta");
+		Persist.get().loadOrSaveDefault(instance, Meta.class, "database/meta");
 	}
 
 	public void save() {
-		Factions.get().getPersist().save(instance, "database/meta");
+		Persist.get().save(instance, "database/meta");
 	}
 	
 }

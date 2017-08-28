@@ -1,7 +1,6 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
@@ -11,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.util.TagReplacerUtil;
 import net.redstoneore.legacyfactions.util.TagUtil;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 import java.util.List;
 
@@ -108,9 +108,9 @@ public class CmdFactionsShow extends FCommand {
 			// send header and that's all
 			String header = Conf.showLines.get(0);
 			if (TagReplacerUtil.HEADER.contains(header)) {
-				sender.sendMessage(Factions.get().getTextUtil().titleize(tag));
+				sender.sendMessage(TextUtil.get().titleize(tag));
 			} else {
-				sender.sendMessage(Factions.get().getTextUtil().parse(TagReplacerUtil.FACTION.replace(header, tag)));
+				sender.sendMessage(TextUtil.get().parse(TagReplacerUtil.FACTION.replace(header, tag)));
 			}
 			return; // we only show header for non-normal factions
 		}
@@ -140,7 +140,7 @@ public class CmdFactionsShow extends FCommand {
 				if (parsed.contains("%")) {
 					parsed = parsed.replaceAll("%", ""); // Just in case it got in there before we disallowed it.
 				}
-				sender.sendMessage(Factions.get().getTextUtil().parse(parsed));
+				sender.sendMessage(TextUtil.get().parse(parsed));
 			}
 		}
 	}

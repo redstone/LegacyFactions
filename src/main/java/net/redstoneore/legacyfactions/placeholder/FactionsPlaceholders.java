@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.placeholder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -447,15 +448,19 @@ public class FactionsPlaceholders {
 		this.placeholders.forEach(placeholder -> placeholder.adapt(adapter));
 	}
 	
+	/**
+	 * Returns an unmodifiable list of all placeholders. 
+	 * @return List containing placeholders
+	 */
 	public List<FactionsPlaceholder> getPlaceholders() {
-		return this.placeholders;
+		return Collections.unmodifiableList(this.placeholders);
 	}
 	
 	/**
 	 * Parse a string with FactionsPlaceholders 
-	 * @param player
-	 * @param string to replace
-	 * @return new string
+	 * @param player Player parsing for (can be null for none).
+	 * @param string String to parse.
+	 * @return parsed string.
 	 */
 	public String parse(Player player, String string) {
 		for (FactionsPlaceholder placeholder : this.getPlaceholders()) {
@@ -468,9 +473,10 @@ public class FactionsPlaceholders {
 	
 	/**
 	 * Parse a string with FactionsPlaceholders using relations if possible
-	 * @param player name
-	 * @param string to replace
-	 * @return new string
+	 * @param player1 Player apart of this relationship.
+	 * @param player2 Player apart of this relationship.
+	 * @param string String to parse.
+	 * @return parsed string.
 	 */
 	public String parse(Player player1, Player player2, String string) {
 		for (FactionsPlaceholder placeholder : this.getPlaceholders()) {
@@ -488,15 +494,16 @@ public class FactionsPlaceholders {
 		}
 		return string;
 	}
-
+	
 	/**
-	 * Parse a string with FactionsPlaceholders.
-	 * @param FPlayer to parse for
-	 * @param format 
-	 * @return Parsed string.
+	 * Parse a string with FactionsPlaceholders 
+	 * @param fplayer FPlayer parsing for (can be null for none).
+	 * @param string String to parse.
+	 * @return parsed string.
 	 */
-	public String parse(FPlayer fplayer, String format) {
-		return this.parse(fplayer.getPlayer(), format);
+	public String parse(FPlayer fplayer, String string) {
+		if (fplayer == null) return this.parse((Player)null, string);
+		return this.parse(fplayer.getPlayer(), string);
 	}
 
 }

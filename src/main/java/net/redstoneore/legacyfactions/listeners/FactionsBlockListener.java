@@ -245,7 +245,7 @@ public class FactionsBlockListener implements Listener {
 	
 	/**
 	 * Useful utility to convert the old string names to the new LandAction enum.
-	 * @param string of action
+	 * @param action Action to convert.
 	 * @return {@link LandAction}
 	 */
 	public static LandAction stringToLandAction(String action) {
