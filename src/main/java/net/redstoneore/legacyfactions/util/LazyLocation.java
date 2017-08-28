@@ -24,7 +24,7 @@ public class LazyLocation implements Serializable {
 
 	/**
 	 * Construct a LazyLocation using a location
-	 * @param loc
+	 * @param location The location.
 	 */
 	public LazyLocation(Location location) {
 		this.setLocation(location);
