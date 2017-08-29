@@ -396,4 +396,15 @@ public class PlayerMixin {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	public static boolean isNPC(Entity entity) {
+		if (entity.hasMetadata("NPC")) return true;
+		
+		return false;
+	}
+	
 }
