@@ -345,7 +345,7 @@ public class Factions extends FactionsPluginBase {
 
 	@Override
 	public boolean handleCommand(CommandSender sender, String commandString, boolean testOnly) {
-		return sender instanceof Player && FactionsPlayerListener.preventCommand(commandString, (Player) sender, testOnly) || super.handleCommand(sender, commandString, testOnly);
+		return sender instanceof Player && FactionsCommandsListener.get().preventCommand(commandString, (Player) sender, testOnly) || super.handleCommand(sender, commandString, testOnly);
 	}
 
 	@Override
