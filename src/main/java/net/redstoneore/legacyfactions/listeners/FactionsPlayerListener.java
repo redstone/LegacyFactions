@@ -28,6 +28,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsChangedTerritory;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboard;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
@@ -514,7 +515,14 @@ public class FactionsPlayerListener implements Listener {
 		if (!(event.getEntity() instanceof Player)) return;
 		if (event.getDamage() == 0) return;
 		
+		// NPC Check
+		// Some NPC plugin's will not play nicely with LegacyFactions damage modifier so we will
+		// not do anything if an NPC is invovled.
+		if (PlayerMixin.isNPC(event.getEntity())) return;
+		
 		FPlayer fplayer = FPlayerColl.get(event.getEntity());
+		if (fplayer == null) return;
+		
 		FPlayer damager = null;
 		
 		Relation relationToLocation = fplayer.getRelationTo(fplayer.getLastLocation().getFactionHere());
