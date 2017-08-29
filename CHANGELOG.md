@@ -1,3 +1,6 @@
+# 1.4.5
+* 🐞 Bugfix: NPCs did not play nicely with damage modifiers
+
 # 1.4.4
 * 🐞 Bugfix: Damage modifiers weren't working properly, causing a rare NPE, and modifying power incorrectly
 * ⭐️ Feature: You can now disable truces
