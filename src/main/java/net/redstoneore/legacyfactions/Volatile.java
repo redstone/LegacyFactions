@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.redstoneore.legacyfactions.cmd.MCommand;
+import net.redstoneore.legacyfactions.expansion.Provider;
 import net.redstoneore.legacyfactions.struct.InteractAttemptSpam;
 
 /**
@@ -84,5 +85,13 @@ public class Volatile {
 	private AtomicBoolean autosave = new AtomicBoolean(true);
 	public Boolean autosave() { return this.locked.get(); }
 	public void autosave(boolean autosave) { this.autosave.set(autosave); }
+	
+	// -------------------------------------------------- //
+	// PROVIDER
+	// -------------------------------------------------- //
 		
+	private Provider provider = null;
+	public Provider provider() { return this.provider; }
+	public void provider(Provider provider) { this.provider = provider; }
+
 }
