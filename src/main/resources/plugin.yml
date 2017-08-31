@@ -28,8 +28,8 @@ permissions:
     children:
       factions.kit.halfmod: true
       factions.disband.any: true
-      factions.setpeaceful: true
-      factions.setpermanent: true
+      factions.set.peaceful: true
+      factions.set.permanent: true
       factions.setpermanentpower: true
       factions.powerboost: true
       factions.sethome.any: true
@@ -79,14 +79,13 @@ permissions:
       factions.map: true
       factions.mod: true
       factions.money.kit.standard: true
-      factions.noboom: true
-      factions.open: true
       factions.owner: true
       factions.ownerlist: true
       factions.power: true
       factions.power.any: true
       factions.relation: true
       factions.sethome: true
+      factions.set.open: true
       factions.show: true
       factions.stuck: true
       factions.tag: true
@@ -210,22 +209,22 @@ permissions:
       factions.money.f2f: true
       factions.money.f2p: true
       factions.money.p2f: true
-  factions.noboom:
-    description: toggle explosions (peaceful factions only)
-  factions.open:
-    description: switch if invitation is required to join
   factions.owner:
     description: set ownership of claimed land
   factions.ownerlist:
     description: list owner(s) of this claimed land
   factions.ownershipbypass:
     description: bypass ownership restrictions within own faction's territory
-  factions.setpeaceful:
-    description: designate a faction as peaceful
-  factions.setpermanent:
-    description: designate a faction as permanent
+  factions.set.explosions:
+    description: toggle explosions 
+  factions.set.open:
+    description: toggle if invitation is required to join
+  factions.set.peaceful:
+    description: toggle a faction as peaceful
+  factions.set.permanent:
+    description: toggle a faction as permanent
   factions.setpermanentpower:
-    description: set permanent power for a faction
+    description: toggle permanent power for a faction
   factions.stuck:
     description: teleports player outside a faction
   factions.power:

@@ -25,7 +25,7 @@ public class CmdFactionsOpen extends FCommand {
 
 		this.optionalArgs.put("yes/no", "flip");
 
-		this.permission = Permission.OPEN.getNode();
+		this.permission = Permission.SET_OPEN.getNode();
 		this.disableOnLock = false;
 
 		this.senderMustBePlayer = true;
