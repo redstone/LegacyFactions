@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
+import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.event.EventFactionsCommandExecute;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsAutohelp extends MCommand<Factions> {
@@ -31,14 +33,29 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
-
+	
+	@Override
+	public final void prePerform() {
+		if (this.senderIsConsole) {
+			if (EventFactionsCommandExecute.create(null, this).call().isCancelled()) {
+				return;
+			}
+		} else {
+			if (EventFactionsCommandExecute.create(FPlayerColl.get(this.sender), this).call().isCancelled()) {
+				return;
+			}
+		}
+		
+		this.perform();
+	}
+	
 	@Override
 	public void perform() {
 		if (this.commandChain.isEmpty()) return;
 		
 		MCommand<?> pcmd = this.commandChain.get(this.commandChain.size() - 1);
 
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 
 		lines.addAll(pcmd.helpLong);
 
