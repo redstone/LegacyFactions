@@ -11,6 +11,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 
 public class CmdFactionsOwner extends FCommand {
@@ -71,7 +72,7 @@ public class CmdFactionsOwner extends FCommand {
 
 		final FLocation flocation = new FLocation(fme);
 
-		Faction factionHere = Board.get().getFactionAt(flocation);
+		Faction factionHere = Board.get().getFactionAt(Locality.of(me.getLocation()));
 		if (factionHere != myFaction) {
 			if (!factionHere.isNormal()) {
 				fme.sendMessage(Lang.COMMAND_OWNER_NOTCLAIMED);

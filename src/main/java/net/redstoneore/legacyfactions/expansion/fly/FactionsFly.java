@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 
 import com.google.common.collect.Lists;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.cmd.FCommand;
@@ -27,12 +26,12 @@ public class FactionsFly extends FactionsExpansion {
 	// STATIC METHODS
 	// -------------------------------------------------- //
 
-	public static boolean canFlyHere(FPlayer fplayer, FLocation location) {
-		return canFlyHere(fplayer, location, false);
+	public static boolean canFlyHere(FPlayer fplayer, Locality locality) {
+		return canFlyHere(fplayer, locality, false);
 	}
 	
-	public static boolean canFlyHere(FPlayer fplayer, FLocation location, boolean debugVerbose) {
-		Faction factionAtLocation = Board.get().getFactionAt(location);
+	public static boolean canFlyHere(FPlayer fplayer, Locality locality, boolean debugVerbose) {
+		Faction factionAtLocation = Board.get().getFactionAt(locality);
 		Relation relation = fplayer.getRelationTo(factionAtLocation);
 		
 		if (factionAtLocation.isWilderness()) {

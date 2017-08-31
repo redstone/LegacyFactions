@@ -330,6 +330,11 @@ public abstract class MemoryBoard extends Board {
     // Map generation
     //----------------------------------------------//
 
+    @Override
+	public ArrayList<String> getMap(Faction faction, Locality locality, double inDegrees) {
+		return null;
+	}
+    
     /**
      * The map is relative to a coord and a faction north is in the direction of decreasing x east is in the direction
      * of decreasing z

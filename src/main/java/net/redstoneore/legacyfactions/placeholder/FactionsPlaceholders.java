@@ -254,7 +254,7 @@ public class FactionsPlaceholders {
 			public String get(Player player) {
 				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
-				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
+				Faction faction = Board.get().getFactionAt(fplayer.getLastLocation());
 				
 				return fplayer.getRelationTo(faction).toNiceName();
 			}
@@ -265,7 +265,7 @@ public class FactionsPlaceholders {
 			public String get(Player player) {
 				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
-				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
+				Faction faction = Board.get().getFactionAt(fplayer.getLastLocation());
 				
 				return fplayer.getRelationTo(faction).getColor() + "";
 			}
@@ -276,7 +276,7 @@ public class FactionsPlaceholders {
 			public String get(Player player) {
 				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
-				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
+				Faction faction = Board.get().getFactionAt(fplayer.getLastLocation());
 				
 				return faction.getTag();
 			}
@@ -287,7 +287,7 @@ public class FactionsPlaceholders {
 			public String get(Player player) {
 				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
-				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
+				Faction faction = Board.get().getFactionAt(fplayer.getLastLocation());
 				
 				return faction.getDescription();
 			}
@@ -298,7 +298,7 @@ public class FactionsPlaceholders {
 			public String get(Player player) {
 				if (player == null) return null;
 				FPlayer fplayer = FPlayerColl.get(player);
-				Faction faction = Board.get().getFactionAt(fplayer.getLastStoodAt());
+				Faction faction = Board.get().getFactionAt(fplayer.getLastLocation());
 				
 				return String.valueOf(faction.getFoundedDate());
 			}

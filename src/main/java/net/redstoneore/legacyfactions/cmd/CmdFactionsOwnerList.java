@@ -6,6 +6,7 @@ import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 
 public class CmdFactionsOwnerList extends FCommand {
@@ -54,22 +55,22 @@ public class CmdFactionsOwnerList extends FCommand {
 			return;
 		}
 
-		FLocation flocation = new FLocation(fme);
+		Locality locality = Locality.of(fme);
 
-		if (Board.get().getFactionAt(flocation) != myFaction) {
+		if (Board.get().getFactionAt(locality) != myFaction) {
 			if (!hasBypass) {
 				fme.sendMessage(Lang.COMMAND_OWNERLIST_WRONGFACTION);
 				return;
 			}
 			
-			myFaction = Board.get().getFactionAt(flocation);
+			myFaction = Board.get().getFactionAt(locality);
 			if (!myFaction.isNormal()) {
 				fme.sendMessage(Lang.COMMAND_OWNERLIST_NOTCLAIMED);
 				return;
 			}
 		}
 
-		String owners = myFaction.getOwnerListString(flocation);
+		String owners = myFaction.getOwnerListString(new FLocation(locality.getChunk()));
 
 		if (owners == null || owners.isEmpty()) {
 			fme.sendMessage(Lang.COMMAND_OWNERLIST_NONE);

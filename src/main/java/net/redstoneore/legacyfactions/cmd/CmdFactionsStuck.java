@@ -12,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.task.SpiralTask;
 
 public class CmdFactionsStuck extends FCommand {
@@ -87,7 +88,7 @@ public class CmdFactionsStuck extends FCommand {
 						@Override
 						public boolean work() {
 							FLocation chunk = currentFLocation();
-							Faction faction = board.getFactionAt(chunk);
+							Faction faction = board.getFactionAt(Locality.of(chunk.getChunk()));
 							if (faction.isWilderness()) {
 								int cx = FLocation.chunkToBlock((int) chunk.getX());
 								int cz = FLocation.chunkToBlock((int) chunk.getZ());

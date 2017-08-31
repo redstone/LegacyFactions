@@ -581,7 +581,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 	}
 
 	public Relation getRelationToLocation() {
-		return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this);
+		return Board.get().getFactionAt(this.getLastLocation()).getRelationTo(this);
 	}
 
 	@Override
@@ -690,28 +690,28 @@ public abstract class MemoryFPlayer implements FPlayer {
 	// Territory
 	//----------------------------------------------//
 	public boolean isInOwnTerritory() {
-		return Board.get().getFactionAt(new FLocation(this)) == this.getFaction();
+		return Board.get().getFactionAt(this.getLastLocation()) == this.getFaction();
 	}
 
 	public boolean isInOthersTerritory() {
-		Faction factionHere = Board.get().getFactionAt(new FLocation(this));
+		Faction factionHere = Board.get().getFactionAt(this.getLastLocation());
 		return factionHere != null && factionHere.isNormal() && factionHere != this.getFaction();
 	}
 
 	public boolean isInAllyTerritory() {
-		return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this).isAlly();
+		return Board.get().getFactionAt(this.getLastLocation()).getRelationTo(this).isAlly();
 	}
 
 	public boolean isInNeutralTerritory() {
-		return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this).isNeutral();
+		return Board.get().getFactionAt(this.getLastLocation()).getRelationTo(this).isNeutral();
 	}
 
 	public boolean isInEnemyTerritory() {
-		return Board.get().getFactionAt(new FLocation(this)).getRelationTo(this).isEnemy();
+		return Board.get().getFactionAt(this.getLastLocation()).getRelationTo(this).isEnemy();
 	}
 
 	public void sendFactionHereMessage(Faction factionFrom) {
-		Faction factionHere = Board.get().getFactionAt(this.getLastStoodAt());
+		Faction factionHere = Board.get().getFactionAt(this.getLastLocation());
 		boolean showInChat = true;
 		
 		// Territory change scoreboard message

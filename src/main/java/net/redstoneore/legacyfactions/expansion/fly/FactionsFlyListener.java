@@ -8,12 +8,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.cross.CrossTeleportCause;
 
 public class FactionsFlyListener implements Listener {
@@ -56,7 +56,7 @@ public class FactionsFlyListener implements Listener {
 			}
 		}
 		
-		if (!FactionsFly.canFlyHere(fplayer, FLocation.valueOf(event.getTo()))) {
+		if (!FactionsFly.canFlyHere(fplayer, Locality.of(event.getTo()))) {
 			FactionsFly.get().cancelFlightFor(fplayer);
 		}
 	}
