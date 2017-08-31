@@ -1,6 +1,11 @@
 package net.redstoneore.legacyfactions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
+
+import com.google.common.collect.Lists;
 
 /**
  * Permissions used by LegacyFactions
@@ -66,12 +71,12 @@ public enum Permission {
 	MONEY_F2P("money.f2p"),
 	MONEY_P2F("money.p2f"),
 	MONITOR_LOGINS("monitorlogins"),
-	NO_BOOM("noboom"),
-	OPEN("open"),
 	OWNER("owner"),
 	OWNERLIST("ownerlist"),
-	SET_PEACEFUL("setpeaceful"),
-	SET_PERMANENT("setpermanent"),
+	SET_OPEN("set.open", Lists.newArrayList("open")),
+	SET_PEACEFUL("set.peaceful", Lists.newArrayList("setpeaceful")),
+	SET_PERMANENT("set.permanent", Lists.newArrayList("setpermanent")),
+	SET_EXPLOSIONS("set.explosions", Lists.newArrayList("noboom")),
 	SET_PERMANENTPOWER("setpermanentpower"),
 	SHOW_INVITES("showinvites"),
 	SHOW_BYPASSEXEMPT("show.bypassexempt"),
@@ -101,7 +106,18 @@ public enum Permission {
 	VAULT("vault"),
 	SETMAXVAULTS("setmaxvaults"),
 	STYLE("style"),
-	STYLE_ANY("style.any");
+	STYLE_ANY("style.any"),
+	
+	// -------------------------------------------------- //
+	// DEPRECATED PERMISSIONS
+	// -------------------------------------------------- //
+	
+	@Deprecated
+	NO_BOOM("noboom"),
+	
+	@Deprecated
+	OPEN("open"),
+
 	;
 	
 	// -------------------------------------------------- //
@@ -109,7 +125,11 @@ public enum Permission {
 	// -------------------------------------------------- //
 
 	private Permission(final String node) {
+		this(node, new ArrayList<>());
+	}
+	private Permission(final String node, List<String> oldNames) {
 		this.node = "factions." + node;
+		this.oldNames = oldNames;
 	}
 	
 	// -------------------------------------------------- //
@@ -117,7 +137,8 @@ public enum Permission {
  	// -------------------------------------------------- //
 
 	private final String node;
-
+	private final List<String> oldNames;
+	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -127,7 +148,28 @@ public enum Permission {
 	}
 	
 	public boolean has(CommandSender sender, boolean informSenderIfNot) {
-		return Factions.get().getPermUtil().has(sender, this.node, informSenderIfNot);
+		if (this.oldNames.size() == 0) {
+			return Factions.get().getPermUtil().has(sender, this.node, informSenderIfNot);
+		}
+
+		if (!Factions.get().getPermUtil().has(sender, this.node, false)) {
+			int at = 1;
+			
+			for (String name : this.oldNames) {
+				String alternativePermission = "factions." + name;
+				
+				if (at == this.oldNames.size()) {
+					return Factions.get().getPermUtil().has(sender, alternativePermission, informSenderIfNot);
+				}
+				
+				if (Factions.get().getPermUtil().has(sender, alternativePermission, false)) {
+					return true;
+				}
+				at++;
+			}
+		}
+		
+		return false;
 	}
 
 	public boolean has(CommandSender sender) {
