@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 
 import java.util.ArrayList;
@@ -182,7 +183,7 @@ public enum TagReplacerUtil {
             case FACTION:
                 return faction.getTag();
             case JOINING:
-                return (faction.getOpen() ? Lang.COMMAND_SHOW_UNINVITED.toString() : Lang.COMMAND_SHOW_INVITATION.toString());
+                return (faction.getFlag(Flags.OPEN) ? Lang.COMMAND_SHOW_UNINVITED.toString() : Lang.COMMAND_SHOW_INVITATION.toString());
             case PEACEFUL:
                 return faction.isPeaceful() ? Conf.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
             case PERMANENT:
