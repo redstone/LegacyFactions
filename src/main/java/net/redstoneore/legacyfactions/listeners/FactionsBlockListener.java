@@ -19,6 +19,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 
 public class FactionsBlockListener implements Listener {
@@ -85,7 +86,7 @@ public class FactionsBlockListener implements Listener {
 	public void canPistonMoveBlock(BlockPistonExtendEvent event) {
 		if (Conf.pistonProtectionThroughDenyBuild) return;
 
-		Faction pistonFaction = Board.get().getFactionAt(new FLocation(event.getBlock()));
+		Faction pistonFaction = Board.get().getFactionAt(Locality.of(event.getBlock()));
 
 		// target end-of-the-line empty (air) block which is being pushed into, including if piston itself would extend into air
 		@SuppressWarnings("deprecation")
@@ -108,7 +109,7 @@ public class FactionsBlockListener implements Listener {
 		
 		@SuppressWarnings("deprecation")
 		Location targetLoc = event.getRetractLocation();
-		Faction otherFaction = Board.get().getFactionAt(new FLocation(targetLoc));
+		Faction otherFaction = Board.get().getFactionAt(Locality.of(targetLoc));
 
 		// Check if the piston is moving in a faction's territory. This disables pistons entirely in faction territory.
 		if (otherFaction.isNormal() && Conf.disablePistonsInTerritory) {
@@ -121,7 +122,7 @@ public class FactionsBlockListener implements Listener {
 			return;
 		}
 
-		Faction pistonFaction = Board.get().getFactionAt(new FLocation(event.getBlock()));
+		Faction pistonFaction = Board.get().getFactionAt(Locality.of(event.getBlock()));
 
 		if (!canPistonMoveBlock(pistonFaction, targetLoc)) {
 			event.setCancelled(true);
@@ -130,7 +131,7 @@ public class FactionsBlockListener implements Listener {
 	}
 		
 	public static boolean canPistonMoveBlock(Faction factionAtPiston, Location target) {
-		Faction otherFaction = Board.get().getFactionAt(new FLocation(target));
+		Faction otherFaction = Board.get().getFactionAt(Locality.of(target));
 
 		if (factionAtPiston == otherFaction) return true;
 

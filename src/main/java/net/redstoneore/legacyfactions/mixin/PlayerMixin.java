@@ -20,6 +20,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 
@@ -117,7 +118,7 @@ public class PlayerMixin {
 		if (me.isAdminBypassing()) return true;
 		
 		FLocation loc = new FLocation(location);
-		Faction otherFaction = Board.get().getFactionAt(loc);
+		Faction otherFaction = Board.get().getFactionAt(Locality.of(location));
 
 		if (otherFaction.isWilderness()) {
 			if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {

@@ -1,6 +1,5 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
@@ -72,7 +71,7 @@ public class CmdFactionsMap extends FCommand {
 	}
 
 	public void showMap() {
-		this.sendMessage(Board.get().getMap(this.myFaction, new FLocation(this.fme), this.fme.getPlayer().getLocation().getYaw()));
+		this.sendMessage(Board.get().getMap(this.myFaction, this.fme.getLastLocation(), this.fme.getLastLocation().getYaw()));
 	}
 
 	@Override

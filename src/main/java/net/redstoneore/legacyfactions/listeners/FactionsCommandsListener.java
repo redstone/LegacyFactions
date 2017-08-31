@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
@@ -19,6 +18,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 public class FactionsCommandsListener implements Listener {
 	
@@ -100,7 +100,7 @@ public class FactionsCommandsListener implements Listener {
 			return true;
 		}
 
-		Faction at = Board.get().getFactionAt(new FLocation(player.getLocation()));
+		Faction at = Board.get().getFactionAt(Locality.of(player.getLocation()));
 		if (at.isWilderness() && Conf.wildernessDenyCommands != null && !Conf.wildernessDenyCommands.isEmpty() && !me.isAdminBypassing() && isCommandInList(fullCmd, shortCmd, Conf.wildernessDenyCommands.iterator())) {
 			if (!silent) me.sendMessage(Lang.PLAYER_COMMAND_WILDERNESS, fullCmd);
 			return true;

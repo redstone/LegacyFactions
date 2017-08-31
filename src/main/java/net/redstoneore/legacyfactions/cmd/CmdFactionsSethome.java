@@ -1,6 +1,5 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
@@ -8,6 +7,7 @@ import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 public class CmdFactionsSethome extends FCommand {
 
@@ -67,7 +67,7 @@ public class CmdFactionsSethome extends FCommand {
 		// Can the player set the faction home HERE?
 		if (!Permission.BYPASS.has(me) &&
 					Conf.homesMustBeInClaimedTerritory &&
-					Board.get().getFactionAt(new FLocation(me)) != faction) {
+					Board.get().getFactionAt(Locality.of(fme)) != faction) {
 			fme.sendMessage(Lang.COMMAND_SETHOME_NOTCLAIMED);
 			return;
 		}

@@ -14,6 +14,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsIntegration;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.SmokeUtil;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
@@ -104,7 +105,7 @@ public class CmdFactionsHome extends FCommand {
 			return;
 		}
 
-		Faction factionAt = Board.get().getFactionAt(new FLocation(me.getLocation()));
+		Faction factionAt = Board.get().getFactionAt(Locality.of(me.getLocation()));
 		final Location loc = me.getLocation().clone();
 
 		// if player is not in a safe zone or their own faction territory, only allow teleport if no enemies are nearby

@@ -174,8 +174,8 @@ public class FactionsPlayerListener implements Listener {
 		me.setLastStoodAt(to);
 
 		// Did we change "host"(faction)?
-		Faction factionFrom = Board.get().getFactionAt(from);
-		Faction factionTo = Board.get().getFactionAt(to);
+		Faction factionFrom = Board.get().getFactionAt(me.getLastLocation());
+		Faction factionTo = Board.get().getFactionAt(Locality.of(event.getTo()));
 		boolean changedFaction = (factionFrom != factionTo);
 
 		if (me.isMapAutoUpdating()) {
@@ -184,7 +184,7 @@ public class FactionsPlayerListener implements Listener {
 					Factions.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
 				}
 			} else {
-				me.sendMessage(Board.get().getMap(me.getFaction(), to, player.getLocation().getYaw()));
+				me.sendMessage(Board.get().getMap(me.getFaction(), Locality.of(event.getTo()), player.getLocation().getYaw()));
 				Volatile.get().showTimes().put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldownMils);
 			}
 		} else {
@@ -232,7 +232,7 @@ public class FactionsPlayerListener implements Listener {
 			if (!Permission.MANAGE_SAFE_ZONE.has(player)) {
 				me.setIsAutoSafeClaimEnabled(false);
 			} else {
-				if (!Board.get().getFactionAt(to).isSafeZone()) {
+				if (!Board.get().getFactionAt(Locality.of(event.getTo())).isSafeZone()) {
 					Board.get().setFactionAt(FactionColl.get().getSafeZone(), to);
 					me.sendMessage(Lang.PLAYER_SAFEAUTO);
 				}
@@ -241,7 +241,7 @@ public class FactionsPlayerListener implements Listener {
 			if (!Permission.MANAGE_WAR_ZONE.has(player)) {
 				me.setIsAutoWarClaimEnabled(false);
 			} else {
-				if (!Board.get().getFactionAt(to).isWarZone()) {
+				if (!Board.get().getFactionAt(Locality.of(event.getTo())).isWarZone()) {
 					Board.get().setFactionAt(FactionColl.get().getWarZone(), to);
 					me.sendMessage(Lang.PLAYER_WARAUTO);
 				}
@@ -302,7 +302,7 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		FLocation loc = new FLocation(location);
-		Faction otherFaction = Board.get().getFactionAt(loc);
+		Faction otherFaction = Board.get().getFactionAt(Locality.of(location));
 
 		if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
 			return true;
@@ -386,7 +386,7 @@ public class FactionsPlayerListener implements Listener {
 
 		Material material = block.getType();
 		FLocation loc = new FLocation(block);
-		Faction otherFaction = Board.get().getFactionAt(loc);
+		Faction otherFaction = Board.get().getFactionAt(Locality.of(block));
 
 		// no door/chest/whatever protection in wilderness, war zones, or safe zones
 		if (!otherFaction.isNormal()) {

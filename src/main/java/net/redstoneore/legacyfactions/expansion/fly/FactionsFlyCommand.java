@@ -9,11 +9,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class FactionsFlyCommand implements Listener {
@@ -52,7 +52,7 @@ public class FactionsFlyCommand implements Listener {
 		
 		if (!player.getAllowFlight()) {
 			// If they aren't already flying, get them flying
-			if (!FactionsFly.canFlyHere(fplayer, FLocation.valueOf(player.getLocation()), true)) {
+			if (!FactionsFly.canFlyHere(fplayer, Locality.of(player.getLocation()), true)) {
 				fplayer.sendMessage(TextUtil.get().parse(Lang.EXPANSION_FACTIONSFLY_NOT_HERE.toString()));
 			} else {
 				// TODO: add a check for relations in radius
