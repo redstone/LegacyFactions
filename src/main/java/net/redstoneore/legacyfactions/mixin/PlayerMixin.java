@@ -21,6 +21,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import net.redstoneore.legacyfactions.util.TextUtil;
+import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 
 public class PlayerMixin {
 
@@ -405,6 +406,15 @@ public class PlayerMixin {
 		if (entity.hasMetadata("NPC")) return true;
 		
 		return false;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void sendBlockChange(Player player, Location location, CrossMaterial material, byte data) {
+		try {
+			player.sendBlockChange(location, material.toBukkitMaterial(), data);
+		} catch (Exception e) {
+			player.sendBlockChange(location, material.getMaterialId(), data);
+		}
 	}
 	
 }
