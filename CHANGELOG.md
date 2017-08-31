@@ -1,5 +1,9 @@
 # 1.4.5
 * 🐞 Bugfix: NPCs did not play nicely with damage modifiers
+* ⭐️ Feature: Novacs FactionTop integration - will route `/f top` to `/ftop`
+* ⌨️ API: New Provider class, to identifiy plugins working with flags
+* ⌨️ API: New CallbackSync interface, can be used where we need a sync callback
+* ⌨️ API: New EventFactionsCommandExecute event, can be used to override any command in Factions
 
 # 1.4.4
 * 🐞 Bugfix: Damage modifiers weren't working properly, causing a rare NPE, and modifying power incorrectly

@@ -150,7 +150,6 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 			Optional<Flag> exists = formattedFlags.keySet().stream().filter(fflag -> fflag.getStoredName().equalsIgnoreCase(flag.getStoredName())).findAny();
 			
 			if (!exists.isPresent()) {
-				System.out.println("does not contain " + flag.getName() + " aka" + flag.getStoredName());
 				// variables -> flag conversion
 				
 				// TEMPORARY. TODO: Remove old variable conversion crap, convert on load
