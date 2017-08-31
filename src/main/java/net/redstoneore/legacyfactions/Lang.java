@@ -226,6 +226,16 @@ public enum Lang {
 	COMMAND_DISBAND_BROADCAST_NOTYOURS("<h>%1$s<i> disbanded the faction %2$s."),
 	COMMAND_DISBAND_HOLDINGS("<i>You have been given the disbanded faction's bank, totaling %1$s."),
 	COMMAND_DISBAND_DESCRIPTION("Disband a faction"),
+	
+	COMMAND_FLAG_DESCRIPTION("Manage flags for a faction."),
+	
+	COMMAND_FLAGLIST_DESCRIPTION("List flags for a faction."),
+	
+	COMMAND_FLAGSET_DESCRIPTION("Set flags for a faction."),
+	COMMAND_FLAGSET_INVALID("<h><flag><b> is not a valid flag."),
+	COMMAND_FLAGSET_NOTYOURS("<b>You can't set flags for this faction."),
+	COMMAND_FLAGSET_BADRANK("<b>You must be at least <h><role><b> to manage flags for your faction."),
+	COMMAND_FLAGSET_SET("<h><flag><i> was set to <h><value>."),
 
 	COMMAND_FWARP_CLICKTOWARP("Click to warp!"),
 	COMMAND_FWARP_COMMANDFORMAT("<i>/f warp <warpname> [password]"),

@@ -51,6 +51,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(CmdFactionsDeinvite.get());
 		this.addSubCommand(CmdFactionsDescription.get());
 		this.addSubCommand(CmdFactionsDisband.get());
+		this.addSubCommand(CmdFactionsFlag.get());
 		this.addSubCommand(CmdFactionsHelp.get());
 		this.addSubCommand(CmdFactionsHome.get());
 		this.addSubCommand(CmdFactionsInvite.get());

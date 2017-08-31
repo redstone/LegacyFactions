@@ -7,6 +7,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.google.common.collect.Maps;
+
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
@@ -14,6 +16,8 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.flag.Flag;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.LazyLocation;
@@ -39,15 +43,21 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	// FIELDS
 	// -------------------------------------------------- //
 	
+	// Misc
 	protected String id = null;
-	protected boolean peacefulExplosionsEnabled;
-	protected boolean permanent;
 	protected String tag;
 	protected String description;
-	protected Character forcedMapCharacter = null;
-	protected ChatColor forcedMapColour = null;
+
+	// flags
+	protected ConcurrentHashMap<String, Boolean> flags = new ConcurrentHashMap<>();
 	protected boolean open;
 	protected boolean peaceful;
+	protected boolean peacefulExplosionsEnabled;
+	protected boolean permanent;
+	
+	protected Character forcedMapCharacter = null;
+	protected ChatColor forcedMapColour = null;
+	
 	protected Integer permanentPower;
 	protected LazyLocation home;
 	protected long foundedDate;
@@ -59,10 +69,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	protected transient Set<FPlayer> fplayers = new HashSet<>();
 	protected Set<String> invites = new HashSet<>();
 	protected Set<String> bannedPlayerIds = new HashSet<>();
-	protected HashMap<String, List<String>> announcements = new HashMap<>();
+	protected ConcurrentHashMap<String, List<String>> announcements = new ConcurrentHashMap<>();
 	protected ConcurrentHashMap<String, LazyLocation> warps = new ConcurrentHashMap<>();
 	protected ConcurrentHashMap<String, String> warpPasswords = new ConcurrentHashMap<>();
 	private long lastDeath;
+	
 	protected int maxVaults;
 	
 	private transient FactionWarps factionWarps = new FactionWarps(this);
@@ -126,12 +137,75 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	}
 	
 	@Override
+	public Map<Flag, Boolean> getFlags() {
+		Map<Flag, Boolean> formattedFlags = new HashMap<>();
+
+		this.flags.forEach((flag, value) ->  {
+			if (Flags.get(flag).isPresent()) {
+				formattedFlags.put(Flags.get(flag).get(), value);
+			}
+		});
+		
+		Flags.getAll().forEach(flag -> {
+			Optional<Flag> exists = formattedFlags.keySet().stream().filter(fflag -> fflag.getStoredName().equalsIgnoreCase(flag.getStoredName())).findAny();
+			
+			if (!exists.isPresent()) {
+				System.out.println("does not contain " + flag.getName() + " aka" + flag.getStoredName());
+				// variables -> flag conversion
+				
+				// TEMPORARY. TODO: Remove old variable conversion crap, convert on load
+				if (flag.equals(Flags.PERMANENT)) {
+					formattedFlags.put(flag, this.permanent);
+					this.setFlag(Flags.PERMANENT, this.permanent);
+				} else if (flag.equals(Flags.PEACEFUL)) {
+					formattedFlags.put(flag, this.peaceful);
+					this.setFlag(Flags.PEACEFUL, this.peaceful);
+				} else if (flag.equals(Flags.OPEN)) {
+					formattedFlags.put(flag, this.open);
+					this.setFlag(Flags.OPEN, this.open);
+				} else if (flag.equals(Flags.EXPLOSIONS)) {
+					formattedFlags.put(flag, this.peacefulExplosionsEnabled);
+					this.setFlag(Flags.EXPLOSIONS, this.peacefulExplosionsEnabled);
+				} else {
+					formattedFlags.put(flag, flag.getDefaultValue());
+				}	
+			}
+		});
+		
+		return formattedFlags;
+	}
+	
+	@Override
+	public boolean setFlag(Flag flag, Boolean value) {
+		this.flags.put(flag.getStoredName(), value);
+		
+		return true;
+	}
+
+	@Override
+	public boolean getFlag(Flag flag) {
+		// TEMPORARY. TODO: Remove old variable conversion crap, convert on load
+		Optional<Entry<Flag, Boolean>> exists = this.getFlags().entrySet().stream().filter(entry -> {
+			if (entry.getKey().getStoredName().equalsIgnoreCase(flag.getStoredName())) {
+				return true;
+			}
+			return false;
+		}).findFirst();
+
+		if (!exists.isPresent()) {
+			return flag.getDefaultValue();
+		}
+		
+		return exists.get().getValue();
+	}
+	
+	@Override
 	public FactionWarps warps() {
 		return factionWarps;
 	}
 	
 	public HashMap<String, List<String>> getAnnouncements() {
-		return this.announcements;
+		return Maps.newHashMap(this.announcements);
 	}
 
 	public void addAnnouncement(FPlayer fplayer, String msg) {
@@ -244,31 +318,31 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	}
 
 	public boolean getOpen() {
-		return open;
+		return this.getFlag(Flags.OPEN);
 	}
 
 	public void setOpen(boolean isOpen) {
-		open = isOpen;
+		this.setFlag(Flags.OPEN, isOpen);
 	}
 
 	public boolean isPeaceful() {
-		return this.peaceful;
+		return this.getFlag(Flags.PEACEFUL);
 	}
 
 	public void setPeaceful(boolean isPeaceful) {
-		this.peaceful = isPeaceful;
+		this.setFlag(Flags.PEACEFUL, peaceful);
 	}
 
 	public void setPeacefulExplosionsEnabled(boolean val) {
-		peacefulExplosionsEnabled = val;
+		this.setFlag(Flags.EXPLOSIONS, val);
 	}
 
 	public boolean getPeacefulExplosionsEnabled() {
-		return this.peacefulExplosionsEnabled;
+		return this.getFlag(Flags.EXPLOSIONS);
 	}
 
 	public boolean noExplosionsInTerritory() {
-		return (this.peaceful && !peacefulExplosionsEnabled) || this.isSafeZone();
+		return (this.isPeaceful() && !this.getPeacefulExplosionsEnabled()) || this.isSafeZone();
 	}
 	
 	public boolean noCreeperExplosions(Location location) {
@@ -281,11 +355,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	}
 
 	public boolean isPermanent() {
-		return permanent || !this.isNormal();
+		return this.getFlag(Flags.PERMANENT) || !this.isNormal();
 	}
 
 	public void setPermanent(boolean isPermanent) {
-		permanent = isPermanent;
+		this.setFlag(Flags.PERMANENT, isPermanent);
 	}
 
 	public boolean hasForcedMapCharacter() {
@@ -475,11 +549,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	// Extra Getters And Setters
 	// -------------------------------------------- //
 	public boolean noPvPInTerritory() {
-		return isSafeZone() || (peaceful && Conf.peacefulTerritoryDisablePVP);
+		return isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisablePVP);
 	}
 
 	public boolean noMonstersInTerritory() {
-		return isSafeZone() || (peaceful && Conf.peacefulTerritoryDisableMonsters);
+		return isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisableMonsters);
 	}
 
 	// -------------------------------

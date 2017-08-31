@@ -11,6 +11,7 @@ import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
+import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 
@@ -35,6 +36,12 @@ public interface Faction extends EconomyParticipator {
 	String getDescription();
 
 	void setDescription(String value);
+	
+	Map<Flag, Boolean> getFlags();
+	
+	boolean setFlag(Flag flag, Boolean value);
+	
+	boolean getFlag(Flag flag);
 	
 	HashMap<String, List<String>> getAnnouncements();
 
@@ -64,10 +71,6 @@ public interface Faction extends EconomyParticipator {
 	
 	boolean isBanned(FPlayer fplayer);
 	
-	boolean getOpen();
-
-	void setOpen(boolean isOpen);
-
 	boolean isPeaceful();
 
 	void setPeaceful(boolean isPeaceful);
@@ -328,6 +331,19 @@ public interface Faction extends EconomyParticipator {
 	default Set<FPlayer> getFPlayers() {
 		return this.getMembers();
 	}
+	
+	/**
+	 * Deprecated, use {@link #getFlag(Flags.OPEN)}
+	 * @return
+	 */
+	@Deprecated
+	boolean getOpen();
 
+	/**
+	 * Deprecated, use {@link #setFlag(Flags.OPEN, boolean)}
+	 * @return
+	 */
+	@Deprecated
+	void setOpen(boolean isOpen);
 
 }

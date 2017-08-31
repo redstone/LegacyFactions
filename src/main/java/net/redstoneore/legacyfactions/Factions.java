@@ -33,7 +33,9 @@ import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
 import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
 import net.redstoneore.legacyfactions.entity.persist.json.JSONFactions;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
+import net.redstoneore.legacyfactions.expansion.Provider;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.Integrations;
 import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
@@ -151,12 +153,14 @@ public class Factions extends FactionsPluginBase {
 	
 	@Override
 	public void enable() throws Exception {
-		if (instance != null) {
+		if (instance != null || Volatile.get().provider() != null) {
 			this.warn("Unsafe reload detected!");
 		}
 		instance = this;
 		
 		this.loadSuccessful = false;
+		
+		Volatile.get().provider(Provider.of("LegacyFactions", this));
 		
 		// Ensure plugin folder exists
 		this.getDataFolder().mkdirs();
@@ -246,6 +250,9 @@ public class Factions extends FactionsPluginBase {
 		this.loadSuccessful = true;
 		
 		FactionColl.all();
+		
+		// Initialise default flags.
+		Flags.init();
 	}
 	
 	private void migrations() throws IOException {
