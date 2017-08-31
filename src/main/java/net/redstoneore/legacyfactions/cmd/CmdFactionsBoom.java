@@ -23,7 +23,7 @@ public class CmdFactionsBoom extends FCommand {
 
 		this.optionalArgs.put("on/off", "flip");
 
-		this.permission = Permission.NO_BOOM.getNode();
+		this.permission = Permission.SET_EXPLOSIONS.getNode();
 		this.disableOnLock = true;
 
 		this.senderMustBePlayer = true;
