@@ -127,8 +127,8 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 		if (!this.isEnabled()) {
 			return;
 		}
-
-		perform();
+		
+		this.perform();
 	}
 
 	public void execute(CommandSender sender, List<String> args) {
@@ -136,6 +136,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	}
 
 	// This is where the command action is performed.
+	public abstract void prePerform();
 	public abstract void perform();
 	
 	// Override this if you want to change the availability of this command, returning false will make it seem invisible:

@@ -12,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
+import net.redstoneore.legacyfactions.event.EventFactionsCommandExecute;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
@@ -63,6 +64,12 @@ public abstract class FCommand extends MCommand<Factions> {
 			this.myFaction = null;
 		}
 		super.execute(sender, args, commandChain);
+	}
+	
+	@Override
+	public final void prePerform() {
+		if (EventFactionsCommandExecute.create(this.fme, this).call().isCancelled()) return;
+		this.perform();
 	}
 
 	@Override
