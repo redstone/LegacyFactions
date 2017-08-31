@@ -5,6 +5,7 @@ import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.flag.Flags;
 
 public class CmdFactionsOpen extends FCommand {
 	
@@ -45,9 +46,9 @@ public class CmdFactionsOpen extends FCommand {
 			return;
 		}
 
-		this.myFaction.setOpen(this.argAsBool(0, !this.myFaction.getOpen()));
+		this.myFaction.setFlag(Flags.OPEN, this.argAsBool(0, !this.myFaction.getFlag(Flags.OPEN)));
 
-		String open = this.myFaction.getOpen() ? Lang.COMMAND_OPEN_OPEN.toString() : Lang.COMMAND_OPEN_CLOSED.toString();
+		String open = this.myFaction.getFlag(Flags.OPEN) ? Lang.COMMAND_OPEN_OPEN.toString() : Lang.COMMAND_OPEN_CLOSED.toString();
 
 		// Inform
 		FPlayerColl.all(true, fplayer -> {
@@ -57,6 +58,11 @@ public class CmdFactionsOpen extends FCommand {
 				fplayer.sendMessage(Lang.COMMAND_OPEN_CHANGED, myFaction.getTag(fplayer.getFaction()), open);
 			}
 		});
+	}
+	
+	@Override
+	public boolean isAvailable() {
+		return Conf.enableFlags == false;
 	}
 
 	@Override

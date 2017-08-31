@@ -36,6 +36,9 @@ public class CommandAliases {
 	public static List<String> cmdAliasesDelwarp = Lists.newArrayList("delwarp", "deletewarp", "dw");
 	public static List<String> cmdAliasesDescription = Lists.newArrayList("desc", "description");
 	public static List<String> cmdAliasesDisband = Lists.newArrayList("disband");
+	public static List<String> cmdAliasesFlag = Lists.newArrayList("flag", "f");
+	public static List<String> cmdAliasesFlagSet = Lists.newArrayList("set", "s");
+	public static List<String> cmdAliasesFlagList = Lists.newArrayList("list", "l");
 	public static List<String> cmdAliasesHelp = Lists.newArrayList("help", "h", "?");
 	public static List<String> cmdAliasesHome = Lists.newArrayList("home");
 	public static List<String> cmdAliasesInvite = Lists.newArrayList("invite", "inv");

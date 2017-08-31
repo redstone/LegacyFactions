@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.cli.doc.DocDescription;
 import net.redstoneore.legacyfactions.cli.doc.DocSection;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
@@ -60,6 +61,9 @@ public class Conf {
 	
 	@DocDescription(title = "Coleaders", description = "To disable coleaders, set to false.")
 	public static boolean enableColeaders = true;
+	
+	@DocDescription(title = "Flags", description = "To disable flags, set to false.")
+	public static boolean enableFlags = false;
 	
 	// -------------------------------------------------- //
 	// COMMANDS
@@ -357,6 +361,22 @@ public class Conf {
 	)
 	public static boolean broadcastTagChanges = false;
 
+	// -------------------------------------------------- //
+	// FLAGS
+	// -------------------------------------------------- //
+	@DocSection(name = "Flags")
+
+	@DocDescription(
+		title = "Minimum role to manage flags",
+		description = "The minimum role to manage flags. Can be MEMBER, MODERATOR, COLEADER, or ADMIN"
+	)
+	public static Role factionFlagMinRole = Role.COLEADER;
+
+	public static boolean factionFlagToggleablePermanent = false;
+	public static boolean factionFlagToggleableExplosions = false;
+	public static boolean factionFlagToggleablePeaceful = true;
+	public static boolean factionFlagToggleableOpen = true;
+	
 	// -------------------------------------------------- //
 	// DAMAGE MODIFIER
 	// -------------------------------------------------- //

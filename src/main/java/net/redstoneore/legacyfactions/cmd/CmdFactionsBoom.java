@@ -58,6 +58,11 @@ public class CmdFactionsBoom extends FCommand {
 	}
 
 	@Override
+	public boolean isAvailable() {
+		return Conf.enableFlags == false;
+	}
+	
+	@Override
 	public String getUsageTranslation() {
 		return Lang.COMMAND_BOOM_DESCRIPTION.toString();
 	}

@@ -13,6 +13,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsJoin extends FCommand {
@@ -157,7 +158,7 @@ public class CmdFactionsJoin extends FCommand {
 			return;
 		}
 
-		if (!(faction.getOpen() || faction.isInvited(fplayer) || fsender.isAdminBypassing() || Permission.JOIN_ANY.has(commandSender, false))) {
+		if (!(faction.getFlag(Flags.OPEN) || faction.isInvited(fplayer) || fsender.isAdminBypassing() || Permission.JOIN_ANY.has(commandSender, false))) {
 			fsender.sendMessage(Lang.COMMAND_JOIN_REQUIRESINVITATION);
 			if (samePlayer) {
 				faction.sendMessage(Lang.COMMAND_JOIN_ATTEMPTEDJOIN, fplayer.describeTo(faction, true));
