@@ -38,7 +38,6 @@ import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.Integrations;
 import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
-import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsIntegration;
 import net.redstoneore.legacyfactions.integration.metrics.MetricsIntegration;
 import net.redstoneore.legacyfactions.integration.novucsftop.NovucsFactionsTopIntegration;
@@ -222,7 +221,6 @@ public class Factions extends FactionsPluginBase {
 		Integrations.add(
 			VaultIntegration.get(),
 			WorldGuardIntegration.get(),
-			DynmapIntegration.get(),
 			EssentialsIntegration.get(),
 			PlayerVaultsIntegration.get(),
 			MetricsIntegration.get(),
