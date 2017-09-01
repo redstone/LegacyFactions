@@ -5,8 +5,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.google.common.collect.Sets;
-
 import net.redstoneore.legacyfactions.Volatile;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.util.ConditionalBoolean;
@@ -23,7 +21,7 @@ public class Flags {
 	public static final Flag OPEN = Flag.of("open", ConditionalBoolean.of(() -> Conf.newFactionsDefaultOpen), Volatile.get().provider());
 	
 	// Registered flags
-	private static Set<Flag> flags = Sets.newSetFromMap(new ConcurrentHashMap<Flag, Boolean>());
+	private static Set<Flag> flags = Collections.newSetFromMap(new ConcurrentHashMap<Flag, Boolean>());
 	
 	// -------------------------------------------------- //
 	// STATIC METHODS
