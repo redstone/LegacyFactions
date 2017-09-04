@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -53,6 +54,7 @@ import net.redstoneore.legacyfactions.listeners.FactionsPlayerListener;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.AutoLeaveTask;
 import net.redstoneore.legacyfactions.util.LazyLocation;
+import net.redstoneore.legacyfactions.util.LibraryUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossColour;
 import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
@@ -160,6 +162,8 @@ public class Factions extends FactionsPluginBase {
 		
 		this.loadSuccessful = false;
 		
+		this.loadLibraries();
+		
 		Volatile.get().provider(Provider.of("LegacyFactions", this));
 		
 		// Ensure plugin folder exists
@@ -181,6 +185,10 @@ public class Factions extends FactionsPluginBase {
 		// Load command aliases from disk
 		CommandAliases.load();
 		CommandAliases.save();
+		if (CommandAliases.baseCommandAliases == null || CommandAliases.baseCommandAliases.isEmpty()) {
+			Factions.get().warn("Base command arguments were null or empty, reset to 'f'");
+			CommandAliases.baseCommandAliases = Lists.newArrayList("f");
+		}
 		
 		// Load meta from disk
 		Meta.get().load();
@@ -245,7 +253,11 @@ public class Factions extends FactionsPluginBase {
 		);
 		
 		// since some other plugins execute commands directly through this command interface, provide it
-		CommandAliases.baseCommandAliases.forEach(ref -> this.getCommand(ref).setExecutor(this));
+		CommandAliases.baseCommandAliases.forEach(ref ->  {
+			if (ref != null) {
+				this.getCommand(ref).setExecutor(this);
+			}
+		});
 				
 		this.loadSuccessful = true;
 		
@@ -427,6 +439,14 @@ public class Factions extends FactionsPluginBase {
 		return tag;
 	}
 	
+	private void loadLibraries() {
+		try {
+			LibraryUtil.loadLibrary("https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/caffeine/2.5.5/caffeine-2.5.5.jar");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Start recurring tasks
 	 */
@@ -466,3 +486,4 @@ public class Factions extends FactionsPluginBase {
 	}
 	
 }
+
