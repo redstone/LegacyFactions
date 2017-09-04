@@ -16,7 +16,7 @@ public abstract class FactionsPlaceholder {
 	
 	public abstract String get(Player player);
 	
-	public void adapt(FactionsPlaceholderAdapter adapter) {
+	public void adapt(FactionsPlaceholdersAdapter adapter) {
 		adapter.adapt(this);
 	}
 	

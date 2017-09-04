@@ -6,9 +6,9 @@ import com.gmail.filoghost.holographicdisplays.placeholder.PlaceholdersRegister;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
-import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderAdapter;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholdersAdapter;
 
-public class AdapterHolographicDisplays extends FactionsPlaceholderAdapter {
+public class AdapterHolographicDisplays extends FactionsPlaceholdersAdapter {
 	
 	// -------------------------------------------------- //
 	// INSTANCE
