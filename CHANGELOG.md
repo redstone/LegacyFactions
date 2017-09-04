@@ -1,9 +1,19 @@
 # 1.4.5
 * 🐞 Bugfix: NPCs did not play nicely with damage modifiers
+* 🐞 Bugfix: Dynmap was a bit broken, fixed now though
+* 🐞 Bugfix: Powerloss bug fix
+* 🐞 Bugfix: Some texting parsing was missing
 * ⭐️ Feature: Novacs FactionTop integration - will route `/f top` to `/ftop`
+* ⭐️ Feature: New placeholder `faction_count_members`
+* ⭐️ Feature: New placeholder `faction_count_members_coleaders`
+* ⭐️ Feature: New placeholder `faction_count_members_normal`
+* ⭐️ Feature: New placeholder `faction_count_members_moderator`
+* ⭐️ Feature: New placeholder `faction_count_claims`
+* ⭐️ Feature: Dynmap descriptions now accept faction_factions placeholders!
 * ⌨️ API: New Provider class, to identifiy plugins working with flags
 * ⌨️ API: New CallbackSync interface, can be used where we need a sync callback
 * ⌨️ API: New EventFactionsCommandExecute event, can be used to override any command in Factions
+* ⌨️ API: `Board` now accepts `Locality`
 
 # 1.4.4
 * 🐞 Bugfix: Damage modifiers weren't working properly, causing a rare NPE, and modifying power incorrectly
