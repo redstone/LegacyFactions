@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -155,6 +156,7 @@ public class FactionsPlaceholders {
 			}
 		});
 		
+		// This placeholder is deprecated/unlisted
 		this.placeholders.add(new FactionsPlaceholderFaction("faction_claims") {
 			@Override
 			public String get(Faction faction) {
@@ -166,6 +168,41 @@ public class FactionsPlaceholders {
 			@Override
 			public String get(Faction faction) {
 				return String.valueOf(faction.getFoundedDate());
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_members") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getMembers().size());
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_members_coleaders") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getFPlayersWhereRole(Role.COLEADER).size());
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_members_normal") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getFPlayersWhereRole(Role.NORMAL).size());
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_members_moderator") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getFPlayersWhereRole(Role.MODERATOR).size());
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_claims") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getAllClaims().size());
 			}
 		});
 		
