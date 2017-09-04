@@ -330,23 +330,19 @@ public abstract class MemoryBoard extends Board {
     // Map generation
     //----------------------------------------------//
 
-    @Override
-	public ArrayList<String> getMap(Faction faction, Locality locality, double inDegrees) {
-		return null;
-	}
-    
     /**
      * The map is relative to a coord and a faction north is in the direction of decreasing x east is in the direction
      * of decreasing z
      */
-    public ArrayList<String> getMap(Faction faction, FLocation flocation, double inDegrees) {
+    @Override
+	public ArrayList<String> getMap(Faction faction, Locality locality, double inDegrees) {
         ArrayList<String> ret = new ArrayList<String>();
-        Faction factionLoc = getFactionAt(flocation);
-        ret.add(TextUtil.get().titleize("(" + flocation.getCoordString() + ") " + factionLoc.getTag(faction)));
+        Faction factionLoc = getFactionAt(locality);
+        ret.add(TextUtil.get().titleize("(" + locality.getCoordString() + ") " + factionLoc.getTag(faction)));
 
         int halfWidth = Conf.mapWidth / 2;
         int halfHeight = Conf.mapHeight / 2;
-        FLocation topLeft = flocation.getRelative(-halfWidth, -halfHeight);
+        Locality topLeft = locality.getRelative(-halfWidth, -halfHeight);
         int width = halfWidth * 2 + 1;
         int height = halfHeight * 2 + 1;
 
@@ -365,7 +361,7 @@ public abstract class MemoryBoard extends Board {
                 if (dx == halfWidth && dz == halfHeight) {
                     row += ChatColor.AQUA + "+";
                 } else {
-                    FLocation flocationHere = topLeft.getRelative(dx, dz);
+                    Locality flocationHere = topLeft.getRelative(dx, dz);
                     Faction factionHere = getFactionAt(flocationHere);
                     Relation relation = faction.getRelationTo(factionHere);
                     
@@ -417,7 +413,12 @@ public abstract class MemoryBoard extends Board {
             ret.add(fRow);
         }
 
-        return ret;
+        return ret;	
+    }
+    
+    @Override
+    public ArrayList<String> getMap(Faction faction, FLocation flocation, double inDegrees) {
+        return this.getMap(faction, Locality.of(flocation.getChunk()), inDegrees);
     }
 
     public abstract void convertFrom(MemoryBoard old);
