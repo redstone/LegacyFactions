@@ -251,4 +251,14 @@ public class MiscUtil {
  		return newMap;
 	}
 	
+	@SafeVarargs
+	public static <T> T firstNotNull(T... items) {
+		for (T item : items) {
+			if (item != null) {
+				return item;
+			}
+		}
+		return null;
+	}
+	
 }
