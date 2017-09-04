@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.placeholder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -439,6 +440,28 @@ public class FactionsPlaceholders {
 	 */
 	public List<FactionsPlaceholder> getPlaceholders() {
 		return Collections.unmodifiableList(this.placeholders);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T>List<T> getPlaceholders(Class<? extends FactionsPlaceholder> type) {
+		if (type == FactionsPlaceholder.class) {
+			return (List<T>) Collections.unmodifiableList(this.placeholders);
+		}
+		
+		if (type == FactionsPlaceholderFaction.class) {
+			return (List<T>) this.placeholders.stream()
+				.filter(placeholder -> placeholder instanceof FactionsPlaceholderFaction)
+				.collect(Collectors.toList());
+		}
+		
+		if (type == FactionsPlaceholderRelation.class) {
+			return (List<T>) this.placeholders.stream()
+				.filter(placeholder -> placeholder instanceof FactionsPlaceholderRelation)
+				.collect(Collectors.toList());
+		}
+		
+		
+		return null;
 	}
 	
 	/**
