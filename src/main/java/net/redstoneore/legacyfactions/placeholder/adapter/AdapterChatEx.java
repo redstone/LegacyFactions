@@ -7,11 +7,11 @@ import org.bukkit.event.Listener;
 import de.thejeterlp.chatex.api.ChatExEvent;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
-import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderAdapter;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholdersAdapter;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderSingleSetup;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 
-public class AdapterChatEx extends FactionsPlaceholderAdapter implements FactionsPlaceholderSingleSetup, Listener {
+public class AdapterChatEx extends FactionsPlaceholdersAdapter implements FactionsPlaceholderSingleSetup, Listener {
 	
 	// -------------------------------------------------- //
 	// INSTANCE

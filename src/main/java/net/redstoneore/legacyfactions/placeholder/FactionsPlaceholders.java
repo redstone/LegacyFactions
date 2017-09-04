@@ -71,115 +71,100 @@ public class FactionsPlaceholders {
 	// FIELDS
 	// -------------------------------------------------- //
 	
-	private List<FactionsPlaceholderAdapter> adapters = new ArrayList<>();
+	private List<FactionsPlaceholdersAdapter> adapters = new ArrayList<>();
 	private List<FactionsPlaceholder> placeholders = new ArrayList<>();
 	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 	
-	public void add(FactionsPlaceholderAdapter adapter) {
+	public void add(FactionsPlaceholdersAdapter adapter) {
 		this.adapters.add(adapter);
 	}
 	
 	public void init() {
 		// FACTION OF PLAYER PLACEHOLDERS
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_id") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_id") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return FPlayerColl.get(player).getFactionId();
+			public String get(Faction faction) {
+				return faction.getId();
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_name") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_name") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return FPlayerColl.get(player).getFaction().getTag();
+			public String get(Faction faction) {
+				return faction.getTag();
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_name_blankwild") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_name_blankwild") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				if (FPlayerColl.get(player).getFaction().isWilderness()) return "";
-				
-				return FPlayerColl.get(player).getFaction().getTag();
+			public String get(Faction faction) {
+				if (faction.isWilderness()) return "";
+				return faction.getTag();
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_description") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_description") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return FPlayerColl.get(player).getFaction().getDescription();
+			public String get(Faction faction) {
+				return faction.getDescription();
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_description_blankwild") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_description_blankwild") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				if (FPlayerColl.get(player).getFaction().isWilderness()) return "";
-				
-				return FPlayerColl.get(player).getFaction().getDescription();
+			public String get(Faction faction) {
+				if (faction.isWilderness()) return "";
+				return faction.getDescription();
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_admin") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_admin") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				Faction theirFaction = FPlayerColl.get(player).getFaction();
-				
-				if (theirFaction == null || theirFaction.getOwner() == null) {
+			public String get(Faction faction) {
+				if (faction == null || faction.getOwner() == null) {
 					return "none";
 				}
 				
-				return FPlayerColl.get(player).getFaction().getOwner().getName();
+				return faction.getOwner().getName();
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_power") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_power") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return String.valueOf(FPlayerColl.get(player).getFaction().getPower());
+			public String get(Faction faction) {
+				return String.valueOf(faction.getPower());
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_powermax") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_powermax") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return String.valueOf(FPlayerColl.get(player).getFaction().getPowerMax());
+			public String get(Faction faction) {
+				return String.valueOf(faction.getPowerMax());
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_powerboost") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_powerboost") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return String.valueOf(FPlayerColl.get(player).getFaction().getPowerBoost());
+			public String get(Faction faction) {
+				return String.valueOf(faction.getPowerBoost());
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_claims") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_claims") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return String.valueOf(FPlayerColl.get(player).getFaction().getAllClaims().size());
+			public String get(Faction faction) {
+				return String.valueOf(faction.getAllClaims().size());
 			}
 		});
 		
-		this.placeholders.add(new FactionsPlaceholder("faction_founded") {
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_founded") {
 			@Override
-			public String get(Player player) {
-				if (player == null) return null;
-				return String.valueOf(FPlayerColl.get(player).getFaction().getFoundedDate());
+			public String get(Faction faction) {
+				return String.valueOf(faction.getFoundedDate());
 			}
 		});
 		
@@ -439,7 +424,7 @@ public class FactionsPlaceholders {
 		this.adapters.forEach(adapter -> this.adapt(adapter));
 	}
 	
-	public void adapt(FactionsPlaceholderAdapter adapter) {
+	public void adapt(FactionsPlaceholdersAdapter adapter) {
 		if (adapter instanceof FactionsPlaceholderSingleSetup) {
 			((FactionsPlaceholderSingleSetup) adapter).setup();
 			return;

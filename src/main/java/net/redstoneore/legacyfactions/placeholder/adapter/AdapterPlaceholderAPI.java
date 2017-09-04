@@ -6,11 +6,11 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.external.EZPlaceholderHook;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
-import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderAdapter;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholdersAdapter;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderSingleSetup;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 
-public class AdapterPlaceholderAPI extends FactionsPlaceholderAdapter implements FactionsPlaceholderSingleSetup {
+public class AdapterPlaceholderAPI extends FactionsPlaceholdersAdapter implements FactionsPlaceholderSingleSetup {
 	
 	// -------------------------------------------------- //
 	// INSTANCE

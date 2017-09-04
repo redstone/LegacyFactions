@@ -9,11 +9,11 @@ import com.dthielke.herochat.ChannelChatEvent;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
-import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderAdapter;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholdersAdapter;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderSingleSetup;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 
-public class AdapterHeroChat extends FactionsPlaceholderAdapter implements FactionsPlaceholderSingleSetup, Listener {
+public class AdapterHeroChat extends FactionsPlaceholdersAdapter implements FactionsPlaceholderSingleSetup, Listener {
 
 	// -------------------------------------------------- //
 	// INSTANCE

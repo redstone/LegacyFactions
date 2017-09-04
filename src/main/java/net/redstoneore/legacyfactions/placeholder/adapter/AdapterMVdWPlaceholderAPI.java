@@ -5,9 +5,9 @@ import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
 import be.maximvdw.placeholderapi.PlaceholderReplacer;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholder;
-import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderAdapter;
+import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholdersAdapter;
 
-public class AdapterMVdWPlaceholderAPI extends FactionsPlaceholderAdapter {
+public class AdapterMVdWPlaceholderAPI extends FactionsPlaceholdersAdapter {
 
 	// -------------------------------------------------- //
 	// INSTANCE
