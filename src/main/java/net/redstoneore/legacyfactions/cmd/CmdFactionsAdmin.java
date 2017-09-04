@@ -54,19 +54,19 @@ public class CmdFactionsAdmin extends FCommand {
 
 		// Must be a member
 		if (targetFaction != myFaction && !permAny) {
-			sendMessage(Lang.COMMAND_ADMIN_NOTMEMBER, newAdmin.describeTo(fme, true));
+			sendMessage(Lang.COMMAND_ADMIN_NOTMEMBER.getBuilder().parse().toString(), newAdmin.describeTo(fme, true));
 			return;
 		}
 		
 		// Am I an admin?
 		if (fme != null && fme.getRole() != Role.ADMIN && !permAny) {
-			sendMessage(Lang.COMMAND_ADMIN_NOTADMIN);
+			sendMessage(Lang.COMMAND_ADMIN_NOTADMIN.getBuilder().parse().toString());
 			return;
 		}
 
 		// Check for self
 		if (newAdmin == fme && !permAny) {
-			sendMessage(Lang.COMMAND_ADMIN_TARGETSELF);
+			sendMessage(Lang.COMMAND_ADMIN_TARGETSELF.getBuilder().parse().toString());
 			return;
 		}
 
@@ -82,8 +82,8 @@ public class CmdFactionsAdmin extends FCommand {
 		// if target player is currently admin, demote and replace him
 		if (newAdmin == admin) {
 			targetFaction.promoteNewLeader();
-			this.sendMessage(Lang.COMMAND_ADMIN_DEMOTES, newAdmin.describeTo(fme, true));
-			newAdmin.sendMessage(Lang.COMMAND_ADMIN_DEMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(newAdmin, true));
+			this.sendMessage(Lang.COMMAND_ADMIN_DEMOTES.getBuilder().parse().toString(), newAdmin.describeTo(fme, true));
+			newAdmin.sendMessage(Lang.COMMAND_ADMIN_DEMOTED.getBuilder().parse().toString(), senderIsConsole ? Lang.GENERIC_SERVERADMIN.getBuilder().parse().toString() : fme.describeTo(newAdmin, true));
 			return;
 		}
 
@@ -95,16 +95,16 @@ public class CmdFactionsAdmin extends FCommand {
 		// Promote new admin
 		newAdmin.setRole(Role.ADMIN);
 		
-		this.sendMessage(Lang.COMMAND_ADMIN_PROMOTES, newAdmin.describeTo(fme, true));
+		this.sendMessage(Lang.COMMAND_ADMIN_PROMOTES.getBuilder().parse().toString(), newAdmin.describeTo(fme, true));
 
 		// Inform all players
 		FPlayerColl.all(true, fplayer -> 
-			fplayer.sendMessage(Lang.COMMAND_ADMIN_PROMOTED, senderIsConsole ? Lang.GENERIC_SERVERADMIN.toString() : fme.describeTo(fplayer, true), newAdmin.describeTo(fplayer), targetFaction.describeTo(fplayer))
+			fplayer.sendMessage(Lang.COMMAND_ADMIN_PROMOTED.getBuilder().parse().toString(), senderIsConsole ? Lang.GENERIC_SERVERADMIN.getBuilder().parse().toString() : fme.describeTo(fplayer, true), newAdmin.describeTo(fplayer), targetFaction.describeTo(fplayer))
 		);
 	}
 
 	public String getUsageTranslation() {
-		return Lang.COMMAND_ADMIN_DESCRIPTION.toString();
+		return Lang.COMMAND_ADMIN_DESCRIPTION.getBuilder().parse().toString();
 	}
 
 }
