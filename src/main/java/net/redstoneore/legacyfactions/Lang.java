@@ -904,6 +904,11 @@ public enum Lang {
 	WARMUPS_ALREADY("&cYou are already warming up."),
 	WARMUPS_CANCELLED("&cYou have cancelled your warmup."),
 
+	// -------------------------------------------------- //
+	// Integration: Dynmap
+	// -------------------------------------------------- //
+	
+	DYNMAP_TITLE("<h>Dynmap Integration: <i>"),
 	
 	// -------------------------------------------------- //
 	// Expansion: FactionsFly

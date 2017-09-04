@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.cli.doc.DocSection;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
 import net.redstoneore.legacyfactions.expansion.fly.FactionsFlyConfig;
+import net.redstoneore.legacyfactions.integration.dynmap.DynmapConfig;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
@@ -1055,6 +1056,12 @@ public class Conf {
 	public static Set<String> worldsIgnorePvP = new LinkedHashSet<>();
 	public static Set<String> worldsNoWildernessProtection = new LinkedHashSet<>();
 
+	// -------------------------------------------------- //
+	// INTEGRATION: DYNMAP
+	// -------------------------------------------------- //
+	
+	public static DynmapConfig dynmap = new DynmapConfig();
+	
 	// -------------------------------------------------- //
 	// BUFFERS
 	// -------------------------------------------------- //
