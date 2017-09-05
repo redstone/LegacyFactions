@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.locality;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -58,6 +59,10 @@ public class Locality implements Serializable {
 		
 	public static Locality of(World world, int chunkX, int chunkZ) {
 		return of(world.getChunkAt(chunkX, chunkZ));
+	}
+	
+	public static Locality of(String worldName, int chunkX, int chunkZ) {
+		return new Locality(worldName, null, chunkX, chunkZ);
 	}
 	
 	public static Locality of(FPlayer fplayer) {
@@ -166,6 +171,16 @@ public class Locality implements Serializable {
 	// LAZY CONSTRUCTORS
 	// -------------------------------------------------- //
 	
+	protected Locality(String worldName, UUID world, int chunkX, int chunkZ) {
+		this.localityType = Type.Chunk;
+		
+		this.worldName = worldName;
+		this.world = world;
+		
+		this.chunkX = chunkX;
+		this.chunkZ = chunkZ;
+	}
+	
 	protected Locality(UUID world, int chunkX, int chunkZ) {
 		this.localityType = Type.Chunk;
 		
@@ -186,6 +201,7 @@ public class Locality implements Serializable {
 	
 	private Type localityType;
 	
+	private transient String worldName = null;
 	private UUID world = null;
 	
 	private double locationX = 0;
@@ -266,6 +282,10 @@ public class Locality implements Serializable {
 	}
 	
 	public UUID getWorldUID() {
+		if (this.world == null && this.worldName != null) {
+			this.world = Bukkit.getWorld(this.worldName).getUID();
+			this.worldName = null;
+		}
 		return this.world;
 	}
 	
@@ -572,9 +592,25 @@ public class Locality implements Serializable {
 		result += 9 * (1 + (this.getChunkX()));
 		result += 9 * (1 + (this.getChunkZ()));
 
+		if (this.world == null && this.worldName != null) {
+			this.world = Bukkit.getWorld(worldName).getUID();
+		}
+		
 		result += this.world.hashCode();
 		
 		return result.intValue();
+	}
+	
+	public Set<LocalityLazy> getRadius(int radius) {
+		Set<LocalityLazy> chunks = new HashSet<>();
+		
+		for (int chunkZ = this.getChunkX() + radius; chunkZ > this.getChunkZ() - radius; chunkZ -= 1) {
+			for (int chunkX = this.getChunkX() + radius; chunkX > this.getChunkZ() - radius; chunkX -= 1) {
+				chunks.add(LocalityLazy.of(this.getWorldUID(), chunkX, chunkZ));
+			}
+		}
+		
+		return chunks;
 	}
 	
 	/**

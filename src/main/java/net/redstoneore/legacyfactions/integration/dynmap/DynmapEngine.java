@@ -32,6 +32,7 @@ import net.redstoneore.legacyfactions.integration.dynmap.marker.TempMarker;
 import net.redstoneore.legacyfactions.integration.dynmap.marker.TempMarkerSet;
 import net.redstoneore.legacyfactions.integration.dynmap.util.DynmapUtil;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.locality.LocalityLazy;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderFaction;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 
@@ -226,7 +227,7 @@ public class DynmapEngine extends BukkitRunnable {
 				
 				faction.getAllClaims().stream()
 					.filter(flocation -> flocation.getWorld().getName() == worldName)
-					.forEach(flocation -> factionClaims.add(Locality.of(flocation.getChunk())));
+					.forEach(flocation -> factionClaims.add(LocalityLazy.of(worldName, (int)flocation.getX(), (int)flocation.getZ())));
 			});
 		});
 		
