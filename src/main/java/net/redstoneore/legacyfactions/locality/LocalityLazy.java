@@ -21,6 +21,11 @@ public class LocalityLazy extends Locality {
 		return new LocalityLazy(world, chunkX, chunkZ);
 	}
 	
+	public static Locality of(String world, int chunkX, int chunkZ) {
+		return new Locality(world, null, chunkX, chunkZ);
+	}
+	
+	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
