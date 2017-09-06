@@ -1,9 +1,6 @@
 package net.redstoneore.legacyfactions.integration.vault;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import net.milkbowl.vault.economy.Economy;
@@ -16,7 +13,6 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.util.VaultUtilPlayer;
 import net.redstoneore.legacyfactions.util.TextUtil;
-import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 public class VaultUtils extends VaultUtilPlayer {
 
@@ -91,17 +87,11 @@ public class VaultUtils extends VaultUtilPlayer {
 		
 		if (payee instanceof FPlayer) {
 			currentBalance = econ.getBalance(((FPlayer) payee).getPlayer());
-		} else if (UUIDUtil.isUUID(payee.getAccountId())) {
-			OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(payee.getAccountId()));
-			if (offlinePlayer != null) {
-				currentBalance = econ.getBalance(offlinePlayer);
-			} else {
-				currentBalance = 0;
-			}
 		} else {
 			currentBalance = this.getBalance(payee.getAccountId());
 		}
 
+		System.out.println(payee.getAccountId() + " balance = " + currentBalance);
 		if (currentBalance < delta) {
 			if (forAction != null && !forAction.isEmpty()) {
 				String message = Lang.ECON_CANTAFFORD.toString();
