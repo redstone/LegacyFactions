@@ -169,13 +169,13 @@ public class FactionsPlayerListener implements Listener {
 
 		if (from.equals(to)) return;
 
-		// Yes we did change coord (:
-
-		me.setLastStoodAt(to);
-
 		// Did we change "host"(faction)?
 		Faction factionFrom = Board.get().getFactionAt(me.getLastLocation());
 		Faction factionTo = Board.get().getFactionAt(Locality.of(event.getTo()));
+		
+		// Update to new location
+		me.setLastStoodAt(to);
+
 		boolean changedFaction = (factionFrom != factionTo);
 
 		if (me.isMapAutoUpdating()) {
