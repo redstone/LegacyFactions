@@ -11,6 +11,7 @@ import net.redstoneore.legacyfactions.entity.persist.Persist;
 import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
 import net.redstoneore.legacyfactions.expansion.fly.FactionsFlyConfig;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapConfig;
+import net.redstoneore.legacyfactions.struct.LandValue;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
@@ -1034,6 +1035,11 @@ public class Conf {
 	public static double econCostNeutral = 0.0;
 	public static double econCostNoBoom = 0.0;
 
+	public static boolean econAdditionalLandValueEnabled = false;
+	public static List<LandValue> econAdditionalLandValue = Lists.newArrayList(
+		LandValue.create("-2", 5, 10),
+		LandValue.create("-2", 10, 10)	
+	);
 
 	// -------------------------------------------------- //
 	// INTEGRATION: WORLD GUARD

@@ -1051,7 +1051,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 		double cost = 0.0;
 		EconomyParticipator payee = null;
 		if (mustPay) {
-			cost = VaultEngine.getUtils().calculateClaimCost(ownedLand, currentFaction.isNormal());
+			cost = VaultEngine.getUtils().calculateClaimCost(ownedLand, currentFaction.isNormal(), locality);
 
 			if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(locality.getWorld()) > 0 && !Board.get().isConnectedLocation(locality, forFaction)) {
 				cost += Conf.econClaimUnconnectedFee;
@@ -1062,15 +1062,16 @@ public abstract class MemoryFPlayer implements FPlayer {
 			} else {
 				payee = this;
 			}
-
-			if (!VaultEngine.getUtils().hasAtLeast(payee, cost, Lang.CLAIM_TOCLAIM.toString())) {
+			
+			if (!payee.getVaultAccount().has(cost)) {
+				payee.sendMessage(Lang.CLAIM_TOCLAIM.getBuilder().parse().toString());
 				return false;
 			}
-		}
-		
-		// then make 'em pay (if applicable)
-		if (mustPay && !VaultEngine.getUtils().modifyMoney(payee, -cost, Lang.CLAIM_TOCLAIM.toString(), Lang.CLAIM_FORCLAIM.toString())) {
-			return false;
+			
+			// then make 'em pay (if applicable)
+			if (!VaultEngine.getUtils().modifyMoney(payee, -cost, Lang.CLAIM_TOCLAIM.toString(), Lang.CLAIM_FORCLAIM.toString())) {
+				return false;
+			}
 		}
 
 		// Was an over claim
