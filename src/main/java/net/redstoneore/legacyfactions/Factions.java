@@ -442,10 +442,21 @@ public class Factions extends FactionsPluginBase {
 	}
 	
 	private void loadLibraries() {
+		if (!classExists("com.github.benmanes.caffeine.cache.Caffeine")) {
+			try {
+				LibraryUtil.loadLibrary("https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/caffeine/2.5.5/caffeine-2.5.5.jar");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private boolean classExists(String name) {
 		try {
-			LibraryUtil.loadLibrary("https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/caffeine/2.5.5/caffeine-2.5.5.jar");
+			Class.forName(name);
+			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			return false;
 		}
 	}
 	
