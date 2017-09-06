@@ -16,7 +16,9 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultUtils;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.BukkitMixin;
+import net.redstoneore.legacyfactions.struct.LandValue;
 import net.redstoneore.legacyfactions.util.RelationUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
@@ -56,7 +58,7 @@ public abstract class VaultUtilBase {
 	  * @return double of amount
 	  */
 	public double calculateClaimRefund(int amountChunks) {
-		return calculateClaimCost(amountChunks - 1, false) * Conf.econClaimRefundMultiplier;
+		return calculateClaimCost(amountChunks - 1, false, null) * Conf.econClaimRefundMultiplier;
 	}
 
 	/**
@@ -67,7 +69,7 @@ public abstract class VaultUtilBase {
 	public double calculateTotalLandValue(int amountChunks) {
 		double amount = 0;
 		for (int x = 0; x < amountChunks; x++) {
-			amount += calculateClaimCost(x, false);
+			amount += calculateClaimCost(x, false, null);
 		}
 		return amount;
 	}
@@ -81,12 +83,32 @@ public abstract class VaultUtilBase {
 		return calculateTotalLandValue(amountChunks) * Conf.econClaimRefundMultiplier;
 	}
 
+	
 	// calculate the cost for claiming land
-	public double calculateClaimCost(int amountChunks, boolean takingFromAnotherFaction) {
+	public double calculateClaimCost(int amountChunks, boolean takingFromAnotherFaction, Locality location) {
 		if (!shouldBeUsed()) return 0d;
-
-		// basic claim cost, plus land inflation cost, minus the potential bonus given for claiming from another faction
-		return Conf.econCostClaimWilderness + (Conf.econCostClaimWilderness * Conf.econClaimAdditionalMultiplier * amountChunks) - (takingFromAnotherFaction ? Conf.econCostClaimFromFactionBonus : 0);
+		
+		// Base cost
+		double claimCost = Conf.econCostClaimWilderness;
+		
+		// Aditional land value calculator
+		if (Conf.econAdditionalLandValueEnabled && location != null) {
+			
+			for (LandValue landvalue : Conf.econAdditionalLandValue) {
+				if (location.getRadius(landvalue.radius).stream()
+						.filter(lazyLocation -> lazyLocation.getFactionHere().getId() == landvalue.faction || lazyLocation.getFactionHere().getTag() == landvalue.faction)
+						.findFirst()
+						.isPresent()) { claimCost += landvalue.additionalCost; }
+			}
+		}
+		
+		// Add land inflation cost
+		claimCost +=(Conf.econCostClaimWilderness * Conf.econClaimAdditionalMultiplier * amountChunks);
+		
+		// Remove potential bonus given from another faction.
+		claimCost -= (takingFromAnotherFaction ? Conf.econCostClaimFromFactionBonus : 0);
+		
+		return claimCost;
 	}
 	
 	public boolean canIControllYou(EconomyParticipator who, EconomyParticipator you) {
