@@ -1,3 +1,9 @@
+# 1.4.6
+* 🐞 Bugfix: Dynmap async touched the bukkit API, it no longer does that
+* 🐞 Bugfix: Set last stood at too early, causing land change messages not to show
+* 🐞 Bugfix: Clashed with LuckPerms with Caffeine
+* ⌨️ API: Locality now includes a getRadius method
+
 # 1.4.5
 * 🐞 Bugfix: NPCs did not play nicely with damage modifiers
 * 🐞 Bugfix: Dynmap was a bit broken, fixed now though
