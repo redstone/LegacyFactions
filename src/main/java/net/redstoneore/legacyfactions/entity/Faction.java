@@ -102,6 +102,8 @@ public interface Faction extends EconomyParticipator {
 
 	boolean hasHome();
 
+	Location getHome(Boolean checkValid);
+	
 	Location getHome();
 
 	long getFoundedDate();

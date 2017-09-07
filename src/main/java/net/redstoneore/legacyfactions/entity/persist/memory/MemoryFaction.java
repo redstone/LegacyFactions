@@ -338,10 +338,11 @@ public abstract class MemoryFaction extends SharedFaction {
 			this.home = new LazyLocation(home);
 		}
 	}
-
-
-	public Location getHome() {
-		confirmValidHome();
+	
+	public Location getHome(Boolean checkValid) {
+		if (checkValid) {
+			this.confirmValidHome();			
+		}
 		return (this.home != null) ? this.home.getLocation() : null;
 	}
 

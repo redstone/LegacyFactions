@@ -129,13 +129,18 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	// -------------------------------------------------- //
 
 	@Override
+	public Location getHome() {
+		return this.getHome(true);
+	}
+	
+	@Override
 	public boolean hasHome() {
-		return this.getHome() != null;
+		return this.getHome(false) != null;
 	}
 	
 	@Override
 	public void confirmValidHome() {
-		if (!Conf.homesMustBeInClaimedTerritory || this.getHome() == null || (this.getHome() != null && Board.get().getFactionAt(Locality.of(this.getHome())) == this)) {
+		if (!Conf.homesMustBeInClaimedTerritory || this.getHome(false) == null || (this.getHome(false) != null && Board.get().getFactionAt(Locality.of(this.getHome(false))) == this)) {
 			return;
 		}
 		
