@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * <br>
  * Do not store references to any fields. Always use the methods available.  
  */
-public abstract class MemoryFactions extends FactionColl {
+public abstract class MemoryFactionColl extends FactionColl {
     public Map<String, Faction> factions = new ConcurrentHashMap<String, Faction>();
     public int nextId = 1;
 
@@ -174,5 +174,5 @@ public abstract class MemoryFactions extends FactionColl {
         return factions.get("-2");
     }
 
-    public abstract void convertFrom(MemoryFactions old);
+    public abstract void convertFrom(MemoryFactionColl old);
 }
