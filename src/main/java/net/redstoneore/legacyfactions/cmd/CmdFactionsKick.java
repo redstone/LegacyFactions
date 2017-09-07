@@ -11,7 +11,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 
@@ -80,9 +80,8 @@ public class CmdFactionsKick extends FCommand {
 					
 					// Update name in memory as they could potentially not have a name
 					FPlayer found = FPlayerColl.get(uuid);
-					if (found instanceof MemoryFPlayer) {
-						((MemoryFPlayer)found).setName(playerName);
-					}
+					
+					((SharedFPlayer)found).setName(playerName);
 					
 					// Resume here
 					resume(fsender, found, senderFaction, commandSender, isConsole);					

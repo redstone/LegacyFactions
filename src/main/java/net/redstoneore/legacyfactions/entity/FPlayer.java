@@ -10,7 +10,6 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.locality.Locality;
@@ -315,6 +314,10 @@ public interface FPlayer extends EconomyParticipator {
 
 	void setPowerBoost(double powerBoost);
 
+	long getLastPowerUpdated();
+	
+	void setLastPowerUpdated(long time);
+	
 	void onDeath();
 	void onDeath(double powerLoss);
 
@@ -333,6 +336,9 @@ public interface FPlayer extends EconomyParticipator {
 	boolean isInEnemyTerritory();
 
 	void sendFactionHereMessage(Faction from);
+	
+	boolean territoryTitlesOff();
+	void territoryTitlesOff(boolean off);
 
 	// ----------------------------------------
 	// ACTIONS
@@ -458,14 +464,5 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	@Deprecated
 	boolean attemptClaim(Faction forFaction, Locality location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
-
-	/**
-	 * Deprecated! Don't rely on MemoryFPlayer.<br>
-	 * Cast to MemoryFPlayer if needed.<br>
-	 * To be removed after 11/2017
-	 * @return
-	 */
-	@Deprecated
-	MemoryFPlayer asMemoryFPlayer();
 
 }
