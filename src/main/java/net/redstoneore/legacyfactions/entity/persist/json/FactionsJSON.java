@@ -8,6 +8,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.persist.PersistHandler;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryBoard;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayerColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactionColl;
@@ -16,8 +17,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
-public class FactionsJSON {
+public class FactionsJSON extends PersistHandler {
 
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static FactionsJSON instance = new FactionsJSON();
+	public static FactionsJSON get() { return instance; }
+	
 	// -------------------------------------------------- //
 	// STATIC METHODS
 	// -------------------------------------------------- // 
@@ -26,6 +34,7 @@ public class FactionsJSON {
 		return Paths.get(Factions.get().getPluginFolder().toString(), "database");
 	}
 	
+	@Deprecated
     public static void convertTo() {
         new BukkitRunnable() {
             @Override
@@ -49,5 +58,14 @@ public class FactionsJSON {
             }
         }.runTaskAsynchronously(Factions.get());
     }
+
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
+	@Override
+	public void convertfrom(PersistHandler other) {
+		
+	}
     
 }
