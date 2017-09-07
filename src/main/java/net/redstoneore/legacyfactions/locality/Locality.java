@@ -28,7 +28,7 @@ public class Locality implements Serializable {
 	// STATIC FIELDS
 	// -------------------------------------------------- //
 	
-	private static final long serialVersionUID = -1565165766499822994L;
+	private transient static final long serialVersionUID = -1565165766499822994L;
 
 	private static boolean worldBorderAvailable;
 	
