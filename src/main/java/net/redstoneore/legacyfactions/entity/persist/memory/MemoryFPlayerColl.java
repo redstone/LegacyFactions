@@ -12,7 +12,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-public abstract class MemoryFPlayers extends FPlayerColl {
+public abstract class MemoryFPlayerColl extends FPlayerColl {
 	
 	// -------------------------------------------------- //
 	// FIELDS
@@ -87,7 +87,7 @@ public abstract class MemoryFPlayers extends FPlayerColl {
 	
 	public abstract FPlayer generateFPlayer(String id);
 
-	public abstract void convertFrom(MemoryFPlayers old);
+	public abstract void convertFrom(MemoryFPlayerColl old);
 	
 	
 }

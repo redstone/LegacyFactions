@@ -9,7 +9,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryBoard;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayers;
+import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayerColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactionColl;
 
 import java.nio.file.Path;
@@ -35,7 +35,7 @@ public class FactionsJSON {
                 new JSONBoard().convertFrom((MemoryBoard) Board.get());
                 logger.info("Board Converted");
                 logger.info("Beginning FPlayers conversion to JSON");
-                new JSONFPlayers().convertFrom((MemoryFPlayers) FPlayerColl.getUnsafeInstance());
+                new JSONFPlayers().convertFrom((MemoryFPlayerColl) FPlayerColl.getUnsafeInstance());
                 logger.info("FPlayers Converted");
                 logger.info("Beginning Factions conversion to JSON");
                 new JSONFactions().convertFrom((MemoryFactionColl) FactionColl.get());
