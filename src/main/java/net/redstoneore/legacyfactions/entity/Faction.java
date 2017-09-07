@@ -10,7 +10,6 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
@@ -141,6 +140,8 @@ public interface Faction extends EconomyParticipator {
 
 	void setLastDeath(long time);
 
+	long getLastDeath();
+		
 	int getKills();
 
 	int getDeaths();
@@ -209,6 +210,8 @@ public interface Faction extends EconomyParticipator {
 	FPlayer getOwner();
 
 	ArrayList<FPlayer> getFPlayersWhereRole(Role role);
+	
+	ArrayList<FPlayer> getWhereRole(Role role);
 
 	ArrayList<Player> getOnlinePlayers();
 
@@ -276,17 +279,11 @@ public interface Faction extends EconomyParticipator {
 	Set<FLocation> getAllClaims();
 
 	void setId(String id);
-
-	// -------------------------------------------------- //
-	// UTIL
-	// -------------------------------------------------- //
 	
-	MemoryFaction asMemoryFaction();
-
 	// -------------------------------------------------- //
 	// DEPRECATED
 	// -------------------------------------------------- //
-
+	
 	/**
 	 * Deprecated, use {@link #getOwner()}
 	 */

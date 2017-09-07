@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.google.common.collect.Maps;
@@ -16,20 +15,25 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.LazyLocation;
-import net.redstoneore.legacyfactions.util.MiscUtil;
-import net.redstoneore.legacyfactions.util.RelationUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * MemoryFaction should be used carefully by developers. You should be able to do what you want
@@ -37,7 +41,7 @@ import java.util.stream.Collectors;
  * <br>
  * Do not store references to any fields. Always use the methods available.  
  */
-public abstract class MemoryFaction implements Faction, EconomyParticipator {
+public abstract class MemoryFaction extends SharedFaction {
 	
 	// -------------------------------------------------- //
 	// FIELDS
@@ -93,27 +97,6 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	}
 	
 	@Override
-	public String getTag(String prefix) {
-		return prefix + this.tag;
-	}
-
-	@Override
-	public String getTag(Faction otherFaction) {
-		if (otherFaction == null) {
-			return this.getTag();
-		}
-		return this.getTag(this.getColorTo(otherFaction).toString());
-	}
-	
-	@Override
-	public String getTag(FPlayer otherFplayer) {
-		if (otherFplayer == null) {
-			return this.getTag();
-		}
-		return this.getTag(this.getColorTo(otherFplayer).toString());
-	}
-
-	@Override
 	public void setTag(String str) {
 		if (Conf.factionTagForceUpperCase) {
 			str = str.toUpperCase();
@@ -121,10 +104,6 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		this.tag = str;
 	}
 
-	@Override
-	public String getComparisonTag() {
-		return MiscUtil.getComparisonString(this.tag);
-	}
 
 	@Override
 	public String getDescription() {
@@ -203,34 +182,29 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		return factionWarps;
 	}
 	
+	@Override
 	public HashMap<String, List<String>> getAnnouncements() {
 		return Maps.newHashMap(this.announcements);
 	}
 
+	@Override
 	public void addAnnouncement(FPlayer fplayer, String msg) {
 		List<String> list = announcements.containsKey(fplayer.getId()) ? announcements.get(fplayer.getId()) : new ArrayList<>();
 		list.add(msg);
 		announcements.put(fplayer.getId(), list);
 	}
-
-	public void sendUnreadAnnouncements(FPlayer fplayer) {
-		if (!announcements.containsKey(fplayer.getId())) {
-			return;
-		}
-		fplayer.sendMessage(ChatColor.LIGHT_PURPLE + "--Unread Faction Announcements--");
-		for (String s : announcements.get(fplayer.getPlayer().getUniqueId().toString())) {
-			fplayer.sendMessage(s);
-		}
-		fplayer.sendMessage(ChatColor.LIGHT_PURPLE + "--Unread Faction Announcements--");
-		announcements.remove(fplayer.getId());
-	}
-
+	
+	@Override
 	public void removeAnnouncements(FPlayer fplayer) {
 		if (announcements.containsKey(fplayer.getId())) {
 			announcements.remove(fplayer.getId());
 		}
 	}
 
+	/**
+	 * Get all warps
+	 * @return
+	 */
 	public ConcurrentHashMap<String, LazyLocation> getAllWarps() {
 		return this.warps;
 	}
@@ -316,54 +290,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		return this.bannedPlayerIds.contains(fplayer.getId());
 	}
 
-	public boolean getOpen() {
-		return this.getFlag(Flags.OPEN);
-	}
-
-	public void setOpen(boolean isOpen) {
-		this.setFlag(Flags.OPEN, isOpen);
-	}
-
-	public boolean isPeaceful() {
-		return this.getFlag(Flags.PEACEFUL);
-	}
-
-	public void setPeaceful(boolean isPeaceful) {
-		this.setFlag(Flags.PEACEFUL, peaceful);
-	}
-
-	public void setPeacefulExplosionsEnabled(boolean val) {
-		this.setFlag(Flags.EXPLOSIONS, val);
-	}
-
-	public boolean getPeacefulExplosionsEnabled() {
-		return this.getFlag(Flags.EXPLOSIONS);
-	}
-
-	public boolean noExplosionsInTerritory() {
-		return (this.isPeaceful() && !this.getPeacefulExplosionsEnabled()) || this.isSafeZone();
-	}
 	
-	public boolean noCreeperExplosions(Location location) {
-		return (
-			this.isWilderness() && Conf.wildernessBlockCreepers && !Conf.worldsNoWildernessProtection.contains(location.getWorld().getName()) ||
-			this.isNormal() && (this.hasPlayersOnline() ? Conf.territoryBlockCreepers : Conf.territoryBlockCreepersWhenOffline) ||
-			this.isWarZone() && Conf.warZoneBlockCreepers ||
-			this.isSafeZone()
-		);
-	}
 
-	public boolean isPermanent() {
-		return this.getFlag(Flags.PERMANENT) || !this.isNormal();
-	}
-
-	public void setPermanent(boolean isPermanent) {
-		this.setFlag(Flags.PERMANENT, isPermanent);
-	}
-
-	public boolean hasForcedMapCharacter() {
-		return this.getForcedMapCharacter() != null;
-	}
 	
 	public void setForcedMapCharacter(char character) {
 		this.forcedMapCharacter = character;
@@ -383,9 +311,6 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		return this.forcedMapCharacter;
 	}
 	
-	public boolean hasForcedMapColour() {
-		return this.getForcedMapColour() != null;
-	}
 	
 	public void setForcedMapColour(ChatColor colour) {
 		this.forcedMapColour = colour;
@@ -407,12 +332,13 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 	
 
 	public void setHome(Location home) {
-		this.home = new LazyLocation(home);
+		if (home == null) {
+			this.home = null;
+		} else {
+			this.home = new LazyLocation(home);
+		}
 	}
 
-	public boolean hasHome() {
-		return this.getHome() != null;
-	}
 
 	public Location getHome() {
 		confirmValidHome();
@@ -430,25 +356,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		this.foundedDate = newDate;
 	}
 
-	public void confirmValidHome() {
-		if (!Conf.homesMustBeInClaimedTerritory || this.home == null || (this.home.getLocation() != null && Board.get().getFactionAt(Locality.of(this.home.getLocation())) == this)) {
-			return;
-		}
-		
-		this.sendMessage(TextUtil.parseColor(Lang.GENERIC_HOMEREMOVED.toString()));
-		this.home = null;
-	}
 
-	public String getAccountId() {
-		String aid = "faction-" + this.getId();
-		
-		// We need to override the default money given to players.
-		if (!VaultEngine.getUtils().hasAccount(aid)) {
-			VaultEngine.getUtils().setBalance(aid, 0);
-		}
-
-		return aid;
-	}
 
 	public Integer getPermanentPower() {
 		return this.permanentPower;
@@ -456,10 +364,6 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 
 	public void setPermanentPower(Integer permanentPower) {
 		this.permanentPower = permanentPower;
-	}
-
-	public boolean hasPermanentPower() {
-		return this.permanentPower != null;
 	}
 
 	public double getPowerBoost() {
@@ -470,11 +374,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		this.powerBoost = powerBoost;
 	}
 
-	public boolean isPowerFrozen() {
-		if (Conf.raidablePowerFreeze == 0) return false;
 
-		return System.currentTimeMillis() - lastDeath < Conf.raidablePowerFreeze * 1000;
-	}
 
 	public void setLastDeath(long time) {
 		this.lastDeath = time;
@@ -544,78 +444,9 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		announcements = old.announcements;
 	}
 
-	// -------------------------------------------- //
-	// Extra Getters And Setters
-	// -------------------------------------------- //
-	public boolean noPvPInTerritory() {
-		return isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisablePVP);
-	}
-
-	public boolean noMonstersInTerritory() {
-		return isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisableMonsters);
-	}
-
-	// -------------------------------
-	// Understand the types
-	// -------------------------------
-
-	public boolean isNormal() {
-		return !(this.isWilderness() || this.isSafeZone() || this.isWarZone());
-	}
-
-	public boolean isNone() {
-		return this.getId().equals("0");
-	}
-
-	public boolean isWilderness() {
-		return this.getId().equals("0");
-	}
-
-	public boolean isSafeZone() {
-		return this.getId().equals("-1");
-	}
-
-	public boolean isWarZone() {
-		return this.getId().equals("-2");
-	}
-
-	public boolean isPlayerFreeType() {
-		return this.isSafeZone() || this.isWarZone();
-	}
-
 	// -------------------------------
 	// Relation and relation colors
 	// -------------------------------
-
-	@Override
-	public String describe() {
-		return this.describeTo(null);
-	}
-	
-	@Override
-	public String describeTo(RelationParticipator that, boolean ucfirst) {
-		return RelationUtil.describeThatToMe(this, that, ucfirst);
-	}
-
-	@Override
-	public String describeTo(RelationParticipator that) {
-		return RelationUtil.describeThatToMe(this, that);
-	}
-
-	@Override
-	public Relation getRelationTo(RelationParticipator rp) {
-		return RelationUtil.getRelationTo(this, rp);
-	}
-
-	@Override
-	public Relation getRelationTo(RelationParticipator rp, boolean ignorePeaceful) {
-		return RelationUtil.getRelationTo(this, rp, ignorePeaceful);
-	}
-
-	@Override
-	public ChatColor getColorTo(RelationParticipator rp) {
-		return RelationUtil.getColorOfThatToMe(this, rp);
-	}
 
 	public Relation getRelationWish(Faction otherFaction) {
 		if (this.relationWish.containsKey(otherFaction.getId())) {
@@ -683,47 +514,10 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		if (Conf.powerFactionMax > 0 && ret > Conf.powerFactionMax) {
 			ret = Conf.powerFactionMax;
 		}
-		return ret + this.powerBoost;
+		return ret + this.getPowerBoost();
 	}
 
-	public double getPowerMax() {
-		if (this.hasPermanentPower()) {
-			return this.getPermanentPower();
-		}
 
-		double ret = 0;
-		for (FPlayer fplayer : fplayers) {
-			ret += fplayer.getPowerMax();
-		}
-		if (Conf.powerFactionMax > 0 && ret > Conf.powerFactionMax) {
-			ret = Conf.powerFactionMax;
-		}
-		return ret + this.powerBoost;
-	}
-
-	public int getPowerRounded() {
-		return (int) Math.round(this.getPower());
-	}
-
-	public int getPowerMaxRounded() {
-		return (int) Math.round(this.getPowerMax());
-	}
-
-	public int getLandRounded() {
-		return Board.get().getFactionCoordCount(this);
-	}
-
-	public int getLandRoundedInWorld(String worldName) {
-		return this.getLandRoundedInWorld(Bukkit.getWorld(worldName));
-	}
-
-	public int getLandRoundedInWorld(World world) {
-		return Board.get().getFactionCoordCountInWorld(this, world);
-	}
-
-	public boolean hasLandInflation() {
-		return this.getLandRounded() > this.getPowerRounded();
-	}
 
 	// -------------------------------
 	// FPlayers
@@ -763,51 +557,8 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		return new HashSet<>(this.fplayers);
 	}
 
-	public Set<FPlayer> getFPlayersWhereOnline(boolean online) {
-		return this.getWhereOnline(online);
-	}
 	
-	public Set<FPlayer> getWhereOnline(boolean online) {
-		if (!this.isNormal()) return new HashSet<>();
-		
-		return this.getMembers().stream()
-				.filter(fplayer -> fplayer.isOnline() == online)
-				.collect(Collectors.toSet());
-	}
-
-	public FPlayer getFPlayerAdmin() {
-		return this.getOwner();
-	}
 	
-	public FPlayer getOwner() {
-		if (!this.isNormal()) return null;
-		
-		return this.getMembers().stream()
-				.filter(fplayer -> fplayer.getRole() == Role.ADMIN)
-				.findFirst()
-				.orElse(null);
-	}
-	
-	public ArrayList<FPlayer> getFPlayersWhereRole(Role role) {
-		return this.getWhereRole(role);
-	}
-	
-	public ArrayList<FPlayer> getWhereRole(Role role) {
-		if (!this.isNormal()) return new ArrayList<>();
-
-		return this.getMembers().stream()
-				.filter(fplayer -> fplayer.getRole() == role)
-				.collect(Collectors.toCollection(ArrayList::new));
-
-	}
-
-	public ArrayList<Player> getOnlinePlayers() {
-		if (this.isPlayerFreeType()) return new ArrayList<>();
-
-		return Factions.get().getServer().getOnlinePlayers().stream()
-				.filter(player -> FPlayerColl.get(player).getFaction() == this)
-				.collect(Collectors.toCollection(ArrayList::new));
-	}
 
 	// slightly faster check than getOnlinePlayers() if you just want to see if
 	// there are any players online
@@ -823,7 +574,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		
 		// even if all players are technically logged off, maybe someone was on
 		// recently enough to not consider them officially offline yet
-		return Conf.considerFactionsReallyOfflineAfterXMinutes > 0 && System.currentTimeMillis() < lastPlayerLoggedOffTime + (Conf.considerFactionsReallyOfflineAfterXMinutes * 60000);
+		return Conf.considerFactionsReallyOfflineAfterXMinutes > 0 && System.currentTimeMillis() <  lastPlayerLoggedOffTime + (Conf.considerFactionsReallyOfflineAfterXMinutes * 60000);
 	}
 
 	public void memberLoggedOff() {
@@ -888,61 +639,25 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 			Factions.get().log("Faction " + this.getTag() + " (" + this.getId() + ") admin was removed. Replacement admin: " + replacements.get(0).getName());
 		}
 	}
-
-	// ----------------------------------------------//
-	// Messages
-	// ----------------------------------------------//
 	
-	public void sendMessage(String message, Object... args) {
-		message = TextUtil.get().parse(message, args);
-
-		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
-			fplayer.sendMessage(message);
-		}
-	}
-
-	public void sendMessage(Lang translation, Object... args) {
-		this.sendMessage(translation.toString(), args);
-	}
-
-	public void sendMessage(String message) {
-		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
-			fplayer.sendMessage(message);
-		}
-	}
-
-	public void sendMessage(List<String> messages) {
-		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
-			fplayer.sendMessage(messages);
-		}
-	}
-	
-	public void sendPlainMessage(String message) {
-		this.getFPlayersWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(message));
-	}
-
-	public void sendPlainMessage(List<String> messages) {
-		this.getFPlayersWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(messages));
-	}
-
 	// ----------------------------------------------//
 	// Ownership of specific claims
 	// ----------------------------------------------//
 
 	public Map<FLocation, Set<String>> getClaimOwnership() {
-		return claimOwnership;
+		return this.claimOwnership;
 	}
 
 	public void clearAllClaimOwnership() {
-		claimOwnership.clear();
+		this.claimOwnership.clear();
 	}
 
 	public void clearClaimOwnership(Locality locality) {
-		claimOwnership.remove(new FLocation(locality.getChunk()));
+		this.claimOwnership.remove(new FLocation(locality.getChunk()));
 	}
 	
 	public void clearClaimOwnership(FLocation loc) {
-		claimOwnership.remove(loc);
+		this.claimOwnership.remove(loc);
 	}
 
 	public void clearClaimOwnership(FPlayer player) {
@@ -1068,27 +783,11 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		this.fplayers.forEach(fplayer -> fplayer.resetFactionData());
 	}
 
-	public Set<FLocation> getAllClaims() {
-		return Board.get().getAllClaims(this);
-	}
-	
+
 	
 	public MemoryFaction asMemoryFaction() {
 		return this;
 	}
 	
-	// -------------------------------------------------- //
-	// DEPRECATED
-	// -------------------------------------------------- //
-	
-	@Deprecated
-	public void msg(String message, Object... args) {
-		this.sendMessage(message, args);
-	}
 
-	@Deprecated
-	public void msg(Lang translation, Object... args) {
-		this.sendMessage(translation, args);
-	}
-	
 }

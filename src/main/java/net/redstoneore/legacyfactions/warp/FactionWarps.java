@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.bukkit.Location;
 
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 
 public class FactionWarps {
@@ -33,7 +34,7 @@ public class FactionWarps {
 	public Collection<FactionWarp> getAll() {
 		Collection<FactionWarp> all = new ArrayList<>();
 		
-		for (Entry<String, LazyLocation> entry : faction.asMemoryFaction().getAllWarps().entrySet()) {
+		for (Entry<String, LazyLocation> entry : this.shared().getAllWarps().entrySet()) {
 			FactionWarp warp = new FactionWarp(faction, entry.getKey(), entry.getValue());
 			all.add(warp);
 		}
@@ -42,7 +43,7 @@ public class FactionWarps {
 	}
 	
 	public Optional<FactionWarp> get(String name) {
-		LazyLocation location = this.faction.asMemoryFaction().getWarp(name);
+		LazyLocation location = this.shared().getWarp(name);
 		
 		if (location == null) return Optional.empty();
 		
@@ -56,7 +57,7 @@ public class FactionWarps {
 	}
 	
 	public void setWarp(String name, LazyLocation location, String password) {
-		this.faction.asMemoryFaction().setWarp(name, location, password);
+		this.shared().setWarp(name, location, password);
 	}
 	
 	public void setWarp(String name, Location location) {
@@ -64,7 +65,7 @@ public class FactionWarps {
 	}
 	
 	public void setWarp(String name, Location location, String password) {
-		this.faction.asMemoryFaction().setWarp(name, new LazyLocation(location), password);
+		this.shared().setWarp(name, new LazyLocation(location), password);
 	}
 	
 	public boolean delete(String name) {
@@ -76,12 +77,16 @@ public class FactionWarps {
 	}
 	
 	public boolean deleteAll() {
-		this.faction.asMemoryFaction().clearWarps();
+		this.shared().clearWarps();
 		return true;
 	}
 	
 	public int size() {
-		return this.faction.asMemoryFaction().getAllWarps().size();
+		return this.shared().getAllWarps().size();
+	}
+	
+	private SharedFaction shared() {
+		return (SharedFaction) this.faction;
 	}
 	
 }
