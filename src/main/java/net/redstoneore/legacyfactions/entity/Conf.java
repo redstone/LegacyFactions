@@ -8,6 +8,7 @@ import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.cli.doc.DocDescription;
 import net.redstoneore.legacyfactions.cli.doc.DocSection;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
+import net.redstoneore.legacyfactions.entity.persist.PersistType;
 import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
 import net.redstoneore.legacyfactions.expansion.fly.FactionsFlyConfig;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapConfig;
@@ -1101,7 +1102,7 @@ public class Conf {
 	// BACKEND
 	// -------------------------------------------------- //
 
-	public static Backend backEnd = Backend.JSON;
+	public static PersistType backEnd = PersistType.JSON;
 		
 	// -------------------------------------------------- //
 	// MAP
@@ -1201,10 +1202,6 @@ public class Conf {
 	public static void save() {
 		Persist.get().save(i);
 	}
-
-	public enum Backend {
-		JSON,
-		;
-	}
+	
 }
 

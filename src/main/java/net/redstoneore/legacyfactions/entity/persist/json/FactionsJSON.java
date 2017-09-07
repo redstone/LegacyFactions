@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.PersistHandler;
+import net.redstoneore.legacyfactions.entity.persist.PersistType;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryBoard;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayerColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactionColl;
@@ -66,6 +67,11 @@ public class FactionsJSON extends PersistHandler {
 	@Override
 	public void convertfrom(PersistHandler other) {
 		
+	}
+
+	@Override
+	public PersistType getType() {
+		return PersistType.JSON;
 	}
     
 }
