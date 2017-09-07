@@ -17,6 +17,12 @@ public class Meta {
 	
 	public double configVersion = Conf.version;
 	
+	// Database credentials
+	public String databaseHost = "";
+	public String databaseUsername = "";
+	public String databasePassword = "";
+	public String databaseName = "";
+	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
