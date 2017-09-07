@@ -165,6 +165,11 @@ public abstract class Board {
 	 * Cleaner. Removes orphaned foreign keys
 	 */
 	public abstract void clean();
+	
+	/**
+	 * Cleaner. Removes orphaned foreign keys
+	 */
+	public abstract void clean(String factionId);
 
 	/**
 	 * Force a synchronised save
