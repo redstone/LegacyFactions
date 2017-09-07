@@ -20,8 +20,9 @@ public class DebugMixin {
 		sender.sendMessage("----- Server Information -----");
 
 		// Show server version.
+		sender.sendMessage("Server Name: " + Bukkit.getServer().getName());
 		sender.sendMessage("Server Version: " + Bukkit.getServer().getVersion());
-
+		
 		// Return the name and version.
 		sender.sendMessage(Factions.get().getDescription().getName() + " v" + Factions.get().getDescription().getVersion());
 		
