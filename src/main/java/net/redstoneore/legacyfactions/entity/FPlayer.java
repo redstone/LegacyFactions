@@ -221,16 +221,18 @@ public interface FPlayer extends EconomyParticipator {
 
 	boolean hasLoginPvpDisabled();
 
-	FLocation getLastStoodAt();
 
 	/**
+	 * Set the last known location of the player.
+	 * @param location Last known location in a {@link Locality} for this player.
+	 */
+	void setLastLocation(Locality location);
+	
+	/**
 	 * Fetch the last known location of this player.
-	 * @return last known location in a {@link Locality} for this player.
+	 * @return Last known location in a {@link Locality} for this player.
 	 */
 	Locality getLastLocation();
-	
-	void setLastStoodAt(FLocation flocation);
-
 
 	// Base concatenations:
 
@@ -464,5 +466,27 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	@Deprecated
 	boolean attemptClaim(Faction forFaction, Locality location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+
+	// -------------------------------------------------- //
+	// FOREVER DEPRECATED
+	// -------------------------------------------------- //
+	// These methods were used a lot in plugins. For long term safety, keep these until we can confirm
+	// they aren't being called.
+	// TODO track how often these are being called
+	// TODO trigger warning when these are called?
+	
+	/**
+	 * Deprecated! Use {@link #getLastLocation()}
+	 * @return
+	 */
+	@Deprecated
+	FLocation getLastStoodAt();
+	
+	/**
+	 * Deprecated! Use {@link #setLastLocation(Locality)}
+	 * @param flocation
+	 */
+	@Deprecated
+	void setLastStoodAt(FLocation flocation);
 
 }

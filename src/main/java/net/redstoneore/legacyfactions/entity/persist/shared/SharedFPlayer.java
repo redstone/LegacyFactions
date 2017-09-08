@@ -45,6 +45,28 @@ import net.redstoneore.legacyfactions.util.TitleUtil;
 
 public abstract class SharedFPlayer implements FPlayer {
 	
+	// -------------------------------------------------- //
+	// STATIC FIELDS
+	// -------------------------------------------------- //
+
+	private static transient Locality DEFAULT_LASTSTOODAT = Locality.of(Bukkit.getWorlds().get(0).getSpawnLocation());
+
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+
+	private transient Locality lastStoodAtLocation = DEFAULT_LASTSTOODAT;
+	private transient boolean mapAutoUpdating = false;
+	private transient Faction autoClaimFor = null;
+	private transient boolean autoSafeZoneEnabled = false;
+	private transient boolean autoWarZoneEnabled = false;
+	private transient boolean loginPvpDisabled = Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0;
+	private transient long lastFrostwalkerMessage = 0;
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
 	@Override
 	public String getAccountId() {
 		return this.getId();
@@ -65,9 +87,113 @@ public abstract class SharedFPlayer implements FPlayer {
 		this.getPlayer().teleport(locality.getLocation());
 	}
 	
+
+	@Override
+	public boolean isMapAutoUpdating() {
+		return this.mapAutoUpdating;
+	}
+
+	@Override
+	public void setMapAutoUpdating(boolean mapAutoUpdating) {
+		this.mapAutoUpdating = mapAutoUpdating;
+	}
+
+	@Override
+	public boolean hasLoginPvpDisabled() {
+		if (!this.loginPvpDisabled) {
+			return false;
+		}
+		if (this.getLastLoginTime() + (Conf.noPVPDamageToOthersForXSecondsAfterLogin * 1000) < System.currentTimeMillis()) {
+			this.loginPvpDisabled = false;
+			return false;
+		}
+		return true;
+	}
+	
+	public void setLoginPVPDisable(boolean disabled) {
+		this.loginPvpDisabled = disabled;
+	}
+	
+	@Override
+	public long getLastFrostwalkerMessage() {
+		return this.lastFrostwalkerMessage;
+	}
+
+	@Override
+	public void setLastFrostwalkerMessage() {
+		this.lastFrostwalkerMessage = System.currentTimeMillis();
+	}
+	
+	@Override
+	public FLocation getLastStoodAt() {
+		return FLocation.valueOf(this.lastStoodAtLocation.getLocation());
+	}
+	
+	@Override
+	public void setLastLocation(Locality locality) {
+		this.lastStoodAtLocation = locality;
+	}
+	
+	@Override
+	public Locality getLastLocation() {
+		return this.lastStoodAtLocation;
+	}
+
+	@Override
+	public void setLastStoodAt(FLocation flocation) {
+		this.lastStoodAtLocation = Locality.of(flocation.getChunk());
+	}
+	
 	@Override
 	public boolean hasFaction() {
 		return !this.getFaction().getId().equals("0");
+	}
+	
+	@Override
+	public Faction getAutoClaimFor() {
+		return this.autoClaimFor;
+	}
+
+	@Override
+	public void setAutoClaimFor(Faction faction) {
+		this.autoClaimFor = faction;
+		if (this.autoClaimFor != null) {
+			if (!this.autoClaimFor.isSafeZone()) {
+				this.autoSafeZoneEnabled = false;
+			}
+			
+			if (!this.autoClaimFor.isWarZone()) {
+				this.autoWarZoneEnabled = false;
+			}
+		}
+	}
+
+	@Override
+	public boolean isAutoSafeClaimEnabled() {
+		return this.autoSafeZoneEnabled;
+	}
+
+	@Override
+	public void setIsAutoSafeClaimEnabled(boolean enabled) {
+		this.autoSafeZoneEnabled = enabled;
+		if (enabled) {
+			this.autoClaimFor = null;
+			this.autoWarZoneEnabled = false;
+		}
+	}
+
+	@Override
+	public boolean isAutoWarClaimEnabled() {
+		return this.autoWarZoneEnabled;
+	}
+
+	@Override
+	public void setIsAutoWarClaimEnabled(boolean enabled) {
+		this.autoWarZoneEnabled = enabled;
+		if (enabled) {
+			this.autoClaimFor = null;
+			this.autoSafeZoneEnabled = false;
+		}
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import org.bukkit.World;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.locality.LocalityLazy;
 
 
 /*
@@ -37,6 +39,26 @@ public abstract class SpiralTask implements Runnable {
     private transient int length = -1;
     private transient int current = 0;
 
+    public SpiralTask(Locality locality, int radius) {
+        // limit is determined based on spiral leg length for given radius; see insideRadius()
+        this.limit = (radius - 1) * 2;
+
+        this.world = Bukkit.getWorld(locality.getWorld().getName());
+        if (this.world == null) {
+            Factions.get().warn("[SpiralTask] A valid world must be specified!");
+            this.stop();
+            return;
+        }
+
+        this.x = (int) locality.getChunkX();
+        this.z = (int) locality.getChunkZ();
+
+        this.readyToGo = true;
+
+        // get this party started
+        this.setTaskID(Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Factions.get(), this, 2, 2));
+
+    }
     public SpiralTask(FLocation fLocation, int radius) {
         // limit is determined based on spiral leg length for given radius; see insideRadius()
         this.limit = (radius - 1) * 2;
@@ -69,6 +91,10 @@ public abstract class SpiralTask implements Runnable {
      */
     public final FLocation currentFLocation() {
         return new FLocation(world.getName(), x, z);
+    }
+    
+    public final Locality currentLocality() {
+        return LocalityLazy.of(this.world.getName(), this.x, this.z);
     }
 
     /*

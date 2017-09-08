@@ -48,7 +48,7 @@ public class CmdFactionsStuck extends FCommand {
 	public void perform() {
 		final Player player = fme.getPlayer();
 		final Location sentAt = player.getLocation();
-		final FLocation chunk = fme.getLastStoodAt();
+		final Locality chunk = fme.getLastLocation();
 		final long delay = Conf.stuckDelay;
 		final int radius = Conf.stuckRadius;
 
@@ -83,15 +83,15 @@ public class CmdFactionsStuck extends FCommand {
 
 					final Board board = Board.get();
 					// spiral task to find nearest wilderness chunk
-					new SpiralTask(new FLocation(me), radius * 2) {
+					new SpiralTask(Locality.of(me.getLocation()), radius * 2) {
 
 						@Override
 						public boolean work() {
-							FLocation chunk = currentFLocation();
-							Faction faction = board.getFactionAt(Locality.of(chunk.getChunk()));
+							Locality chunk = this.currentLocality();
+							Faction faction = board.getFactionAt(chunk);
 							if (faction.isWilderness()) {
-								int cx = FLocation.chunkToBlock((int) chunk.getX());
-								int cz = FLocation.chunkToBlock((int) chunk.getZ());
+								int cx = FLocation.chunkToBlock((int) chunk.getChunkX());
+								int cz = FLocation.chunkToBlock((int) chunk.getChunkZ());
 								int y = world.getHighestBlockYAt(cx, cz);
 								Location tp = new Location(world, cx, y, cz);
 								sendMessage(Lang.COMMAND_STUCK_TELEPORT, tp.getBlockX(), tp.getBlockY(), tp.getBlockZ());

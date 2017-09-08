@@ -1,18 +1,17 @@
 package net.redstoneore.legacyfactions.entity.persist.memory;
 
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Volatile;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsRoleChanged;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
-import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 import java.util.UUID;
@@ -38,13 +37,7 @@ import org.bukkit.Statistic;
  * Do not store references to any fields. Always use the methods available.  
  */
 public abstract class MemoryFPlayer extends SharedFPlayer {
-	
-	// -------------------------------------------------- //
-	// STATIC FIELDS
-	// -------------------------------------------------- //
-
-	private static Locality DEFAULT_LASTSTOODAT = Locality.of(Bukkit.getWorlds().get(0).getSpawnLocation());
-	
+		
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //
@@ -60,11 +53,6 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		this.power = Conf.powerPlayerStarting;
 		this.lastPowerUpdateTime = System.currentTimeMillis();
 		this.lastLoginTime = System.currentTimeMillis();
-		this.mapAutoUpdating = false;
-		this.autoClaimFor = null;
-		this.autoSafeZoneEnabled = false;
-		this.autoWarZoneEnabled = false;
-		this.loginPvpDisabled = Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0;
 		this.powerBoost = 0.0;
 		this.showScoreboard = Conf.scoreboardDefaultEnabled;
 		this.kills = 0;
@@ -75,27 +63,27 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		}
 	}
 
-	public MemoryFPlayer(MemoryFPlayer other) {
-		this.factionId = other.factionId;
-		this.id = other.id;
-		this.power = other.power;
-		this.lastLoginTime = other.lastLoginTime;
-		this.mapAutoUpdating = other.mapAutoUpdating;
-		this.autoClaimFor = other.autoClaimFor;
-		this.autoSafeZoneEnabled = other.autoSafeZoneEnabled;
-		this.autoWarZoneEnabled = other.autoWarZoneEnabled;
-		this.loginPvpDisabled = other.loginPvpDisabled;
-		this.powerBoost = other.powerBoost;
-		this.role = other.role;
-		this.title = other.title;
-		this.chatMode = other.chatMode;
-		this.spyingChat = other.spyingChat;
-		this.lastStoodAt = other.lastStoodAt;
-		this.isAdminBypassing = other.isAdminBypassing;
+	public MemoryFPlayer(FPlayer other) {
+		this.factionId = other.getFactionId();
+		this.id = other.getId();
+		this.power = other.getPower();
+		this.lastLoginTime = other.getLastLoginTime();
+		this.setMapAutoUpdating(other.isMapAutoUpdating());
+		this.setAutoClaimFor(other.getAutoClaimFor());
+		this.setIsAutoSafeClaimEnabled(other.isAutoSafeClaimEnabled());
+		this.setIsAutoWarClaimEnabled(other.isAutoWarClaimEnabled());
+		this.setLoginPVPDisable(other.hasLoginPvpDisabled());
+		this.powerBoost = other.getPowerBoost();
+		this.role = other.getRole();
+		this.title = other.getTitle();
+		this.chatMode = other.getChatMode();
+		this.spyingChat = other.isSpyingChat();
+		this.setLastLocation(other.getLastLocation());
+		this.isAdminBypassing = other.isAdminBypassing();
 		this.showScoreboard = Conf.scoreboardDefaultEnabled;
-		this.kills = other.kills;
-		this.deaths = other.deaths;
-		this.territoryTitlesOff = other.territoryTitlesOff;
+		this.kills = other.getKills();
+		this.deaths = other.getDeaths();
+		this.territoryTitlesOff = other.territoryTitlesOff();
 	}
 	
 	// -------------------------------------------------- //
@@ -122,15 +110,6 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	protected int kills, deaths;
 	protected boolean willAutoLeave = true;
 	protected boolean territoryTitlesOff = false;
-	
-	protected transient Locality lastStoodAt = DEFAULT_LASTSTOODAT;
-	protected transient boolean mapAutoUpdating;
-	protected transient Faction autoClaimFor;
-	protected transient boolean autoSafeZoneEnabled;
-	protected transient boolean autoWarZoneEnabled;
-	protected transient boolean loginPvpDisabled;
-	protected transient long lastFrostwalkerMessage;
-
 
 	@Override
 	public String getId() {
@@ -324,63 +303,8 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		this.willAutoLeave = willLeave;
 		Factions.get().debug(name + " set autoLeave to " + willLeave);
 	}
+	
 
-	@Override
-	public long getLastFrostwalkerMessage() {
-		return this.lastFrostwalkerMessage;
-	}
-
-	@Override
-	public void setLastFrostwalkerMessage() {
-		this.lastFrostwalkerMessage = System.currentTimeMillis();
-	}
-
-	@Override
-	public Faction getAutoClaimFor() {
-		return this.autoClaimFor;
-	}
-
-	@Override
-	public void setAutoClaimFor(Faction faction) {
-		this.autoClaimFor = faction;
-		if (this.autoClaimFor != null) {
-			if (!this.autoClaimFor.isSafeZone()) {
-				this.autoSafeZoneEnabled = false;
-			}
-			
-			if (!this.autoClaimFor.isWarZone()) {
-				this.autoWarZoneEnabled = false;
-			}
-		}
-	}
-
-	@Override
-	public boolean isAutoSafeClaimEnabled() {
-		return this.autoSafeZoneEnabled;
-	}
-
-	@Override
-	public void setIsAutoSafeClaimEnabled(boolean enabled) {
-		this.autoSafeZoneEnabled = enabled;
-		if (enabled) {
-			this.autoClaimFor = null;
-			this.autoWarZoneEnabled = false;
-		}
-	}
-
-	@Override
-	public boolean isAutoWarClaimEnabled() {
-		return this.autoWarZoneEnabled;
-	}
-
-	@Override
-	public void setIsAutoWarClaimEnabled(boolean enabled) {
-		this.autoWarZoneEnabled = enabled;
-		if (enabled) {
-			this.autoClaimFor = null;
-			this.autoSafeZoneEnabled = false;
-		}
-	}
 
 	@Override
 	public boolean isAdminBypassing() {
@@ -422,7 +346,8 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		this.chatMode = ChatMode.PUBLIC;
 		this.role = Role.NORMAL;
 		this.title = "";
-		this.autoClaimFor = null;	}
+		this.setAutoClaimFor(null);
+	}
 
 	// -------------------------------------------------- //
 	// GETTS AND SETTERS
@@ -450,7 +375,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 
 	@Override
 	public long getLastLoginTime() {
-		return lastLoginTime;
+		return this.lastLoginTime;
 	}
 
 	@Override
@@ -459,45 +384,8 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		this.lastLoginTime = lastLoginTime;
 		this.lastPowerUpdateTime = lastLoginTime;
 		if (Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0) {
-			this.loginPvpDisabled = true;
+			this.setLoginPVPDisable(true);
 		}
-	}
-
-	@Override
-	public boolean isMapAutoUpdating() {
-		return this.mapAutoUpdating;
-	}
-
-	@Override
-	public void setMapAutoUpdating(boolean mapAutoUpdating) {
-		this.mapAutoUpdating = mapAutoUpdating;
-	}
-
-	@Override
-	public boolean hasLoginPvpDisabled() {
-		if (!this.loginPvpDisabled) {
-			return false;
-		}
-		if (this.lastLoginTime + (Conf.noPVPDamageToOthersForXSecondsAfterLogin * 1000) < System.currentTimeMillis()) {
-			this.loginPvpDisabled = false;
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public FLocation getLastStoodAt() {
-		return FLocation.valueOf(this.lastStoodAt.getLocation());
-	}
-	
-	@Override
-	public Locality getLastLocation() {
-		return this.lastStoodAt;
-	}
-
-	@Override
-	public void setLastStoodAt(FLocation flocation) {
-		this.lastStoodAt = Locality.of(flocation.getChunk());
 	}
 
 	@Override
