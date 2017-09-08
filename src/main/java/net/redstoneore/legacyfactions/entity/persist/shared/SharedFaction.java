@@ -37,6 +37,12 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 public abstract class SharedFaction implements Faction, EconomyParticipator {
 	
 	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+
+	private transient long lastPlayerLoggedOffTime;
+
+	// -------------------------------------------------- //
 	// FACTION INFORMATION
 	// -------------------------------------------------- //
 	
@@ -87,6 +93,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		this.getAnnouncements().remove(fplayer.getId());
 	}
 
+	
 	// -------------------------------------------------- //
 	// TYPE
 	// -------------------------------------------------- //
@@ -281,6 +288,49 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		return Factions.get().getServer().getOnlinePlayers().stream()
 				.filter(player -> FPlayerColl.get(player).getFaction() == this)
 				.collect(Collectors.toCollection(ArrayList::new));
+	}
+	
+
+	
+
+	// slightly faster check than getOnlinePlayers() if you just want to see if
+	// there are any players online
+	@Override
+	public boolean hasPlayersOnline() {
+		// only real factions can have players online, not safe zone / war zone
+		if (this.isPlayerFreeType()) return false;
+		
+		Optional<? extends Player> found = Factions.get().getServer().getOnlinePlayers().stream()
+				.filter(player -> FPlayerColl.get(player) != null && FPlayerColl.get(player) == this)
+				.findFirst();
+		
+		if (found.isPresent()) return true;
+		
+		// even if all players are technically logged off, maybe someone was on
+		// recently enough to not consider them officially offline yet
+		return Conf.considerFactionsReallyOfflineAfterXMinutes > 0 && System.currentTimeMillis() <  lastPlayerLoggedOffTime + (Conf.considerFactionsReallyOfflineAfterXMinutes * 60000);
+	}
+
+	@Override
+	public void memberLoggedOff() {
+		if (!this.isNormal()) return;
+		lastPlayerLoggedOffTime = System.currentTimeMillis();
+	}
+	
+	/**
+	 * Updates the lastPlayerLoggedOffTime field
+	 * @param value
+	 */
+	public void setLastPlayerLoggedOffTime(long value) {
+		this.lastPlayerLoggedOffTime = value;
+	}
+	
+	/**
+	 * Retrives the lastPlayerLoggedOffTime field
+	 * @return
+	 */
+	public long getLastPlayerLoggedOffTime() {
+		return this.lastPlayerLoggedOffTime;
 	}
 	
 	// -------------------------------------------------- //

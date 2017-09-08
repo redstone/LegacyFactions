@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import com.google.common.collect.Maps;
 
@@ -54,9 +53,14 @@ public abstract class MemoryFaction extends SharedFaction {
 
 	// flags
 	protected ConcurrentHashMap<String, Boolean> flags = new ConcurrentHashMap<>();
+		
+	@Deprecated
 	protected boolean open;
+	@Deprecated
 	protected boolean peaceful;
+	@Deprecated
 	protected boolean peacefulExplosionsEnabled;
+	@Deprecated
 	protected boolean permanent;
 	
 	protected Character forcedMapCharacter = null;
@@ -65,7 +69,6 @@ public abstract class MemoryFaction extends SharedFaction {
 	protected Integer permanentPower;
 	protected LazyLocation home;
 	protected long foundedDate;
-	protected transient long lastPlayerLoggedOffTime;
 	protected double money;
 	protected double powerBoost;
 	protected Map<String, Relation> relationWish = new HashMap<>();
@@ -411,10 +414,9 @@ public abstract class MemoryFaction extends SharedFaction {
 
 	public MemoryFaction(String id) {
 		this.id = id;
-		this.open = Conf.newFactionsDefaultOpen;
 		this.tag = "???";
 		this.description = Lang.GENERIC_DEFAULTDESCRIPTION.toString();
-		this.lastPlayerLoggedOffTime = 0;
+		this.setLastPlayerLoggedOffTime(0);
 		this.peaceful = false;
 		this.peacefulExplosionsEnabled = false;
 		this.permanent = false;
@@ -435,7 +437,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		peaceful = old.peaceful;
 		permanentPower = old.permanentPower;
 		home = old.home;
-		lastPlayerLoggedOffTime = old.lastPlayerLoggedOffTime;
+		this.setLastPlayerLoggedOffTime(old.getLastPlayerLoggedOffTime());
 		money = old.money;
 		powerBoost = old.powerBoost;
 		relationWish = old.relationWish;
@@ -559,29 +561,6 @@ public abstract class MemoryFaction extends SharedFaction {
 	}
 
 	
-	
-
-	// slightly faster check than getOnlinePlayers() if you just want to see if
-	// there are any players online
-	public boolean hasPlayersOnline() {
-		// only real factions can have players online, not safe zone / war zone
-		if (this.isPlayerFreeType()) return false;
-		
-		Optional<? extends Player> found = Factions.get().getServer().getOnlinePlayers().stream()
-				.filter(player -> FPlayerColl.get(player) != null && FPlayerColl.get(player) == this)
-				.findFirst();
-		
-		if (found.isPresent()) return true;
-		
-		// even if all players are technically logged off, maybe someone was on
-		// recently enough to not consider them officially offline yet
-		return Conf.considerFactionsReallyOfflineAfterXMinutes > 0 && System.currentTimeMillis() <  lastPlayerLoggedOffTime + (Conf.considerFactionsReallyOfflineAfterXMinutes * 60000);
-	}
-
-	public void memberLoggedOff() {
-		if (!this.isNormal()) return;
-		lastPlayerLoggedOffTime = System.currentTimeMillis();
-	}
 
 	// used when current leader is about to be removed from the faction;
 	// promotes new leader, or disbands faction if no other members left

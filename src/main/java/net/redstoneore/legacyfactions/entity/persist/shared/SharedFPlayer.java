@@ -66,7 +66,7 @@ public abstract class SharedFPlayer implements FPlayer {
 	
 	private transient WarmUpUtil.Warmup warmup;
 	private transient int warmupTask;
-
+	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
