@@ -42,6 +42,7 @@ import net.redstoneore.legacyfactions.scoreboards.sidebar.FInfoSidebar;
 import net.redstoneore.legacyfactions.util.RelationUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.TitleUtil;
+import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 public abstract class SharedFPlayer implements FPlayer {
 	
@@ -63,6 +64,9 @@ public abstract class SharedFPlayer implements FPlayer {
 	private transient boolean loginPvpDisabled = Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0;
 	private transient long lastFrostwalkerMessage = 0;
 	
+	private transient WarmUpUtil.Warmup warmup;
+	private transient int warmupTask;
+
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -956,6 +960,42 @@ public abstract class SharedFPlayer implements FPlayer {
 		} else {
 			return VaultEngine.getUtils().hasAtLeast(this, cost, toDoThis);
 		}
+	}
+	
+	// -------------------------------------------------- //
+	// WARMUPS
+	// -------------------------------------------------- //
+	
+	@Override
+	public void clearWarmup() {
+		if (warmup != null) {
+			Bukkit.getScheduler().cancelTask(warmupTask);
+			this.stopWarmup();
+		}
+	}
+
+	@Override
+	public void stopWarmup() {
+		warmup = null;
+	}
+
+	@Override
+	public boolean isWarmingUp() {
+		return warmup != null;
+	}
+
+	@Override
+	public WarmUpUtil.Warmup getWarmupType() {
+		return warmup;
+	}
+
+	@Override
+	public void addWarmup(WarmUpUtil.Warmup warmup, int taskId) {
+		if (this.warmup != null) {
+			this.clearWarmup();
+		}
+		this.warmup = warmup;
+		this.warmupTask = taskId;
 	}
 	
 	// -------------------------------------------------- //

@@ -12,7 +12,6 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsRoleChanged;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
-import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 import java.util.UUID;
 
@@ -90,6 +89,8 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	// FIELDS
 	// -------------------------------------------------- //
 	
+	protected String id;
+	protected String name;
 	protected String factionId = "0";
 	protected Role role = Role.NORMAL;
 	protected String title = "";
@@ -99,13 +100,9 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	protected long lastLoginTime;
 	protected ChatMode chatMode;
 	protected boolean ignoreAllianceChat = false;
-	protected String id;
-	protected String name;
-	protected boolean monitorJoins;
+	protected boolean monitorJoins = false;
 	protected boolean spyingChat = false;
 	protected boolean showScoreboard = true;
-	protected WarmUpUtil.Warmup warmup;
-	protected int warmupTask;
 	protected boolean isAdminBypassing = false;
 	protected int kills, deaths;
 	protected boolean willAutoLeave = true;
@@ -406,38 +403,6 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	@Override
 	public void setShowScoreboard(boolean show) {
 		this.showScoreboard = show;
-	}
-	
-	@Override
-	public void clearWarmup() {
-		if (warmup != null) {
-			Bukkit.getScheduler().cancelTask(warmupTask);
-			this.stopWarmup();
-		}
-	}
-
-	@Override
-	public void stopWarmup() {
-		warmup = null;
-	}
-
-	@Override
-	public boolean isWarmingUp() {
-		return warmup != null;
-	}
-
-	@Override
-	public WarmUpUtil.Warmup getWarmupType() {
-		return warmup;
-	}
-
-	@Override
-	public void addWarmup(WarmUpUtil.Warmup warmup, int taskId) {
-		if (this.warmup != null) {
-			this.clearWarmup();
-		}
-		this.warmup = warmup;
-		this.warmupTask = taskId;
 	}
 	
 }
