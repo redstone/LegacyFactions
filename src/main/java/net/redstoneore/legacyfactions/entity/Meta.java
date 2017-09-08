@@ -22,6 +22,7 @@ public class Meta {
 	public String databaseUsername = "";
 	public String databasePassword = "";
 	public String databaseName = "";
+	public int databaseConnectonMax = 12;
 	
 	// -------------------------------------------------- //
 	// METHODS
