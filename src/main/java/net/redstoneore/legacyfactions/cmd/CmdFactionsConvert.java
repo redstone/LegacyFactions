@@ -39,14 +39,18 @@ public class CmdFactionsConvert extends FCommand {
 	@Override
 	public void perform() {
 		if (!(this.sender instanceof ConsoleCommandSender)) {
-			this.sender.sendMessage(Lang.GENERIC_CONSOLEONLY.toString());
+			Lang.GENERIC_CONSOLEONLY.getBuilder()
+				.parse()
+				.sendTo(this.sender);
+			
+			return;
 		}
 		
 		PersistType persistType = PersistType.valueOf(this.argAsString(0).toUpperCase());
 		if (persistType == Conf.backEnd) {
 			Lang.COMMAND_CONVERT_BACKEND_RUNNING.getBuilder()
 				.parse()
-				.sendTo(this.fme);
+				.sendTo(this.sender);
 			
 			return;
 		}
@@ -54,19 +58,26 @@ public class CmdFactionsConvert extends FCommand {
 		if (persistType == null) {
 			Lang.COMMAND_CONVERT_BACKEND_INVALID.getBuilder()
 				.parse()
-				.sendTo(this.fme);
+				.sendTo(this.sender);
 		}
 		
 		// Update meta with the credentials
 		if (this.argIsSet(1)) {
 			Meta.get().databaseHost = this.argAsString(1);
 		}
+		
 		if (this.argIsSet(2)) {
 			Meta.get().databaseUsername = this.argAsString(2);
 		}
+		
 		if (this.argIsSet(3)) {
-			Meta.get().databasePassword = this.argAsString(3);
+			if (!this.argAsString(3).equalsIgnoreCase("null")) {
+				Meta.get().databasePassword = this.argAsString(3);
+			} else {
+				Meta.get().databasePassword = "";
+			}
 		}
+		
 		if (this.argIsSet(4)) {
 			Meta.get().databaseName = this.argAsString(4);
 		}
