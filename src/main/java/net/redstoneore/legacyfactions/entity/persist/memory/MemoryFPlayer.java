@@ -1,10 +1,8 @@
 package net.redstoneore.legacyfactions.entity.persist.memory;
 
-
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.Volatile;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -18,7 +16,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
-
 
 /**
  * Logged in players always have exactly one FPlayer instance. Logged out players may or may not have an FPlayer
@@ -186,44 +183,14 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		this.lastPowerUpdateTime = time;
 	}
 	
-	// -------------------------------------------------- //
-	// EVENTS
-	// -------------------------------------------------- //
-
 	@Override
-	public void onLogin() {
-		this.kills = getPlayer().getStatistic(Statistic.PLAYER_KILLS);
-		this.deaths = getPlayer().getStatistic(Statistic.DEATHS);
+	public void setKills(int amount) {
+		this.kills = amount;
 	}
-
+	
 	@Override
-	public void onLogout() {
-		// Ensure power is up to date
-		this.getPower();
-		
-		// Update last login time
-		this.setLastLoginTime(System.currentTimeMillis());
-		
-		// Store statistics 
-		this.kills = getPlayer().getStatistic(Statistic.PLAYER_KILLS);
-		this.deaths = getPlayer().getStatistic(Statistic.DEATHS);
-		
-		// Remove from stuck map
-		if (Volatile.get().stuckMap().containsKey(this.getPlayer().getUniqueId())) {
-			Volatile.get().stuckMap().remove(this.getPlayer().getUniqueId());
-			Volatile.get().stuckTimers().remove(this.getPlayer().getUniqueId());
-		}
-		
-		if (!this.getFaction().isWilderness()) {
-			// Toggle
-			this.getFaction().memberLoggedOff();
-			
-			// Notify members if required
-			this.getFaction().getWhereOnline(true)
-				.stream()
-				.filter(fplayer -> fplayer == this || !fplayer.isMonitoringJoins())
-				.forEach(fplayer -> fplayer.sendMessage(Lang.FACTION_LOGOUT, this.getName()));
-		}
+	public void setDeaths(int amount) {
+		this.deaths = amount;
 	}
 	
 	@Override
@@ -326,26 +293,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		}
 		return this.chatMode;
 	}
-
-
-	@Override
-	public void resetFactionData() {
-		// clean up any territory ownership in old faction, if there is one
-		if (factionId != null && FactionColl.get().isValidFactionId(this.getFactionId())) {
-			Faction currentFaction = this.getFaction();
-			currentFaction.removeFPlayer(this);
-			if (currentFaction.isNormal()) {
-				currentFaction.clearClaimOwnership(this);
-			}
-		}
-
-		this.factionId = "0"; // The default neutral faction
-		this.chatMode = ChatMode.PUBLIC;
-		this.role = Role.NORMAL;
-		this.title = "";
-		this.setAutoClaimFor(null);
-	}
-
+	
 	// -------------------------------------------------- //
 	// GETTS AND SETTERS
 	// -------------------------------------------------- //

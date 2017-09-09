@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,6 +20,7 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.Volatile;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -30,6 +32,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
+import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
@@ -236,6 +239,25 @@ public abstract class SharedFPlayer implements FPlayer {
 	@Override
 	public boolean isVanished(FPlayer viewer) {
 		return EssentialsEngine.isVanished(this.getPlayer()) || viewer.getPlayer().canSee(this.getPlayer());
+	}
+	
+
+	@Override
+	public void resetFactionData() {
+		// clean up any territory ownership in old faction, if there is one
+		if (this.getFactionId() != null && FactionColl.get().isValidFactionId(this.getFactionId())) {
+			Faction currentFaction = this.getFaction();
+			currentFaction.removeFPlayer(this);
+			if (currentFaction.isNormal()) {
+				currentFaction.clearClaimOwnership(this);
+			}
+		}
+
+		this.setFaction(FactionColl.get().getWilderness());
+		this.setChatMode(ChatMode.PUBLIC);
+		this.setRole(Role.NORMAL);
+		this.setTitle("");
+		this.setAutoClaimFor(null);
 	}
 	
 	@Override
@@ -999,10 +1021,52 @@ public abstract class SharedFPlayer implements FPlayer {
 	}
 	
 	// -------------------------------------------------- //
+	// EVENTS
+	// -------------------------------------------------- //
+
+	@Override
+	public void onLogin() {
+		this.setKills(this.getPlayer().getStatistic(Statistic.PLAYER_KILLS));
+		this.setDeaths(this.getPlayer().getStatistic(Statistic.DEATHS));
+	}
+
+	@Override
+	public void onLogout() {
+		// Ensure power is up to date
+		this.getPower();
+		
+		// Update last login time
+		this.setLastLoginTime(System.currentTimeMillis());
+		
+		// Store statistics 
+		this.setKills(this.getPlayer().getStatistic(Statistic.PLAYER_KILLS));
+		this.setDeaths(this.getPlayer().getStatistic(Statistic.DEATHS));
+		
+		// Remove from stuck map
+		if (Volatile.get().stuckMap().containsKey(this.getPlayer().getUniqueId())) {
+			Volatile.get().stuckMap().remove(this.getPlayer().getUniqueId());
+			Volatile.get().stuckTimers().remove(this.getPlayer().getUniqueId());
+		}
+		
+		if (!this.getFaction().isWilderness()) {
+			// Toggle
+			this.getFaction().memberLoggedOff();
+			
+			// Notify members if required
+			this.getFaction().getWhereOnline(true)
+				.stream()
+				.filter(fplayer -> fplayer == this || !fplayer.isMonitoringJoins())
+				.forEach(fplayer -> fplayer.sendMessage(Lang.FACTION_LOGOUT, this.getName()));
+		}
+	}
+	
+	// -------------------------------------------------- //
 	// ABSTRACT METHODS
 	// -------------------------------------------------- //
 
 	public abstract void setName(String name);
+	public abstract void setKills(int amount);
+	public abstract void setDeaths(int amount);
 	
 	public abstract void remove();
 	

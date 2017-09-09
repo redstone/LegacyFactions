@@ -1,7 +1,5 @@
 package net.redstoneore.legacyfactions.entity.persist.memory;
 
-import org.bukkit.ChatColor;
-
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFactionColl;
@@ -9,9 +7,7 @@ import net.redstoneore.legacyfactions.util.MiscUtil;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * MemoryFactionColl should be used carefully by developers. You should be able to do what you want
@@ -107,38 +103,6 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 	}
 
 	@Override
-	public Faction getBestTagMatch(String start) {
-		int best = 0;
-		start = start.toLowerCase();
-		int minlength = start.length();
-		Faction bestMatch = null;
-		
-		// TODO: filter this better, this is slow
-		for (Faction faction : this.factions.values()) {
-			String candidate = faction.getTag();
-			candidate = ChatColor.stripColor(candidate);
-			if (candidate.length() < minlength) {
-				continue;
-			}
-			if (!candidate.toLowerCase().startsWith(start)) {
-				continue;
-			}
-
-			// The closer to zero the better
-			int lendiff = candidate.length() - minlength;
-			if (lendiff == 0) {
-				return faction;
-			}
-			if (lendiff < best || best == 0) {
-				best = lendiff;
-				bestMatch = faction;
-			}
-		}
-
-		return bestMatch;
-	}
-
-	@Override
 	public boolean isValidFactionId(String id) {
 		return this.factions.containsKey(id);
 	}
@@ -151,13 +115,6 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 	}
 
 	@Override
-	public Set<String> getFactionTags() {
-		return this.factions.values().stream()
-			.map(Faction::getTag)
-			.collect(Collectors.toSet());
-	}
-
-	@Override
 	public void removeFaction(String id) {
 		this.factions.remove(id).remove();
 	}
@@ -165,21 +122,6 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 	@Override
 	public ArrayList<Faction> getAllFactions() {
 		return new ArrayList<>(this.factions.values());
-	}
-
-	@Override
-	public Faction getWilderness() {
-		return this.factions.get("0");
-	}
-
-	@Override
-	public Faction getSafeZone() {
-		return this.factions.get("-1");
-	}
-
-	@Override
-	public Faction getWarZone() {
-		return this.factions.get("-2");
 	}
 
 	public abstract Faction generateFactionObject();
