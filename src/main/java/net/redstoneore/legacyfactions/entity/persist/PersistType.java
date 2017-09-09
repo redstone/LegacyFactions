@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.entity.persist;
 
-import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
 import net.redstoneore.legacyfactions.entity.persist.mysql.FactionsMySQL;
 
 public enum PersistType {

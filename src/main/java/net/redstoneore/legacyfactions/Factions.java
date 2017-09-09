@@ -29,10 +29,10 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
-import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONFactions;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONBoard;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFPlayers;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFactions;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
 import net.redstoneore.legacyfactions.expansion.Provider;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
@@ -196,6 +196,9 @@ public class Factions extends FactionsPluginBase {
 		// Load meta from disk
 		Meta.get().load();
 		Meta.get().save();
+		
+		// Initialise our persist handler
+		Conf.backEnd.getHandler().init();
 		
 		if (this.getDescription().getVersion().contains("RC") || this.getDescription().getVersion().contains("SNAPSHOT")) {
 			Conf.debug = true;
