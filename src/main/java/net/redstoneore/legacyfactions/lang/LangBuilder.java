@@ -1,5 +1,7 @@
 package net.redstoneore.legacyfactions.lang;
 
+import org.bukkit.command.CommandSender;
+
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.util.TextUtil;
@@ -43,6 +45,16 @@ public class LangBuilder {
 	
 	public LangBuilder sendToParsed(Faction faction) {
 		faction.sendMessage(TextUtil.get().parse(this.message));
+		return this;
+	}
+	
+	public LangBuilder sendTo(CommandSender sender) {
+		sender.sendMessage(this.message);
+		return this;
+	}
+	
+	public LangBuilder sendToParsed(CommandSender sender) {
+		sender.sendMessage(TextUtil.get().parse(this.message));
 		return this;
 	}
 	
