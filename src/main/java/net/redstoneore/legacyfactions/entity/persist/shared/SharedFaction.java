@@ -26,13 +26,16 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.lang.LangBuilder;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.RelationUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
+import net.redstoneore.legacyfactions.warp.FactionWarps;
 
 public abstract class SharedFaction implements Faction, EconomyParticipator {
 	
@@ -41,7 +44,8 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	// -------------------------------------------------- //
 
 	private transient long lastPlayerLoggedOffTime;
-
+	private transient FactionWarps factionWarps = new FactionWarps(this);
+	
 	// -------------------------------------------------- //
 	// FACTION INFORMATION
 	// -------------------------------------------------- //
@@ -57,6 +61,12 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 
 		return accountId;
 	}
+	
+	@Override
+	public FactionWarps warps() {
+		return this.factionWarps;
+	}
+	
 	
 	@Override
 	public String getTag(String prefix) {
@@ -93,6 +103,19 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		this.getAnnouncements().remove(fplayer.getId());
 	}
 
+	// STATS
+	
+	public int getKills() {
+		return this.getMembers().stream()
+			.map(fplayer -> fplayer.getKills())
+			.collect(Collectors.summingInt(Integer::intValue));
+	}
+
+	public int getDeaths() {
+		return this.getMembers().stream()
+			.map(fplayer -> fplayer.getDeaths())
+			.collect(Collectors.summingInt(Integer::intValue));
+	}
 	
 	// -------------------------------------------------- //
 	// TYPE
@@ -158,6 +181,23 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	// -------------------------------------------------- //
 	// POWER
 	// -------------------------------------------------- //
+	
+	@Override
+	public double getPower() {
+		if (this.hasPermanentPower()) {
+			return this.getPermanentPower();
+		}
+
+		double ret = 0;
+		for (FPlayer fplayer : this.getMembers()) {
+			ret += fplayer.getPower();
+		}
+		if (Conf.powerFactionMax > 0 && ret > Conf.powerFactionMax) {
+			ret = Conf.powerFactionMax;
+		}
+		return ret + this.getPowerBoost();
+	}
+
 
 	@Override
 	public boolean hasPermanentPower() {
@@ -290,9 +330,6 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
-
-	
-
 	// slightly faster check than getOnlinePlayers() if you just want to see if
 	// there are any players online
 	@Override
@@ -331,6 +368,65 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	 */
 	public long getLastPlayerLoggedOffTime() {
 		return this.lastPlayerLoggedOffTime;
+	}
+	
+
+	
+
+	// used when current leader is about to be removed from the faction;
+	// promotes new leader, or disbands faction if no other members left
+	public void promoteNewLeader() {
+		if (!this.isNormal()) {
+			return;
+		}
+		if (this.isPermanent() && Conf.permanentFactionsDisableLeaderPromotion) {
+			return;
+		}
+
+		FPlayer oldLeader = this.getFPlayerAdmin();
+
+		// get list of coleaders, mods and then normal members to promote from.
+		ArrayList<FPlayer> replacements = this.getFPlayersWhereRole(Role.COLEADER);
+		if (replacements == null || replacements.isEmpty()) {
+			replacements = this.getFPlayersWhereRole(Role.MODERATOR);
+			if (replacements == null || replacements.isEmpty()) {
+				replacements = this.getFPlayersWhereRole(Role.NORMAL);
+			}
+		}
+
+		if (replacements == null || replacements.isEmpty()) { // faction admin  is the only  member; one-man  faction
+			if (this.isPermanent()) {
+				if (oldLeader != null) {
+					oldLeader.setRole(Role.NORMAL);
+				}
+				return;
+			}
+
+			// no members left and faction isn't permanent, so disband it
+			if (Conf.logFactionDisband) {
+				Factions.get().log("The faction " + this.getTag() + " (" + this.getId() + ") has been disbanded since it has no members left.");
+			}
+
+			FPlayerColl.all(fplayer -> fplayer.sendMessage(Lang.LEAVE_DISBANDED, this.getTag(fplayer)));
+
+			FactionColl.get().removeFaction(getId());
+		} else { // promote new faction admin
+			if (oldLeader != null) {
+				oldLeader.setRole(Role.NORMAL);
+			}
+			replacements.get(0).setRole(Role.ADMIN);
+			
+			LangBuilder message;
+			if (oldLeader != null) { 
+				message = Lang.LEAVE_NEWADMINPROMOTED_PLAYER.getBuilder().parse().replace("<player>", oldLeader.getName());
+			} else {
+				message = Lang.LEAVE_NEWADMINPROMOTED_UNKNOWN.getBuilder().parse();
+			}
+			message.replace("<new-admin>", replacements.get(0).getName())
+				.sendTo(this);
+			
+			Factions.get().log("Faction " + this.getTag() + " (" + this.getId() + ") admin was removed. Replacement admin: " + replacements.get(0).getName());
+		}
 	}
 	
 	// -------------------------------------------------- //
@@ -441,6 +537,37 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	@Override
 	public ChatColor getColorTo(RelationParticipator rp) {
 		return RelationUtil.getColorOfThatToMe(this, rp);
+	}
+	
+	@Override
+	public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent) {
+		if (!Conf.maxRelations.containsKey(rel)) return false;
+		if (Conf.maxRelations.get(rel) < 0) return false;
+		
+		int maxRelations = Conf.maxRelations.get(rel);
+		
+		if (this.getRelationCount(rel) >= maxRelations) {
+		 	if (!silent) this.sendMessage(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());
+			return true;
+		}
+			
+		if (them.getRelationCount(rel) > maxRelations) {
+			if (!silent) this.sendMessage(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, maxRelations, rel.getPluralTranslation());
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public int getRelationCount(Relation relation) {
+		int count = 0;
+		for (Faction faction : FactionColl.get().getAllFactions()) {
+			if (faction.getRelationTo(this) == relation) {
+				count++;
+			}
+		}
+		return count;
 	}
 	
 	// -------------------------------------------------- //

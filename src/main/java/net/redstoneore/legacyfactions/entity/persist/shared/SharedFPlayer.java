@@ -376,7 +376,7 @@ public abstract class SharedFPlayer implements FPlayer {
 	// -------------------------------------------------- //
 	// POWER
 	// -------------------------------------------------- //
-
+	
 	@Override
 	public int getPowerRounded() {
 		return (int) Math.round(this.getPower());

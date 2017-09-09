@@ -90,8 +90,7 @@ public class VaultUtils extends VaultUtilPlayer {
 		} else {
 			currentBalance = this.getBalance(payee.getAccountId());
 		}
-
-		System.out.println(payee.getAccountId() + " balance = " + currentBalance);
+		
 		if (currentBalance < delta) {
 			if (forAction != null && !forAction.isEmpty()) {
 				String message = Lang.ECON_CANTAFFORD.toString();

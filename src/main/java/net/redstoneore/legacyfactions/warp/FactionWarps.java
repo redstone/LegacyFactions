@@ -70,7 +70,7 @@ public class FactionWarps {
 	
 	public boolean delete(String name) {
 		Optional<FactionWarp> warp = this.get(name);
-		if ( ! warp.isPresent()) return false;
+		if (!warp.isPresent()) return false;
 		
 		warp.get().delete();
 		return true;
