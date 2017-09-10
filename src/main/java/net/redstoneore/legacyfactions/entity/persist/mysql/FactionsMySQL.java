@@ -51,7 +51,7 @@ public class FactionsMySQL extends PersistHandler {
 		// This is not intended to completely protect the installation from attackers, but more so
 		// prevent people from simply looking at a file to obtain the database credentials.
 		
-		if (!Meta.get().databaseCredentialsEncrypted) {
+		if (!Meta.get().databaseCredentialsEncrypted && Meta.get().databaseHost != "") {
 			Meta.get().databaseCredentialsEncrypted = true;
 			
 			// Details changed, set new base key
