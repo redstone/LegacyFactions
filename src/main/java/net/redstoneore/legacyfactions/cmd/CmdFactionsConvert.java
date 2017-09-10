@@ -85,8 +85,7 @@ public class CmdFactionsConvert extends FCommand {
 			Meta.get().databaseName = this.argAsString(4);
 		}
 		
-		// Save meta
-		Meta.get().save();
+		Meta.get().databaseCredentialsEncrypted = false;
 		
 		// Set current
 		PersistHandler.setCurrent(persistType.getHandler());
@@ -95,6 +94,8 @@ public class CmdFactionsConvert extends FCommand {
 		FactionColl.get().load();
 		Board.get().load();
 		
+		// Save meta
+		Meta.get().save();
 	}
 
 	@Override

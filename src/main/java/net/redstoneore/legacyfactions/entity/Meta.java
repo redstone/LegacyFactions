@@ -92,6 +92,8 @@ public class Meta {
 	
 	public boolean databaseCredentialsEncrypted = false;
 	
+	public String databaseKey = null;
+	
 	// -------------------------------------------------- //
 	// CONSOLEID
 	// -------------------------------------------------- //

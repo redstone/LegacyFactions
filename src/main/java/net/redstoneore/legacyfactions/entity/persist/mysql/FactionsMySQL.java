@@ -8,9 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
+
+import org.jasypt.util.text.BasicTextEncryptor;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -45,18 +48,36 @@ public class FactionsMySQL extends PersistHandler {
 	
 	@Override
 	public void init() {
+		// This is not intended to completely protect the installation from attackers, but more so
+		// prevent people from simply looking at a file to obtain the database credentials.
+		
+		if (!Meta.get().databaseCredentialsEncrypted) {
+			Meta.get().databaseCredentialsEncrypted = true;
+			
+			// Details changed, set new base key
+			this.setBaseKey();
+			
+			// Encrypt everything 
+			Meta.get().databaseHost = this.encrypt(Meta.get().databaseHost);
+			Meta.get().databaseUsername = this.encrypt(Meta.get().databaseUsername);
+			Meta.get().databasePassword = this.encrypt(Meta.get().databasePassword);
+			Meta.get().databaseName = this.encrypt(Meta.get().databaseName);
+			
+			// Save it
+			Meta.get().save();
+		}
 		this.setConfig();
 		
 		Migrations.get().up();
 	}
 	
-	public void setConfig() {		
-		String jdbcUrl = "jdbc:mysql://" + Meta.get().databaseHost + "/" + Meta.get().databaseName;
+	public void setConfig() {
+		String jdbcUrl = "jdbc:mysql://" + this.decrypt(Meta.get().databaseHost) + "/" + this.decrypt(Meta.get().databaseName);
 		
 		HikariConfig config = new HikariConfig();
 		config.setJdbcUrl(jdbcUrl);
-		config.setUsername(Meta.get().databaseUsername);
-		config.setPassword(Meta.get().databasePassword);
+		config.setUsername(this.decrypt(Meta.get().databaseUsername));
+		config.setPassword(this.decrypt(Meta.get().databasePassword));
 		config.setMaximumPoolSize(Meta.get().databaseConnectonMax);
 		config.setAutoCommit(false);
 		config.addDataSourceProperty("cachePrepStmts", "true");
@@ -73,7 +94,6 @@ public class FactionsMySQL extends PersistHandler {
 	
 	@Override
 	public void convertfrom(PersistHandler other) {
-		// TODO: convert from other 
 		Factions.get().log("[MySQL] MySQL convert from " + other.getType().toString() + " to " + this.getType().toString());
 	}
 
@@ -97,8 +117,44 @@ public class FactionsMySQL extends PersistHandler {
 		return new MySQLFactionColl();
 	}
 	
+	private void setBaseKey() {
+		String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+=-,./;:[]\\|}{";
+		StringBuilder salt = new StringBuilder();
+		Random random = new Random();
+		while (salt.length() < (25 + new Random().nextInt(10))) {
+			int index = (int) (random.nextFloat() * CHARS.length());
+			salt.append(CHARS.charAt(index));
+		}
+		Meta.get().databaseKey = salt.toString();
+		Meta.get().save();
+	}
+	
+	private String encrypt(String encrypt) {
+		BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+		textEncryptor.setPassword(this.getKey());
+
+		return textEncryptor.encrypt(encrypt);
+	}
+	
+	private String decrypt(String decrypt) {
+		BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+		textEncryptor.setPassword(this.getKey());
+
+		return textEncryptor.decrypt(decrypt);
+	}
+	
+	private String getKey() {
+		if (Meta.get().databaseKey == null) {
+			this.setBaseKey();
+		}
+		String baseKey = Meta.get().databaseKey;
+		
+		// Nothing too crazy here, just makes the password a little bigger.
+		return baseKey + "LF" +  baseKey; 
+	}
+	
 	// -------------------------------------------------- //
-	// STATIC UTIL
+	// UTIL
 	// -------------------------------------------------- //
 	
 	/**
