@@ -3,8 +3,11 @@ package net.redstoneore.legacyfactions.cmd;
 import org.bukkit.command.ConsoleCommandSender;
 
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.PersistHandler;
 import net.redstoneore.legacyfactions.entity.persist.PersistType;
@@ -87,6 +90,11 @@ public class CmdFactionsConvert extends FCommand {
 		
 		// Set current
 		PersistHandler.setCurrent(persistType.getHandler());
+		
+		FPlayerColl.getUnsafeInstance().loadColl();
+		FactionColl.get().load();
+		Board.get().load();
+		
 	}
 
 	@Override
