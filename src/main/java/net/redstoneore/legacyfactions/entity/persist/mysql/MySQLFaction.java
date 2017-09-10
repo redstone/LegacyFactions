@@ -42,8 +42,12 @@ public class MySQLFaction extends SharedFaction {
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
-	public MySQLFaction(String id) {
-		this.setId(id);
+	public MySQLFaction(String id, boolean runSet) {
+		if (runSet) {
+			this.setId(id);			
+		} else {
+			this.id = id;
+		}
 	}
 
 	public MySQLFaction(Map<String, String> entry) {
