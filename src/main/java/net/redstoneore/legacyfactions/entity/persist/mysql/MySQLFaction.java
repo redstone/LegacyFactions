@@ -47,6 +47,7 @@ public class MySQLFaction extends SharedFaction {
 			this.setId(id);			
 		} else {
 			this.id = id;
+			this.values = new ConcurrentHashMap<>();
 		}
 	}
 
