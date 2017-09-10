@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.entity.persist.mysql;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +29,7 @@ public class MySQLFactionColl extends SharedFactionColl {
 	 * This is simply a cache of FPlayer objects, each object does their own lookups
 	 */
 	private transient Map<String, Faction> factionCache = new ConcurrentHashMap<>();
-
+	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -111,7 +112,7 @@ public class MySQLFactionColl extends SharedFactionColl {
 		return String.valueOf((
 			this.getAllFactions().stream()
 				.map(faction -> Long.valueOf(faction.getId()))
-				.sorted()
+				.sorted(Collections.reverseOrder())
 				.collect(Collectors.toList())
 					.get(0) + 1));
 	}
