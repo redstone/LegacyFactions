@@ -59,6 +59,8 @@ public class MiscUtil {
 
 	
 	public static String getComparisonString(String str) {
+		if (str == null) return null;
+		
 		String ret = "";
 
 		str = ChatColor.stripColor(str);
