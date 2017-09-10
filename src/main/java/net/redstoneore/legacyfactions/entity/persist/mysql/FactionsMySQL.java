@@ -22,6 +22,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.PersistHandler;
 import net.redstoneore.legacyfactions.entity.persist.PersistType;
+import net.redstoneore.legacyfactions.entity.persist.mysql.migration.Migrations;
 
 public class FactionsMySQL extends PersistHandler {
 
@@ -45,6 +46,8 @@ public class FactionsMySQL extends PersistHandler {
 	@Override
 	public void init() {
 		this.setConfig();
+		
+		Migrations.get().up();
 	}
 	
 	public void setConfig() {		
