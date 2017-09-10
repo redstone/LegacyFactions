@@ -284,7 +284,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	
 	@Override
 	public Set<FPlayer> getWhereOnline(boolean online) {
-		if (!this.isNormal()) return new HashSet<>();
+		if (!this.isNormal() || this.getMembers().size() == 0) return new HashSet<>();
 		
 		return this.getMembers().stream()
 				.filter(fplayer -> fplayer.isOnline() == online)
