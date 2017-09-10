@@ -11,6 +11,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.entity.console.ConsoleFPlayer;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsCommandExecute;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
@@ -60,8 +61,8 @@ public abstract class FCommand extends MCommand<Factions> {
 			this.fme = FPlayerColl.get(sender);
 			this.myFaction = this.fme.getFaction();
 		} else {
-			this.fme = null;
-			this.myFaction = null;
+			this.fme = ConsoleFPlayer.get();
+			this.myFaction = FactionColl.get().getWilderness();
 		}
 		super.execute(sender, args, commandChain);
 	}
