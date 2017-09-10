@@ -29,10 +29,10 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
-import net.redstoneore.legacyfactions.entity.persist.json.FactionsJSON;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONFactions;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONBoard;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFPlayers;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFactions;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
 import net.redstoneore.legacyfactions.expansion.Provider;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
@@ -73,18 +73,18 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  *  A high-performance maintained version of Factions 1.6.<br>
  *  Copyright (C) 2011 Olof Larsson  <br>
  *  Copyright (C) 2011 - 2017 contributors <br>
- * <br>
- *  This program is free software: you can redistribute it and/or modify<br>
- *  it under the terms of the GNU General Public License as published by<br>
- *  the Free Software Foundation, either version 3 of the License, or<br>
+ *  <br>
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.<br>
  *  <br>
- *  This program is distributed in the hope that it will be useful,<br>
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the<br>
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.<br>
  *  <br>
- *  You should have received a copy of the GNU General Public License<br>
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see http://www.gnu.org/licenses/
  *
  */
@@ -196,6 +196,9 @@ public class Factions extends FactionsPluginBase {
 		// Load meta from disk
 		Meta.get().load();
 		Meta.get().save();
+		
+		// Initialise our persist handler
+		Conf.backEnd.getHandler().init();
 		
 		if (this.getDescription().getVersion().contains("RC") || this.getDescription().getVersion().contains("SNAPSHOT")) {
 			Conf.debug = true;

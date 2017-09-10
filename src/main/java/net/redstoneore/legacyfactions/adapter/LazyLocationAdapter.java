@@ -9,6 +9,25 @@ import java.lang.reflect.Type;
 
 public class LazyLocationAdapter implements JsonDeserializer<LazyLocation>, JsonSerializer<LazyLocation> {
 
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
+	private static transient LazyLocationAdapter adapter = new LazyLocationAdapter();
+	
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
+	
+	public static LazyLocation deserialise(String json) {
+		if (json.trim().equalsIgnoreCase("") || json.equalsIgnoreCase("null") || json == null) return null;
+		return adapter.deserialize(Factions.get().getGson().toJsonTree(json), LazyLocation.class, null);
+	}
+	
+	public static String serialise(LazyLocation location) {
+		return adapter.serialize(location, LazyLocation.class, null).getAsString();
+	}
+	
     @Override
     public LazyLocation deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         try {

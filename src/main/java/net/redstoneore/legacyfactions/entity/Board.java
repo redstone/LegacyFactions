@@ -6,9 +6,7 @@ import java.util.Set;
 import org.bukkit.World;
 
 import net.redstoneore.legacyfactions.FLocation;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONBoard;
 import net.redstoneore.legacyfactions.locality.Locality;
-
 
 public abstract class Board {
 	
@@ -16,15 +14,16 @@ public abstract class Board {
 	// INSTANCE
 	// -------------------------------------------------- // 
 	
-	protected static Board instance = getImpl();
-	private static Board getImpl() {
-		switch (Conf.backEnd) {
-			case JSON:
-				return new JSONBoard();
+	private static transient String currentType = null;
+	protected static Board instance = get();
+	
+	public static Board get() {
+		if (currentType != Conf.backEnd.name()) {
+			instance = Conf.backEnd.getHandler().getBoard();
+			currentType = Conf.backEnd.name();
 		}
-		return null;
+		return instance;
 	}
-	public static Board get() { return instance; }
 	
 	// -------------------------------------------------- //
 	// METHODS
@@ -165,6 +164,11 @@ public abstract class Board {
 	 * Cleaner. Removes orphaned foreign keys
 	 */
 	public abstract void clean();
+	
+	/**
+	 * Cleaner. Removes orphaned foreign keys
+	 */
+	public abstract void clean(String factionId);
 
 	/**
 	 * Force a synchronised save
@@ -182,6 +186,8 @@ public abstract class Board {
 	 * @return true if it was a success.
 	 */
 	public abstract boolean load();
+	
+	public abstract String getPersistType();
 	
 	// -------------------------------------------------- //
 	// DEPRECATED

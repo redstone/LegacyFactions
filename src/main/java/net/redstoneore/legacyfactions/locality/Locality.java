@@ -28,7 +28,7 @@ public class Locality implements Serializable {
 	// STATIC FIELDS
 	// -------------------------------------------------- //
 	
-	private static final long serialVersionUID = -1565165766499822994L;
+	private transient static final long serialVersionUID = -1565165766499822994L;
 
 	private static boolean worldBorderAvailable;
 	
@@ -88,6 +88,14 @@ public class Locality implements Serializable {
 			locality.locationX = Double.valueOf(coordinates[0]);
 			locality.locationY = Double.valueOf(coordinates[1]);
 			locality.locationZ = Double.valueOf(coordinates[2]);
+			
+			try {
+				locality.pitch = Float.valueOf(coordinates[3]);
+				locality.yaw = Float.valueOf(coordinates[4]);
+			} catch (Exception e) {
+				// old versions of this format don't have pitch and yaw
+			}
+			
 			locality.blockX = Integer.valueOf(block[0]);
 			locality.blockY = Integer.valueOf(block[1]);
 			locality.blockZ = Integer.valueOf(block[2]);
@@ -570,7 +578,7 @@ public class Locality implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "[" + this.getWorldUID() + ", " + this.getChunkX() + ":" + this.getChunkZ() + ", " + this.X() + ":" + this.Y() + ":" + this.Z() + ", " + this.getBlockX() + ":" + this.getBlockY() + ":" + this.getBlockZ() + ", " + this.getType().toString() +" ]";
+		return "[" + this.getWorldUID() + ", " + this.getChunkX() + ":" + this.getChunkZ() + ", " + this.X() + ":" + this.Y() + ":" + this.Z() + ":" + this.getPitch() + ":" + this.getYaw() + ", " + this.getBlockX() + ":" + this.getBlockY() + ":" + this.getBlockZ() + ", " + this.getType().toString() +" ]";
 	}
 
 	// -------------------------------------------------- //

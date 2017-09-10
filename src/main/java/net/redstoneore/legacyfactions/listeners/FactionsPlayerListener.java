@@ -22,7 +22,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChangedTerritory;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -77,17 +77,14 @@ public class FactionsPlayerListener implements Listener {
 
 	public void initPlayer(Player player) {
 		// Make sure that all online players do have a fplayer.
-		final FPlayer me = FPlayerColl.get(player);
-		
-		if (me instanceof MemoryFPlayer) {
-			((MemoryFPlayer) me).setName(player.getName());
-		}
+		final FPlayer me = FPlayerColl.get(player);		
+		((SharedFPlayer)me).setName(player.getName());
 		
 		// Update the lastLoginTime for this fplayer
 		me.setLastLoginTime(System.currentTimeMillis());
 
 		// Store player's current FLocation and notify them where they are
-		me.setLastStoodAt(new FLocation(player.getLocation()));
+		me.setLastLocation(Locality.of(player.getLocation()));
 
 		me.onLogin(); // set kills / deaths
 
@@ -164,17 +161,18 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		// Did we change coord?
-		FLocation from = me.getLastStoodAt();
-		FLocation to = new FLocation(event.getTo());
+		Locality from = me.getLastLocation();
+		Locality to = Locality.of(event.getTo());
 
 		if (from.equals(to)) return;
 
+		me.setLastLocation(to);
+
 		// Did we change "host"(faction)?
-		Faction factionFrom = Board.get().getFactionAt(me.getLastLocation());
+		Faction factionFrom = Board.get().getFactionAt(from);
 		Faction factionTo = Board.get().getFactionAt(Locality.of(event.getTo()));
 		
 		// Update to new location
-		me.setLastStoodAt(to);
 
 		boolean changedFaction = (factionFrom != factionTo);
 
@@ -189,7 +187,7 @@ public class FactionsPlayerListener implements Listener {
 			}
 		} else {
 			Faction myFaction = me.getFaction();
-			String ownersTo = myFaction.getOwnerListString(to);
+			String ownersTo = myFaction.getOwnerListString(new FLocation(to.getChunk()));
 
 			if (changedFaction) {
 				me.sendFactionHereMessage(factionFrom);
@@ -201,7 +199,7 @@ public class FactionsPlayerListener implements Listener {
 					me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
 				}
 			} else if (Conf.ownedAreasEnabled && Conf.ownedMessageInsideTerritory && myFaction == factionTo && !myFaction.isWilderness()) {
-				String ownersFrom = myFaction.getOwnerListString(from);
+				String ownersFrom = myFaction.getOwnerListString(new FLocation(from.getChunk()));
 				if (Conf.ownedMessageByChunk || !ownersFrom.equals(ownersTo)) {
 					if (!ownersTo.isEmpty()) {
 						me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));

@@ -1,4 +1,4 @@
-package net.redstoneore.legacyfactions.entity.persist.json;
+package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -10,7 +10,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayers;
+import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayerColl;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-public class JSONFPlayers extends MemoryFPlayers {
+public class JSONFPlayers extends MemoryFPlayerColl {
 	
 	// -------------------------------------------------- //
 	// STATIC 
@@ -55,7 +55,7 @@ public class JSONFPlayers extends MemoryFPlayers {
 		return Factions.get().getGson();
 	}
 	
-	public void convertFrom(MemoryFPlayers old) {
+	public void convertFrom(MemoryFPlayerColl old) {
 		this.fPlayers.putAll(Maps.transformValues(old.fPlayers, new Function<FPlayer, JSONFPlayer>() {
 			@Override
 			public JSONFPlayer apply(FPlayer arg0) {
@@ -102,7 +102,6 @@ public class JSONFPlayers extends MemoryFPlayers {
 
 		String content = DiscUtil.readCatch(getJsonFile());
 		if (content == null) return null;
-		System.out.println(content);
 		
 	    JsonReader jsonReader = new JsonReader((new StringReader(content)));
 	    Map<String, JSONFPlayer> data = this.getGson().fromJson(jsonReader, getMapType());
@@ -205,5 +204,11 @@ public class JSONFPlayers extends MemoryFPlayers {
 		this.fPlayers.put(player.getId(), player);
 		return player;
 	}
+	
+	@Override
+	public String getPersistType() {
+		return FactionsJSON.get().getType().name();
+	}
+
 	
 }

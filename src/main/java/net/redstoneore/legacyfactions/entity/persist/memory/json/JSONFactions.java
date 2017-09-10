@@ -1,4 +1,4 @@
-package net.redstoneore.legacyfactions.entity.persist.json;
+package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -11,7 +11,7 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactions;
+import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactionColl;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-public class JSONFactions extends MemoryFactions {
+public class JSONFactions extends MemoryFactionColl {
 	
 	// -------------------------------------------------- //
 	// STATIC 
@@ -51,10 +51,6 @@ public class JSONFactions extends MemoryFactions {
 		return Factions.get().getGson();
 	}
 	
-	public void forceSave() {
-		forceSave(true);
-	}
-
 	public void forceSave(boolean sync) {
 		final Map<String, JSONFaction> entitiesThatShouldBeSaved = new HashMap<String, JSONFaction>();
 		for (Faction entity : this.factions.values()) {
@@ -248,7 +244,7 @@ public class JSONFactions extends MemoryFactions {
 	}
 
 	@Override
-	public void convertFrom(MemoryFactions old) {
+	public void convertFrom(MemoryFactionColl old) {
 		this.factions.putAll(Maps.transformValues(old.factions, new Function<Faction, JSONFaction>() {
 			@Override
 			public JSONFaction apply(Faction arg0) {
@@ -257,7 +253,12 @@ public class JSONFactions extends MemoryFactions {
 		}));
 		this.nextId = old.nextId;
 		forceSave();
-		FactionColl.i = this;
+		FactionColl.instance = this;
+	}
+	
+	@Override
+	public String getPersistType() {
+		return FactionsJSON.get().getType().name();
 	}
 	
 }

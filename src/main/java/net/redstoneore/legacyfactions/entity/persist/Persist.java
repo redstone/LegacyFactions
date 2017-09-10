@@ -78,10 +78,14 @@ public class Persist {
 	public <T> T loadOrSaveDefault(T instance, Class<T> clazz, Path file) {
 		if (!Files.exists(file)) {
 			Factions.get().log("Creating default: " + file);
+			Factions.get().debug("File does not exist, creating default: " + file);
 			this.save(instance, file);
 			return instance;
 		}
 		
+		
+		Factions.get().debug("file exists, loading " + file);
+
 		T loadedInstance = this.load(clazz, file);
 		
 		if (loadedInstance == null) {
@@ -108,7 +112,8 @@ public class Persist {
 			
 			return instance;
 		}
-		
+		Factions.get().debug("returning loaded instance for " + file);
+
 		return loadedInstance;
 	}
 	
@@ -148,6 +153,7 @@ public class Persist {
 	public <T> T load(Class<T> clazz, Path file) {
 		String content = DiscUtil.readCatch(file);
 		if (content == null) {
+			Factions.get().debug(file + " is null");
 			return null;
 		}
 

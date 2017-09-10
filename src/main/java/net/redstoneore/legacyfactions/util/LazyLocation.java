@@ -18,6 +18,10 @@ public class LazyLocation implements Serializable {
 	
 	private static final long serialVersionUID = -6049901271320963314L;
 	
+	public static LazyLocation of(Location location) {
+		return new LazyLocation(location);
+	}
+	
 	// -------------------------------------------------- //
 	// CONSTRUCT
 	// -------------------------------------------------- //

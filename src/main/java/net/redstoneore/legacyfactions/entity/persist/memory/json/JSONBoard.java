@@ -1,4 +1,4 @@
-package net.redstoneore.legacyfactions.entity.persist.json;
+package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -111,4 +111,10 @@ public class JSONBoard extends MemoryBoard {
         forceSave();
         Board.instance = this;
     }
+
+	@Override
+	public String getPersistType() {
+		return FactionsJSON.get().getType().name();
+	}
+	
 }

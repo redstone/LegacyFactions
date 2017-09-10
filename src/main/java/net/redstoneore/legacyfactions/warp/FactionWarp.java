@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions.warp;
 import org.bukkit.Location;
 
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 
 public class FactionWarp {
@@ -42,19 +43,24 @@ public class FactionWarp {
 	}
 	
 	public void delete() {
-		this.faction.asMemoryFaction().removeWarp(this.getName());
+		
+		this.shared().removeWarp(this.getName());
 	}
 	
 	public Boolean hasPassword() {
-		return this.faction.asMemoryFaction().getWarpPassword(this.getName()).isPresent() && this.faction.asMemoryFaction().getWarpPassword(this.getName()).get() != null;
+		return this.shared().getWarpPassword(this.getName()).isPresent() && this.shared().getWarpPassword(this.getName()).get() != null;
 	}
 	
 	public Boolean isPassword(String password) {
-		return this.faction.asMemoryFaction().getWarpPassword(this.getName()).get().equalsIgnoreCase(password.toLowerCase());
+		return this.shared().getWarpPassword(this.getName()).get().equalsIgnoreCase(password.toLowerCase());
 	}
 	
 	public String getPassword() {
-		return this.faction.asMemoryFaction().getWarpPassword(this.getName()).get();
+		return this.shared().getWarpPassword(this.getName()).get();
+	}
+	
+	private SharedFaction shared() {
+		return (SharedFaction) this.faction;
 	}
 	
 }

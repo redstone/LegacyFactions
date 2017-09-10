@@ -11,7 +11,8 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
+import net.redstoneore.legacyfactions.entity.console.ConsoleFPlayer;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsCommandExecute;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.util.TextUtil;
@@ -60,8 +61,8 @@ public abstract class FCommand extends MCommand<Factions> {
 			this.fme = FPlayerColl.get(sender);
 			this.myFaction = this.fme.getFaction();
 		} else {
-			this.fme = null;
-			this.myFaction = null;
+			this.fme = ConsoleFPlayer.get();
+			this.myFaction = FactionColl.get().getWilderness();
 		}
 		super.execute(sender, args, commandChain);
 	}
@@ -237,9 +238,7 @@ public abstract class FCommand extends MCommand<Factions> {
 			if (uuid != null) {
 				// For sanity sake, set the player name
 				FPlayer found = FPlayerColl.get(uuid);
-				if (found instanceof MemoryFPlayer) {
-					((MemoryFPlayer) found).setName(playerName);
-				}
+				((SharedFPlayer) found).setName(playerName);
 			}
 			
 			callback.then(uuid, Optional.empty());
@@ -258,9 +257,7 @@ public abstract class FCommand extends MCommand<Factions> {
 			
 			// For sanity sake, set the player name
 			FPlayer found = FPlayerColl.get(uuid);
-			if (found instanceof MemoryFPlayer) {
-				((MemoryFPlayer)found).setName(playerName);
-			}
+			((SharedFPlayer)found).setName(playerName);
 			
 			callback.then(found, Optional.empty());
 		});		

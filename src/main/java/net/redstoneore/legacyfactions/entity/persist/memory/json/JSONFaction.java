@@ -1,4 +1,4 @@
-package net.redstoneore.legacyfactions.entity.persist.json;
+package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
 

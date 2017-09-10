@@ -13,6 +13,7 @@ import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.event.EventFactionsChat;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 
 public class FactionsChatListener implements Listener {
@@ -106,20 +107,25 @@ public class FactionsChatListener implements Listener {
 			break;		
 		}
 		
+		EventFactionsChat chatEvent = EventFactionsChat.create(fplayer, fplayer.getChatMode(), format, event.getMessage(), recipients, spying).call();
+		if (chatEvent.isCancelled()) return;
+		
 		// if there is no format then something went wrong, don't continue
+		format = chatEvent.getFormat();
 		if (format == null) return;
 		
 		// Set the new format, parsing our placeholders
 		format = FactionsPlaceholders.get().parse(fplayer, format);
 		
-		format = format.replace("{fc_message}", event.getMessage());
+		format = format.replace("{fc_message}", chatEvent.getMessage());
 		
 		event.setFormat(format);
+		
 		// Notify anyone who is spying
-		if (!spying.isEmpty()) {
-			String message = String.format(Conf.expansionsFactionsChat.chatFormatSpy.toString(), event.getPlayer().getDisplayName(), event.getMessage());
+		if (!chatEvent.getSpying().isEmpty()) {
+			String message = String.format(Conf.expansionsFactionsChat.chatFormatSpy.toString(), event.getPlayer().getDisplayName(), chatEvent.getMessage());
 			
-			spying.forEach(spy -> spy.sendMessage(message));
+			chatEvent.getSpying().forEach(spy -> spy.sendMessage(message));
 		}
 		
 	}
