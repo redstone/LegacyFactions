@@ -116,7 +116,12 @@ public class CmdFactionsList extends FCommand {
 				return;
 			}
 			
-			this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
+			if (fme == null) {
+				// Console
+				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, Conf.listEntry)));
+			} else {
+				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
+			}
 		});
 	}
 
