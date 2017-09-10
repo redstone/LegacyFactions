@@ -110,18 +110,15 @@ public class CmdFactionsList extends FCommand {
 		
 		this.sendMessage(TextUtil.get().parse(header));
 
-		factionList.subList(start, end).forEach(faction -> {
-			if (faction.isWilderness()) {
-				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, Conf.listFactionless)));
-				return;
-			}
-			
-			if (fme == null) {
-				// Console
-				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, Conf.listEntry)));
-			} else {
+		factionList.subList(start, end).stream()
+			.filter(faction -> faction != null && faction.getId() != null)
+			.forEach(faction -> {
+				if (faction.isWilderness()) {
+					this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, Conf.listFactionless)));
+					return;
+				}
+				
 				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
-			}
 		});
 	}
 
