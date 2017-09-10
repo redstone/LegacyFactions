@@ -20,6 +20,7 @@ public class LazyLocationAdapter implements JsonDeserializer<LazyLocation>, Json
 	// -------------------------------------------------- //
 	
 	public static LazyLocation deserialise(String json) {
+		if (json.trim().equalsIgnoreCase("") || json.equalsIgnoreCase("null") || json == null) return null;
 		return adapter.deserialize(Factions.get().getGson().toJsonTree(json), LazyLocation.class, null);
 	}
 	
