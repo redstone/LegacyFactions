@@ -1,9 +1,13 @@
 package net.redstoneore.legacyfactions.entity;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 
 public class Meta {
@@ -83,19 +87,48 @@ public class Meta {
 	public String databaseUsername = "";
 	public String databasePassword = "";
 	public String databaseName = "";
+	
 	public int databaseConnectonMax = 12;
+	
 	public boolean databaseCredentialsEncrypted = false;
+	
+	// -------------------------------------------------- //
+	// CONSOLEID
+	// -------------------------------------------------- //
+
+	public List<String> _consoleId = Lists.newArrayList(
+			"",
+			"##################################  CONSOLE ID  ##################################",
+			"|                                                                                |",
+			"| The console id is related the the FPlayer object for the console. This allows  |", 
+			"| the console to run many faction commands. Do not change it.                    |", 
+			"|                                                                                |",
+			"##################################  CONSOLE ID  ##################################",
+			""
+	);
+	
+	public String consoleId = UUID.randomUUID().toString();
+
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
+	private transient Path path = Paths.get(Factions.get().getDataFolder().toString(),  "/database/meta.json");
 	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 
-	public void load() {
-		Persist.get().loadOrSaveDefault(instance, Meta.class, "database/meta");
+	public Path getPath() {
+		return this.path;
 	}
-
+	
+	public void load() {
+		instance = Persist.get().loadOrSaveDefault(instance, Meta.class, this.getPath());
+	}
+	
 	public void save() {
-		Persist.get().save(instance, "database/meta");
+		Persist.get().save(instance, this.getPath());
 	}
 	
 }

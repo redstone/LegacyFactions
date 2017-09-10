@@ -10,44 +10,49 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.FLocation;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONFactions;
 
 public abstract class FactionColl {
 	
-	protected static FactionColl i = getImpl();
+	// -------------------------------------------------- //
+	// STATIC FIELDS
+	// -------------------------------------------------- //
 	
-	private static FactionColl getImpl() {
-		switch (Conf.backEnd) {
-			case JSON:
-				return new JSONFactions();
+	private static transient String currentType = null;
+	protected static FactionColl instance = get();
+	
+	// -------------------------------------------------- //
+	// STATIC METHODS
+	// -------------------------------------------------- //
+	
+	public static FactionColl get() {
+		if (currentType != Conf.backEnd.name()) {
+			instance = Conf.backEnd.getHandler().getFactionColl();
+			currentType = Conf.backEnd.name();
 		}
-		return null;
+		return instance;
 	}
-	
-	public static FactionColl get() { return i; }
-	
 	
 	public static Faction get(Object o) {
 		Faction faction = null;
 		
 		// CONVERT
 		if (o instanceof Player) {
-			o = FPlayerColl.instance.getByPlayer((Player) o);
+			o = FPlayerColl.getUnsafeInstance().getByPlayer((Player) o);
 		} else if (o instanceof OfflinePlayer) {
-			o = FPlayerColl.instance.getByOfflinePlayer((OfflinePlayer) o);
+			o = FPlayerColl.getUnsafeInstance().getByOfflinePlayer((OfflinePlayer) o);
 		}
 		
 		// FIND
 		if (o instanceof String) {
 			// search by id first
-			faction = i.getFactionById((String) o);
+			faction = get().getFactionById((String) o);
 			
 			if (faction != null) {
 				return faction;
 			}
 			
 			// now try its tag
-			return i.getByTag((String) o);
+			return get().getByTag((String) o);
 		} else if (o instanceof FPlayer) {
 			FPlayer fplayer = (FPlayer) o;
 			return fplayer.getFaction();
@@ -67,7 +72,7 @@ public abstract class FactionColl {
 	public List<Faction> getAll(World world) {
 		List<Faction> all = new ArrayList<>();
 		
-		for (Faction faction : i.getAllFactions()) {
+		for (Faction faction : get().getAllFactions()) {
 			for (FLocation location : faction.getAllClaims()) {
 				if (location.getWorld() != world) continue;
 				
@@ -93,9 +98,17 @@ public abstract class FactionColl {
 
 	public abstract void removeFaction(String id);
 
+	/**
+	 * Returns a set with a snapshot of all faction tags.
+	 * @return A {@link Set} with a snapshot of all faction tags.
+	 */
 	public abstract Set<String> getFactionTags();
 
-	public abstract ArrayList<Faction> getAllFactions();
+	/**
+	 * Returns a list with a snapshot of all factions.
+	 * @return A {@link List} with a snapshot of all factions.
+	 */
+	public abstract List<Faction> getAllFactions();
 
 	public abstract Faction getWilderness();
 
@@ -109,12 +122,14 @@ public abstract class FactionColl {
 
 	public abstract void load();
 	
+	public abstract String getPersistType();
+	
 	// -------------------------------------------------- //
 	// DEPRECATED	
 	// -------------------------------------------------- //
 	
 	/**
-	 * deprecated, use getWilderness
+	 * Deprecated, use {@link #getWilderness()}
 	 */
 	@Deprecated
 	public final Faction getNone() {

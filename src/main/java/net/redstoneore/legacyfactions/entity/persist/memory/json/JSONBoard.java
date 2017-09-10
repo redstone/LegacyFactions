@@ -111,4 +111,10 @@ public class JSONBoard extends MemoryBoard {
         forceSave();
         Board.instance = this;
     }
+
+	@Override
+	public String getPersistType() {
+		return FactionsJSON.get().getType().name();
+	}
+	
 }

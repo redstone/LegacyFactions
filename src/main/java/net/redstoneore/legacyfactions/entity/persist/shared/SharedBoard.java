@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.FLocation;
@@ -49,8 +50,12 @@ public abstract class SharedBoard extends Board {
 		this.setIdAt(faction.getId(), Locality.of(flocation.getChunk()));
 	}
 	
+	@Override
+	public int getFactionCoordCountInWorld(Faction faction, String worldName) {
+		return this.getFactionCoordCountInWorld(faction, Bukkit.getWorld(worldName));
+	}
 
-
+	@Override
 	public void unclaimAll(String factionId) {
 		Faction faction = FactionColl.get().getFactionById(factionId);
 		if (faction != null && faction.isNormal()) {
@@ -60,6 +65,7 @@ public abstract class SharedBoard extends Board {
 		this.clean(factionId);
 	}
 
+	@Override
 	public Set<FLocation> getAllClaims(Faction faction) {
 		return getAllClaims(faction.getId());
 	}

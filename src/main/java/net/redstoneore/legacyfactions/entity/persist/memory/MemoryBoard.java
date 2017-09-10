@@ -10,7 +10,6 @@ import net.redstoneore.legacyfactions.entity.persist.shared.SharedBoard;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import java.util.Collection;
@@ -130,11 +129,6 @@ public abstract class MemoryBoard extends SharedBoard {
 
 	public int getFactionCoordCount(String factionId) {
 		return flocationIds.getOwnedLandCount(factionId);
-	}
-
-
-	public int getFactionCoordCountInWorld(Faction faction, String worldName) {
-		return getFactionCoordCountInWorld(faction, Bukkit.getWorld(worldName));
 	}
 	
 	public int getFactionCoordCountInWorld(Faction faction, World world) {

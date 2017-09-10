@@ -5,60 +5,63 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.entity.persist.json.JSONFPlayers;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public abstract class FPlayerColl {
 	
-	protected static FPlayerColl instance = getImpl();
+	// -------------------------------------------------- //
+	// STATIC FIELDS
+	// -------------------------------------------------- //
 	
-	private static FPlayerColl getImpl() {
-		switch (Conf.backEnd) {
-			case JSON:
-				return new JSONFPlayers();
-		}
-		return null;
-	}
-	
+	private static transient String currentType = null;
+	protected static FPlayerColl instance = getUnsafeInstance();
+
+	// -------------------------------------------------- //
+	// STATIC METHODS
+	// -------------------------------------------------- //
+
 	/**
-	 * You shouldn't use this, if the implementation changes at
-	 * any time this reference will not be safe to use.
-	 * @return
+	 * You shouldn't use this.<br>
+	 * If the implementation changes at any time this reference will not be safe to use.<br>
+	 * Simply use the {@link FPlayerColl#get(Object)} method.
 	 */
 	public static FPlayerColl getUnsafeInstance() {
+		if (currentType != Conf.backEnd.name()) {
+			instance = Conf.backEnd.getHandler().getFPlayerColl();
+			currentType = Conf.backEnd.name();
+		}
 		return instance;
 	}
 	
 	public static FPlayer get(Object o) {
 		if (o instanceof OfflinePlayer) {
 			OfflinePlayer player = (OfflinePlayer) o;
-			return instance.getByOfflinePlayer(player);
+			return getUnsafeInstance().getByOfflinePlayer(player);
 		}
 		
 		// also catches Entity players 
 		if (o instanceof Player) {
 			Player player = (Player) o;
-			return instance.getByPlayer(player);
+			return getUnsafeInstance().getByPlayer(player);
 		}
 		
 		if (o instanceof UUID) {
-			return instance.getById(o.toString());
+			return getUnsafeInstance().getById(o.toString());
 		}
 		
 		if (o instanceof String) {
 			String value = (String) o;
 			
 			// Attempt id first
-			FPlayer byId = instance.getById(value);
+			FPlayer byId = getUnsafeInstance().getById(value);
 			if (byId != null) return byId;
 			
 			// Must be a name 
-			FPlayer byName = instance.getByPlayer(Bukkit.getPlayer(value));
+			FPlayer byName = getUnsafeInstance().getByPlayer(Bukkit.getPlayer(value));
 			return byName;
 		}
 		
@@ -66,38 +69,26 @@ public abstract class FPlayerColl {
 	}
 
 	public static Collection<FPlayer> getAllOnline(Role role) {
-		Collection<FPlayer> all = new ArrayList<FPlayer>();
-		
-		for (FPlayer fplayer : all()) {
-			if (fplayer.getRole() == role) {
-				all.add(fplayer);
-			}
-		}
-		
-		return all;
+		return all(true).stream()
+			.filter(fplayer -> fplayer.getRole() == role)
+			.collect(Collectors.toList());
 	}
 	
 	public static Collection<FPlayer> getAll(Role role) {
-		Collection<FPlayer> all = new ArrayList<>();
-		
-		for (FPlayer fplayer : all()) {
-			if (fplayer.getRole() == role) {
-				all.add(fplayer);
-			}
-		}
-		
-		return all;
+		return all().stream()
+			.filter(fplayer -> fplayer.getRole() == role)
+			.collect(Collectors.toList());
 	}
 	
 	public static Collection<FPlayer> all(Boolean mustBeOnline) {
-		if (mustBeOnline) return instance.getOnlinePlayers();
+		if (mustBeOnline) return getUnsafeInstance().getOnlinePlayers();
 		
 		return all();
 	}
 	
 	public static void all(Boolean mustBeOnline, Consumer<? super FPlayer> action) {
 		if (mustBeOnline) {
-			instance.getOnlinePlayers().forEach(action);
+			getUnsafeInstance().getOnlinePlayers().forEach(action);
 			return;
 		}
 		
@@ -105,7 +96,7 @@ public abstract class FPlayerColl {
 	}
 	
 	public static Collection<FPlayer> all() {
-		return instance.getAllFPlayers();
+		return getUnsafeInstance().getAllFPlayers();
 	}
 	
 	/**
@@ -114,29 +105,25 @@ public abstract class FPlayerColl {
 	 * @return
 	 */
 	public static Collection<FPlayer> rewrap(Collection<Player> players) {
-		List<FPlayer> fplayers = new ArrayList<>();
-
-		players.forEach(player -> {
-			fplayers.add(get(player));
-		});
-		
-		return fplayers;
+		return players.stream()
+			.map(FPlayerColl::get)
+			.collect(Collectors.toList());
 	}
 	
 	public static void load() {
-		instance.loadColl();
+		getUnsafeInstance().loadColl();
 	}
 	
 	public static void save() {
-		instance.forceSave();
+		getUnsafeInstance().forceSave();
 	}
 	
 	public static void save(boolean sync) {
-		instance.forceSave(sync);
+		getUnsafeInstance().forceSave(sync);
 	}
 
 	public static void all(Consumer<? super FPlayer> action) {
-		instance.getAllFPlayers().forEach(action);
+		getUnsafeInstance().getAllFPlayers().forEach(action);
 	}
 	
 	public abstract void clean();
@@ -156,5 +143,7 @@ public abstract class FPlayerColl {
 	public abstract FPlayer getById(String string);
 
 	public abstract void loadColl();
+	
+	public abstract String getPersistType();
 	
 }

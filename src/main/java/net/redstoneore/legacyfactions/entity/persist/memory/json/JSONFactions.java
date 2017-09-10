@@ -253,7 +253,12 @@ public class JSONFactions extends MemoryFactionColl {
 		}));
 		this.nextId = old.nextId;
 		forceSave();
-		FactionColl.i = this;
+		FactionColl.instance = this;
+	}
+	
+	@Override
+	public String getPersistType() {
+		return FactionsJSON.get().getType().name();
 	}
 	
 }

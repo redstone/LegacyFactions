@@ -102,7 +102,6 @@ public class JSONFPlayers extends MemoryFPlayerColl {
 
 		String content = DiscUtil.readCatch(getJsonFile());
 		if (content == null) return null;
-		System.out.println(content);
 		
 	    JsonReader jsonReader = new JsonReader((new StringReader(content)));
 	    Map<String, JSONFPlayer> data = this.getGson().fromJson(jsonReader, getMapType());
@@ -205,5 +204,11 @@ public class JSONFPlayers extends MemoryFPlayerColl {
 		this.fPlayers.put(player.getId(), player);
 		return player;
 	}
+	
+	@Override
+	public String getPersistType() {
+		return FactionsJSON.get().getType().name();
+	}
+
 	
 }

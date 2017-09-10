@@ -11,25 +11,6 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 public abstract class SharedFactionColl extends FactionColl {
 
 	// -------------------------------------------------- //
-	// FACTIONS
-	// -------------------------------------------------- //
-	
-	@Override
-	public Faction getWilderness() {
-		return this.getAllFactions().stream().filter(faction -> faction.getId() == "0").findFirst().orElse(null);
-	}
-
-	@Override
-	public Faction getSafeZone() {
-		return this.getAllFactions().stream().filter(faction -> faction.getId() == "-1").findFirst().orElse(null);
-	}
-
-	@Override
-	public Faction getWarZone() {
-		return this.getAllFactions().stream().filter(faction -> faction.getId() == "-2").findFirst().orElse(null);
-	}
-
-	// -------------------------------------------------- //
 	// TAGS
 	// -------------------------------------------------- //
 	

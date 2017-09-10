@@ -124,6 +124,21 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 		return new ArrayList<>(this.factions.values());
 	}
 
+	@Override
+	public Faction getWilderness() {
+		return this.factions.get("0");
+	}
+
+	@Override
+	public Faction getSafeZone() {
+		return this.factions.get("-1");
+	}
+
+	@Override
+	public Faction getWarZone() {
+		return this.factions.get("-2");
+	}
+
 	public abstract Faction generateFactionObject();
 	
 	public abstract void convertFrom(MemoryFactionColl old);

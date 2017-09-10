@@ -13,15 +13,12 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
-import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.LazyLocation;
-import net.redstoneore.legacyfactions.util.TextUtil;
-import net.redstoneore.legacyfactions.warp.FactionWarps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,9 +79,7 @@ public abstract class MemoryFaction extends SharedFaction {
 	private long lastDeath;
 	
 	protected int maxVaults;
-	
-	private transient FactionWarps factionWarps = new FactionWarps(this);
-	
+		
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -178,11 +173,6 @@ public abstract class MemoryFaction extends SharedFaction {
 		}
 		
 		return exists.get().getValue();
-	}
-	
-	@Override
-	public FactionWarps warps() {
-		return factionWarps;
 	}
 	
 	@Override
@@ -387,25 +377,7 @@ public abstract class MemoryFaction extends SharedFaction {
 	public long getLastDeath() {
 		return this.lastDeath;
 	}
-
-	public int getKills() {
-		int kills = 0;
-		for (FPlayer fplayer : this.getMembers()) {
-			kills += fplayer.getKills();
-		}
-
-		return kills;
-	}
-
-	public int getDeaths() {
-		int deaths = 0;
-		for (FPlayer fplayer : this.getMembers()) {
-			deaths += fplayer.getDeaths();
-		}
-
-		return deaths;
-	}
-
+	
 	// -------------------------------------------- //
 	// Construct
 	// -------------------------------------------- //
@@ -473,34 +445,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		}
 	}
 
-	public int getRelationCount(Relation relation) {
-		int count = 0;
-		for (Faction faction : FactionColl.get().getAllFactions()) {
-			if (faction.getRelationTo(this) == relation) {
-				count++;
-			}
-		}
-		return count;
-	}
 
-	public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent) {
-		if (!Conf.maxRelations.containsKey(rel)) return false;
-		if (Conf.maxRelations.get(rel) < 0) return false;
-		
-		int maxRelations = Conf.maxRelations.get(rel);
-		
-		if (this.getRelationCount(rel) >= maxRelations) {
-		 	if (!silent) this.sendMessage(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());
-			return true;
-		}
-			
-		if (them.getRelationCount(rel) > maxRelations) {
-			if (!silent) this.sendMessage(Lang.COMMAND_RELATIONS_EXCEEDS_THEY, maxRelations, rel.getPluralTranslation());
-			return true;
-		}
-		
-		return false;
-	}
 	
 	// ----------------------------------------------//
 	// Power
@@ -558,66 +503,6 @@ public abstract class MemoryFaction extends SharedFaction {
 		// return a shallow copy of the FPlayer list, to prevent tampering and
 		// concurrency issues
 		return new HashSet<>(this.fplayers);
-	}
-
-	
-
-	// used when current leader is about to be removed from the faction;
-	// promotes new leader, or disbands faction if no other members left
-	public void promoteNewLeader() {
-		if (!this.isNormal()) {
-			return;
-		}
-		if (this.isPermanent() && Conf.permanentFactionsDisableLeaderPromotion) {
-			return;
-		}
-
-		FPlayer oldLeader = this.getFPlayerAdmin();
-
-		// get list of coleaders, mods and then normal members to promote from.
-		ArrayList<FPlayer> replacements = this.getFPlayersWhereRole(Role.COLEADER);
-		if (replacements == null || replacements.isEmpty()) {
-			replacements = this.getFPlayersWhereRole(Role.MODERATOR);
-			if (replacements == null || replacements.isEmpty()) {
-				replacements = this.getFPlayersWhereRole(Role.NORMAL);
-			}
-		}
-
-		if (replacements == null || replacements.isEmpty()) { // faction admin  is the only  member; one-man  faction
-			if (this.isPermanent()) {
-				if (oldLeader != null) {
-					oldLeader.setRole(Role.NORMAL);
-				}
-				return;
-			}
-
-			// no members left and faction isn't permanent, so disband it
-			if (Conf.logFactionDisband) {
-				Factions.get().log("The faction " + this.getTag() + " (" + this.getId() + ") has been disbanded since it has no members left.");
-			}
-
-			for (FPlayer fplayer : FPlayerColl.all()) {
-				fplayer.sendMessage(Lang.LEAVE_DISBANDED, this.getTag(fplayer));
-			}
-
-			FactionColl.get().removeFaction(getId());
-		} else { // promote new faction admin
-			if (oldLeader != null) {
-				oldLeader.setRole(Role.NORMAL);
-			}
-			replacements.get(0).setRole(Role.ADMIN);
-			
-			String message = null;
-			if (oldLeader != null) { 
-				message = Lang.LEAVE_NEWADMINPROMOTED_PLAYER.toString().replace("<player>", oldLeader.getName());
-			} else {
-				message = Lang.LEAVE_NEWADMINPROMOTED_UNKNOWN.toString();
-			}
-			message = message.replaceAll("<new-admin>", replacements.get(0).getName());
-			
-			this.sendMessage(TextUtil.parseColor(message));
-			Factions.get().log("Faction " + this.getTag() + " (" + this.getId() + ") admin was removed. Replacement admin: " + replacements.get(0).getName());
-		}
 	}
 	
 	// ----------------------------------------------//
