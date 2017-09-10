@@ -47,7 +47,6 @@ public class ConsoleFPlayer extends SharedFPlayer {
 
 	@Override
 	public long getLastLoginTime() {
-		// TODO Auto-generated method stub
 		return loginTime;
 	}
 
