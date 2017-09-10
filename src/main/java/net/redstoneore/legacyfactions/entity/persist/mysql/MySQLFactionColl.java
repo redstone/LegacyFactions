@@ -55,7 +55,9 @@ public class MySQLFactionColl extends SharedFactionColl {
 			faction.setFoundedDate(System.currentTimeMillis());
 			faction.setMaxVaults(Conf.defaultMaxVaults);
 			faction.setDescription(Lang.GENERIC_DEFAULTDESCRIPTION.toString());
-			faction.poll();
+			faction.poll(true);
+			
+			this.factionCache.put(id, faction);
 			
 			return faction;
 	}
