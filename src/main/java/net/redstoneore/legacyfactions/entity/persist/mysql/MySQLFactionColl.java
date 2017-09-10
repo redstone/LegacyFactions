@@ -125,6 +125,7 @@ public class MySQLFactionColl extends SharedFactionColl {
 	public void removeFaction(String id) {
 		if (this.factionCache.containsKey(id)) {
 			this.factionCache.get(id).remove();
+			this.factionCache.remove(id);
 		}
 	}
 	
