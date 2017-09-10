@@ -8,10 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
@@ -713,80 +716,146 @@ public class MySQLFaction extends SharedFaction {
 
 	@Override
 	public Map<FLocation, Set<String>> getClaimOwnership() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Map<String, String>> results = FactionsMySQL.get().prepare("SELECT * FROM `faction_ownership` WHERE faction = ?")
+			.setCatched(1, this)
+			.execute(ExecuteType.SELECT);
+		
+		Map<FLocation, Set<String>> ownerships = new HashMap<>();
+		
+		if (results == null || results.isEmpty()) {
+			return ownerships;
+		}
+		
+		results.forEach(result -> {
+			FLocation flocation = new FLocation(Bukkit.getWorld(UUID.fromString(result.get("world"))).getName(), Integer.valueOf(result.get("x")), Integer.valueOf(result.get("z")));
+			AtomicBoolean found = new AtomicBoolean(false);
+			
+			ownerships.forEach((a,b) -> {
+				if (a.equals(flocation)) {
+					b.add(result.get("player"));
+					found.set(true);
+				}
+			});
+			
+			if (!found.get()) {
+				ownerships.put(flocation, new HashSet<>());
+				ownerships.get(flocation).add(result.get("player"));
+			}
+		});
+		
+		return ownerships;
 	}
 
 	@Override
 	public void clearAllClaimOwnership() {
-		// TODO Auto-generated method stub
-		
+		FactionsMySQL.get().prepare("DELETE FROM `faction_ownership` WHERE `faction` = ?")
+			.setCatched(1, this)
+			.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
 	public void clearClaimOwnership(Locality locality) {
-		// TODO Auto-generated method stub
-		
+		FactionsMySQL.get().prepare("DELETE FROM `faction_ownership` WHERE `faction` = ? AND `world` = ? AND `x` = ? AND `z` = ?")
+			.setCatched(1, this)
+			.setCatched(2, locality.getWorld().getUID().toString())
+			.setCatched(3, locality.getChunkX())
+			.setCatched(4, locality.getChunkZ())
+			.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
 	public void clearClaimOwnership(FLocation loc) {
-		// TODO Auto-generated method stub
-		
+		FactionsMySQL.get().prepare("DELETE FROM `faction_ownership` WHERE `faction` = ? AND `world` = ? AND `x` = ? AND `z` = ?")
+			.setCatched(1, this)
+			.setCatched(2, loc.getWorld().getUID().toString())
+			.setCatched(3, loc.getX())
+			.setCatched(4, loc.getZ())
+			.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
 	public void clearClaimOwnership(FPlayer player) {
-		// TODO Auto-generated method stub
-		
+		FactionsMySQL.get().prepare("DELETE FROM `faction_ownership` WHERE `faction` = ? AND `player` = ?")
+			.setCatched(1, this)
+			.setCatched(2, player)
+			.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
 	public int getCountOfClaimsWithOwners() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.getClaimOwnership().size();
 	}
 
 	@Override
 	public boolean doesLocationHaveOwnersSet(FLocation loc) {
-		// TODO Auto-generated method stub
-		return false;
+		List<Map<String, String>> results = FactionsMySQL.get().prepare("SELECT * FROM `faction_ownership` WHERE `faction `= ? AND `world` = ? AND `x` = ? AND `z` = ? ")
+			.setCatched(1, this)
+			.setCatched(2, loc.getWorld().getUID().toString())
+			.setCatched(3, loc.getX())
+			.setCatched(4, loc.getZ())
+			.execute(ExecuteType.SELECT);
+
+		return results != null && !results.isEmpty();
 	}
 
 	@Override
 	public boolean isPlayerInOwnerList(FPlayer player, FLocation loc) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.getOwnerList(loc).contains(player.getId());
 	}
 
 	@Override
 	public void setPlayerAsOwner(FPlayer player, FLocation loc) {
-		// TODO Auto-generated method stub
+		String query = "INSERT INTO `faction_ownership` ( `world`, `x`, `z`, `player`, `faction`)\n" + 
+				"VALUES\n" + 
+				"	(?, ?, ?, ?, ?);\n";
 		
+		FactionsMySQL.get().prepare(query)
+		.setCatched(1, loc.getWorld().getUID().toString())
+		.setCatched(2, loc.getX())
+		.setCatched(3, loc.getZ())
+		.setCatched(4, player)
+		.setCatched(5, this)
+			.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
 	public void removePlayerAsOwner(FPlayer player, FLocation loc) {
-		// TODO Auto-generated method stub
+		FactionsMySQL.get().prepare("DELETE FROM `faction_ownership` WHERE `faction` = ? AND `world` = ? AND `x` = ? AND `z` = ? AND `player` = ?")
+			.setCatched(1, this)
+			.setCatched(2, loc.getWorld().getUID().toString())
+			.setCatched(3, loc.getX())
+			.setCatched(4, loc.getZ())
+			.setCatched(5, player)
+			.execute(ExecuteType.UPDATE);
 		
 	}
 
 	@Override
 	public Set<String> getOwnerList(FLocation loc) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getClaimOwnership().entrySet().stream()
+			.filter(entry -> entry.getKey().equals(loc))
+			.map(entry -> entry.getValue())
+			.findFirst()
+				.orElse(new HashSet<>());
 	}
 
 	@Override
 	public String getOwnerListString(FLocation loc) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getClaimOwnership().entrySet().stream()
+				.filter(entry -> entry.getKey().equals(loc))
+				.map(entry -> entry.getValue())
+				.findFirst()
+					.orElse(new HashSet<>())
+				.toString();
 	}
 
 	@Override
 	public boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.getClaimOwnership().entrySet().stream()
+				.filter(entry -> entry.getKey().equals(loc))
+				.map(entry -> entry.getValue().contains(fplayer.getId()))
+				.findFirst()
+					.orElse(false);
 	}
 
 	@Override

@@ -33,7 +33,8 @@ public class Migrations {
 			LFMigration10006.create(),
 			LFMigration10007.create(),
 			LFMigration10008.create(),
-			LFMigration10009.create()
+			LFMigration10009.create(),
+			LFMigration10010.create()
 		);
 	}
 	
