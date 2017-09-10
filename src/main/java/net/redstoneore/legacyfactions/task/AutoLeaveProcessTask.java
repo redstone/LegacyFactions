@@ -3,6 +3,8 @@ package net.redstoneore.legacyfactions.task;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.google.common.collect.Lists;
+
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -11,8 +13,8 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 
-import java.util.ArrayList;
-import java.util.ListIterator;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -23,8 +25,8 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 	// -------------------------------------------------- //
 
 	public AutoLeaveProcessTask() {
-		ArrayList<FPlayer> fplayers = (ArrayList<FPlayer>) FPlayerColl.all();
-		this.iterator = fplayers.listIterator();
+		Collection<FPlayer> fplayers = Lists.newArrayList(FPlayerColl.all());
+		this.iterator = fplayers.iterator();
 		this.toleranceMillis = TimeUnit.DAYS.toMillis(Conf.autoLeaveAfterDaysOfInactivity);
 		this.ready = true;
 		this.finished = false;
@@ -35,7 +37,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 	
 	private Boolean ready = false;
 	private Boolean finished = false;
-	private ListIterator<FPlayer> iterator;
+	private Iterator<FPlayer> iterator;
 	private long toleranceMillis;
 
 	// -------------------------------------------------- //
@@ -62,7 +64,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 
 			// if this iteration has been running for maximum time, stop to take a breather until next tick
 			if (now > loopStartTime + Conf.autoLeaveRoutineMaxMillisecondsPerTick) {
-				this. ready = true;
+				this.ready = true;
 				return;
 			}
 
