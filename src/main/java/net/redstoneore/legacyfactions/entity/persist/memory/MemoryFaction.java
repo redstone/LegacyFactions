@@ -445,28 +445,6 @@ public abstract class MemoryFaction extends SharedFaction {
 		}
 	}
 
-
-	
-	// ----------------------------------------------//
-	// Power
-	// ----------------------------------------------//
-	public double getPower() {
-		if (this.hasPermanentPower()) {
-			return this.getPermanentPower();
-		}
-
-		double ret = 0;
-		for (FPlayer fplayer : fplayers) {
-			ret += fplayer.getPower();
-		}
-		if (Conf.powerFactionMax > 0 && ret > Conf.powerFactionMax) {
-			ret = Conf.powerFactionMax;
-		}
-		return ret + this.getPowerBoost();
-	}
-
-
-
 	// -------------------------------
 	// FPlayers
 	// -------------------------------
