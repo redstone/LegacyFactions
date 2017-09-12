@@ -27,7 +27,6 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
-import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
 import net.redstoneore.legacyfactions.entity.persist.mysql.MySQLPrepared.ExecuteType;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.flag.Flag;
@@ -43,6 +42,11 @@ public class MySQLFaction extends SharedFaction {
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
+	/**
+	 * Construct a MySQLFaction from an id, and run the set method if needed.
+	 * @param id Id of this faction.
+	 * @param runSet Set to true to run {@link #setId}.
+	 */
 	public MySQLFaction(String id, boolean runSet) {
 		if (runSet) {
 			this.setId(id);			
@@ -51,7 +55,12 @@ public class MySQLFaction extends SharedFaction {
 			this.values = new ConcurrentHashMap<>();
 		}
 	}
-
+	
+	/**
+	 * Construct a MySQLFaction and use the raw data provided. This saves a call to the faction 
+	 * table.
+	 * @param entry Entry of variables.
+	 */
 	public MySQLFaction(Map<String, String> entry) {
 		this.id = entry.get("id");
 		this.values = entry;
@@ -59,6 +68,10 @@ public class MySQLFaction extends SharedFaction {
 		this.pollOther();
 	}
 	
+	/**
+	 * Construct a MySQLFaction from another faction type. 
+	 * @param old Old type.
+	 */
 	public MySQLFaction(SharedFaction old) {
 		this.setId(old.getId());
 		
@@ -80,24 +93,23 @@ public class MySQLFaction extends SharedFaction {
 				.setCatched(1, this)
 				.setCatched(2, faction)
 				.setCatched(3, wish.name())
-				.execute(ExecuteType.UPDATE) == null) {
-					Factions.get().warn("[MySQL] inserting relation " + wish + " for " + this.id + " failed");
+			.execute(ExecuteType.UPDATE) == null) {
+				Factions.get().warn("[MySQL] insert relation " + wish + " for " + this.id + " failed");
 			}
 		});
 		
-		this.getClaimOwnership().forEach((location, playerList) -> {
-			playerList.forEach(playerId -> {
-				this.setPlayerAsOwner(playerId, location);
-			});
-		});
+		this.getClaimOwnership().forEach((location, playerList) -> 
+			playerList.forEach(playerId -> 
+				this.setPlayerAsOwner(playerId, location)
+			)
+		);
 		
 		old.getInvites().forEach(this::invite);
 		
-		old.getAnnouncements().forEach((playerId, announcements) -> {
-			announcements.forEach(announcement -> this.addAnnouncement(playerId, announcement));
-		});
+		old.getAnnouncements().forEach((playerId, announcements) -> 
+			announcements.forEach(announcement -> this.addAnnouncement(playerId, announcement))
+		);
 	}
-
 	
 	// -------------------------------------------------- //
 	// FIELDS
@@ -152,6 +164,9 @@ public class MySQLFaction extends SharedFaction {
 		this.pollOther();
 	}
 	
+	/**
+	 * This will poll everything else.
+	 */
 	private void pollOther() {
 		// Poll Flags
 		List<Map<String,String>> newFlags = this.pollSomething("faction_flags", "faction");
@@ -211,6 +226,12 @@ public class MySQLFaction extends SharedFaction {
 		
 	}
 	
+	/**
+	 * Utility method, selects all from a table using a variable. 
+	 * @param what Table name.
+	 * @param using Field to match this.
+	 * @return Results
+	 */
 	private List<Map<String, String>> pollSomething(String what, String using) {
 		List<Map<String, String>> newValues = null;
 		
@@ -233,6 +254,12 @@ public class MySQLFaction extends SharedFaction {
 		return newValues;
 	}
 	
+	/**
+	 * Utility method, selects all from a table using a variable and fetches the first result.
+	 * @param what Table name.
+	 * @param using Field to match this.
+	 * @return The first result, or null if none.
+	 */
 	private Map<String, String> pollSomethingGetFirst(String what, String using) {
 		List<Map<String, String>> newValues = this.pollSomething(what, using);
 		
@@ -261,7 +288,6 @@ public class MySQLFaction extends SharedFaction {
 			.setCatched(1, tag)
 			.setCatched(2, this.id)
 			.execute(ExecuteType.UPDATE);
-
 	}
 
 	@Override
@@ -382,8 +408,8 @@ public class MySQLFaction extends SharedFaction {
 				.setCatched(1, this)
 				.setCatched(2, fplayerId)
 				.setCatched(3, message)
-				.execute(ExecuteType.UPDATE) == null) {
-					Factions.get().warn("[MySQL] inserting announcement row failed");
+			.execute(ExecuteType.UPDATE) == null) {
+				Factions.get().warn("[MySQL] inserting announcement row failed");
 			}		
 	}
 	
@@ -401,7 +427,7 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("DELETE FROM `faction_announcements` WHERE `faction` = ? AND `announcer` = ?")
 			.setCatched(1, this)
 			.setCatched(2, fplayer)
-			.execute(ExecuteType.UPDATE);
+		.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
@@ -423,14 +449,9 @@ public class MySQLFaction extends SharedFaction {
 	@Override
 	public Set<String> getInvites() {
 		this.poll();
-		
-		Set<String> invites = new HashSet<>();
-		
-		this.invites.forEach(invite -> {
-			invites.add(invite.get("name"));
-		});
-		
-		return invites;
+		return this.invites.stream()
+			.map(invite -> invite.get("name"))
+			.collect(Collectors.toSet());
 	}
 	
 	public void invite(String playerId) {
@@ -445,8 +466,8 @@ public class MySQLFaction extends SharedFaction {
 				"	(?, ?);")
 			.setCatched(1, this.id)
 			.setCatched(2, playerId)
-			.execute(ExecuteType.UPDATE) == null) {
-				Factions.get().warn("[MySQL] inserting invite " + playerId + " for " + this.id + " failed");
+		.execute(ExecuteType.UPDATE) == null) {
+			Factions.get().warn("[MySQL] inserting invite " + playerId + " for " + this.id + " failed");
 		}
 	}
 	
@@ -464,8 +485,7 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("DELETE FROM `faction_invites` WHERE `faction` = ? AND `invite` = ?")
 			.setCatched(1, this)
 			.setCatched(2, fplayer)
-			.execute(ExecuteType.UPDATE);
-
+		.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
@@ -473,7 +493,7 @@ public class MySQLFaction extends SharedFaction {
 		this.poll();
 		return this.invites.stream()
 			.filter(result -> result.get("invite") == fplayer.getId())
-			.map(a -> true)
+			.map(invite -> true)
 			.findFirst()
 				.orElse(false);
 	}
@@ -491,8 +511,8 @@ public class MySQLFaction extends SharedFaction {
 				"	(?, ?);")
 			.setCatched(1, this.id)
 			.setCatched(2, fplayer)
-			.execute(ExecuteType.UPDATE) == null) {
-				Factions.get().warn("[MySQL] inserting ban " + fplayer.getId() + " for " + this.id + " failed");
+		.execute(ExecuteType.UPDATE) == null) {
+			Factions.get().warn("[MySQL] inserting ban " + fplayer.getId() + " for " + this.id + " failed");
 		}
 
 	}
@@ -506,15 +526,14 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("DELETE FROM `faction_bans` WHERE `faction` = ? AND `player` = ?")
 			.setCatched(1, this)
 			.setCatched(2, fplayer)
-			.execute(ExecuteType.UPDATE);
-
+		.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
 	public boolean isBanned(FPlayer fplayer) {
 		return this.bans.stream()
 			.filter(banned -> banned.get("player") == fplayer.getId())
-			.map(a -> true)
+			.map(ban -> true)
 			.findFirst()
 				.isPresent();
 	}
@@ -525,7 +544,7 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("UPDATE `faction` SET `forcedmapcharacter` = ? WHERE `id` = ?")
 			.setCatched(1, String.valueOf(character))
 			.setCatched(2, this.id)
-			.execute(ExecuteType.UPDATE);
+		.execute(ExecuteType.UPDATE);
 	}
 	
 	@Override
@@ -554,7 +573,7 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("UPDATE `faction` SET `forcedmapcolour` = ? WHERE `id` = ?")
 			.setCatched(1, colourName)
 			.setCatched(2, this.id)
-			.execute(ExecuteType.UPDATE);
+		.execute(ExecuteType.UPDATE);
 	}
 
 	@Override
@@ -584,7 +603,7 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("UPDATE `faction` SET `home` = ? WHERE `id` = ?")
 			.setCatched(1, jsonHome)
 			.setCatched(2, this.id)
-			.execute(ExecuteType.UPDATE);
+		.execute(ExecuteType.UPDATE);
 	}
 	
 	@Override
@@ -603,11 +622,10 @@ public class MySQLFaction extends SharedFaction {
 	@Override
 	public void setFoundedDate(long newDate) {
 		this.values.put("foundeddate", String.valueOf(newDate));
-		
 		FactionsMySQL.get().prepare("UPDATE `faction` SET `foundeddate` = ? WHERE `id` = ?")
 			.setCatched(1, newDate)
 			.setCatched(2, this.id)
-			.execute(ExecuteType.UPDATE);
+		.execute(ExecuteType.UPDATE);
 	}
 	
 	@Override
@@ -657,7 +675,7 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("UPDATE `faction` SET `powerboost` = ? WHERE `id` = ?")
 			.setCatched(1, powerBoost)
 			.setCatched(2, this.id)
-			.execute(ExecuteType.UPDATE);
+		.execute(ExecuteType.UPDATE);
 		
 	}
 
@@ -668,7 +686,7 @@ public class MySQLFaction extends SharedFaction {
 		FactionsMySQL.get().prepare("UPDATE `faction` SET `lastdeath` = ? WHERE `id` = ?")
 			.setCatched(1, time)
 			.setCatched(2, this.id)
-			.execute(ExecuteType.UPDATE);
+		.execute(ExecuteType.UPDATE);
 	}
 	
 	@Override

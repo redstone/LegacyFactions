@@ -16,6 +16,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.mysql.MySQLPrepared.ExecuteType;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFactionColl;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
@@ -51,15 +52,38 @@ public class MySQLFactionColl extends SharedFactionColl {
 				}
 			}
 			
-			MySQLFaction faction = new MySQLFaction(id, false);
-			faction.setFoundedDate(System.currentTimeMillis());
-			faction.setMaxVaults(Conf.defaultMaxVaults);
-			faction.setDescription(Lang.GENERIC_DEFAULTDESCRIPTION.toString());
-			faction.poll(true);
+		MySQLFaction faction = new MySQLFaction(id, false);
+		faction.setFoundedDate(System.currentTimeMillis());
+		faction.setMaxVaults(Conf.defaultMaxVaults);
+		faction.setDescription(Lang.GENERIC_DEFAULTDESCRIPTION.toString());
+		faction.poll(true);
 			
-			this.factionCache.put(id, faction);
+		this.factionCache.put(id, faction);
 			
-			return faction;
+		return faction;
+	}
+	
+
+	public Faction generateFactionObject(Faction other) {
+		if (FactionsMySQL.get().prepare("SELECT `id` FROM faction WHERE id = ?")
+				.setCatched(1, other.getId())
+				.execute(ExecuteType.SELECT)
+				.size() == 0) {
+				
+				if (FactionsMySQL.get().prepare(
+						"INSERT INTO `faction` (`id`)" + 
+						"VALUES" + 
+						"	(?);")
+					.setCatched(1, other.getId())
+					.execute(ExecuteType.UPDATE) == null) {
+						Factions.get().warn("[MySQL] inserting faction row failed");
+				}
+			}
+			
+		MySQLFaction faction = new MySQLFaction((SharedFaction) other);
+		this.factionCache.put(other.getId(), faction);
+		
+		return faction;
 	}
 
 	@Override
@@ -234,5 +258,6 @@ public class MySQLFactionColl extends SharedFactionColl {
 	public Faction getWarZone() {
 		return this.factionCache.get("-2");
 	}
+
 
 }

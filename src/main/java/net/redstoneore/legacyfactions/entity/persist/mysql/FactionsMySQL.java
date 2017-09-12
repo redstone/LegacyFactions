@@ -98,19 +98,24 @@ public class FactionsMySQL extends PersistHandler {
 		// Ensure our config is set and migrations ready
 		this.init();
 		
+		
 		if (other instanceof FactionsJSON) {
 			FactionsJSON factionJSON = (FactionsJSON) other;
-			
 			MySQLFactionColl newFactionColl = (MySQLFactionColl) this.getFactionColl();
 			FactionColl.get().getAllFactions().forEach(faction -> {
-				newFactionColl.generateFactionObject(faction.getId());
-				
+				newFactionColl.generateFactionObject(faction);
 			});
 			
-			Board newBoard = this.getBoard();
+			MySQLBoard newBoard = (MySQLBoard) this.getBoard();
 			Board.get().getAllClaims().forEach(claim -> {
 				newBoard.setFactionAt(Board.get().getFactionAt(claim), claim);
 			});
+			
+			MySQLFPlayerColl newFPlayerColl = (MySQLFPlayerColl) this.getFPlayerColl();
+			FPlayerColl.all().forEach(fplayer -> {
+				newFPlayerColl.createFPlayer(fplayer);
+			});
+			
 		}
 		
 		Factions.get().log("[MySQL] MySQL convert from " + other.getType().toString() + " to " + this.getType().toString());
