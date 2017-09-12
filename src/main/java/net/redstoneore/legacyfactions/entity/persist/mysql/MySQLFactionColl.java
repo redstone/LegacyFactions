@@ -209,6 +209,8 @@ public class MySQLFactionColl extends SharedFactionColl {
 	}
 	
 	private void rawLoad(Map<String, String> entry) {
+		if (this.factionCache.containsKey(entry.get("id"))) return;
+		
 		MySQLFaction faction = new MySQLFaction(entry);
 		this.factionCache.put(entry.get("id"), faction);
 	}
