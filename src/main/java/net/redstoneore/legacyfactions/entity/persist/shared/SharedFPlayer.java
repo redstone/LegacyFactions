@@ -602,7 +602,7 @@ public abstract class SharedFPlayer implements FPlayer {
 			}
 		}
 
-		myFaction.removeAnnouncements(this);
+		myFaction.announcements().remove(this);
 		this.resetFactionData();
 
 		if (myFaction.isNormal() && !perm && myFaction.getMembers().isEmpty()) {

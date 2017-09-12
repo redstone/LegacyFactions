@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.announcement;
 
-import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 
 public class Announcement {
 
@@ -8,7 +8,7 @@ public class Announcement {
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
-	public Announcement(FPlayer fplayer, String announcement) {
+	public Announcement(SharedFPlayer fplayer, String announcement) {
 		this.fplayer = fplayer;
 		this.announcement = announcement;
 	}
@@ -17,7 +17,7 @@ public class Announcement {
 	// FIELDS
 	// -------------------------------------------------- //
 	
-	transient private FPlayer fplayer;
+	transient private SharedFPlayer fplayer;
 	transient private String announcement;
 	
 	// -------------------------------------------------- //
@@ -28,7 +28,7 @@ public class Announcement {
 	 * Get the announcer of this announcement.
 	 * @return The announcer of this announcement.
 	 */
-	public FPlayer getAnnouncer() {
+	public SharedFPlayer getAnnouncer() {
 		return this.fplayer;
 	}
 	

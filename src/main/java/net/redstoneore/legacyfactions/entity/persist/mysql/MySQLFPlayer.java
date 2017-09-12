@@ -12,6 +12,7 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -25,6 +26,29 @@ public class MySQLFPlayer extends SharedFPlayer {
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
+	protected MySQLFPlayer(FPlayer fplayer) {
+		this.id = fplayer.getId();
+		this.setFaction(fplayer.getFactionId());
+		this.alterPower(fplayer.getPower());
+		this.setPowerBoost(fplayer.getPowerBoost());
+		this.setLastLoginTime(fplayer.getLastLoginTime());
+		this.setMapAutoUpdating(fplayer.isMapAutoUpdating());
+		this.setAutoClaimFor(fplayer.getAutoClaimFor());
+		this.setIsAutoSafeClaimEnabled(fplayer.isAutoSafeClaimEnabled());
+		this.setIsAutoWarClaimEnabled(fplayer.isAutoWarClaimEnabled());
+		this.setLoginPVPDisable(fplayer.hasLoginPvpDisabled());
+		this.setRole(fplayer.getRole());
+		this.setTitle(fplayer.getTitle());
+		this.setChatMode(fplayer.getChatMode());
+		this.setSpyingChat(fplayer.isSpyingChat());
+		this.setLastLocation(fplayer.getLastLocation());
+		this.setIsAdminBypassing(fplayer.isAdminBypassing());
+		this.setShowScoreboard(fplayer.showScoreboard());
+		this.setKills(fplayer.getKills());
+		this.setDeaths(fplayer.getDeaths());
+		this.territoryTitlesOff(fplayer.territoryTitlesOff());
+	}
+
 	protected MySQLFPlayer(String id) {
 		this.setId(id);
 		
@@ -46,7 +70,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	// -------------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------------- //
-
+	
 	public transient String id;
 	
 	private Map<String, String> values;
@@ -149,6 +173,14 @@ public class MySQLFPlayer extends SharedFPlayer {
 	public Faction getFaction() {
 		return FactionColl.get().getFactionById(this.getFactionId());
 	}
+	
+	public void setFaction(String factionId) {
+		this.values.put("faction", factionId);
+		FactionsMySQL.get().prepare("UPDATE `fplayer` SET `faction` = ? WHERE `id` = ?")
+			.setCatched(1, factionId)
+			.setCatched(2, this.id)
+			.execute(ExecuteType.UPDATE);
+	}
 
 	@Override
 	public void setFaction(Faction faction) {
@@ -159,11 +191,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 			factionId = faction.getId();
 		}
 		
-		this.values.put("faction", factionId);
-		FactionsMySQL.get().prepare("UPDATE `fplayer` SET `faction` = ? WHERE `id` = ?")
-			.setCatched(1, factionId)
-			.setCatched(2, this.id)
-			.execute(ExecuteType.UPDATE);
+		this.setFaction(factionId);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.entity.persist.shared;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.announcement.Announcements;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -45,6 +47,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 
 	private transient long lastPlayerLoggedOffTime;
 	private transient FactionWarps factionWarps = new FactionWarps(this);
+	private transient Announcements announcements = new Announcements(this);
 	
 	// -------------------------------------------------- //
 	// FACTION INFORMATION
@@ -90,6 +93,10 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	}
 	
 	@Override
+	public Announcements announcements() {
+		return this.announcements;
+	}
+	
 	public void sendUnreadAnnouncements(FPlayer fplayer) {
 		if (!this.getAnnouncements().containsKey(fplayer.getId())) {
 			return;
@@ -625,6 +632,10 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public abstract void setWarp(String name, LazyLocation loc, String password);
 	public abstract void clearWarps();
 	
+	public abstract HashMap<String, List<String>> getAnnouncements();
+	public abstract void addAnnouncement(FPlayer fPlayer, String msg);
+	public abstract void removeAnnouncements(FPlayer fPlayer);
+
 	// -------------------------------------------------- //
 	// DEPRECATED
 	// -------------------------------------------------- //

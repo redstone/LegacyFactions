@@ -59,7 +59,7 @@ public class CmdFactionsAnnounce extends FCommand {
 		
 		// Store announcement for offline players
 		this.myFaction.getWhereOnline(false).forEach(
-			fplayer -> this.myFaction.addAnnouncement(fplayer, announcement)
+			fplayer -> this.myFaction.announcements().add(fplayer, announcement)
 		);
 	}
 
