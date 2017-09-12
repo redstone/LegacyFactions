@@ -256,17 +256,7 @@ public class MySQLFaction extends SharedFaction {
 
 	@Override
 	public boolean setFlag(Flag flag, Boolean value) {
-		// Update flag in the cached records
-		this.flags = this.flags.stream()
-			.map((entry) -> {
-				if (entry.get("flag") == flag.getStoredName()) {
-					entry.put("value", String.valueOf(value));
-				}
-				return entry;
-			})
-			.collect(Collectors.toList());
-		
-		// now update in the database
+		// update in the database
 		if (FactionsMySQL.get().prepare("SELECT `flag` FROM `faction_flags` WHERE faction = ? AND flag = ?")
 				.setCatched(1, this.id)
 				.setCatched(2, flag.getStoredName())
@@ -295,6 +285,12 @@ public class MySQLFaction extends SharedFaction {
 					Factions.get().warn("[MySQL] updating flag " + flag.getStoredName() + " for " + this.id + " failed");
 			}
 		}
+		
+		List<Map<String,String>> newFlags = this.pollSomething("faction_flags", "faction");
+		if (newFlags != null) {
+			this.flags = newFlags;
+		}
+		
 		return true;
 	}
 
