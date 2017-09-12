@@ -47,7 +47,7 @@ public class CmdFactionsDebug extends FCommand {
 
 	@Override
 	public String getUsageTranslation() {
-		return Lang.COMMAND_SAVEALL_DESCRIPTION.toString();
+		return Lang.COMMAND_DEBUG_DESCRIPTION.toString();
 	}
 
 }
