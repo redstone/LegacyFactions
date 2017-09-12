@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.announcement.Announcements;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
@@ -42,19 +43,12 @@ public interface Faction extends EconomyParticipator {
 	
 	boolean getFlag(Flag flag);
 	
-	HashMap<String, List<String>> getAnnouncements();
 
 	FactionWarps warps();
 	
 	int getMaxVaults();
 
 	void setMaxVaults(int value);
-
-	void addAnnouncement(FPlayer fPlayer, String msg);
-
-	void sendUnreadAnnouncements(FPlayer fPlayer);
-
-	void removeAnnouncements(FPlayer fPlayer);
 
 	Set<String> getInvites();
 
@@ -147,6 +141,8 @@ public interface Faction extends EconomyParticipator {
 	int getKills();
 
 	int getDeaths();
+	
+	Announcements announcements();
 
 	// -------------------------------
 	// Relation and relation colors
@@ -350,5 +346,34 @@ public interface Faction extends EconomyParticipator {
 	 */
 	@Deprecated
 	void setOpen(boolean isOpen);
+	
+	/**
+	 * Deprecated, use {@link #announcements()}
+	 * @return
+	 */
+	@Deprecated
+	HashMap<String, List<String>> getAnnouncements();
+
+	/**
+	 * Deprecated, use {@link #announcements()}
+	 * @return
+	 */
+	@Deprecated
+	void addAnnouncement(FPlayer fPlayer, String msg);
+	
+	/**
+	 * Deprecated, use {@link #announcements()}
+	 * @return
+	 */
+	@Deprecated
+	void sendUnreadAnnouncements(FPlayer fPlayer);
+
+	/**
+	 * Deprecated, use {@link #announcements()}
+	 * @return
+	 */
+	@Deprecated
+	void removeAnnouncements(FPlayer fPlayer);
+
 
 }

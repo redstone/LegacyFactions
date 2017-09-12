@@ -91,7 +91,7 @@ public class FactionsPlayerListener implements Listener {
 		// Check for Faction announcements. Let's delay this so they actually see it.
 		Bukkit.getScheduler().runTaskLater(Factions.get(), () -> {
 			if (me.isOnline()) {
-				me.getFaction().sendUnreadAnnouncements(me);
+				me.getFaction().announcements().sendUnread(me);
 			}
 
 		}, 33L);

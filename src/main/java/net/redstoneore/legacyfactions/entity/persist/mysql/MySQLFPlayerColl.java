@@ -111,7 +111,30 @@ public class MySQLFPlayerColl extends SharedFPlayerColl {
 		
 		FPlayer fplayer = new MySQLFPlayer(id);
 		
+		this.fplayerCache.put(fplayer.getId(), fplayer);
 		return fplayer;
+	}
+	
+	public FPlayer createFPlayer(FPlayer fplayer) {
+		String id = fplayer.getId();
+		
+		if (FactionsMySQL.get().prepare("SELECT `id` FROM fplayer WHERE id = ?")
+			.setCatched(1, id)
+		.execute(ExecuteType.SELECT).size() == 0) {
+			if (FactionsMySQL.get().prepare(
+					"INSERT INTO `fplayer` (`id`)" + 
+					"VALUES" + 
+					"	(?);")
+				.setCatched(1, id)
+				.execute(ExecuteType.UPDATE) == null) {
+					Factions.get().warn("[MySQL] inserting fplayer row from existing fplayer failed");
+			}
+		}
+		
+		FPlayer newfplayer = new MySQLFPlayer(fplayer);
+		this.fplayerCache.put(fplayer.getId(), newfplayer);
+		
+		return newfplayer;
 	}
 	
 	@Override
