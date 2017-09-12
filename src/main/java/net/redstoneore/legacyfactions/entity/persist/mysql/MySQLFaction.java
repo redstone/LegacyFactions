@@ -751,11 +751,10 @@ public class MySQLFaction extends SharedFaction {
 	@Override
 	public void refreshFPlayers() {
 		this.members.clear();
-		if (this.isPlayerFreeType()) {
-			return;
-		}
+		if (this.isPlayerFreeType()) return;
 
 		FPlayerColl.all().stream()
+			.filter(fplayer -> fplayer.getFactionId() == this.getId())
 			.forEach(this.members::add);
 	}
 
