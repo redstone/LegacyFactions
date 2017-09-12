@@ -162,6 +162,12 @@ public class MySQLFaction extends SharedFaction {
 			this.home = null;
 		}
 		
+		// Members
+		this.members = FPlayerColl.all().stream()
+			.filter(FPlayer::isOnline)
+			.filter(fplayer -> fplayer.getFactionId() == this.getId())
+			.collect(Collectors.toList());
+		
 	}
 	
 	private List<Map<String, String>> pollSomething(String what, String using) {
