@@ -444,6 +444,11 @@ public abstract class MemoryFaction extends SharedFaction {
 			this.relationWish.put(otherFaction.getId(), relation);
 		}
 	}
+	
+	@Override
+	public Map<String, Relation> getRelationWishes() {
+		return new HashMap<>(this.relationWish);
+	}
 
 	// -------------------------------
 	// FPlayers

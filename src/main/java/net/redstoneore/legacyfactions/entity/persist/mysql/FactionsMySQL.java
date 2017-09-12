@@ -25,6 +25,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.PersistHandler;
 import net.redstoneore.legacyfactions.entity.persist.PersistType;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
 import net.redstoneore.legacyfactions.entity.persist.mysql.migration.Migrations;
 
 public class FactionsMySQL extends PersistHandler {
@@ -94,6 +95,24 @@ public class FactionsMySQL extends PersistHandler {
 	
 	@Override
 	public void convertfrom(PersistHandler other) {
+		// Ensure our config is set and migrations ready
+		this.init();
+		
+		if (other instanceof FactionsJSON) {
+			FactionsJSON factionJSON = (FactionsJSON) other;
+			
+			MySQLFactionColl newFactionColl = (MySQLFactionColl) this.getFactionColl();
+			FactionColl.get().getAllFactions().forEach(faction -> {
+				newFactionColl.generateFactionObject(faction.getId());
+				
+			});
+			
+			Board newBoard = this.getBoard();
+			Board.get().getAllClaims().forEach(claim -> {
+				newBoard.setFactionAt(Board.get().getFactionAt(claim), claim);
+			});
+		}
+		
 		Factions.get().log("[MySQL] MySQL convert from " + other.getType().toString() + " to " + this.getType().toString());
 	}
 

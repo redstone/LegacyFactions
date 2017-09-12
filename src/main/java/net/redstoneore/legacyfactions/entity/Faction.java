@@ -174,6 +174,12 @@ public interface Faction extends EconomyParticipator {
 	int getRelationCount(Relation relation);
 
 	boolean hasMaxRelations(Faction them, Relation rel, Boolean silent);
+	
+	/**
+	 * Returns a snapshot of current relationship wishes 
+	 * @return
+	 */
+	Map<String, Relation> getRelationWishes();
 
 	// ----------------------------------------------//
 	// Power

@@ -27,6 +27,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
 import net.redstoneore.legacyfactions.entity.persist.mysql.MySQLPrepared.ExecuteType;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.flag.Flag;
@@ -57,6 +58,46 @@ public class MySQLFaction extends SharedFaction {
 		this.lastPollMs = System.currentTimeMillis();
 		this.pollOther();
 	}
+	
+	public MySQLFaction(SharedFaction old) {
+		this.setId(old.getId());
+		
+		old.getFlags().forEach((flag,value) -> this.setFlag(flag, value));
+		this.setTag(old.getTag());
+		this.setDescription(old.getDescription());
+		this.setFoundedDate(old.getFoundedDate());
+		this.setPermanentPower(old.getPermanentPower());
+		this.setHome(old.getHome());
+		this.setLastPlayerLoggedOffTime(old.getLastPlayerLoggedOffTime());
+		this.setPowerBoost(old.getPowerBoost());
+		
+		this.getRelationWishes().forEach((faction, wish) -> {
+			// Insert raw, as the other faction may not exist yet
+			if (FactionsMySQL.get().prepare(
+					"INSERT INTO `relation_wish` (`faction`, `faction_to`, `relation_wish`)" + 
+					"VALUES" + 
+					"	(?, ?, ?);")
+				.setCatched(1, this)
+				.setCatched(2, faction)
+				.setCatched(3, wish.name())
+				.execute(ExecuteType.UPDATE) == null) {
+					Factions.get().warn("[MySQL] inserting relation " + wish + " for " + this.id + " failed");
+			}
+		});
+		
+		this.getClaimOwnership().forEach((location, playerList) -> {
+			playerList.forEach(playerId -> {
+				this.setPlayerAsOwner(playerId, location);
+			});
+		});
+		
+		old.getInvites().forEach(this::invite);
+		
+		old.getAnnouncements().forEach((playerId, announcements) -> {
+			announcements.forEach(announcement -> this.addAnnouncement(playerId, announcement));
+		});
+	}
+
 	
 	// -------------------------------------------------- //
 	// FIELDS
@@ -327,24 +368,28 @@ public class MySQLFaction extends SharedFaction {
 		return announcements;
 	}
 
+	public void addAnnouncement(String fplayerId, String message) {
+		this.announcements.add(MiscUtil.newMap(
+				"faction", this.id, 
+				"announcer", fplayerId,
+				"message", message
+			));
+			
+			if (FactionsMySQL.get().prepare(
+					"INSERT INTO `faction_announcements` (`id`, `faction`, `announcer`, `message`)" + 
+					"VALUES" + 
+					"	(null, ?, ?, ?);")
+				.setCatched(1, this)
+				.setCatched(2, fplayerId)
+				.setCatched(3, message)
+				.execute(ExecuteType.UPDATE) == null) {
+					Factions.get().warn("[MySQL] inserting announcement row failed");
+			}		
+	}
+	
 	@Override
 	public void addAnnouncement(FPlayer fplayer, String message) {
-		this.announcements.add(MiscUtil.newMap(
-			"faction", this.id, 
-			"announcer", fplayer.getId(),
-			"message", message
-		));
-		
-		if (FactionsMySQL.get().prepare(
-				"INSERT INTO `faction_announcements` (`id`, `faction`, `announcer`, `message`)" + 
-				"VALUES" + 
-				"	(null, ?, ?, ?);")
-			.setCatched(1, this)
-			.setCatched(2, fplayer)
-			.setCatched(3, message)
-			.execute(ExecuteType.UPDATE) == null) {
-				Factions.get().warn("[MySQL] inserting announcement row failed");
-		}		
+		this.addAnnouncement(fplayer.getId(), message);
 	}
 	
 	@Override
@@ -387,12 +432,11 @@ public class MySQLFaction extends SharedFaction {
 		
 		return invites;
 	}
-
-	@Override
-	public void invite(FPlayer fplayer) {
+	
+	public void invite(String playerId) {
 		this.invites.add(MiscUtil.newMap(
 			"faction", this.id,
-			"invite", fplayer.getId()
+			"invite", playerId
 		));
 		
 		if (FactionsMySQL.get().prepare(
@@ -400,11 +444,15 @@ public class MySQLFaction extends SharedFaction {
 				"VALUES" + 
 				"	(?, ?);")
 			.setCatched(1, this.id)
-			.setCatched(2, fplayer)
+			.setCatched(2, playerId)
 			.execute(ExecuteType.UPDATE) == null) {
-				Factions.get().warn("[MySQL] inserting invite " + fplayer.getId() + " for " + this.id + " failed");
+				Factions.get().warn("[MySQL] inserting invite " + playerId + " for " + this.id + " failed");
 		}
-
+	}
+	
+	@Override
+	public void invite(FPlayer fplayer) {
+		this.invite(fplayer.getId());
 	}
 
 	@Override
@@ -689,6 +737,18 @@ public class MySQLFaction extends SharedFaction {
 	}
 	
 	@Override
+	public Map<String, Relation> getRelationWishes() {
+		Map<String, Relation> wishes = new HashMap<>();
+		
+		// create a snapshot
+		this.relations.stream().forEach(
+			entry -> wishes.put(entry.get("faction_to"), Relation.valueOf(entry.get("relation_wish")))
+		);
+		
+		return wishes;
+	}
+	
+	@Override
 	public void refreshFPlayers() {
 		this.members.clear();
 		if (this.isPlayerFreeType()) {
@@ -810,8 +870,7 @@ public class MySQLFaction extends SharedFaction {
 		return this.getOwnerList(loc).contains(player.getId());
 	}
 
-	@Override
-	public void setPlayerAsOwner(FPlayer player, FLocation loc) {
+	public void setPlayerAsOwner(String player, FLocation loc) {
 		String query = "INSERT INTO `faction_ownership` ( `world`, `x`, `z`, `player`, `faction`)\n" + 
 				"VALUES\n" + 
 				"	(?, ?, ?, ?, ?);\n";
@@ -823,6 +882,12 @@ public class MySQLFaction extends SharedFaction {
 		.setCatched(4, player)
 		.setCatched(5, this)
 			.execute(ExecuteType.UPDATE);
+
+	}
+	
+	@Override
+	public void setPlayerAsOwner(FPlayer player, FLocation loc) {
+		this.setPlayerAsOwner(player.getName(), loc);
 	}
 
 	@Override
