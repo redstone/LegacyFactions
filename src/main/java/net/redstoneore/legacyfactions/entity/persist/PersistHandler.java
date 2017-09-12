@@ -16,6 +16,7 @@ public abstract class PersistHandler {
 	}
 	
 	public static PersistHandler setCurrent(PersistHandler handler) {
+		handler.convertfrom(Conf.backEnd.getHandler());
 		Conf.backEnd = handler.getType();
 		handler.init();
 		return Conf.backEnd.getHandler();
