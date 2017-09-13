@@ -5,8 +5,10 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.util.TitleUtil;
 
 import org.bukkit.ChatColor;
 
@@ -89,6 +91,25 @@ public class CmdFactionsMod extends FCommand {
 			you.setRole(Role.MODERATOR);
 			targetFaction.sendMessage(Lang.COMMAND_MOD_PROMOTED, you.describeTo(targetFaction, true));
 			sendMessage(Lang.COMMAND_MOD_PROMOTES, you.describeTo(fme, true));
+		}
+		
+		if (Conf.rankChangeTitles) {
+			targetFaction.getMembers().forEach(fplayer -> {
+				String titleHeader = Lang.ROLETITLES_HEADER.getBuilder()
+					.parse()
+					.replace("<rank>", Role.MODERATOR.toNiceName())
+					.toString();
+				
+				String titleFooter = Lang.ROLETITLES_FOOTER.getBuilder()
+					.parse()
+					.replace("<rank>", Role.MODERATOR.toNiceName())
+					.replace("<player>", you.describeTo(fplayer))
+					.toString();
+					
+					
+				TitleUtil.sendTitle(fplayer.getPlayer(), Conf.territoryTitlesTimeFadeInTicks, Conf.territoryTitlesTimeStayTicks, Conf.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
+
+			});
 		}
 	}
 

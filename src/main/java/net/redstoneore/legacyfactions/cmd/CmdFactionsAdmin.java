@@ -6,11 +6,13 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
+import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
+import net.redstoneore.legacyfactions.util.TitleUtil;
 
 public class CmdFactionsAdmin extends FCommand {
 	
@@ -101,6 +103,25 @@ public class CmdFactionsAdmin extends FCommand {
 		FPlayerColl.all(true, fplayer -> 
 			fplayer.sendMessage(Lang.COMMAND_ADMIN_PROMOTED.getBuilder().parse().toString(), senderIsConsole ? Lang.GENERIC_SERVERADMIN.getBuilder().parse().toString() : fme.describeTo(fplayer, true), newAdmin.describeTo(fplayer), targetFaction.describeTo(fplayer))
 		);
+		
+		if (Conf.rankChangeTitles) {
+			targetFaction.getMembers().forEach(fplayer -> {
+				String titleHeader = Lang.ROLETITLES_HEADER.getBuilder()
+					.parse()
+					.replace("<rank>", Role.ADMIN.toNiceName())
+					.toString();
+				
+				String titleFooter = Lang.ROLETITLES_FOOTER.getBuilder()
+					.parse()
+					.replace("<rank>", Role.ADMIN.toNiceName())
+					.replace("<player>", newAdmin.describeTo(fplayer))
+					.toString();
+					
+					
+				TitleUtil.sendTitle(fplayer.getPlayer(), Conf.territoryTitlesTimeFadeInTicks, Conf.territoryTitlesTimeStayTicks, Conf.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
+
+			});
+		}
 	}
 
 	public String getUsageTranslation() {
