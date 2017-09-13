@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.event;
 import org.bukkit.event.Cancellable;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.cmd.MCommand;
+import net.redstoneore.legacyfactions.cmd.FCommandBase;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
 /**
@@ -16,7 +16,7 @@ public class EventFactionsCommandExecute extends AbstractFactionsPlayerEvent<Eve
 	// STATIC METHODS
 	// -------------------------------------------------- //
 	
-	public static EventFactionsCommandExecute create(FPlayer fplayer, MCommand<Factions> command) {
+	public static EventFactionsCommandExecute create(FPlayer fplayer, FCommandBase<Factions> command) {
 		return new EventFactionsCommandExecute(fplayer, command);
 	}
 	
@@ -24,7 +24,7 @@ public class EventFactionsCommandExecute extends AbstractFactionsPlayerEvent<Eve
 	// CONSTRUCT
 	// -------------------------------------------------- //
 	
-	public EventFactionsCommandExecute(FPlayer fplayer, MCommand<Factions> command) {
+	public EventFactionsCommandExecute(FPlayer fplayer, FCommandBase<Factions> command) {
 		super(fplayer.getFaction(), fplayer);
 		
 		this.command = command;
@@ -34,14 +34,14 @@ public class EventFactionsCommandExecute extends AbstractFactionsPlayerEvent<Eve
 	// FIELDS
 	// -------------------------------------------------- //
 	
-	private MCommand<Factions> command = null;
+	private FCommandBase<Factions> command = null;
 	private boolean cancelled = false;
 	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 	
-	public MCommand<Factions> getCommand() {
+	public FCommandBase<Factions> getCommand() {
 		return this.command;
 	}
 

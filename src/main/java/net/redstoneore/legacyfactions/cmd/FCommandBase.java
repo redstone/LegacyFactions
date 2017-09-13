@@ -25,12 +25,12 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 
-public abstract class MCommand<T extends FactionsPluginBase> {
+public abstract class FCommandBase<T extends FactionsPluginBase> {
 
 	// The sub-commands to this command
-	public List<MCommand<?>> subCommands = Lists.newArrayList();
+	public List<FCommandBase<?>> subCommands = Lists.newArrayList();
 
-	public void addSubCommand(MCommand<?> subCommand) {
+	public void addSubCommand(FCommandBase<?> subCommand) {
 		subCommand.commandChain.addAll(this.commandChain);
 		subCommand.commandChain.add(this);
 		this.subCommands.add(subCommand);
@@ -89,10 +89,10 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	public Player me; // Will only be set when the sender is a player
 	public boolean senderIsConsole;
 	public List<String> args; // Will contain the arguments, or and empty list if there are none.
-	public List<MCommand<?>> commandChain = new ArrayList<MCommand<?>>(); // The command chain used to execute this command
+	public List<FCommandBase<?>> commandChain = new ArrayList<FCommandBase<?>>(); // The command chain used to execute this command
 
 	// The commandChain is a list of the parent command chain used to get to this command.
-	public void execute(CommandSender sender, List<String> args, List<MCommand<?>> commandChain) {
+	public void execute(CommandSender sender, List<String> args, List<FCommandBase<?>> commandChain) {
 		// Set the execution-time specific variables
 		this.sender = sender;
 		if (sender instanceof Player) {
@@ -107,7 +107,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
 		// Is there a matching sub command?
 		if (args.size() > 0) {
-			for (MCommand<?> subCommand : this.subCommands) {
+			for (FCommandBase<?> subCommand : this.subCommands) {
 				if (subCommand.aliases.contains(args.get(0).toLowerCase())) {
 					if (subCommand.isAvailable()) {
 						args.remove(0);
@@ -212,10 +212,10 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	// Help and Usage information
 	// -------------------------------------------- //
 
-	public String getUseageTemplate(List<MCommand<?>> commandChain, boolean addShortHelp) {
+	public String getUseageTemplate(List<FCommandBase<?>> commandChain, boolean addShortHelp) {
 		return getUseageTemplate(commandChain, addShortHelp, true);
 	}
-	public String getUseageTemplate(List<MCommand<?>> commandChain, boolean addShortHelp, boolean colours) {
+	public String getUseageTemplate(List<FCommandBase<?>> commandChain, boolean addShortHelp, boolean colours) {
 		StringBuilder ret = new StringBuilder();
 		
 		if (colours) ret.append(TextUtil.get().parseTags("<c>"));
@@ -223,7 +223,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 		
 		ret.append('/');
 
-		for (MCommand<?> mc : commandChain) {
+		for (FCommandBase<?> mc : commandChain) {
 			ret.append(TextUtil.implode(mc.aliases, ","));
 			ret.append(' ');
 		}
