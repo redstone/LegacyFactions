@@ -133,8 +133,18 @@ public class FactionsPlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void playerLogout(PlayerQuitEvent event) {
-		FPlayerColl.get(event.getPlayer()).onLogout();
-		FScoreboards.remove(FPlayerColl.get(event.getPlayer()));
+		FPlayer fplayer = FPlayerColl.get(event.getPlayer());
+		fplayer.onLogout();
+		FScoreboards.remove(fplayer);
+		
+		if (Conf.teleportToSpawnOnLogoutInRelationEnabled) {
+			if (Conf.teleportToSpawnOnLogoutInRelationWorlds.contains(fplayer.getLastLocation().getWorld().getName())) {
+				Relation relation = fplayer.getLastLocation().getFactionHere().getRelationTo(fplayer);
+				if (Conf.teleportToSpawnOnLogoutInRelation.contains(relation)) {
+					fplayer.teleport(Locality.of(fplayer.getLastLocation().getWorld().getSpawnLocation()));
+				}
+			}
+		}
 	}
 
 	// -------------------------------------------------- //
