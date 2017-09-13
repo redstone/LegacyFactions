@@ -15,6 +15,7 @@ import net.redstoneore.legacyfactions.entity.console.ConsoleFPlayer;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsCommandExecute;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
@@ -140,31 +141,17 @@ public abstract class FCommand extends MCommand<Factions> {
 	}
 
 	// -------------------------------------------- //
-	// Assertions
+	// ASSERTIONS
 	// -------------------------------------------- //
 
 	public boolean assertHasFaction() {
-		if (me == null) {
-			return true;
-		}
-
-		if (!fme.hasFaction()) {
-			sendMessage(Lang.COMMAND_ERRORS_NOTMEMBER.toString());
-			return false;
-		}
-		return true;
+		if (this.me == null) return true;
+		return PlayerMixin.assertHasFaction(this.fme);
 	}
 
 	public boolean assertMinRole(Role role) {
-		if (me == null) {
-			return true;
-		}
-
-		if (fme.getRole().isLessThan(role)) {
-			sendMessage(Lang.COMMAND_ERRORS_YOUMUSTBE.toString().replaceAll("<therole>", role.toNiceName()).replaceAll("<theaction>", this.getHelpShort()));
-			return false;
-		}
-		return true;
+		if (this.me == null) return true;
+		return PlayerMixin.assertMinRole(this.fme, role, this.getHelpShort());
 	}
 
 	// -------------------------------------------- //
@@ -304,7 +291,10 @@ public abstract class FCommand extends MCommand<Factions> {
 		}
 
 		if (msg && ret == null) {
-			this.sendMessage(Lang.COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND.toString().replaceAll("<name>", name));
+			Lang.COMMAND_ERRORS_PLAYERORFACTIONNOTFOUND.getBuilder()
+				.parse()
+				.replace("<name>", name)
+				.sendTo(this.sender);
 		}
 
 		return ret;

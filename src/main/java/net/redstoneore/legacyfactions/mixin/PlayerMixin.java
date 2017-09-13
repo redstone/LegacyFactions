@@ -15,6 +15,7 @@ import net.redstoneore.legacyfactions.LandAction;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -501,6 +502,27 @@ public class PlayerMixin {
 		}
 		
 		return tag;
+	}
+	
+	public static boolean assertHasFaction(FPlayer fplayer) {
+		if (!fplayer.hasFaction()) {
+			Lang.COMMAND_ERRORS_NOTMEMBER.getBuilder()
+				.sendToParsed(fplayer);
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean assertMinRole(FPlayer fplayer, Role role, String action) {
+		if (fplayer.getRole().isLessThan(role)) {
+			Lang.COMMAND_ERRORS_YOUMUSTBE.getBuilder()
+				.parse()
+				.replace("<thetole>", role.toNiceName())
+				.replace("<theaction>", action)
+				.sendTo(fplayer);
+			return false;
+		}
+		return true;
 	}
 	
 }
