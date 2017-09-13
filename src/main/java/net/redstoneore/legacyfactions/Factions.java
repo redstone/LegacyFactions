@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -301,6 +302,44 @@ public class Factions extends FactionsPluginBase {
 			Files.move(oldPlayersJson, JSONFPlayerColl.getJsonFile());
 			Factions.get().log("Moving 'players.json' -> 'database/players.json'");
 		}
+		
+		// using new .js format
+		
+		Path oldConfJson = this.getPluginFolder().resolve("conf.json");
+		Path oldCommandAliasesJson = this.getPluginFolder().resolve("commandAliases.json");
+		Path oldTagsJson = this.getPluginFolder().resolve("tags.json");
+
+		Path newConfigJs = this.getPluginFolder().resolve("config.js");
+		Path newCommandAliasesJs = this.getPluginFolder().resolve("commandAliases.js");
+		Path newTagsJs = this.getPluginFolder().resolve("tags.js");
+		
+		if (Files.exists(oldConfJson)) {
+			if (Files.exists(newConfigJs)) {
+				Files.move(newConfigJs, Paths.get(newConfigJs.toString() + ".backup"), StandardCopyOption.REPLACE_EXISTING);
+				Factions.get().log("Moving 'config.js' -> 'config.js.backup'");
+			}
+			Files.move(oldConfJson, newConfigJs, StandardCopyOption.REPLACE_EXISTING);
+			Factions.get().log("Moving 'config.json' -> 'config.js'");
+		}
+		
+		if (Files.exists(oldCommandAliasesJson)) {
+			if (Files.exists(newCommandAliasesJs)) {
+				Files.move(newCommandAliasesJs, Paths.get(newCommandAliasesJs.toString() + ".backup"), StandardCopyOption.REPLACE_EXISTING);
+				Factions.get().log("Moving 'commandAliases.js' -> 'commandAliases.js.backup'");
+			}
+			Files.move(oldCommandAliasesJson, newCommandAliasesJs, StandardCopyOption.REPLACE_EXISTING);
+			Factions.get().log("Moving 'commandAliases.json' -> 'commandAliases.js'");
+		}
+		
+		if (Files.exists(oldTagsJson)) {
+			if (Files.exists(newTagsJs)) {
+				Files.move(newTagsJs, Paths.get(newTagsJs.toString() + ".backup"), StandardCopyOption.REPLACE_EXISTING);
+				Factions.get().log("Moving 'tags.js' -> 'tags.js.backup'");
+			}
+			Files.move(oldTagsJson, newTagsJs, StandardCopyOption.REPLACE_EXISTING);
+			Factions.get().log("Moving 'tags.json' -> 'tags.js'");
+		}
+		
 	}
 	
 	public Gson getGson() {
