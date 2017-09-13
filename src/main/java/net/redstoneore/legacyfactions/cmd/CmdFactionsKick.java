@@ -91,20 +91,20 @@ public class CmdFactionsKick extends FCommand {
 			
 			FancyMessage fancyMessage = new FancyMessage(Lang.COMMAND_KICK_CANDIDATES.toString()).color(ChatColor.GOLD);
 
-			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
+			for (FPlayer player : myFaction.getWhereRole(Role.NORMAL)) {
 				String name = player.getName();
 				fancyMessage.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + name).command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesKick.get(0) + " " + name);
 			}
 
 			if (fme.getRole().isAtLeast(Role.COLEADER)) {
-				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.MODERATOR)) {
+				for (FPlayer player : myFaction.getWhereRole(Role.MODERATOR)) {
 					String s = player.getName();
 					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesKick.get(0) + " " + s);
 				}
 			}
 
 			if (fme.getRole() == Role.ADMIN) {
-				for (FPlayer player : myFaction.getFPlayersWhereRole(Role.COLEADER)) {
+				for (FPlayer player : myFaction.getWhereRole(Role.COLEADER)) {
 					String s = player.getName();
 					fancyMessage.then(s + " ").color(ChatColor.GRAY).tooltip(Lang.COMMAND_KICK_CLICKTOKICK.toString() + s).command("/" + CommandAliases.baseCommandAliases.get(0) + " " + CommandAliases.cmdAliasesKick.get(0) + " " + s);
 				}

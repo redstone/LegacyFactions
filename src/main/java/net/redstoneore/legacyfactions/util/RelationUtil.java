@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.flag.Flags;
 
 public class RelationUtil {
 
@@ -74,7 +75,7 @@ public class RelationUtil {
             return Relation.MEMBER;
         }
 
-        if (!ignorePeaceful && (fme.isPeaceful() || fthat.isPeaceful())) {
+        if (!ignorePeaceful && (fme.getFlag(Flags.PEACEFUL) || fthat.getFlag(Flags.PEACEFUL))) {
             return Relation.NEUTRAL;
         }
 
@@ -101,7 +102,7 @@ public class RelationUtil {
     public static ChatColor getColorOfThatToMe(RelationParticipator that, RelationParticipator me) {
         Faction thatFaction = getFaction(that);
         if (thatFaction != null) {
-            if (thatFaction.isPeaceful() && thatFaction != getFaction(me)) {
+            if (thatFaction.getFlag(Flags.PEACEFUL) && thatFaction != getFaction(me)) {
                 return Conf.colorPeaceful.toColor();
             }
 

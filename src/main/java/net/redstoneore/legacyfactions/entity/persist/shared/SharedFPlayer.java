@@ -33,6 +33,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
@@ -556,7 +557,7 @@ public abstract class SharedFPlayer implements FPlayer {
 			return;
 		}
 
-		boolean perm = myFaction.isPermanent();
+		boolean perm = myFaction.getFlag(Flags.PERMANENT);
 		
 		if (!perm && this.getRole() == Role.ADMIN && myFaction.getMembers().size() > 1) {
 			this.sendMessage(Lang.LEAVE_PASSADMIN);
@@ -745,14 +746,14 @@ public abstract class SharedFPlayer implements FPlayer {
 		if (currentFaction.isNormal()) {
 			
 			// .. and i'm peaceful ...
-			if (myFaction.isPeaceful()) {
+			if (myFaction.getFlag(Flags.PEACEFUL)) {
 				// .. don't allow - i'm peaceful.
 				this.sendMessage(notifyFailure, Lang.CLAIM_PEACEFUL, currentFaction.getTag(this));
 				return false;
 			}
 			
 			// .. and they're peaceful ...
-			if (currentFaction.isPeaceful()) {
+			if (currentFaction.getFlag(Flags.PEACEFUL)) {
 				// .. don't allow - they're peaceful.
 				this.sendMessage(notifyFailure, Lang.CLAIM_PEACEFULTARGET, currentFaction.getTag(this));
 				return false;

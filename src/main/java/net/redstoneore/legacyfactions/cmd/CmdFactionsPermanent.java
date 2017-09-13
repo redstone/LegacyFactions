@@ -8,6 +8,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.flag.Flags;
 
 public class CmdFactionsPermanent extends FCommand {
 
@@ -49,12 +50,12 @@ public class CmdFactionsPermanent extends FCommand {
 		}
 
 		String change;
-		if (faction.isPermanent()) {
+		if (faction.getFlag(Flags.PERMANENT)) {
 			change = Lang.COMMAND_PERMANENT_REVOKE.toString();
-			faction.setPermanent(false);
+			faction.setFlag(Flags.PERMANENT, false);
 		} else {
 			change = Lang.COMMAND_PERMANENT_GRANT.toString();
-			faction.setPermanent(true);
+			faction.setFlag(Flags.PERMANENT, true);
 		}
 
 		Factions.get().log((fme == null ? "A server admin" : fme.getName()) + " " + change + " the faction \"" + faction.getTag() + "\".");

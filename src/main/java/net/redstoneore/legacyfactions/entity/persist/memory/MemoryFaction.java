@@ -176,7 +176,7 @@ public abstract class MemoryFaction extends SharedFaction {
 	}
 	
 	@Override
-	public HashMap<String, List<String>> getAnnouncements() {
+	public Map<String, List<String>> getAnnouncements() {
 		return Maps.newHashMap(this.announcements);
 	}
 
@@ -194,10 +194,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		}
 	}
 
-	/**
-	 * Get all warps
-	 * @return
-	 */
+	@Override
 	public ConcurrentHashMap<String, LazyLocation> getAllWarps() {
 		return this.warps;
 	}

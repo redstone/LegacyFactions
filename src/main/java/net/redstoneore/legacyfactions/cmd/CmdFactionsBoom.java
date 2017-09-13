@@ -4,6 +4,7 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.flag.Flags;
 
 public class CmdFactionsBoom extends FCommand {
 
@@ -39,7 +40,7 @@ public class CmdFactionsBoom extends FCommand {
 
 	@Override
 	public void perform() {
-		if (!myFaction.isPeaceful()) {
+		if (!myFaction.getFlag(Flags.PEACEFUL)) {
 			this.fme.sendMessage(Lang.COMMAND_BOOM_PEACEFULONLY);
 			return;
 		}
@@ -49,9 +50,9 @@ public class CmdFactionsBoom extends FCommand {
 			return;
 		}
 
-		this.myFaction.setPeacefulExplosionsEnabled(this.argAsBool(0, !myFaction.getPeacefulExplosionsEnabled()));
+		this.myFaction.setFlag(Flags.EXPLOSIONS, this.argAsBool(0, !myFaction.getFlag(Flags.EXPLOSIONS)));
 
-		String enabled = myFaction.noExplosionsInTerritory() ? Lang.GENERIC_DISABLED.toString() : Lang.GENERIC_ENABLED.toString();
+		String enabled = myFaction.getFlag(Flags.EXPLOSIONS) ? Lang.GENERIC_DISABLED.toString() : Lang.GENERIC_ENABLED.toString();
 
 		// Inform
 		this.myFaction.sendMessage(Lang.COMMAND_BOOM_ENABLED, fme.describeTo(myFaction), enabled);

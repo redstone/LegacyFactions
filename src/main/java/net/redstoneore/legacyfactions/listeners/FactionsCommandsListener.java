@@ -18,6 +18,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.locality.Locality;
 
 public class FactionsCommandsListener implements Listener {
@@ -92,7 +93,7 @@ public class FactionsCommandsListener implements Listener {
 					!me.isAdminBypassing() &&
 					Conf.permanentFactionMemberDenyCommands != null &&
 					!Conf.permanentFactionMemberDenyCommands.isEmpty() &&
-					me.getFaction().isPermanent() &&
+					me.getFaction().getFlag(Flags.PERMANENT) &&
 					isCommandInList(fullCmd, shortCmd, Conf.permanentFactionMemberDenyCommands.iterator())) {
 			
 			

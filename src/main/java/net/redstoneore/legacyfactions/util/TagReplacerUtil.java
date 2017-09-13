@@ -185,9 +185,9 @@ public enum TagReplacerUtil {
             case JOINING:
                 return (faction.getFlag(Flags.OPEN) ? Lang.COMMAND_SHOW_UNINVITED.toString() : Lang.COMMAND_SHOW_INVITATION.toString());
             case PEACEFUL:
-                return faction.isPeaceful() ? Conf.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
+                return faction.getFlag(Flags.PEACEFUL) ? Conf.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
             case PERMANENT:
-                return faction.isPermanent() ? "permanent" : "{notPermanent}";
+                return faction.getFlag(Flags.PERMANENT) ? "permanent" : "{notPermanent}";
             case CHUNKS:
                 return String.valueOf(faction.getLandRounded());
             case POWER:

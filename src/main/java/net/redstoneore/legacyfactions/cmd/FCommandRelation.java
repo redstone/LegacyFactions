@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsRelation;
 import net.redstoneore.legacyfactions.event.EventFactionsRelationChange;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 
 public abstract class FCommandRelation extends FCommand {
@@ -100,12 +101,12 @@ public abstract class FCommandRelation extends FCommand {
 			this.myFaction.sendMessage(Lang.COMMAND_RELATIONS_PROPOSAL_SENT, currentRelationColor + them.getTag(), "" + targetRelation.getColor() + targetRelation);
 		}
 
-		if (!targetRelation.isNeutral() && them.isPeaceful()) {
+		if (!targetRelation.isNeutral() && them.getFlag(Flags.PEACEFUL)) {
 			them.sendMessage(Lang.COMMAND_RELATIONS_PEACEFUL);
 			this.myFaction.sendMessage(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
 		}
 
-		if (!targetRelation.isNeutral() && myFaction.isPeaceful()) {
+		if (!targetRelation.isNeutral() && myFaction.getFlag(Flags.PEACEFUL)) {
 			them.sendMessage(Lang.COMMAND_RELATIONS_PEACEFULOTHER);
 			this.myFaction.sendMessage(Lang.COMMAND_RELATIONS_PEACEFUL);
 		}
