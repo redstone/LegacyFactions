@@ -1,5 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
+import java.util.ArrayList;
+
 import org.bukkit.command.ConsoleCommandSender;
 
 import com.google.common.base.Joiner;
@@ -50,6 +52,9 @@ public class CmdFactionsConvert extends FCommand {
 			
 			return;
 		}
+		
+		// Perform the save all command and notify the console
+		CmdFactionsSaveAll.get().perform(true, this.sender);
 		
 		PersistType persistType = PersistType.valueOf(this.argAsString(0).toUpperCase());
 		if (persistType == Conf.backEnd) {
