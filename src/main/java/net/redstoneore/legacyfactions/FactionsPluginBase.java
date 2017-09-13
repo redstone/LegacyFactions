@@ -32,14 +32,6 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 	
 	protected long timeEnableStart;
 	
-	private PermUtil utilPerm = null;
-	
-	/**
-	 * Use {@link TextUtil#RAW_TAGS}
-	 */
-	@Deprecated
-	public Map<String, String> rawTags = TextUtil.RAW_TAGS;
-	
 	// -------------------------------------------------- //
 	// ENABLE
 	// -------------------------------------------------- //
@@ -70,33 +62,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 	}
 	
 	public abstract void enable() throws Exception;
-
-	// -------------------------------------------------- //
-	// LANG AND TAGS
-	// -------------------------------------------------- //
 	
-	/**
-	 * Use TextUtil.get()
-	 */
-	@Deprecated
-	public TextUtil getTextUtil() {
-		return TextUtil.get();
-	}
-	
-	public PermUtil getPermUtil() {
-		if (this.utilPerm == null) {
-			this.utilPerm = new PermUtil();
-		}
-		return this.utilPerm;
-	}
-	
-	/**
-	 * Use Persist.get()
-	 */
-	@Deprecated
-	public Persist getPersist() {
-		return Persist.get();
-	}
 	// -------------------------------------------------- //
 	// COMMAND HANDLING
 	// -------------------------------------------------- //
@@ -196,19 +162,28 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 	// DEPRECATED METHODS
 	// -------------------------------------------- //
 	
+	/**
+	 * Deprecated, use {@link TextUtil#get()}
+	 */
 	@Deprecated
-	public Map<UUID, Integer> getStuckMap() {
-		return Volatile.get().stuckMap();
-	}
-
-	@Deprecated
-	public Map<UUID, Long> getTimers() {
-		return Volatile.get().stuckTimers();
+	public TextUtil getTextUtil() {
+		return TextUtil.get();
 	}
 	
+	/**
+	 * Deprecated, use {@link PermUtil#get()}
+	 */
 	@Deprecated
-	public List<MCommand<?>> getBaseCommands() {
-		return Volatile.get().baseCommands();
+	public PermUtil getPermUtil() {
+		return PermUtil.get();
+	}
+	
+	/**
+	 * Deprecated, use {@link Persist#get()}
+	 */
+	@Deprecated
+	public Persist getPersist() {
+		return Persist.get();
 	}
 
 }

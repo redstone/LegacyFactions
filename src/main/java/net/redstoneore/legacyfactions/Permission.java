@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.Lists;
 
+import net.redstoneore.legacyfactions.util.PermUtil;
+
 /**
  * Permissions used by LegacyFactions
  */
@@ -149,20 +151,20 @@ public enum Permission {
 	
 	public boolean has(CommandSender sender, boolean informSenderIfNot) {
 		if (this.oldNames.size() == 0) {
-			return Factions.get().getPermUtil().has(sender, this.node, informSenderIfNot);
+			return PermUtil.get().has(sender, this.node, informSenderIfNot);
 		}
 
-		if (!Factions.get().getPermUtil().has(sender, this.node, false)) {
+		if (!PermUtil.get().has(sender, this.node, false)) {
 			int at = 1;
 			
 			for (String name : this.oldNames) {
 				String alternativePermission = "factions." + name;
 				
 				if (at == this.oldNames.size()) {
-					return Factions.get().getPermUtil().has(sender, alternativePermission, informSenderIfNot);
+					return PermUtil.get().has(sender, alternativePermission, informSenderIfNot);
 				}
 				
-				if (Factions.get().getPermUtil().has(sender, alternativePermission, false)) {
+				if (PermUtil.get().has(sender, alternativePermission, false)) {
 					return true;
 				}
 				at++;
