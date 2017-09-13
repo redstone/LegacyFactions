@@ -1,7 +1,6 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.FactionsPluginBase;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Conf;
@@ -168,7 +167,9 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	public boolean validSenderType(CommandSender sender, boolean informSenderIfNot) {
 		if (this.senderMustBePlayer && !(sender instanceof Player)) {
 			if (informSenderIfNot) {
-				msg(Lang.GENERIC_PLAYERONLY);
+				Lang.GENERIC_PLAYERONLY.getBuilder()
+					.parse()
+					.sendTo(sender);
 			}
 			return false;
 		}
@@ -182,7 +183,10 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	public boolean validArgs(List<String> args, CommandSender sender) {
 		if (args.size() < this.requiredArgs.size()) {
 			if (sender != null) {
-				msg(Lang.GENERIC_ARGS_TOOFEW);
+				Lang.GENERIC_ARGS_TOOFEW.getBuilder()
+					.parse()
+					.sendTo(sender);
+				
 				sender.sendMessage(this.getUseageTemplate());
 			}
 			return false;
@@ -192,8 +196,8 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 			if (sender != null) {
 				// Get the to many string slice
 				List<String> theToMany = args.subList(this.requiredArgs.size() + this.optionalArgs.size(), args.size());
-				msg(Lang.GENERIC_ARGS_TOOMANY, TextUtil.implode(theToMany, " "));
-				sender.sendMessage(this.getUseageTemplate());
+				this.sendMessage(Lang.GENERIC_ARGS_TOOMANY.getBuilder().parse().toString(), TextUtil.implode(theToMany, " "));
+				this.sendMessage(this.getUseageTemplate());
 			}
 			return false;
 		}
@@ -516,26 +520,6 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 
 	public Player argAsBestPlayerMatch(int idx) {
 		return this.argAsPlayer(idx, null);
-	}
-	
-	// -------------------------------------------------- //
-	// DEPRECATED
-	// -------------------------------------------------- //
-	
-	/**
-	 * Deprecated, use sendMessage
-	 */
-	@Deprecated
-	public void msg(String str, Object... args) {
-		this.sendMessage(str, args);
-	}
-
-	/**
-	 * Deprecated, use sendMessage
-	 */
-	@Deprecated
-	public void msg(Lang translation, Object... args) {
-		this.sendMessage(translation, args);
 	}
 
 }
