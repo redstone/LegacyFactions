@@ -156,19 +156,21 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 	// -------------------------------------------------- //
 	
 	public void log(String msg) {
-		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + this.getTextUtil().parse(msg));
+		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + TextUtil.get().parse(msg));
 	}
 	
 	public void log(String str, Object... args) {
-		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + this.getTextUtil().parse(str, args));
+		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + TextUtil.get().parse(str, args));
 	}
 	
 	public void warn(String str, Object... args) {
-		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + WARN_PREFIX + this.getTextUtil().parse(str, args));
+		// Do not use internal libraries for warnings, just send to the logger.
+		Factions.get().getLogger().log(Level.WARNING, LOG_PREFIX + WARN_PREFIX + String.format(str, args));
 	}
 	
 	public void error(String str, Object... args) {
-		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + ERROR_PREFIX + this.getTextUtil().parse(str, args));
+		// Do not use internal libraries for errors, just send to the logger.
+		Factions.get().getLogger().log(Level.WARNING, LOG_PREFIX + ERROR_PREFIX + String.format(str, args));
 	}
 
 	public void debug(String message) {
