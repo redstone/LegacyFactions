@@ -184,6 +184,7 @@ public enum Lang {
 
 	COMMAND_CONVERT_BACKEND_RUNNING("Already running that backend."),
 	COMMAND_CONVERT_BACKEND_INVALID("Invalid backend"),
+	COMMAND_CONVERT_BACKEND_DBCREDENTIALS("To convert to <type> you must provide database credentials."),
 	COMMAND_CONVERT_DESCRIPTION("Convert the plugin backend"),
 	
 	COMMAND_CREATE_MUSTLEAVE("<b>You must leave your current faction first."),
