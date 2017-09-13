@@ -36,8 +36,8 @@ public class Persist {
 		return clazz.getSimpleName().toLowerCase();
 	}
 
-	public static String getName(Object o) {
-		return getName(o.getClass());
+	public static String getName(Object object) {
+		return getName(object.getClass());
 	}
 
 	public static String getName(Type type) {
@@ -69,20 +69,20 @@ public class Persist {
 	// NICE WRAPPERS
 	// ------------------------------------------------------------ //
 	
-	public <T> T loadOrSaveDefault(T def, Class<T> clazz) {
-		return this.loadOrSaveDefault(def, clazz, getPath(clazz));
+	public <T> T loadOrSaveDefault(T defaultInstance, Class<T> clazz) {
+		return this.loadOrSaveDefault(defaultInstance, clazz, getPath(clazz));
 	}
 
-	public <T> T loadOrSaveDefault(T def, Class<T> clazz, String name) {
-		return this.loadOrSaveDefault(def, clazz, getPath(name));
+	public <T> T loadOrSaveDefault(T defaultInstance, Class<T> clazz, String name) {
+		return this.loadOrSaveDefault(defaultInstance, clazz, getPath(name));
 	}
 	
-	public <T> T loadOrSaveDefault(T instance, Class<T> clazz, Path file) {
+	public <T> T loadOrSaveDefault(T defaultInstance, Class<T> clazz, Path file) {
 		if (!Files.exists(file)) {
 			Factions.get().log("Creating default: " + file);
 			Factions.get().debug("File does not exist, creating default: " + file);
-			this.save(instance, file);
-			return instance;
+			this.save(defaultInstance, file);
+			return defaultInstance;
 		}
 		
 		
@@ -112,7 +112,7 @@ public class Persist {
 				}
 			}
 			
-			return instance;
+			return defaultInstance;
 		}
 		Factions.get().debug("returning loaded instance for " + file);
 
@@ -159,6 +159,15 @@ public class Persist {
 			return null;
 		}
 		
+		/// Validate the JSON file
+		if (!MiscUtil.isValidJSON(content)) {
+			Factions.get().warn(ChatColor.GOLD + "The JSON file " + ChatColor.AQUA + file.toString() + ChatColor.GOLD + " is not valid JSON!");
+			Factions.get().warn(ChatColor.GOLD + "This usually happens when someone have modified the file and made a mistake.");
+			Factions.get().warn(ChatColor.GOLD + "If an exception is shown, it will give you the line an column that is incorrect.");
+			Factions.get().warn(ChatColor.GOLD + "You should always make sure the file is valid JSON. ");
+			Factions.get().warn(ChatColor.GOLD + "Paste the file into " + ChatColor.AQUA + "www.jsonlint.com" + ChatColor.GOLD + " and valid its contents.");
+		}
+		
 		try {
 			T instance = Factions.get().getGson().fromJson(content, clazz);
 			return instance;
@@ -183,17 +192,26 @@ public class Persist {
 	public <T> T load(Type typeOfT, Path file) {
 		String content = DiscUtil.readCatch(file);
 		if (content == null) {
+			Factions.get().debug(file.toString() + " is null");
 			return null;
+		}
+		
+		// Validate the JSON file
+		if (!MiscUtil.isValidJSON(content)) {
+			Factions.get().warn(ChatColor.GOLD + "The JSON file " + ChatColor.AQUA + file.toString() + ChatColor.GOLD + " is not valid JSON!");
+			Factions.get().warn(ChatColor.GOLD + "This usually happens when someone have modified the file and made a mistake.");
+			Factions.get().warn(ChatColor.GOLD + "If an exception is shown, it will give you the line an column that is incorrect.");
+			Factions.get().warn(ChatColor.GOLD + "You should always make sure the file is valid JSON. ");
+			Factions.get().warn(ChatColor.GOLD + "Paste the file into " + ChatColor.AQUA + "www.jsonlint.com" + ChatColor.GOLD + " and valid its contents.");
 		}
 
 		try {
 			return (T) Factions.get().getGson().fromJson(content, typeOfT);
-		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
-			Factions.get().warn(ex.getMessage());
+		} catch (Throwable e) {
+			Factions.get().warn(e.getMessage());
 		}
 
 		return null;
-
 	}
 
 }

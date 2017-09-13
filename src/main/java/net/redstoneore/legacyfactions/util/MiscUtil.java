@@ -5,6 +5,9 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
+import com.google.gson.JsonParser;
+
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.entity.Conf;
@@ -37,6 +40,24 @@ public class MiscUtil {
 		}
 	}
 
+	public static boolean isValidJSON(String json) {
+		try {
+			new JsonParser().parse(json);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public static boolean isValidJSON(String json, Class<?> clazz) {
+		try {
+			Factions.get().getGson().fromJson(json, clazz);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	// Inclusive range
 	public static long[] range(long start, long end) {
 		long[] values = new long[(int) Math.abs(end - start) + 1];
