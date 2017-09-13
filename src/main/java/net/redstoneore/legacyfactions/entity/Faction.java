@@ -393,7 +393,7 @@ public interface Faction extends EconomyParticipator {
 	 */
 	@Deprecated
 	Map<String, List<String>> getAnnouncements();
-
+  
 	/**
 	 * Deprecated, use {@link #announcements()}
 	 * @return

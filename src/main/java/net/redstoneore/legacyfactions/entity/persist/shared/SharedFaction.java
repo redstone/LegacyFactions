@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.entity.persist.shared;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
