@@ -284,4 +284,14 @@ public class MiscUtil {
 		return null;
 	}
 	
+	public static boolean classExists(String name) {
+		try {
+			Class.forName(name);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	
 }

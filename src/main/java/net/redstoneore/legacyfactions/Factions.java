@@ -23,19 +23,16 @@ import net.redstoneore.legacyfactions.cmd.CmdFactions;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
-import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
-import net.redstoneore.legacyfactions.entity.persist.SaveTask;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONBoard;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFPlayerColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFactionColl;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
 import net.redstoneore.legacyfactions.expansion.Provider;
-import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.Integrations;
 import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
@@ -54,15 +51,16 @@ import net.redstoneore.legacyfactions.listeners.FactionsCommandsListener;
 import net.redstoneore.legacyfactions.listeners.FactionsEntityListener;
 import net.redstoneore.legacyfactions.listeners.FactionsExploitListener;
 import net.redstoneore.legacyfactions.listeners.FactionsPlayerListener;
+import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
-import net.redstoneore.legacyfactions.task.AutoLeaveTask;
+import net.redstoneore.legacyfactions.task.TaskManager;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.LibraryUtil;
+import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossColour;
 import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -102,10 +100,6 @@ public class Factions extends FactionsPluginBase {
 	// -------------------------------------------------- //
 
 	private GsonBuilder gsonBuilder = null;
-
-	private Integer taskAutoLeave = null;
-		
-	private Integer saveTask = null;
 	
     private Gson gson = this.getGsonBuilder().create();
     	
@@ -215,10 +209,9 @@ public class Factions extends FactionsPluginBase {
 		
 		Board.get().load();
 		Board.get().clean();
-
-		// Start tasks.
-		this.startTasks();
-
+		
+		TaskManager.get().startTasks();
+		
 		// Add base commands.
 		Volatile.get().baseCommands().add(CmdFactions.get());
 
@@ -336,8 +329,8 @@ public class Factions extends FactionsPluginBase {
 
 	@Override
 	public void onDisable() {
-		// only save data if plugin actually completely loaded successfully
 		if (this.loadSuccessful) {
+			// Only save data if plugin actually completely loaded successfully
 			Conf.save();
 			CommandAliases.save();
 			FactionColl.get().forceSave();
@@ -345,21 +338,7 @@ public class Factions extends FactionsPluginBase {
 			Board.get().forceSave();
 		}
 		
-		this.stopTasks();
-		
-		this.log("Disabled");
-	}
-
-	public void startAutoLeaveTask(boolean restartIfRunning) {
-		if (taskAutoLeave != null) {
-			if (!restartIfRunning) return;
-			this.getServer().getScheduler().cancelTask(this.taskAutoLeave);
-		}
-
-		if (Conf.autoLeaveRoutineRunsEveryXMinutes > 0.0) {
-			long ticks = (long) (20 * 60 * Conf.autoLeaveRoutineRunsEveryXMinutes);
-			this.taskAutoLeave = getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoLeaveTask(), ticks, ticks);
-		}
+		TaskManager.get().stopTasks();
 	}
 
 	@Override
@@ -375,114 +354,14 @@ public class Factions extends FactionsPluginBase {
 		String cmd = CommandAliases.baseCommandAliases.isEmpty() ? "/f" : "/" + CommandAliases.baseCommandAliases.get(0);
 		return this.handleCommand(sender, cmd + " " + TextUtil.implode(Arrays.asList(split), " "), false);
 	}
-
-	// -------------------------------------------------- //
-	// Functions for other plugins to hook into
-	// -------------------------------------------------- //
-	// TODO: move to mixins
-	
-	// Simply put, should this chat event be left for Factions to handle? For now, that means players with Faction Chat
-	// enabled or use of the Factions f command without a slash; combination of isPlayerFactionChatting() and isFactionsCommand()
-
-	public boolean shouldLetFactionsHandleThisChat(AsyncPlayerChatEvent event) {
-		return event != null && (this.isPlayerFactionChatting(event.getPlayer()) || this.isFactionsCommand(event.getPlayer(), event.getMessage()));
-	}
-
-	// Does player have Faction Chat enabled? If so, chat plugins should preferably not do channels,
-	// local chat, or anything else which targets individual recipients, so Faction Chat can be done
-	public boolean isPlayerFactionChatting(Player player) {
-		if (player == null) return false;
-		
-		FPlayer me = FPlayerColl.get(player);
-
-		return me != null && me.getChatMode() != ChatMode.PUBLIC;
-	}
-
-	// Is this chat message actually a Factions command, and thus should be left alone by other plugins?
-	public boolean isFactionsCommand(Player player, String check) {
-		return !(check == null || check.isEmpty()) && this.handleCommand(player, check, true);
-	}
-
-	// Get a player's faction tag (faction name), mainly for usage by chat plugins for local/channel chat
-	public String getPlayerFactionTag(Player player) {
-		return this.getPlayerFactionTagRelation(player, null);
-	}
-
-	// Same as above, but with relation (enemy/neutral/ally) coloring potentially added to the tag
-	public String getPlayerFactionTagRelation(Player speaker, Player listener) {
-		String tag = "~";
-		
-		// Invalid speaker, use default tag
-		if (speaker == null) return tag;
-		
-		FPlayer me = FPlayerColl.get(speaker);
-		
-		// Invalid FPlayer, use default tag
-		if (me == null) return tag;
-		
-		// if listener isn't set, or config option is disabled, give back uncolored tag
-		if (listener == null) {
-			tag = me.getChatTag().trim();
-		} else {
-			FPlayer you = FPlayerColl.get(listener);
-			if (you == null) {
-				tag = me.getChatTag().trim();
-			} else {
-				tag = me.getChatTag(you).trim();
-			}
-		}
-		
-		if (tag.isEmpty()) {
-			tag = "~";
-		}
-		
-		return tag;
-	}
 	
 	private void loadLibraries() {
-		if (!classExists("com.github.benmanes.caffeine.cache.Caffeine")) {
+		if (!MiscUtil.classExists("com.github.benmanes.caffeine.cache.Caffeine")) {
 			try {
 				LibraryUtil.loadLibrary("https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/caffeine/2.5.5/caffeine-2.5.5.jar");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-	}
-	
-	private boolean classExists(String name) {
-		try {
-			Class.forName(name);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	
-	/**
-	 * Start recurring tasks
-	 */
-	private void startTasks() {
-		// start up task which runs the autoLeaveAfterDaysOfInactivity routine
-		this.startAutoLeaveTask(false);
-		
-		if (this.saveTask == null && Conf.saveToFileEveryXMinutes > 0.0) {
-			long saveTicks = (long) (20 * 60 * Conf.saveToFileEveryXMinutes); // Approximately every 30 min by default
-			this.saveTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveTask(), saveTicks, saveTicks);
-		}
-	}
-	
-	/**
-	 * Stop recurring tasks
-	 */
-	private void stopTasks() {
-		if (this.taskAutoLeave != null) {
-			this.getServer().getScheduler().cancelTask(this.taskAutoLeave);
-			this.taskAutoLeave = null;
-		}
-
-		if (this.saveTask != null) {
-			this.getServer().getScheduler().cancelTask(this.saveTask);
-			this.saveTask = null;
 		}
 	}
 	
@@ -503,5 +382,48 @@ public class Factions extends FactionsPluginBase {
 		}
 	}
 	
+	// -------------------------------------------------- //
+	// DEPRECATED
+	// -------------------------------------------------- //
+
+	/**
+	 * Deprecated, use {@link PlayerMixin#shouldLetFactionsHandleThisChat}
+	 */
+	@Deprecated
+	public boolean shouldLetFactionsHandleThisChat(AsyncPlayerChatEvent event) {
+		return PlayerMixin.shouldLetFactionsHandleThisChat(event);
+	}
+	
+	/**
+	 * Deprecated, use {@link PlayerMixin#isPlayerFactionChatting}
+	 */	
+	@Deprecated
+	public boolean isPlayerFactionChatting(Player player) {
+		return PlayerMixin.isPlayerFactionChatting(player);
+	}
+
+	/**
+	 * Deprecated, use {@link PlayerMixin#isFactionsCommand}
+	 */	
+	@Deprecated
+	public boolean isFactionsCommand(Player player, String check) {
+		return PlayerMixin.isFactionsCommand(player, check);
+	}
+
+	/**
+	 * Deprecated, use {@link PlayerMixin#getPlayerFactionTag}
+	 */	
+	@Deprecated
+	public String getPlayerFactionTag(Player player) {
+		return PlayerMixin.getPlayerFactionTag(player);
+	}
+
+	/**
+	 * Deprecated, use {@link PlayerMixin#getPlayerFactionTagRelation}
+	 */
+	@Deprecated
+	public String getPlayerFactionTagRelation(Player speaker, Player listener) {
+		return PlayerMixin.getPlayerFactionTagRelation(speaker, listener);
+	}
 }
 

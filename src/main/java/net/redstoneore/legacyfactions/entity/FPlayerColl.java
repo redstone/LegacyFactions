@@ -38,6 +38,8 @@ public abstract class FPlayerColl {
 	}
 	
 	public static FPlayer get(Object o) {
+		if (o == null) return null;
+		
 		if (o instanceof OfflinePlayer) {
 			OfflinePlayer player = (OfflinePlayer) o;
 			return getUnsafeInstance().getByOfflinePlayer(player);
