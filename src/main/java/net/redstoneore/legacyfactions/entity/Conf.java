@@ -774,6 +774,24 @@ public class Conf {
 	public static boolean hideFooterForSafezone = false;
 
 	// -------------------------------------------------- //
+	// TELEPORT TO SPAWN ON LOGOUT 
+	// -------------------------------------------------- //
+	@DocSection(name = "Teleport To Spawn On Logout")
+
+	@DocDescription(title = "Enabled", description = "Should this feature be enabled?")
+	public static boolean teleportToSpawnOnLogoutInRelationEnabled = false;
+	
+	@DocDescription(title = "Worlds in?", description = "Which worlds does this apply to?")
+	public static List<String> teleportToSpawnOnLogoutInRelationWorlds = Lists.newArrayList(
+		"world",
+		"world_nether"
+	);
+	@DocDescription(title = "Relations", description = "Which relations does this apply to?")
+	public static List<Relation> teleportToSpawnOnLogoutInRelation = Lists.newArrayList(
+		Relation.ENEMY
+	);
+	
+	// -------------------------------------------------- //
 	// TERRITORY CHANGE
 	// -------------------------------------------------- //
 	@DocSection(name = "Territory Change")
