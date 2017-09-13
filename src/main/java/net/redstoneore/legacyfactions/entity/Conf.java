@@ -779,6 +779,9 @@ public class Conf {
 	@DocDescription(title = "Hide Footer for Safezone", description = "Should the footer be hidden for safezone?")
 	public static boolean hideFooterForSafezone = false;
 
+	@DocDescription(title = "Rank Change Titles", description = "Show a title for rank changes.")
+	public static boolean rankChangeTitles = false;
+
 	// -------------------------------------------------- //
 	// TELEPORT TO SPAWN ON LOGOUT 
 	// -------------------------------------------------- //

@@ -381,7 +381,7 @@ public enum Lang {
 	COMMAND_MOD_PROMOTES("%1$s<i> was promoted to moderator in your faction."),
 	COMMAND_MOD_PROMOTED("<i>You have promoted %1$s<i> to moderator."),
 	COMMAND_MOD_DESCRIPTION("Give or revoke moderator rights"),
-
+	
 	COMMAND_MODIFYPOWER_ADDED("<i>Added <a>%1$f <i>power to <a>%2$s. <i>New total rounded power: <a>%3$d"),
 	COMMAND_MODIFYPOWER_DESCRIPTION("Modify the power of a faction/player"),
 
@@ -768,6 +768,13 @@ public enum Lang {
 	ROLE_MODERATOR("moderator"),
 	ROLE_NORMAL("normal member"),
 
+	// -------------------------------------------------- //
+	// ROLE CHANGE TITLES
+	// -------------------------------------------------- //
+
+	ROLETITLES_HEADER("<green>New <rank>"),
+	ROLETITLES_FOOTER("<gold><player> was promoted to <rank>"),
+	
 	// -------------------------------------------------- //
 	// Region Types
 	// -------------------------------------------------- //

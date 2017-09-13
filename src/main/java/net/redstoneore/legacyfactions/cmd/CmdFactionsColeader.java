@@ -9,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.util.TitleUtil;
 
 import org.bukkit.ChatColor;
 
@@ -91,6 +92,25 @@ public class CmdFactionsColeader extends FCommand {
 			you.setRole(Role.COLEADER);
 			targetFaction.sendMessage(Lang.COMMAND_COLEADER_PROMOTED, you.describeTo(targetFaction, true));
 			this.sendMessage(Lang.COMMAND_COLEADER_PROMOTES, you.describeTo(fme, true));
+		}
+		
+		if (Conf.rankChangeTitles) {
+			targetFaction.getMembers().forEach(fplayer -> {
+				String titleHeader = Lang.ROLETITLES_HEADER.getBuilder()
+					.parse()
+					.replace("<rank>", Role.COLEADER.toNiceName())
+					.toString();
+				
+				String titleFooter = Lang.ROLETITLES_FOOTER.getBuilder()
+					.parse()
+					.replace("<rank>", Role.COLEADER.toNiceName())
+					.replace("<player>", you.describeTo(fplayer))
+					.toString();
+					
+					
+				TitleUtil.sendTitle(fplayer.getPlayer(), Conf.territoryTitlesTimeFadeInTicks, Conf.territoryTitlesTimeStayTicks, Conf.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
+
+			});
 		}
 	}
 
