@@ -11,11 +11,36 @@ import java.util.Map;
 
 public class PermUtil {
 
-    public Map<String, String> permissionDescriptions = new HashMap<String, String>();
+	// -------------------------------------------------- //
+	// INSTANCE
+	// -------------------------------------------------- //
+	
+	private static PermUtil instance = null;
+	public static PermUtil get() {
+		if (instance == null) {
+			instance = new PermUtil();
+		}
+		return instance;
+	}
+	
+	// -------------------------------------------------- //
+	// CONSTRUCT
+	// -------------------------------------------------- //
 
-    public PermUtil() {
+    private PermUtil() {
         this.setup();
     }
+	
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+
+    public Map<String, String> permissionDescriptions = new HashMap<String, String>();
+
+    
+	// -------------------------------------------------- //
+	// METHODS
+	// -------------------------------------------------- //
 
     public String getForbiddenMessage(String perm) {
         return TextUtil.get().parse(Lang.GENERIC_NOPERMISSION.toString(), getPermissionDescription(perm));
