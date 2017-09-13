@@ -329,6 +329,8 @@ public class Factions extends FactionsPluginBase {
 
 	@Override
 	public void onDisable() {
+		TaskManager.get().stopTasks();
+		
 		if (this.loadSuccessful) {
 			// Only save data if plugin actually completely loaded successfully
 			Conf.save();
@@ -337,8 +339,6 @@ public class Factions extends FactionsPluginBase {
 			FPlayerColl.save();
 			Board.get().forceSave();
 		}
-		
-		TaskManager.get().stopTasks();
 	}
 
 	@Override
