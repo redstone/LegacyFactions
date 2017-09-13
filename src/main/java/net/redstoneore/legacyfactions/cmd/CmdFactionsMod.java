@@ -47,7 +47,7 @@ public class CmdFactionsMod extends FCommand {
 		FPlayer you = this.argAsBestFPlayerMatch(0);
 		if (you == null) {
 			FancyMessage msg = new FancyMessage(Lang.COMMAND_MOD_CANDIDATES.toString()).color(ChatColor.GOLD);
-			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
+			for (FPlayer player : myFaction.getWhereRole(Role.NORMAL)) {
 				String s = player.getName();
 				msg.then(s + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_MOD_CLICKTOPROMOTE.toString() + s).command("/" + CommandAliases.baseCommandAliases.get(0) + " mod " + s);
 			}

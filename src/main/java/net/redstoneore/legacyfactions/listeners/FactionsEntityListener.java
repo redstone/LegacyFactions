@@ -26,6 +26,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsPowerLoss;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.util.MiscUtil;
@@ -73,7 +74,7 @@ public class FactionsEntityListener implements Listener {
 		} else if (Conf.worldsNoPowerLoss.contains(player.getWorld().getName())) {
 			powerLossEvent.setMessage(Lang.PLAYER_POWER_NOLOSS_WORLD.toString());
 			powerLossEvent.setCancelled(true);
-		} else if (Conf.peacefulMembersDisablePowerLoss && fplayer.hasFaction() && fplayer.getFaction().isPeaceful()) {
+		} else if (Conf.peacefulMembersDisablePowerLoss && fplayer.hasFaction() && fplayer.getFaction().getFlag(Flags.PEACEFUL)) {
 			powerLossEvent.setMessage(Lang.PLAYER_POWER_NOLOSS_PEACEFUL.toString());
 			powerLossEvent.setCancelled(true);
 		} else {
@@ -154,7 +155,7 @@ public class FactionsEntityListener implements Listener {
 		
 		boolean online = faction.hasPlayersOnline();
 
-		if (faction.noExplosionsInTerritory() || (faction.isPeaceful() && Conf.peacefulTerritoryDisableBoom)) {
+		if (faction.getFlag(Flags.EXPLOSIONS) || (faction.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisableBoom)) {
 			event.setCancelled(true);
 			return;
 		}
@@ -256,7 +257,7 @@ public class FactionsEntityListener implements Listener {
 		if (thrower instanceof Player) {
 			Player player = (Player) thrower;
 			FPlayer fPlayer = FPlayerColl.get(player);
-			if (badjuju && fPlayer.getFaction().isPeaceful()) {
+			if (badjuju && fPlayer.getFaction().getFlag(Flags.PEACEFUL)) {
 				event.setCancelled(true);
 				return;
 			}
@@ -393,12 +394,12 @@ public class FactionsEntityListener implements Listener {
 			}
 		}
 
-		if (defendFaction.isPeaceful()) {
+		if (defendFaction.getFlag(Flags.PEACEFUL)) {
 			if (notify) {
 				attacker.sendMessage(Lang.PLAYER_PVP_PEACEFUL);
 			}
 			return false;
-		} else if (attackFaction.isPeaceful()) {
+		} else if (attackFaction.getFlag(Flags.PEACEFUL)) {
 			if (notify) {
 				attacker.sendMessage(Lang.PLAYER_PVP_PEACEFUL);
 			}
@@ -491,7 +492,7 @@ public class FactionsEntityListener implements Listener {
 		if (event.getCause() == RemoveCause.EXPLOSION) {
 			Location loc = event.getEntity().getLocation();
 			Faction faction = Board.get().getFactionAt(Locality.of(loc));
-			if (faction.noExplosionsInTerritory()) {
+			if (faction.getFlag(Flags.EXPLOSIONS)) {
 				// faction is peaceful and has explosions set to disabled
 				event.setCancelled(true);
 				return;

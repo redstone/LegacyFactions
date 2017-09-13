@@ -181,21 +181,21 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_members_coleaders") {
 			@Override
 			public String get(Faction faction) {
-				return String.valueOf(faction.getFPlayersWhereRole(Role.COLEADER).size());
+				return String.valueOf(faction.getWhereRole(Role.COLEADER).size());
 			}
 		});
 		
 		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_members_normal") {
 			@Override
 			public String get(Faction faction) {
-				return String.valueOf(faction.getFPlayersWhereRole(Role.NORMAL).size());
+				return String.valueOf(faction.getWhereRole(Role.NORMAL).size());
 			}
 		});
 		
 		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_members_moderator") {
 			@Override
 			public String get(Faction faction) {
-				return String.valueOf(faction.getFPlayersWhereRole(Role.MODERATOR).size());
+				return String.valueOf(faction.getWhereRole(Role.MODERATOR).size());
 			}
 		});
 		

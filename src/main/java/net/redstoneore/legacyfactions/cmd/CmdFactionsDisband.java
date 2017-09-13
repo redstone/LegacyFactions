@@ -13,6 +13,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.VaultAccount;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.event.EventFactionsDisband;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
@@ -73,7 +74,7 @@ public class CmdFactionsDisband extends FCommand {
 			return;
 		}
 		
-		if (faction.isPermanent()) {
+		if (faction.getFlag(Flags.PERMANENT)) {
 			sendMessage(Lang.COMMAND_DISBAND_MARKEDPERMANENT.toString());
 			return;
 		}

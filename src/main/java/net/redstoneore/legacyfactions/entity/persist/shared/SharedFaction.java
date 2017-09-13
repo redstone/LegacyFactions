@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -632,7 +633,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public abstract void setWarp(String name, LazyLocation loc, String password);
 	public abstract void clearWarps();
 	
-	public abstract HashMap<String, List<String>> getAnnouncements();
+	public abstract Map<String, List<String>> getAnnouncements();
 	public abstract void addAnnouncement(FPlayer fPlayer, String msg);
 	public abstract void removeAnnouncements(FPlayer fPlayer);
 

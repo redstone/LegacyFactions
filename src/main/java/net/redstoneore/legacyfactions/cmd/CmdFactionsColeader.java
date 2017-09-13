@@ -49,7 +49,7 @@ public class CmdFactionsColeader extends FCommand {
 		FPlayer you = this.argAsBestFPlayerMatch(0);
 		if (you == null) {
 			FancyMessage message = new FancyMessage(Lang.COMMAND_COLEADER_CANDIDATES.toString()).color(ChatColor.GOLD);
-			for (FPlayer player : myFaction.getFPlayersWhereRole(Role.NORMAL)) {
+			for (FPlayer player : myFaction.getWhereRole(Role.NORMAL)) {
 				String name = player.getName();
 				message.then(name + " ").color(ChatColor.WHITE).tooltip(Lang.COMMAND_COLEADER_CLICKTOPROMOTE.toString() + name).command("/" + CommandAliases.baseCommandAliases.get(0) + " coleader " + name);
 			}

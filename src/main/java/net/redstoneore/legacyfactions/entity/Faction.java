@@ -1,5 +1,10 @@
 package net.redstoneore.legacyfactions.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,10 +20,12 @@ import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 
-import java.util.*;
-
 public interface Faction extends EconomyParticipator {
 	
+	// -------------------------------------------------- //
+	// FACTION
+	// -------------------------------------------------- //
+
 	String getId();
 
 	String getTag();
@@ -37,18 +44,33 @@ public interface Faction extends EconomyParticipator {
 
 	void setDescription(String value);
 	
+	// -------------------------------------------------- //
+	// FLAGS
+	// -------------------------------------------------- //
+	
 	Map<Flag, Boolean> getFlags();
 	
 	boolean setFlag(Flag flag, Boolean value);
 	
 	boolean getFlag(Flag flag);
 	
+	// -------------------------------------------------- //
+	// WARPS
+	// -------------------------------------------------- //
 
 	FactionWarps warps();
+	
+	// -------------------------------------------------- //
+	// VAULTS
+	// -------------------------------------------------- //
 	
 	int getMaxVaults();
 
 	void setMaxVaults(int value);
+	
+	// -------------------------------------------------- //
+	// INVITES
+	// -------------------------------------------------- //
 
 	Set<String> getInvites();
 
@@ -58,26 +80,38 @@ public interface Faction extends EconomyParticipator {
 
 	boolean isInvited(FPlayer fplayer);
 	
+	// -------------------------------------------------- //
+	// BANS
+	// -------------------------------------------------- //
+
 	void ban(FPlayer fplayer);
 	
 	void unban(FPlayer fplayer);
 	
 	boolean isBanned(FPlayer fplayer);
 	
+	
+	@Deprecated
 	boolean isPeaceful();
 
+	@Deprecated
 	void setPeaceful(boolean isPeaceful);
 
+	@Deprecated
 	void setPeacefulExplosionsEnabled(boolean val);
 
+	@Deprecated
 	boolean getPeacefulExplosionsEnabled();
 
+	@Deprecated
 	boolean noExplosionsInTerritory();
 
 	boolean noCreeperExplosions(Location location);
 
+	@Deprecated
 	boolean isPermanent();
 
+	@Deprecated
 	void setPermanent(boolean isPermanent);
 
 	boolean hasForcedMapCharacter();
@@ -213,9 +247,15 @@ public interface Faction extends EconomyParticipator {
 
 	FPlayer getOwner();
 
+	/**
+	 * Deprecated, use {@link #getWhereRole(Role)}
+	 * @param role
+	 * @return
+	 */
+	@Deprecated
 	ArrayList<FPlayer> getFPlayersWhereRole(Role role);
 	
-	ArrayList<FPlayer> getWhereRole(Role role);
+	List<FPlayer> getWhereRole(Role role);
 
 	ArrayList<Player> getOnlinePlayers();
 
@@ -352,8 +392,8 @@ public interface Faction extends EconomyParticipator {
 	 * @return
 	 */
 	@Deprecated
-	HashMap<String, List<String>> getAnnouncements();
-
+	Map<String, List<String>> getAnnouncements();
+  
 	/**
 	 * Deprecated, use {@link #announcements()}
 	 * @return

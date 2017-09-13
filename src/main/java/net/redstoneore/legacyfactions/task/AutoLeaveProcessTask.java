@@ -12,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsDisband;
+import net.redstoneore.legacyfactions.flag.Flags;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -83,7 +84,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 					Faction faction = fplayer.getFaction();
 					if (faction != null) {
 						if (faction.getSize() == 1) {
-							if (faction.isPermanent()) {
+							if (faction.getFlag(Flags.PERMANENT)) {
 								fplayer.leave(false);
 							} else {
 								EventFactionsDisband disbandEvent = new EventFactionsDisband(fplayer.getPlayer(), faction.getId(), false, EventFactionsDisband.DisbandReason.INACTIVITY);
