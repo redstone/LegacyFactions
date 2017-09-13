@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-public class JSONFPlayers extends MemoryFPlayerColl {
+public class JSONFPlayerColl extends MemoryFPlayerColl {
 	
 	// -------------------------------------------------- //
 	// STATIC 
@@ -43,7 +43,7 @@ public class JSONFPlayers extends MemoryFPlayerColl {
 	// CONSTRUCT 
 	// -------------------------------------------------- // 
 	
-	public JSONFPlayers() {
+	public JSONFPlayerColl() {
 
 	}
 
