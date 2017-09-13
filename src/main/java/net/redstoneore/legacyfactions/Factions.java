@@ -50,6 +50,7 @@ import net.redstoneore.legacyfactions.listeners.FactionsBlockListener;
 import net.redstoneore.legacyfactions.listeners.FactionsCommandsListener;
 import net.redstoneore.legacyfactions.listeners.FactionsEntityListener;
 import net.redstoneore.legacyfactions.listeners.FactionsExploitListener;
+import net.redstoneore.legacyfactions.listeners.FactionsPermissionGroups;
 import net.redstoneore.legacyfactions.listeners.FactionsPlayerListener;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
@@ -242,7 +243,8 @@ public class Factions extends FactionsPluginBase {
 			FactionsExploitListener.get(),
 			FactionsBlockListener.get(),
 			FactionsArmorStandListener.get(),
-			FactionsCommandsListener.get()
+			FactionsCommandsListener.get(),
+			FactionsPermissionGroups.get()
 		);
 		
 		// since some other plugins execute commands directly through this command interface, provide it

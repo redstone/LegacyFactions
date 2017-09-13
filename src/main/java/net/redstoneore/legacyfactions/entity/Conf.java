@@ -802,6 +802,12 @@ public class Conf {
 	)
 	public static boolean territoryChangeText = true;
 	
+	@DocDescription(
+		title = "Territory Change Permission Groups",
+		description = "Players will shift between permission groups when they change territories. These groups are legacyfactions_enemy, legacyfactions_member, legacyfactions_neutral, legacyfactions_ally, legacyfactions_safezone, legacyfactions_warzone, legacyfactions_wilderness, and legacyfactions_truce"
+	)
+	public static boolean territoryChangePermissionGroups = true;
+	
 	// -------------------------------------------------- //
 	// WARPS
 	// -------------------------------------------------- //
