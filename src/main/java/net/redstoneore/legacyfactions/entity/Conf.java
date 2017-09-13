@@ -1216,17 +1216,22 @@ public class Conf {
 	public static List<String> listExempt = Lists.newArrayList("some-faction-tag");
 	
 	// -------------------------------------------- //
-	// Persistance
+	// PERSISTANCE
 	// -------------------------------------------- //
 	
-	private static transient Conf i = new Conf();
+	private static transient Conf instance = new Conf();
 
 	public static void load() {
-		Persist.get().loadOrSaveDefault(i, Conf.class, "conf");
+		Persist.get().loadOrSaveDefault(instance, Conf.class, "conf");
 	}
 
 	public static void save() {
-		Persist.get().save(i);
+		Persist.get().save(instance);
+	}
+	
+	public static void loadSave() {
+		load();
+		save();
 	}
 	
 }
