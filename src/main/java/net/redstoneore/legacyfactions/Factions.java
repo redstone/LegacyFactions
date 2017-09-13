@@ -107,11 +107,7 @@ public class Factions extends FactionsPluginBase {
 		
 	private Integer saveTask = null;
 	
-	/**
-	 * Stop. Use {@link getGson}. This will be set to private in the future
-	 */
-	@Deprecated
-    public final Gson gson = this.getGsonBuilder().create();
+    private Gson gson = this.getGsonBuilder().create();
     	
 	protected boolean loadSuccessful = false;
 	
