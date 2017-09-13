@@ -2,6 +2,8 @@ package net.redstoneore.legacyfactions.cmd;
 
 import org.bukkit.command.ConsoleCommandSender;
 
+import com.google.common.base.Joiner;
+
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
@@ -27,8 +29,8 @@ public class CmdFactionsConvert extends FCommand {
 
 	private CmdFactionsConvert() {
 		this.aliases.addAll(CommandAliases.cmdAliasesConvert);
-
-		this.requiredArgs.add("[JSON|MYSQL]");
+		
+		this.requiredArgs.add("[" + Joiner.on("|").join(PersistType.values()) + "]");
 		this.optionalArgs.put("dbhost", "none");
 		this.optionalArgs.put("dbusername", "none");
 		this.optionalArgs.put("dbpassword", "none");
@@ -64,32 +66,37 @@ public class CmdFactionsConvert extends FCommand {
 				.sendTo(this.sender);
 		}
 		
-		// Update meta with the credentials
-		if (this.argIsSet(1)) {
-			Meta.get().databaseHost = this.argAsString(1);
-		}
-		
-		if (this.argIsSet(2)) {
-			Meta.get().databaseUsername = this.argAsString(2);
-		}
-		
-		if (this.argIsSet(3)) {
-			if (!this.argAsString(3).equalsIgnoreCase("null")) {
-				Meta.get().databasePassword = this.argAsString(3);
-			} else {
-				Meta.get().databasePassword = "";
+		if (persistType.requiresDatabaseCredentials()) {
+			if (!this.argIsSet(4)) {
+				Lang.COMMAND_CONVERT_BACKEND_DBCREDENTIALS.getBuilder()
+					.parse()
+					.replace("<type>", persistType.toString())
+					.sendTo(this.sender);
+				
+				return;
 			}
-		}
-		
-		if (this.argIsSet(4)) {
+			
+			// Update meta with new credentials
+			Meta.get().databaseHost = this.argAsString(1);
+			Meta.get().databaseUsername = this.argAsString(2);
+			Meta.get().databasePassword = this.argAsString(3);
 			Meta.get().databaseName = this.argAsString(4);
+		} else {
+			// Remove old credentials
+			Meta.get().databaseHost = "";
+			Meta.get().databaseUsername = "";
+			Meta.get().databasePassword = "";
+			Meta.get().databaseName = "";
 		}
 		
+		// Mark as non-encrypted
 		Meta.get().databaseCredentialsEncrypted = false;
 		
 		// Set current
+		// This will trigger a conversion
 		PersistHandler.setCurrent(persistType.getHandler());
 		
+		// Load everything
 		FPlayerColl.getUnsafeInstance().loadColl();
 		FactionColl.get().load();
 		Board.get().load();
