@@ -22,7 +22,7 @@ public class AutoLeaveTask implements Runnable {
 
         // maybe setting has been changed? if so, restart this task at new rate
         if (this.rate != Conf.autoLeaveRoutineRunsEveryXMinutes) {
-            Factions.get().startAutoLeaveTask(true);
+            TaskManager.get().startTaskAutoLeave(true);
         }
     }
 }

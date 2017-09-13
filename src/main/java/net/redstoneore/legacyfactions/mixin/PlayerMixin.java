@@ -5,10 +5,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.redstoneore.legacyfactions.FLocation;
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.LandAction;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
@@ -18,6 +20,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import net.redstoneore.legacyfactions.locality.Locality;
@@ -399,9 +402,9 @@ public class PlayerMixin {
 	}
 	
 	/**
-	 * 
-	 * @param entity
-	 * @return
+	 * Is an entity an NPC
+	 * @param entity Entity to check
+	 * @return true if the entity is an NPC
 	 */
 	public static boolean isNPC(Entity entity) {
 		if (entity.hasMetadata("NPC")) return true;
@@ -409,6 +412,13 @@ public class PlayerMixin {
 		return false;
 	}
 	
+	/**
+	 * Send a block change to a player.
+	 * @param player
+	 * @param location
+	 * @param material
+	 * @param data
+	 */
 	@SuppressWarnings("deprecation")
 	public static void sendBlockChange(Player player, Location location, CrossMaterial material, byte data) {
 		try {
@@ -416,6 +426,81 @@ public class PlayerMixin {
 		} catch (Exception e) {
 			player.sendBlockChange(location, material.getMaterialId(), data);
 		}
+	}
+	
+	/**
+	 * Should we let factions handle this chat event. 
+	 * @param event Event to validate
+	 * @return true if factions should handle this chat.
+	 */
+	public static boolean shouldLetFactionsHandleThisChat(AsyncPlayerChatEvent event) {
+		return event != null && (isPlayerFactionChatting(event.getPlayer()) || isFactionsCommand(event.getPlayer(), event.getMessage()));
+	}
+	
+	/**
+	 * Does player have Faction Chat enabled? If so, chat plugins should preferably not do channels,
+	 * local chat, or anything else which targets individual recipients, so Faction Chat can be done
+	 * @param player
+	 * @return
+	 */
+	public static boolean isPlayerFactionChatting(Player player) {
+		FPlayer me = FPlayerColl.get(player);
+		return me != null && me.getChatMode() != ChatMode.PUBLIC;
+	}
+	
+	/**
+	 * Is this chat message actually a Factions command, and thus should be left alone by other plugins?
+	 * @param player
+	 * @param check
+	 * @return
+	 */
+	public static boolean isFactionsCommand(Player player, String check) {
+		return !(check == null || check.isEmpty()) && Factions.get().handleCommand(player, check, true);
+	}
+
+	/**
+	 * Get a player's faction tag (faction name), mainly for usage by chat plugins for local/channel chat
+	 * @param player
+	 * @return
+	 */
+	public static String getPlayerFactionTag(Player player) {
+		return getPlayerFactionTagRelation(player, null);
+	}
+
+	/**
+	 * Same as {@link #getPlayerFactionTag(Player)}, but with relation (enemy/neutral/ally) colouring potentially added to the tag
+	 * @param speaker
+	 * @param listener
+	 * @return
+	 */
+	public static String getPlayerFactionTagRelation(Player speaker, Player listener) {
+		String tag = "~";
+		
+		// Invalid speaker, use default tag
+		if (speaker == null) return tag;
+		
+		FPlayer me = FPlayerColl.get(speaker);
+		
+		// Invalid FPlayer, use default tag
+		if (me == null) return tag;
+		
+		// if listener isn't set, or config option is disabled, give back uncolored tag
+		if (listener == null) {
+			tag = me.getChatTag().trim();
+		} else {
+			FPlayer you = FPlayerColl.get(listener);
+			if (you == null) {
+				tag = me.getChatTag().trim();
+			} else {
+				tag = me.getChatTag(you).trim();
+			}
+		}
+		
+		if (tag.isEmpty()) {
+			tag = "~";
+		}
+		
+		return tag;
 	}
 	
 }
