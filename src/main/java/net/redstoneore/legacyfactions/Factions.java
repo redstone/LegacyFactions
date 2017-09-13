@@ -175,10 +175,7 @@ public class Factions extends FactionsPluginBase {
 		this.migrations();
 		
 		this.timeEnableStart = System.currentTimeMillis();
-		
-		// Create and register player command listener
-		this.getServer().getPluginManager().registerEvents(FactionsCommandsListener.get(), this);
-				
+						
 		Lang.reload();
 		
 		// Load Conf from disk
@@ -257,7 +254,8 @@ public class Factions extends FactionsPluginBase {
 			FactionsEntityListener.get(),
 			FactionsExploitListener.get(),
 			FactionsBlockListener.get(),
-			FactionsArmorStandListener.get()
+			FactionsArmorStandListener.get(),
+			FactionsCommandsListener.get()
 		);
 		
 		// since some other plugins execute commands directly through this command interface, provide it
