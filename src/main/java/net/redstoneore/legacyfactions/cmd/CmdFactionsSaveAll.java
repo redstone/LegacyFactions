@@ -1,6 +1,9 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+
+import org.bukkit.command.CommandSender;
+
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
@@ -40,11 +43,19 @@ public class CmdFactionsSaveAll extends FCommand {
 
 	@Override
 	public void perform() {
-		FPlayerColl.save(false);
-		FactionColl.get().forceSave(false);
-		Board.get().forceSave(false);
+		this.perform(false, this.sender);
+	}
+	
+	public void perform(boolean sync, CommandSender notify) {
+		FPlayerColl.save(sync);
+		FactionColl.get().forceSave(sync);
+		Board.get().forceSave(sync);
 		Conf.save();
-		sendMessage(Lang.COMMAND_SAVEALL_SUCCESS);
+		
+		if (notify != null) {
+			Lang.COMMAND_SAVEALL_SUCCESS.getBuilder()
+			.sendTo(notify);			
+		}
 	}
 
 	@Override
