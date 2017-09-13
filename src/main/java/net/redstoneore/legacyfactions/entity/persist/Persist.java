@@ -1,6 +1,5 @@
 package net.redstoneore.legacyfactions.entity.persist;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -8,8 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
+import org.bukkit.ChatColor;
+
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.util.DiscUtil;
+import net.redstoneore.legacyfactions.util.MiscUtil;
 
 public class Persist {
 
@@ -156,12 +158,13 @@ public class Persist {
 			Factions.get().debug(file + " is null");
 			return null;
 		}
-
+		
 		try {
 			T instance = Factions.get().getGson().fromJson(content, clazz);
 			return instance;
-		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
-			Factions.get().warn(ex.getMessage());
+		} catch (Throwable e) {
+			Factions.get().warn(e.getMessage());
+			e.printStackTrace();
 		}
 
 		return null;
@@ -191,113 +194,6 @@ public class Persist {
 
 		return null;
 
-	}
-	
-	// ------------------------------------------------------------ //
-	// DEPRECATED: NICE WRAPPERS
-	// ------------------------------------------------------------ //
-	
-	@Deprecated
-	public <T> T loadOrSaveDefault(T def, Class<T> clazz, File file) {
-		if (!file.exists()) {
-			Factions.get().log("Creating default: " + file);
-			this.save(def, file);
-			return def;
-		}
-
-		T loaded = this.load(clazz, file);
-
-		if (loaded == null) {
-			Factions.get().warn("Using default as I failed to load: " + file);
-
-			// backup bad file, so user can attempt to recover their changes from it
-			File backup = new File(file.getPath() + "_bad");
-			if (backup.exists()) {
-				backup.delete();
-			}
-			Factions.get().warn("Backing up copy of bad file to: " + backup);
-			file.renameTo(backup);
-
-			return def;
-		}
-
-		return loaded;
-	}
-	
-	// ------------------------------------------------------------ //
-	// DEPRECATED: FILE SAVE
-	// ------------------------------------------------------------ //
-	
-	@Deprecated
-	public boolean save(Object instance, File file) {
-		Factions.get().debug("Saving " + file.getAbsolutePath());
-		assert instance != null;
-		assert file != null;
-		assert Factions.get().gson != null;
-		
-		return DiscUtil.writeCatch(file, Factions.get().gson.toJson(instance), true);
-	}
-	
-	// ------------------------------------------------------------ //
-	// DEPRECATED: FILE LOAD
-	// ------------------------------------------------------------ //
-
-	@Deprecated
-	public <T> T load(Class<T> clazz, File file) {
-		String content = DiscUtil.readCatch(file);
-		if (content == null) {
-			return null;
-		}
-
-		try {
-			T instance = Factions.get().gson.fromJson(content, clazz);
-			return instance;
-		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
-			Factions.get().warn(ex.getMessage());
-		}
-
-		return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public <T> T load(Type typeOfT, File file) {
-		String content = DiscUtil.readCatch(file);
-		if (content == null) {
-			return null;
-		}
-
-		try {
-			return (T) Factions.get().gson.fromJson(content, typeOfT);
-		} catch (Exception ex) {	// output the error message rather than full stack trace; error parsing the file, most likely
-			Factions.get().warn(ex.getMessage());
-		}
-
-		return null;
-	}
-	
-	// ------------------------------------------------------------ //
-	// DEPRECATED: GET FILE
-	// ------------------------------------------------------------ //
-
-	@Deprecated
-	public File getFile(String name) {
-		return new File(Factions.get().getDataFolder(), name + ".json");
-	}
-
-	@Deprecated
-	public File getFile(Class<?> clazz) {
-		return getFile(getName(clazz));
-	}
-
-	@Deprecated
-	public File getFile(Object obj) {
-		return getFile(getName(obj));
-	}
-
-	@Deprecated
-	public File getFile(Type type) {
-		return getFile(getName(type));
 	}
 
 }
