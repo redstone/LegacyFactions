@@ -8,6 +8,7 @@ import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.PermUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 import org.apache.commons.lang.time.DurationFormatUtils;
@@ -175,7 +176,7 @@ public abstract class MCommand<T extends FactionsPluginBase> {
 	}
 
 	public boolean validSenderPermissions(CommandSender sender, boolean informSenderIfNot) {
-		return this.permission == null || Factions.get().getPermUtil().has(sender, this.permission, informSenderIfNot);
+		return this.permission == null || PermUtil.get().has(sender, this.permission, informSenderIfNot);
 	}
 
 	public boolean validArgs(List<String> args, CommandSender sender) {
