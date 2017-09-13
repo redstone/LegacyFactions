@@ -61,6 +61,14 @@ public class FactionsJSON extends PersistHandler {
     }
 
 	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- //
+	
+	private JSONBoard boardInstance = new JSONBoard();
+	private JSONFPlayers fplayersInstance = new JSONFPlayers();
+	private JSONFactions factionsInstance = new JSONFactions();
+	
+	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
 	
@@ -76,17 +84,17 @@ public class FactionsJSON extends PersistHandler {
 
 	@Override
 	public Board getBoard() {
-		return new JSONBoard();
+		return this.boardInstance;
 	}
 
 	@Override
 	public FPlayerColl getFPlayerColl() {
-		return new JSONFPlayers();
+		return this.fplayersInstance;
 	}
 
 	@Override
 	public FactionColl getFactionColl() {
-		return new JSONFactions();
+		return this.factionsInstance;
 	}
     
 }

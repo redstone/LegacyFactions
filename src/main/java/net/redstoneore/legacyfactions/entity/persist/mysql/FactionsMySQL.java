@@ -43,6 +43,10 @@ public class FactionsMySQL extends PersistHandler {
 	
 	private DataSource datasource = null;
 	
+	private MySQLBoard boardInstance = new MySQLBoard();
+	private MySQLFPlayerColl fplayerCollInstance = new MySQLFPlayerColl();
+	private MySQLFactionColl factionCollInstance = new MySQLFactionColl();
+	
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -99,20 +103,19 @@ public class FactionsMySQL extends PersistHandler {
 		this.init();
 		
 		
-		if (other instanceof FactionsJSON) {
-			FactionsJSON factionJSON = (FactionsJSON) other;
+		if (other instanceof FactionsJSON) {			
 			MySQLFactionColl newFactionColl = (MySQLFactionColl) this.getFactionColl();
-			FactionColl.get().getAllFactions().forEach(faction -> {
+			other.getFactionColl().getAllFactions().forEach(faction -> {
 				newFactionColl.generateFactionObject(faction);
 			});
 			
 			MySQLBoard newBoard = (MySQLBoard) this.getBoard();
-			Board.get().getAllClaims().forEach(claim -> {
+			other.getBoard().getAllClaims().forEach(claim -> {
 				newBoard.setFactionAt(Board.get().getFactionAt(claim), claim);
 			});
 			
 			MySQLFPlayerColl newFPlayerColl = (MySQLFPlayerColl) this.getFPlayerColl();
-			FPlayerColl.all().forEach(fplayer -> {
+			other.getFPlayerColl().getAllFPlayers().forEach(fplayer -> {
 				newFPlayerColl.createFPlayer(fplayer);
 			});
 			
@@ -128,17 +131,17 @@ public class FactionsMySQL extends PersistHandler {
 
 	@Override
 	public Board getBoard() {
-		return new MySQLBoard();
+		return this.boardInstance;
 	}
 
 	@Override
 	public FPlayerColl getFPlayerColl() {
-		return new MySQLFPlayerColl();
+		return this.fplayerCollInstance;
 	}
 
 	@Override
 	public FactionColl getFactionColl() {
-		return new MySQLFactionColl();
+		return this.factionCollInstance;
 	}
 	
 	private void setBaseKey() {
