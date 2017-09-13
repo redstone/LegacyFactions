@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-public abstract class FCommand extends MCommand<Factions> {
+public abstract class FCommand extends FCommandBase<Factions> {
 	
 	// -------------------------------------------------- //
 	// FIELDS
@@ -57,7 +57,7 @@ public abstract class FCommand extends MCommand<Factions> {
 	// -------------------------------------------------- //
 	
 	@Override
-	public void execute(CommandSender sender, List<String> args, List<MCommand<?>> commandChain) {
+	public void execute(CommandSender sender, List<String> args, List<FCommandBase<?>> commandChain) {
 		if (sender instanceof Player) {
 			this.fme = FPlayerColl.get(sender);
 			this.myFaction = this.fme.getFaction();

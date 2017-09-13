@@ -7,7 +7,7 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import net.redstoneore.legacyfactions.cmd.MCommand;
+import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.expansion.Provider;
 import net.redstoneore.legacyfactions.struct.InteractAttemptSpam;
 
@@ -28,8 +28,8 @@ public class Volatile {
 	// BASE COMMANDS
 	// -------------------------------------------------- //
 	
-	private List<MCommand<?>> baseCommands = new Vector<>();
-	public List<MCommand<?>> baseCommands() {
+	private List<FCommand> baseCommands = new Vector<>();
+	public List<FCommand> baseCommands() {
 		return this.baseCommands;
 	}
 	

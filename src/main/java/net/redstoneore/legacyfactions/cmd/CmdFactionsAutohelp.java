@@ -9,7 +9,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.event.EventFactionsCommandExecute;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
-public class CmdFactionsAutohelp extends MCommand<Factions> {
+public class CmdFactionsAutohelp extends FCommandBase<Factions> {
 
 	// -------------------------------------------------- //
 	// INSTANCE
@@ -53,13 +53,13 @@ public class CmdFactionsAutohelp extends MCommand<Factions> {
 	public void perform() {
 		if (this.commandChain.isEmpty()) return;
 		
-		MCommand<?> pcmd = this.commandChain.get(this.commandChain.size() - 1);
+		FCommandBase<?> pcmd = this.commandChain.get(this.commandChain.size() - 1);
 
 		ArrayList<String> lines = new ArrayList<>();
 
 		lines.addAll(pcmd.helpLong);
 
-		for (MCommand<?> scmd : pcmd.subCommands) {
+		for (FCommandBase<?> scmd : pcmd.subCommands) {
 			if (scmd.visibility == CommandVisibility.VISIBLE || (scmd.visibility == CommandVisibility.SECRET && scmd.validSenderPermissions(sender, false))) {
 				lines.add(scmd.getUseageTemplate(this.commandChain, true));
 			}

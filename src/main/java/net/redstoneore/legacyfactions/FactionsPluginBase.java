@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions;
 import java.util.*;
 import java.util.logging.Level;
 
-import net.redstoneore.legacyfactions.cmd.MCommand;
+import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 import net.redstoneore.legacyfactions.mixin.DebugMixin;
@@ -79,7 +79,7 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 			commandString = commandString.substring(1);
 		}
 
-		for (final MCommand<?> command : Volatile.get().baseCommands()) {
+		for (final FCommand command : Volatile.get().baseCommands()) {
 			if (noSlash && !command.allowNoSlashAccess()) {
 				continue;
 			}
