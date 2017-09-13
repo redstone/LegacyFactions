@@ -247,9 +247,9 @@ public class FactionsMySQL extends PersistHandler {
 	}
 	
 	/**
-	 * Prepare a statement
-	 * @param sql
-	 * @return
+	 * Prepare a statement.
+	 * @param sql SQL Statement
+	 * @return A MySQLPrepared instance.
 	 */
 	public MySQLPrepared prepare(String sql) {
 		return new MySQLPrepared(sql);
