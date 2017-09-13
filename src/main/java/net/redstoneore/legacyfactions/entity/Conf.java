@@ -302,6 +302,12 @@ public class Conf {
 	public static int factionMemberLimit = 0;
 	
 	@DocDescription(
+		title = "Peaceful Member Limit",
+		description = "Set to 0 to revert to factionMemberLimit. If a peaceful faction hits this limit, players will no longer be able to join using `/f join`"
+	)
+	public static int factionMemberLimitPeaceful = 0;
+	
+	@DocDescription(
 		title = "New Player Starting Faction ID",
 		description = "This is default set to 0 (no faction), but if you want players to automatically join a faction set this to that ID."
 	)

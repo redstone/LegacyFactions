@@ -136,7 +136,9 @@ public class CmdFactionsJoin extends FCommand {
 			return;
 		}
 
-		if (Conf.factionMemberLimit > 0 && faction.getMembers().size() >= Conf.factionMemberLimit) {
+		if (faction.getFlag(Flags.PEACEFUL) && Conf.factionMemberLimitPeaceful > 0 && faction.getMembers().size() >= Conf.factionMemberLimitPeaceful) {
+			fsender.sendMessage(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fsender), Conf.factionMemberLimitPeaceful, fplayer.describeTo(fsender, false));
+		} else if (Conf.factionMemberLimit > 0 && faction.getMembers().size() >= Conf.factionMemberLimit) {
 			fsender.sendMessage(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fsender), Conf.factionMemberLimit, fplayer.describeTo(fsender, false));
 			return;
 		}
