@@ -15,11 +15,18 @@ public abstract class PersistHandler {
 		return Conf.backEnd.getHandler();
 	}
 	
-	public static PersistHandler setCurrent(PersistHandler handler) {
-		handler.convertfrom(Conf.backEnd.getHandler());
+	public static PersistHandler setCurrent(PersistHandler handler, boolean convert) {
+		if (convert) {
+			handler.convertfrom(Conf.backEnd.getHandler());
+		}
+		
 		Conf.backEnd = handler.getType();
 		handler.init();
 		return Conf.backEnd.getHandler();
+	}
+	
+	public static PersistHandler setCurrent(PersistHandler handler) {
+		return setCurrent(handler, true);
 	}
 
 	// -------------------------------------------------- //
