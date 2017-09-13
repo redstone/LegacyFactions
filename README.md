@@ -17,14 +17,14 @@ _It's free for everyone!_ But many people have requested to make a donation, you
 * New help menu with new JSON button support (can be disabled)
 * Faction warps have passwords (can be disabled with permission)
 * Much better API
-* Loads more! [check out the wiki ](https://github.com/redstone/LegacyFactions/wiki)
+* Loads more! [check out the wiki ](https://github.com/redstone/LegacyFactions/wiki), or see - [Whats the difference?](https://github.com/redstone/LegacyFactions/wiki/Whats-the-difference%3F)
 
 ## Installation
 1. Download the latest release.
 2. Put LegacyFactions.jar in the plugins folder.
 3. Start your server up.
 
-A default config (`config.json`) file will be created on the first run. The default configuration usually works well - but tweak as needed!
+A default config (`config.js`) file will be created on the first run. The default configuration usually works well - but tweak as needed!
 
 ## License
 For licensing information please see [LICENSE.md](LICENSE.md)

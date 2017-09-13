@@ -18,8 +18,8 @@ Here are some common issues you may run into while compiling.
 
 ## Unsupported method: HierarchicalEclipseProject.getIdentifier().
 
-This is an issue while importing the project into Eclipse. Specifying the version as 3.0 should solve the issue, simply do your compiling from
+This is an issue while importing the project into Eclipse. Your version of buildship is outdated. You can update it in the Eclipse Marketplace.
 
 ## Unsupported major.minor version 52.0
 
-Your version of Java is out of date. We currently compile against Java 8!
+Your version of Java is out of date. Please update to Java 8! 
