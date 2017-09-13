@@ -43,9 +43,9 @@ public class FactionsMySQL extends PersistHandler {
 	
 	private DataSource datasource = null;
 	
-	private MySQLBoard boardInstance = new MySQLBoard();
-	private MySQLFPlayerColl fplayerCollInstance = new MySQLFPlayerColl();
-	private MySQLFactionColl factionCollInstance = new MySQLFactionColl();
+	private MySQLBoard boardInstance = null;
+	private MySQLFPlayerColl fplayerCollInstance = null;
+	private MySQLFactionColl factionCollInstance = null;
 	
 	// -------------------------------------------------- //
 	// METHODS
@@ -131,16 +131,25 @@ public class FactionsMySQL extends PersistHandler {
 
 	@Override
 	public Board getBoard() {
+		if (this.boardInstance == null) {
+			this.boardInstance = new MySQLBoard();
+		}
 		return this.boardInstance;
 	}
 
 	@Override
 	public FPlayerColl getFPlayerColl() {
+		if (this.fplayerCollInstance == null) {
+			this.fplayerCollInstance = new MySQLFPlayerColl();
+		}
 		return this.fplayerCollInstance;
 	}
 
 	@Override
 	public FactionColl getFactionColl() {
+		if (this.factionCollInstance == null) {
+			this.factionCollInstance = new MySQLFactionColl();
+		}
 		return this.factionCollInstance;
 	}
 	

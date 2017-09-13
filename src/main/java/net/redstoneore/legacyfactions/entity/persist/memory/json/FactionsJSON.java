@@ -64,9 +64,9 @@ public class FactionsJSON extends PersistHandler {
 	// FIELDS
 	// -------------------------------------------------- //
 	
-	private JSONBoard boardInstance = new JSONBoard();
-	private JSONFPlayers fplayersInstance = new JSONFPlayers();
-	private JSONFactions factionsInstance = new JSONFactions();
+	private JSONBoard boardInstance = null;
+	private JSONFPlayers fplayersInstance = null;
+	private JSONFactions factionsInstance = null;
 	
 	// -------------------------------------------------- //
 	// METHODS
@@ -84,16 +84,25 @@ public class FactionsJSON extends PersistHandler {
 
 	@Override
 	public Board getBoard() {
+		if (this.boardInstance == null) {
+			this.boardInstance = new JSONBoard();
+		}
 		return this.boardInstance;
 	}
 
 	@Override
 	public FPlayerColl getFPlayerColl() {
+		if (this.fplayersInstance == null) {
+			this.fplayersInstance = new JSONFPlayers();
+		}
 		return this.fplayersInstance;
 	}
 
 	@Override
 	public FactionColl getFactionColl() {
+		if (this.factionsInstance == null) {
+			this.factionsInstance = new JSONFactions();
+		}
 		return this.factionsInstance;
 	}
     
