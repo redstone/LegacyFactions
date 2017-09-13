@@ -67,9 +67,9 @@ public class BStatsEngine extends IntegrationEngine {
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> map = new HashMap<>();
 				if (Conf.expansionFactionsFly.enabled) {
-					map.put("FactionsFly", 1);					
+					map.put("FactionsFly Enabled", 1);					
 				} else {
-					map.put("FactionsFly", 0);
+					map.put("FactionsFly Disabled", 0);
 				}
 				return map;
 			}
@@ -81,13 +81,57 @@ public class BStatsEngine extends IntegrationEngine {
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> map = new HashMap<>();
 				if (Conf.expansionsFactionsChat.enabled) {
-					map.put("FactionsChat", 1);					
+					map.put("FactionsChat Enabled", 1);					
 				} else {
-					map.put("FactionsChat", 0);
+					map.put("FactionsChat Disabled", 0);
 				}
 				return map;
 			}
 		}));
+		
+		// feature: coleaders
+		metrics.addCustomChart(new Metrics.SimpleBarChart("legacyfactions_feature_coleaders", new Callable<Map<String, Integer>>() {
+			@Override
+			public Map<String, Integer> call() throws Exception {
+				Map<String, Integer> map = new HashMap<>();
+				if (Conf.enableColeaders) {
+					map.put("Coleaders Enabled", 1);					
+				} else {
+					map.put("Coleaders Disabled", 0);
+				}
+				return map;
+			}
+		}));
+				
+		// feature: truces
+		metrics.addCustomChart(new Metrics.SimpleBarChart("legacyfactions_feature_truces", new Callable<Map<String, Integer>>() {
+			@Override
+			public Map<String, Integer> call() throws Exception {
+				Map<String, Integer> map = new HashMap<>();
+				if (Conf.enableTruces) {
+					map.put("Truces Enabled", 1);					
+				} else {
+					map.put("Truces Disabled", 0);
+				}
+				return map;
+			}
+		}));
+				
+		// feature: flags
+		metrics.addCustomChart(new Metrics.SimpleBarChart("legacyfactions_feature_flags", new Callable<Map<String, Integer>>() {
+			@Override
+			public Map<String, Integer> call() throws Exception {
+				Map<String, Integer> map = new HashMap<>();
+				if (Conf.enableTruces) {
+					map.put("Flags Enabled", 1);					
+				} else {
+					map.put("Flags Disabled", 0);
+				}
+				return map;
+			}
+		}));
+						
+				
 		
 	}
 	
