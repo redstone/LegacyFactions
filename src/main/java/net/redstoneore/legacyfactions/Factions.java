@@ -175,8 +175,7 @@ public class Factions extends FactionsPluginBase {
 		Lang.reload();
 		
 		// Load Conf from disk
-		Conf.load();
-		Conf.save();
+		Conf.loadSave();
 		
 		// Load command aliases from disk
 		CommandAliases.load();
@@ -187,8 +186,7 @@ public class Factions extends FactionsPluginBase {
 		}
 		
 		// Load meta from disk
-		Meta.get().load();
-		Meta.get().save();
+		Meta.get().load().save();
 		
 		// Initialise our persist handler
 		Conf.backEnd.getHandler().init();
@@ -255,7 +253,7 @@ public class Factions extends FactionsPluginBase {
 		);
 		
 		// since some other plugins execute commands directly through this command interface, provide it
-		CommandAliases.baseCommandAliases.forEach(ref ->  {
+		CommandAliases.baseCommandAliases.forEach(ref -> {
 			if (ref != null) {
 				this.getCommand(ref).setExecutor(this);
 			}

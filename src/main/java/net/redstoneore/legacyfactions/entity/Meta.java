@@ -125,12 +125,14 @@ public class Meta {
 		return this.path;
 	}
 	
-	public void load() {
+	public Meta load() {
 		instance = Persist.get().loadOrSaveDefault(instance, Meta.class, this.getPath());
+		return instance;
 	}
 	
-	public void save() {
+	public Meta save() {
 		Persist.get().save(instance, this.getPath());
+		return instance;
 	}
 	
 }
