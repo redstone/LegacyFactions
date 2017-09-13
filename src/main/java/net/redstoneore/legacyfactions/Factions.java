@@ -266,9 +266,9 @@ public class Factions extends FactionsPluginBase {
 			Files.createDirectories(FactionsJSON.getDatabasePath());
 		}
 		
-		Path oldBoardJson = Paths.get(this.getDataFolder().toString(), "board.json");
-		Path oldFactionsJson = Paths.get(this.getDataFolder().toString(), "factions.json");
-		Path oldPlayersJson = Paths.get(this.getDataFolder().toString(), "players.json");
+		Path oldBoardJson = this.getPluginFolder().resolve("board.json");
+		Path oldFactionsJson = this.getPluginFolder().resolve("factions.json");
+		Path oldPlayersJson = this.getPluginFolder().resolve("players.json");
 		
 		if (Files.exists(oldBoardJson)) {
 			if (Files.exists(JSONBoard.getJsonFile())) {
@@ -387,7 +387,7 @@ public class Factions extends FactionsPluginBase {
 	// -------------------------------------------------- //
 
 	/**
-	 * Deprecated, use {@link PlayerMixin#shouldLetFactionsHandleThisChat}
+	 * Deprecated, use {@link PlayerMixin#shouldLetFactionsHandleThisChat(AsyncPlayerChatEvent)}
 	 */
 	@Deprecated
 	public boolean shouldLetFactionsHandleThisChat(AsyncPlayerChatEvent event) {
@@ -395,7 +395,7 @@ public class Factions extends FactionsPluginBase {
 	}
 	
 	/**
-	 * Deprecated, use {@link PlayerMixin#isPlayerFactionChatting}
+	 * Deprecated, use {@link PlayerMixin#isPlayerFactionChatting(Player)}
 	 */	
 	@Deprecated
 	public boolean isPlayerFactionChatting(Player player) {
@@ -403,7 +403,7 @@ public class Factions extends FactionsPluginBase {
 	}
 
 	/**
-	 * Deprecated, use {@link PlayerMixin#isFactionsCommand}
+	 * Deprecated, use {@link PlayerMixin#isFactionsCommand(Player, String)}
 	 */	
 	@Deprecated
 	public boolean isFactionsCommand(Player player, String check) {
@@ -411,7 +411,7 @@ public class Factions extends FactionsPluginBase {
 	}
 
 	/**
-	 * Deprecated, use {@link PlayerMixin#getPlayerFactionTag}
+	 * Deprecated, use {@link PlayerMixin#getPlayerFactionTag(Player)}
 	 */	
 	@Deprecated
 	public String getPlayerFactionTag(Player player) {
@@ -419,7 +419,7 @@ public class Factions extends FactionsPluginBase {
 	}
 
 	/**
-	 * Deprecated, use {@link PlayerMixin#getPlayerFactionTagRelation}
+	 * Deprecated, use {@link PlayerMixin#getPlayerFactionTagRelation(Player, Player)}
 	 */
 	@Deprecated
 	public String getPlayerFactionTagRelation(Player speaker, Player listener) {

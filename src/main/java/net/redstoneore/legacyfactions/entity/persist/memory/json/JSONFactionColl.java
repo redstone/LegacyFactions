@@ -32,7 +32,7 @@ public class JSONFactionColl extends MemoryFactionColl {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-	private static transient Path file = Paths.get(FactionsJSON.getDatabasePath().toString(), "factions.json");
+	private static transient Path file = FactionsJSON.getDatabasePath().resolve("factions.json");
 	public static Path getJsonFile() { return file; }
 	
 	// -------------------------------------------- //

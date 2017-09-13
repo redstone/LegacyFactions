@@ -33,7 +33,7 @@ public class JSONFPlayerColl extends MemoryFPlayerColl {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-	private transient static Path file = Paths.get(FactionsJSON.getDatabasePath().toString(), "players.json");
+	private transient static Path file = FactionsJSON.getDatabasePath().resolve("players.json");
 	public static Path getJsonFile() { return file; }
 	
 	public static Type getMapType() {
