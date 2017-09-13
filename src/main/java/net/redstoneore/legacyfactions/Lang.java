@@ -929,6 +929,35 @@ public enum Lang {
 	EXPANSION_FACTIONSFLY_ENABLED("<i>Flight enabled."),
 	EXPANSION_FACTIONSFLY_DISABLED("<i>Flight disabled."),
 	
+	// -------------------------------------------------- //
+	// CONFIG DESCRIPTIONS
+	// -------------------------------------------------- //
+	
+	CONFIG_MISC_SECTION("******************** [ MISC SETTINGS ] ********************"),
+	CONFIG_MISC_DEBUG("* Debug Mode\r\n   * If enabled, fine details will be sent to console."),
+	CONFIG_MISC_STATISTICS("* Log Statistics\r\n   * If enabled, we will log useful statistics."),
+	
+	CONFIG_NON16_SECTION("******************** [ NON 1.6 FEATURES ] ********************"),
+	CONFIG_NON16_TRUCES("* Enable Truces\r\n   * To disable truces, set this to false."),
+	CONFIG_NON16_COLEADERS("* Enable Coleaders\r\n   * To disable coleaders, set to false."),
+	CONFIG_NON16_FLAGS("* Enable Flags\r\n   * To disable flags, set to false."),
+	
+	CONFIG_COMMANDS_SECTION("******************** [ COMMANDS ] ********************"),
+	CONFIG_COMMANDS_ALLOWNOSLASH("* Allow /f commands to be executed without the initial slash."),
+
+	CONFIG_WARMUPS_SECTION("******************** [ WARMUPS ] ********************"),
+	CONFIG_WARMUPS_WARP("* How long (in seconds) the warmup for warps should be."),
+	CONFIG_WARMUPS_HOME("* How long (in seconds) the warmup for homes should be."),
+
+	CONFIG_RELATIONS_SECTION("******************** [ RELATIONS ] ********************"),
+	CONFIG_RELATIONS_MAX("* Maximum amount of each relationship. NEUTRAL should not be changed if\r\n   * it is the default relationship type."),
+	CONFIG_RELATIONS_COLOURS("* Relation Colours\r\n   * The colour of each relationship."),
+	
+	CONFIG_TOOLTIPS_SECTION("******************** [ TOOLTIPS ] ********************"),
+	CONFIG_TOOLTIPS_TOOLTIPS("* The tooltips for each of these can be configured using placeholders."),
+	
+	CONFIG_POWER_SECTION("******************** [ POWER ] ********************"),
+	
 	;
 	
 	// -------------------------------------------------- //

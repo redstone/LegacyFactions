@@ -10,8 +10,10 @@ import java.util.Random;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.MiscUtil;
+import net.redstoneore.legacyfactions.util.StringUtils;
 
 public class Persist {
 
@@ -50,7 +52,7 @@ public class Persist {
 	// ------------------------------------------------------------ //
 	
 	public Path getPath(String name) {
-		return Paths.get(Factions.get().getDataFolder().getAbsolutePath(), name + ".json");
+		return Paths.get(Factions.get().getDataFolder().getAbsolutePath(), name + ".js");
 	}
 
 	public Path getPath(Class<?> clazz) {
@@ -84,7 +86,6 @@ public class Persist {
 			this.save(defaultInstance, file);
 			return defaultInstance;
 		}
-		
 		
 		Factions.get().debug("file exists, loading " + file);
 
@@ -137,7 +138,13 @@ public class Persist {
 		assert file != null;
 		assert Factions.get().getGson() != null;
 		
-		return DiscUtil.writeCatch(file, Factions.get().getGson().toJson(instance), true);
+		String json = Factions.get().getGson().toJson(instance);
+		
+		json = StringUtils.replaceWithFn(json, "([^ ]*)\"_([^ \\.]*)\": \"(.*)\",", ((found) -> 
+			"\r\n  /*\r\n   " + Lang.valueOf(found).toString() + "\r\n   */"
+		), 3);
+		
+		return DiscUtil.writeCatch(file, json, true);
 	}
 
 	// ------------------------------------------------------------ //
@@ -165,7 +172,7 @@ public class Persist {
 			Factions.get().warn(ChatColor.GOLD + "This usually happens when someone have modified the file and made a mistake.");
 			Factions.get().warn(ChatColor.GOLD + "If an exception is shown, it will give you the line an column that is incorrect.");
 			Factions.get().warn(ChatColor.GOLD + "You should always make sure the file is valid JSON. ");
-			Factions.get().warn(ChatColor.GOLD + "Paste the file into " + ChatColor.AQUA + "www.jsonlint.com" + ChatColor.GOLD + " and valid its contents.");
+			Factions.get().warn(ChatColor.GOLD + "Paste the file into " + ChatColor.AQUA + "https://redstone.github.io/validate" + ChatColor.GOLD + " and valid its contents.");
 		}
 		
 		try {
@@ -202,7 +209,7 @@ public class Persist {
 			Factions.get().warn(ChatColor.GOLD + "This usually happens when someone have modified the file and made a mistake.");
 			Factions.get().warn(ChatColor.GOLD + "If an exception is shown, it will give you the line an column that is incorrect.");
 			Factions.get().warn(ChatColor.GOLD + "You should always make sure the file is valid JSON. ");
-			Factions.get().warn(ChatColor.GOLD + "Paste the file into " + ChatColor.AQUA + "www.jsonlint.com" + ChatColor.GOLD + " and valid its contents.");
+			Factions.get().warn(ChatColor.GOLD + "Paste the file into " + ChatColor.AQUA + "https://redstone.github.io/validate" + ChatColor.GOLD + " and valid its contents.");
 		}
 
 		try {

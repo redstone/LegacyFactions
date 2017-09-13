@@ -3,10 +3,9 @@ package net.redstoneore.legacyfactions.entity;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.cli.doc.DocDescription;
-import net.redstoneore.legacyfactions.cli.doc.DocSection;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 import net.redstoneore.legacyfactions.entity.persist.PersistType;
 import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
@@ -37,72 +36,58 @@ public class Conf {
 	// -------------------------------------------------- //
 	// MISC
 	// -------------------------------------------------- //
-	@DocSection(name = "Misc")
 	
-	@DocDescription(
-		title = "Debug Mode",
-		description = "If enabled, fine details will be sent to the console."
-	)
+	protected static String _sectionMisc = Lang.CONFIG_MISC_SECTION.name();
+	
+	protected static String _debug = Lang.CONFIG_MISC_DEBUG.name();
 	public static boolean debug = false;
 		
-	@DocDescription(
-		title = "Metrics",
-		description = "If enabled, useful statistics will be uploaded about your server. This helps with development and planning!"
-	)
+	protected static String _logStatistics = Lang.CONFIG_MISC_STATISTICS.name();
 	public static boolean logStatistics = true;
 	
 	// -------------------------------------------------- //
 	// Non-1.6 Features
 	// -------------------------------------------------- //
-	@DocSection(name = "Non 1.6 Features")
 	
-	@DocDescription(title = "Truces", description = "To disable truces, set to false.")
+	protected static String _sectionNon16 = Lang.CONFIG_NON16_SECTION.name();
+
+	protected static String _enableTruces = Lang.CONFIG_NON16_TRUCES.name();
 	public static boolean enableTruces = true;
 	
-	@DocDescription(title = "Coleaders", description = "To disable coleaders, set to false.")
+	protected static String _enableColeaders = Lang.CONFIG_NON16_COLEADERS.name();
 	public static boolean enableColeaders = true;
 	
-	@DocDescription(title = "Flags", description = "To disable flags, set to false.")
+	protected static String _enableFlags = Lang.CONFIG_NON16_FLAGS.name();
 	public static boolean enableFlags = false;
 	
 	// -------------------------------------------------- //
 	// COMMANDS
 	// -------------------------------------------------- //
-	@DocSection(name = "Commands")
 	
-	@DocDescription(
-		title = "Allow no slash commands",
-		description = "If enabled it will allow using factions commands without the initial slash. <br>" + 
-		              "For example typing 'f claim' instead of '/f claim'"
-	)
+	protected static String _sectionCommands = Lang.CONFIG_COMMANDS_SECTION.name();
+	
+	protected static String _allowNoSlashCommand = Lang.CONFIG_COMMANDS_ALLOWNOSLASH.name();
 	public static boolean allowNoSlashCommand = true;
 
 	// -------------------------------------------------- //
 	// WARMUPS
 	// -------------------------------------------------- //
-	@DocSection(name = "Warmups")
 	
-	@DocDescription(
-		title = "Warp Warmup",
-		description = "How long (in seconds) the warmup for warps should be"
-	)
+	protected static String _sectionWarmups = Lang.CONFIG_WARMUPS_SECTION.name();
+
+	protected static String _warmupWarp = Lang.CONFIG_WARMUPS_WARP.name();
 	public static long warmupWarp = 0;
 	
-	@DocDescription(
-		title = "Home Warmup",
-		description = "How long (in seconds) the warmup for homes should be"
-	)
+	protected static String _warmupHome = Lang.CONFIG_WARMUPS_HOME.name();
 	public static long warmupHome = 0;
 	
 	// -------------------------------------------------- //
 	// RELATIONS
 	// -------------------------------------------------- //
-	@DocSection(name = "Relations")
+	
+	protected static String _sectionRelations = Lang.CONFIG_RELATIONS_SECTION.name();
 
-	@DocDescription(
-		title = "Max Relations per Relationship",
-		description = "The maximum relationship for each type, set to -1 to disable"
-	)
+	protected static String _maxRelations = Lang.CONFIG_RELATIONS_MAX.name();
 	public static Map<Relation, Integer> maxRelations = MiscUtil.map(
 		Relation.ALLY, -1,
 		Relation.TRUCE, -1,
@@ -110,51 +95,26 @@ public class Conf {
 		Relation.ENEMY, -1
 	);
 	
-	@DocDescription(
-		title = "Member Relation Colour",
-		description = "The colour used to define the realtion member"
-	)
+	protected static String _colorMember = Lang.CONFIG_RELATIONS_COLOURS.name();
 	public static CrossColour colorMember = CrossColour.of(DefaultChatColour.GREEN);
 	
-	@DocDescription(
-		title = "Ally Relation Colour",
-		description = "The colour used to define the realtion elly"
-	)
 	public static CrossColour colorAlly = CrossColour.of(DefaultChatColour.LIGHT_PURPLE);
 	
-	@DocDescription(
-		title = "truce Relation Colour",
-		description = "The colour used to define the relation truce"
-	)
 	public static CrossColour colorTruce = CrossColour.of(DefaultChatColour.DARK_PURPLE);
 	
-	@DocDescription(
-		title = "Neutral Relation Colour",
-		description = "The colour used to define the relation neutral"
-	)
 	public static CrossColour colorNeutral = CrossColour.of(DefaultChatColour.WHITE);
 	
-	@DocDescription(
-		title = "Enemy Relation Colour",
-		description = "The colour used to define the relation enemy"
-	)
 	public static CrossColour colorEnemy = CrossColour.of(DefaultChatColour.RED);
 
-	@DocDescription(
-		title = "Peaceful Relation Colour",
-		description = "The colour used to define the relation peaceful"
-	)
 	public static CrossColour colorPeaceful = CrossColour.of(DefaultChatColour.GOLD);
 	
 	// -------------------------------------------------- //
  	// TOOLTIPS
 	// -------------------------------------------------- //
-	@DocSection(name = "Tooltips")
 	
-	@DocDescription(
-		title = "Tooltip Templates",
-		description = "These are the templates for tooltips"
-	)
+	protected static String _sectionTooltips = Lang.CONFIG_TOOLTIPS_SECTION.name();
+
+	protected static String _tooltips = Lang.CONFIG_TOOLTIPS_TOOLTIPS.name();
 	public static Map<String, List<String>> tooltips = MiscUtil.map(
 		"list", Lists.newArrayList(
 			"&6Leader: &f{leader}",
@@ -175,213 +135,81 @@ public class Conf {
 	// -------------------------------------------------- //
 	// POWER
 	// -------------------------------------------------- //
-	@DocSection(name = "Power")
+	
+	protected static String _sectionPower = Lang.CONFIG_POWER_SECTION.name();
 
-	@DocDescription(
-		title = "Max Player Power",
-		description = "The maximum player power"
-	)
 	public static double powerPlayerMax = 10.0;
 	
-	@DocDescription(
-		title = "Minimum Player Power",
-		description = "The minimum player power"
-	)
 	public static double powerPlayerMin = -10.0;
 	
-	@DocDescription(
-		title = "Default Starting Player Power",
-		description = "The power a player starts on when they first join"
-	)
 	public static double powerPlayerStarting = 0.0;
 	
-	@DocDescription(
-		title = "Power Regenerated Per Minute",
-		description = "The amount of power regenerated pre minute. 0.2 = 5 minute to heal 1 power (aka 50 minutes for 10 power)"
-	)
 	public static double powerPerMinute = 0.2; // Default health rate... it takes 5 min to heal one power
 	
-	@DocDescription(
-		title = "Power Loss Per Death",
-		description = "The amount of power lost on death"
-	)
 	public static double powerPerDeath = 4.0; 
 	
-	@DocDescription(
-		title = "Power Regen Offline",
-		description = "If enabled, players will regenerate power while they're offline."
-	)
 	public static boolean powerRegenOffline = false; 
 	
-	@DocDescription(
-		title = "Offline Power Loss Per Day",
-		description = "How much power a player will lose per day they are offline"
-	)
 	public static double powerOfflineLossPerDay = 0.0;
 	
-	@DocDescription(
-		title = "Offline Power Loss Limit",
-		description = "Offline power loss will not continue dropping once their drop drops to this amount or less"
-	)
 	public static double powerOfflineLossLimit = 0.0;
 	
-	@DocDescription(
-		title = "Faction Max Power",
-		description = "Set to 0 to disable. If greated than 0, this will be the maximum power a faction can have. Additional power will act as a 'buffer'."
-	)
 	public static double powerFactionMax = 0.0; 
 
 	// -------------------------------------------------- //
 	// PLAYER PREFIX
 	// -------------------------------------------------- //
-	@DocSection(name = "Player Prefix")
-
-	@DocDescription(
-		title = "Admin Prefix",
-		description = "The prefix for faction admins"
-	)
 	public static String playerPrefixAdmin = "***";
 	
-	@DocDescription(
-		title = "Coleader Prefix",
-		description = "The prefix for faction coloeaders"
-	)
 	public static String playerPrefixColeader = "**";
 	
-	@DocDescription(
-		title = "Coleader Prefix",
-		description = "The prefix for faction moderators"
-	)
 	public static String playerPrefixMod = "*";
 
 	// -------------------------------------------------- //
 	// FACTION
 	// -------------------------------------------------- //
-	@DocSection(name = "Faction")
-
-	@DocDescription(
-		title = "Default Relation",
-		description = "The default relation of factions"
-	)
 	public static String factionDefaultRelation = "neutral";
 	
-	@DocDescription(
-		title = "Faction Tag Minimum Length",
-		description = "The minimum length of a faction tag"
-	)
 	public static int factionTagLengthMin = 3;
 	
-	@DocDescription(
-		title = "Faction Tag Maxmimum Length",
-		description = "The maximum length of a faction tag"
-	)
 	public static int factionTagLengthMax = 10;
 		
-	@DocDescription(
-		title = "Faction Tag Force Upper Case",
-		description = "Force the tag to be uppercase."
-	)
 	public static boolean factionTagForceUpperCase = false;
 
-	@DocDescription(
-		title = "Faction Description Maxmimum Length",
-		description = "The maximum length of a faction description. Set to -1 to disable."
-	)
 	public static int factionDescriptionLengthMax = -1;
 	
-	@DocDescription(
-		title = "Default to Open",
-		description = "If true, factions will default to open."
-	)
 	public static boolean newFactionsDefaultOpen = false;
 
-	@DocDescription(
-		title = "Member Limit",
-		description = "Set to 0 to disable. If a faction hits this limit, players will no longer be able to join using `/f join`"
-	)
 	public static int factionMemberLimit = 0;
 	
-	@DocDescription(
-		title = "Peaceful Member Limit",
-		description = "Set to 0 to revert to factionMemberLimit. If a peaceful faction hits this limit, players will no longer be able to join using `/f join`"
-	)
 	public static int factionMemberLimitPeaceful = 0;
 	
-	@DocDescription(
-		title = "New Player Starting Faction ID",
-		description = "This is default set to 0 (no faction), but if you want players to automatically join a faction set this to that ID."
-	)
 	public static String newPlayerStartingFactionID = "0";
 
-	@DocDescription(
-		title = "Show Faction Keys on Map",
-		description = "If true, faction names will show as keys on the faction map."
-	)
 	public static boolean showMapFactionKey = true;
 	
-	@DocDescription(
-		title = "Show Neutral Factions On Map",
-		description = "If true, neutral factions will be visible on the map."
-	)
 	public static boolean showNeutralFactionsOnMap = true;
 	
-	@DocDescription(
-		title = "Show Enemy Factions On Map",
-		description = "If true, enemy factions will be visible on the map."
-	)
 	public static boolean showEnemyFactionsOnMap = true;
 
-	@DocDescription(
-		title = "Allow Colour Codes In Faction Title",
-		description = "If true, colour codes will be allowed in faction titles."
-	)
 	public static boolean allowColourCodesInFactionTitle = false;
 	
-	@DocDescription(
-		title = "Allow Colour Codes In Faction Description",
-		description = "If true, colour codes will be allowed in faction descriptions."
-	)
 	public static boolean allowColourCodesInFactionDescription = false;
 
-	@DocDescription(
-		title = "Disallow Leaving with negative power",
-		description = "If false, players can not join, leave, or be kicekd while power is negative."
-	)
 	public static boolean canLeaveWithNegativePower = true;
 
-	@DocDescription(
-		title = "Disable Pistons In Territory",
-		description = "If true, pistons will be disable in territories."
-	)
 	public static boolean disablePistonsInTerritory = false;
 
-	@DocDescription(
-		title = "Broadcast Description Changes",
-		description = "If true, a broadcast will be sent when a faction description is changed."
-	)
 	public static boolean broadcastDescriptionChanges = false;
 	
-	@DocDescription(
-		title = "Broadcast Tag Changes",
-		description = "If true, a broadcast will be sent when a faction name tag is changed."
-	)
 	public static boolean broadcastTagChanges = false;
 	
-	@DocDescription(
-		title = "Disable Leader Promotion For Permanent Factions",
-		description = "If true, leaders will not be promoted for permanent factions."
-	)
 	public static boolean permanentFactionsDisableLeaderPromotion = false;
 
 	// -------------------------------------------------- //
 	// FLAGS
 	// -------------------------------------------------- //
-	@DocSection(name = "Flags")
 
-	@DocDescription(
-		title = "Minimum role to manage flags",
-		description = "The minimum role to manage flags. Can be MEMBER, MODERATOR, COLEADER, or ADMIN"
-	)
 	public static Role factionFlagMinRole = Role.COLEADER;
 
 	public static boolean factionFlagToggleablePermanent = false;
@@ -392,14 +220,7 @@ public class Conf {
 	// -------------------------------------------------- //
 	// DAMAGE MODIFIER
 	// -------------------------------------------------- //
-	@DocSection(name = "Damage Modifier")
-	
-	@DocDescription(
-		title = "Damage Modifier For Relation To Player",
-		description = "Damage modifier as a percent for each relation. 100 = default. 120 = 20% "+
-		              "extra. These will be used in conjuction with wilderness/safezone/warzone " +
-		              "damage modifiers"
-	)
+
 	public static Map<Relation, Double> damageModifierPercentRelationPlayer = MiscUtil.newMap(
 		Relation.ALLY, 100.0,
 		Relation.ENEMY, 100.0,
@@ -408,12 +229,6 @@ public class Conf {
 		Relation.TRUCE, 100.0
 	);
 	
-	@DocDescription(
-		title = "Damage Modifier By Player For Relation To Location",
-		description = "Damage modifier as a percent for each relation. 100 = default. 120 = 20% "+
-		              "extra. These will be used in conjuction with wilderness/safezone/warzone " +
-		              "damage modifiers"
-	)
 	public static Map<Relation, Double> damageModifierPercentRelationLocationByPlayer = MiscUtil.newMap(
 		Relation.ALLY, 100.0,
 		Relation.ENEMY, 100.0,
@@ -422,12 +237,6 @@ public class Conf {
 		Relation.TRUCE, 100.0
 	);
 	
-	@DocDescription(
-		title = "Damage Modifier By Mob For Relation To Location",
-		description = "Damage modifier as a percent for each relation. 100 = default. 120 = 20% "+
-		              "extra. These will be used in conjuction with wilderness/safezone/warzone " +
-			          "damage modifiers"
-	)
 	public static Map<Relation, Double> damageModifierPercentRelationLocationByMob = MiscUtil.newMap(
 		Relation.ALLY, 100.0,
 		Relation.ENEMY, 100.0,
@@ -436,93 +245,40 @@ public class Conf {
 		Relation.TRUCE, 100.0
 	);
 		
-		
-	
-	@DocDescription(
-		title = "Damage Modifier For Wilderness",
-		description = "Damage modifier as a percent for wilderness. 100 = default. 120 = 20% extra."+
-		              " This will be used in conjunction with relation damage modifiers."
-	)
 	public static double damageModifierPercentWilderness = 100.0;
 	
-	@DocDescription(
-		title = "Damage Modifier For Safezone",
-		description = "Damage modifier as a percent for safezone. 100 = default. 120 = 20% extra."+
-		              " This will be used in conjunction with relation damage modifiers."
-	)
 	public static double damageModifierPercentSafezone = 100.0;
 	
-	@DocDescription(
-		title = "Damage Modifier For Warzone",
-		description = "Damage modifier as a percent for warzone. 100 = default. 120 = 20% extra"+ 
-		              " This will be used in conjunction with relation damage modifiers."
-	)
 	public static double damageModifierPercentWarzone = 100.0;
 	
 	// -------------------------------------------------- //
 	// EXPANSION: FactionsChat
 	// -------------------------------------------------- // 
-	@DocSection(name = "Expansion: FactionsChat")
-
 	public static FactionsChatConfig expansionsFactionsChat = new FactionsChatConfig();
 	
 	// -------------------------------------------------- //
 	// EXPANSION: FactionsFly
 	// -------------------------------------------------- //
-	@DocSection(name = "Expansion: FactionsFly")
-
 	public static FactionsFlyConfig expansionFactionsFly = new FactionsFlyConfig();
 		
 	// -------------------------------------------------- //
 	// TASKS
 	// -------------------------------------------------- //
-	@DocSection(name = "Tasks")
-
-	@DocDescription(
-		title = "Save Interval",
-		description = "How often (in minutes) should we save files."
-	)
 	public static double saveToFileEveryXMinutes = 30.0;
 
-	@DocDescription(
-		title = "Inactivity Autoleave: how many days?",
-		description = "After how many days of inactivty should a player autoleave their faction"
-	)
 	public static long autoLeaveAfterDaysOfInactivity = 28;
 	
-	@DocDescription(
-		title = "Inactivity Autoleave: timer frequency",
-		description = "How often (in minutes) should we run the autoleave task"
-	)
 	public static double autoLeaveRoutineRunsEveryXMinutes = 5.0;
 	
-	@DocDescription(
-		title = "Inactivity Autoleave: max ms per tick",
-		description = "The max ms per tick that the task can run -  1 server tick is roughly 50ms, so the default (5) is 10% of a tick"
-	)
 	public static int autoLeaveRoutineMaxMillisecondsPerTick = 5;
 	
-	@DocDescription(
-		title = "Remove Player Data When Banned",
-		description = "Removes all player data when they are banned. This is destructive, consider wisely."
-	)
 	public static boolean removePlayerDataWhenBanned = false;
 	
-	@DocDescription(
-		title = "Remove Player From Autoleave",
-		description = "Removes all player data when they autoleave from inactivty. This is destructive, consider wisely."
-	)
 	public static boolean autoLeaveDeleteFPlayerData = false; 
 	
 	// -------------------------------------------------- //
 	// FORMAT
 	// -------------------------------------------------- //
-	@DocSection(name = "Format")
-
-	@DocDescription(
-			title = "Enabled Script Support",
-			description = "Add script support for characters other than English. See: https://github.com/redstone/LegacyFactions/wiki/Multilingual-Script-Support"
-		)
 	public static Map<Character.UnicodeScript, Boolean> enabledScriptSupport = MiscUtil.map(
 		Character.UnicodeScript.ARABIC, false,
 		Character.UnicodeScript.BALINESE, false,
@@ -533,159 +289,59 @@ public class Conf {
 	// -------------------------------------------------- //
 	// SERVER LOGGING
 	// -------------------------------------------------- //
-	@DocSection(name = "Server Logging")
-
-	@DocDescription(
-			title = "Log Factions Create",
-			description = "Log Factions Create Event"
-		)
 	public static boolean logFactionCreate = true;
 	
-	@DocDescription(
-			title = "Log Factions Disband",
-			description = "Log Factions Disband Event"
-		)
 	public static boolean logFactionDisband = true;
 	
-	@DocDescription(
-			title = "Log Factions Join",
-			description = "Log Factions Join Event"
-		)
 	public static boolean logFactionJoin = true;
 	
-	@DocDescription(
-			title = "Log Factions Kick",
-			description = "Log Factions Kick Event"
-		)
 	public static boolean logFactionKick = true;
 	
-	@DocDescription(
-			title = "Log Factions Ban",
-			description = "Log Factions Ban Event"
-		)
 	public static boolean logFactionBan = true;
 	
-	@DocDescription(
-			title = "Log Factions Leave",
-			description = "Log Factions Leave Event"
-		)
 	public static boolean logFactionLeave = true;
 	
-	@DocDescription(
-			title = "Log Factions Claim Events",
-			description = "Log Factions Claim Events"
-		)
 	public static boolean logLandClaims = true;
 	
-	@DocDescription(
-			title = "Log Factions Unclaim Events",
-			description = "Log Factions Unclaim Event"
-		)
 	public static boolean logLandUnclaims = true;
 	
-	@DocDescription(
-			title = "Log Factions Money Transaction Events",
-			description = "Log Factions Money Transaction Events"
-		)
 	public static boolean logMoneyTransactions = true;
 	
-	@DocDescription(
-			title = "Log Player Commands",
-			description = "Log Player Commands"
-		)
 	public static boolean logPlayerCommands = true;
 
 	// -------------------------------------------------- //
 	// EXPLOIT
 	// -------------------------------------------------- //
-	@DocSection(name = "Exploits")
-
-	@DocDescription(
-			title = "Obsidian Generators",
-			description = "Block Obsidian Generators"
-		)
 	public static boolean handleExploitObsidianGenerators = true;
 	
-	@DocDescription(
-			title = "Ender Pearl Clipping",
-			description = "Block Ender Pearl Clipping"
-		)
 	public static boolean handleExploitEnderPearlClipping = true;
 	
-	@DocDescription(
-			title = "Interaction Spam",
-			description = "Block Interaction Spam"
-		)
 	public static boolean handleExploitInteractionSpam = true;
 	
-	@DocDescription(
-			title = "TNT Waterlog",
-			description = "Block TNT Waterlog"
-		)
 	public static boolean handleExploitTNTWaterlog = false;
 	
-	@DocDescription(
-			title = "Liquid Flow",
-			description = "Block liquid flow between territories"
-		)
 	public static boolean handleExploitLiquidFlow = false;
 
-	@DocDescription(
-			title = "Factions Find Exploit Log",
-			description = "Log when a factions find exploit is triggered"
-		)
 	public static boolean findFactionsExploitLog = false;
 	
-	@DocDescription(
-			title = "Factions Find Exploit Cooldown",
-			description = "Cooldown between map updating"
-		)
 	public static long findFactionsExploitCooldownMils = 2000;
 	
 	// -------------------------------------------------- //
 	// PORTALS
 	// -------------------------------------------------- //
-	@DocSection(name = "Portals")
-
-	@DocDescription(
-			title = "Portals Limit",
-			description = "Limits exit portal creation to where they're allowed to based on relation"
-		)
 	public static boolean portalsLimit = false;
 	
-	@DocDescription(
-			title = "Portals Limit Minimum Relation",
-			description = "The minimum relation where we can create exit portals (if portalsLimit is true)"
-		)
 	public static String portalsMinimumRelation = "MEMBER";
 	
 	// -------------------------------------------------- //
 	// SCOREBOARD
 	// -------------------------------------------------- //
-	@DocSection(name = "Scoreboard")
-
-	@DocDescription(
-			title = "Scoreboard In Chat",
-			description = "Should we also show the scoreboard in chat?"
-		)
 	public static boolean scoreboardInChat = false;
 	
-	@DocDescription(
-			title = "Scoreboard Expires",
-			description = "After how many seconds does the scoreboard expire"
-		)
 	public static long scoreboardExpiresSecs = 6;
 	
-	@DocDescription(
-			title = "Scoreboard Info",
-			description = "Should we enable the info scoreboard?"
-		)
 	public static boolean scoreboardInfoEnabled = false;
 	
-	@DocDescription(
-			title = "Scoreboard Info",
-			description = "Layout of info scoreboard"
-		)
 	public static List<String> scoreboardInfo = Lists.newArrayList(
 		"&6Power",
 		"{power}",
@@ -697,34 +353,14 @@ public class Conf {
 		"{chunks}"
 	);
 	
-	@DocDescription(
-			title = "Scoreboard Default",
-			description = "Is scoreobard default enabled?"
-		)
 	public static boolean scoreboardDefaultEnabled = false;
 	
-	@DocDescription(
-			title = "Scoreboard Default Title",
-			description = "Default title"
-		)
 	public static String scoreboardDefaultTitle = "Default Title";
 	
-	@DocDescription(
-			title = "Scoreboard Update Interval",
-			description = "How long (in seconds) between scoreboard updates?"
-		)
 	public static int scoreboardDefaultUpdateIntervalSecs = 2;
 	
-	@DocDescription(
-			title = "Scoreboard Default Prefixes",
-			description = "Should we enable the scoreboard default prefixes?"
-		)
 	public static boolean scoreboardDefaultPrefixes = true;
 	
-	@DocDescription(
-			title = "Scoreboard Default",
-			description = "Layout of default scoreboard"
-		)
 	public static List<String> scoreboardDefault = Lists.newArrayList(
 		"&6Your Faction",
 		"{faction}",
@@ -734,13 +370,8 @@ public class Conf {
 		"${player-balance}"
 	);
 	
-	@DocDescription(
-			title = "Scoreboard Factionless Enabled",
-			description = "Should we enable the Factionless scoreboard?"
-		)
 	public static boolean scoreboardFactionlessEnabled = false;
 	
-	@DocDescription(title = "Scoreboard Factionless", description = "Layout of Factionless scoreboard")
 	public static List<String> scoreboardFactionless = Lists.newArrayList(
 		"&6Factionless",
 		"Join a faction!"
@@ -749,53 +380,38 @@ public class Conf {
 	// -------------------------------------------------- //
 	// TITLES
 	// -------------------------------------------------- //
-	@DocSection(name = "Titles")
 
 	// show territory title on land change
-	@DocDescription(title = "Territory Titles Show", description = "Should titles be shown for territory changes?")
 	public static boolean territoryTitlesShow = true;
 	
-	@DocDescription(title = "Territory Titles Header", description = "Header format for titles")
 	public static String territoryTitlesHeader = "{factions_location_relation_colour}{factions_location_faction_name}";
 	
-	@DocDescription(title = "Territory Titles Footer", description = "Footer format for titles")
 	public static String territoryTitlesFooter = "{factions_location_faction_description}";
 	
-	@DocDescription(title = "Territory Titles Fade In Time", description = "The time (in ticks) that it will take for a title to fade in.")
 	public static int territoryTitlesTimeFadeInTicks = 20;
 	
-	@DocDescription(title = "Territory Titles Stay Time", description = "The time (in ticks) that it will take for a title to stay for.")
 	public static int territoryTitlesTimeStayTicks = 20;
 	
-	@DocDescription(title = "Territory Titles Fade Out Time", description = "The time (in ticks) that it will take for a title to fade out.")
 	public static int territoryTitlesTimeFadeOutTicks = 20;
 	
-	@DocDescription(title = "Hide Footer for Wilderness", description = "Should the footer be hidden for wilderness?")
 	public static boolean hideFooterForWilderness = false;
 	
-	@DocDescription(title = "Hide Footer for Warzone", description = "Should the footer be hidden for warzone?")
 	public static boolean hideFooterForWarzone = false;
 	
-	@DocDescription(title = "Hide Footer for Safezone", description = "Should the footer be hidden for safezone?")
 	public static boolean hideFooterForSafezone = false;
 
-	@DocDescription(title = "Rank Change Titles", description = "Show a title for rank changes.")
 	public static boolean rankChangeTitles = false;
 
 	// -------------------------------------------------- //
 	// TELEPORT TO SPAWN ON LOGOUT 
 	// -------------------------------------------------- //
-	@DocSection(name = "Teleport To Spawn On Logout")
-
-	@DocDescription(title = "Enabled", description = "Should this feature be enabled?")
 	public static boolean teleportToSpawnOnLogoutInRelationEnabled = false;
 	
-	@DocDescription(title = "Worlds in?", description = "Which worlds does this apply to?")
 	public static List<String> teleportToSpawnOnLogoutInRelationWorlds = Lists.newArrayList(
 		"world",
 		"world_nether"
 	);
-	@DocDescription(title = "Relations", description = "Which relations does this apply to?")
+
 	public static List<Relation> teleportToSpawnOnLogoutInRelation = Lists.newArrayList(
 		Relation.ENEMY
 	);
@@ -803,29 +419,17 @@ public class Conf {
 	// -------------------------------------------------- //
 	// TERRITORY CHANGE
 	// -------------------------------------------------- //
-	@DocSection(name = "Territory Change")
-	
-	@DocDescription(
-		title = "Territory Change Text Enabled",
-		description = "If set to false players will never receive land change messages when they move between territories."
-	)
+
 	public static boolean territoryChangeText = true;
 	
-	@DocDescription(
-		title = "Territory Change Permission Groups",
-		description = "Players will shift between permission groups when they change territories. These groups are legacyfactions_enemy, legacyfactions_member, legacyfactions_neutral, legacyfactions_ally, legacyfactions_safezone, legacyfactions_warzone, legacyfactions_wilderness, and legacyfactions_truce"
-	)
 	public static boolean territoryChangePermissionGroups = true;
 	
 	// -------------------------------------------------- //
 	// WARPS
 	// -------------------------------------------------- //
-	@DocSection(name = "Warps")
 
-	@DocDescription(title = "Warps Max", description = "The max amount of wars per faction")
 	public static int warpsMax = 5;
 	
-	@DocDescription(title = "Warp Cost", description = "The cost oer set/delete/use of warps")
 	public static Map<String, Double> warpCost = MiscUtil.map(
 		"set", 5.0,
 		"delete", 5.0,
@@ -835,7 +439,6 @@ public class Conf {
 	// -------------------------------------------------- //
 	// HOMES
 	// -------------------------------------------------- //
-	@DocSection(name = "Homes")
 
 	public static boolean homesEnabled = true;
 	public static boolean homesMustBeInClaimedTerritory = true;
@@ -853,7 +456,6 @@ public class Conf {
 	// -------------------------------------------------- //
 	// PVP SETTINGS
 	// -------------------------------------------------- //
-	@DocSection(name = "PVP Settings")
 
 	public static boolean disablePVPBetweenNeutralFactions = false;
 	public static boolean disablePVPForFactionlessPlayers = false;
@@ -864,7 +466,6 @@ public class Conf {
 	// -------------------------------------------------- //
 	// PEACEFUL FACTIONS
 	// -------------------------------------------------- //
-	@DocSection(name = "Peaceful Factions")
 
 	public static boolean peacefulTerritoryDisablePVP = true;
 	public static boolean peacefulTerritoryDisableMonsters = false;
@@ -874,7 +475,6 @@ public class Conf {
 	// -------------------------------------------------- //
 	// CLAIMS
 	// -------------------------------------------------- //
-	@DocSection(name = "Claim Settings")
 
 	public static boolean claimsCanBeOutsideBorder = false;
 	public static boolean claimsMustBeConnected = false;
@@ -882,11 +482,7 @@ public class Conf {
 	public static int claimsRequireMinFactionMembers = 1;
 	public static int claimedLandsMax = 0;
 	public static int lineClaimLimit = 5;
-	
-	@DocDescription(
-			title = "Max Claim Radius",
-			description = "The maximum amount of claims. Suggested that you just leave this at 5 (25 chunks)."
-		)
+
 	public static int maxClaimRadius = 5;
 
 	
@@ -1255,11 +851,11 @@ public class Conf {
 	private static transient Conf instance = new Conf();
 
 	public static void load() {
-		Persist.get().loadOrSaveDefault(instance, Conf.class, "conf");
+		Persist.get().loadOrSaveDefault(instance, Conf.class, "config");
 	}
 
 	public static void save() {
-		Persist.get().save(instance);
+		Persist.get().save(instance, "config");
 	}
 	
 	public static void loadSave() {
