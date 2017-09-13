@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsRelation;
 import net.redstoneore.legacyfactions.event.EventFactionsRelationChange;
+import net.redstoneore.legacyfactions.event.EventFactionsRelationshipsCapped;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 
@@ -67,8 +68,15 @@ public abstract class FCommandRelation extends FCommand {
 			return;
 		}
 
-		// Check for max relations 
-		if (this.myFaction.hasMaxRelations(them, targetRelation, false)) return;
+		// Check for max relations, do this silently until after the event
+		if (this.myFaction.hasMaxRelations(them, targetRelation, true)) {
+			// Call our event
+			if (!EventFactionsRelationshipsCapped.create(this.fme, this.myFaction, targetRelation).call().isCancelled()) {
+				// Now we notify them
+				this.myFaction.hasMaxRelations(them, targetRelation, false);
+				return;
+			}
+		}
 		
 		Relation oldRelation = this.myFaction.getRelationTo(them, true);
 		
