@@ -65,10 +65,10 @@ public class CmdFactionsClaim extends FCommand {
 			return;
 		}
 		
-		if (radius > Conf.claimedLandsMax) {
+		if (radius > Conf.maxClaimRadius) {
 			Lang.COMMAND_CLAIM_RADIUSMAX.getBuilder()
 				.parse()
-				.replace("<radius>", Conf.claimedLandsMax)
+				.replace("<radius>", Conf.maxClaimRadius)
 				.sendTo(sender);
 			return;
 		}
