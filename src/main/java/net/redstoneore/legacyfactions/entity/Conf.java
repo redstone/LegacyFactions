@@ -360,6 +360,12 @@ public class Conf {
 		description = "If true, a broadcast will be sent when a faction name tag is changed."
 	)
 	public static boolean broadcastTagChanges = false;
+	
+	@DocDescription(
+		title = "Disable Leader Promotion For Permanent Factions",
+		description = "If true, leaders will not be promoted for permanent factions."
+	)
+	public static boolean permanentFactionsDisableLeaderPromotion = false;
 
 	// -------------------------------------------------- //
 	// FLAGS
@@ -796,6 +802,7 @@ public class Conf {
 	// -------------------------------------------------- //
 	// HOMES
 	// -------------------------------------------------- //
+	@DocSection(name = "Homes")
 
 	public static boolean homesEnabled = true;
 	public static boolean homesMustBeInClaimedTerritory = true;
@@ -810,19 +817,31 @@ public class Conf {
 	public static double homesTeleportAllowedEnemyDistance = 32.0;
 	public static boolean homesTeleportIgnoreEnemiesIfInOwnTerritory = true;
 
+	// -------------------------------------------------- //
+	// PVP SETTINGS
+	// -------------------------------------------------- //
+	@DocSection(name = "PVP Settings")
+
 	public static boolean disablePVPBetweenNeutralFactions = false;
 	public static boolean disablePVPForFactionlessPlayers = false;
 	public static boolean enablePVPAgainstFactionlessInAttackersLand = false;
 
 	public static int noPVPDamageToOthersForXSecondsAfterLogin = 3;
 
+	// -------------------------------------------------- //
+	// PEACEFUL FACTIONS
+	// -------------------------------------------------- //
+	@DocSection(name = "Peaceful Factions")
+
 	public static boolean peacefulTerritoryDisablePVP = true;
 	public static boolean peacefulTerritoryDisableMonsters = false;
 	public static boolean peacefulTerritoryDisableBoom = false;
 	public static boolean peacefulMembersDisablePowerLoss = true;
-
-	public static boolean permanentFactionsDisableLeaderPromotion = false;
-
+	
+	// -------------------------------------------------- //
+	// CLAIMS
+	// -------------------------------------------------- //
+	@DocSection(name = "Claim Settings")
 
 	public static boolean claimsCanBeOutsideBorder = false;
 	public static boolean claimsMustBeConnected = false;
@@ -830,6 +849,13 @@ public class Conf {
 	public static int claimsRequireMinFactionMembers = 1;
 	public static int claimedLandsMax = 0;
 	public static int lineClaimLimit = 5;
+	
+	@DocDescription(
+			title = "Max Claim Radius",
+			description = "The maximum amount of claims. Suggested that you just leave this at 5 (25 chunks)."
+		)
+	public static int maxClaimRadius = 5;
+
 	
 	public static double considerFactionsReallyOfflineAfterXMinutes = 0.0;
 

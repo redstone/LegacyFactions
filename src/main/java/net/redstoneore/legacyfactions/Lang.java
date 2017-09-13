@@ -140,6 +140,7 @@ public enum Lang {
 	COMMAND_CLAIM_DENIED("<b>You do not have permission to claim in a radius."),
 	COMMAND_CLAIM_DESCRIPTION("Claim land from where you are standing"),
 	COMMAND_CLAIM_RADIUSAMOUNT("<player><i> claimed <teal><amount> <i>chunks in a radius of <teal><radius><i> from <teal><chunk>"),
+	COMMAND_CLAIM_RADIUSMAX("<b>The maximum claim radius is <radius>"),
 
 	COMMAND_CLAIMLINE_INVALIDRADIUS("<b>If you specify a distance, it must be at least 1."),
 	COMMAND_CLAIMLINE_DENIED("<b>You do not have permission to claim in a line."),
