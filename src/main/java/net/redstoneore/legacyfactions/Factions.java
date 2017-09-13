@@ -31,8 +31,8 @@ import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONBoard;
-import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFPlayers;
-import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFactions;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFPlayerColl;
+import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONFactionColl;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
 import net.redstoneore.legacyfactions.expansion.Provider;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
@@ -294,22 +294,22 @@ public class Factions extends FactionsPluginBase {
 		}
 		
 		if (Files.exists(oldFactionsJson)) {
-			if (Files.exists(JSONFactions.getJsonFile())) {
-				Files.move(JSONFactions.getJsonFile(), Paths.get(JSONFactions.getJsonFile().toString() + ".backup"));
+			if (Files.exists(JSONFactionColl.getJsonFile())) {
+				Files.move(JSONFactionColl.getJsonFile(), Paths.get(JSONFactionColl.getJsonFile().toString() + ".backup"));
 				Factions.get().log("Moving 'database/factions.json' -> 'database/factions.json.backup'");
 			}
 			
-			Files.move(oldFactionsJson, JSONFactions.getJsonFile());
+			Files.move(oldFactionsJson, JSONFactionColl.getJsonFile());
 			Factions.get().log("Moving 'factions.json' -> 'database/factions.json'");
 		}
 		
 		if (Files.exists(oldPlayersJson)) {
-			if (Files.exists(JSONFPlayers.getJsonFile())) {
-				Files.move(JSONFPlayers.getJsonFile(), Paths.get(JSONFPlayers.getJsonFile().toString() + ".backup"));
+			if (Files.exists(JSONFPlayerColl.getJsonFile())) {
+				Files.move(JSONFPlayerColl.getJsonFile(), Paths.get(JSONFPlayerColl.getJsonFile().toString() + ".backup"));
 				Factions.get().log("Moving 'database/players.json' -> 'database/players.json.backup'");
 			}
 			
-			Files.move(oldPlayersJson, JSONFPlayers.getJsonFile());
+			Files.move(oldPlayersJson, JSONFPlayerColl.getJsonFile());
 			Factions.get().log("Moving 'players.json' -> 'database/players.json'");
 		}
 	}

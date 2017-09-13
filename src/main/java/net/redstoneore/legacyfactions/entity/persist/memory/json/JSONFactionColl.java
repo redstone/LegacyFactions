@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-public class JSONFactions extends MemoryFactionColl {
+public class JSONFactionColl extends MemoryFactionColl {
 	
 	// -------------------------------------------------- //
 	// STATIC 
@@ -39,7 +39,7 @@ public class JSONFactions extends MemoryFactionColl {
 	// CONSTRUCTORS
 	// -------------------------------------------- //
 
-	public JSONFactions() {
+	public JSONFactionColl() {
 		this.nextId = 1;
 	}
 

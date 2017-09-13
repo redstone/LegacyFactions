@@ -45,10 +45,10 @@ public class FactionsJSON extends PersistHandler {
                 new JSONBoard().convertFrom((MemoryBoard) Board.get());
                 logger.info("Board Converted");
                 logger.info("Beginning FPlayers conversion to JSON");
-                new JSONFPlayers().convertFrom((MemoryFPlayerColl) FPlayerColl.getUnsafeInstance());
+                new JSONFPlayerColl().convertFrom((MemoryFPlayerColl) FPlayerColl.getUnsafeInstance());
                 logger.info("FPlayers Converted");
                 logger.info("Beginning Factions conversion to JSON");
-                new JSONFactions().convertFrom((MemoryFactionColl) FactionColl.get());
+                new JSONFactionColl().convertFrom((MemoryFactionColl) FactionColl.get());
                 logger.info("Factions Converted");
                 logger.info("Refreshing object caches");
                 for (FPlayer fPlayer : FPlayerColl.all()) {
@@ -65,8 +65,8 @@ public class FactionsJSON extends PersistHandler {
 	// -------------------------------------------------- //
 	
 	private JSONBoard boardInstance = null;
-	private JSONFPlayers fplayersInstance = null;
-	private JSONFactions factionsInstance = null;
+	private JSONFPlayerColl fplayersInstance = null;
+	private JSONFactionColl factionsInstance = null;
 	
 	// -------------------------------------------------- //
 	// METHODS
@@ -93,7 +93,7 @@ public class FactionsJSON extends PersistHandler {
 	@Override
 	public FPlayerColl getFPlayerColl() {
 		if (this.fplayersInstance == null) {
-			this.fplayersInstance = new JSONFPlayers();
+			this.fplayersInstance = new JSONFPlayerColl();
 		}
 		return this.fplayersInstance;
 	}
@@ -101,7 +101,7 @@ public class FactionsJSON extends PersistHandler {
 	@Override
 	public FactionColl getFactionColl() {
 		if (this.factionsInstance == null) {
-			this.factionsInstance = new JSONFactions();
+			this.factionsInstance = new JSONFactionColl();
 		}
 		return this.factionsInstance;
 	}
