@@ -395,6 +395,14 @@ public class Factions extends FactionsPluginBase {
 				e.printStackTrace();
 			}
 		}
+		
+		if (!MiscUtil.classExists("org.apache.commons.io.Charsets")) {
+			try {
+				LibraryUtil.loadLibrary("https://repo1.maven.org/maven2/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	// -------------------------------------------------- //
