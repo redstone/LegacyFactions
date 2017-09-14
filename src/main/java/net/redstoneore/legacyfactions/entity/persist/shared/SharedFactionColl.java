@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.bukkit.ChatColor;
 
+import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 
@@ -56,6 +58,18 @@ public abstract class SharedFactionColl extends FactionColl {
 		}
 
 		return bestMatch;
+	}
+	
+	public void validate() {
+		FPlayerColl.all(fplayer -> {
+			Faction faction = fplayer.getFaction();
+			if (faction == null) {
+				Factions.get().log("Invalid faction id on " + fplayer.getName() + ":" + fplayer.getFactionId());
+				fplayer.resetFactionData();
+				return;
+			}
+			faction.memberAdd(fplayer);
+		});
 	}
 	
 	// -------------------------------------------------- //

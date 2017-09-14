@@ -26,7 +26,6 @@ import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.config.meta.Meta;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
-import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
 import net.redstoneore.legacyfactions.entity.persist.memory.json.JSONBoard;
@@ -197,17 +196,9 @@ public class Factions extends FactionsPluginBase {
 		}
 		
 		FPlayerColl.load();
-		FactionColl.get().load();
 		
-		FPlayerColl.all(fplayer -> {
-			Faction faction = fplayer.getFaction();
-			if (faction == null) {
-				this.log("Invalid faction id on " + fplayer.getName() + ":" + fplayer.getFactionId());
-				fplayer.resetFactionData();
-				return;
-			}
-			faction.addFPlayer(fplayer);
-		});
+		FactionColl.get().load();
+		FactionColl.get().validate();
 		
 		Board.get().load();
 		Board.get().clean();
