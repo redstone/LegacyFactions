@@ -2,9 +2,9 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
 
 public class CmdFactionsReload extends FCommand {
 

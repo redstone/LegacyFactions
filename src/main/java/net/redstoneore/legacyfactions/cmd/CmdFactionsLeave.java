@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 
 public class CmdFactionsLeave extends FCommand {
 

@@ -1,13 +1,13 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 
 import org.bukkit.command.CommandSender;
 
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 

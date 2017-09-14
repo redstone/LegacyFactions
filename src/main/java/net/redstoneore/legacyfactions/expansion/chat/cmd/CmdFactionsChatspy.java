@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.expansion.chat.cmd;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.cmd.FCommand;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsChatspy extends FCommand {
