@@ -1,6 +1,8 @@
 package net.redstoneore.legacyfactions.listeners;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,11 +10,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.cmd.CmdFactions;
+import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -151,6 +158,25 @@ public class FactionsCommandsListener implements Listener {
 			}
 		}
 		return false;
+	}
+	
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onTabCommand(PlayerChatTabCompleteEvent event) {
+		FCommand main = CmdFactions.get();
+		
+		if (event.getChatMessage().trim().contains(" ")) {
+			List<String> parts = Lists.newArrayList(event.getChatMessage().split(" "));
+			
+			int index = 0;
+			for (String part : parts) {
+				
+				if (index != parts.size()) {
+					
+				}
+				
+				index++; 
+			}
+		}
 	}
 	
 }
