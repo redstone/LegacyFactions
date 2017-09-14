@@ -6,8 +6,8 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.IntegrationEngine;
 
@@ -66,7 +66,7 @@ public class BStatsEngine extends IntegrationEngine {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> map = new HashMap<>();
-				if (Conf.expansionFactionsFly.enabled) {
+				if (Config.expansionFactionsFly.enabled) {
 					map.put("FactionsFly Enabled", 1);					
 				} else {
 					map.put("FactionsFly Disabled", 0);
@@ -80,7 +80,7 @@ public class BStatsEngine extends IntegrationEngine {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> map = new HashMap<>();
-				if (Conf.expansionsFactionsChat.enabled) {
+				if (Config.expansionsFactionsChat.enabled) {
 					map.put("FactionsChat Enabled", 1);					
 				} else {
 					map.put("FactionsChat Disabled", 0);
@@ -94,7 +94,7 @@ public class BStatsEngine extends IntegrationEngine {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> map = new HashMap<>();
-				if (Conf.enableColeaders) {
+				if (Config.enableColeaders) {
 					map.put("Coleaders Enabled", 1);					
 				} else {
 					map.put("Coleaders Disabled", 0);
@@ -108,7 +108,7 @@ public class BStatsEngine extends IntegrationEngine {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> map = new HashMap<>();
-				if (Conf.enableTruces) {
+				if (Config.enableTruces) {
 					map.put("Truces Enabled", 1);					
 				} else {
 					map.put("Truces Disabled", 0);
@@ -122,7 +122,7 @@ public class BStatsEngine extends IntegrationEngine {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> map = new HashMap<>();
-				if (Conf.enableTruces) {
+				if (Config.enableTruces) {
 					map.put("Flags Enabled", 1);					
 				} else {
 					map.put("Flags Disabled", 0);

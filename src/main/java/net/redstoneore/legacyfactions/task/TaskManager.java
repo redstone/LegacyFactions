@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.task;
 import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.persist.SaveTask;
 
 public class TaskManager {
@@ -55,8 +55,8 @@ public class TaskManager {
 	}
 	
 	public void startTaskSave() {
-		if (this.saveTask == null && Conf.saveToFileEveryXMinutes > 0.0) {
-			long saveTicks = (long) (20 * 60 * Conf.saveToFileEveryXMinutes);
+		if (this.saveTask == null && Config.saveToFileEveryXMinutes > 0.0) {
+			long saveTicks = (long) (20 * 60 * Config.saveToFileEveryXMinutes);
 			this.saveTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Factions.get(), new SaveTask(), saveTicks, saveTicks);
 		}
 	}
@@ -68,8 +68,8 @@ public class TaskManager {
 			Factions.get().getServer().getScheduler().cancelTask(this.taskAutoLeave);
 		}
 
-		if (Conf.autoLeaveRoutineRunsEveryXMinutes > 0.0) {
-			long ticks = (long) (20 * 60 * Conf.autoLeaveRoutineRunsEveryXMinutes);
+		if (Config.autoLeaveRoutineRunsEveryXMinutes > 0.0) {
+			long ticks = (long) (20 * 60 * Config.autoLeaveRoutineRunsEveryXMinutes);
 			this.taskAutoLeave = Factions.get().getServer().getScheduler().scheduleSyncRepeatingTask(Factions.get(), new AutoLeaveTask(), ticks, ticks);
 		}
 	}

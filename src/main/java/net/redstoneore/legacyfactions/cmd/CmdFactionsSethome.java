@@ -2,10 +2,10 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.locality.Locality;
 
@@ -43,7 +43,7 @@ public class CmdFactionsSethome extends FCommand {
 
 	@Override
 	public void perform() {
-		if (!Conf.homesEnabled) {
+		if (!Config.homesEnabled) {
 			fme.sendMessage(Lang.COMMAND_SETHOME_DISABLED);
 			return;
 		}
@@ -66,14 +66,14 @@ public class CmdFactionsSethome extends FCommand {
 
 		// Can the player set the faction home HERE?
 		if (!Permission.BYPASS.has(me) &&
-					Conf.homesMustBeInClaimedTerritory &&
+					Config.homesMustBeInClaimedTerritory &&
 					Board.get().getFactionAt(Locality.of(fme)) != faction) {
 			fme.sendMessage(Lang.COMMAND_SETHOME_NOTCLAIMED);
 			return;
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostSethome, Lang.COMMAND_SETHOME_TOSET, Lang.COMMAND_SETHOME_FORSET)) {
+		if (!payForCommand(Config.econCostSethome, Lang.COMMAND_SETHOME_TOSET, Lang.COMMAND_SETHOME_FORSET)) {
 			return;
 		}
 

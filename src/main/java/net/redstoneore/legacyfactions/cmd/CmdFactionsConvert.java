@@ -7,9 +7,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import com.google.common.base.Joiner;
 
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
@@ -57,7 +57,7 @@ public class CmdFactionsConvert extends FCommand {
 		CmdFactionsSaveAll.get().perform(true, this.sender);
 		
 		PersistType persistType = PersistType.valueOf(this.argAsString(0).toUpperCase());
-		if (persistType == Conf.backEnd) {
+		if (persistType == Config.backEnd) {
 			Lang.COMMAND_CONVERT_BACKEND_RUNNING.getBuilder()
 				.parse()
 				.sendTo(this.sender);

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 
 public class MigrationUtil {
 
@@ -42,13 +42,13 @@ public class MigrationUtil {
 		long timeEnableStart = System.currentTimeMillis();
         Factions.get().log("=== MIGRATION START ===");
 
-		Conf.debug = Factions.get().getConfig().getBoolean("debug", false);
-		Conf.findFactionsExploitCooldownMils = Factions.get().getConfig().getLong("findfactionsexploit.cooldown", 2000);
-		Conf.findFactionsExploitLog = Factions.get().getConfig().getBoolean("findfactionsexploit.log", false);
-		Conf.factionDefaultRelation = Factions.get().getConfig().getString("default-relation", "neutral");
-		Conf.portalsLimit = Factions.get().getConfig().getBoolean("portals.limit", false);
-		Conf.portalsMinimumRelation = Factions.get().getConfig().getString("portals.minimum-relation", "MEMBER");
-		Conf.warpsMax = Factions.get().getConfig().getInt("max-warps", 5);
+		Config.debug = Factions.get().getConfig().getBoolean("debug", false);
+		Config.findFactionsExploitCooldownMils = Factions.get().getConfig().getLong("findfactionsexploit.cooldown", 2000);
+		Config.findFactionsExploitLog = Factions.get().getConfig().getBoolean("findfactionsexploit.log", false);
+		Config.factionDefaultRelation = Factions.get().getConfig().getString("default-relation", "neutral");
+		Config.portalsLimit = Factions.get().getConfig().getBoolean("portals.limit", false);
+		Config.portalsMinimumRelation = Factions.get().getConfig().getString("portals.minimum-relation", "MEMBER");
+		Config.warpsMax = Factions.get().getConfig().getInt("max-warps", 5);
 		
 		Map<String, Double> warpCost = null;
 		if (Factions.get().getConfig().getBoolean("warp-cost", false)) {
@@ -71,32 +71,32 @@ public class MigrationUtil {
 			);
 		}
 		
-		Conf.warpCost = warpCost;
-		Conf.disablePistonsInTerritory = Factions.get().getConfig().getBoolean("disable-pistons-in-territory", false);
+		Config.warpCost = warpCost;
+		Config.disablePistonsInTerritory = Factions.get().getConfig().getBoolean("disable-pistons-in-territory", false);
 		
 		Map<String, List<String>> tooltips = new HashMap<String, List<String>>();
 		tooltips.put("show",  Factions.get().getConfig().getStringList("tooltips.show"));
 		tooltips.put("list",  Factions.get().getConfig().getStringList("tooltips.list"));
 		
-		Conf.tooltips = tooltips;
+		Config.tooltips = tooltips;
 		
-		Conf.scoreboardInChat = Factions.get().getConfig().getBoolean("scoreboard.also-send-chat", false);
-		Conf.scoreboardExpiresSecs =  Factions.get().getConfig().getLong("scoreboard.expiration", 6);
-		Conf.scoreboardInfoEnabled = Factions.get().getConfig().getBoolean("scoreboard.finfo-enabled", false);
-		Conf.scoreboardInfo = Factions.get().getConfig().getStringList("scoreboard.finfo");
+		Config.scoreboardInChat = Factions.get().getConfig().getBoolean("scoreboard.also-send-chat", false);
+		Config.scoreboardExpiresSecs =  Factions.get().getConfig().getLong("scoreboard.expiration", 6);
+		Config.scoreboardInfoEnabled = Factions.get().getConfig().getBoolean("scoreboard.finfo-enabled", false);
+		Config.scoreboardInfo = Factions.get().getConfig().getStringList("scoreboard.finfo");
 		
-		Conf.scoreboardDefaultEnabled = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", false);
-		Conf.scoreboardDefaultTitle = Factions.get().getConfig().getString("scoreboard.default-title", "Default title");
-		Conf.scoreboardDefaultUpdateIntervalSecs = Factions.get().getConfig().getInt("scoreboard.default-update-interval", 2);
-		Conf.scoreboardDefaultPrefixes = Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", true);
-		Conf.scoreboardDefault = Factions.get().getConfig().getStringList("scoreboard.default");
+		Config.scoreboardDefaultEnabled = Factions.get().getConfig().getBoolean("scoreboard.default-enabled", false);
+		Config.scoreboardDefaultTitle = Factions.get().getConfig().getString("scoreboard.default-title", "Default title");
+		Config.scoreboardDefaultUpdateIntervalSecs = Factions.get().getConfig().getInt("scoreboard.default-update-interval", 2);
+		Config.scoreboardDefaultPrefixes = Factions.get().getConfig().getBoolean("scoreboard.default-prefixes", true);
+		Config.scoreboardDefault = Factions.get().getConfig().getStringList("scoreboard.default");
 		
-		Conf.scoreboardFactionlessEnabled = Factions.get().getConfig().getBoolean("scoreboard.factionless-enabled", false);
-		Conf.scoreboardFactionless = Factions.get().getConfig().getStringList("scoreboard.factionless");
+		Config.scoreboardFactionlessEnabled = Factions.get().getConfig().getBoolean("scoreboard.factionless-enabled", false);
+		Config.scoreboardFactionless = Factions.get().getConfig().getStringList("scoreboard.factionless");
 		
-		Conf.warmupHome = Factions.get().getConfig().getLong("warmups.f-home", 0);
-		Conf.warmupWarp = Factions.get().getConfig().getLong("warmups.f-warp", 0);
-		Conf.save();
+		Config.warmupHome = Factions.get().getConfig().getLong("warmups.f-home", 0);
+		Config.warmupWarp = Factions.get().getConfig().getLong("warmups.f-warp", 0);
+		Config.save();
 		
         Factions.get().log("=== MIGRATION DONE (Took " + (System.currentTimeMillis() - timeEnableStart) + "ms) ===");
 

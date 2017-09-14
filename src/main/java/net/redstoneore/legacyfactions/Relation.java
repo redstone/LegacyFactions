@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions;
 
 import org.bukkit.ChatColor;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 
 /**
  * Each faction has a relation to each other which can change how they interact.<br>
@@ -67,7 +67,7 @@ public enum Relation {
 		case "ally":
 			return ALLY;
 		case "truce":
-			if (!Conf.enableTruces) {
+			if (!Config.enableTruces) {
 				return NEUTRAL;
 			}
 			return TRUCE;
@@ -167,15 +167,15 @@ public enum Relation {
 	 */
 	public ChatColor getColor() {
 		if (this == MEMBER) {
-			return Conf.colorMember.toColor();
+			return Config.colorMember.toColor();
 		} else if (this == ALLY) {
-			return Conf.colorAlly.toColor();
+			return Config.colorAlly.toColor();
 		} else if (this == NEUTRAL) {
-			return Conf.colorNeutral.toColor();
+			return Config.colorNeutral.toColor();
 		} else if (this == TRUCE) {
-			return Conf.colorTruce.toColor();
+			return Config.colorTruce.toColor();
 		} else {
-			return Conf.colorEnemy.toColor();
+			return Config.colorEnemy.toColor();
 		}
 	}
 
@@ -191,23 +191,23 @@ public enum Relation {
 
 		if (online) {
 			if (isEnemy()) {
-				return Conf.territoryEnemyDenyBuild;
+				return Config.territoryEnemyDenyBuild;
 			} else if (isAlly()) {
-				return Conf.territoryAllyDenyBuild;
+				return Config.territoryAllyDenyBuild;
 			} else if (isTruce()) {
-				return Conf.territoryTruceDenyBuild;
+				return Config.territoryTruceDenyBuild;
 			} else {
-				return Conf.territoryDenyBuild;
+				return Config.territoryDenyBuild;
 			}
 		} else {
 			if (isEnemy()) {
-				return Conf.territoryEnemyDenyBuildWhenOffline;
+				return Config.territoryEnemyDenyBuildWhenOffline;
 			} else if (isAlly()) {
-				return Conf.territoryAllyDenyBuildWhenOffline;
+				return Config.territoryAllyDenyBuildWhenOffline;
 			} else if (isTruce()) {
-				return Conf.territoryTruceDenyBuildWhenOffline;
+				return Config.territoryTruceDenyBuildWhenOffline;
 			} else {
-				return Conf.territoryDenyBuildWhenOffline;
+				return Config.territoryDenyBuildWhenOffline;
 			}
 		}
 	}
@@ -224,23 +224,23 @@ public enum Relation {
 
 		if (online) {
 			if (isEnemy()) {
-				return Conf.territoryEnemyPainBuild;
+				return Config.territoryEnemyPainBuild;
 			} else if (isAlly()) {
-				return Conf.territoryAllyPainBuild;
+				return Config.territoryAllyPainBuild;
 			} else if (isTruce()) {
-				return Conf.territoryTrucePainBuild;
+				return Config.territoryTrucePainBuild;
 			} else {
-				return Conf.territoryPainBuild;
+				return Config.territoryPainBuild;
 			}
 		} else {
 			if (isEnemy()) {
-				return Conf.territoryEnemyPainBuildWhenOffline;
+				return Config.territoryEnemyPainBuildWhenOffline;
 			} else if (isAlly()) {
-				return Conf.territoryAllyPainBuildWhenOffline;
+				return Config.territoryAllyPainBuildWhenOffline;
 			} else if (isTruce()) {
-				return Conf.territoryTrucePainBuildWhenOffline;
+				return Config.territoryTrucePainBuildWhenOffline;
 			} else {
-				return Conf.territoryPainBuildWhenOffline;
+				return Config.territoryPainBuildWhenOffline;
 			}
 		}
 	}
@@ -251,10 +251,10 @@ public enum Relation {
 	 */
 	public Boolean confDenyUseage() {
 		if (isMember()) return false;
-		if (isEnemy()) return Conf.territoryEnemyDenyUseage;
-		if (isAlly()) return Conf.territoryAllyDenyUseage;
-		if (isTruce()) return Conf.territoryTruceDenyUseage;
-		return Conf.territoryDenyUseage;
+		if (isEnemy()) return Config.territoryEnemyDenyUseage;
+		if (isAlly()) return Config.territoryAllyDenyUseage;
+		if (isTruce()) return Config.territoryTruceDenyUseage;
+		return Config.territoryDenyUseage;
 	}
 	
 	/**
@@ -262,10 +262,10 @@ public enum Relation {
 	 * @return cost of this relation
 	 */
 	public Double getRelationCost() {
-		if (this.isEnemy()) return Conf.econCostEnemy;
-		if (isAlly()) return Conf.econCostAlly;
-		if (isTruce()) return Conf.econCostTruce;
-		return Conf.econCostNeutral;
+		if (this.isEnemy()) return Config.econCostEnemy;
+		if (isAlly()) return Config.econCostAlly;
+		if (isTruce()) return Config.econCostTruce;
+		return Config.econCostNeutral;
 	}
 	
 }

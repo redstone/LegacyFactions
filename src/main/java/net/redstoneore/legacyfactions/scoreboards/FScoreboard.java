@@ -7,7 +7,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
 /**
@@ -121,10 +121,10 @@ public class FScoreboard {
 		this.temporaryProvider = provider;
 		this.updateObjective();
 
-		long scoreboardExpiresSecs = Conf.scoreboardExpiresSecs;
+		long scoreboardExpiresSecs = Config.scoreboardExpiresSecs;
 		
 		// Maybe they didn't want the scoreboard to expire 
-		if (Conf.scoreboardExpiresSecs <= 0) return;
+		if (Config.scoreboardExpiresSecs <= 0) return;
 		
 		Bukkit.getScheduler().runTaskLater(Factions.get(), () -> {
 			if (this.removed) return;

@@ -12,8 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -67,7 +67,7 @@ public class FactionsBlockListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void canPistonMoveBlock(BlockPistonExtendEvent event) {
-		if (Conf.pistonProtectionThroughDenyBuild) return;
+		if (Config.pistonProtectionThroughDenyBuild) return;
 
 		Faction pistonFaction = Board.get().getFactionAt(Locality.of(event.getBlock()));
 
@@ -86,7 +86,7 @@ public class FactionsBlockListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void canPistonMoveBlock(BlockPistonRetractEvent event) {
 		// if not a sticky piston, retraction should be fine
-		if (!event.isSticky() || !Conf.pistonProtectionThroughDenyBuild) {
+		if (!event.isSticky() || !Config.pistonProtectionThroughDenyBuild) {
 			return;
 		}
 		
@@ -95,7 +95,7 @@ public class FactionsBlockListener implements Listener {
 		Faction otherFaction = Board.get().getFactionAt(Locality.of(targetLoc));
 
 		// Check if the piston is moving in a faction's territory. This disables pistons entirely in faction territory.
-		if (otherFaction.isNormal() && Conf.disablePistonsInTerritory) {
+		if (otherFaction.isNormal() && Config.disablePistonsInTerritory) {
 			event.setCancelled(true);
 			return;
 		}
@@ -119,17 +119,17 @@ public class FactionsBlockListener implements Listener {
 		if (factionAtPiston == otherFaction) return true;
 
 		if (otherFaction.isWilderness()) {
-			if (!Conf.wildernessDenyBuild || Conf.worldsNoWildernessProtection.contains(target.getWorld().getName())) {
+			if (!Config.wildernessDenyBuild || Config.worldsNoWildernessProtection.contains(target.getWorld().getName())) {
 				return true;
 			}
 			return false;
 		} else if (otherFaction.isSafeZone()) {
-			if (!Conf.safeZoneDenyBuild) {
+			if (!Config.safeZoneDenyBuild) {
 				return true;
 			}
 			return false;
 		} else if (otherFaction.isWarZone()) {
-			if (!Conf.warZoneDenyBuild) {
+			if (!Config.warZoneDenyBuild) {
 				return true;
 			}
 			return false;

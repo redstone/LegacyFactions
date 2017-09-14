@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.task;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 
 public class AutoLeaveTask implements Runnable {
 
@@ -9,7 +9,7 @@ public class AutoLeaveTask implements Runnable {
     double rate;
 
     public AutoLeaveTask() {
-        this.rate = Conf.autoLeaveRoutineRunsEveryXMinutes;
+        this.rate = Config.autoLeaveRoutineRunsEveryXMinutes;
     }
 
     public synchronized void run() {
@@ -21,7 +21,7 @@ public class AutoLeaveTask implements Runnable {
         task.runTaskTimer(Factions.get(), 1, 1);
 
         // maybe setting has been changed? if so, restart this task at new rate
-        if (this.rate != Conf.autoLeaveRoutineRunsEveryXMinutes) {
+        if (this.rate != Config.autoLeaveRoutineRunsEveryXMinutes) {
             TaskManager.get().startTaskAutoLeave(true);
         }
     }

@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.FactionsPluginBase;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
@@ -318,7 +318,7 @@ public abstract class FCommandBase<T extends FactionsPluginBase> {
 	public List<String> getToolTips(FPlayer player) {
 		List<String> lines = new ArrayList<>();
 		
-		Conf.tooltips.get("show").forEach(tooltip -> {
+		Config.tooltips.get("show").forEach(tooltip -> {
 			lines.add(ChatColor.translateAlternateColorCodes('&', replaceFPlayerTags(tooltip, player)));
 		});
 		
@@ -328,7 +328,7 @@ public abstract class FCommandBase<T extends FactionsPluginBase> {
 	public List<String> getToolTips(Faction faction) {
 		List<String> lines = new ArrayList<>();
 		
-		Conf.tooltips.get("list").forEach(tooltip -> {
+		Config.tooltips.get("list").forEach(tooltip -> {
 			lines.add(ChatColor.translateAlternateColorCodes('&', replaceFactionTags(tooltip, faction)));
 		});
 		

@@ -3,8 +3,8 @@ package net.redstoneore.legacyfactions.cmd;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsUnban;
 import net.redstoneore.legacyfactions.util.TextUtil;
@@ -76,12 +76,12 @@ public class CmdFactionsUnban extends FCommand {
 		}
 		
 		// Can they afford this command?
-		if (!fme.canAffordCommand(Conf.econCostUnban, Lang.COMMAND_UNBAN_TOUNBAN.toString())) {
+		if (!fme.canAffordCommand(Config.econCostUnban, Lang.COMMAND_UNBAN_TOUNBAN.toString())) {
 			return;
 		}
 		
 		// Make them pay for the unban.
-		if (!fme.payForCommand(Conf.econCostUnban, Lang.COMMAND_UNBAN_TOUNBAN.toString(), Lang.COMMAND_UNBAN_FORUNBAN.toString())) {
+		if (!fme.payForCommand(Config.econCostUnban, Lang.COMMAND_UNBAN_TOUNBAN.toString(), Lang.COMMAND_UNBAN_FORUNBAN.toString())) {
 			return;
 		}
 		
@@ -108,7 +108,7 @@ public class CmdFactionsUnban extends FCommand {
 			member.sendMessage(messageAll);
 		});
 		
-		if (Conf.logFactionBan) {
+		if (Config.logFactionBan) {
 			Factions.get().log(fme.getName() + " unbanned " + who.getName() + " from the faction: " + who.getTag());
 		}
 	}

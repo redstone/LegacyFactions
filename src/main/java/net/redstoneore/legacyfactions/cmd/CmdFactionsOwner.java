@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.callback.Callback;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -56,17 +56,17 @@ public class CmdFactionsOwner extends FCommand {
 			return;
 		}
 
-		if (!Conf.ownedAreasEnabled) {
+		if (!Config.ownedAreasEnabled) {
 			this.sendMessage(Lang.COMMAND_OWNER_DISABLED);
 			return;
 		}
 
-		if (!hasBypass && Conf.ownedAreasLimitPerFaction > 0 && myFaction.getCountOfClaimsWithOwners() >= Conf.ownedAreasLimitPerFaction) {
-			this.fme.sendMessage(Lang.COMMAND_OWNER_LIMIT, Conf.ownedAreasLimitPerFaction);
+		if (!hasBypass && Config.ownedAreasLimitPerFaction > 0 && myFaction.getCountOfClaimsWithOwners() >= Config.ownedAreasLimitPerFaction) {
+			this.fme.sendMessage(Lang.COMMAND_OWNER_LIMIT, Config.ownedAreasLimitPerFaction);
 			return;
 		}
 
-		if (!hasBypass && !assertMinRole(Conf.ownedAreasModeratorsCanSet ? Role.MODERATOR : Role.COLEADER)) {
+		if (!hasBypass && !assertMinRole(Config.ownedAreasModeratorsCanSet ? Role.MODERATOR : Role.COLEADER)) {
 			return;
 		}
 
@@ -150,7 +150,7 @@ public class CmdFactionsOwner extends FCommand {
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!fme.payForCommand(Conf.econCostOwner, Lang.COMMAND_OWNER_TOSET.toString(), Lang.COMMAND_OWNER_FORSET.toString())) {
+		if (!fme.payForCommand(Config.econCostOwner, Lang.COMMAND_OWNER_TOSET.toString(), Lang.COMMAND_OWNER_FORSET.toString())) {
 			return;
 		}
 

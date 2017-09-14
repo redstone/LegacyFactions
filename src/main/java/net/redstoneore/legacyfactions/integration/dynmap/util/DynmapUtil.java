@@ -4,7 +4,7 @@ import org.dynmap.markers.AreaMarker;
 import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerIcon;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapConfig;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapStyle;
@@ -69,13 +69,13 @@ public class DynmapUtil {
 	public static DynmapStyle getStyle(Faction faction) {
 		DynmapStyle style;
 
-		style = Conf.dynmap.factionStyles.get(faction.getId());
+		style = Config.dynmap.factionStyles.get(faction.getId());
 		if (style != null) return style;
 
-		style = Conf.dynmap.factionStyles.get(faction.getTag());
+		style = Config.dynmap.factionStyles.get(faction.getTag());
 		if (style != null) return style;
 
-		return Conf.dynmap.defaultStyle;
+		return Config.dynmap.defaultStyle;
 	}
 
 

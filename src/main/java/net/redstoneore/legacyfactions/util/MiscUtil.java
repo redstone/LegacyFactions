@@ -10,7 +10,7 @@ import com.google.gson.JsonParser;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 
 import java.lang.Character.UnicodeScript;
@@ -91,7 +91,7 @@ public class MiscUtil {
 			if (englishCharacters.contains(String.valueOf(c))) {
 				ret += c;
 			} else {
-				for (Entry<UnicodeScript, Boolean> entry : Conf.enabledScriptSupport.entrySet()) {
+				for (Entry<UnicodeScript, Boolean> entry : Config.enabledScriptSupport.entrySet()) {
 					if (entry.getValue() == true && entry.getKey() != null && isUnicodeScript(entry.getKey(), String.valueOf(c))) {
 						ret += c;
 					}
@@ -104,17 +104,17 @@ public class MiscUtil {
 	public static ArrayList<String> validateTag(String str) {
 		ArrayList<String> errors = new ArrayList<>();
 
-		if (getComparisonString(str).length() < Conf.factionTagLengthMin) {
-			errors.add(TextUtil.get().parse(Lang.GENERIC_FACTIONTAG_TOOSHORT.toString(), Conf.factionTagLengthMin));
+		if (getComparisonString(str).length() < Config.factionTagLengthMin) {
+			errors.add(TextUtil.get().parse(Lang.GENERIC_FACTIONTAG_TOOSHORT.toString(), Config.factionTagLengthMin));
 		}
 
-		if (str.length() > Conf.factionTagLengthMax) {
-			errors.add(TextUtil.get().parse(Lang.GENERIC_FACTIONTAG_TOOLONG.toString(), Conf.factionTagLengthMax));
+		if (str.length() > Config.factionTagLengthMax) {
+			errors.add(TextUtil.get().parse(Lang.GENERIC_FACTIONTAG_TOOLONG.toString(), Config.factionTagLengthMax));
 		}
 
 		for (char c : str.toCharArray()) {
 			if (!englishCharacters.contains(String.valueOf(c))) {
-				Conf.enabledScriptSupport.forEach( (script, enabled) -> {
+				Config.enabledScriptSupport.forEach( (script, enabled) -> {
 					if (!enabled) return;
 					
 					if (isUnicodeScript(script, String.valueOf(c))) return;

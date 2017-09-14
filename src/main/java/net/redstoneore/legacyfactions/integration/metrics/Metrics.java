@@ -35,7 +35,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -249,7 +249,7 @@ public class Metrics {
      */
     public boolean isOptOut() {
         synchronized (optOutLock) {
-            return Conf.logStatistics == false;
+            return Config.logStatistics == false;
         }
     }
 

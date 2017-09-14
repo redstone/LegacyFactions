@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.integration.metrics;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.integration.Integration;
 public class MetricsIntegration extends Integration {
 	
@@ -14,7 +14,7 @@ public class MetricsIntegration extends Integration {
 	
 	@Override
 	public boolean isEnabled() {
-		return Conf.logStatistics;
+		return Config.logStatistics;
 	}
 
 	@Override

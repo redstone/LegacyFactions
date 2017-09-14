@@ -8,9 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
@@ -63,8 +63,8 @@ public class CmdFactionsClaimLine extends FCommand {
 	public void perform() {
 		Integer amount = this.argAsInt(0, 1); // Default to 1
 
-		if (amount > Conf.lineClaimLimit) {
-			fme.sendMessage(Lang.COMMAND_CLAIMLINE_ABOVEMAX, Conf.lineClaimLimit);
+		if (amount > Config.lineClaimLimit) {
+			fme.sendMessage(Lang.COMMAND_CLAIMLINE_ABOVEMAX, Config.lineClaimLimit);
 			return;
 		}
 

@@ -4,8 +4,8 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -103,7 +103,7 @@ public class RelationUtil {
         Faction thatFaction = getFaction(that);
         if (thatFaction != null) {
             if (thatFaction.getFlag(Flags.PEACEFUL) && thatFaction != getFaction(me)) {
-                return Conf.colorPeaceful.toColor();
+                return Config.colorPeaceful.toColor();
             }
 
             if (thatFaction.isSafeZone() && thatFaction != getFaction(me)) {

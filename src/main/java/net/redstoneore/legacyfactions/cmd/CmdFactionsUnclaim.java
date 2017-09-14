@@ -9,9 +9,9 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -101,7 +101,7 @@ public class CmdFactionsUnclaim extends FCommand {
 				
 				Lang.COMMAND_UNCLAIM_SAFEZONE_SUCCESS.getBuilder().parse().sendTo(fplayer);
 				
-				if (Conf.logLandUnclaims) {
+				if (Config.logLandUnclaims) {
 					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), target.getCoordString(), targetFaction.getTag()));
 				}
 				return;
@@ -113,7 +113,7 @@ public class CmdFactionsUnclaim extends FCommand {
 			if (Permission.MANAGE_WAR_ZONE.has(fplayer.getPlayer())) {
 				Board.get().removeAt(target);
 				Lang.COMMAND_UNCLAIM_WARZONE_SUCCESS.getBuilder().parse().sendTo(fplayer);
-				if (Conf.logLandUnclaims) {
+				if (Config.logLandUnclaims) {
 					Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), target.getCoordString(), targetFaction.getTag()));
 				}
 				return;
@@ -133,7 +133,7 @@ public class CmdFactionsUnclaim extends FCommand {
 			targetFaction.sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMED, fplayer.describeTo(targetFaction, true));
 			fplayer.sendMessage(Lang.COMMAND_UNCLAIM_UNCLAIMS);
 
-			if (Conf.logLandUnclaims) {
+			if (Config.logLandUnclaims) {
 				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), target.getCoordString(), targetFaction.getTag()));
 			}
 
@@ -165,7 +165,7 @@ public class CmdFactionsUnclaim extends FCommand {
 		if (VaultEngine.getUtils().shouldBeUsed()) {
 			double refund = VaultEngine.getUtils().calculateClaimRefund(fplayer.getFaction().getLandRounded());
 
-			if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
+			if (Config.bankEnabled && Config.bankFactionPaysLandCosts) {
 				if (!VaultEngine.getUtils().modifyMoney(fplayer.getFaction(), refund, Lang.COMMAND_UNCLAIM_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIM_FORUNCLAIM.toString())) {
 					return;
 				}
@@ -188,7 +188,7 @@ public class CmdFactionsUnclaim extends FCommand {
 			
 			entry.getValue().sendMessage(Lang.COMMAND_UNCLAIM_FACTIONUNCLAIMED, fplayer.describeTo(entry.getValue(), true));
 			
-			if (Conf.logLandUnclaims) {
+			if (Config.logLandUnclaims) {
 				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), entry.getKey().getCoordString(), entry.getValue().getTag()));
 			}
 			
@@ -202,7 +202,7 @@ public class CmdFactionsUnclaim extends FCommand {
 			
 			Board.get().removeAt(locality);
 			
-			if (Conf.logLandUnclaims) {
+			if (Config.logLandUnclaims) {
 				Factions.get().log(Lang.COMMAND_UNCLAIM_LOG.format(fplayer.getName(), locality.getCoordString(), faction.getTag()));
 			}
 		});

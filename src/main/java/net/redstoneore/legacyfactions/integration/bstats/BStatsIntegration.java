@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.integration.bstats;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.integration.Integration;
 
 public class BStatsIntegration extends Integration {
@@ -23,7 +23,7 @@ public class BStatsIntegration extends Integration {
 	
 	@Override
 	public boolean isEnabled() {
-		return Conf.logStatistics;
+		return Config.logStatistics;
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.redstoneore.legacyfactions.Volatile;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.util.ConditionalBoolean;
 
 public class Flags {
@@ -18,7 +18,7 @@ public class Flags {
 	public static final Flag PERMANENT = Flag.of("permanent", false, Volatile.get().provider());
 	public static final Flag EXPLOSIONS = Flag.of("explosions", true, Volatile.get().provider());
 	public static final Flag PEACEFUL = Flag.of("peaceful", false, Volatile.get().provider());
-	public static final Flag OPEN = Flag.of("open", ConditionalBoolean.of(() -> Conf.newFactionsDefaultOpen), Volatile.get().provider());
+	public static final Flag OPEN = Flag.of("open", ConditionalBoolean.of(() -> Config.newFactionsDefaultOpen), Volatile.get().provider());
 	
 	// Registered flags
 	private static Set<Flag> flags = Collections.newSetFromMap(new ConcurrentHashMap<Flag, Boolean>());
@@ -72,7 +72,7 @@ public class Flags {
 		flags.add(Flag.of("permanent", false, Volatile.get().provider()));
 		flags.add(Flag.of("explosions", true, Volatile.get().provider()));
 		flags.add(Flag.of("peaceful", false, Volatile.get().provider()));
-		flags.add(Flag.of("open", Conf.newFactionsDefaultOpen == true, Volatile.get().provider()));
+		flags.add(Flag.of("open", Config.newFactionsDefaultOpen == true, Volatile.get().provider()));
 	}
 	
 }

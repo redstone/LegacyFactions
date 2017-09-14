@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.*;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -28,7 +28,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 	public AutoLeaveProcessTask() {
 		Collection<FPlayer> fplayers = Lists.newArrayList(FPlayerColl.all());
 		this.iterator = fplayers.iterator();
-		this.toleranceMillis = TimeUnit.DAYS.toMillis(Conf.autoLeaveAfterDaysOfInactivity);
+		this.toleranceMillis = TimeUnit.DAYS.toMillis(Config.autoLeaveAfterDaysOfInactivity);
 		this.ready = true;
 		this.finished = false;
 	}
@@ -47,7 +47,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 	
 	@Override
 	public void run() {
-		if (Conf.autoLeaveAfterDaysOfInactivity <= 0.0 || Conf.autoLeaveRoutineMaxMillisecondsPerTick <= 0.0) {
+		if (Config.autoLeaveAfterDaysOfInactivity <= 0.0 || Config.autoLeaveRoutineMaxMillisecondsPerTick <= 0.0) {
 			this.cancel();
 			return;
 		}
@@ -64,7 +64,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 			Long now = System.currentTimeMillis();
 
 			// if this iteration has been running for maximum time, stop to take a breather until next tick
-			if (now > loopStartTime + Conf.autoLeaveRoutineMaxMillisecondsPerTick) {
+			if (now > loopStartTime + Config.autoLeaveRoutineMaxMillisecondsPerTick) {
 				this.ready = true;
 				return;
 			}
@@ -108,13 +108,13 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 					}
 				}
 				
-				if (Conf.logFactionLeave || Conf.logFactionKick) {
+				if (Config.logFactionLeave || Config.logFactionKick) {
 					Factions.get().log("Player " + fplayer.getName() + " was auto-removed due to inactivity.");
 				}
 				
 				iterator.remove();  // go ahead and remove this list's link to the FPlayer object
 				
-				if (Conf.autoLeaveDeleteFPlayerData) {
+				if (Config.autoLeaveDeleteFPlayerData) {
 					fplayer.remove();
 				}
 			}

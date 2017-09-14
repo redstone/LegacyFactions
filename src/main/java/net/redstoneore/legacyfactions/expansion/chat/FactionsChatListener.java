@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import net.redstoneore.legacyfactions.Relation;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.event.EventFactionsChat;
@@ -62,7 +62,7 @@ public class FactionsChatListener implements Listener {
 				
 			});
 			
-			format = Conf.expansionsFactionsChat.chatFormatAlliance.toString();
+			format = Config.expansionsFactionsChat.chatFormatAlliance.toString();
 			break;
 			
 		case FACTION:
@@ -80,14 +80,14 @@ public class FactionsChatListener implements Listener {
 					}
 				}
 			});
-			format = Conf.expansionsFactionsChat.chatFormatFaction.toString();
+			format = Config.expansionsFactionsChat.chatFormatFaction.toString();
 			break;
 			
 		case PUBLIC:
-			if (!Conf.expansionsFactionsChat.enableFormatPublicChat) return;
+			if (!Config.expansionsFactionsChat.enableFormatPublicChat) return;
 			
 			// Simply format.
-			format = Conf.expansionsFactionsChat.chatFormatPublic.toString();
+			format = Config.expansionsFactionsChat.chatFormatPublic.toString();
 			break;
 			
 		case TRUCE:
@@ -103,7 +103,7 @@ public class FactionsChatListener implements Listener {
 					}
 				}
 			});
-			format = Conf.expansionsFactionsChat.chatFormatTruce.toString();
+			format = Config.expansionsFactionsChat.chatFormatTruce.toString();
 			break;		
 		}
 		
@@ -123,7 +123,7 @@ public class FactionsChatListener implements Listener {
 		
 		// Notify anyone who is spying
 		if (!chatEvent.getSpying().isEmpty()) {
-			String message = String.format(Conf.expansionsFactionsChat.chatFormatSpy.toString(), event.getPlayer().getDisplayName(), chatEvent.getMessage());
+			String message = String.format(Config.expansionsFactionsChat.chatFormatSpy.toString(), event.getPlayer().getDisplayName(), chatEvent.getMessage());
 			
 			chatEvent.getSpying().forEach(spy -> spy.sendMessage(message));
 		}
@@ -136,21 +136,21 @@ public class FactionsChatListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void chatTagReplacer(AsyncPlayerChatEvent event) {
-		if (!Conf.expansionsFactionsChat.chatTagEnabled) return;
+		if (!Config.expansionsFactionsChat.chatTagEnabled) return;
 		
 		FPlayer fplayer = FPlayerColl.get(event.getPlayer());
 		
 		String chatTag = "";
 		
 		if (fplayer.hasFaction()) {
-			chatTag = Conf.expansionsFactionsChat.chatTagFormatDefault.toString();
+			chatTag = Config.expansionsFactionsChat.chatTagFormatDefault.toString();
 		} else {
-			chatTag = Conf.expansionsFactionsChat.chatTagFormatFactionless.toString();
+			chatTag = Config.expansionsFactionsChat.chatTagFormatFactionless.toString();
 		}
 		
 		chatTag = FactionsPlaceholders.get().parse(fplayer, chatTag);
 		
-		event.setFormat(event.getFormat().replace(Conf.expansionsFactionsChat.chatTagPlaceholder.toString(), chatTag));
+		event.setFormat(event.getFormat().replace(Config.expansionsFactionsChat.chatTagPlaceholder.toString(), chatTag));
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class FactionsChatListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void chatOverride(AsyncPlayerChatEvent event) {
-		if (!Conf.expansionsFactionsChat.chatTagRelationalOverride) return;
+		if (!Config.expansionsFactionsChat.chatTagRelationalOverride) return;
 		
 		// Cancel this event. We want to be bad and handle it ourselves. 
 		event.setCancelled(true);

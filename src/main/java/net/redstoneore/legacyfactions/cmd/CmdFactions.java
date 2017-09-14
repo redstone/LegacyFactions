@@ -3,8 +3,8 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.Collections;
 
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 /**
@@ -120,7 +120,7 @@ public class CmdFactions extends FCommand {
 	
 	@Override
 	public boolean allowNoSlashAccess() {
-		return Conf.allowNoSlashCommand;
+		return Config.allowNoSlashCommand;
 	}
 	
 	// -------------------------------------------------- //

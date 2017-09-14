@@ -1,9 +1,9 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.flag.Flags;
 
@@ -42,7 +42,7 @@ public class CmdFactionsOpen extends FCommand {
 	@Override
 	public void perform() {
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostOpen, Lang.COMMAND_OPEN_TOOPEN, Lang.COMMAND_OPEN_FOROPEN)) {
+		if (!payForCommand(Config.econCostOpen, Lang.COMMAND_OPEN_TOOPEN, Lang.COMMAND_OPEN_FOROPEN)) {
 			return;
 		}
 
@@ -62,7 +62,7 @@ public class CmdFactionsOpen extends FCommand {
 	
 	@Override
 	public boolean isAvailable() {
-		return Conf.enableFlags == false;
+		return Config.enableFlags == false;
 	}
 
 	@Override

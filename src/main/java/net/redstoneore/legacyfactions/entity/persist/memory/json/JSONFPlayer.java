@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 
@@ -20,7 +20,7 @@ public class JSONFPlayer extends MemoryFPlayer {
     }
 
     public boolean shouldBeSaved() {
-        if (!this.hasFaction() && (this.getPowerRounded() == this.getPowerMaxRounded() || this.getPowerRounded() == (int) Math.round(Conf.powerPlayerStarting))) {
+        if (!this.hasFaction() && (this.getPowerRounded() == this.getPowerMaxRounded() || this.getPowerRounded() == (int) Math.round(Config.powerPlayerStarting))) {
             return false;
         }
         return true;

@@ -6,9 +6,9 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.util.TextUtil;
@@ -60,9 +60,9 @@ public class CmdFactionsHelp extends FCommand {
 	@Override
 	public void perform() {
 		// For those that want to create their own help menu they can use this (why)
-		if (Conf.useCustomHelp) {
+		if (Config.useCustomHelp) {
 			String pageArg = this.argAsString(0, "1");
-			List<String> page = Conf.helpPages.get(pageArg);
+			List<String> page = Config.helpPages.get(pageArg);
 			
 			if (page == null || page.isEmpty()) {
 				this.sendMessage(Lang.COMMAND_HELP_404.format(pageArg));
@@ -75,7 +75,7 @@ public class CmdFactionsHelp extends FCommand {
 		}
 		
 		// For those that want to use the old help menu the can use this 
-		if (Conf.useOldHelp) {
+		if (Config.useOldHelp) {
 			if (helpPages == null) this.updateHelp();
 			
 			int page = this.argAsInt(0, 1);
@@ -219,7 +219,7 @@ public class CmdFactionsHelp extends FCommand {
 		pageLines.add(CmdFactionsSethome.get().getUseageTemplate(true));
 		this.helpPages.add(pageLines);
 
-		if (VaultEngine.isSetup() && Conf.econEnabled && Conf.bankEnabled) {
+		if (VaultEngine.isSetup() && Config.econEnabled && Config.bankEnabled) {
 			pageLines = new ArrayList<>();
 			pageLines.add("");
 			pageLines.add(TextUtil.get().parse(Lang.COMMAND_HELP_BANK_1.toString()));

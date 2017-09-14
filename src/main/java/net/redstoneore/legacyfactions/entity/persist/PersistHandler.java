@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.entity.persist;
 
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 
@@ -12,17 +12,17 @@ public abstract class PersistHandler {
 	// -------------------------------------------------- //
 	
 	public static PersistHandler getCurrent() {
-		return Conf.backEnd.getHandler();
+		return Config.backEnd.getHandler();
 	}
 	
 	public static PersistHandler setCurrent(PersistHandler handler, boolean convert) {
 		if (convert) {
-			handler.convertfrom(Conf.backEnd.getHandler());
+			handler.convertfrom(Config.backEnd.getHandler());
 		}
 		
-		Conf.backEnd = handler.getType();
+		Config.backEnd = handler.getType();
 		handler.init();
-		return Conf.backEnd.getHandler();
+		return Config.backEnd.getHandler();
 	}
 	
 	public static PersistHandler setCurrent(PersistHandler handler) {

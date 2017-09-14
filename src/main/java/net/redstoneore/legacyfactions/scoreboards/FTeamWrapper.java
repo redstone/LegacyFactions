@@ -6,7 +6,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import net.redstoneore.legacyfactions.*;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -30,7 +30,7 @@ public class FTeamWrapper {
 	// -------------------------------------------------- //
 
     public static void applyUpdatesLater(final Faction faction) {
-        if (!FScoreboards.isSupportedByServer() || faction.isWilderness() || !Conf.scoreboardDefaultPrefixes || !updating.add(faction)) return;
+        if (!FScoreboards.isSupportedByServer() || faction.isWilderness() || !Config.scoreboardDefaultPrefixes || !updating.add(faction)) return;
         
         Bukkit.getScheduler().runTask(Factions.get(), () -> {
             updating.remove(faction);
@@ -39,7 +39,7 @@ public class FTeamWrapper {
     }
 
     public static void applyUpdates(Faction faction) {
-        if (!FScoreboards.isSupportedByServer() || faction.isWilderness() || !Conf.scoreboardDefaultPrefixes) return;
+        if (!FScoreboards.isSupportedByServer() || faction.isWilderness() || !Config.scoreboardDefaultPrefixes) return;
         
         // Make sure we're not already updating
         if (updating.contains(faction)) return;
@@ -150,7 +150,7 @@ public class FTeamWrapper {
     }
 
     private void updatePrefixes() {
-        if (!Conf.scoreboardDefaultPrefixes) return;
+        if (!Config.scoreboardDefaultPrefixes) return;
         
         this.teams.keySet().forEach(scoreboard -> {
         	updatePrefix(scoreboard);
@@ -158,7 +158,7 @@ public class FTeamWrapper {
     }
 
     private void updatePrefix(FScoreboard scoreboard) {
-        if (!Conf.scoreboardDefaultPrefixes) return;
+        if (!Config.scoreboardDefaultPrefixes) return;
         
         FPlayer fplayer = scoreboard.getFPlayer();
         Team team = this.teams.get(scoreboard);

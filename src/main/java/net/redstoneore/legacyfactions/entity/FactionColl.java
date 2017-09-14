@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.FLocation;
+import net.redstoneore.legacyfactions.config.Config;
 
 public abstract class FactionColl {
 	
@@ -25,9 +26,9 @@ public abstract class FactionColl {
 	// -------------------------------------------------- //
 	
 	public static FactionColl get() {
-		if (currentType != Conf.backEnd.name()) {
-			instance = Conf.backEnd.getHandler().getFactionColl();
-			currentType = Conf.backEnd.name();
+		if (currentType != Config.backEnd.name()) {
+			instance = Config.backEnd.getHandler().getFactionColl();
+			currentType = Config.backEnd.name();
 		}
 		return instance;
 	}

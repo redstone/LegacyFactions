@@ -12,7 +12,7 @@ import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultUtils;
@@ -40,7 +40,7 @@ public abstract class VaultUtilBase {
 	// -------------------------------------------------- //
 	
 	public boolean shouldBeUsed() {
-		return Conf.econEnabled && this.econ != null && this.econ.isEnabled();
+		return Config.econEnabled && this.econ != null && this.econ.isEnabled();
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public abstract class VaultUtilBase {
 	  * @return double of amount
 	  */
 	public double calculateClaimRefund(int amountChunks) {
-		return calculateClaimCost(amountChunks - 1, false, null) * Conf.econClaimRefundMultiplier;
+		return calculateClaimCost(amountChunks - 1, false, null) * Config.econClaimRefundMultiplier;
 	}
 
 	/**
@@ -80,7 +80,7 @@ public abstract class VaultUtilBase {
 	 * @return double of amount
 	 */
 	public double calculateTotalLandRefund(int amountChunks) {
-		return calculateTotalLandValue(amountChunks) * Conf.econClaimRefundMultiplier;
+		return calculateTotalLandValue(amountChunks) * Config.econClaimRefundMultiplier;
 	}
 
 	
@@ -89,12 +89,12 @@ public abstract class VaultUtilBase {
 		if (!shouldBeUsed()) return 0d;
 		
 		// Base cost
-		double claimCost = Conf.econCostClaimWilderness;
+		double claimCost = Config.econCostClaimWilderness;
 		
 		// Aditional land value calculator
-		if (Conf.econAdditionalLandValueEnabled && location != null) {
+		if (Config.econAdditionalLandValueEnabled && location != null) {
 			
-			for (LandValue landvalue : Conf.econAdditionalLandValue) {
+			for (LandValue landvalue : Config.econAdditionalLandValue) {
 				if (location.getRadius(landvalue.radius).stream()
 						.filter(lazyLocation -> lazyLocation.getFactionHere().getId() == landvalue.faction || lazyLocation.getFactionHere().getTag() == landvalue.faction)
 						.findFirst()
@@ -103,10 +103,10 @@ public abstract class VaultUtilBase {
 		}
 		
 		// Add land inflation cost
-		claimCost +=(Conf.econCostClaimWilderness * Conf.econClaimAdditionalMultiplier * amountChunks);
+		claimCost +=(Config.econCostClaimWilderness * Config.econClaimAdditionalMultiplier * amountChunks);
 		
 		// Remove potential bonus given from another faction.
-		claimCost -= (takingFromAnotherFaction ? Conf.econCostClaimFromFactionBonus : 0);
+		claimCost -= (takingFromAnotherFaction ? Config.econCostClaimFromFactionBonus : 0);
 		
 		return claimCost;
 	}
@@ -137,7 +137,7 @@ public abstract class VaultUtilBase {
 		if (who == fWho && fWho == fYou) return true;
 
 		// Factions can be controlled by members that are moderators... or any member if any member can withdraw.
-		if (you instanceof Faction && fWho == fYou && (Conf.bankMembersCanWithdraw || ((FPlayer) who).getRole().isAtLeast(Role.MODERATOR))) {
+		if (you instanceof Faction && fWho == fYou && (Config.bankMembersCanWithdraw || ((FPlayer) who).getRole().isAtLeast(Role.MODERATOR))) {
 			return true;
 		}
 

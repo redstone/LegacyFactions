@@ -3,9 +3,9 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.Optional;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.event.EventFactionsWarpDelete;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
@@ -44,7 +44,7 @@ public class CmdFactionsDelwarp extends FCommand {
 		
 		if (owarp.isPresent()) {
 			FactionWarp warp = owarp.get();
-			Double cost = Conf.warpCost.get("delete");
+			Double cost = Config.warpCost.get("delete");
 			
 			if (fme.isAdminBypassing()) cost = 0.0;
 			
@@ -53,7 +53,7 @@ public class CmdFactionsDelwarp extends FCommand {
 			event.call();
 			if (event.isCancelled()) return;
 			
-			if (cost > 0 && !fme.isAdminBypassing() && !this.payForCommand(Conf.warpCost.get("delete"), Lang.COMMAND_DELFWARP_TODELETE.toString(), Lang.COMMAND_DELFWARP_FORDELETE.toString())) return;
+			if (cost > 0 && !fme.isAdminBypassing() && !this.payForCommand(Config.warpCost.get("delete"), Lang.COMMAND_DELFWARP_TODELETE.toString(), Lang.COMMAND_DELFWARP_FORDELETE.toString())) return;
 			
 			warp.delete();
 			fme.sendMessage(Lang.COMMAND_DELFWARP_DELETED, name);

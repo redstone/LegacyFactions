@@ -20,8 +20,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -57,24 +57,24 @@ public class FactionsEntityListener implements Listener {
 		FPlayer fplayer = FPlayerColl.get(player);
 		Faction faction = Board.get().getFactionAt(Locality.of(player.getLocation()));
 
-		EventFactionsPowerLoss powerLossEvent = new EventFactionsPowerLoss(faction, fplayer, Conf.powerPerDeath);
+		EventFactionsPowerLoss powerLossEvent = new EventFactionsPowerLoss(faction, fplayer, Config.powerPerDeath);
 		// Check for no power loss conditions
 		if (faction.isWarZone()) {
 			// war zones always override worldsNoPowerLoss either way, thus this layout
-			if (!Conf.warZonePowerLoss) {
+			if (!Config.warZonePowerLoss) {
 				powerLossEvent.setMessage(Lang.PLAYER_POWER_NOLOSS_WARZONE.toString());
 				powerLossEvent.setCancelled(true);
 			}
-			if (Conf.worldsNoPowerLoss.contains(player.getWorld().getName())) {
+			if (Config.worldsNoPowerLoss.contains(player.getWorld().getName())) {
 				powerLossEvent.setMessage(Lang.PLAYER_POWER_LOSS_WARZONE.toString());
 			}
-		} else if (faction.isWilderness() && !Conf.wildernessPowerLoss && !Conf.worldsNoWildernessProtection.contains(player.getWorld().getName())) {
+		} else if (faction.isWilderness() && !Config.wildernessPowerLoss && !Config.worldsNoWildernessProtection.contains(player.getWorld().getName())) {
 			powerLossEvent.setMessage(Lang.PLAYER_POWER_NOLOSS_WILDERNESS.toString());
 			powerLossEvent.setCancelled(true);
-		} else if (Conf.worldsNoPowerLoss.contains(player.getWorld().getName())) {
+		} else if (Config.worldsNoPowerLoss.contains(player.getWorld().getName())) {
 			powerLossEvent.setMessage(Lang.PLAYER_POWER_NOLOSS_WORLD.toString());
 			powerLossEvent.setCancelled(true);
-		} else if (Conf.peacefulMembersDisablePowerLoss && fplayer.hasFaction() && fplayer.getFaction().getFlag(Flags.PEACEFUL)) {
+		} else if (Config.peacefulMembersDisablePowerLoss && fplayer.hasFaction() && fplayer.getFaction().getFlag(Flags.PEACEFUL)) {
 			powerLossEvent.setMessage(Lang.PLAYER_POWER_NOLOSS_PEACEFUL.toString());
 			powerLossEvent.setCancelled(true);
 		} else {
@@ -117,7 +117,7 @@ public class FactionsEntityListener implements Listener {
 			if (damager instanceof Player) {
 				cancelFStuckTeleport((Player) damager);
 			}
-		} else if (Conf.safeZonePreventAllDamageToPlayers && isPlayerInSafeZone(event.getEntity())) {
+		} else if (Config.safeZonePreventAllDamageToPlayers && isPlayerInSafeZone(event.getEntity())) {
 			// Players can not take any damage in a Safe Zone
 			event.setCancelled(true);
 		}
@@ -155,7 +155,7 @@ public class FactionsEntityListener implements Listener {
 		
 		boolean online = faction.hasPlayersOnline();
 
-		if (faction.getFlag(Flags.EXPLOSIONS) || (faction.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisableBoom)) {
+		if (faction.getFlag(Flags.EXPLOSIONS) || (faction.getFlag(Flags.PEACEFUL) && Config.peacefulTerritoryDisableBoom)) {
 			event.setCancelled(true);
 			return;
 		}
@@ -166,9 +166,9 @@ public class FactionsEntityListener implements Listener {
 		} 
 		
 		if ((entity instanceof Fireball || entity instanceof WitherSkull || entity instanceof Wither) &&
-			((faction.isWilderness() && Conf.wildernessBlockFireballs && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName()))
-			  || (faction.isNormal() && (online ? Conf.territoryBlockFireballs : Conf.territoryBlockFireballsWhenOffline)) 
-			  || (faction.isWarZone() && Conf.warZoneBlockFireballs) 
+			((faction.isWilderness() && Config.wildernessBlockFireballs && !Config.worldsNoWildernessProtection.contains(loc.getWorld().getName()))
+			  || (faction.isNormal() && (online ? Config.territoryBlockFireballs : Config.territoryBlockFireballsWhenOffline)) 
+			  || (faction.isWarZone() && Config.warZoneBlockFireballs) 
 			  || faction.isSafeZone())) {
 		   
 			event.setCancelled(true);
@@ -176,16 +176,16 @@ public class FactionsEntityListener implements Listener {
 		}
 		
 		if ((entity instanceof TNTPrimed || entity instanceof ExplosiveMinecart) &&
-			((faction.isWilderness() && Conf.wildernessBlockTNT && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName()))
-			 || (faction.isNormal() && (online ? Conf.territoryBlockTNT : Conf.territoryBlockTNTWhenOffline)) 
-			 || (faction.isWarZone() && Conf.warZoneBlockTNT)
-			 || (faction.isSafeZone() && Conf.safeZoneBlockTNT))) {
+			((faction.isWilderness() && Config.wildernessBlockTNT && !Config.worldsNoWildernessProtection.contains(loc.getWorld().getName()))
+			 || (faction.isNormal() && (online ? Config.territoryBlockTNT : Config.territoryBlockTNTWhenOffline)) 
+			 || (faction.isWarZone() && Config.warZoneBlockTNT)
+			 || (faction.isSafeZone() && Config.safeZoneBlockTNT))) {
 			// TNT which needs prevention
 			event.setCancelled(true);
 			return;
 		}
 		if ( 
-				(entity instanceof TNTPrimed || entity instanceof ExplosiveMinecart) && Conf.handleExploitTNTWaterlog) {
+				(entity instanceof TNTPrimed || entity instanceof ExplosiveMinecart) && Config.handleExploitTNTWaterlog) {
 			// TNT in water/lava doesn't normally destroy any surrounding blocks, which is usually desired behavior, but...
 			// this change below provides workaround for waterwalling providing perfect protection,
 			// and makes cheap (non-obsidian) TNT cannons require minor maintenance between shots
@@ -345,13 +345,13 @@ public class FactionsEntityListener implements Listener {
 			return true;
 		}
 
-		if (Conf.playersWhoBypassAllProtection.contains(attacker.getName())) {
+		if (Config.playersWhoBypassAllProtection.contains(attacker.getName())) {
 			return true;
 		}
 
 		if (attacker.hasLoginPvpDisabled()) {
 			if (notify) {
-				attacker.sendMessage(Lang.PLAYER_PVP_LOGIN, Conf.noPVPDamageToOthersForXSecondsAfterLogin);
+				attacker.sendMessage(Lang.PLAYER_PVP_LOGIN, Config.noPVPDamageToOthersForXSecondsAfterLogin);
 			}
 			return false;
 		}
@@ -366,27 +366,27 @@ public class FactionsEntityListener implements Listener {
 			return false;
 		}
 
-		if (locFaction.isWarZone() && Conf.warZoneFriendlyFire) {
+		if (locFaction.isWarZone() && Config.warZoneFriendlyFire) {
 			return true;
 		}
 
-		if (Conf.worldsIgnorePvP.contains(defenderLoc.getWorld().getName())) {
+		if (Config.worldsIgnorePvP.contains(defenderLoc.getWorld().getName())) {
 			return true;
 		}
 
 		Faction defendFaction = defender.getFaction();
 		Faction attackFaction = attacker.getFaction();
 
-		if (attackFaction.isWilderness() && Conf.disablePVPForFactionlessPlayers) {
+		if (attackFaction.isWilderness() && Config.disablePVPForFactionlessPlayers) {
 			if (notify) {
 				attacker.sendMessage(Lang.PLAYER_PVP_REQUIREFACTION);
 			}
 			return false;
 		} else if (defendFaction.isWilderness()) {
-			if (defLocFaction == attackFaction && Conf.enablePVPAgainstFactionlessInAttackersLand) {
+			if (defLocFaction == attackFaction && Config.enablePVPAgainstFactionlessInAttackersLand) {
 				// Allow PVP vs. Factionless in attacker's faction territory
 				return true;
-			} else if (Conf.disablePVPForFactionlessPlayers) {
+			} else if (Config.disablePVPForFactionlessPlayers) {
 				if (notify) {
 					attacker.sendMessage(Lang.PLAYER_PVP_FACTIONLESS);
 				}
@@ -409,7 +409,7 @@ public class FactionsEntityListener implements Listener {
 		Relation relation = defendFaction.getRelationTo(attackFaction);
 
 		// You can not hurt neutral factions
-		if (Conf.disablePVPBetweenNeutralFactions && relation.isNeutral()) {
+		if (Config.disablePVPBetweenNeutralFactions && relation.isNeutral()) {
 			if (notify) {
 				attacker.sendMessage(Lang.PLAYER_PVP_NEUTRAL);
 			}
@@ -462,7 +462,7 @@ public class FactionsEntityListener implements Listener {
 			return;
 		}
 
-		if (Conf.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(event.getEntityType().name())) && Board.get().getFactionAt(Locality.of(event.getLocation())).noMonstersInTerritory()) {
+		if (Config.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(event.getEntityType().name())) && Board.get().getFactionAt(Locality.of(event.getLocation())).noMonstersInTerritory()) {
 			event.setCancelled(true);
 		}
 	}
@@ -476,7 +476,7 @@ public class FactionsEntityListener implements Listener {
 		EntityType creatureType = MiscUtil.creatureTypeFromEntity(event.getEntity());
 		if (creatureType != null) {
 			// We are interested in blocking targeting for certain mobs:
-			if (!Conf.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(creatureType.name()))) {
+			if (!Config.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(creatureType.name()))) {
 				return;
 			}
 		}
@@ -500,9 +500,9 @@ public class FactionsEntityListener implements Listener {
 
 			boolean online = faction.hasPlayersOnline();
 
-			if ((faction.isWilderness() && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName()) && (Conf.wildernessBlockCreepers || Conf.wildernessBlockFireballs || Conf.wildernessBlockTNT)) ||
-						(faction.isNormal() && (online ? (Conf.territoryBlockCreepers || Conf.territoryBlockFireballs || Conf.territoryBlockTNT) : (Conf.territoryBlockCreepersWhenOffline || Conf.territoryBlockFireballsWhenOffline || Conf.territoryBlockTNTWhenOffline))) ||
-						(faction.isWarZone() && (Conf.warZoneBlockCreepers || Conf.warZoneBlockFireballs || Conf.warZoneBlockTNT)) ||
+			if ((faction.isWilderness() && !Config.worldsNoWildernessProtection.contains(loc.getWorld().getName()) && (Config.wildernessBlockCreepers || Config.wildernessBlockFireballs || Config.wildernessBlockTNT)) ||
+						(faction.isNormal() && (online ? (Config.territoryBlockCreepers || Config.territoryBlockFireballs || Config.territoryBlockTNT) : (Config.territoryBlockCreepersWhenOffline || Config.territoryBlockFireballsWhenOffline || Config.territoryBlockTNTWhenOffline))) ||
+						(faction.isWarZone() && (Config.warZoneBlockCreepers || Config.warZoneBlockFireballs || Config.warZoneBlockTNT)) ||
 						faction.isSafeZone()) {
 				// explosion which needs prevention
 				event.setCancelled(true);
@@ -551,9 +551,9 @@ public class FactionsEntityListener implements Listener {
 		} else if (entity instanceof Wither) {
 			Faction faction = Board.get().getFactionAt(Locality.of(loc));
 			// it's a bit crude just using fireball protection, but I'd rather not add in a whole new set of xxxBlockWitherExplosion or whatever
-			if ((faction.isWilderness() && Conf.wildernessBlockFireballs && !Conf.worldsNoWildernessProtection.contains(loc.getWorld().getName())) ||
-						(faction.isNormal() && (faction.hasPlayersOnline() ? Conf.territoryBlockFireballs : Conf.territoryBlockFireballsWhenOffline)) ||
-						(faction.isWarZone() && Conf.warZoneBlockFireballs) ||
+			if ((faction.isWilderness() && Config.wildernessBlockFireballs && !Config.worldsNoWildernessProtection.contains(loc.getWorld().getName())) ||
+						(faction.isNormal() && (faction.hasPlayersOnline() ? Config.territoryBlockFireballs : Config.territoryBlockFireballsWhenOffline)) ||
+						(faction.isWarZone() && Config.warZoneBlockFireballs) ||
 						faction.isSafeZone()) {
 				event.setCancelled(true);
 			}
@@ -562,7 +562,7 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler
 	public void onTravel(PlayerPortalEvent event) {
-		if (!Conf.portalsLimit) {
+		if (!Config.portalsLimit) {
 			return; // Don't do anything if they don't want us to.
 		}
 
@@ -580,7 +580,7 @@ public class FactionsEntityListener implements Listener {
 			}
 
 			FPlayer fp = FPlayerColl.get(event.getPlayer());
-			Relation mininumRelation = Relation.fromString(Conf.portalsMinimumRelation);
+			Relation mininumRelation = Relation.fromString(Config.portalsMinimumRelation);
 			if (!fp.getFaction().getRelationTo(faction).isAtLeast(mininumRelation)) {
 				event.setCancelled(true);
 			}
@@ -590,24 +590,24 @@ public class FactionsEntityListener implements Listener {
 	private boolean stopEndermanBlockManipulation(Location loc) {
 		if (loc == null) return false;
 		// quick check to see if all Enderman deny options are enabled; if so, no need to check location
-		if (Conf.wildernessDenyEndermanBlocks &&
-					Conf.territoryDenyEndermanBlocks &&
-					Conf.territoryDenyEndermanBlocksWhenOffline &&
-					Conf.safeZoneDenyEndermanBlocks &&
-					Conf.warZoneDenyEndermanBlocks) {
+		if (Config.wildernessDenyEndermanBlocks &&
+					Config.territoryDenyEndermanBlocks &&
+					Config.territoryDenyEndermanBlocksWhenOffline &&
+					Config.safeZoneDenyEndermanBlocks &&
+					Config.warZoneDenyEndermanBlocks) {
 			return true;
 		}
 
 		Faction claimFaction = Board.get().getFactionAt(Locality.of(loc));
 
 		if (claimFaction.isWilderness()) {
-			return Conf.wildernessDenyEndermanBlocks;
+			return Config.wildernessDenyEndermanBlocks;
 		} else if (claimFaction.isNormal()) {
-			return claimFaction.hasPlayersOnline() ? Conf.territoryDenyEndermanBlocks : Conf.territoryDenyEndermanBlocksWhenOffline;
+			return claimFaction.hasPlayersOnline() ? Config.territoryDenyEndermanBlocks : Config.territoryDenyEndermanBlocksWhenOffline;
 		} else if (claimFaction.isSafeZone()) {
-			return Conf.safeZoneDenyEndermanBlocks;
+			return Config.safeZoneDenyEndermanBlocks;
 		} else if (claimFaction.isWarZone()) {
-			return Conf.warZoneDenyEndermanBlocks;
+			return Config.warZoneDenyEndermanBlocks;
 		}
 
 		return false;

@@ -3,9 +3,9 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.util.TitleUtil;
@@ -93,7 +93,7 @@ public class CmdFactionsMod extends FCommand {
 			sendMessage(Lang.COMMAND_MOD_PROMOTES, you.describeTo(fme, true));
 		}
 		
-		if (Conf.rankChangeTitles) {
+		if (Config.rankChangeTitles) {
 			targetFaction.getMembers().forEach(fplayer -> {
 				String titleHeader = Lang.ROLETITLES_HEADER.getBuilder()
 					.parse()
@@ -107,7 +107,7 @@ public class CmdFactionsMod extends FCommand {
 					.toString();
 					
 					
-				TitleUtil.sendTitle(fplayer.getPlayer(), Conf.territoryTitlesTimeFadeInTicks, Conf.territoryTitlesTimeStayTicks, Conf.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
+				TitleUtil.sendTitle(fplayer.getPlayer(), Config.territoryTitlesTimeFadeInTicks, Config.territoryTitlesTimeStayTicks, Config.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
 
 			});
 		}

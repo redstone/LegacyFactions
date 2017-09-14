@@ -16,8 +16,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.util.NumberConversions;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -97,10 +97,10 @@ public class FactionsPlayerListener implements Listener {
 		}, 33L);
 		
 		// Start the scoreboard up
-		if (Conf.scoreboardDefaultEnabled) {
+		if (Config.scoreboardDefaultEnabled) {
 			FScoreboard scoreboard = FScoreboards.get(me);
 			
-			scoreboard.setDefaultSidebar(new FDefaultSidebar(), Conf.scoreboardDefaultUpdateIntervalSecs);
+			scoreboard.setDefaultSidebar(new FDefaultSidebar(), Config.scoreboardDefaultUpdateIntervalSecs);
 			scoreboard.setSidebarVisibility(me.showScoreboard());
 		}
 
@@ -137,10 +137,10 @@ public class FactionsPlayerListener implements Listener {
 		fplayer.onLogout();
 		FScoreboards.remove(fplayer);
 		
-		if (Conf.teleportToSpawnOnLogoutInRelationEnabled) {
-			if (Conf.teleportToSpawnOnLogoutInRelationWorlds.contains(fplayer.getLastLocation().getWorld().getName())) {
+		if (Config.teleportToSpawnOnLogoutInRelationEnabled) {
+			if (Config.teleportToSpawnOnLogoutInRelationWorlds.contains(fplayer.getLastLocation().getWorld().getName())) {
 				Relation relation = fplayer.getLastLocation().getFactionHere().getRelationTo(fplayer);
-				if (Conf.teleportToSpawnOnLogoutInRelation.contains(relation)) {
+				if (Config.teleportToSpawnOnLogoutInRelation.contains(relation)) {
 					fplayer.teleport(Locality.of(fplayer.getLastLocation().getWorld().getSpawnLocation()));
 				}
 			}
@@ -188,12 +188,12 @@ public class FactionsPlayerListener implements Listener {
 
 		if (me.isMapAutoUpdating()) {
 			if (Volatile.get().showTimes().containsKey(player.getUniqueId()) && (Volatile.get().showTimes().get(player.getUniqueId()) > System.currentTimeMillis())) {
-				if (Conf.findFactionsExploitLog) {
+				if (Config.findFactionsExploitLog) {
 					Factions.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
 				}
 			} else {
 				me.sendMessage(Board.get().getMap(me.getFaction(), Locality.of(event.getTo()), player.getLocation().getYaw()));
-				Volatile.get().showTimes().put(player.getUniqueId(), System.currentTimeMillis() + Conf.findFactionsExploitCooldownMils);
+				Volatile.get().showTimes().put(player.getUniqueId(), System.currentTimeMillis() + Config.findFactionsExploitCooldownMils);
 			}
 		} else {
 			Faction myFaction = me.getFaction();
@@ -205,12 +205,12 @@ public class FactionsPlayerListener implements Listener {
 				EventFactionsChangedTerritory eventChangedTerritory = new EventFactionsChangedTerritory(me, factionFrom, factionTo, me.getLastLocation(), Locality.of(event.getTo()));
 				Bukkit.getServer().getPluginManager().callEvent(eventChangedTerritory);
 				
-				if (Conf.ownedAreasEnabled && Conf.ownedMessageOnBorder && myFaction == factionTo && !ownersTo.isEmpty()) {
+				if (Config.ownedAreasEnabled && Config.ownedMessageOnBorder && myFaction == factionTo && !ownersTo.isEmpty()) {
 					me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
 				}
-			} else if (Conf.ownedAreasEnabled && Conf.ownedMessageInsideTerritory && myFaction == factionTo && !myFaction.isWilderness()) {
+			} else if (Config.ownedAreasEnabled && Config.ownedMessageInsideTerritory && myFaction == factionTo && !myFaction.isWilderness()) {
 				String ownersFrom = myFaction.getOwnerListString(new FLocation(from.getChunk()));
-				if (Conf.ownedMessageByChunk || !ownersFrom.equals(ownersTo)) {
+				if (Config.ownedMessageByChunk || !ownersFrom.equals(ownersTo)) {
 					if (!ownersTo.isEmpty()) {
 						me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
 					} else if (!Lang.GENERIC_PUBLICLAND.toString().isEmpty()) {
@@ -275,7 +275,7 @@ public class FactionsPlayerListener implements Listener {
 
 		if (!canPlayerUseBlock(player, block, false)) {
 			event.setCancelled(true);
-			if (Conf.handleExploitInteractionSpam) {
+			if (Config.handleExploitInteractionSpam) {
 				String name = player.getName();
 				InteractAttemptSpam attempt = Volatile.get().interactSpammers().get(name);
 				if (attempt == null) {
@@ -300,7 +300,7 @@ public class FactionsPlayerListener implements Listener {
 	
 	public static boolean playerCanUseItemHere(Player player, Location location, Material material, boolean justCheck) {
 		String name = player.getName();
-		if (Conf.playersWhoBypassAllProtection.contains(name)) {
+		if (Config.playersWhoBypassAllProtection.contains(name)) {
 			return true;
 		}
 
@@ -312,22 +312,22 @@ public class FactionsPlayerListener implements Listener {
 		FLocation loc = new FLocation(location);
 		Faction otherFaction = Board.get().getFactionAt(Locality.of(location));
 
-		if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+		if (Config.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
 			return true;
 		}
 
 		if (otherFaction.hasPlayersOnline()) {
-			if (!Conf.territoryDenyUseageMaterials.contains(CrossMaterial.valueOf(material.name()))) {
+			if (!Config.territoryDenyUseageMaterials.contains(CrossMaterial.valueOf(material.name()))) {
 				return true; // Item isn't one we're preventing for online factions.
 			}
 		} else {
-			if (!Conf.territoryDenyUseageMaterialsWhenOffline.contains(CrossMaterial.valueOf(material.name()))) {
+			if (!Config.territoryDenyUseageMaterialsWhenOffline.contains(CrossMaterial.valueOf(material.name()))) {
 				return true; // Item isn't one we're preventing for offline factions.
 			}
 		}
 
 		if (otherFaction.isWilderness()) {
-			if (!Conf.wildernessDenyUseage || Conf.worldsNoWildernessProtection.contains(location.getWorld().getName())) {
+			if (!Config.wildernessDenyUseage || Config.worldsNoWildernessProtection.contains(location.getWorld().getName())) {
 				return true; // This is not faction territory. Use whatever you like here.
 			}
 
@@ -337,7 +337,7 @@ public class FactionsPlayerListener implements Listener {
 
 			return false;
 		} else if (otherFaction.isSafeZone()) {
-			if (!Conf.safeZoneDenyUseage || Permission.MANAGE_SAFE_ZONE.has(player)) {
+			if (!Config.safeZoneDenyUseage || Permission.MANAGE_SAFE_ZONE.has(player)) {
 				return true;
 			}
 
@@ -347,7 +347,7 @@ public class FactionsPlayerListener implements Listener {
 
 			return false;
 		} else if (otherFaction.isWarZone()) {
-			if (!Conf.warZoneDenyUseage || Permission.MANAGE_WAR_ZONE.has(player)) {
+			if (!Config.warZoneDenyUseage || Permission.MANAGE_WAR_ZONE.has(player)) {
 				return true;
 			}
 
@@ -371,7 +371,7 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		// Also cancel if player doesn't have ownership rights for this claim
-		if (Conf.ownedAreasEnabled && Conf.ownedAreaDenyUseage && !otherFaction.playerHasOwnershipRights(me, loc)) {
+		if (Config.ownedAreasEnabled && Config.ownedAreaDenyUseage && !otherFaction.playerHasOwnershipRights(me, loc)) {
 			if (!justCheck) {
 				me.sendMessage(Lang.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), otherFaction.getOwnerListString(loc));
 			}
@@ -383,7 +383,7 @@ public class FactionsPlayerListener implements Listener {
 	}
 
 	public static boolean canPlayerUseBlock(Player player, Block block, boolean justCheck) {
-		if (Conf.playersWhoBypassAllProtection.contains(player.getName())) {
+		if (Config.playersWhoBypassAllProtection.contains(player.getName())) {
 			return true;
 		}
 
@@ -401,7 +401,7 @@ public class FactionsPlayerListener implements Listener {
 			return true;
 		}
 
-		if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+		if (Config.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
 			return true;
 		}
 
@@ -425,17 +425,17 @@ public class FactionsPlayerListener implements Listener {
 
 		// We only care about some material types.
 		if (otherFaction.hasPlayersOnline()) {
-			if (!Conf.territoryProtectedMaterials.contains(CrossMaterial.valueOf(material.name()))) {
+			if (!Config.territoryProtectedMaterials.contains(CrossMaterial.valueOf(material.name()))) {
 				return true;
 			}
 		} else {
-			if (!Conf.territoryProtectedMaterialsWhenOffline.contains(CrossMaterial.valueOf(material.name()))) {
+			if (!Config.territoryProtectedMaterialsWhenOffline.contains(CrossMaterial.valueOf(material.name()))) {
 				return true;
 			}
 		}
 
 		// You may use any block unless it is another faction's territory...
-		if (rel.isNeutral() || (rel.isEnemy() && Conf.territoryEnemyProtectMaterials) || (rel.isAlly() && Conf.territoryAllyProtectMaterials) || (rel.isTruce() && Conf.territoryTruceProtectMaterials)) {
+		if (rel.isNeutral() || (rel.isEnemy() && Config.territoryEnemyProtectMaterials) || (rel.isAlly() && Config.territoryAllyProtectMaterials) || (rel.isTruce() && Config.territoryTruceProtectMaterials)) {
 			if (!justCheck) {
 				me.sendMessage(Lang.PLAYER_USE_TERRITORY, (material == Material.SOIL ? "trample " : "use ") + TextUtil.getMaterialName(material), otherFaction.getTag(myFaction));
 			}
@@ -444,7 +444,7 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		// Also cancel if player doesn't have ownership rights for this claim
-		if (Conf.ownedAreasEnabled && Conf.ownedAreaProtectMaterials && !otherFaction.playerHasOwnershipRights(me, loc)) {
+		if (Config.ownedAreasEnabled && Config.ownedAreaProtectMaterials && !otherFaction.playerHasOwnershipRights(me, loc)) {
 			if (!justCheck) {
 				me.sendMessage(Lang.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), otherFaction.getOwnerListString(loc));
 			}
@@ -462,10 +462,10 @@ public class FactionsPlayerListener implements Listener {
 		me.getPower();  // update power, so they won't have gained any while dead
 
 		Location home = me.getFaction().getHome();
-		if (Conf.homesEnabled &&
-					Conf.homesTeleportToOnDeath &&
+		if (Config.homesEnabled &&
+					Config.homesTeleportToOnDeath &&
 					home != null &&
-					(Conf.homesRespawnFromNoPowerLossWorlds || !Conf.worldsNoPowerLoss.contains(event.getPlayer().getWorld().getName()))) {
+					(Config.homesRespawnFromNoPowerLossWorlds || !Config.worldsNoPowerLoss.contains(event.getPlayer().getWorld().getName()))) {
 			event.setRespawnLocation(home);
 		}
 	}
@@ -504,7 +504,7 @@ public class FactionsPlayerListener implements Listener {
 		FPlayer badGuy = FPlayerColl.get(event.getPlayer());
 		if (badGuy == null) return;
 		
-		if (!Conf.removePlayerDataWhenBanned || !event.getPlayer().isBanned()) return;
+		if (!Config.removePlayerDataWhenBanned || !event.getPlayer().isBanned()) return;
 		
 		if (badGuy.getRole() == Role.ADMIN) {
 			badGuy.getFaction().promoteNewLeader();
@@ -549,8 +549,8 @@ public class FactionsPlayerListener implements Listener {
 		
 		if (damager == null) {
 			// must be a mob attacking 
-			if (Conf.damageModifierPercentRelationLocationByMob.containsKey(relationToLocation) && Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation) != null) {
-				double newDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByMob.get(relationToLocation)/100);
+			if (Config.damageModifierPercentRelationLocationByMob.containsKey(relationToLocation) && Config.damageModifierPercentRelationLocationByMob.get(relationToLocation) != null) {
+				double newDamage = event.getDamage() * (Config.damageModifierPercentRelationLocationByMob.get(relationToLocation)/100);
 				event.setDamage(newDamage);
 			}
 		}
@@ -558,31 +558,31 @@ public class FactionsPlayerListener implements Listener {
 		if (damager == null) return;
 		
 		// Damage modifier based on location 
-		if (fplayer.getLastLocation().getFactionHere().isWilderness() && Conf.damageModifierPercentWilderness != 100) {
-			double newDamage = event.getDamage() * (Conf.damageModifierPercentWilderness/100);
+		if (fplayer.getLastLocation().getFactionHere().isWilderness() && Config.damageModifierPercentWilderness != 100) {
+			double newDamage = event.getDamage() * (Config.damageModifierPercentWilderness/100);
 			event.setDamage(newDamage);
 		}
 		
-		if (fplayer.getLastLocation().getFactionHere().isWarZone() && Conf.damageModifierPercentWarzone != 100) {
-			double newDamage = event.getDamage() * (Conf.damageModifierPercentWarzone/100);
+		if (fplayer.getLastLocation().getFactionHere().isWarZone() && Config.damageModifierPercentWarzone != 100) {
+			double newDamage = event.getDamage() * (Config.damageModifierPercentWarzone/100);
 			event.setDamage(newDamage);
 		}
 		
-		if (fplayer.getLastLocation().getFactionHere().isSafeZone() && Conf.damageModifierPercentSafezone != 100) {
-			double newDamage = event.getDamage() * (Conf.damageModifierPercentSafezone/100);
+		if (fplayer.getLastLocation().getFactionHere().isSafeZone() && Config.damageModifierPercentSafezone != 100) {
+			double newDamage = event.getDamage() * (Config.damageModifierPercentSafezone/100);
 			event.setDamage(newDamage);
 		}
 		
 		// Check for damager modifier by relation to player
 		Relation relationToDamager = fplayer.getRelationTo(damager);
-		if (Conf.damageModifierPercentRelationPlayer.containsKey(relationToDamager) && Conf.damageModifierPercentRelationPlayer.get(relationToDamager) != 100) {
-			double newDamage = event.getDamage() * (Conf.damageModifierPercentRelationPlayer.get(relationToDamager)/100);
+		if (Config.damageModifierPercentRelationPlayer.containsKey(relationToDamager) && Config.damageModifierPercentRelationPlayer.get(relationToDamager) != 100) {
+			double newDamage = event.getDamage() * (Config.damageModifierPercentRelationPlayer.get(relationToDamager)/100);
 			event.setDamage(newDamage);
 		}
 		
 		// Check for damager modifier by relation to location
-		if (Conf.damageModifierPercentRelationLocationByPlayer.containsKey(relationToLocation) && Conf.damageModifierPercentRelationLocationByPlayer.get(relationToLocation) != 100) {
-			double newDamage = event.getDamage() * (Conf.damageModifierPercentRelationLocationByPlayer.get(relationToLocation)/100);
+		if (Config.damageModifierPercentRelationLocationByPlayer.containsKey(relationToLocation) && Config.damageModifierPercentRelationLocationByPlayer.get(relationToLocation) != 100) {
+			double newDamage = event.getDamage() * (Config.damageModifierPercentRelationLocationByPlayer.get(relationToLocation)/100);
 			event.setDamage(newDamage);
 		}
 		

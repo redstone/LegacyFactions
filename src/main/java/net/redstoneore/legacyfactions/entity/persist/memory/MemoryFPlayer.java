@@ -3,7 +3,7 @@ package net.redstoneore.legacyfactions.entity.persist.memory;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -46,16 +46,16 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	public MemoryFPlayer(String id) {
 		this.id = id;
 		this.resetFactionData();
-		this.power = Conf.powerPlayerStarting;
+		this.power = Config.powerPlayerStarting;
 		this.lastPowerUpdateTime = System.currentTimeMillis();
 		this.lastLoginTime = System.currentTimeMillis();
 		this.powerBoost = 0.0;
-		this.showScoreboard = Conf.scoreboardDefaultEnabled;
+		this.showScoreboard = Config.scoreboardDefaultEnabled;
 		this.kills = 0;
 		this.deaths = 0;
 
-		if (!Conf.newPlayerStartingFactionID.equals("0") && FactionColl.get().isValidFactionId(Conf.newPlayerStartingFactionID)) {
-			this.factionId = Conf.newPlayerStartingFactionID;
+		if (!Config.newPlayerStartingFactionID.equals("0") && FactionColl.get().isValidFactionId(Config.newPlayerStartingFactionID)) {
+			this.factionId = Config.newPlayerStartingFactionID;
 		}
 	}
 
@@ -76,7 +76,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		this.spyingChat = other.isSpyingChat();
 		this.setLastLocation(other.getLastLocation());
 		this.isAdminBypassing = other.isAdminBypassing();
-		this.showScoreboard = Conf.scoreboardDefaultEnabled;
+		this.showScoreboard = Config.scoreboardDefaultEnabled;
 		this.kills = other.getKills();
 		this.deaths = other.getDeaths();
 		this.territoryTitlesOff = other.territoryTitlesOff();
@@ -229,7 +229,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	@Override
 	public Role getRole() {
 		// Coleader check
-		if (this.role == Role.COLEADER && Conf.enableColeaders == false) {
+		if (this.role == Role.COLEADER && Config.enableColeaders == false) {
 			this.role = Role.NORMAL;
 		}
 		return this.role;
@@ -238,7 +238,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	@Override
 	public void setRole(Role role) {
 		// Coleader check
-		if (role == Role.COLEADER && Conf.enableColeaders == false) {
+		if (role == Role.COLEADER && Config.enableColeaders == false) {
 			role = Role.NORMAL;
 		}
 
@@ -288,7 +288,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	@Override
 	public ChatMode getChatMode() {
 		// If we're in the wilderness or factions chat is disabled, default to public chat
-		if (this.factionId.equals("0") || !Conf.expansionsFactionsChat.enabled) {
+		if (this.factionId.equals("0") || !Config.expansionsFactionsChat.enabled) {
 			this.chatMode = ChatMode.PUBLIC;
 		}
 		return this.chatMode;
@@ -328,7 +328,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 		this.losePowerFromBeingOffline();
 		this.lastLoginTime = lastLoginTime;
 		this.lastPowerUpdateTime = lastLoginTime;
-		if (Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0) {
+		if (Config.noPVPDamageToOthersForXSecondsAfterLogin > 0) {
 			this.setLoginPVPDisable(true);
 		}
 	}

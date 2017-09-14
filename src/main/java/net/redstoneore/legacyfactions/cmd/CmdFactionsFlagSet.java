@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.flag.Flags;
@@ -63,8 +63,8 @@ public class CmdFactionsFlagSet extends FCommand {
 				this.sendMessage(Lang.COMMAND_FLAGSET_NOTYOURS.getBuilder().parse().toString());
 				return;
 			} else {
-				if (!this.fme.getRole().isAtLeast(Conf.factionFlagMinRole)) {
-					this.sendMessage(Lang.COMMAND_FLAGSET_BADRANK.getBuilder().parse().replace("<rank>", Conf.factionFlagMinRole.toNiceName()).toString());
+				if (!this.fme.getRole().isAtLeast(Config.factionFlagMinRole)) {
+					this.sendMessage(Lang.COMMAND_FLAGSET_BADRANK.getBuilder().parse().replace("<rank>", Config.factionFlagMinRole.toNiceName()).toString());
 					return;
 				}
 			}
