@@ -1,7 +1,6 @@
 package net.redstoneore.legacyfactions.entity.persist.shared;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -636,19 +635,5 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public abstract Map<String, List<String>> getAnnouncements();
 	public abstract void addAnnouncement(FPlayer fPlayer, String msg);
 	public abstract void removeAnnouncements(FPlayer fPlayer);
-
-	// -------------------------------------------------- //
-	// DEPRECATED
-	// -------------------------------------------------- //
-	
-	@Deprecated
-	public void msg(String message, Object... args) {
-		this.sendMessage(message, args);
-	}
-
-	@Deprecated
-	public void msg(Lang translation, Object... args) {
-		this.sendMessage(translation, args);
-	}
 	
 }

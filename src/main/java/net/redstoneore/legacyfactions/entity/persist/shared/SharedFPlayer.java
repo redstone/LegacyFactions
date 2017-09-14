@@ -1071,48 +1071,4 @@ public abstract class SharedFPlayer implements FPlayer {
 	
 	public abstract void remove();
 	
-	// -------------------------------------------------- //
-	// DEPRECATED
-	// -------------------------------------------------- //
-	
-	/**
-	 * Use isVanished(FPlayer viewer)
-	 */
-	@Deprecated
-	public boolean isVanished() {
-		return EssentialsEngine.isVanished(this.getPlayer());
-	}
-	
-	/**
-	 * use sendMessage
-	 */
-	@Deprecated
-	public void msg(boolean onlyIfTrue, String str, Object... args) {
-		this.sendMessage(true, str, args);
-	}
-	
-	/**
-	 * use sendMessage
-	 */
-	@Deprecated
-	public void msg(String str, Object... args) {
-		this.sendMessage(str, args);
-	}
-
-	/**
-	 * use sendMessage
-	 */
-	@Deprecated
-	public void msg(boolean onlyIfTrue, Lang translation, Object... args) {
-		this.sendMessage(onlyIfTrue, translation, args);
-	}
-	
-	/**
-	 * use sendMessage
-	 */
-	@Deprecated
-	public void msg(Lang translation, Object... args) {
-		this.sendMessage(translation, args);
-	}
-	
 }
