@@ -56,4 +56,11 @@ public class DebugMixin {
 		sender.sendMessage(ChatColor.WHITE + "=== END DEBUG ===");
 	}
 	
+	public static void deprecatedWarning(String what, String use) {
+		Factions.get().warn("THIS IS NOT AN ERROR WITH LEGACYFACTIONS!");
+		Factions.get().warn("A plugin you are using is calling a depcreated method. Please ask them to change this.");
+		Factions.get().warn("Called " + what + ", they should use " + use);
+		new Exception("deprecated method call").printStackTrace();
+	}
+	
 }
