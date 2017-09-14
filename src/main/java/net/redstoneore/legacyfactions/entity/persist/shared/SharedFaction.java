@@ -32,6 +32,7 @@ import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.lang.LangBuilder;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.ownership.FactionOwnership;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.RelationUtil;
@@ -47,6 +48,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	private transient long lastPlayerLoggedOffTime;
 	private transient FactionWarps factionWarps = new FactionWarps(this);
 	private transient Announcements announcements = new Announcements(this);
+	private transient FactionOwnership ownershipAPI = new FactionOwnership(this);
 	
 	// -------------------------------------------------- //
 	// FACTION INFORMATION
@@ -94,6 +96,11 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	@Override
 	public Announcements announcements() {
 		return this.announcements;
+	}
+	
+	@Override
+	public FactionOwnership ownership() {
+		return this.ownershipAPI;
 	}
 	
 	public void sendUnreadAnnouncements(FPlayer fplayer) {
@@ -567,4 +574,28 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public abstract void removeAnnouncements(FPlayer fPlayer);
 	public abstract void setId(String id);
 	
+	public abstract Map<FLocation, Set<String>> getClaimOwnership();
+
+	public abstract void clearAllClaimOwnership();
+
+	public abstract void clearClaimOwnership(Locality locality);
+	public abstract void clearClaimOwnership(FLocation loc);
+	public abstract void clearClaimOwnership(FPlayer player);
+
+	public abstract int getCountOfClaimsWithOwners();
+
+	public abstract boolean doesLocationHaveOwnersSet(FLocation loc);
+
+	public abstract boolean isPlayerInOwnerList(FPlayer player, FLocation loc);
+
+	public abstract void setPlayerAsOwner(FPlayer player, FLocation loc);
+
+	public abstract void removePlayerAsOwner(FPlayer player, FLocation loc);
+
+	public abstract Set<String> getOwnerList(FLocation loc);
+
+	public abstract String getOwnerListString(FLocation loc);
+
+	public abstract boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
+
 }

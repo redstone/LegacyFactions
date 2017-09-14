@@ -59,7 +59,7 @@ public abstract class SharedBoard extends Board {
 	public void unclaimAll(String factionId) {
 		Faction faction = FactionColl.get().getFactionById(factionId);
 		if (faction != null && faction.isNormal()) {
-			faction.clearAllClaimOwnership();
+			faction.ownership().clearAll();
 			faction.warps().deleteAll();
 		}
 		this.clean(factionId);
@@ -79,16 +79,13 @@ public abstract class SharedBoard extends Board {
 	public void clearOwnershipAt(Locality locality) {
 		Faction faction = this.getFactionAt(locality);
 		if (faction != null && faction.isNormal()) {
-			faction.clearClaimOwnership(locality);
+			faction.ownership().clearAt(locality);
 		}
 	}
 	
 	@Override
 	public void clearOwnershipAt(FLocation flocation) {
-		Faction faction = getFactionAt(flocation);
-		if (faction != null && faction.isNormal()) {
-			faction.clearClaimOwnership(flocation);
-		}
+		this.clearOwnershipAt(Locality.of(flocation.getChunk()));
 	}
 	
 	// ---------------------------------------------- //

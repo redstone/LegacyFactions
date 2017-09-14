@@ -8,10 +8,12 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.DebugMixin;
 
 /**
@@ -254,4 +256,108 @@ public interface FactionDeprecated {
 		((Faction)this).memberRefresh();
 	}
 	
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	Map<FLocation, Set<String>> getClaimOwnership();
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	void clearAllClaimOwnership();
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	void clearClaimOwnership(Locality locality);
+	
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	void clearClaimOwnership(FLocation loc);
+	
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	void clearClaimOwnership(FPlayer player);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	int getCountOfClaimsWithOwners();
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	boolean doesLocationHaveOwnersSet(FLocation loc);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	boolean isPlayerInOwnerList(FPlayer player, FLocation loc);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	void setPlayerAsOwner(FPlayer player, FLocation loc);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	void removePlayerAsOwner(FPlayer player, FLocation loc);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	Set<String> getOwnerList(FLocation loc);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	String getOwnerListString(FLocation loc);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Reason: new ownership abstract API<br>
+	 * For removal: 14th of 11/2017
+	 */
+	@Deprecated
+	boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
+
 }

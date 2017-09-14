@@ -1,12 +1,12 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.util.StringUtils;
 
 
 public class CmdFactionsOwnerList extends FCommand {
@@ -70,7 +70,7 @@ public class CmdFactionsOwnerList extends FCommand {
 			}
 		}
 
-		String owners = myFaction.getOwnerListString(new FLocation(locality.getChunk()));
+		String owners =  StringUtils.join(this.myFaction.ownership().getOwners(locality));
 
 		if (owners == null || owners.isEmpty()) {
 			fme.sendMessage(Lang.COMMAND_OWNERLIST_NONE);

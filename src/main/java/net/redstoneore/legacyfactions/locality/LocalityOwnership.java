@@ -2,12 +2,10 @@ package net.redstoneore.legacyfactions.locality;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
-import net.redstoneore.legacyfactions.entity.FPlayerColl;
+import net.redstoneore.legacyfactions.ownership.FactionOwnership;
 
 public class LocalityOwnership {
 
@@ -17,7 +15,6 @@ public class LocalityOwnership {
 	
 	protected LocalityOwnership(Locality locality) {
 		this.locality = locality;
-		this.flocation = new FLocation(locality.getChunk());
 	}
 	
 	// -------------------------------------------------- //
@@ -25,7 +22,6 @@ public class LocalityOwnership {
 	// -------------------------------------------------- //
 	
 	private final transient Locality locality;
-	private final transient FLocation flocation;
 	
 	// -------------------------------------------------- //
 	// METHODS
@@ -33,6 +29,8 @@ public class LocalityOwnership {
 	
 	/**
 	 * Remove all owners at this location.
+	 * 
+	 * @see {@link FactionOwnership}
 	 */
 	public void removeAll() {
 		Board.get().clearOwnershipAt(this.locality);
@@ -40,51 +38,61 @@ public class LocalityOwnership {
 	
 	/**
 	 * Get list of owners at this location.
-	 * @return
+	 * 
+	 * @return List of owners at this location.
+	 * 
+	 * @see {@link FactionOwnership}
 	 */
 	public List<FPlayer> getAccess() {
 		if (!this.isOwned()) return new ArrayList<>();
-		
-		List<FPlayer> access = new ArrayList<>();
-		
-		Board.get().getFactionAt(this.locality).getOwnerList(this.flocation).forEach(playerId -> 
-			access.add(FPlayerColl.get(UUID.fromString(playerId)))
-		);
-		
-		return access;
+				
+		return Board.get().getFactionAt(this.locality).ownership().getOwners(this.locality);
 	}
 	
 	/**
 	 * Returns true if this location is owned.
+	 * 
 	 * @return true if this location is owned.
+	 * 
+	 * @see {@link FactionOwnership}
 	 */
 	public boolean isOwned() {
-		return Board.get().getFactionAt(this.locality).doesLocationHaveOwnersSet(this.flocation);
+		return Board.get().getFactionAt(this.locality).ownership().isOwned(this.locality);
 	}
 	
 	/**
 	 * Add a player to the owner access list.
+	 * 
 	 * @param fplayer the player to add.
+	 * 
+	 * @see {@link FactionOwnership}
 	 */
 	public void addAccess(FPlayer fplayer) {
-		Board.get().getFactionAt(this.locality).setPlayerAsOwner(fplayer, this.flocation);
+		Board.get().getFactionAt(this.locality).ownership().ownerAdd(this.locality, fplayer);
 	}
 	
 	/**
 	 * Check if a player is on the owner list.
+	 * 
 	 * @param fplayer the fplayer to check.
+	 * 
 	 * @return true if they are on the owner list.
+	 * 
+	 * @see {@link FactionOwnership}
 	 */
 	public boolean hasAccess(FPlayer fplayer) {
-		return Board.get().getFactionAt(this.locality).isPlayerInOwnerList(fplayer, this.flocation);
+		return Board.get().getFactionAt(this.locality).ownership().isOwner(this.locality, fplayer);
 	}
 	
 	/**
 	 * Remove a player from the owner access list.
+	 * 
 	 * @param fplayer the player to remove.
+	 * 
+	 * @see {@link FactionOwnership}
 	 */
 	public void removeAccess(FPlayer fplayer) {
-		Board.get().getFactionAt(this.locality).removePlayerAsOwner(fplayer, this.flocation);
+		Board.get().getFactionAt(this.locality).ownership().ownerRemove(this.locality, fplayer);
 	}
 	
 }

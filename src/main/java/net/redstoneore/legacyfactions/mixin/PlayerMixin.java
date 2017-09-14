@@ -21,6 +21,7 @@ import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
@@ -122,7 +123,7 @@ public class PlayerMixin {
 		if (me.isAdminBypassing()) return true;
 		
 		FLocation loc = new FLocation(location);
-		Faction otherFaction = Board.get().getFactionAt(Locality.of(location));
+		SharedFaction otherFaction = (SharedFaction) Board.get().getFactionAt(Locality.of(location));
 
 		if (otherFaction.isWilderness()) {
 			if (WorldGuardIntegration.get().isEnabled() && Config.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {

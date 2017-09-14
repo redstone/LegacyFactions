@@ -6,13 +6,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
@@ -125,8 +125,8 @@ public class JSONFactionColl extends MemoryFactionColl {
 
 			for (String string : data.keySet()) {
 				Faction f = data.get(string);
-				Map<FLocation, Set<String>> claims = f.getClaimOwnership();
-				for (FLocation key : claims.keySet()) {
+				Map<Locality, Set<String>> claims = f.ownership().getAll();
+				for (Locality key : claims.keySet()) {
 					Set<String> set = claims.get(key);
 
 					Set<String> list = whichKeysNeedMigration(set);

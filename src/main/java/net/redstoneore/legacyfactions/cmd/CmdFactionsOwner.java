@@ -42,8 +42,6 @@ public class CmdFactionsOwner extends FCommand {
 		this.senderMustBeAdmin = false;
 	}
 
-	// TODO: Fix colors!
-
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
@@ -57,11 +55,12 @@ public class CmdFactionsOwner extends FCommand {
 		}
 
 		if (!Config.ownedAreasEnabled) {
-			this.sendMessage(Lang.COMMAND_OWNER_DISABLED);
+			Lang.COMMAND_OWNER_DISABLED.getBuilder()
+				.sendToParsed(this.sender);
 			return;
 		}
 
-		if (!hasBypass && Config.ownedAreasLimitPerFaction > 0 && myFaction.getCountOfClaimsWithOwners() >= Config.ownedAreasLimitPerFaction) {
+		if (!hasBypass && Config.ownedAreasLimitPerFaction > 0 && myFaction.ownership().count() >= Config.ownedAreasLimitPerFaction) {
 			this.fme.sendMessage(Lang.COMMAND_OWNER_LIMIT, Config.ownedAreasLimitPerFaction);
 			return;
 		}
@@ -70,17 +69,19 @@ public class CmdFactionsOwner extends FCommand {
 			return;
 		}
 
-		final FLocation flocation = new FLocation(fme);
+		final Locality location = Locality.of(this.fme);
 
 		Faction factionHere = Board.get().getFactionAt(Locality.of(me.getLocation()));
 		if (factionHere != myFaction) {
 			if (!factionHere.isNormal()) {
-				fme.sendMessage(Lang.COMMAND_OWNER_NOTCLAIMED);
+				Lang.COMMAND_OWNER_NOTCLAIMED.getBuilder()
+					.sendToParsed(this.fme);
 				return;
 			}
 
 			if (!hasBypass) {
-				fme.sendMessage(Lang.COMMAND_OWNER_WRONGFACTION);
+				Lang.COMMAND_OWNER_WRONGFACTION.getBuilder()
+					.sendToParsed(this.fme);
 				return;
 			}
 
@@ -106,17 +107,23 @@ public class CmdFactionsOwner extends FCommand {
 						}
 						
 						if (result == null) {
-							fme.sendMessage(Lang.COMMAND_ERRORS_PLAYERNOTFOUND.toString().replace("<name>", playerName));
+							Lang.COMMAND_ERRORS_PLAYERNOTFOUND.getBuilder()
+								.parse()
+								.replace("<name>", playerName)
+								.sendTo(fme);
 							return;
 						}
 						
 						FPlayer targetfplayer = FPlayerColl.get(result);
 						if (fplayer == null) {
-							fme.sendMessage(Lang.COMMAND_ERRORS_PLAYERNOTFOUND.toString().replace("<name>", playerName));
+							Lang.COMMAND_ERRORS_PLAYERNOTFOUND.getBuilder()
+								.parse()
+								.replace("<name>", playerName)
+								.sendTo(fme);
 							return;
 						}
 						
-						resume(fplayer, targetfplayer, fplayerFaction, flocation, emptyArgs);
+						resume(fplayer, targetfplayer, fplayerFaction, location, emptyArgs);
 					}
 				});
 				
@@ -124,10 +131,10 @@ public class CmdFactionsOwner extends FCommand {
 			}
 		}
 		
-		resume(this.fme, target, this.myFaction, flocation, args.isEmpty());
+		resume(this.fme, target, this.myFaction, location, args.isEmpty());
 	}
 	
-	private static void resume(FPlayer fme, FPlayer target, Faction myFaction, FLocation flocation, Boolean emptyArgs) {
+	private static void resume(FPlayer fme, FPlayer target, Faction myFaction, Locality location, Boolean emptyArgs) {
 
 		String playerName = target.getName();
 
@@ -137,14 +144,15 @@ public class CmdFactionsOwner extends FCommand {
 		}
 
 		// if no player name was passed, and this claim does already have owners set, clear them
-		if (emptyArgs && myFaction.doesLocationHaveOwnersSet(flocation)) {
-			myFaction.clearClaimOwnership(flocation);
-			fme.sendMessage(Lang.COMMAND_OWNER_CLEARED);
+		if (emptyArgs && myFaction.ownership().isOwned(location)) {
+			myFaction.ownership().clearAt(location);
+			Lang.COMMAND_OWNER_CLEARED.getBuilder()
+				.sendToParsed(fme);
 			return;
 		}
 
-		if (myFaction.isPlayerInOwnerList(target, flocation)) {
-			myFaction.removePlayerAsOwner(target, flocation);
+		if (myFaction.ownership().isOwner(location, target)) {
+			myFaction.ownership().ownerRemove(location, target);
 			fme.sendMessage(Lang.COMMAND_OWNER_REMOVED, playerName);
 			return;
 		}
@@ -154,7 +162,7 @@ public class CmdFactionsOwner extends FCommand {
 			return;
 		}
 
-		myFaction.setPlayerAsOwner(target, flocation);
+		myFaction.ownership().ownerAdd(location, target);
 
 		fme.sendMessage(Lang.COMMAND_OWNER_ADDED, playerName);
 	}
