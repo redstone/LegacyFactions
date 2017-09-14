@@ -117,6 +117,8 @@ public abstract class FactionColl {
 
 	public abstract Faction getWarZone();
 
+	public abstract void validate();
+	
 	public abstract void forceSave();
 
 	public abstract void forceSave(boolean sync);
