@@ -1,4 +1,4 @@
-package net.redstoneore.legacyfactions.entity;
+package net.redstoneore.legacyfactions.config.meta;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

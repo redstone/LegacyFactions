@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.config.Config;
+import net.redstoneore.legacyfactions.config.meta.Meta;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
-import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 
