@@ -23,10 +23,12 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChangedTerritory;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
+import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboard;
@@ -34,6 +36,7 @@ import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FDefaultSidebar;
 import net.redstoneore.legacyfactions.struct.InteractAttemptSpam;
+import net.redstoneore.legacyfactions.util.StringUtils;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.VisualizeUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
@@ -197,7 +200,7 @@ public class FactionsPlayerListener implements Listener {
 			}
 		} else {
 			Faction myFaction = me.getFaction();
-			String ownersTo = myFaction.getOwnerListString(new FLocation(to.getChunk()));
+			String ownersTo = StringUtils.join(myFaction.ownership().getOwners(to));
 
 			if (changedFaction) {
 				me.sendFactionHereMessage(factionFrom);
@@ -209,7 +212,7 @@ public class FactionsPlayerListener implements Listener {
 					me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
 				}
 			} else if (Config.ownedAreasEnabled && Config.ownedMessageInsideTerritory && myFaction == factionTo && !myFaction.isWilderness()) {
-				String ownersFrom = myFaction.getOwnerListString(new FLocation(from.getChunk()));
+				String ownersFrom = StringUtils.join(myFaction.ownership().getOwners(from));
 				if (Config.ownedMessageByChunk || !ownersFrom.equals(ownersTo)) {
 					if (!ownersTo.isEmpty()) {
 						me.sendMessage(Lang.GENERIC_OWNERS.format(ownersTo));
@@ -309,8 +312,8 @@ public class FactionsPlayerListener implements Listener {
 			return true;
 		}
 
-		FLocation loc = new FLocation(location);
-		Faction otherFaction = Board.get().getFactionAt(Locality.of(location));
+		Locality locality = Locality.of(location);
+		SharedFaction otherFaction = (SharedFaction) Board.get().getFactionAt(Locality.of(location));
 
 		if (Config.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
 			return true;
@@ -358,7 +361,7 @@ public class FactionsPlayerListener implements Listener {
 			return false;
 		}
 
-		Faction myFaction = me.getFaction();
+		SharedFaction myFaction = (SharedFaction) me.getFaction();
 		Relation rel = myFaction.getRelationTo(otherFaction);
 
 		// Cancel if we are not in our own territory
@@ -371,9 +374,9 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		// Also cancel if player doesn't have ownership rights for this claim
-		if (Config.ownedAreasEnabled && Config.ownedAreaDenyUseage && !otherFaction.playerHasOwnershipRights(me, loc)) {
+		if (Config.ownedAreasEnabled && Config.ownedAreaDenyUseage && otherFaction.ownership().isOwned(locality) && !otherFaction.ownership().isOwner(locality, me)) {
 			if (!justCheck) {
-				me.sendMessage(Lang.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), otherFaction.getOwnerListString(loc));
+				me.sendMessage(Lang.PLAYER_USE_OWNED, TextUtil.getMaterialName(material), StringUtils.join(otherFaction.ownership().getOwners(locality)));
 			}
 
 			return false;
@@ -394,7 +397,7 @@ public class FactionsPlayerListener implements Listener {
 
 		Material material = block.getType();
 		FLocation loc = new FLocation(block);
-		Faction otherFaction = Board.get().getFactionAt(Locality.of(block));
+		SharedFaction otherFaction = (SharedFaction) Board.get().getFactionAt(Locality.of(block));
 
 		// no door/chest/whatever protection in wilderness, war zones, or safe zones
 		if (!otherFaction.isNormal()) {
@@ -406,10 +409,10 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		// Dupe fix.
-		Faction myFaction = me.getFaction();
+		SharedFaction myFaction = (SharedFaction) me.getFaction();
 		Relation rel = myFaction.getRelationTo(otherFaction);
 		
-		if (!rel.isMember() || !otherFaction.playerHasOwnershipRights(me, loc) && me.getItemInMainHand() != null) {
+		if (!rel.isMember() || !otherFaction.getFlag(Flags.EXPLOSIONS) && otherFaction.playerHasOwnershipRights(me, loc) && me.getItemInMainHand() != null) {
 			switch (me.getItemInMainHand().getType()) {
 				case CHEST:
 				case SIGN_POST:

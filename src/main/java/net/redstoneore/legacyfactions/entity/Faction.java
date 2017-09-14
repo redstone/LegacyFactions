@@ -19,7 +19,7 @@ import net.redstoneore.legacyfactions.announcement.Announcement;
 import net.redstoneore.legacyfactions.announcement.Announcements;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.flag.Flags;
-import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.ownership.FactionOwnership;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
@@ -468,6 +468,19 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	Announcements announcements();
 
 	// -------------------------------------------------- //
+	// OWNERSHIP
+	// -------------------------------------------------- //
+
+	/**
+	 * Get the {@link FactionOwnership} API for this faction.
+	 * 
+	 * @return The {@link FactionOwnership} API
+	 * 
+	 * @see {@link FactionOwnership}
+	 */
+	FactionOwnership ownership();
+
+	// -------------------------------------------------- //
 	// RELATION AND RELATION COLOURS
 	// -------------------------------------------------- //
 	
@@ -727,35 +740,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @param messages List of messages to send.
 	 */
-	void sendPlainMessage(List<String> messages);
-
-	// -------------------------------------------------- //
-	// OWNERSHIP
-	// -------------------------------------------------- //
-
-	Map<FLocation, Set<String>> getClaimOwnership();
-
-	void clearAllClaimOwnership();
-
-	void clearClaimOwnership(Locality locality);
-	void clearClaimOwnership(FLocation loc);
-	void clearClaimOwnership(FPlayer player);
-
-	int getCountOfClaimsWithOwners();
-
-	boolean doesLocationHaveOwnersSet(FLocation loc);
-
-	boolean isPlayerInOwnerList(FPlayer player, FLocation loc);
-
-	void setPlayerAsOwner(FPlayer player, FLocation loc);
-
-	void removePlayerAsOwner(FPlayer player, FLocation loc);
-
-	Set<String> getOwnerList(FLocation loc);
-
-	String getOwnerListString(FLocation loc);
-
-	boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
+	void sendPlainMessage(List<String> messages);	
 	
 	// -------------------------------------------------- //
 	// PERSISTANCE AND ENTITY MANAGEMENT

@@ -250,7 +250,7 @@ public abstract class SharedFPlayer implements FPlayer {
 			Faction currentFaction = this.getFaction();
 			currentFaction.memberRemove(this);
 			if (currentFaction.isNormal()) {
-				currentFaction.clearClaimOwnership(this);
+				currentFaction.ownership().clearAll(this);
 			}
 		}
 
