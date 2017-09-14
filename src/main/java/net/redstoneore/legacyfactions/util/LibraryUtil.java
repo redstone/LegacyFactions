@@ -17,7 +17,7 @@ public class LibraryUtil {
 	 * <br>
 	 * The MIT License (MIT)<br>
 	 * <br>
-	 * Copyright (c) novucs <http://www.novucs.net><br>
+	 * Copyright (c) novucs http://www.novucs.net<br>
 	 * Copyright (c) contributors<br>
 	 * <br>
 	 * Permission is hereby granted, free of charge, to any person obtaining a copy<br>

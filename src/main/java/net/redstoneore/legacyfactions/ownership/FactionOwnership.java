@@ -55,10 +55,8 @@ public class FactionOwnership {
 	
 	/**
 	 * Clear ownerships at a location.
-	 * 
 	 * @param location The location
-	 * 
-	 * @see {@link Locality}
+	 * @see Locality
 	 */
 	public void clearAt(Locality location) {
 		this.faction.clearClaimOwnership(location);
@@ -66,12 +64,9 @@ public class FactionOwnership {
 	
 	/**
 	 * Confirm is a location has owners set.
-	 * 
-	 * @param locality The location
-	 * 
+	 * @param location The location
 	 * @return true if it is owned
-	 * 
-	 * @see {@link Locality}
+	 * @see Locality
 	 */
 	public boolean isOwned(Locality location) {
 		return this.faction.doesLocationHaveOwnersSet(FLocation.valueOf(location.getChunk()));
@@ -79,7 +74,6 @@ public class FactionOwnership {
 	
 	/**
 	 * Get the count of claims with owners.
-	 * 
 	 * @return The count of claims with owners.
 	 */
 	public int count() {
@@ -88,9 +82,7 @@ public class FactionOwnership {
 	
 	/**
 	 * Get owners at a location
-	 * 
-	 * @param locality The location.
-	 * 
+	 * @param location The location.
 	 * @return A list of owners at a location, or an empty list if none.
 	 */
 	public List<FPlayer> getOwners(Locality location) {
@@ -105,13 +97,10 @@ public class FactionOwnership {
 	
 	/**
 	 * Is a player an owner at a location.
-	 * 
 	 * @param location The location.
 	 * @param player The {@link FPlayer} to check.
-	 * 
 	 * @return true if the player is an owner
-	 * 
-	 * @see {@link Locality}
+	 * @see Locality
 	 */
 	public boolean isOwner(Locality location, FPlayer player) {
 		if (!this.isOwned(location)) return false;
@@ -121,9 +110,7 @@ public class FactionOwnership {
 	
 	/**
 	 * Remove a player as an owner at a location.
-	 * 
-	 * @param locality The location.
-	 * 
+	 * @param location The location.
 	 * @param player The player.
 	 */
 	public void ownerRemove(Locality location, FPlayer player) {
@@ -132,9 +119,7 @@ public class FactionOwnership {
 	
 	/**
 	 * Add a player as an owner at a location.
-	 * 
 	 * @param location The location.
-	 * 
 	 * @param player The player.
 	 */
 	public void ownerAdd(Locality location, FPlayer player) {

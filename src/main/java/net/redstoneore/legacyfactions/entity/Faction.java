@@ -145,8 +145,8 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return A snapshot map of the flags and their values. 
 	 * 
-	 * @see {@link Flag}
-	 * @see {@link Flags}
+	 * @see Flag
+	 * @see Flags
 	 */
 	Map<Flag, Boolean> getFlags();
 	
@@ -157,8 +157,8 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return true if it was a success.
 	 * 
-	 * @see {@link Flag}
-	 * @see {@link Flags}
+	 * @see Flag
+	 * @see Flags
 	 */
 	boolean setFlag(Flag flag, Boolean value);
 	
@@ -180,8 +180,8 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return {@link FactionWarps} API
 	 * 
-	 * @see {@linkplain FactionWarp}
-	 * @see {@linkplain FactionWarps}
+	 * @see FactionWarp
+	 * @see FactionWarps
 	 */
 	FactionWarps warps();
 	
@@ -202,7 +202,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @param maxVaults The maximum amount of vaults.
 	 * 
-	 * @see {@link PlayerVaultsIntegration}
+	 * @see PlayerVaultsIntegration
 	 */
 	void setMaxVaults(int maxVaults);
 	
@@ -403,7 +403,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return true, if the faction power is frozen.
 	 * 
-	 * @see {@link Config#raidablePowerFreeze}
+	 * @see Config#raidablePowerFreeze
 	 */
 	boolean isPowerFrozen();
 	
@@ -462,8 +462,8 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return The {@link Announcements} API
 	 * 
-	 * @see {@link Announcement}
-	 * @see {@link Announcements}
+	 * @see Announcement
+	 * @see Announcements
 	 */
 	Announcements announcements();
 
@@ -476,7 +476,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return The {@link FactionOwnership} API
 	 * 
-	 * @see {@link FactionOwnership}
+	 * @see FactionOwnership
 	 */
 	FactionOwnership ownership();
 
@@ -507,7 +507,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return The relation to that faction.
 	 * 
-	 * @see {@link Relation}
+	 * @see Relation
 	 */
 	Relation getRelationWish(Faction otherFaction);
 
@@ -518,7 +518,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * @param otherFaction The other faction.
 	 * @param relation The relationship wish.
 	 * 
-	 * @see {@link Relation}
+	 * @see Relation
 	 */
 	void setRelationWish(Faction otherFaction, Relation relation);
 
@@ -530,7 +530,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return The amount of relations this faction has of the specified relation.
 	 * 
-	 * @see {@link Relation}
+	 * @see Relation
 	 */
 	int getRelationCount(Relation relation);
 
@@ -547,8 +547,8 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 *         the event {@link EventFactionsRelationshipsCapped} to see if another plugin lets
 	 *         you bypass it.
 	 *         
-	 * @see {@link Relation}
-	 * @see {@link EventFactionsRelationshipsCapped}
+	 * @see Relation
+	 * @see EventFactionsRelationshipsCapped
 	 */
 	boolean hasMaxRelations(Faction them, Relation relation, Boolean silent);
 	
@@ -557,7 +557,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * 
 	 * @return A snapshot of all relationship wishes. 
 	 * 
-	 * @see {@link Relation}
+	 * @see Relation
 	 */
 	Map<String, Relation> getRelationWishes();
 
@@ -659,7 +659,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 
 	/**
 	 * Get all online members in this faction.
-	 * 
+	 * @param online Online only players?
 	 * @return A snapshot {@link Set} of all online members in this faction.
 	 */
 	Set<FPlayer> getWhereOnline(boolean online);
@@ -673,12 +673,9 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	
 	/**
 	 * Get a list of players with the specified role.
-	 * 
 	 * @param role The {@link Role}
-	 * 
 	 * @return A snapshot list of all players with this role.
-	 * 
-	 * @see {@link Role}
+	 * @see Role
 	 */
 	List<FPlayer> getWhereRole(Role role);
 	
@@ -750,5 +747,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	 * Remove this faction.
 	 */
 	void remove();
+	
+	boolean equals(Object object);
 	
 }
