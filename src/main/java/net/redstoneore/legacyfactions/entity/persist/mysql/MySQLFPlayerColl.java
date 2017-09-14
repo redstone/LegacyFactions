@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.config.meta.Meta;
 import net.redstoneore.legacyfactions.entity.FPlayer;
-import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.mysql.MySQLPrepared.ExecuteType;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayerColl;
 
