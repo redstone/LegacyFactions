@@ -255,7 +255,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		this.invites.add(fplayer.getId());
 	}
 
-	public void deinvite(FPlayer fplayer) {
+	public void uninvite(FPlayer fplayer) {
 		this.invites.remove(fplayer.getId());
 	}
 
@@ -452,7 +452,7 @@ public abstract class MemoryFaction extends SharedFaction {
 	// -------------------------------
 
 	// maintain the reference list of FPlayers in this faction
-	public void refreshFPlayers() {
+	public void memberRefresh() {
 		fplayers.clear();
 		if (this.isPlayerFreeType()) {
 			return;
@@ -465,17 +465,17 @@ public abstract class MemoryFaction extends SharedFaction {
 		}
 	}
 
-	public boolean addFPlayer(FPlayer fplayer) {
+	public boolean memberAdd(FPlayer fplayer) {
 		return !this.isPlayerFreeType() && fplayers.add(fplayer);
 
 	}
 
-	public boolean removeFPlayer(FPlayer fplayer) {
+	public boolean memberRemove(FPlayer fplayer) {
 		return !this.isPlayerFreeType() && fplayers.remove(fplayer);
 
 	}
 
-	public int getSize() {
+	public int memberCount() {
 		return fplayers.size();
 	}
 

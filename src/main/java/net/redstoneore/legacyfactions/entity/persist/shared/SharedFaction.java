@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -131,11 +130,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public boolean isNormal() {
 		return !(this.isWilderness() || this.isSafeZone() || this.isWarZone());
 	}
-
-	public boolean isNone() {
-		return this.getId().equals("0");
-	}
-
+	
 	public boolean isWilderness() {
 		return this.getId().equals("0");
 	}
@@ -245,12 +240,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public int getLandRounded() {
 		return Board.get().getFactionCoordCount(this);
 	}
-
-	@Override
-	public int getLandRoundedInWorld(String worldName) {
-		return this.getLandRoundedInWorld(Bukkit.getWorld(worldName));
-	}
-
+	
 	@Override
 	public int getLandRoundedInWorld(World world) {
 		return Board.get().getFactionCoordCountInWorld(this, world);
@@ -283,11 +273,6 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	// -------------------------------------------------- //
 	// MEMBERS
 	// -------------------------------------------------- //
-
-	@Override
-	public Set<FPlayer> getFPlayersWhereOnline(boolean online) {
-		return this.getWhereOnline(online);
-	}
 	
 	@Override
 	public Set<FPlayer> getWhereOnline(boolean online) {
@@ -297,12 +282,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 				.filter(fplayer -> fplayer.isOnline() == online)
 				.collect(Collectors.toSet());
 	}
-
-	@Override
-	public FPlayer getFPlayerAdmin() {
-		return this.getOwner();
-	}
-
+	
 	@Override
 	public FPlayer getOwner() {
 		if (!this.isNormal()) return null;
@@ -311,11 +291,6 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 				.filter(fplayer -> fplayer.getRole() == Role.ADMIN)
 				.findFirst()
 				.orElse(null);
-	}
-
-	@Override
-	public ArrayList<FPlayer> getFPlayersWhereRole(Role role) {
-		return this.getWhereRole(role);
 	}
 	
 	@Override
@@ -386,23 +361,23 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		if (!this.isNormal()) {
 			return;
 		}
-		if (this.isPermanent() && Config.permanentFactionsDisableLeaderPromotion) {
+		if (this.getFlag(Flags.PERMANENT) && Config.permanentFactionsDisableLeaderPromotion) {
 			return;
 		}
 
-		FPlayer oldLeader = this.getFPlayerAdmin();
+		FPlayer oldLeader = this.getOwner();
 
 		// get list of coleaders, mods and then normal members to promote from.
-		ArrayList<FPlayer> replacements = this.getFPlayersWhereRole(Role.COLEADER);
+		ArrayList<FPlayer> replacements = this.getWhereRole(Role.COLEADER);
 		if (replacements == null || replacements.isEmpty()) {
-			replacements = this.getFPlayersWhereRole(Role.MODERATOR);
+			replacements = this.getWhereRole(Role.MODERATOR);
 			if (replacements == null || replacements.isEmpty()) {
-				replacements = this.getFPlayersWhereRole(Role.NORMAL);
+				replacements = this.getWhereRole(Role.NORMAL);
 			}
 		}
 
 		if (replacements == null || replacements.isEmpty()) { // faction admin  is the only  member; one-man  faction
-			if (this.isPermanent()) {
+			if (this.getFlag(Flags.PERMANENT)) {
 				if (oldLeader != null) {
 					oldLeader.setRole(Role.NORMAL);
 				}
@@ -447,51 +422,6 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		return System.currentTimeMillis() - this.getLastDeath() < Config.raidablePowerFreeze * 1000;
 	}
 	
-	@Override
-	public boolean isPermanent() {
-		return this.getFlag(Flags.PERMANENT) || !this.isNormal();
-	}
-
-	@Override
-	public void setPermanent(boolean isPermanent) {
-		this.setFlag(Flags.PERMANENT, isPermanent);
-	}
-	
-	@Override
-	public boolean getOpen() {
-		return this.getFlag(Flags.OPEN);
-	}
-
-	@Override
-	public void setOpen(boolean isOpen) {
-		this.setFlag(Flags.OPEN, isOpen);
-	}
-
-	@Override
-	public boolean isPeaceful() {
-		return this.getFlag(Flags.PEACEFUL);
-	}
-
-	@Override
-	public void setPeaceful(boolean isPeaceful) {
-		this.setFlag(Flags.PEACEFUL, isPeaceful);
-	}
-
-	@Override
-	public void setPeacefulExplosionsEnabled(boolean val) {
-		this.setFlag(Flags.EXPLOSIONS, val);
-	}
-
-	@Override
-	public boolean getPeacefulExplosionsEnabled() {
-		return this.getFlag(Flags.EXPLOSIONS);
-	}
-
-	@Override
-	public boolean noExplosionsInTerritory() {
-		return (this.isPeaceful() && !this.getPeacefulExplosionsEnabled()) || this.isSafeZone();
-	}
-
 	@Override
 	public boolean noCreeperExplosions(Location location) {
 		return (
@@ -585,7 +515,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public void sendMessage(String message, Object... args) {
 		message = TextUtil.get().parse(message, args);
 
-		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
+		for (FPlayer fplayer : this.getWhereOnline(true)) {
 			fplayer.sendMessage(message);
 		}
 	}
@@ -597,26 +527,26 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 
 	@Override
 	public void sendMessage(String message) {
-		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
+		for (FPlayer fplayer : this.getWhereOnline(true)) {
 			fplayer.sendMessage(message);
 		}
 	}
 
 	@Override
 	public void sendMessage(List<String> messages) {
-		for (FPlayer fplayer : this.getFPlayersWhereOnline(true)) {
+		for (FPlayer fplayer : this.getWhereOnline(true)) {
 			fplayer.sendMessage(messages);
 		}
 	}
 	
 	@Override
 	public void sendPlainMessage(String message) {
-		this.getFPlayersWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(message));
+		this.getWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(message));
 	}
 
 	@Override
 	public void sendPlainMessage(List<String> messages) {
-		this.getFPlayersWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(messages));
+		this.getWhereOnline(true).forEach(fplayer -> fplayer.sendMessage(messages));
 	}
 
 	// -------------------------------------------------- //
@@ -635,5 +565,6 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public abstract Map<String, List<String>> getAnnouncements();
 	public abstract void addAnnouncement(FPlayer fPlayer, String msg);
 	public abstract void removeAnnouncements(FPlayer fPlayer);
+	public abstract void setId(String id);
 	
 }

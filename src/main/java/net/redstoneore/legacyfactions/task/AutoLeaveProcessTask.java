@@ -83,7 +83,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 				if (fplayer.getRole() == Role.ADMIN) {
 					Faction faction = fplayer.getFaction();
 					if (faction != null) {
-						if (faction.getSize() == 1) {
+						if (faction.memberCount() == 1) {
 							if (faction.getFlag(Flags.PERMANENT)) {
 								fplayer.leave(false);
 							} else {

@@ -477,7 +477,7 @@ public class MySQLFaction extends SharedFaction {
 	}
 
 	@Override
-	public void deinvite(FPlayer fplayer) {
+	public void uninvite(FPlayer fplayer) {
 		this.invites = this.invites.stream()
 			.filter(invite -> invite.get("invite") != fplayer.getId())
 			.collect(Collectors.toList());
@@ -632,7 +632,7 @@ public class MySQLFaction extends SharedFaction {
 	public Integer getPermanentPower() {
 		this.poll();
 		if (this.values.get("permanentpower") == "") {
-			return 0;
+			return null;
 		}
 		
 		try {
@@ -767,7 +767,7 @@ public class MySQLFaction extends SharedFaction {
 	}
 	
 	@Override
-	public void refreshFPlayers() {
+	public void memberRefresh() {
 		this.members.clear();
 		if (this.isPlayerFreeType()) return;
 
@@ -777,17 +777,17 @@ public class MySQLFaction extends SharedFaction {
 	}
 
 	@Override
-	public boolean addFPlayer(FPlayer fplayer) {
+	public boolean memberAdd(FPlayer fplayer) {
 		return !this.isPlayerFreeType() && this.members.add(fplayer);
 	}
 
 	@Override
-	public boolean removeFPlayer(FPlayer fplayer) {
+	public boolean memberRemove(FPlayer fplayer) {
 		return !this.isPlayerFreeType() && this.members.remove(fplayer);
 	}
 
 	@Override
-	public int getSize() {
+	public int memberCount() {
 		return this.members.size();
 	}
 
