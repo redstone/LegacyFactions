@@ -359,13 +359,7 @@ public interface Faction extends EconomyParticipator {
 	 */
 	@Deprecated
 	int getLandRoundedInWorld(String worldName);
-	
-	/**
-	 * Deprecated, use sendMessage
-	 */
-	@Deprecated
-	void msg(String message, Object... args);
-	
+		
 	/**
 	 * Deprecated, use {@link getMembers} 
 	 */

@@ -410,28 +410,6 @@ public interface FPlayer extends EconomyParticipator {
 	// -------------------------------------------------- //
 	
 	/**
-	 * Deprecated! Use {@link #isVanished(FPlayer)}<br>
-	 * To be removed after 09/2017
-	 * @return
-	 */
-	@Deprecated
-	boolean isVanished();
-	
-	/**
-	 * Deprecated! Use {@link #sendMessage(String, Object...)} 
-	 * To be removed after 11/2017
-	 */
-	@Deprecated
-	void msg(String str, Object... args);
-	
-	/**
-	 * Deprecated! use {@link #sendMessage(boolean, String, Object...)}
-	 * To be removed after 11/2017
-	 */
-	@Deprecated
-	void msg(boolean onlyIfTrue, String str, Object... args);
-	
-	/**
 	 * Deprecated! Use {@link #attemptClaim(Faction, Locality, boolean, boolean)}<br>
 	 * To be removed after 11/2017
 	 * @param forFaction

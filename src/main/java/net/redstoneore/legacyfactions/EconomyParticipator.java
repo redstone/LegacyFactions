@@ -30,20 +30,4 @@ public interface EconomyParticipator extends RelationParticipator {
 		return VaultAccount.get(this);
 	}
 	
-	// -------------------------------------------------- //
-	// AMBIGIOUS DEPRECATED METHODS
-	// -------------------------------------------------- //
-	
-	/**
-	 * Deprecated, use sendMessage
-	 */
-	@Deprecated
-	void msg(String str, Object... args);
-	
-	/**
-	 * Deprecated, use sendMessage
-	 */
-	@Deprecated
-	void msg(Lang translation, Object... args);
-	
 }
