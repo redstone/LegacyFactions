@@ -1,8 +1,8 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
 
 public class CmdFactionsRelationTruce extends FCommandRelation {
 

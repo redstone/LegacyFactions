@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.callback.Callback;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.Optional;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.util.TextUtil;
 

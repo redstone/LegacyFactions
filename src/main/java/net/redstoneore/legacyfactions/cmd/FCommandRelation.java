@@ -5,8 +5,8 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsRelation;
 import net.redstoneore.legacyfactions.event.EventFactionsRelationChange;

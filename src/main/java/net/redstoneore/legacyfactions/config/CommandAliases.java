@@ -1,4 +1,4 @@
-package net.redstoneore.legacyfactions.entity;
+package net.redstoneore.legacyfactions.config;
 
 import com.google.common.collect.Lists;
 

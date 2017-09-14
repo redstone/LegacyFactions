@@ -3,8 +3,8 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.Collections;
 
 import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
-import net.redstoneore.legacyfactions.entity.CommandAliases;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 /**
