@@ -1,10 +1,10 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 
 
 public class CmdFactionsMap extends FCommand {
@@ -46,7 +46,7 @@ public class CmdFactionsMap extends FCommand {
 				// Turn on
 
 				// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-				if (!payForCommand(Conf.econCostMap, "to show the map", "for showing the map")) {
+				if (!payForCommand(Config.econCostMap, "to show the map", "for showing the map")) {
 					return;
 				}
 
@@ -62,7 +62,7 @@ public class CmdFactionsMap extends FCommand {
 			}
 		} else {
 			// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-			if (!payForCommand(Conf.econCostMap, Lang.COMMAND_MAP_TOSHOW, Lang.COMMAND_MAP_FORSHOW)) {
+			if (!payForCommand(Config.econCostMap, Lang.COMMAND_MAP_TOSHOW, Lang.COMMAND_MAP_FORSHOW)) {
 				return;
 			}
 

@@ -3,9 +3,9 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.*;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.util.TagUtil;
@@ -46,7 +46,7 @@ public class CmdFactionsList extends FCommand {
 	@Override
 	public void perform() {
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!this.payForCommand(Conf.econCostList, "to list the factions", "for listing the factions")) {
+		if (!this.payForCommand(Config.econCostList, "to list the factions", "for listing the factions")) {
 			return;
 		}
 
@@ -60,7 +60,7 @@ public class CmdFactionsList extends FCommand {
 			Iterator<Faction> factionIterator = factionList.iterator();
 			while (factionIterator.hasNext()) {
 				Faction next = factionIterator.next();
-				if (!Conf.listExempt.contains(next.getTag())) continue;
+				if (!Config.listExempt.contains(next.getTag())) continue;
 				factionIterator.remove();	
 			}
 		}
@@ -104,7 +104,7 @@ public class CmdFactionsList extends FCommand {
 			end = factionList.size();
 		}
 		
-		String header = Conf.listHeader
+		String header = Config.listHeader
 				.replace("{pagenumber}", String.valueOf(pagenumber))
 				.replace("{pagecount}", String.valueOf(pagecount));
 		
@@ -114,11 +114,11 @@ public class CmdFactionsList extends FCommand {
 			.filter(faction -> faction != null && faction.getId() != null)
 			.forEach(faction -> {
 				if (faction.isWilderness()) {
-					this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, Conf.listFactionless)));
+					this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, Config.listFactionless)));
 					return;
 				}
 				
-				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, fme, Conf.listEntry)));
+				this.sendMessage(TextUtil.get().parse(TagUtil.parsePlain(faction, fme, Config.listEntry)));
 		});
 	}
 

@@ -5,7 +5,7 @@ import com.earth2me.essentials.Teleport;
 import com.earth2me.essentials.Trade;
 
 import net.ess3.api.IEssentials;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 
 import java.math.BigDecimal;
 
@@ -32,12 +32,12 @@ public class EssentialsEngine {
 
 	// return false if feature is disabled or Essentials isn't available
 	public static boolean handleTeleport(Player player, Location loc) {
-		if (!Conf.homesTeleportCommandEssentialsIntegration || getEssentials() == null) {
+		if (!Config.homesTeleportCommandEssentialsIntegration || getEssentials() == null) {
 			return false;
 		}
 
 		Teleport teleportRequest = getEssentials().getUser(player).getTeleport();
-		Trade trade = new Trade(BigDecimal.valueOf(Conf.econCostHome), getEssentials());
+		Trade trade = new Trade(BigDecimal.valueOf(Config.econCostHome), getEssentials());
 		
 		try {
 			teleportRequest.teleport(loc, trade, TeleportCause.PLUGIN);

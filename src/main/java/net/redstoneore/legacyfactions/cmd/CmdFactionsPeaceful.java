@@ -1,9 +1,9 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.flag.Flags;
@@ -68,7 +68,7 @@ public class CmdFactionsPeaceful extends FCommand {
 	
 	@Override
 	public boolean isAvailable() {
-		return Conf.enableFlags == false;
+		return Config.enableFlags == false;
 	}
 
 	@Override

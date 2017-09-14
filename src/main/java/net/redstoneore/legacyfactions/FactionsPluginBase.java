@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import net.redstoneore.legacyfactions.cmd.FCommand;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 import net.redstoneore.legacyfactions.mixin.DebugMixin;
 import net.redstoneore.legacyfactions.util.PermUtil;
@@ -140,13 +140,13 @@ public abstract class FactionsPluginBase extends JavaPlugin {
 	}
 
 	public void debug(String message) {
-		if (!Conf.debug) return;
+		if (!Config.debug) return;
 		this.getLogger().log(Level.FINE, message);
 		this.getServer().getConsoleSender().sendMessage(LOG_PREFIX + DEBUG_PREFIX + message);
 	}
 	
 	public void debug(Level level, String s) {
-		if (!Conf.debug) return;
+		if (!Config.debug) return;
 		this.debug(s);
 	}
 	

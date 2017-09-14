@@ -2,9 +2,9 @@ package net.redstoneore.legacyfactions.cmd;
 
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -90,13 +90,13 @@ public class CmdFactionsShow extends FCommand {
 	
 	private static void resume(CommandSender sender, FPlayer fme, Faction faction) {
 		// Check they have permission to do this
-		if (!Permission.SHOW_BYPASSEXEMPT.has(sender) && Conf.showExempt.contains(faction.getTag())) {
+		if (!Permission.SHOW_BYPASSEXEMPT.has(sender) && Config.showExempt.contains(faction.getTag())) {
 			sender.sendMessage(Lang.COMMAND_SHOW_EXEMPT.toString());
 			return;
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (fme != null && !fme.payForCommand(Conf.econCostShow, Lang.COMMAND_SHOW_TOSHOW.toString(), Lang.COMMAND_SHOW_FORSHOW.toString())) {
+		if (fme != null && !fme.payForCommand(Config.econCostShow, Lang.COMMAND_SHOW_TOSHOW.toString(), Lang.COMMAND_SHOW_FORSHOW.toString())) {
 			return;
 		}
 		
@@ -106,7 +106,7 @@ public class CmdFactionsShow extends FCommand {
 				tag = faction.getTag(fme);
 			}
 			// send header and that's all
-			String header = Conf.showLines.get(0);
+			String header = Config.showLines.get(0);
 			if (TagReplacerUtil.HEADER.contains(header)) {
 				sender.sendMessage(TextUtil.get().titleize(tag));
 			} else {
@@ -115,7 +115,7 @@ public class CmdFactionsShow extends FCommand {
 			return; // we only show header for non-normal factions
 		}
 
-		for (String line : Conf.showLines) {
+		for (String line : Config.showLines) {
 			String parsed = TagUtil.parsePlain(faction, fme, line); // use relations
 			
 			if (parsed == null) continue; // Due to minimal f show.

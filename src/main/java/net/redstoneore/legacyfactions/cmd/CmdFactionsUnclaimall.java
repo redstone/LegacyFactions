@@ -7,10 +7,10 @@ import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -52,7 +52,7 @@ public class CmdFactionsUnclaimall extends FCommand {
 	public void perform() {
 		if (VaultEngine.getUtils().shouldBeUsed()) {
 			double refund = VaultEngine.getUtils().calculateTotalLandRefund(this.myFaction.getLandRounded());
-			if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts) {
+			if (Config.bankEnabled && Config.bankFactionPaysLandCosts) {
 				if (!VaultEngine.getUtils().modifyMoney(myFaction, refund, Lang.COMMAND_UNCLAIMALL_TOUNCLAIM.toString(), Lang.COMMAND_UNCLAIMALL_FORUNCLAIM.toString())) {
 					return;
 				}
@@ -77,7 +77,7 @@ public class CmdFactionsUnclaimall extends FCommand {
 		
 		this.myFaction.sendMessage(Lang.COMMAND_UNCLAIMALL_UNCLAIMED, this.fme.describeTo(this.myFaction, true));
 		
-		if (Conf.logLandUnclaims) {
+		if (Config.logLandUnclaims) {
 			Factions.get().log(Lang.COMMAND_UNCLAIMALL_LOG.format(fme.getName(), myFaction.getTag()));
 		}
 	}

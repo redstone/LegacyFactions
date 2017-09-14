@@ -3,8 +3,8 @@ package net.redstoneore.legacyfactions.cmd;
 import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -63,7 +63,7 @@ public class CmdFactionsTag extends FCommand {
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-		if (!canAffordCommand(Conf.econCostTag, Lang.COMMAND_TAG_TOCHANGE.toString())) {
+		if (!canAffordCommand(Config.econCostTag, Lang.COMMAND_TAG_TOCHANGE.toString())) {
 			return;
 		}
 
@@ -75,7 +75,7 @@ public class CmdFactionsTag extends FCommand {
 		}
 
 		// then make 'em pay (if applicable)
-		if (!payForCommand(Conf.econCostTag, Lang.COMMAND_TAG_TOCHANGE, Lang.COMMAND_TAG_FORCHANGE)) {
+		if (!payForCommand(Config.econCostTag, Lang.COMMAND_TAG_TOCHANGE, Lang.COMMAND_TAG_FORCHANGE)) {
 			return;
 		}
 
@@ -90,7 +90,7 @@ public class CmdFactionsTag extends FCommand {
 			}
 
 			// Broadcast the tag change (if applicable)
-			if (Conf.broadcastTagChanges) {
+			if (Config.broadcastTagChanges) {
 				Faction faction = fplayer.getFaction();
 				fplayer.sendMessage(Lang.COMMAND_TAG_CHANGED, fme.getColorTo(faction) + oldtag, myFaction.getTag(faction));
 			}

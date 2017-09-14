@@ -5,8 +5,8 @@ import org.bukkit.Bukkit;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsBan;
@@ -92,12 +92,12 @@ public class CmdFactionsBan extends FCommand {
 		}
 		
 		// Can they afford this command?
-		if (!fme.canAffordCommand(Conf.econCostBan, Lang.COMMAND_BAN_TOBAN.toString())) {
+		if (!fme.canAffordCommand(Config.econCostBan, Lang.COMMAND_BAN_TOBAN.toString())) {
 			return;
 		}
 		
 		// Make them pay for the ban.
-		if (!fme.payForCommand(Conf.econCostBan, Lang.COMMAND_BAN_TOBAN.toString(), Lang.COMMAND_BAN_FORBAN.toString())) {
+		if (!fme.payForCommand(Config.econCostBan, Lang.COMMAND_BAN_TOBAN.toString(), Lang.COMMAND_BAN_FORBAN.toString())) {
 			return;
 		}
 			
@@ -135,7 +135,7 @@ public class CmdFactionsBan extends FCommand {
 			member.sendMessage(messageAll);
 		});
 		
-		if (Conf.logFactionBan) {
+		if (Config.logFactionBan) {
 			Factions.get().log(fme.getName() + " banned " + who.getName() + " from the faction: " + who.getTag());
 		}
 	}

@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.locality.Locality;
@@ -31,7 +31,7 @@ public class FactionsFlyListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if (!Conf.expansionFactionsFly.enabled) return;
+		if (!Config.expansionFactionsFly.enabled) return;
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		
 		FPlayer fplayer = FPlayerColl.get(event.getPlayer());
@@ -49,8 +49,8 @@ public class FactionsFlyListener implements Listener {
 		}
 		
 		// Max Y
-		if (Conf.expansionFactionsFly.maxY > 0) {
-			if (event.getTo().getY() >= Conf.expansionFactionsFly.maxY) {
+		if (Config.expansionFactionsFly.maxY > 0) {
+			if (event.getTo().getY() >= Config.expansionFactionsFly.maxY) {
 				event.setTo(event.getFrom().add(0, -1, 0));
 				return;
 			}
@@ -63,9 +63,9 @@ public class FactionsFlyListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerEnderpearl(PlayerTeleportEvent event) {
-		if (!Conf.expansionFactionsFly.enabled) return;
+		if (!Config.expansionFactionsFly.enabled) return;
 		
-		if (!Conf.expansionFactionsFly.disableEnderpearlWhileFlying) return;
+		if (!Config.expansionFactionsFly.disableEnderpearlWhileFlying) return;
 		if (!event.getPlayer().isFlying()) return;
     
 		// use cross teleport to support all teleport causes
@@ -77,9 +77,9 @@ public class FactionsFlyListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerChorusFruit(PlayerTeleportEvent event) {
-		if (!Conf.expansionFactionsFly.enabled) return;
+		if (!Config.expansionFactionsFly.enabled) return;
 		
-		if (!Conf.expansionFactionsFly.disableChorusFruitWhileFlying) return;
+		if (!Config.expansionFactionsFly.disableChorusFruitWhileFlying) return;
 		if (!event.getPlayer().isFlying()) return;
     
 		// use cross teleport to support all teleport causes

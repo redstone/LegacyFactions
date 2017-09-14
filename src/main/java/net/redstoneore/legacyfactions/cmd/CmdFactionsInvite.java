@@ -3,9 +3,9 @@ package net.redstoneore.legacyfactions.cmd;
 import mkremins.fanciful.FancyMessage;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
@@ -62,7 +62,7 @@ public class CmdFactionsInvite extends FCommand {
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostInvite, Lang.COMMAND_INVITE_TOINVITE.toString(), Lang.COMMAND_INVITE_FORINVITE.toString())) {
+		if (!payForCommand(Config.econCostInvite, Lang.COMMAND_INVITE_TOINVITE.toString(), Lang.COMMAND_INVITE_FORINVITE.toString())) {
 			return;
 		}
 

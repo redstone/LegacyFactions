@@ -7,9 +7,9 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
@@ -65,10 +65,10 @@ public class CmdFactionsClaim extends FCommand {
 			return;
 		}
 		
-		if (radius > Conf.maxClaimRadius) {
+		if (radius > Config.maxClaimRadius) {
 			Lang.COMMAND_CLAIM_RADIUSMAX.getBuilder()
 				.parse()
-				.replace("<radius>", Conf.maxClaimRadius)
+				.replace("<radius>", Config.maxClaimRadius)
 				.sendTo(sender);
 			return;
 		}

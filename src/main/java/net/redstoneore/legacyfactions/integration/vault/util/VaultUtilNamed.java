@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.integration.vault.util;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 
 @SuppressWarnings("deprecation")
 public abstract class VaultUtilNamed extends VaultUtilBase {
@@ -68,11 +68,11 @@ public abstract class VaultUtilNamed extends VaultUtilBase {
 	
 	public void modifyUniverseMoney(double delta) {
 		if (!this.shouldBeUsed()) return;
-		if (Conf.econUniverseAccount == null) return;
-		if (Conf.econUniverseAccount.length() == 0) return;
-		if (!this.hasAccount(Conf.econUniverseAccount)) return;
+		if (Config.econUniverseAccount == null) return;
+		if (Config.econUniverseAccount.length() == 0) return;
+		if (!this.hasAccount(Config.econUniverseAccount)) return;
 
-		this.modifyBalance(Conf.econUniverseAccount, delta);
+		this.modifyBalance(Config.econUniverseAccount, delta);
 	}
 
 }

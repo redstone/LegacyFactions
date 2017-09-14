@@ -3,8 +3,8 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.ArrayList;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -69,7 +69,7 @@ public class CmdFactionsCreate extends FCommand {
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-		if (!canAffordCommand(Conf.econCostCreate, Lang.COMMAND_CREATE_TOCREATE.toString())) {
+		if (!canAffordCommand(Config.econCostCreate, Lang.COMMAND_CREATE_TOCREATE.toString())) {
 			return;
 		}
 
@@ -83,7 +83,7 @@ public class CmdFactionsCreate extends FCommand {
 		tag = createEvent.getFactionTag();
 
 		// then make 'em pay (if applicable)
-		if (!payForCommand(Conf.econCostCreate, Lang.COMMAND_CREATE_TOCREATE, Lang.COMMAND_CREATE_FORCREATE)) {
+		if (!payForCommand(Config.econCostCreate, Lang.COMMAND_CREATE_TOCREATE, Lang.COMMAND_CREATE_FORCREATE)) {
 			return;
 		}
 
@@ -113,7 +113,7 @@ public class CmdFactionsCreate extends FCommand {
 
 		this.sendMessage(Lang.COMMAND_CREATE_YOUSHOULD, CmdFactionsDescription.get().getUseageTemplate());
 
-		if (Conf.logFactionCreate) {
+		if (Config.logFactionCreate) {
 			Factions.get().log(fme.getName() + Lang.COMMAND_CREATE_CREATEDLOG.toString() + tag);
 		}
 	}

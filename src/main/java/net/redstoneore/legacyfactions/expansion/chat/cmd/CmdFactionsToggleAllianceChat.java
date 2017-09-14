@@ -2,9 +2,9 @@ package net.redstoneore.legacyfactions.expansion.chat.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.cmd.FCommand;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsToggleAllianceChat extends FCommand {
 
@@ -39,7 +39,7 @@ public class CmdFactionsToggleAllianceChat extends FCommand {
 
 	@Override
 	public void perform() {
-		if (!Conf.expansionsFactionsChat.enableAllianceChat) {
+		if (!Config.expansionsFactionsChat.enableAllianceChat) {
 			sendMessage(Lang.COMMAND_CHAT_DISABLED.toString());
 			return;
 		}

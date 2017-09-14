@@ -1,8 +1,8 @@
 package net.redstoneore.legacyfactions.entity.persist;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 
@@ -27,7 +27,7 @@ public class SaveTask implements Runnable {
 		FactionColl.get().forceSave(false);
 		FPlayerColl.save(false);
 		Board.get().forceSave(false);
-		Conf.save();
+		Config.save();
 		
 		running = false;
 	}

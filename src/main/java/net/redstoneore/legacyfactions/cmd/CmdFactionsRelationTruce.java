@@ -1,8 +1,8 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsRelationTruce extends FCommandRelation {
 
@@ -28,7 +28,7 @@ public class CmdFactionsRelationTruce extends FCommandRelation {
 	
 	@Override
 	public boolean isAvailable() {
-		return Conf.enableTruces == true;
+		return Config.enableTruces == true;
 	}
 	
 }

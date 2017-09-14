@@ -8,7 +8,7 @@ import com.drtshock.playervaults.vaultmanagement.VaultViewInfo;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.cmd.FCommand;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -52,7 +52,7 @@ public class CmdVault extends FCommand {
         }
 
         // Something like faction-id
-        String vaultName = String.format(Conf.vaultPrefix, myFaction.getId());
+        String vaultName = String.format(Config.vaultPrefix, myFaction.getId());
 
         if (number < 1) {
             // Message about which vaults that Faction has.

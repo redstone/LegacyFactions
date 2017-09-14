@@ -9,7 +9,7 @@ import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.cmd.CmdFactionsHelp;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.integration.vault.util.VaultUtilPlayer;
 import net.redstoneore.legacyfactions.util.TextUtil;
@@ -35,7 +35,7 @@ public class VaultUtils extends VaultUtilPlayer {
 		
 		// Check for vault
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-			if (Conf.econEnabled) {
+			if (Config.econEnabled) {
 				Factions.get().log(Lang.ECON_ERROR_ONE.toString());
 			} else {
 				Factions.get().log(Lang.ECON_ERROR_TWO.toString());
@@ -47,7 +47,7 @@ public class VaultUtils extends VaultUtilPlayer {
 			RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
 			
 			if (rsp == null) {
-				if (Conf.econEnabled) {
+				if (Config.econEnabled) {
 					Factions.get().log(Lang.ECON_ERROR_THREE.toString());
 				} else {
 					Factions.get().log(Lang.ECON_ERROR_FOUR.toString());
@@ -63,7 +63,7 @@ public class VaultUtils extends VaultUtilPlayer {
 		Factions.get().log("Economy integration through Vault plugin successful.");
 
 		// Notify them if economy plugins are present, but economy features are disabled.
-		if (!Conf.econEnabled) {
+		if (!Config.econEnabled) {
 			Factions.get().log("NOTE: Economy is disabled. You can enable it with the command: f config econEnabled true");
 		}
 		

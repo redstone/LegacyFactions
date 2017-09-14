@@ -2,9 +2,9 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.event.EventFactionsWarpCreate;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 
@@ -46,15 +46,15 @@ public class CmdFactionsSetwarp extends FCommand {
 		}
 		
 		// Check the limit 
-		if (Conf.warpsMax <= myFaction.warps().size()) {
-			fme.sendMessage(Lang.COMMAND_SETFWARP_LIMIT, Conf.warpsMax);
+		if (Config.warpsMax <= myFaction.warps().size()) {
+			fme.sendMessage(Lang.COMMAND_SETFWARP_LIMIT, Config.warpsMax);
 			return;
 		}
 
 		// Determine other information for warp 
 		String warpName = argAsString(0);
 		LazyLocation warpLocation = new LazyLocation(fme.getPlayer().getLocation());
-		Double warpCost = Conf.warpCost.get("set");
+		Double warpCost = Config.warpCost.get("set");
 		
 		// Check for password
 		String warpPassword = argAsString(1);
@@ -78,7 +78,7 @@ public class CmdFactionsSetwarp extends FCommand {
 		if (event.isCancelled()) return;
 		
 		// Check for new cost, and pay for it if required
-		if (warpCost > 0 && !this.fme.isAdminBypassing() && !payForCommand(Conf.warpCost.get("set"), Lang.COMMAND_SETFWARP_TOSET.toString(), Lang.COMMAND_SETFWARP_FORSET.toString())) return;
+		if (warpCost > 0 && !this.fme.isAdminBypassing() && !payForCommand(Config.warpCost.get("set"), Lang.COMMAND_SETFWARP_TOSET.toString(), Lang.COMMAND_SETFWARP_FORSET.toString())) return;
 		
 		// Get new values from event
 		warpName = event.getName();

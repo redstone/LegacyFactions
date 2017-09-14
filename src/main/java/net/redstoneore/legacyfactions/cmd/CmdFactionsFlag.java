@@ -2,8 +2,8 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 
 public class CmdFactionsFlag extends FCommand {
 
@@ -48,7 +48,7 @@ public class CmdFactionsFlag extends FCommand {
 
 	@Override
 	public boolean isAvailable() {
-		return Conf.enableFlags == true;
+		return Config.enableFlags == true;
 	}
 	
 	@Override

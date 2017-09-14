@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.callback.Callback;
+import net.redstoneore.legacyfactions.config.Config;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,6 @@ import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
@@ -78,11 +78,11 @@ public class CmdFactionsTitle extends FCommand {
 		if (!fme.canAdminister(you)) return;
 		
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!fme.payForCommand(Conf.econCostTitle, Lang.COMMAND_TITLE_TOCHANGE.toString(), Lang.COMMAND_TITLE_FORCHANGE.toString())) {
+		if (!fme.payForCommand(Config.econCostTitle, Lang.COMMAND_TITLE_TOCHANGE.toString(), Lang.COMMAND_TITLE_FORCHANGE.toString())) {
 			return;
 		}
 
-		if (Conf.allowColourCodesInFactionTitle) {
+		if (Config.allowColourCodesInFactionTitle) {
 			title = TextUtil.parseColor(title);
 		}
 		

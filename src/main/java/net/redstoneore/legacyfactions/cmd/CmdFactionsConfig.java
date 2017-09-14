@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansions;
 
 import java.lang.reflect.Field;
@@ -62,7 +62,7 @@ public class CmdFactionsConfig extends FCommand {
 		// store a lookup map of lowercase field names paired with proper capitalization field names
 		// that way, if the person using this command messes up the capitalization, we can fix that
 		if (properFieldNames.isEmpty()) {
-			Field[] fields = Conf.class.getDeclaredFields();
+			Field[] fields = Config.class.getDeclaredFields();
 			for (int i = 0; i < fields.length; i++) {
 				properFieldNames.put(fields[i].getName().toLowerCase(), fields[i].getName());
 			}
@@ -87,7 +87,7 @@ public class CmdFactionsConfig extends FCommand {
 		}
 
 		try {
-			Field target = Conf.class.getField(fieldName);
+			Field target = Config.class.getField(fieldName);
 
 			// boolean
 			if (target.getType() == boolean.class) {
@@ -260,7 +260,7 @@ public class CmdFactionsConfig extends FCommand {
 			FactionsExpansions.sync();
 		}
 		// save change to disk
-		Conf.save();
+		Config.save();
 	}
 
 	@Override

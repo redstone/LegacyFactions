@@ -2,10 +2,10 @@ package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 
 public class CmdFactionsSafeunclaimall extends FCommand {
@@ -44,7 +44,7 @@ public class CmdFactionsSafeunclaimall extends FCommand {
 		Board.get().unclaimAll(FactionColl.get().getSafeZone().getId());
 		sendMessage(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
 
-		if (Conf.logLandUnclaims) {
+		if (Config.logLandUnclaims) {
 			Factions.get().log(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
 		}
 	}

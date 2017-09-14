@@ -22,8 +22,8 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.adapter.LazyLocationAdapter;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -433,7 +433,7 @@ public class MySQLFaction extends SharedFaction {
 	@Override
 	public int getMaxVaults() {
 		this.poll();
-		return this.values.get("maxvaults") == null ? Conf.defaultMaxVaults : Integer.valueOf(this.values.get("maxvaults"));
+		return this.values.get("maxvaults") == null ? Config.defaultMaxVaults : Integer.valueOf(this.values.get("maxvaults"));
 	}
 
 	@Override

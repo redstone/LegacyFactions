@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 
 public class Meta {
@@ -63,7 +64,7 @@ public class Meta {
 			""
 	);
 	
-	public double configVersion = Conf.version;
+	public double configVersion = Config.version;
 	
 	// -------------------------------------------------- //
 	// DATABASE VERSION

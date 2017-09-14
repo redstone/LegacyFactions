@@ -10,8 +10,8 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.locality.Locality;
@@ -178,15 +178,15 @@ public abstract class SharedBoard extends Board {
 		ArrayList<String> lines = new ArrayList<String>();
 		lines.add(TextUtil.get().titleize("(" + locality.getCoordString() + ") " + factionAtLocation.getTag(faction)));
 
-		int halfWidth = Conf.mapWidth / 2;
-		int halfHeight = Conf.mapHeight / 2;
+		int halfWidth = Config.mapWidth / 2;
+		int halfHeight = Config.mapHeight / 2;
 		Locality topLeft = locality.getRelative(-halfWidth, -halfHeight);
 		
 		int mapWidth = halfWidth * 2 + 1;
 		int mapHeight = halfHeight * 2 + 1;
 
 		// If we're not showing the key, we don't need this row
-		if (Conf.showMapFactionKey) {
+		if (Config.showMapFactionKey) {
 			mapHeight--;
 		}
 
@@ -211,13 +211,13 @@ public abstract class SharedBoard extends Board {
 					} else if (factionHere == faction ||
 									   factionHere == factionAtLocation ||
 									   relation.isAtLeast(Relation.ALLY) ||
-									   (Conf.showNeutralFactionsOnMap && relation.equals(Relation.NEUTRAL)) ||
-									   (Conf.showEnemyFactionsOnMap && relation.equals(Relation.ENEMY))) {
+									   (Config.showNeutralFactionsOnMap && relation.equals(Relation.NEUTRAL)) ||
+									   (Config.showEnemyFactionsOnMap && relation.equals(Relation.ENEMY))) {
 						if (!factionList.containsKey(factionHere.getTag())) {
 							if (factionHere.hasForcedMapCharacter()) {
 								factionList.put(factionHere.getTag(), factionHere.getForcedMapCharacter());								
 							} else {
-								factionList.put(factionHere.getTag(), Conf.mapKeyChrs[Math.min(chrIdx++, Conf.mapKeyChrs.length - 1)]);								
+								factionList.put(factionHere.getTag(), Config.mapKeyChrs[Math.min(chrIdx++, Config.mapKeyChrs.length - 1)]);								
 							}
 						}
 						char mapCharacter = factionList.get(factionHere.getTag());
@@ -245,7 +245,7 @@ public abstract class SharedBoard extends Board {
 		lines.set(3, asciiCompass.get(2) + lines.get(3).substring(3 * 3));
 
 		// Add the faction key
-		if (Conf.showMapFactionKey) {
+		if (Config.showMapFactionKey) {
 			String row = "";
 			for (String key : factionList.keySet()) {
 				row += String.format("%s%s: %s ", ChatColor.GRAY, factionList.get(key), key);

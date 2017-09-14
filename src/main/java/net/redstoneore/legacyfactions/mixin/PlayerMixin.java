@@ -16,8 +16,8 @@ import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -117,7 +117,7 @@ public class PlayerMixin {
 	public static boolean canDoAction(Player player, Location location, LandAction action, boolean justCheck) {
 		String name = player.getName();
 		
-		if (Conf.playersWhoBypassAllProtection.contains(name)) return true;
+		if (Config.playersWhoBypassAllProtection.contains(name)) return true;
 		FPlayer me = FPlayerColl.get(player);
 		if (me.isAdminBypassing()) return true;
 		
@@ -125,11 +125,11 @@ public class PlayerMixin {
 		Faction otherFaction = Board.get().getFactionAt(Locality.of(location));
 
 		if (otherFaction.isWilderness()) {
-			if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
+			if (WorldGuardIntegration.get().isEnabled() && Config.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
 				return true;
 			}
 
-			if (!Conf.wildernessDenyBuild || Conf.worldsNoWildernessProtection.contains(location.getWorld().getName())) {
+			if (!Config.wildernessDenyBuild || Config.worldsNoWildernessProtection.contains(location.getWorld().getName())) {
 				return true; // This is not faction territory. Use whatever you like here.
 			}
 
@@ -166,11 +166,11 @@ public class PlayerMixin {
 
 			return false;
 		} else if (otherFaction.isSafeZone()) {
-			if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
+			if (WorldGuardIntegration.get().isEnabled() && Config.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
 				return true;
 			}
 
-			if (!Conf.safeZoneDenyBuild || Permission.MANAGE_SAFE_ZONE.has(player)) {
+			if (!Config.safeZoneDenyBuild || Permission.MANAGE_SAFE_ZONE.has(player)) {
 				return true;
 			}
 
@@ -206,11 +206,11 @@ public class PlayerMixin {
 
 			return false;
 		} else if (otherFaction.isWarZone()) {
-			if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
+			if (WorldGuardIntegration.get().isEnabled() && Config.worldGuardBuildPriority && WorldGuardEngine.playerCanBuild(player, location)) {
 				return true;
 			}
 
-			if (!Conf.warZoneDenyBuild || Permission.MANAGE_WAR_ZONE.has(player)) {
+			if (!Config.warZoneDenyBuild || Permission.MANAGE_WAR_ZONE.has(player)) {
 				return true;
 			}
 
@@ -246,7 +246,7 @@ public class PlayerMixin {
 
 			return false;
 		}
-		if (Conf.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
+		if (Config.raidable && otherFaction.getLandRounded() >= otherFaction.getPowerRounded()) {
 			return true;
 		}
 
@@ -258,7 +258,7 @@ public class PlayerMixin {
 
 		// hurt the player for building/destroying in other territory?
 		if (pain) {
-			player.damage(Conf.actionDeniedPainAmount);
+			player.damage(Config.actionDeniedPainAmount);
 
 			if (!deny) {
 				String message = null;
@@ -330,11 +330,11 @@ public class PlayerMixin {
 		}
 
 		// Also cancel and/or cause pain if player doesn't have ownership rights for this claim
-		if (Conf.ownedAreasEnabled && (Conf.ownedAreaDenyBuild || Conf.ownedAreaPainBuild) && !otherFaction.playerHasOwnershipRights(me, loc)) {
-			if (!pain && Conf.ownedAreaPainBuild && !justCheck) {
-				player.damage(Conf.actionDeniedPainAmount);
+		if (Config.ownedAreasEnabled && (Config.ownedAreaDenyBuild || Config.ownedAreaPainBuild) && !otherFaction.playerHasOwnershipRights(me, loc)) {
+			if (!pain && Config.ownedAreaPainBuild && !justCheck) {
+				player.damage(Config.actionDeniedPainAmount);
 
-				if (!Conf.ownedAreaDenyBuild) {
+				if (!Config.ownedAreaDenyBuild) {
 					String message = null;
 					switch(action) {
 					case BUILD:
@@ -364,7 +364,7 @@ public class PlayerMixin {
 					}
 				}
 			}
-			if (Conf.ownedAreaDenyBuild) {
+			if (Config.ownedAreaDenyBuild) {
 				if (!justCheck) {
 					String message = null;
 					switch (action) {

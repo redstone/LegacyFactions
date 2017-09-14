@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.scoreboards.FSidebarProvider;
 
@@ -12,19 +12,19 @@ public class FDefaultSidebar extends FSidebarProvider {
 	
 	@Override
 	public String getTitle(FPlayer fplayer) {
-		return replaceTags(fplayer, Conf.scoreboardDefaultTitle + "");
+		return replaceTags(fplayer, Config.scoreboardDefaultTitle + "");
 	}
 
 	@Override
 	public List<String> getLines(FPlayer fplayer) {
 		if (fplayer.hasFaction()) {
-			return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardDefault));
+			return this.getOutput(fplayer, new ArrayList<>(Config.scoreboardDefault));
 		} else {
-			if (Conf.scoreboardFactionlessEnabled) {
-				return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardFactionless));
+			if (Config.scoreboardFactionlessEnabled) {
+				return this.getOutput(fplayer, new ArrayList<>(Config.scoreboardFactionless));
 			}
 		}
-		return this.getOutput(fplayer, new ArrayList<>(Conf.scoreboardDefault)); // no faction, factionless-board disabled
+		return this.getOutput(fplayer, new ArrayList<>(Config.scoreboardDefault)); // no faction, factionless-board disabled
 	}
 	
 	/**

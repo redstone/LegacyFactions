@@ -8,8 +8,8 @@ import org.bukkit.OfflinePlayer;
 import com.google.common.collect.Maps;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -96,7 +96,7 @@ public abstract class MemoryFaction extends SharedFaction {
 	
 	@Override
 	public void setTag(String str) {
-		if (Conf.factionTagForceUpperCase) {
+		if (Config.factionTagForceUpperCase) {
 			str = str.toUpperCase();
 		}
 		this.tag = str;
@@ -392,7 +392,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		this.money = 0.0;
 		this.powerBoost = 0.0;
 		this.foundedDate = System.currentTimeMillis();
-		this.maxVaults = Conf.defaultMaxVaults;
+		this.maxVaults = Config.defaultMaxVaults;
 	}
 
 	public MemoryFaction(MemoryFaction old) {
@@ -422,16 +422,16 @@ public abstract class MemoryFaction extends SharedFaction {
 
 	public Relation getRelationWish(Faction otherFaction) {
 		if (this.relationWish.containsKey(otherFaction.getId())) {
-			if (this.relationWish.get(otherFaction.getId()) == Relation.TRUCE && !Conf.enableTruces) {
+			if (this.relationWish.get(otherFaction.getId()) == Relation.TRUCE && !Config.enableTruces) {
 				this.relationWish.put(otherFaction.getId(), Relation.NEUTRAL);
 			}
 			return this.relationWish.get(otherFaction.getId());
 		}
-		return Relation.fromString(Conf.factionDefaultRelation); // Always default to old behavior.
+		return Relation.fromString(Config.factionDefaultRelation); // Always default to old behavior.
 	}
 
 	public void setRelationWish(Faction otherFaction, Relation relation) {
-		if (relation == Relation.TRUCE && !Conf.enableTruces) {
+		if (relation == Relation.TRUCE && !Config.enableTruces) {
 			relation = Relation.NEUTRAL;
 		}
 		
@@ -594,7 +594,7 @@ public abstract class MemoryFaction extends SharedFaction {
 	public boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc) {
 		// in own faction, with sufficient role or permission to bypass
 		// ownership?
-		boolean canBypass = fplayer.getRole().isAtLeast(Conf.ownedAreaModeratorsBypass ? Role.MODERATOR : Role.COLEADER) || Permission.OWNERSHIP_BYPASS.has(fplayer.getPlayer());
+		boolean canBypass = fplayer.getRole().isAtLeast(Config.ownedAreaModeratorsBypass ? Role.MODERATOR : Role.COLEADER) || Permission.OWNERSHIP_BYPASS.has(fplayer.getPlayer());
 
 		if (fplayer.getFaction() == this && canBypass) {
 			return true;

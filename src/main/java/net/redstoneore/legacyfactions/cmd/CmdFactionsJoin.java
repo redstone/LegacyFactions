@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -136,13 +136,13 @@ public class CmdFactionsJoin extends FCommand {
 			return;
 		}
 
-		if (faction.getFlag(Flags.PEACEFUL) && Conf.factionMemberLimitPeaceful > 0) {
-			if (faction.getMembers().size() >= Conf.factionMemberLimitPeaceful) {
-				fsender.sendMessage(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fsender), Conf.factionMemberLimitPeaceful, fplayer.describeTo(fsender, false));
+		if (faction.getFlag(Flags.PEACEFUL) && Config.factionMemberLimitPeaceful > 0) {
+			if (faction.getMembers().size() >= Config.factionMemberLimitPeaceful) {
+				fsender.sendMessage(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fsender), Config.factionMemberLimitPeaceful, fplayer.describeTo(fsender, false));
 				return;
 			}
-		} else if (Conf.factionMemberLimit > 0 && faction.getMembers().size() >= Conf.factionMemberLimit) {
-			fsender.sendMessage(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fsender), Conf.factionMemberLimit, fplayer.describeTo(fsender, false));
+		} else if (Config.factionMemberLimit > 0 && faction.getMembers().size() >= Config.factionMemberLimit) {
+			fsender.sendMessage(Lang.COMMAND_JOIN_ATLIMIT, faction.getTag(fsender), Config.factionMemberLimit, fplayer.describeTo(fsender, false));
 			return;
 		}
 
@@ -158,7 +158,7 @@ public class CmdFactionsJoin extends FCommand {
 			return;
 		}
 
-		if (!Conf.canLeaveWithNegativePower && fplayer.getPower() < 0) {
+		if (!Config.canLeaveWithNegativePower && fplayer.getPower() < 0) {
 			fsender.sendMessage(Lang.COMMAND_JOIN_NEGATIVEPOWER, fplayer.describeTo(fsender, true));
 			return;
 		}
@@ -172,7 +172,7 @@ public class CmdFactionsJoin extends FCommand {
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-		if (samePlayer && !fsender.canAffordCommand(Conf.econCostJoin, Lang.COMMAND_JOIN_TOJOIN.toString())) {
+		if (samePlayer && !fsender.canAffordCommand(Config.econCostJoin, Lang.COMMAND_JOIN_TOJOIN.toString())) {
 			return;
 		}
 
@@ -184,7 +184,7 @@ public class CmdFactionsJoin extends FCommand {
 		}
 
 		// then make 'em pay (if applicable)
-		if (samePlayer && !fsender.payForCommand(Conf.econCostJoin, Lang.COMMAND_JOIN_TOJOIN.toString(), Lang.COMMAND_JOIN_FORJOIN.toString())) {
+		if (samePlayer && !fsender.payForCommand(Config.econCostJoin, Lang.COMMAND_JOIN_TOJOIN.toString(), Lang.COMMAND_JOIN_FORJOIN.toString())) {
 			return;
 		}
 
@@ -199,7 +199,7 @@ public class CmdFactionsJoin extends FCommand {
 		fplayer.setFaction(faction);
 		faction.deinvite(fplayer);
 
-		if (Conf.logFactionJoin) {
+		if (Config.logFactionJoin) {
 			if (samePlayer) {
 				Factions.get().log(Lang.COMMAND_JOIN_JOINEDLOG.toString(), fplayer.getName(), faction.getTag());
 			} else {

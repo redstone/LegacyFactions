@@ -13,8 +13,8 @@ import com.google.common.collect.Lists;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.cmd.FCommand;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansion;
@@ -104,7 +104,7 @@ public class FactionsFly extends FactionsExpansion {
 	
 	@Override
 	public boolean shouldEnable() {
-		return Conf.expansionFactionsFly.enabled == true;
+		return Config.expansionFactionsFly.enabled == true;
 	}
 	
 	public void cancelFlightFor(FPlayer fplayer) {
@@ -117,12 +117,12 @@ public class FactionsFly extends FactionsExpansion {
 		
 		Lang.EXPANSION_FACTIONSFLY_DISABLED.getBuilder().parse().sendTo(fplayer);
 		
-		if (Conf.expansionFactionsFly.onDisableTeleportToFloor) {
+		if (Config.expansionFactionsFly.onDisableTeleportToFloor) {
 			Locality floor = fplayer.getLastLocation().getFloorDown();
 			if (floor == null) return; 
 			
 			fplayer.teleport(floor);				
-		} else if (Conf.expansionFactionsFly.onDisableNoFallDamage) {
+		} else if (Config.expansionFactionsFly.onDisableNoFallDamage) {
 			this.addFalling(player.getUniqueId());
 		}
 	}

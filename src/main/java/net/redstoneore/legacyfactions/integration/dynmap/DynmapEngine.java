@@ -24,7 +24,7 @@ import org.dynmap.markers.PlayerSet;
 import org.dynmap.utils.TileFlags;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.integration.dynmap.marker.TempAreaMarker;
@@ -68,7 +68,7 @@ public class DynmapEngine extends BukkitRunnable {
 		// Async
 		
 		// If we're not enabled, issue a cleanup
-		if (!Conf.dynmap.enabled) {
+		if (!Config.dynmap.enabled) {
 			this.cleanup();
 			return;
 		}
@@ -102,9 +102,9 @@ public class DynmapEngine extends BukkitRunnable {
 	}
 	
 	private boolean isVisible(Faction faction) {
-		if (Conf.dynmap.hiddenFactions.contains(faction.getId())) return false;
+		if (Config.dynmap.hiddenFactions.contains(faction.getId())) return false;
 		
-		if (Conf.dynmap.visibleFactions.size() > 0 && !Conf.dynmap.visibleFactions.contains(faction.getId())) {
+		if (Config.dynmap.visibleFactions.size() > 0 && !Config.dynmap.visibleFactions.contains(faction.getId())) {
 			return false;
 		}
 		
@@ -114,15 +114,15 @@ public class DynmapEngine extends BukkitRunnable {
 	private Map<String, TempMarker> createHomes() {
 		Map<String, TempMarker> homes = new HashMap<>();
 		
-		if (!Conf.homesEnabled) return homes;
+		if (!Config.homesEnabled) return homes;
 		
 		FactionColl.all(faction -> {
 			Location home = faction.getHome();
 			if (home == null) return;
 						
-			if (Conf.dynmap.hiddenFactions.contains(faction.getId())) return;
+			if (Config.dynmap.hiddenFactions.contains(faction.getId())) return;
 			
-			if (Conf.dynmap.visibleFactions.size() > 0 && !Conf.dynmap.visibleFactions.contains(faction.getId())) {
+			if (Config.dynmap.visibleFactions.size() > 0 && !Config.dynmap.visibleFactions.contains(faction.getId())) {
 				return;
 			}
 			
@@ -177,10 +177,10 @@ public class DynmapEngine extends BukkitRunnable {
 	private TempMarkerSet createLayer() {
 		// Async
 		TempMarkerSet ret = new TempMarkerSet();
-		ret.label = Conf.dynmap.layerName;
-		ret.minimumZoom = Conf.dynmap.layerMinimumZoom;
-		ret.priority = Conf.dynmap.layerPriority;
-		ret.hideByDefault = !Conf.dynmap.layerVisible;
+		ret.label = Config.dynmap.layerName;
+		ret.minimumZoom = Config.dynmap.layerMinimumZoom;
+		ret.priority = Config.dynmap.layerPriority;
+		ret.hideByDefault = !Config.dynmap.layerVisible;
 		return ret;
 	}
 	
@@ -462,7 +462,7 @@ public class DynmapEngine extends BukkitRunnable {
 	}
 	
 	private String getDescription(Faction faction) {
-		String description = "<div class=\"regioninfo regioninfo-legacyfactions\">" + Conf.dynmap.description + "</div>";
+		String description = "<div class=\"regioninfo regioninfo-legacyfactions\">" + Config.dynmap.description + "</div>";
 		
 		for (FactionsPlaceholderFaction placeholder : FactionsPlaceholders.get().<FactionsPlaceholderFaction>getPlaceholders(FactionsPlaceholderFaction.class)) {
 			description = description.replaceAll("%factions_"+placeholder.placeholder()+"%", placeholder.get(faction));
@@ -521,7 +521,7 @@ public class DynmapEngine extends BukkitRunnable {
 	}
 	
 	public Map<String, Set<String>> createPlayersets() {
-		if (!Conf.dynmap.visibilityByFaction) return null;
+		if (!Config.dynmap.visibilityByFaction) return null;
 		
 		Map<String, Set<String>> playersets = new HashMap<>();
 	

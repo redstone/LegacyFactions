@@ -6,6 +6,7 @@ import java.util.Set;
 import org.bukkit.World;
 
 import net.redstoneore.legacyfactions.FLocation;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.locality.Locality;
 
 public abstract class Board {
@@ -18,9 +19,9 @@ public abstract class Board {
 	protected static Board instance = get();
 	
 	public static Board get() {
-		if (currentType != Conf.backEnd.name()) {
-			instance = Conf.backEnd.getHandler().getBoard();
-			currentType = Conf.backEnd.name();
+		if (currentType != Config.backEnd.name()) {
+			instance = Config.backEnd.getHandler().getBoard();
+			currentType = Config.backEnd.name();
 		}
 		return instance;
 	}

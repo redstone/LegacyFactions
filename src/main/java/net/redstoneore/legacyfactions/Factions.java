@@ -21,9 +21,9 @@ import net.redstoneore.legacyfactions.adapter.CrossEntityTypeAdapter;
 import net.redstoneore.legacyfactions.adapter.LazyLocationAdapter;
 import net.redstoneore.legacyfactions.adapter.MapFlocationSetAdapter;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -171,7 +171,7 @@ public class Factions extends FactionsPluginBase {
 		Lang.reload();
 		
 		// Load Conf from disk
-		Conf.loadSave();
+		Config.loadSave();
 		
 		// Load command aliases from disk
 		CommandAliases.load();
@@ -185,15 +185,15 @@ public class Factions extends FactionsPluginBase {
 		Meta.get().load().save();
 		
 		// Initialise our persist handler
-		Conf.backEnd.getHandler().init();
+		Config.backEnd.getHandler().init();
 		
 		if (this.getDescription().getVersion().contains("RC") || this.getDescription().getVersion().contains("SNAPSHOT")) {
-			Conf.debug = true;
+			Config.debug = true;
 			this.debug("Debug mode has been enabled for this snapshot.");
 			this.debug("conf.json 'debug' has been set to 'true' ");
 			this.debug("Please put this entire log file on pastebin.com when reporting an issue.");
 			this.debug("To disable this type use the command `/f config debug false`");
-			Conf.save();
+			Config.save();
 		}
 		
 		FPlayerColl.load();
@@ -374,7 +374,7 @@ public class Factions extends FactionsPluginBase {
 		
 		if (this.loadSuccessful) {
 			// Only save data if plugin actually completely loaded successfully
-			Conf.save();
+			Config.save();
 			CommandAliases.save();
 			FactionColl.get().forceSave();
 			FPlayerColl.save();

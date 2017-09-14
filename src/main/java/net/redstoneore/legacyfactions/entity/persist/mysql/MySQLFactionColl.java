@@ -11,7 +11,7 @@ import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.Meta;
 import net.redstoneore.legacyfactions.entity.persist.mysql.MySQLPrepared.ExecuteType;
@@ -54,7 +54,7 @@ public class MySQLFactionColl extends SharedFactionColl {
 			
 		MySQLFaction faction = new MySQLFaction(id, false);
 		faction.setFoundedDate(System.currentTimeMillis());
-		faction.setMaxVaults(Conf.defaultMaxVaults);
+		faction.setMaxVaults(Config.defaultMaxVaults);
 		faction.setDescription(Lang.GENERIC_DEFAULTDESCRIPTION.toString());
 		faction.poll(true);
 			

@@ -24,8 +24,8 @@ import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.announcement.Announcements;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -178,7 +178,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	
 	@Override
 	public void confirmValidHome() {
-		if (!Conf.homesMustBeInClaimedTerritory || this.getHome(false) == null || (this.getHome(false) != null && Board.get().getFactionAt(Locality.of(this.getHome(false))) == this)) {
+		if (!Config.homesMustBeInClaimedTerritory || this.getHome(false) == null || (this.getHome(false) != null && Board.get().getFactionAt(Locality.of(this.getHome(false))) == this)) {
 			return;
 		}
 		
@@ -200,8 +200,8 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		for (FPlayer fplayer : this.getMembers()) {
 			ret += fplayer.getPower();
 		}
-		if (Conf.powerFactionMax > 0 && ret > Conf.powerFactionMax) {
-			ret = Conf.powerFactionMax;
+		if (Config.powerFactionMax > 0 && ret > Config.powerFactionMax) {
+			ret = Config.powerFactionMax;
 		}
 		return ret + this.getPowerBoost();
 	}
@@ -222,8 +222,8 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		for (FPlayer fplayer : this.getMembers()) {
 			ret += fplayer.getPowerMax();
 		}
-		if (Conf.powerFactionMax > 0 && ret > Conf.powerFactionMax) {
-			ret = Conf.powerFactionMax;
+		if (Config.powerFactionMax > 0 && ret > Config.powerFactionMax) {
+			ret = Config.powerFactionMax;
 		}
 		return ret + this.getPowerBoost();
 	}
@@ -353,7 +353,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		
 		// even if all players are technically logged off, maybe someone was on
 		// recently enough to not consider them officially offline yet
-		return Conf.considerFactionsReallyOfflineAfterXMinutes > 0 && System.currentTimeMillis() <  lastPlayerLoggedOffTime + (Conf.considerFactionsReallyOfflineAfterXMinutes * 60000);
+		return Config.considerFactionsReallyOfflineAfterXMinutes > 0 && System.currentTimeMillis() <  lastPlayerLoggedOffTime + (Config.considerFactionsReallyOfflineAfterXMinutes * 60000);
 	}
 
 	@Override
@@ -387,7 +387,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		if (!this.isNormal()) {
 			return;
 		}
-		if (this.isPermanent() && Conf.permanentFactionsDisableLeaderPromotion) {
+		if (this.isPermanent() && Config.permanentFactionsDisableLeaderPromotion) {
 			return;
 		}
 
@@ -411,7 +411,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 			}
 
 			// no members left and faction isn't permanent, so disband it
-			if (Conf.logFactionDisband) {
+			if (Config.logFactionDisband) {
 				Factions.get().log("The faction " + this.getTag() + " (" + this.getId() + ") has been disbanded since it has no members left.");
 			}
 
@@ -443,9 +443,9 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 
 	@Override
 	public boolean isPowerFrozen() {
-		if (Conf.raidablePowerFreeze == 0) return false;
+		if (Config.raidablePowerFreeze == 0) return false;
 
-		return System.currentTimeMillis() - this.getLastDeath() < Conf.raidablePowerFreeze * 1000;
+		return System.currentTimeMillis() - this.getLastDeath() < Config.raidablePowerFreeze * 1000;
 	}
 	
 	@Override
@@ -496,21 +496,21 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	@Override
 	public boolean noCreeperExplosions(Location location) {
 		return (
-			this.isWilderness() && Conf.wildernessBlockCreepers && !Conf.worldsNoWildernessProtection.contains(location.getWorld().getName()) ||
-			this.isNormal() && (this.hasPlayersOnline() ? Conf.territoryBlockCreepers : Conf.territoryBlockCreepersWhenOffline) ||
-			this.isWarZone() && Conf.warZoneBlockCreepers ||
+			this.isWilderness() && Config.wildernessBlockCreepers && !Config.worldsNoWildernessProtection.contains(location.getWorld().getName()) ||
+			this.isNormal() && (this.hasPlayersOnline() ? Config.territoryBlockCreepers : Config.territoryBlockCreepersWhenOffline) ||
+			this.isWarZone() && Config.warZoneBlockCreepers ||
 			this.isSafeZone()
 		);
 	}
 
 	@Override
 	public boolean noPvPInTerritory() {
-		return this.isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisablePVP);
+		return this.isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Config.peacefulTerritoryDisablePVP);
 	}
 	
 	@Override
 	public boolean noMonstersInTerritory() {
-		return this.isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Conf.peacefulTerritoryDisableMonsters);
+		return this.isSafeZone() || (this.getFlag(Flags.PEACEFUL) && Config.peacefulTerritoryDisableMonsters);
 	}
 	
 	// -------------------------------------------------- //
@@ -549,10 +549,10 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	
 	@Override
 	public boolean hasMaxRelations(Faction them, Relation rel, Boolean silent) {
-		if (!Conf.maxRelations.containsKey(rel)) return false;
-		if (Conf.maxRelations.get(rel) < 0) return false;
+		if (!Config.maxRelations.containsKey(rel)) return false;
+		if (Config.maxRelations.get(rel) < 0) return false;
 		
-		int maxRelations = Conf.maxRelations.get(rel);
+		int maxRelations = Config.maxRelations.get(rel);
 		
 		if (this.getRelationCount(rel) >= maxRelations) {
 		 	if (!silent) this.sendMessage(Lang.COMMAND_RELATIONS_EXCEEDS_ME, maxRelations, rel.getPluralTranslation());

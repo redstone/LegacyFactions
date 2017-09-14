@@ -4,9 +4,9 @@ import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -142,14 +142,14 @@ public class CmdFactionsKick extends FCommand {
 				return;
 			}
 
-			if (!Conf.canLeaveWithNegativePower && toKick.getPower() < 0) {
+			if (!Config.canLeaveWithNegativePower && toKick.getPower() < 0) {
 				fsender.sendMessage(Lang.COMMAND_KICK_NEGATIVEPOWER);
 				return;
 			}
 		}
 
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make sure they can pay
-		if (!fsender.canAffordCommand(Conf.econCostKick, Lang.COMMAND_KICK_TOKICK.toString())) {
+		if (!fsender.canAffordCommand(Config.econCostKick, Lang.COMMAND_KICK_TOKICK.toString())) {
 			return;
 		}
 
@@ -161,7 +161,7 @@ public class CmdFactionsKick extends FCommand {
 		}
 
 		// then make 'em pay (if applicable)
-		if (!fsender.payForCommand(Conf.econCostKick, Lang.COMMAND_KICK_TOKICK.toString(), Lang.COMMAND_KICK_FORKICK.toString())) {
+		if (!fsender.payForCommand(Config.econCostKick, Lang.COMMAND_KICK_TOKICK.toString(), Lang.COMMAND_KICK_FORKICK.toString())) {
 			return;
 		}
 
@@ -171,7 +171,7 @@ public class CmdFactionsKick extends FCommand {
 			fsender.sendMessage(Lang.COMMAND_KICK_KICKS, toKick.describeTo(fsender), toKickFaction.describeTo(fsender));
 		}
 
-		if (Conf.logFactionKick) {
+		if (Config.logFactionKick) {
 			// TODO:TL
 			Factions.get().log((senderIsConsole ? "A console command" : fsender.getName()) + " kicked " + toKick.getName() + " from the faction: " + toKickFaction.getTag());
 		}

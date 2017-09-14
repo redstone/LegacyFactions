@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.callback.Callback;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -83,13 +83,13 @@ public abstract class FCommand extends FCommandBase<Factions> {
 		}
 		
 		// If this is an economy-only command command and economy is disabled
-		if (this.isMoneyCommand && !Conf.econEnabled) {
+		if (this.isMoneyCommand && !Config.econEnabled) {
 			this.sendMessage(Lang.COMMAND_ERRORS_ECONOMYDISABLED.toString());
 			return false;
 		}
 		
 		// If this is an economy-only command command and banks are disabled
-		if (this.isMoneyCommand && !Conf.bankEnabled) {
+		if (this.isMoneyCommand && !Config.bankEnabled) {
 			this.sendMessage(Lang.COMMAND_ERRORS_BANKSDISABLED.toString());
 			return false;
 		}
@@ -354,7 +354,7 @@ public abstract class FCommand extends FCommandBase<Factions> {
 			return true;
 		}
 
-		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && fme.hasFaction()) {
+		if (Config.bankEnabled && Config.bankFactionPaysCosts && fme.hasFaction()) {
 			return VaultEngine.getUtils().modifyMoney(myFaction, -cost, toDoThis, forDoingThis);
 		} else {
 			return VaultEngine.getUtils().modifyMoney(fme, -cost, toDoThis, forDoingThis);
@@ -371,7 +371,7 @@ public abstract class FCommand extends FCommandBase<Factions> {
 			return true;
 		}
 
-		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && fme.hasFaction()) {
+		if (Config.bankEnabled && Config.bankFactionPaysCosts && fme.hasFaction()) {
 			return VaultEngine.getUtils().hasAtLeast(myFaction, cost, toDoThis);
 		} else {
 			return VaultEngine.getUtils().hasAtLeast(fme, cost, toDoThis);

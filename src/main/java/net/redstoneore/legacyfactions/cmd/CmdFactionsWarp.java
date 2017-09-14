@@ -2,9 +2,9 @@ package net.redstoneore.legacyfactions.cmd;
 
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsWarpUse;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
@@ -98,14 +98,14 @@ public class CmdFactionsWarp extends FCommand {
 						fPlayer.sendMessage(Lang.COMMAND_FWARP_WARPED, warpName);
 					}
 				}
-			}, Conf.warmupWarp);
+			}, Config.warmupWarp);
 		} else {
 			fme.sendMessage(Lang.COMMAND_FWARP_INVALID, warpName);
 		}
 	}
 
 	private boolean transact(FPlayer player) {
-		return Conf.warpCost.get("use") == 0 || player.isAdminBypassing() || payForCommand(Conf.warpCost.get("use"), Lang.COMMAND_FWARP_TOWARP.toString(), Lang.COMMAND_FWARP_FORWARPING.toString());
+		return Config.warpCost.get("use") == 0 || player.isAdminBypassing() || payForCommand(Config.warpCost.get("use"), Lang.COMMAND_FWARP_TOWARP.toString(), Lang.COMMAND_FWARP_FORWARPING.toString());
 	}
 
 	@Override

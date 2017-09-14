@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import mineverse.Aust1n46.chat.MineverseChat;
 import mineverse.Aust1n46.chat.api.MineverseChatAPI;
 import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsChatModeChange;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
@@ -26,7 +26,7 @@ public class VentureChatEngine extends IntegrationEngine {
 	
 	@EventHandler
 	public void onChatModeChange(EventFactionsChatModeChange event) {
-		if (!Conf.expansionsFactionsChat.chatPluginChannelUse) return;
+		if (!Config.expansionsFactionsChat.chatPluginChannelUse) return;
 		
 		// let's handle this
 		event.setCancelled(true);
@@ -53,10 +53,10 @@ public class VentureChatEngine extends IntegrationEngine {
 		}
 		
 		fplayer.setChatMode(ChatMode.PUBLIC);
-		if (Conf.expansionsFactionsChat.chatPluginChannelGlobal == "") {
+		if (Config.expansionsFactionsChat.chatPluginChannelGlobal == "") {
 			cplayer.setCurrentChannel(MineverseChat.ccInfo.getDefaultChannel());
 		} else {
-			cplayer.setCurrentChannel(MineverseChat.ccInfo.getChannelInfo(Conf.expansionsFactionsChat.chatPluginChannelGlobal));
+			cplayer.setCurrentChannel(MineverseChat.ccInfo.getChannelInfo(Config.expansionsFactionsChat.chatPluginChannelGlobal));
 		}
 	}
 	

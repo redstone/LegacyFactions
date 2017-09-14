@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Role;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.Meta;
@@ -172,7 +172,7 @@ public class ConsoleFPlayer extends SharedFPlayer {
 
 	@Override
 	public double getPower() {
-		return Conf.powerPlayerMax;
+		return Config.powerPlayerMax;
 	}
 
 	@Override

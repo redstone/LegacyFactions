@@ -21,8 +21,8 @@ import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.Volatile;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -65,7 +65,7 @@ public abstract class SharedFPlayer implements FPlayer {
 	private transient Faction autoClaimFor = null;
 	private transient boolean autoSafeZoneEnabled = false;
 	private transient boolean autoWarZoneEnabled = false;
-	private transient boolean loginPvpDisabled = Conf.noPVPDamageToOthersForXSecondsAfterLogin > 0;
+	private transient boolean loginPvpDisabled = Config.noPVPDamageToOthersForXSecondsAfterLogin > 0;
 	private transient long lastFrostwalkerMessage = 0;
 	
 	private transient WarmUpUtil.Warmup warmup;
@@ -111,7 +111,7 @@ public abstract class SharedFPlayer implements FPlayer {
 		if (!this.loginPvpDisabled) {
 			return false;
 		}
-		if (this.getLastLoginTime() + (Conf.noPVPDamageToOthersForXSecondsAfterLogin * 1000) < System.currentTimeMillis()) {
+		if (this.getLastLoginTime() + (Config.noPVPDamageToOthersForXSecondsAfterLogin * 1000) < System.currentTimeMillis()) {
 			this.loginPvpDisabled = false;
 			return false;
 		}
@@ -305,10 +305,10 @@ public abstract class SharedFPlayer implements FPlayer {
 		
 		if (this.hasFaction()) {
 			// Clone from the configuration 
-			format = Conf.expansionsFactionsChat.chatTagFormatDefault.toString();
+			format = Config.expansionsFactionsChat.chatTagFormatDefault.toString();
 		} else {
 			// Clone from the configuration
-			format = Conf.expansionsFactionsChat.chatTagFormatFactionless.toString();
+			format = Config.expansionsFactionsChat.chatTagFormatFactionless.toString();
 		}
 		
 		// Format with Placeholders
@@ -395,12 +395,12 @@ public abstract class SharedFPlayer implements FPlayer {
 	
 	@Override
 	public double getPowerMax() {
-		return Conf.powerPlayerMax + this.getPowerBoost();
+		return Config.powerPlayerMax + this.getPowerBoost();
 	}
 
 	@Override
 	public double getPowerMin() {
-		return Conf.powerPlayerMin + this.getPowerBoost();
+		return Config.powerPlayerMin + this.getPowerBoost();
 	}
 	
 
@@ -408,7 +408,7 @@ public abstract class SharedFPlayer implements FPlayer {
 	public void updatePower() {
 		if (this.isOffline()) {
 			losePowerFromBeingOffline();
-			if (!Conf.powerRegenOffline) {
+			if (!Config.powerRegenOffline) {
 				return;
 			}
 		} else if (hasFaction() && getFaction().isPowerFrozen()) {
@@ -424,19 +424,19 @@ public abstract class SharedFPlayer implements FPlayer {
 		}
 
 		int millisPerMinute = 60 * 1000;
-		this.alterPower(millisPassed * Conf.powerPerMinute / millisPerMinute);
+		this.alterPower(millisPassed * Config.powerPerMinute / millisPerMinute);
 	}
 
 	@Override
 	public void losePowerFromBeingOffline() {
-		if (Conf.powerOfflineLossPerDay > 0.0 && this.getPower() > Conf.powerOfflineLossLimit) {
+		if (Config.powerOfflineLossPerDay > 0.0 && this.getPower() > Config.powerOfflineLossLimit) {
 			long now = System.currentTimeMillis();
 			long millisPassed = now - this.getLastPowerUpdated();
 			
 			this.setLastPowerUpdated(now);
 			
-			double loss = millisPassed * Conf.powerOfflineLossPerDay / (24 * 60 * 60 * 1000);
-			if (this.getPower() - loss < Conf.powerOfflineLossLimit) {
+			double loss = millisPassed * Config.powerOfflineLossPerDay / (24 * 60 * 60 * 1000);
+			if (this.getPower() - loss < Config.powerOfflineLossLimit) {
 				loss = this.getPower();
 			}
 			this.alterPower(-loss);
@@ -449,7 +449,7 @@ public abstract class SharedFPlayer implements FPlayer {
 	
 	@Override
 	public void onDeath() {
-		this.onDeath(Conf.powerPerDeath);
+		this.onDeath(Config.powerPerDeath);
 	}
 	
 	@Override
@@ -499,33 +499,33 @@ public abstract class SharedFPlayer implements FPlayer {
 		// Territory change scoreboard message
 		if (this.showInfoBoard(factionHere)) {
 			FScoreboards.get(this).setTemporarySidebar(new FInfoSidebar(factionHere));
-			showInChat = Conf.scoreboardInChat;
+			showInChat = Config.scoreboardInChat;
 		}
 		
 		// Territory change chat message
-		if (showInChat && Conf.territoryChangeText) {
+		if (showInChat && Config.territoryChangeText) {
 			this.sendMessage(TextUtil.get().parse(Lang.FACTION_LEAVE.format(factionFrom.getTag(this), factionHere.getTag(this))));
 		}
 		
 		// Territory change title message 
-		if (!this.territoryTitlesOff() && Conf.territoryTitlesShow) {
-			String titleHeader = FactionsPlaceholders.get().parse(this.getPlayer(), Conf.territoryTitlesHeader.trim());
-			String titleFooter = FactionsPlaceholders.get().parse(this.getPlayer(), Conf.territoryTitlesFooter.trim());
+		if (!this.territoryTitlesOff() && Config.territoryTitlesShow) {
+			String titleHeader = FactionsPlaceholders.get().parse(this.getPlayer(), Config.territoryTitlesHeader.trim());
+			String titleFooter = FactionsPlaceholders.get().parse(this.getPlayer(), Config.territoryTitlesFooter.trim());
 			
 			// Hide footer if needed
-			if (this.getLastLocation().getFactionHere().isWarZone() && Conf.hideFooterForWarzone) {
+			if (this.getLastLocation().getFactionHere().isWarZone() && Config.hideFooterForWarzone) {
 				titleFooter = "";
 			}
 			
-			if (this.getLastLocation().getFactionHere().isSafeZone() && Conf.hideFooterForSafezone) {
+			if (this.getLastLocation().getFactionHere().isSafeZone() && Config.hideFooterForSafezone) {
 				titleFooter = "";
 			}
 			
-			if (this.getLastLocation().getFactionHere().isWilderness() && Conf.hideFooterForWilderness) {
+			if (this.getLastLocation().getFactionHere().isWilderness() && Config.hideFooterForWilderness) {
 				titleFooter = "";
 			}
 			
-			TitleUtil.sendTitle(this.getPlayer(), Conf.territoryTitlesTimeFadeInTicks, Conf.territoryTitlesTimeStayTicks, Conf.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
+			TitleUtil.sendTitle(this.getPlayer(), Config.territoryTitlesTimeFadeInTicks, Config.territoryTitlesTimeStayTicks, Config.territoryTitlesTimeFadeOutTicks, titleHeader, titleFooter);
 		}
 	}
 
@@ -535,7 +535,7 @@ public abstract class SharedFPlayer implements FPlayer {
 	 * @return true if should show, otherwise false.
 	 */
 	public boolean showInfoBoard(Faction toShow) {
-		return this.showScoreboard() && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && !Conf.scoreboardInfo.isEmpty() && Conf.scoreboardInfoEnabled && FScoreboards.get(this) != null;
+		return this.showScoreboard() && !toShow.isWarZone() && !toShow.isWilderness() && !toShow.isSafeZone() && !Config.scoreboardInfo.isEmpty() && Config.scoreboardInfoEnabled && FScoreboards.get(this) != null;
 	}
 
 	// -------------------------------------------------- //
@@ -564,13 +564,13 @@ public abstract class SharedFPlayer implements FPlayer {
 			return;
 		}
 
-		if (!Conf.canLeaveWithNegativePower && this.getPower() < 0) {
+		if (!Config.canLeaveWithNegativePower && this.getPower() < 0) {
 			this.sendMessage(Lang.LEAVE_NEGATIVEPOWER);
 			return;
 		}
 
 		// if economy is enabled and they're not on the bypass list, make sure they can pay
-		if (makePay && !VaultEngine.getUtils().hasAtLeast(this, Conf.econCostLeave, Lang.LEAVE_TOLEAVE.toString())) {
+		if (makePay && !VaultEngine.getUtils().hasAtLeast(this, Config.econCostLeave, Lang.LEAVE_TOLEAVE.toString())) {
 			return;
 		}
 		
@@ -581,7 +581,7 @@ public abstract class SharedFPlayer implements FPlayer {
 		}
 
 		// then make 'em pay (if applicable)
-		if (makePay && !VaultEngine.getUtils().modifyMoney(this, -Conf.econCostLeave, Lang.LEAVE_TOLEAVE.toString(), Lang.LEAVE_FORLEAVE.toString())) {
+		if (makePay && !VaultEngine.getUtils().modifyMoney(this, -Config.econCostLeave, Lang.LEAVE_TOLEAVE.toString(), Lang.LEAVE_FORLEAVE.toString())) {
 			return;
 		}
 
@@ -598,7 +598,7 @@ public abstract class SharedFPlayer implements FPlayer {
 				fplayer.sendMessage(Lang.LEAVE_LEFT, this.describeTo(fplayer, true), myFaction.describeTo(fplayer));
 			}
 
-			if (Conf.logFactionLeave) {
+			if (Config.logFactionLeave) {
 				Factions.get().log(Lang.LEAVE_LEFT.format(this.getName(), myFaction.getTag()));
 			}
 		}
@@ -617,7 +617,7 @@ public abstract class SharedFPlayer implements FPlayer {
 			}
 
 			FactionColl.get().removeFaction(myFaction.getId());
-			if (Conf.logFactionDisband) {
+			if (Config.logFactionDisband) {
 				Factions.get().log(Lang.LEAVE_DISBANDEDLOG.format(myFaction.getTag(), myFaction.getId(), this.getName()));
 			}
 		}
@@ -651,13 +651,13 @@ public abstract class SharedFPlayer implements FPlayer {
 		if (forFaction.isWarZone() && Permission.MANAGE_WAR_ZONE.has(getPlayer())) return true;
 
 		// Checks for WorldGuard regions in the chunk attempting to be claimed
-		if (WorldGuardIntegration.get().isEnabled() && Conf.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(locality.getChunk())) {
+		if (WorldGuardIntegration.get().isEnabled() && Config.worldGuardChecking && WorldGuardEngine.checkForRegionsInChunk(locality.getChunk())) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_PROTECTED);
 			return false;
 		}
 		
 		// Check if this is a no-claim world
-		if (Conf.worldsNoClaiming.contains(locality.getWorld().getName())) {
+		if (Config.worldsNoClaiming.contains(locality.getWorld().getName())) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_DISABLED);
 			return false;
 		} 
@@ -681,8 +681,8 @@ public abstract class SharedFPlayer implements FPlayer {
 		}
 		
 		// Check for minimum members
-		if (forFaction.getMembers().size() < Conf.claimsRequireMinFactionMembers) {
-			this.sendMessage(notifyFailure, Lang.CLAIM_MEMBERS, Conf.claimsRequireMinFactionMembers);
+		if (forFaction.getMembers().size() < Config.claimsRequireMinFactionMembers) {
+			this.sendMessage(notifyFailure, Lang.CLAIM_MEMBERS, Config.claimsRequireMinFactionMembers);
 			return false;
 		}
 		
@@ -699,13 +699,13 @@ public abstract class SharedFPlayer implements FPlayer {
 		} 
 		
 		// Check raidable can overclaim
-		if (Conf.raidableAllowOverclaim && ownedLand >= forFaction.getPowerRounded()) {
+		if (Config.raidableAllowOverclaim && ownedLand >= forFaction.getPowerRounded()) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_POWER);
 			return false;
 		}
 		
 		// Check for claimedLandsMax
-		if (Conf.claimedLandsMax > 0 && ownedLand >= Conf.claimedLandsMax && forFaction.isNormal()) {
+		if (Config.claimedLandsMax > 0 && ownedLand >= Config.claimedLandsMax && forFaction.isNormal()) {
 			this.sendMessage(notifyFailure, Lang.CLAIM_LIMIT);
 			return false;
 		}
@@ -717,8 +717,8 @@ public abstract class SharedFPlayer implements FPlayer {
 		} 
 
 		// Check if must be connected
-		if (Conf.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(locality.getWorld()) > 0 && !Board.get().isConnectedLocation(locality, myFaction) && (!Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
-			if (Conf.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
+		if (Config.claimsMustBeConnected && !this.isAdminBypassing() && myFaction.getLandRoundedInWorld(locality.getWorld()) > 0 && !Board.get().isConnectedLocation(locality, myFaction) && (!Config.claimsCanBeUnconnectedIfOwnedByOtherFaction || !currentFaction.isNormal())) {
+			if (Config.claimsCanBeUnconnectedIfOwnedByOtherFaction) {
 				this.sendMessage(notifyFailure, Lang.CLAIM_CONTIGIOUS);
 			} else {
 				this.sendMessage(notifyFailure, Lang.CLAIM_FACTIONCONTIGUOUS);
@@ -727,15 +727,15 @@ public abstract class SharedFPlayer implements FPlayer {
 		}
 		
 		// Check for buffer
-		if (Conf.bufferFactions > 0 && Board.get().hasFactionWithin(locality, myFaction, Conf.bufferFactions)) {
-			this.sendMessage(notifyFailure, Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(Conf.bufferFactions));
+		if (Config.bufferFactions > 0 && Board.get().hasFactionWithin(locality, myFaction, Config.bufferFactions)) {
+			this.sendMessage(notifyFailure, Lang.CLAIM_TOOCLOSETOOTHERFACTION.format(Config.bufferFactions));
 			return false;
 		}
 		
 		// Border check
-		if (Conf.claimsCanBeOutsideBorder == false && locality.isOutsideWorldBorder(Conf.bufferWorldBorder)) {
-			if (Conf.bufferWorldBorder > 0) {
-				this.sendMessage(notifyFailure, Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Conf.bufferWorldBorder));
+		if (Config.claimsCanBeOutsideBorder == false && locality.isOutsideWorldBorder(Config.bufferWorldBorder)) {
+			if (Config.bufferWorldBorder > 0) {
+				this.sendMessage(notifyFailure, Lang.CLAIM_OUTSIDEBORDERBUFFER.format(Config.bufferWorldBorder));
 			} else {
 				this.sendMessage(notifyFailure, Lang.CLAIM_OUTSIDEWORLDBORDER);
 			}
@@ -767,7 +767,7 @@ public abstract class SharedFPlayer implements FPlayer {
 			}
 			
 			// .. raidableAllowOverclaim is false, and the current faction is not strong enough 
-			if (!Conf.raidableAllowOverclaim && currentFaction.hasLandInflation()) {
+			if (!Config.raidableAllowOverclaim && currentFaction.hasLandInflation()) {
 				// .. don't allow it, overclaim is disabled
 				this.sendMessage(notifyFailure, Lang.CLAIM_OVERCLAIM_DISABLED);
 				return false;
@@ -825,11 +825,11 @@ public abstract class SharedFPlayer implements FPlayer {
 		if (mustPay) {
 			cost = VaultEngine.getUtils().calculateClaimCost(ownedLand, currentFaction.isNormal(), locality);
 
-			if (Conf.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(locality.getWorld()) > 0 && !Board.get().isConnectedLocation(locality, forFaction)) {
-				cost += Conf.econClaimUnconnectedFee;
+			if (Config.econClaimUnconnectedFee != 0.0 && forFaction.getLandRoundedInWorld(locality.getWorld()) > 0 && !Board.get().isConnectedLocation(locality, forFaction)) {
+				cost += Config.econClaimUnconnectedFee;
 			}
 
-			if (Conf.bankEnabled && Conf.bankFactionPaysLandCosts && this.hasFaction()) {
+			if (Config.bankEnabled && Config.bankFactionPaysLandCosts && this.hasFaction()) {
 				payee = this.getFaction();
 			} else {
 				payee = this;
@@ -849,7 +849,7 @@ public abstract class SharedFPlayer implements FPlayer {
 		// Was an over claim
 		if (currentFaction.isNormal() && currentFaction.hasLandInflation()) {
 			// Give them money for over claiming.
-			VaultEngine.getUtils().modifyMoney(payee, Conf.econOverclaimRewardMultiplier, Lang.CLAIM_TOOVERCLAIM.toString(), Lang.CLAIM_FOROVERCLAIM.toString());
+			VaultEngine.getUtils().modifyMoney(payee, Config.econOverclaimRewardMultiplier, Lang.CLAIM_TOOVERCLAIM.toString(), Lang.CLAIM_FOROVERCLAIM.toString());
 		}
 
 		// announce success
@@ -863,7 +863,7 @@ public abstract class SharedFPlayer implements FPlayer {
 		
 		Board.get().setFactionAt(forFaction, locality);
 
-		if (Conf.logLandClaims) {
+		if (Config.logLandClaims) {
 			Factions.get().log(Lang.CLAIM_CLAIMEDLOG.toString(), this.getName(), locality.getCoordString(), forFaction.getTag());
 		}
 
@@ -871,7 +871,7 @@ public abstract class SharedFPlayer implements FPlayer {
 	}
 
 	public boolean shouldBeSaved() {
-		if (!this.hasFaction() && (this.getPowerRounded() == this.getPowerMaxRounded() || this.getPowerRounded() == (int) Math.round(Conf.powerPlayerStarting))) {
+		if (!this.hasFaction() && (this.getPowerRounded() == this.getPowerMaxRounded() || this.getPowerRounded() == (int) Math.round(Config.powerPlayerStarting))) {
 			return false;
 		}
 		return true;
@@ -964,7 +964,7 @@ public abstract class SharedFPlayer implements FPlayer {
 			return true;
 		}
 
-		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && this.hasFaction()) {
+		if (Config.bankEnabled && Config.bankFactionPaysCosts && this.hasFaction()) {
 			return VaultEngine.getUtils().modifyMoney(this.getFaction(), -cost, toDoThis, forDoingThis);
 		} else {
 			return VaultEngine.getUtils().modifyMoney(this, -cost, toDoThis, forDoingThis);
@@ -978,7 +978,7 @@ public abstract class SharedFPlayer implements FPlayer {
 			return true;
 		}
 
-		if (Conf.bankEnabled && Conf.bankFactionPaysCosts && this.hasFaction()) {
+		if (Config.bankEnabled && Config.bankFactionPaysCosts && this.hasFaction()) {
 			return VaultEngine.getUtils().hasAtLeast(this.getFaction(), cost, toDoThis);
 		} else {
 			return VaultEngine.getUtils().hasAtLeast(this, cost, toDoThis);

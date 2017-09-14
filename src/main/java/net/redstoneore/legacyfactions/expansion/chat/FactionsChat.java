@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.cmd.FCommand;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansion;
 import net.redstoneore.legacyfactions.expansion.chat.cmd.CmdFactionsChat;
 import net.redstoneore.legacyfactions.expansion.chat.cmd.CmdFactionsChatspy;
@@ -58,7 +58,7 @@ public class FactionsChat extends FactionsExpansion {
 	
 	@Override
 	public boolean shouldEnable() {
-		return Conf.expansionsFactionsChat.enabled == true;
+		return Config.expansionsFactionsChat.enabled == true;
 	}
 
 }

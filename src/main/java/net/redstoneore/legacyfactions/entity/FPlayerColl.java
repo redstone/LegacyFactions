@@ -5,6 +5,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.config.Config;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -30,9 +31,9 @@ public abstract class FPlayerColl {
 	 * Simply use the {@link FPlayerColl#get(Object)} method.
 	 */
 	public static FPlayerColl getUnsafeInstance() {
-		if (currentType != Conf.backEnd.name()) {
-			instance = Conf.backEnd.getHandler().getFPlayerColl();
-			currentType = Conf.backEnd.name();
+		if (currentType != Config.backEnd.name()) {
+			instance = Config.backEnd.getHandler().getFPlayerColl();
+			currentType = Config.backEnd.name();
 		}
 		return instance;
 	}

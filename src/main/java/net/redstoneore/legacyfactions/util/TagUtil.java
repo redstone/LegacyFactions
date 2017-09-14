@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.util;
 
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -146,7 +146,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentAllies);
-                return firstAlly && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstAlly && Config.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case TRUCES_LIST:
                 FancyMessage currentTruces = TextUtil.get().parseFancy(prefix);
                 boolean firstTruce = true;
@@ -166,7 +166,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentTruces);
-                return firstTruce && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstTruce && Config.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case ENEMIES_LIST:
                 FancyMessage currentEnemies = TextUtil.get().parseFancy(prefix);
                 boolean firstEnemy = true;
@@ -186,7 +186,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentEnemies);
-                return firstEnemy && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstEnemy && Config.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case ONLINE_LIST:
                 FancyMessage currentOnline = TextUtil.get().parseFancy(prefix);
                 boolean firstOnline = true;
@@ -201,7 +201,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentOnline);
-                return firstOnline && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstOnline && Config.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
             case OFFLINE_LIST:
                 FancyMessage currentOffline = TextUtil.get().parseFancy(prefix);
                 boolean firstOffline = true;
@@ -218,7 +218,7 @@ public class TagUtil {
                     }
                 }
                 fancyMessages.add(currentOffline);
-                return firstOffline && Conf.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
+                return firstOffline && Config.showMinimal ? null : fancyMessages; // we must return here and not outside the switch
                default:
                 return null;
         }
@@ -233,7 +233,7 @@ public class TagUtil {
      */
     private static List<String> tipFaction(Faction faction) {
         List<String> lines = new ArrayList<String>();
-        for (String line : Conf.tooltips.get("list")) {
+        for (String line : Config.tooltips.get("list")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', TagUtil.parsePlain(faction, line)));
         }
         return lines;
@@ -248,7 +248,7 @@ public class TagUtil {
      */
     private static List<String> tipPlayer(FPlayer fplayer) {
         List<String> lines = new ArrayList<String>();
-        for (String line : Conf.tooltips.get("show")) {
+        for (String line : Config.tooltips.get("show")) {
             lines.add(ChatColor.translateAlternateColorCodes('&', TagUtil.parsePlain(fplayer, line)));
         }
         return lines;

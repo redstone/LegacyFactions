@@ -1,9 +1,9 @@
 package net.redstoneore.legacyfactions.cmd;
 
 import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.CommandAliases;
-import net.redstoneore.legacyfactions.entity.Conf;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
@@ -43,25 +43,25 @@ public class CmdFactionsDescription extends FCommand {
 	@Override
 	public void perform() {
 		// if economy is enabled, they're not on the bypass list, and this command has a cost set, make 'em pay
-		if (!payForCommand(Conf.econCostDesc, Lang.COMMAND_DESCRIPTION_TOCHANGE, Lang.COMMAND_DESCRIPTION_FORCHANGE)) {
+		if (!payForCommand(Config.econCostDesc, Lang.COMMAND_DESCRIPTION_TOCHANGE, Lang.COMMAND_DESCRIPTION_FORCHANGE)) {
 			return;
 		}
 		
 		String newDescription;
 
 		// Replace all the % because it messes with string formatting and this is easy way around that.
-		if (Conf.allowColourCodesInFactionDescription) {
+		if (Config.allowColourCodesInFactionDescription) {
 			newDescription = (TextUtil.implode(this.args, " ").replaceAll("%", ""));
 		} else {
 			newDescription = (TextUtil.implode(this.args, " ").replaceAll("%", "").replaceAll("(&([a-f0-9klmnor]))", "& $2"));
 		}
 		
 		// Check the max length
-		if (Conf.factionDescriptionLengthMax > -1) {
-			if (newDescription.length() > Conf.factionDescriptionLengthMax) {
+		if (Config.factionDescriptionLengthMax > -1) {
+			if (newDescription.length() > Config.factionDescriptionLengthMax) {
 				Lang.COMMAND_DESCRIPTION_TOOLONG.getBuilder()
 					.parse()
-					.replace("<max-length>", Conf.factionDescriptionLengthMax)
+					.replace("<max-length>", Config.factionDescriptionLengthMax)
 					.replace("<length>", newDescription.length())
 					.sendTo(this.fme);
 				
@@ -71,7 +71,7 @@ public class CmdFactionsDescription extends FCommand {
 		
 		this.myFaction.setDescription(newDescription);
 		
-		if (!Conf.broadcastDescriptionChanges) {
+		if (!Config.broadcastDescriptionChanges) {
 			this.fme.sendMessage(Lang.COMMAND_DESCRIPTION_CHANGED, this.myFaction.describeTo(this.fme));
 			this.fme.sendMessage(this.myFaction.getDescription());
 			return;

@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.*;
-import net.redstoneore.legacyfactions.entity.Conf;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -116,23 +116,23 @@ public enum TagReplacerUtil {
             case FACTIONLESS:
                 return String.valueOf(FactionColl.get().getWilderness().getWhereOnline(true).size());
             case MAX_ALLIES:
-            	if (Conf.maxRelations.containsKey(Relation.ALLY) && Conf.maxRelations.get(Relation.ALLY) > -1) {
-            		return String.valueOf(Conf.maxRelations.get(Relation.ALLY));
+            	if (Config.maxRelations.containsKey(Relation.ALLY) && Config.maxRelations.get(Relation.ALLY) > -1) {
+            		return String.valueOf(Config.maxRelations.get(Relation.ALLY));
             	}
                 return Lang.GENERIC_INFINITY.toString();
             case MAX_TRUCES:
-                if (Conf.maxRelations.containsKey(Relation.TRUCE) && Conf.maxRelations.get(Relation.TRUCE) > -1) {
-                    return String.valueOf(Conf.maxRelations.get(Relation.TRUCE));
+                if (Config.maxRelations.containsKey(Relation.TRUCE) && Config.maxRelations.get(Relation.TRUCE) > -1) {
+                    return String.valueOf(Config.maxRelations.get(Relation.TRUCE));
                 }
                 return Lang.GENERIC_INFINITY.toString();
             case MAX_ENEMIES:
-            	if (Conf.maxRelations.containsKey(Relation.ENEMY) && Conf.maxRelations.get(Relation.ENEMY) > -1) {
-            		return String.valueOf(Conf.maxRelations.get(Relation.ENEMY));
+            	if (Config.maxRelations.containsKey(Relation.ENEMY) && Config.maxRelations.get(Relation.ENEMY) > -1) {
+            		return String.valueOf(Config.maxRelations.get(Relation.ENEMY));
             	}
 
                 return Lang.GENERIC_INFINITY.toString();
             case MAX_WARPS:
-                return String.valueOf(Conf.warpsMax);
+                return String.valueOf(Config.warpsMax);
             default:
             	return null;
         }
@@ -185,7 +185,7 @@ public enum TagReplacerUtil {
             case JOINING:
                 return (faction.getFlag(Flags.OPEN) ? Lang.COMMAND_SHOW_UNINVITED.toString() : Lang.COMMAND_SHOW_INVITATION.toString());
             case PEACEFUL:
-                return faction.getFlag(Flags.PEACEFUL) ? Conf.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
+                return faction.getFlag(Flags.PEACEFUL) ? Config.colorNeutral + Lang.COMMAND_SHOW_PEACEFUL.toString() : "";
             case PERMANENT:
                 return faction.getFlag(Flags.PERMANENT) ? "permanent" : "{notPermanent}";
             case CHUNKS:
@@ -205,25 +205,25 @@ public enum TagReplacerUtil {
             case CREATE_DATE:
                 return Lang.sdf.format(faction.getFoundedDate());
             case RAIDABLE:
-                boolean raid = Conf.raidable && faction.getLandRounded() >= faction.getPowerRounded();
+                boolean raid = Config.raidable && faction.getLandRounded() >= faction.getPowerRounded();
                 return raid ? Lang.RAIDABLE_TRUE.toString() : Lang.RAIDABLE_FALSE.toString();
             case HOME_WORLD:
-                return faction.hasHome() ? faction.getHome().getWorld().getName() : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? faction.getHome().getWorld().getName() : Config.showMinimal ? null : "{ig}";
             case HOME_X:
-                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockX()) : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockX()) : Config.showMinimal ? null : "{ig}";
             case HOME_Y:
-                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockY()) : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockY()) : Config.showMinimal ? null : "{ig}";
             case HOME_Z:
-                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockZ()) : Conf.showMinimal ? null : "{ig}";
+                return faction.hasHome() ? String.valueOf(faction.getHome().getBlockZ()) : Config.showMinimal ? null : "{ig}";
             case LAND_VALUE:
-                return VaultEngine.getUtils().shouldBeUsed() ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().calculateTotalLandValue(faction.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("value");
+                return VaultEngine.getUtils().shouldBeUsed() ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().calculateTotalLandValue(faction.getLandRounded())) : Config.showMinimal ? null : Lang.ECON_OFF.format("value");
             case LAND_REFUND:
-                return VaultEngine.getUtils().shouldBeUsed() ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().calculateTotalLandRefund(faction.getLandRounded())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("refund");
+                return VaultEngine.getUtils().shouldBeUsed() ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().calculateTotalLandRefund(faction.getLandRounded())) : Config.showMinimal ? null : Lang.ECON_OFF.format("refund");
             case BANK_BALANCE:
                 if (VaultEngine.getUtils().shouldBeUsed()) {
-                    return Conf.bankEnabled ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().getBalance(faction.getAccountId())) : Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
+                    return Config.bankEnabled ? VaultEngine.getUtils().moneyString(VaultEngine.getUtils().getBalance(faction.getAccountId())) : Config.showMinimal ? null : Lang.ECON_OFF.format("balance");
                 }
-                return Conf.showMinimal ? null : Lang.ECON_OFF.format("balance");
+                return Config.showMinimal ? null : Lang.ECON_OFF.format("balance");
             case ALLIES_COUNT:
                 return String.valueOf(faction.getRelationCount(Relation.ALLY));
             case TRUCES_COUNT:
