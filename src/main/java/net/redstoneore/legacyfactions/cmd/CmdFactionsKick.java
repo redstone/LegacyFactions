@@ -180,7 +180,7 @@ public class CmdFactionsKick extends FCommand {
 			toKickFaction.promoteNewLeader();
 		}
 
-		toKickFaction.deinvite(toKick);
+		toKickFaction.uninvite(toKick);
 		toKick.resetFactionData();
 	}
 

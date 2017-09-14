@@ -69,7 +69,7 @@ public class CmdFactionsDeinvite extends FCommand {
 			return;
 		}
 
-		myFaction.deinvite(you);
+		myFaction.uninvite(you);
 
 		you.sendMessage(Lang.COMMAND_DEINVITE_REVOKED, fme.describeTo(you), myFaction.describeTo(you));
 

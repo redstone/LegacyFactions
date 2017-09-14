@@ -93,7 +93,7 @@ public class Announcements {
 	 * Remove all announcements.
 	 */
 	public void removeAll() {
-		this.faction.getAnnouncements().keySet().forEach(fplayer -> this.faction.removeFPlayer(FPlayerColl.get(fplayer)));
+		this.faction.getAnnouncements().keySet().forEach(fplayer -> this.faction.memberRemove(FPlayerColl.get(fplayer)));
 	}
 	
 	/**

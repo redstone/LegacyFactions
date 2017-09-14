@@ -53,7 +53,7 @@ public class FactionsJSON extends PersistHandler {
                 logger.info("Refreshing object caches");
                 for (FPlayer fPlayer : FPlayerColl.all()) {
                     Faction faction = FactionColl.get().getFactionById(fPlayer.getFactionId());
-                    faction.addFPlayer(fPlayer);
+                    faction.memberAdd(fPlayer);
                 }
                 logger.info("Conversion Complete");
             }

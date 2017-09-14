@@ -12,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactionColl;
+import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
@@ -94,7 +95,7 @@ public class JSONFactionColl extends MemoryFactionColl {
 		int needsUpdate = 0;
 		for (Entry<String, JSONFaction> entry : data.entrySet()) {
 			String id = entry.getKey();
-			Faction f = entry.getValue();
+			SharedFaction f = entry.getValue();
 			f.setId(id);
 			this.updateNextIdForId(id);
 			needsUpdate += whichKeysNeedMigration(f.getInvites()).size();

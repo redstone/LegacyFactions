@@ -372,7 +372,7 @@ public abstract class FCommandBase<T extends FactionsPluginBase> {
 			s = s.replace("{chunks}", String.valueOf(faction.getLandRounded()));
 		}
 		if (s.contains("{members}")) {
-			s = s.replace("{members}", String.valueOf(faction.getSize()));
+			s = s.replace("{members}", String.valueOf(faction.memberCount()));
 
 		}
 		if (s.contains("{online}")) {

@@ -210,9 +210,9 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	public void setFaction(Faction faction) {
 		Faction oldFaction = this.getFaction();
 		if (oldFaction != null) {
-			oldFaction.removeFPlayer(this);
+			oldFaction.memberRemove(this);
 		}
-		faction.addFPlayer(this);
+		faction.memberAdd(this);
 		this.factionId = faction.getId();
 	}
 

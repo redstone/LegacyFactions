@@ -248,7 +248,7 @@ public abstract class SharedFPlayer implements FPlayer {
 		// clean up any territory ownership in old faction, if there is one
 		if (this.getFactionId() != null && FactionColl.get().isValidFactionId(this.getFactionId())) {
 			Faction currentFaction = this.getFaction();
-			currentFaction.removeFPlayer(this);
+			currentFaction.memberRemove(this);
 			if (currentFaction.isNormal()) {
 				currentFaction.clearClaimOwnership(this);
 			}
