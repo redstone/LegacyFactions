@@ -22,7 +22,7 @@ import net.redstoneore.legacyfactions.mixin.DebugMixin;
 public interface FactionDeprecated {
 	
 	/**
-	 * Deprecated, use {@link #getOwner()}
+	 * Deprecated, use {@link Faction#getOwner()}
 	 */
 	@Deprecated
 	default FPlayer getFPlayerAdmin() {
@@ -31,7 +31,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated, use {@link #getWhereOnline(boolean)}
+	 * Deprecated, use {@link Faction#getWhereOnline(boolean)}
 	 */
 	@Deprecated
 	default Set<FPlayer> getFPlayersWhereOnline(boolean online) {
@@ -40,7 +40,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated, use {@link #isWilderness()}
+	 * Deprecated, use {@link Faction#isWilderness()}
 	 */
 	@Deprecated
 	default boolean isNone() {
@@ -49,7 +49,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated, use {@link #getLandRoundedInWorld(World)}
+	 * Deprecated, use {@link Faction#getLandRoundedInWorld(World)}
 	 */
 	@Deprecated
 	default int getLandRoundedInWorld(String worldName) {
@@ -58,7 +58,7 @@ public interface FactionDeprecated {
 	}
 		
 	/**
-	 * Deprecated, use {@link getMembers} 
+	 * Deprecated, use {@link Faction#getMembers} 
 	 */
 	default Set<FPlayer> getFPlayers() {
 		DebugMixin.deprecatedWarning("Faction#getFPlayers()", "Faction#getMembers()");
@@ -66,8 +66,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated, use {@link #getFlag(Flags.OPEN)}
-	 * @return
+	 * Deprecated, use {@link Faction#getFlag}(Flags.OPEN)
 	 */
 	@Deprecated
 	default boolean getOpen() {
@@ -76,8 +75,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated, use {@link #setFlag(Flags.OPEN, boolean)}
-	 * @return
+	 * Deprecated, use {@link Faction#setFlag}(Flags.OPEN, boolean)
 	 */
 	@Deprecated
 	default void setOpen(boolean isOpen) {
@@ -86,35 +84,32 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated, use {@link #announcements()}
+	 * Deprecated, use {@link Faction#announcements()}
 	 * @return
 	 */
 	@Deprecated
 	Map<String, List<String>> getAnnouncements();
   
 	/**
-	 * Deprecated, use {@link #announcements()}
-	 * @return
+	 * Deprecated, use {@link Faction#announcements()}
 	 */
 	@Deprecated
 	void addAnnouncement(FPlayer fPlayer, String msg);
 	
 	/**
-	 * Deprecated, use {@link #announcements()}
-	 * @return
+	 * Deprecated, use {@link Faction#announcements()}
 	 */
 	@Deprecated
 	void sendUnreadAnnouncements(FPlayer fPlayer);
 
 	/**
-	 * Deprecated, use {@link #announcements()}
-	 * @return
+	 * Deprecated, use {@link Faction#announcements()}
 	 */
 	@Deprecated
 	void removeAnnouncements(FPlayer fPlayer);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #uninvite(FPlayer)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#uninvite(FPlayer)}<br>
 	 * Reason: deinvite is not a word<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -125,7 +120,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #getFlag(Flags.PEACEFUL)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#getFlag}(Flags.PEACEFUL)<br>
 	 * Reason: data backend change<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -136,7 +131,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #setFlag(Flags.PEACEFUL, Boolean)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#setFlag}(Flags.PEACEFUL, Boolean)<br>
 	 * Reason: data backend change<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -147,7 +142,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #setFlag(Flags.EXPLOSIONS, Boolean)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#setFlag}(Flags.EXPLOSIONS, Boolean)<br>
 	 * Reason: data backend change<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -158,7 +153,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #getFlag(Flags.EXPLOSIONS)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#getFlag}(Flags.EXPLOSIONS)<br>
 	 * Reason: data backend change<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -169,7 +164,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #getFlag(Flags.EXPLOSIONS)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#getFlag}(Flags.EXPLOSIONS)<br>
 	 * Reason: data backend change<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -180,7 +175,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #getFlag(Flags.PERMANENT)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#getFlag}(Flags.PERMANENT)<br>
 	 * Reason: data backend change<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -191,7 +186,7 @@ public interface FactionDeprecated {
 	}
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #setFlag(Flags.PERMANENT, Boolean)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#setFlag}(Flags.PERMANENT, Boolean)<br>
 	 * Reason: data backend change<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -202,7 +197,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #getWhereRole(Role)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#getWhereRole(Role)}<br>
 	 * Reason: simplicity changes<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -213,7 +208,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #memberAdd(FPlayer)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#memberAdd(FPlayer)}<br>
 	 * Reason: simplicity changes<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -224,7 +219,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #memberRemove(FPlayer)}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#memberRemove(FPlayer)}<br>
 	 * Reason: simplicity changes<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -235,7 +230,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #memberCount()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#memberCount()}<br>
 	 * Reason: simplicity changes<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -246,7 +241,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #memberRefresh()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#memberRefresh()}<br>
 	 * Reason: simplicity changes<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -257,7 +252,7 @@ public interface FactionDeprecated {
 	}
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -265,7 +260,7 @@ public interface FactionDeprecated {
 	Map<FLocation, Set<String>> getClaimOwnership();
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -273,7 +268,7 @@ public interface FactionDeprecated {
 	void clearAllClaimOwnership();
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -281,7 +276,7 @@ public interface FactionDeprecated {
 	void clearClaimOwnership(Locality locality);
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -289,7 +284,7 @@ public interface FactionDeprecated {
 	void clearClaimOwnership(FLocation loc);
 	
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -297,7 +292,7 @@ public interface FactionDeprecated {
 	void clearClaimOwnership(FPlayer player);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -305,7 +300,7 @@ public interface FactionDeprecated {
 	int getCountOfClaimsWithOwners();
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -313,7 +308,7 @@ public interface FactionDeprecated {
 	boolean doesLocationHaveOwnersSet(FLocation loc);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -321,7 +316,7 @@ public interface FactionDeprecated {
 	boolean isPlayerInOwnerList(FPlayer player, FLocation loc);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -329,7 +324,7 @@ public interface FactionDeprecated {
 	void setPlayerAsOwner(FPlayer player, FLocation loc);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -337,7 +332,7 @@ public interface FactionDeprecated {
 	void removePlayerAsOwner(FPlayer player, FLocation loc);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -345,7 +340,7 @@ public interface FactionDeprecated {
 	Set<String> getOwnerList(FLocation loc);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */
@@ -353,7 +348,7 @@ public interface FactionDeprecated {
 	String getOwnerListString(FLocation loc);
 
 	/**
-	 * Deprecated 14th of 09/2017. Use {@link #ownership()}<br>
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
 	 * Reason: new ownership abstract API<br>
 	 * For removal: 14th of 11/2017
 	 */

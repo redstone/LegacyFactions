@@ -248,7 +248,6 @@ public class MySQLPrepared {
 	 * @param parameterIndex
 	 * @param locality
 	 * @return
-	 * @throws SQLException
 	 */
 	public MySQLPrepared setCatched(int parameterIndex, Locality locality) {
 		try {

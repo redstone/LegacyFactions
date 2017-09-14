@@ -43,7 +43,7 @@ public class EventFactionsRelationshipsCapped extends AbstractFactionsPlayerEven
 	
 	/**
 	 * The relationship type.
-	 * @return {@link Relationship} type.
+	 * @return {@link Relation} type.
 	 */
 	public Relation getRelation() {
 		return this.relation;
