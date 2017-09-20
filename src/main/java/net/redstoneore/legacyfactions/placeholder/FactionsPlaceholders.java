@@ -256,6 +256,14 @@ public class FactionsPlaceholders {
 			}
 		});
 		
+		this.placeholders.add(new FactionsPlaceholder("player_power") {
+			@Override
+			public String get(Player player) {
+				if (player == null) return null;
+				return String.valueOf(FPlayerColl.get(player).getPower());
+			}
+		});
+		
 		this.placeholders.add(new FactionsPlaceholderRelation("player_chattag") {
 			
 			@Override
