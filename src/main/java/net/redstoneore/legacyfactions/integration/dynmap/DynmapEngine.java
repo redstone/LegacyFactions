@@ -73,12 +73,14 @@ public class DynmapEngine extends BukkitRunnable {
 			return;
 		}
 		
-		final Map<String, TempMarker> homes = this.createHomes();
+		
 		final Map<String, TempAreaMarker> areas = this.createAreas();
 		final Map<String, Set<String>> playerSets = createPlayersets();
 		
 		// Go sync
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Factions.get(), () -> {
+			final Map<String, TempMarker> homes = this.createHomes();
+			
 			// Sync
 			this.dynmapApi = (DynmapAPI) Bukkit.getPluginManager().getPlugin("dynmap");
 			if (this.dynmapApi == null) {
