@@ -632,19 +632,23 @@ public class MySQLFaction extends SharedFaction {
 	public Integer getPermanentPower() {
 		this.poll();
 		if (this.values.get("permanentpower") == "") {
-			return null;
+			return -1;
 		}
 		
 		try {
 			return Integer.valueOf(this.values.get("permanentpower"));
 		} catch (NumberFormatException e) {
 			this.setPermanentPower(0);
-			return 0;
+			return null;
 		}
 	}
 
 	@Override
 	public void setPermanentPower(Integer permanentPower) {
+		if (permanentPower == null) {
+			permanentPower = -1;
+		}
+		
 		this.values.put("permanentpower", String.valueOf(permanentPower));
 		
 		FactionsMySQL.get().prepare("UPDATE `faction` SET `permanentpower` = ? WHERE `id` = ?")

@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.entity.persist.mysql;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -73,7 +74,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	
 	public transient String id;
 	
-	private Map<String, String> values;
+	private Map<String, String> values = new HashMap<>();
 	public long lastPollMs;
 	
 	// -------------------------------------------------- //
@@ -175,6 +176,10 @@ public class MySQLFPlayer extends SharedFPlayer {
 	}
 	
 	public void setFaction(String factionId) {
+		if (factionId == null) {
+			factionId = "0";
+		}
+		
 		this.values.put("faction", factionId);
 		FactionsMySQL.get().prepare("UPDATE `fplayer` SET `faction` = ? WHERE `id` = ?")
 			.setCatched(1, factionId)
@@ -198,7 +203,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	public String getFactionId() {
 		this.poll();
 		if (this.values.get("faction") == null || this.values.get("faction") == "") {
-			this.setFaction(FactionColl.get().getWilderness());
+			this.setFaction("0");
 		}
 		return this.values.get("faction");
 	}
@@ -409,7 +414,13 @@ public class MySQLFPlayer extends SharedFPlayer {
 
 	@Override
 	public void alterPower(double delta) {
-		double newPower = Double.valueOf(this.values.get("power"));
+		double newPower;
+		try {
+			newPower = Double.valueOf(this.values.get("power"));
+		} catch (Exception e) {
+			newPower = 0;
+		}
+		
 		newPower += delta;
 		if (newPower > this.getPowerMax()) {
 			newPower = this.getPowerMax();
@@ -427,7 +438,11 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public double getPowerBoost() {
 		this.poll();
-		return Double.valueOf(this.values.get("powerboost"));
+		try {
+			return Double.valueOf(this.values.get("powerboost"));
+		} catch (Exception e) {
+			return 0d;
+		}
 	}
 
 	@Override
