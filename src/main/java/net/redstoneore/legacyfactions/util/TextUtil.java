@@ -42,6 +42,7 @@ public class TextUtil {
 	// -------------------------------------------------- //
 	
 	private static TextUtil instance = null;
+	private TextUtil() { }
 	public static TextUtil get() {
 		if (instance == null) {
 			TextUtil textUtil = new TextUtil();
@@ -69,11 +70,11 @@ public class TextUtil {
 		return instance;
 	}
 	
-	public Map<String, String> tags;
-
-	public TextUtil() {
-		this.tags = new HashMap<>();
-	}
+	// -------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------- //
+	
+	public Map<String, String> tags = new HashMap<>();
 	
 	// -------------------------------------------- //
 	// Top-level parsing functions.
