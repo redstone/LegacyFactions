@@ -4,8 +4,10 @@ import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -75,6 +77,25 @@ public class TextUtil {
 	// -------------------------------------------- //
 	
 	public Map<String, String> tags = new HashMap<>();
+	
+	// -------------------------------------------- //
+	// PLACEHOLDER UTIL
+	// -------------------------------------------- //
+	
+	public String replacePlaceholders(String text, Player player) {
+		if (Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			text = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, text);
+		}
+		return text;
+	}
+	
+	public String replacePlaceholders(String text, Player player1, Player player2) {
+		if (Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			text = me.clip.placeholderapi.PlaceholderAPI.setRelationalPlaceholders(player1, player2, text);
+		}
+		return text;
+	}
+	
 	
 	// -------------------------------------------- //
 	// Top-level parsing functions.
