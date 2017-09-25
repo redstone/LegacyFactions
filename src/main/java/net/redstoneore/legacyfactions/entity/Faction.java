@@ -454,6 +454,22 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	void setFoundedDate(long foundedDate);
 	
 	// -------------------------------------------------- //
+	// AUTOKICK
+	// -------------------------------------------------- //
+	
+	/**
+	 * Set auto kick for this faction.
+	 * @param days Days to set to.
+	 */
+	void setAutoKick(long days);
+	
+	/**
+	 * Get auto kick for this faction.
+	 * @return Days, or -1 to use server default.
+	 */
+	long getAutoKick();
+	
+	// -------------------------------------------------- //
 	// ANNOUNCEMENTS
 	// -------------------------------------------------- //
 	

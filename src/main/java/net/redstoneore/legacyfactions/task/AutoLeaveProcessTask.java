@@ -28,7 +28,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 	public AutoLeaveProcessTask() {
 		Collection<FPlayer> fplayers = Lists.newArrayList(FPlayerColl.all());
 		this.iterator = fplayers.iterator();
-		this.toleranceMillis = TimeUnit.DAYS.toMillis(Config.autoLeaveAfterDaysOfInactivity);
+		this.defaultToleranceMillis = TimeUnit.DAYS.toMillis(Config.autoLeaveAfterDaysOfInactivity);
 		this.ready = true;
 		this.finished = false;
 	}
@@ -39,6 +39,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 	private Boolean ready = false;
 	private Boolean finished = false;
 	private Iterator<FPlayer> iterator;
+	private long defaultToleranceMillis;
 	private long toleranceMillis;
 
 	// -------------------------------------------------- //
@@ -75,6 +76,13 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 			if (!fplayer.willAutoLeave()) {
 				Factions.get().debug(Level.INFO, fplayer.getName() + " was going to be auto-removed but was set not to.");
 				continue;
+			}
+			
+			// Check if faction specific auto kick
+			if (fplayer.getFaction().getAutoKick() > 0) {
+				this.toleranceMillis = fplayer.getFaction().getAutoKick();
+			} else {
+				this.toleranceMillis = this.defaultToleranceMillis;
 			}
 
 			if (fplayer.isOffline() && now - fplayer.getLastLoginTime() > toleranceMillis) {

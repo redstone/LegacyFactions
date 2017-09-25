@@ -48,6 +48,8 @@ public abstract class MemoryFaction extends SharedFaction {
 	protected String tag;
 	protected String description;
 
+	protected long autoKickDays = -1;
+	
 	// flags
 	protected ConcurrentHashMap<String, Boolean> flags = new ConcurrentHashMap<>();
 		
@@ -393,6 +395,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		this.powerBoost = 0.0;
 		this.foundedDate = System.currentTimeMillis();
 		this.maxVaults = Config.defaultMaxVaults;
+		this.autoKickDays = -1;
 	}
 
 	public MemoryFaction(MemoryFaction old) {
@@ -414,6 +417,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		fplayers = new HashSet<>();
 		invites = old.invites;
 		announcements = old.announcements;
+		autoKickDays = old.autoKickDays;
 	}
 
 	// -------------------------------
@@ -612,6 +616,15 @@ public abstract class MemoryFaction extends SharedFaction {
 		return ownerData == null || ownerData.isEmpty() || ownerData.contains(fplayer.getId());
 	}
 
+	@Override
+	public void setAutoKick(long days) {
+		this.autoKickDays = days;
+	}
+	
+	@Override
+	public long getAutoKick() {
+		return this.autoKickDays;
+	}
 	
 	// -------------------------------------------------- //
 	// Persistance and entity management

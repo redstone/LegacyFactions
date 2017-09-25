@@ -26,6 +26,8 @@ public enum Permission {
 	AHOME("ahome"),
 	ANNOUNCE("announce"),
 	AUTOCLAIM("autoclaim"),
+	AUTOKICK("autokick"),
+	AUTOKICK_OTHER("autokick.others"),
 	AUTO_LEAVE_BYPASS("autoleavebypass"),
 	BYPASS("bypass"),
 	BAN("ban"),

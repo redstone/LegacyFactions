@@ -19,6 +19,8 @@ permissions:
       factions.modifypower: true
       factions.ahome: true
       factions.setmaxvaults: true
+      factions.autokick: true
+      factions.autokick.others: true
   factions.*:
     description: This is just an alias for factions.kit.admin
     children:
@@ -116,6 +118,10 @@ permissions:
     description: announce things to the peasants
   factions.autoclaim:
     description: auto-claim land as you walk around
+  factions.autokick:
+    description: set autokick time in days for your faction
+  factions.autokick.others:
+    description: set autokick time in days for other factions
   factions.bypass:
     description: enable admin bypass mode
   factions.chat:

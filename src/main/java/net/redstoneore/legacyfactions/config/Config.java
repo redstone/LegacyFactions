@@ -155,7 +155,7 @@ public class Config {
 	public static double powerOfflineLossLimit = 0.0;
 	
 	public static double powerFactionMax = 0.0; 
-
+	
 	// -------------------------------------------------- //
 	// PLAYER PREFIX
 	// -------------------------------------------------- //
@@ -205,7 +205,10 @@ public class Config {
 	public static boolean broadcastTagChanges = false;
 	
 	public static boolean permanentFactionsDisableLeaderPromotion = false;
+	
+	public static Role autoKickRankMinimum = Role.COLEADER;
 
+	public static long autoKickCommandMax = 90;
 	// -------------------------------------------------- //
 	// FLAGS
 	// -------------------------------------------------- //

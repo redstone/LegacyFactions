@@ -39,6 +39,7 @@ public class CmdFactions extends FCommand {
 		
 		this.addSubCommand(CmdFactionsAdmin.get());
 		this.addSubCommand(CmdFactionsAutoclaim.get());
+		this.addSubCommand(CmdFactionsAutokick.get());
 		this.addSubCommand(CmdFactionsBan.get());
 		this.addSubCommand(CmdFactionsBoom.get());
 		this.addSubCommand(CmdFactionsBypass.get());

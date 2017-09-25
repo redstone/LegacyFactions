@@ -34,6 +34,7 @@ public class LFMigration10009 implements Migration {
 				"  `powerboost` double DEFAULT 0,\n" + 
 				"  `home` varchar(255) DEFAULT '',\n" + 
 				"  `foundeddate` bigint(20) DEFAULT 0,\n" + 
+				"  `autokick` bigint(20) DEFAULT -1,\n" + 
 				"  `maxvaults` int(20) DEFAULT 0,\n" + 
 				"  `lastdeath` bigint(20) DEFAULT 0\n" + 
 				") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
