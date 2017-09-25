@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.scoreboards.FSidebarProvider;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class FDefaultSidebar extends FSidebarProvider {
 	
@@ -40,7 +41,7 @@ public class FDefaultSidebar extends FSidebarProvider {
 		ListIterator<String> linesIterator = lines.listIterator();
 		
 		while (linesIterator.hasNext()) {
-			linesIterator.set(this.replaceTags(fplayer, linesIterator.next()));
+			linesIterator.set(this.replaceTags(fplayer, TextUtil.get().replacePlaceholders(linesIterator.next(), fplayer.getPlayer())));
 		}
 		return lines;
 	}

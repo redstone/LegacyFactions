@@ -8,6 +8,7 @@ import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.scoreboards.FSidebarProvider;
+import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class FInfoSidebar extends FSidebarProvider {
 
@@ -39,7 +40,7 @@ public class FInfoSidebar extends FSidebarProvider {
 		List<String> lines = new ArrayList<>(Config.scoreboardInfo);
 		ListIterator<String> it = lines.listIterator();
 		while (it.hasNext()) {
-			it.set(replaceTags(this.faction, fplayer, it.next()));
+			it.set(replaceTags(this.faction, fplayer, TextUtil.get().replacePlaceholders(it.next(), fplayer.getPlayer())));
 		}
 		return lines;
 	}
