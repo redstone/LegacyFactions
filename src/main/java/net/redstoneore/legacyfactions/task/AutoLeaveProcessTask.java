@@ -80,7 +80,7 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 			
 			// Check if faction specific auto kick
 			if (fplayer.getFaction().getAutoKick() > 0) {
-				this.toleranceMillis = fplayer.getFaction().getAutoKick();
+				this.toleranceMillis = TimeUnit.DAYS.toMillis(fplayer.getFaction().getAutoKick());
 			} else {
 				this.toleranceMillis = this.defaultToleranceMillis;
 			}
