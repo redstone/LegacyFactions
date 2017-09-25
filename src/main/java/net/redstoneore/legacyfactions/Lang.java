@@ -89,6 +89,13 @@ public enum Lang {
 	COMMAND_AUTOCLAIM_OTHERFACTION("<b>You can't claim land for <h>%1$s<b>."),
 	COMMAND_AUTOCLAIM_DESCRIPTION("Auto-claim land as you walk around"),
 
+	COMMAND_AUTOKICK_DESCRIPTION("Set the autokick time in days for inactive players."),
+	COMMAND_AUTOKICK_DAYSINVALID("<b>Please enter valid value for days, that is also under <amount>"),
+	COMMAND_AUTOKICK_BADRANK("<b>You must be at least <i><rank> <b>to set the autokick time."),
+	COMMAND_AUTOKICK_NOTOTHERS("<b>You don't have permission to set the autokick for other factions."),
+	COMMAND_AUTOKICK_SET("<i>You set the autokick time to <days> days."),
+	COMMAND_AUTOKICK_CLEARED("<i>You cleared the autokick time for this faction. It now uses the server default."),
+
 	COMMAND_AUTOHELP_HELPFOR("Help for command \""),
 	
 	COMMAND_BAN_DESCRIPTION("Bans a player from the faction preventing them from rejoining."),

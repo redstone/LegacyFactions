@@ -21,6 +21,7 @@ public class CommandAliases {
 	public static List<String> cmdAliasesAnnounce = Lists.newArrayList("announce", "ann");
 	public static List<String> cmdAliasesAutoclaim = Lists.newArrayList("autoclaim");
 	public static List<String> cmdAliasesAutohelp = Lists.newArrayList("?", "h", "help");
+	public static List<String> cmdAliasesAutokick = Lists.newArrayList("autokick");
 	public static List<String> cmdAliasesBoom = Lists.newArrayList("noboom", "explosions", "toggleexplosions");
 	public static List<String> cmdAliasesBypass = Lists.newArrayList("bypass");
 	public static List<String> cmdAliasesChat = Lists.newArrayList("chat", "c");

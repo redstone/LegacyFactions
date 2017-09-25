@@ -629,6 +629,22 @@ public class MySQLFaction extends SharedFaction {
 	}
 	
 	@Override
+	public void setAutoKick(long days) {
+		this.values.put("autokick", String.valueOf(days));
+		FactionsMySQL.get().prepare("UPDATE `faction` SET `autokick` = ? WHERE `id` = ?")
+			.setCatched(1, days)
+			.setCatched(2, this.id)
+		.execute(ExecuteType.UPDATE);
+
+	}
+	
+	@Override
+	public long getAutoKick() {
+		this.poll();
+		return Long.valueOf(this.values.get("autokick"));
+	}
+	
+	@Override
 	public Integer getPermanentPower() {
 		this.poll();
 		if (this.values.get("permanentpower") == "") {
