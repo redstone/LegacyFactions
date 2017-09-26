@@ -12,6 +12,7 @@ import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 
 import java.lang.Character.UnicodeScript;
 import java.util.ArrayList;
@@ -25,6 +26,22 @@ import java.util.Map.Entry;
 
 public class MiscUtil {
 
+	/**
+	 * Streams over all faction and checks if the emblem is in use
+	 * @param emblem
+	 * @return
+	 */
+	public static boolean isEmblemTaken(String emblem) {
+		try {
+			return FactionColl.all().stream()
+				.filter(faction -> faction.getEmblem().equalsIgnoreCase(emblem))
+				.findFirst()
+				.isPresent();
+		} catch (NullPointerException e) {
+			return false;
+		}
+	}
+	
 	public static EntityType creatureTypeFromEntity(Entity entity) {
 		if (!(entity instanceof Creature)) {
 			return null;

@@ -76,6 +76,7 @@ public enum TagReplacerUtil {
     FACTION_SIZE(TagType.FACTION, "{members}"),
     FACTION_KILLS(TagType.FACTION, "{faction-kills}"),
     FACTION_DEATHS(TagType.FACTION, "{faction-deaths}"),
+    EMBLEM(TagType.FACTION, "{emblem}"),
 
     /**
      * General variables, require no faction or player
@@ -240,6 +241,8 @@ public enum TagReplacerUtil {
                 return String.valueOf(faction.getKills());
             case FACTION_DEATHS:
                 return String.valueOf(faction.getDeaths());
+            case EMBLEM:
+                return faction.getEmblem();
             default:
             	return null;
         }

@@ -470,6 +470,23 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	long getAutoKick();
 	
 	// -------------------------------------------------- //
+	// EMBLEM
+	// -------------------------------------------------- //
+	
+	/**
+	 * Attempt to set the emblem
+	 * @param emblem The emblem to set.
+	 * @return true if it was set, false if it is already taken.
+	 */
+	boolean setEmblem(String emblem);
+	
+	/**
+	 * Get the emblem.
+	 * @return The emblem.
+	 */
+	String getEmblem();
+	
+	// -------------------------------------------------- //
 	// ANNOUNCEMENTS
 	// -------------------------------------------------- //
 	

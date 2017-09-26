@@ -124,6 +124,13 @@ public class FactionsPlaceholders {
 			}
 		});
 		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_emblem") {
+			@Override
+			public String get(Faction faction) {
+				return faction.getEmblem();
+			}
+		});
+		
 		this.placeholders.add(new FactionsPlaceholderFaction("faction_admin") {
 			@Override
 			public String get(Faction faction) {

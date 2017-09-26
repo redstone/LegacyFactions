@@ -81,6 +81,8 @@ public abstract class MemoryFaction extends SharedFaction {
 	private long lastDeath;
 	
 	protected int maxVaults;
+	
+	private String emblem = null;
 		
 	// -------------------------------------------------- //
 	// METHODS
@@ -349,7 +351,15 @@ public abstract class MemoryFaction extends SharedFaction {
 		this.foundedDate = newDate;
 	}
 
-
+	@Override
+	public String getEmblem() {
+		return this.emblem;
+	}
+	
+	@Override
+	public void forceSetEmblem(String emblem) {
+		this.emblem = emblem;
+	}
 
 	public Integer getPermanentPower() {
 		return this.permanentPower;
@@ -396,6 +406,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		this.foundedDate = System.currentTimeMillis();
 		this.maxVaults = Config.defaultMaxVaults;
 		this.autoKickDays = -1;
+		this.emblem = "??";
 	}
 
 	public MemoryFaction(MemoryFaction old) {
@@ -418,6 +429,7 @@ public abstract class MemoryFaction extends SharedFaction {
 		invites = old.invites;
 		announcements = old.announcements;
 		autoKickDays = old.autoKickDays;
+		this.emblem = old.emblem;
 	}
 
 	// -------------------------------

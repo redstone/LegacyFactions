@@ -45,6 +45,8 @@ public enum Permission {
 	DESCRIPTION("description"),
 	DISBAND("disband"),
 	DISBAND_ANY("disband.any"),
+	EMBLEM("emblem"),
+	EMBLEM_OTHERS("emblem.others"),
 	FLAG("flag"),
 	FLAG_LIST("flag.list"),
 	FLAG_LIST_ANY("flag.list.any"),
