@@ -645,6 +645,22 @@ public class MySQLFaction extends SharedFaction {
 	}
 	
 	@Override
+	public String getEmblem() {
+		this.poll();
+		return this.values.get("emblem");
+	}
+	
+	@Override
+	public void forceSetEmblem(String emblem) {
+		this.values.put("emblem", emblem);
+		FactionsMySQL.get().prepare("UPDATE `faction` SET `emblem` = ? WHERE `id` = ?")
+			.setCatched(1, emblem)
+			.setCatched(2, this.id)
+		.execute(ExecuteType.UPDATE);
+
+	}
+	
+	@Override
 	public Integer getPermanentPower() {
 		this.poll();
 		if (this.values.get("permanentpower") == "") {

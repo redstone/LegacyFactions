@@ -59,7 +59,7 @@ public class Config {
 	
 	protected static String _enableFlags = Lang.CONFIG_NON16_FLAGS.name();
 	public static boolean enableFlags = false;
-	
+		
 	// -------------------------------------------------- //
 	// COMMANDS
 	// -------------------------------------------------- //
@@ -132,6 +132,24 @@ public class Config {
 		)
 	);
 	
+	// -------------------------------------------------- //
+	// EMBLEMS
+	// -------------------------------------------------- //
+	
+	protected static String _sectionEmblems = Lang.CONFIG_EMBLEMS_SECTION.name();
+
+	protected static String _emblemsEnabled = Lang.CONFIG_EMBLEMS_ENABLED.name();
+	public static boolean emblemsEnabled = false;
+
+	protected static String _emblemsMinLength = Lang.CONFIG_EMBLEMS_MINLENGTH.name();
+	public static int emblemsMinLength = 2;
+	
+	protected static String _emblemsMaxLength = Lang.CONFIG_EMBLEMS_MAXLENGTH.name();
+	public static int emblemsMaxLength = 4;
+
+	protected static String _emblemsMaxLengthMinRole = Lang.CONFIG_EMBLEMS_MINROLE.name();
+	public static Role emblemsMinRole = Role.COLEADER;
+
 	// -------------------------------------------------- //
 	// POWER
 	// -------------------------------------------------- //

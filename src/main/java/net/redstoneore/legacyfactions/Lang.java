@@ -236,6 +236,14 @@ public enum Lang {
 	COMMAND_DISBAND_HOLDINGS("<i>You have been given the disbanded faction's bank, totaling %1$s."),
 	COMMAND_DISBAND_DESCRIPTION("Disband a faction"),
 	
+	COMMAND_EMBLEM_LENGTHUNDERMIN("<b>Your emblem must be at least <minimum> characters."),
+	COMMAND_EMBLEM_LENGTHOVERMAX("<b>Your emblem must be under <maximum> characters."),
+	COMMAND_EMBLEM_CANTOTHERS("<b>You don't have permission to set the emblem of other factions."),
+	COMMAND_EMBLEM_MINROLE("<b>You must be at least <role> to set emblems."),
+	COMMAND_EMBLEM_TAKEN("<b>That emblem is already taken."),
+	COMMAND_EMBLEM_SET("<i>You set your faction emblem to <h><emblem><i>."),
+	COMMAND_EMBLEM_DESCRIPTION("Set your faction emblem"),
+	
 	COMMAND_FLAG_DESCRIPTION("Manage flags for a faction."),
 	
 	COMMAND_FLAGLIST_DESCRIPTION("List flags for a faction."),
@@ -962,6 +970,12 @@ public enum Lang {
 	
 	CONFIG_TOOLTIPS_SECTION("******************** [ TOOLTIPS ] ********************"),
 	CONFIG_TOOLTIPS_TOOLTIPS("* The tooltips for each of these can be configured using placeholders."),
+	
+	CONFIG_EMBLEMS_SECTION("******************** [ EMBLEMS ] ********************"),
+	CONFIG_EMBLEMS_ENABLED("* Enable emblems.\r\n   * To disable emblems, set this to false."),
+	CONFIG_EMBLEMS_MINLENGTH("* Minimum length of emblems.\r\n   * This minimum length will be enforced, set to -1 to disable."),
+	CONFIG_EMBLEMS_MAXLENGTH("* Maximum length of emblems.\r\n   * This maximum length will be enforced, set to -1 to disable."),
+	CONFIG_EMBLEMS_MINROLE("* Minimum role to set emblems."),
 	
 	CONFIG_POWER_SECTION("******************** [ POWER ] ********************"),
 	

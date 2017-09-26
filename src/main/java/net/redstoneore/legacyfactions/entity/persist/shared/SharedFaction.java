@@ -187,6 +187,16 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		this.setHome(null); 
 	}
 
+	public boolean setEmblem(String emblem) {
+		if (!MiscUtil.isEmblemTaken(emblem)) {
+			return false;
+		}
+		
+		this.forceSetEmblem(emblem);
+		
+		return true;
+	}
+	
 	// -------------------------------------------------- //
 	// POWER
 	// -------------------------------------------------- //
@@ -597,5 +607,7 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	public abstract String getOwnerListString(FLocation loc);
 
 	public abstract boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
+	
+	public abstract void forceSetEmblem(String emblem);
 
 }
