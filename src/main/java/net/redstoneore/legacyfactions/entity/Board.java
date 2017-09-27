@@ -95,6 +95,13 @@ public abstract class Board {
 	 * @param factionId
 	 */
 	public abstract void unclaimAll(String factionId);
+	
+	/**
+	 * Unclaim all for a faction id in a world
+	 * @param factionId
+	 * @param world
+	 */
+	public abstract void unclaimAll(String factionId, World world);
 
 	/**
 	 * Is there any nearby chunk with a faction other than the faction at this location.
@@ -168,9 +175,10 @@ public abstract class Board {
 	
 	/**
 	 * Cleaner. Removes orphaned foreign keys
+	 * @param factionId
 	 */
 	public abstract void clean(String factionId);
-
+	
 	/**
 	 * Force a synchronised save
 	 */
