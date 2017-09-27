@@ -13,6 +13,7 @@ import net.redstoneore.legacyfactions.util.TextUtil;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -462,6 +463,38 @@ public abstract class FCommandBase<T extends FactionsPluginBase> {
 		return this.argAsBool(idx, false);
 	}
 
+	// World ======================
+	public World strAsWorld(String name, World defaultValue, boolean msg) {
+		World result = defaultValue;
+
+		if (name != null) {
+			World world = Bukkit.getWorld(name);
+			if (world != null) {
+				result = world;
+			}
+		}
+
+		if (msg && result == null) {
+			Lang.GENERIC_NOWORLDFOUND.getBuilder()
+				.parse()
+				.replace("<world>", name)
+				.sendTo(this.sender);
+		}
+		
+		return result;
+	}
+
+	public World argAsWorld(int idx, World def, boolean msg) {
+		return this.strAsWorld(this.argAsString(idx), def, msg);
+	}
+
+	public World argAsWorld(int idx, World def) {
+		return this.argAsWorld(idx, def, true);
+	}
+
+	public World argAsWorld(int idx) {
+		return this.argAsWorld(idx, null);
+	}
 	// PLAYER ======================
 	public Player strAsPlayer(String name, Player def, boolean msg) {
 		Player ret = def;
