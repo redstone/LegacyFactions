@@ -504,7 +504,9 @@ public enum Lang {
 
 	COMMAND_SAFEUNCLAIMALL_DESCRIPTION("Unclaim all safezone land"),
 	COMMAND_SAFEUNCLAIMALL_UNCLAIMED("<i>You unclaimed ALL safe zone land."),
-	COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG("%1$s unclaimed all safe zones."),
+	COMMAND_SAFEUNCLAIMALL_UNCLAIMEDIN("<i>You unclaimed ALL safe zone land in <world>."),
+	COMMAND_SAFEUNCLAIMALL_LOG("<who> unclaimed all safe zones."),
+	COMMAND_SAFEUNCLAIMALL_LOGWORLD("<who> unclaimed all safe zones in <world>."),
 
 	COMMAND_SAVEALL_SUCCESS("<i>Factions saved to disk!"),
 	COMMAND_SAVEALL_DESCRIPTION("Save all data to disk"),
@@ -633,7 +635,9 @@ public enum Lang {
 
 	COMMAND_WARUNCLAIMALL_DESCRIPTION("Unclaim all warzone land"),
 	COMMAND_WARUNCLAIMALL_SUCCESS("<i>You unclaimed ALL war zone land."),
-	COMMAND_WARUNCLAIMALL_LOG("%1$s unclaimed all war zones."),
+	COMMAND_WARUNCLAIMALL_UNCLAIMEDIN("<i>You unclaimed ALL war zone land in <world>."),
+	COMMAND_WARUNCLAIMALL_LOGALL("<who> unclaimed all war zones."),
+	COMMAND_WARUNCLAIMALL_LOGWORLD("<who> unclaimed all war zones in <world>."),
 
 	COMMAND_STYLE_DESCRIPTION("Set a factions styles"),
 	COMMAND_STYLE_ARG_CHARACTER("character"),
@@ -701,6 +705,7 @@ public enum Lang {
 	GENERIC_DOTHAT("do that"),  //Ugh nuke this from high orbit
 	GENERIC_NOPLAYERMATCH("<b>No player match found for \"<p>%1$s<b>\"."),
 	GENERIC_NOPLAYERFOUND("<b>No player \"<p>%1$s<b>\" could not be found."),
+	GENERIC_NOWORLDFOUND("<b>No World \"<p><world><b>\" could not be found."),
 	GENERIC_ARGS_TOOFEW("<b>Too few arguments. <i>Use like this:"),
 	GENERIC_ARGS_TOOMANY("<b>Strange argument \"<p>%1$s<b>\". <i>Use the command like this:"),
 	GENERIC_DEFAULTDESCRIPTION("Default faction description :("),

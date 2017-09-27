@@ -1,5 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
+import org.bukkit.World;
+
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
@@ -24,6 +26,8 @@ public class CmdFactionsWarunclaimall extends FCommand {
 	private CmdFactionsWarunclaimall() {
 		this.aliases.addAll(CommandAliases.cmdAliasesWarunclaimall);
 		
+		this.optionalArgs.put("world", "all");
+		
 		this.permission = Permission.MANAGE_WAR_ZONE.getNode();
 		this.disableOnLock = true;
 
@@ -40,12 +44,39 @@ public class CmdFactionsWarunclaimall extends FCommand {
 
 	@Override
 	public void perform() {
-		Board.get().unclaimAll(FactionColl.get().getWarZone().getId());
-		sendMessage(Lang.COMMAND_WARUNCLAIMALL_SUCCESS);
+		if (this.argIsSet(0)) {
+			World world = this.argAsWorld(0);
+			if (world == null) return;
+			
+			Board.get().unclaimAll(FactionColl.get().getWarZone().getId(), world);
+			
+			Lang.COMMAND_WARUNCLAIMALL_UNCLAIMEDIN.getBuilder()
+				.parse()
+				.replace("<world>", world.getName())
+				.sendTo(this.fme);
+			
+			if (Config.logLandUnclaims) {
+				Factions.get().log(
+					Lang.COMMAND_WARUNCLAIMALL_LOGWORLD.getBuilder()
+						.parse()
+						.replace("<who>", this.sender.getName())
+						.replace("<world>", world.getName())
+						.toString());
+			}
 
-		if (Config.logLandUnclaims) {
-			Factions.get().log(Lang.COMMAND_WARUNCLAIMALL_LOG.format(fme.getName()));
+		} else {
+			Board.get().unclaimAll(FactionColl.get().getWarZone().getId());
+			
+			this.sendMessage(Lang.COMMAND_WARUNCLAIMALL_SUCCESS);
+			if (Config.logLandUnclaims) {
+				Factions.get().log(
+					Lang.COMMAND_WARUNCLAIMALL_LOGALL.getBuilder()
+						.parse()
+						.replace("<who>", this.sender.getName())
+						.toString());
+			}
 		}
+
 	}
 
 	@Override

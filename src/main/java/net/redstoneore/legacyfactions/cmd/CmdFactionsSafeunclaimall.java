@@ -1,5 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
+import org.bukkit.World;
+
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
@@ -24,6 +26,8 @@ public class CmdFactionsSafeunclaimall extends FCommand {
 	private CmdFactionsSafeunclaimall() {
 		this.aliases.addAll(CommandAliases.cmdAliasesSafeunclaimall);
 		
+		this.optionalArgs.put("world", "all");
+		
 		this.permission = Permission.MANAGE_SAFE_ZONE.getNode();
 		this.disableOnLock = true;
 
@@ -41,11 +45,31 @@ public class CmdFactionsSafeunclaimall extends FCommand {
 
 	@Override
 	public void perform() {
-		Board.get().unclaimAll(FactionColl.get().getSafeZone().getId());
-		sendMessage(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
+		if (this.argIsSet(0)) {
+			World world = this.argAsWorld(0);
+			if (world == null) return;
+			
+			Board.get().unclaimAll(FactionColl.get().getSafeZone().getId(), world);
+			
+			Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDIN.getBuilder()
+				.parse()
+				.replace("<world>", world.getName())
+				.sendTo(this.fme);
+			
+			if (Config.logLandUnclaims) {
+				Factions.get().log(
+					Lang.COMMAND_SAFEUNCLAIMALL_LOGWORLD.getBuilder()
+						.replace("<who>", sender.getName())
+						.replace("<world>", world.getName())
+						.toString());
+			}
+		} else {
+			Board.get().unclaimAll(FactionColl.get().getSafeZone().getId());
+			sendMessage(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMED);
 
-		if (Config.logLandUnclaims) {
-			Factions.get().log(Lang.COMMAND_SAFEUNCLAIMALL_UNCLAIMEDLOG.format(sender.getName()));
+			if (Config.logLandUnclaims) {
+				Factions.get().log(Lang.COMMAND_SAFEUNCLAIMALL_LOG.getBuilder().replace("<who>", sender.getName()).toString());
+			}
 		}
 	}
 
