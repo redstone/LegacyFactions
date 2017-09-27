@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
@@ -17,6 +19,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.AsciiCompass;
 import net.redstoneore.legacyfactions.util.TextUtil;
+import net.redstoneore.legacyfactions.warp.FactionWarp;
 
 public abstract class SharedBoard extends Board {
 	
@@ -65,6 +68,26 @@ public abstract class SharedBoard extends Board {
 		this.clean(factionId);
 	}
 
+	@Override
+	public void unclaimAll(String factionId, World world) {
+		Faction faction = FactionColl.get().getFactionById(factionId);
+		if (faction != null && faction.isNormal()) {
+			faction.ownership().getAll().entrySet().stream()
+				.filter(entry -> entry.getKey().getWorldUID() == world.getUID())
+				.collect(Collectors.toList())
+				.forEach(entry -> faction.ownership().clearAt(entry.getKey()));
+			
+			faction.warps().getAll().stream()
+				.filter(warp -> warp.getLazyLocation().getWorldName() == world.getName())
+				.collect(Collectors.toList())
+				.forEach(FactionWarp::delete);
+		}
+		
+		faction.getAllClaims().stream()
+			.filter(claim -> claim.getWorld().getUID() == world.getUID())
+			.forEach(claim -> this.removeAt(claim));
+	}
+	
 	@Override
 	public Set<FLocation> getAllClaims(Faction faction) {
 		return getAllClaims(faction.getId());
