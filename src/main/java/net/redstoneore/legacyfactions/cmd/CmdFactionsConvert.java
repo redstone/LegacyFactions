@@ -1,7 +1,5 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import java.util.ArrayList;
-
 import org.bukkit.command.ConsoleCommandSender;
 
 import com.google.common.base.Joiner;

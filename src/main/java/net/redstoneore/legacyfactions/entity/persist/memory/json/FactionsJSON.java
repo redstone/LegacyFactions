@@ -16,7 +16,6 @@ import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFactionColl;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Logger;
 
 public class FactionsJSON extends PersistHandler {
 
@@ -36,29 +35,13 @@ public class FactionsJSON extends PersistHandler {
 	}
 	
 	@Deprecated
-    public static void convertTo() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Logger logger = Factions.get().getLogger();
-                logger.info("Beginning Board conversion to JSON");
-                new JSONBoard().convertFrom((MemoryBoard) Board.get());
-                logger.info("Board Converted");
-                logger.info("Beginning FPlayers conversion to JSON");
-                new JSONFPlayerColl().convertFrom((MemoryFPlayerColl) FPlayerColl.getUnsafeInstance());
-                logger.info("FPlayers Converted");
-                logger.info("Beginning Factions conversion to JSON");
-                new JSONFactionColl().convertFrom((MemoryFactionColl) FactionColl.get());
-                logger.info("Factions Converted");
-                logger.info("Refreshing object caches");
-                for (FPlayer fPlayer : FPlayerColl.all()) {
-                    Faction faction = FactionColl.get().getFactionById(fPlayer.getFactionId());
-                    faction.memberAdd(fPlayer);
-                }
-                logger.info("Conversion Complete");
-            }
-        }.runTaskAsynchronously(Factions.get());
-    }
+	public static void convertTo() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+			}
+		}.runTaskAsynchronously(Factions.get());
+	}
 
 	// -------------------------------------------------- //
 	// FIELDS
@@ -74,7 +57,28 @@ public class FactionsJSON extends PersistHandler {
 	
 	@Override
 	public void convertfrom(PersistHandler other) {
-		
+		if (other.getFactionColl() instanceof MemoryFactionColl) {
+			Factions.get().log("Beginning Board conversion to JSON");
+			new JSONBoard().convertFrom((MemoryBoard) other.getBoard());
+			Factions.get().log("Board Converted");
+			
+			Factions.get().log("Beginning FPlayerColl conversion to JSON");
+			new JSONFPlayerColl().convertFrom((MemoryFPlayerColl) other.getFPlayerColl());
+			Factions.get().log("FPlayerColl Converted");
+			
+			Factions.get().log("Beginning FactionColl conversion to JSON");
+			new JSONFactionColl().convertFrom((MemoryFactionColl) other.getFactionColl());
+			Factions.get().log("FactionColl Converted");
+			
+			Factions.get().log("Refreshing object caches");
+			for (FPlayer fPlayer : FPlayerColl.all()) {
+				Faction faction = FactionColl.get().getFactionById(fPlayer.getFactionId());
+				faction.memberAdd(fPlayer);
+			}
+			Factions.get().log("Conversion Complete");
+		} else {
+			
+		}
 	}
 
 	@Override
@@ -105,5 +109,5 @@ public class FactionsJSON extends PersistHandler {
 		}
 		return this.factionsInstance;
 	}
-    
+	
 }
