@@ -1,10 +1,9 @@
 package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -18,8 +17,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,8 +33,8 @@ public class JSONFPlayerColl extends MemoryFPlayerColl {
 	private transient static Path file = FactionsJSON.getDatabasePath().resolve("players.json");
 	public static Path getJsonFile() { return file; }
 	
-	public static Type getMapType() {
-		return new TypeToken<Map<String, JSONFPlayer>>() {}.getType();
+	public static TypeReference<Map<String, JSONFPlayer>> getMapType() {
+		return new TypeReference<Map<String, JSONFPlayer>>() {};
 	}
 	// -------------------------------------------------- //
 	// CONSTRUCT 
@@ -50,10 +47,6 @@ public class JSONFPlayerColl extends MemoryFPlayerColl {
 	// -------------------------------------------------- //
 	// METHODS 
 	// -------------------------------------------------- // 
-	
-	public Gson getGson() {
-		return Factions.get().getGson();
-	}
 	
 	public void convertFrom(MemoryFPlayerColl old) {
 		this.fPlayers.putAll(Maps.transformValues(old.fPlayers, new Function<FPlayer, JSONFPlayer>() {
@@ -82,7 +75,12 @@ public class JSONFPlayerColl extends MemoryFPlayerColl {
 	}
 
 	private boolean saveCore(Path target, Map<String, JSONFPlayer> data, boolean sync) {
-		return DiscUtil.writeCatch(target, this.getGson().toJson(data), sync);
+		try {
+			return DiscUtil.writeCatch(target, Factions.get().getObjectMapper().writeValueAsString(data), sync);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public void loadColl() {
@@ -102,10 +100,14 @@ public class JSONFPlayerColl extends MemoryFPlayerColl {
 
 		String content = DiscUtil.readCatch(getJsonFile());
 		if (content == null) return null;
+		Map<String, JSONFPlayer> data;
+		try {
+			data = Factions.get().getObjectMapper().readValue(content, getMapType());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return  new HashMap<String, JSONFPlayer>();
+		}
 		
-	    JsonReader jsonReader = new JsonReader((new StringReader(content)));
-	    Map<String, JSONFPlayer> data = this.getGson().fromJson(jsonReader, getMapType());
-	    
 		//Map<String, JSONFPlayer> data = this.gson.fromJson(content, getMapType());
 		Set<String> list = new HashSet<String>();
 		Set<String> invalidList = new HashSet<String>();

@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -104,6 +105,8 @@ public class Factions extends FactionsPluginBase {
 	
     private Gson gson = this.getGsonBuilder().create();
     	
+    private ObjectMapper objectMapper = new ObjectMapper();
+    
 	protected boolean loadSuccessful = false;
 	
 	// -------------------------------------------------- //
@@ -335,6 +338,10 @@ public class Factions extends FactionsPluginBase {
 	
 	public Gson getGson() {
 		return this.gson;
+	}
+	
+	public ObjectMapper getObjectMapper() {
+		return this.objectMapper;
 	}
 	
 	public GsonBuilder getGsonBuilder() {

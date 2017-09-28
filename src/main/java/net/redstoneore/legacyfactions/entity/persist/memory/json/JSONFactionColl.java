@@ -1,11 +1,5 @@
 package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -17,9 +11,13 @@ import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 import org.bukkit.Bukkit;
+	
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,10 +45,6 @@ public class JSONFactionColl extends MemoryFactionColl {
 	// -------------------------------------------------- //
 	// METHODS 
 	// -------------------------------------------------- // 
-
-	public Gson getGson() {
-		return Factions.get().getGson();
-	}
 	
 	public void forceSave(boolean sync) {
 		final Map<String, JSONFaction> entitiesThatShouldBeSaved = new HashMap<String, JSONFaction>();
@@ -62,7 +56,12 @@ public class JSONFactionColl extends MemoryFactionColl {
 	}
 	
 	private boolean saveCore(Path target, Map<String, JSONFaction> entities, boolean sync) {
-		return DiscUtil.writeCatch(target, this.getGson().toJson(entities), sync);
+		try {
+			return DiscUtil.writeCatch(target, Factions.get().getObjectMapper().writeValueAsString(entities), sync);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public void load() {
@@ -77,17 +76,21 @@ public class JSONFactionColl extends MemoryFactionColl {
 	}
 
 	private Map<String, JSONFaction> loadCore() {
-			if (!Files.exists(file)) {
-				return new HashMap<String, JSONFaction>();			
-			}
-		
-		String content = DiscUtil.readCatch(file);
-		if (content == null) {
-			return null;
+		if (!Files.exists(file)) {
+			return new HashMap<String, JSONFaction>();			
 		}
 		
-		JsonReader jsonReader = new JsonReader((new StringReader(content)));
-		Map<String, JSONFaction> data = this.getGson().fromJson(jsonReader, new TypeToken<Map<String, JSONFaction>>() {}.getType());
+		String content = DiscUtil.readCatch(file);
+		if (content == null) return null;
+		
+		
+		Map<String, JSONFaction> data;
+		try {
+			data = Factions.get().getObjectMapper().readValue(content, new TypeReference<Map<String, JSONFaction>>() {});
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 		
 		this.nextId = 1;
 		// Do we have any names that need updating in claims or invites?
