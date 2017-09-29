@@ -11,11 +11,9 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Lists;
@@ -62,7 +60,6 @@ import net.redstoneore.legacyfactions.listeners.FactionsPlayerListener;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.TaskManager;
-import net.redstoneore.legacyfactions.util.IgnoreMethods;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.LibraryUtil;
 import net.redstoneore.legacyfactions.util.MiscUtil;
@@ -118,16 +115,7 @@ public class Factions extends FactionsPluginBase {
     		.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
     		.setVisibility(PropertyAccessor.ALL, Visibility.NONE)
     		.setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
-
-    		/*
-    		.addMixIn(Object.class, IgnoreMethods.class)
-    		.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true)
-    		.disable(MapperFeature.AUTO_DETECT_GETTERS)
-    		.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
-    		.enable(MapperFeature.AUTO_DETECT_FIELDS)
-    		.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-    		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    		*/
+    		
     		;
     
     private ObjectMapper msgPackobjectMapper = new ObjectMapper(new MessagePackFactory())
@@ -136,15 +124,6 @@ public class Factions extends FactionsPluginBase {
     		.setVisibility(PropertyAccessor.ALL, Visibility.NONE)
     		.setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
     		
-    		/*
-    		.addMixIn(Object.class, IgnoreMethods.class)
-    		.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true)
-    		.disable(MapperFeature.AUTO_DETECT_GETTERS)
-    		.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
-    		.enable(MapperFeature.AUTO_DETECT_FIELDS)
-    		.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-    		
-    		*/
     		;
     
 	protected boolean loadSuccessful = false;
