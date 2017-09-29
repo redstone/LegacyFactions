@@ -11,7 +11,13 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -56,6 +62,7 @@ import net.redstoneore.legacyfactions.listeners.FactionsPlayerListener;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.TaskManager;
+import net.redstoneore.legacyfactions.util.IgnoreMethods;
 import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.util.LibraryUtil;
 import net.redstoneore.legacyfactions.util.MiscUtil;
@@ -68,6 +75,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.msgpack.jackson.dataformat.MessagePackFactory;
 
 /**
  *  A high-performance maintained version of Factions 1.6.<br>
@@ -105,7 +113,39 @@ public class Factions extends FactionsPluginBase {
 	
     private Gson gson = this.getGsonBuilder().create();
     	
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper()
+    		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    		.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+    		.setVisibility(PropertyAccessor.ALL, Visibility.NONE)
+    		.setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
+
+    		/*
+    		.addMixIn(Object.class, IgnoreMethods.class)
+    		.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true)
+    		.disable(MapperFeature.AUTO_DETECT_GETTERS)
+    		.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
+    		.enable(MapperFeature.AUTO_DETECT_FIELDS)
+    		.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+    		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    		*/
+    		;
+    
+    private ObjectMapper msgPackobjectMapper = new ObjectMapper(new MessagePackFactory())
+    		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    		.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+    		.setVisibility(PropertyAccessor.ALL, Visibility.NONE)
+    		.setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
+    		
+    		/*
+    		.addMixIn(Object.class, IgnoreMethods.class)
+    		.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true)
+    		.disable(MapperFeature.AUTO_DETECT_GETTERS)
+    		.disable(MapperFeature.AUTO_DETECT_IS_GETTERS)
+    		.enable(MapperFeature.AUTO_DETECT_FIELDS)
+    		.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+    		
+    		*/
+    		;
     
 	protected boolean loadSuccessful = false;
 	
@@ -161,9 +201,25 @@ public class Factions extends FactionsPluginBase {
 		
 		this.loadLibraries();
 		
+		/*
+		this.objectMapper.setVisibility(this.objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
+                .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE)
+				);
+		
+		this.msgPackobjectMapper.setVisibility(this.msgPackobjectMapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
+                .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
+		*/
+		
 		Volatile.get().provider(Provider.of("LegacyFactions", this));
 		
-		// Ensure plugin folder exists
 		this.getDataFolder().mkdirs();
 		
 		this.migrations();
@@ -342,6 +398,10 @@ public class Factions extends FactionsPluginBase {
 	
 	public ObjectMapper getObjectMapper() {
 		return this.objectMapper;
+	}
+	
+	public ObjectMapper getMsgPackObjectMapper() {
+		return this.msgPackobjectMapper;
 	}
 	
 	public GsonBuilder getGsonBuilder() {

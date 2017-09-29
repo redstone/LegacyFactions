@@ -1,5 +1,6 @@
 package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Function;
@@ -30,7 +31,7 @@ public class JSONFPlayerColl extends MemoryFPlayerColl {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-	private transient static Path file = FactionsJSON.getDatabasePath().resolve("players.json");
+	@JsonIgnore private transient static Path file = FactionsJSON.getDatabasePath().resolve("players.json");
 	public static Path getJsonFile() { return file; }
 	
 	public static TypeReference<Map<String, JSONFPlayer>> getMapType() {
@@ -100,6 +101,9 @@ public class JSONFPlayerColl extends MemoryFPlayerColl {
 
 		String content = DiscUtil.readCatch(getJsonFile());
 		if (content == null) return null;
+		
+		if (content == "{}") return new HashMap<>();
+		
 		Map<String, JSONFPlayer> data;
 		try {
 			data = Factions.get().getObjectMapper().readValue(content, getMapType());

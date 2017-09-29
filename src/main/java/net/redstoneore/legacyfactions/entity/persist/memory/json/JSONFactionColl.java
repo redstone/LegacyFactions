@@ -11,7 +11,8 @@ import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.UUIDUtil;
 
 import org.bukkit.Bukkit;
-	
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Function;
@@ -31,12 +32,12 @@ public class JSONFactionColl extends MemoryFactionColl {
 	// STATIC 
 	// -------------------------------------------------- // 
 	
-	private static transient Path file = FactionsJSON.getDatabasePath().resolve("factions.json");
+	@JsonIgnore private static transient Path file = FactionsJSON.getDatabasePath().resolve("factions.json");
 	public static Path getJsonFile() { return file; }
 	
-	// -------------------------------------------- //
+	// -------------------------------------------------- //
 	// CONSTRUCTORS
-	// -------------------------------------------- //
+	// -------------------------------------------------- //
 
 	public JSONFactionColl() {
 		this.nextId = 1;
@@ -77,12 +78,14 @@ public class JSONFactionColl extends MemoryFactionColl {
 
 	private Map<String, JSONFaction> loadCore() {
 		if (!Files.exists(file)) {
-			return new HashMap<String, JSONFaction>();			
+			return new HashMap<>();			
 		}
 		
 		String content = DiscUtil.readCatch(file);
 		if (content == null) return null;
 		
+		
+		if (content == "{}") return new HashMap<>();
 		
 		Map<String, JSONFaction> data;
 		try {
