@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.entity.persist;
 
 import net.redstoneore.legacyfactions.entity.persist.memory.json.FactionsJSON;
+import net.redstoneore.legacyfactions.entity.persist.memory.msgpack.FactionsMsgPack;
 import net.redstoneore.legacyfactions.entity.persist.mysql.FactionsMySQL;
 
 public enum PersistType {
@@ -11,6 +12,7 @@ public enum PersistType {
 	
 	JSON(false, FactionsJSON.get()),
 	MYSQL(true, FactionsMySQL.get()),
+	MSGPACK(false, FactionsMsgPack.get()),
 	
 	;
 	

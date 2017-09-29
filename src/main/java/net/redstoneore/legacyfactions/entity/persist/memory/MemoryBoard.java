@@ -149,7 +149,7 @@ public abstract class MemoryBoard extends SharedBoard {
 	
 	public void convertFrom(MemoryBoard old) {
 		this.flocationIds = old.flocationIds;
-		forceSave();
+		this.forceSave();
 		Board.instance = this;
 	}
 	

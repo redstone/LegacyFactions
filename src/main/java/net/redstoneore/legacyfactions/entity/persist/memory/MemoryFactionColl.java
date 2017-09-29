@@ -135,4 +135,37 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 	
 	public abstract void convertFrom(MemoryFactionColl old);
 	
+	// -------------------------------------------- //
+	// ID MANAGEMENT
+	// -------------------------------------------- //
+
+	public String getNextId() {
+		while (!this.isIdFree(this.nextId)) {
+			this.nextId += 1;
+		}
+		return Integer.toString(this.nextId);
+	}
+
+	public boolean isIdFree(String id) {
+		return !this.factions.containsKey(id);
+	}
+
+	public boolean isIdFree(int id) {
+		return this.isIdFree(Integer.toString(id));
+	}
+
+	protected synchronized void updateNextIdForId(int id) {
+		if (this.nextId < id) {
+			this.nextId = id + 1;
+		}
+	}
+
+	protected void updateNextIdForId(String id) {
+		try {
+			int idAsInt = Integer.parseInt(id);
+			this.updateNextIdForId(idAsInt);
+		} catch (Exception e) {
+			
+		}
+	}
 }
