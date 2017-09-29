@@ -6,6 +6,7 @@ import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFPlayer;
 
 public class JSONFPlayer extends MemoryFPlayer {
 
+	
     public JSONFPlayer(MemoryFPlayer arg0) {
         super(arg0);
     }
@@ -13,6 +14,10 @@ public class JSONFPlayer extends MemoryFPlayer {
     public JSONFPlayer(String id) {
         super(id);
     }
+    
+	public JSONFPlayer() {
+		
+	}
 
     @Override
     public void remove() {

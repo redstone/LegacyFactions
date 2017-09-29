@@ -1,7 +1,5 @@
 package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -34,15 +32,6 @@ public class FactionsJSON extends PersistHandler {
 		return Paths.get(Factions.get().getPluginFolder().toString(), "database");
 	}
 	
-	@Deprecated
-	public static void convertTo() {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-			}
-		}.runTaskAsynchronously(Factions.get());
-	}
-
 	// -------------------------------------------------- //
 	// FIELDS
 	// -------------------------------------------------- //
@@ -77,7 +66,7 @@ public class FactionsJSON extends PersistHandler {
 			}
 			Factions.get().log("Conversion Complete");
 		} else {
-			
+			// TODO
 		}
 	}
 

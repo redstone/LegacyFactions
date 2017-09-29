@@ -38,10 +38,10 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 			faction.setDescription(Lang.WILDERNESS_DESCRIPTION.toString());
 		} else {
 			Faction faction = this.factions.get("0");
-			if (!faction.getTag().equalsIgnoreCase(Lang.WILDERNESS.toString())) {
+			if (faction.getTag() == null || !faction.getTag().equalsIgnoreCase(Lang.WILDERNESS.toString())) {
 				faction.setTag(Lang.WILDERNESS.toString());
 			}
-			if (!faction.getDescription().equalsIgnoreCase(Lang.WILDERNESS_DESCRIPTION.toString())) {
+			if (faction.getDescription() == null || !faction.getDescription().equalsIgnoreCase(Lang.WILDERNESS_DESCRIPTION.toString())) {
 				faction.setDescription(Lang.WILDERNESS_DESCRIPTION.toString());
 			}
 		}
@@ -54,15 +54,11 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 			faction.setDescription(Lang.SAFEZONE_DESCRIPTION.toString());
 		} else {
 			Faction faction = this.factions.get("-1");
-			if (!faction.getTag().equalsIgnoreCase(Lang.SAFEZONE.toString())) {
+			if (faction.getTag() == null || !faction.getTag().equalsIgnoreCase(Lang.SAFEZONE.toString())) {
 				faction.setTag(Lang.SAFEZONE.toString());
 			}
-			if (!faction.getDescription().equalsIgnoreCase(Lang.SAFEZONE_DESCRIPTION.toString())) {
+			if (faction.getDescription() == null || !faction.getDescription().equalsIgnoreCase(Lang.SAFEZONE_DESCRIPTION.toString())) {
 				faction.setDescription(Lang.SAFEZONE_DESCRIPTION.toString());
-			}
-			// if SafeZone has old pre-1.6.0 name, rename it to remove troublesome " "
-			if (faction.getTag().contains(" ")) {
-				faction.setTag(Lang.SAFEZONE.toString());
 			}
 		}
 
@@ -74,15 +70,11 @@ public abstract class MemoryFactionColl extends SharedFactionColl {
 			faction.setDescription(Lang.WARZONE_DESCRIPTION.toString());
 		} else {
 			Faction faction = this.factions.get("-2");
-			if (!faction.getTag().equalsIgnoreCase(Lang.WARZONE.toString())) {
+			if (faction.getTag() == null || !faction.getTag().equalsIgnoreCase(Lang.WARZONE.toString())) {
 				faction.setTag(Lang.WARZONE.toString());
 			}
-			if (!faction.getDescription().equalsIgnoreCase(Lang.WARZONE_DESCRIPTION.toString())) {
+			if (faction.getDescription() == null || !faction.getDescription().equalsIgnoreCase(Lang.WARZONE_DESCRIPTION.toString())) {
 				faction.setDescription(Lang.WARZONE_DESCRIPTION.toString());
-			}
-			// if WarZone has old pre-1.6.0 name, rename it to remove troublesome " "
-			if (faction.getTag().contains(" ")) {
-				faction.setTag(Lang.WARZONE.toString());
 			}
 		}
 	}

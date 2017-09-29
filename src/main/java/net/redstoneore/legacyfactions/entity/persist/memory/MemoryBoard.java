@@ -4,6 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedBoard;
@@ -16,8 +17,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * MemoryBoard should be used carefully by developers. You should be able to do what you want
@@ -144,8 +147,56 @@ public abstract class MemoryBoard extends SharedBoard {
 		return ret;
 	}
 	
-	public abstract void convertFrom(MemoryBoard old);
+	public void convertFrom(MemoryBoard old) {
+		this.flocationIds = old.flocationIds;
+		forceSave();
+		Board.instance = this;
+	}
+	
+	// -------------------------------------------------- //
+	// PERSISTANCE
+	// -------------------------------------------------- //
 
+	public Map<String, Map<String, String>> dumpAsSaveFormat() {
+		Map<String, Map<String, String>> worldCoordIds = new HashMap<String, Map<String, String>>();
+
+		String worldName, coords;
+		String id;
+
+		for (Entry<FLocation, String> entry : flocationIds.entrySet()) {
+			worldName = entry.getKey().getWorldName();
+			coords = entry.getKey().getCoordString();
+			id = entry.getValue();
+			if (!worldCoordIds.containsKey(worldName)) {
+				worldCoordIds.put(worldName, new TreeMap<String, String>());
+			}
+
+			worldCoordIds.get(worldName).put(coords, id);
+		}
+
+		return worldCoordIds;
+	}
+
+	public void loadFromSaveFormat(Map<String, Map<String, String>> worldCoordIds) {
+		flocationIds.clear();
+
+		String worldName;
+		String[] coords;
+		int x, z;
+		String factionId;
+
+		for (Entry<String, Map<String, String>> entry : worldCoordIds.entrySet()) {
+			worldName = entry.getKey();
+			for (Entry<String, String> entry2 : entry.getValue().entrySet()) {
+				coords = entry2.getKey().trim().split("[,\\s]+");
+				x = Integer.parseInt(coords[0]);
+				z = Integer.parseInt(coords[1]);
+				factionId = entry2.getValue();
+				flocationIds.put(new FLocation(worldName, x, z), factionId);
+			}
+		}
+	}
+	
 	// TODO: move out of this class into its own.
 	public class MemoryBoardMap extends HashMap<FLocation, String> {
 		private static final long serialVersionUID = -6689617828610585368L;

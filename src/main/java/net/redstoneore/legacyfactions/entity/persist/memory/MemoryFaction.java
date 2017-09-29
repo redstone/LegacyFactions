@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 
 import net.redstoneore.legacyfactions.*;
@@ -72,7 +73,8 @@ public abstract class MemoryFaction extends SharedFaction {
 	protected double powerBoost;
 	protected Map<String, Relation> relationWish = new HashMap<>();
 	protected Map<FLocation, Set<String>> claimOwnership = new ConcurrentHashMap<>();
-	protected transient Set<FPlayer> fplayers = new HashSet<>();
+	
+	@JsonIgnore protected transient Set<FPlayer> fplayers = new HashSet<>();
 	protected Set<String> invites = new HashSet<>();
 	protected Set<String> bannedPlayerIds = new HashSet<>();
 	protected ConcurrentHashMap<String, List<String>> announcements = new ConcurrentHashMap<>();
