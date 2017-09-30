@@ -120,6 +120,24 @@ public class RelationUtil {
 		Relation factionMeWish = factionMe.getRelationWish(factionThat);
 		Relation factionThatWish = factionMe.getRelationWish(factionMe);
 		
+		// Check for an enforced relations
+		if (Config.enforcedRelations.containsKey(factionMeWish)) {
+			
+			// Ok, but lets consider if factionThat has an enforced relation. Lets prioritise properly.
+			if (Config.enforcedRelations.containsKey(factionThatWish)) {
+				if (factionMeWish.isAtLeast(factionThatWish)) {
+					return factionThatWish;
+				}
+
+				return factionMeWish;
+			}
+			
+			return factionMeWish;
+		} else if (Config.enforcedRelations.containsKey(factionThatWish)) {
+			return factionThatWish;
+		}
+		
+		// Not enforced, let' get the appropriate relation based on priority.
 		if (factionMeWish.isAtLeast(factionThatWish)) {
 			return factionThatWish;
 		}

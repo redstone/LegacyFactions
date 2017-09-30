@@ -95,6 +95,11 @@ public class Config {
 		Relation.ENEMY, -1
 	);
 	
+	protected static String _enforcedRelations = Lang.CONFIG_RELATIONS_ENFORCED.name();
+	public static Map<Relation, Boolean> enforcedRelations = MiscUtil.newMap(
+		Relation.ENEMY, false
+	);
+	
 	protected static String _colorMember = Lang.CONFIG_RELATIONS_COLOURS.name();
 	public static CrossColour colorMember = CrossColour.of(DefaultChatColour.GREEN);
 	

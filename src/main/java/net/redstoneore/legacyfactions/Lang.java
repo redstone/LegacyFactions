@@ -971,6 +971,7 @@ public enum Lang {
 
 	CONFIG_RELATIONS_SECTION("******************** [ RELATIONS ] ********************"),
 	CONFIG_RELATIONS_MAX("* Maximum amount of each relationship. NEUTRAL should not be changed if\r\n   * it is the default relationship type."),
+	CONFIG_RELATIONS_ENFORCED("* Relationships require both sides to set the relationship. If you want certaion relationships to automatically be enforced, set it here.\r\n   * A better way to understand this, if you set enemy to true and either has enemy set - then enemy will be the enforced relation."),
 	CONFIG_RELATIONS_COLOURS("* Relation Colours\r\n   * The colour of each relationship."),
 	
 	CONFIG_TOOLTIPS_SECTION("******************** [ TOOLTIPS ] ********************"),
