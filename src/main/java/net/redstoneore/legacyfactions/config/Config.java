@@ -26,6 +26,12 @@ import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 import net.redstoneore.legacyfactions.util.cross.CrossColour.DefaultChatColour;
 import net.redstoneore.legacyfactions.util.cross.CrossEntityType.DefaultEntityType;
 
+/**
+ * This class represents the current server configuration. It is saved on load into config.js, so
+ * the server operator will always find the latest configuration available.<br>
+ * <br>
+ * TODO: There is more to document in this class.
+ */
 public class Config {
 	
 	/**
@@ -41,7 +47,7 @@ public class Config {
 	
 	protected static String _debug = Lang.CONFIG_MISC_DEBUG.name();
 	public static boolean debug = false;
-		
+	
 	protected static String _logStatistics = Lang.CONFIG_MISC_STATISTICS.name();
 	public static boolean logStatistics = true;
 	
@@ -161,82 +167,127 @@ public class Config {
 	
 	protected static String _sectionPower = Lang.CONFIG_POWER_SECTION.name();
 
+	protected static String _powerPlayerMax = Lang.CONFIG_POWER_MAX.name();
 	public static double powerPlayerMax = 10.0;
 	
+	protected static String _powerPlayerMin = Lang.CONFIG_POWER_MIN.name();
 	public static double powerPlayerMin = -10.0;
 	
+	protected static String _powerPlayerStarting = Lang.CONFIG_POWER_STARTING.name();
 	public static double powerPlayerStarting = 0.0;
 	
+	protected static String _powerPerMinute = Lang.CONFIG_POWER_PERMINUTE.name();
 	public static double powerPerMinute = 0.2; // Default health rate... it takes 5 min to heal one power
 	
+	protected static String _powerPerDeath = Lang.CONFIG_POWER_PERDEATH.name();
 	public static double powerPerDeath = 4.0; 
 	
+	protected static String _powerRegenOffline = Lang.CONFIG_POWER_REGENOFFLINE.name();
 	public static boolean powerRegenOffline = false; 
 	
+	protected static String _powerOfflineLossPerDay = Lang.CONFIG_POWER_OFFLINELOSS.name();
 	public static double powerOfflineLossPerDay = 0.0;
 	
+	protected static String _powerOfflineLossLimit = Lang.CONFIG_POWER_OFFLINELOSSLIMIT.name();
 	public static double powerOfflineLossLimit = 0.0;
 	
+	protected static String _powerFactionMax = Lang.CONFIG_POWER_FACTIONMAX.name();
 	public static double powerFactionMax = 0.0; 
 	
 	// -------------------------------------------------- //
 	// PLAYER PREFIX
 	// -------------------------------------------------- //
+	
+	protected static String _sectionPlayerPrefix = Lang.CONFIG_PLAYERPREFIX_SECTION.name();
+
+	protected static String _playerPrefixAdmin = Lang.CONFIG_PLAYERPREFIX_ADMIN.name();
 	public static String playerPrefixAdmin = "***";
 	
+	protected static String _playerPrefixColeader = Lang.CONFIG_PLAYERPREFIX_COLEADER.name();
 	public static String playerPrefixColeader = "**";
 	
+	protected static String _playerPrefixMod = Lang.CONFIG_PLAYERPREFIX_MOD.name();
 	public static String playerPrefixMod = "*";
 
 	// -------------------------------------------------- //
 	// FACTION
 	// -------------------------------------------------- //
+	
+	protected static String _sectionFaction = Lang.CONFIG_FACTION_SECTION.name();
+
+	protected static String _factionDefaultRelation = Lang.CONFIG_FACTION_DEFAULTRELATION.name();
 	public static String factionDefaultRelation = "neutral";
 	
+	protected static String _factionTagLengthMin = Lang.CONFIG_FACTION_TAGMIN.name();
 	public static int factionTagLengthMin = 3;
 	
+	protected static String _factionTagLengthMax = Lang.CONFIG_FACTION_TAGMAX.name();
 	public static int factionTagLengthMax = 10;
 		
+	protected static String _factionTagForceUpperCase = Lang.CONFIG_FACTION_FORCEUPPER.name();
 	public static boolean factionTagForceUpperCase = false;
 
+	protected static String _factionDescriptionLengthMax = Lang.CONFIG_FACTION_DESCMAX.name();
 	public static int factionDescriptionLengthMax = -1;
 	
+	protected static String _newFactionsDefaultOpen = Lang.CONFIG_FACTION_DEFAULTOPEN.name();
 	public static boolean newFactionsDefaultOpen = false;
 
-	public static int factionMemberLimit = 0;
+	protected static String _factionMemberLimit = Lang.CONFIG_FACTION_MEMBERLIMIT.name();
+	public static int factionMemberLimit = -1;
 	
+	protected static String _factionMemberLimitPeaceful = Lang.CONFIG_FACTION_MEMBERLIMITPEACEFUL.name();
 	public static int factionMemberLimitPeaceful = 0;
 	
+	protected static String _newPlayerStartingFactionID = Lang.CONFIG_FACTION_STARTINGID.name();
 	public static String newPlayerStartingFactionID = "0";
 
+	protected static String _showMapFactionKey = Lang.CONFIG_FACTION_MAPKEY.name();
 	public static boolean showMapFactionKey = true;
 	
+	protected static String _showNeutralFactionsOnMap = Lang.CONFIG_FACTION_SHOWNEUTRAL.name();
 	public static boolean showNeutralFactionsOnMap = true;
 	
+	protected static String _showEnemyFactionsOnMap = Lang.CONFIG_FACTION_SHOWENEMY.name();
 	public static boolean showEnemyFactionsOnMap = true;
 
+	protected static String _allowColourCodesInFactionTitle = Lang.CONFIG_FACTION_ALLOWCOLOURS.name();
 	public static boolean allowColourCodesInFactionTitle = false;
 	
+	protected static String _allowColourCodesInFactionDescription = Lang.CONFIG_FACTION_ALLOWCOLOURSDESC.name();
 	public static boolean allowColourCodesInFactionDescription = false;
 
+	protected static String _canLeaveWithNegativePower = Lang.CONFIG_FACTION_CANLEAVEWITHNEGATIVEPOWER.name();
 	public static boolean canLeaveWithNegativePower = true;
 
+	protected static String _disablePistonsInTerritory = Lang.CONFIG_FACTION_DISABLEPISTONS.name();
 	public static boolean disablePistonsInTerritory = false;
-
-	public static boolean broadcastDescriptionChanges = false;
 	
+	protected static String _broadcastTagChanges = Lang.CONFIG_FACTION_BROADCASTCHANGETAG.name();
 	public static boolean broadcastTagChanges = false;
-	
+
+	protected static String _broadcastDescriptionChanges = Lang.CONFIG_FACTION_BROADCASTCHANGEDESC.name();
+	public static boolean broadcastDescriptionChanges = false;
+
+	protected static String _permanentFactionsDisableLeaderPromotion = Lang.CONFIG_FACTION_PERMNOPROMOTE.name();
 	public static boolean permanentFactionsDisableLeaderPromotion = false;
 	
+	protected static String _autoKickRankMinimum = Lang.CONFIG_FACTION_AUTOKICK_MIN.name();
 	public static Role autoKickRankMinimum = Role.COLEADER;
 
+	protected static String _autoKickRankMax = Lang.CONFIG_FACTION_AUTOKICK_MAX.name();
 	public static long autoKickCommandMax = 90;
+	
 	// -------------------------------------------------- //
 	// FLAGS
 	// -------------------------------------------------- //
 
+	protected static String _sectionFlags = Lang.CONFIG_FLAGS_SECTION.name();
+
+	protected static String _factionFlagMinRole = Lang.CONFIG_FLAGS_MINROLE.name();
 	public static Role factionFlagMinRole = Role.COLEADER;
+
+	protected static String _factionFlagToggleable = Lang.CONFIG_FLAGS_TOGGLEABLE.name();
 
 	public static boolean factionFlagToggleablePermanent = false;
 	public static boolean factionFlagToggleableExplosions = false;
@@ -247,6 +298,10 @@ public class Config {
 	// DAMAGE MODIFIER
 	// -------------------------------------------------- //
 
+	protected static String _sectionDamageModifier = Lang.CONFIG_DAMAGEMODIFIER_SECTION.name();
+	protected static String _damageModifierExplanation = Lang.CONFIG_DAMAGEMODIFIER_EXPLANATION.name();
+	
+	protected static String _damageModifierPercentRelationPlayer = Lang.CONFIG_DAMAGEMODIFIER_PERCENTRELATIONPLAYER.name();
 	public static Map<Relation, Double> damageModifierPercentRelationPlayer = MiscUtil.newMap(
 		Relation.ALLY, 100.0,
 		Relation.ENEMY, 100.0,
@@ -255,6 +310,7 @@ public class Config {
 		Relation.TRUCE, 100.0
 	);
 	
+	protected static String _damageModifierPercentRelationLocationByPlayer = Lang.CONFIG_DAMAGEMODIFIER_PERCENTRELATIONLAND.name();
 	public static Map<Relation, Double> damageModifierPercentRelationLocationByPlayer = MiscUtil.newMap(
 		Relation.ALLY, 100.0,
 		Relation.ENEMY, 100.0,
@@ -263,6 +319,7 @@ public class Config {
 		Relation.TRUCE, 100.0
 	);
 	
+	protected static String _damageModifierPercentRelationLocationByMob = Lang.CONFIG_DAMAGEMODIFIER_PERCENTRELATIONLANDBYMOB.name();
 	public static Map<Relation, Double> damageModifierPercentRelationLocationByMob = MiscUtil.newMap(
 		Relation.ALLY, 100.0,
 		Relation.ENEMY, 100.0,
@@ -271,40 +328,62 @@ public class Config {
 		Relation.TRUCE, 100.0
 	);
 		
+	protected static String _damageModifierPercentWilderness = Lang.CONFIG_DAMAGEMODIFIER_GLOBALWILDERNESS.name();
 	public static double damageModifierPercentWilderness = 100.0;
 	
+	protected static String _damageModifierPercentSafezone = Lang.CONFIG_DAMAGEMODIFIER_GLOBALSAFEZONE.name();
 	public static double damageModifierPercentSafezone = 100.0;
 	
+	protected static String _damageModifierPercentWarzone = Lang.CONFIG_DAMAGEMODIFIER_GLOBALWARZONE.name();
 	public static double damageModifierPercentWarzone = 100.0;
 	
 	// -------------------------------------------------- //
 	// EXPANSION: FactionsChat
-	// -------------------------------------------------- // 
+	// -------------------------------------------------- //
+	
+	protected static String _sectionFactionChat = Lang.CONFIG_FACTIONCHAT_SECTION.name();
+	
 	public static FactionsChatConfig expansionsFactionsChat = new FactionsChatConfig();
 	
 	// -------------------------------------------------- //
 	// EXPANSION: FactionsFly
 	// -------------------------------------------------- //
+	
+	protected static String _sectionFactionFly = Lang.CONFIG_FACTIONFLY_SECTION.name();
+	
 	public static FactionsFlyConfig expansionFactionsFly = new FactionsFlyConfig();
 		
 	// -------------------------------------------------- //
 	// TASKS
 	// -------------------------------------------------- //
+	
+	protected static String _sectionTasks = Lang.CONFIG_TASKS_SECTION.name();
+	
+	protected static String _saveToFileEveryXMinutes = Lang.CONFIG_TASKS_SAVETOFILEEVERYXMINUTES.name();
 	public static double saveToFileEveryXMinutes = 30.0;
 
+	protected static String _autoLeaveAfterDaysOfInactivity = Lang.CONFIG_TASKS_AUTOLEAVEAFTERDAYSOFINACTIVITY.name();
 	public static long autoLeaveAfterDaysOfInactivity = 28;
 	
+	protected static String _autoLeaveRoutineRunsEveryXMinutes = Lang.CONFIG_TASKS_AUTOLEAVEROUTINEXMINUTES.name();
 	public static double autoLeaveRoutineRunsEveryXMinutes = 5.0;
 	
+	protected static String _autoLeaveRoutineMaxMillisecondsPerTick = Lang.CONFIG_TASKS_AUTOLEAVEROUTINEMAXMSPERTICK.name();
 	public static int autoLeaveRoutineMaxMillisecondsPerTick = 5;
 	
+	protected static String _removePlayerDataWhenBanned = Lang.CONFIG_TASKS_REMOVEWHENBANNED.name();
 	public static boolean removePlayerDataWhenBanned = false;
 	
+	protected static String _autoLeaveDeleteFPlayerData = Lang.CONFIG_TASKS_AUTOLEAVEDELETEFPLAYERDATA.name();
 	public static boolean autoLeaveDeleteFPlayerData = false; 
 	
 	// -------------------------------------------------- //
 	// FORMAT
 	// -------------------------------------------------- //
+	protected static String _sectionFormat = Lang.CONFIG_FORMAT_SECTION.name();
+
+	protected static String _sectionFormatDesc = Lang.CONFIG_FORMAT_DESC.name();
+
 	public static Map<Character.UnicodeScript, Boolean> enabledScriptSupport = MiscUtil.map(
 		Character.UnicodeScript.ARABIC, false,
 		Character.UnicodeScript.BALINESE, false,
@@ -315,6 +394,9 @@ public class Config {
 	// -------------------------------------------------- //
 	// SERVER LOGGING
 	// -------------------------------------------------- //
+	
+	protected static String _sectionServerLogging = Lang.CONFIG_SERVERLOGGING_SECTION.name();
+
 	public static boolean logFactionCreate = true;
 	
 	public static boolean logFactionDisband = true;
@@ -338,6 +420,9 @@ public class Config {
 	// -------------------------------------------------- //
 	// EXPLOIT
 	// -------------------------------------------------- //
+	
+	protected static String _sectionExploits = Lang.CONFIG_EXPLOITS_SECTION.name();
+
 	public static boolean handleExploitObsidianGenerators = true;
 	
 	public static boolean handleExploitEnderPearlClipping = true;
@@ -355,6 +440,9 @@ public class Config {
 	// -------------------------------------------------- //
 	// PORTALS
 	// -------------------------------------------------- //
+	
+	protected static String _sectionPortals = Lang.CONFIG_PORTALS_SECTION.name();
+
 	public static boolean portalsLimit = false;
 	
 	public static String portalsMinimumRelation = "MEMBER";
@@ -362,6 +450,9 @@ public class Config {
 	// -------------------------------------------------- //
 	// SCOREBOARD
 	// -------------------------------------------------- //
+	
+	protected static String _sectionScoreboard = Lang.CONFIG_SCOREBOARD_SECTION.name();
+
 	public static boolean scoreboardInChat = false;
 	
 	public static long scoreboardExpiresSecs = 6;
@@ -404,8 +495,10 @@ public class Config {
 	);
 	
 	// -------------------------------------------------- //
-	// TITLES
+	// TERRITORY TITLES
 	// -------------------------------------------------- //
+
+	protected static String _sectionTerritoryTitles = Lang.CONFIG_TERRITORYTITLES_SECTION.name();
 
 	// show territory title on land change
 	public static boolean territoryTitlesShow = true;
@@ -431,6 +524,9 @@ public class Config {
 	// -------------------------------------------------- //
 	// TELEPORT TO SPAWN ON LOGOUT 
 	// -------------------------------------------------- //
+	
+	protected static String _sectionTeleportToSpawn = Lang.CONFIG_TELEPROTTOSPAWN_SECTION.name();
+	
 	public static boolean teleportToSpawnOnLogoutInRelationEnabled = false;
 	
 	public static List<String> teleportToSpawnOnLogoutInRelationWorlds = Lists.newArrayList(
@@ -443,81 +539,14 @@ public class Config {
 	);
 	
 	// -------------------------------------------------- //
-	// TERRITORY CHANGE
+	// TERRITORY
 	// -------------------------------------------------- //
 
+	protected static String _sectionTerritory = Lang.CONFIG_TERRITORY_SECTION.name();
+	
 	public static boolean territoryChangeText = true;
 	
 	public static boolean territoryChangePermissionGroups = true;
-	
-	// -------------------------------------------------- //
-	// WARPS
-	// -------------------------------------------------- //
-
-	public static int warpsMax = 5;
-	
-	public static Map<String, Double> warpCost = MiscUtil.map(
-		"set", 5.0,
-		"delete", 5.0,
-		"use", 5.0
-	);
-	
-	// -------------------------------------------------- //
-	// HOMES
-	// -------------------------------------------------- //
-
-	public static boolean homesEnabled = true;
-	public static boolean homesMustBeInClaimedTerritory = true;
-	public static boolean homesTeleportToOnDeath = true;
-	public static boolean homesRespawnFromNoPowerLossWorlds = true;
-	public static boolean homesTeleportCommandEnabled = true;
-	public static boolean homesTeleportCommandEssentialsIntegration = true;
-	public static boolean homesTeleportCommandSmokeEffectEnabled = true;
-	public static float homesTeleportCommandSmokeEffectThickness = 3f;
-	public static boolean homesTeleportAllowedFromEnemyTerritory = true;
-	public static boolean homesTeleportAllowedFromDifferentWorld = true;
-	public static double homesTeleportAllowedEnemyDistance = 32.0;
-	public static boolean homesTeleportIgnoreEnemiesIfInOwnTerritory = true;
-
-	// -------------------------------------------------- //
-	// PVP SETTINGS
-	// -------------------------------------------------- //
-
-	public static boolean disablePVPBetweenNeutralFactions = false;
-	public static boolean disablePVPForFactionlessPlayers = false;
-	public static boolean enablePVPAgainstFactionlessInAttackersLand = false;
-
-	public static int noPVPDamageToOthersForXSecondsAfterLogin = 3;
-
-	// -------------------------------------------------- //
-	// PEACEFUL FACTIONS
-	// -------------------------------------------------- //
-
-	public static boolean peacefulTerritoryDisablePVP = true;
-	public static boolean peacefulTerritoryDisableMonsters = false;
-	public static boolean peacefulTerritoryDisableBoom = false;
-	public static boolean peacefulMembersDisablePowerLoss = true;
-	
-	// -------------------------------------------------- //
-	// CLAIMS
-	// -------------------------------------------------- //
-
-	public static boolean claimsCanBeOutsideBorder = false;
-	public static boolean claimsMustBeConnected = false;
-	public static boolean claimsCanBeUnconnectedIfOwnedByOtherFaction = true;
-	public static int claimsRequireMinFactionMembers = 1;
-	public static int claimedLandsMax = 0;
-	public static int lineClaimLimit = 5;
-
-	public static int maxClaimRadius = 5;
-
-	
-	public static double considerFactionsReallyOfflineAfterXMinutes = 0.0;
-
-	public static int actionDeniedPainAmount = 1;
-
-	// commands which will be prevented if the player is a member of a permanent faction
-	public static Set<String> permanentFactionMemberDenyCommands = MiscUtil.linkedHashSet();
 	
 	// commands which will be prevented when in claimed territory of another faction
 	public static Set<String> territoryNeutralDenyCommands = MiscUtil.linkedHashSet();
@@ -683,6 +712,91 @@ public class Config {
 		CrossEntityType.of(DefaultEntityType.ZOMBIE)
 	);
 	
+	// -------------------------------------------------- //
+	// WARPS
+	// -------------------------------------------------- //
+
+	protected static String _sectionWarps = Lang.CONFIG_WARPS_SECTION.name();
+	
+	public static int warpsMax = 5;
+	
+	public static Map<String, Double> warpCost = MiscUtil.map(
+		"set", 5.0,
+		"delete", 5.0,
+		"use", 5.0
+	);
+	
+	// -------------------------------------------------- //
+	// HOMES
+	// -------------------------------------------------- //
+
+	protected static String _sectionHomes = Lang.CONFIG_HOMES_SECTION.name();
+
+	public static boolean homesEnabled = true;
+	public static boolean homesMustBeInClaimedTerritory = true;
+	public static boolean homesTeleportToOnDeath = true;
+	public static boolean homesRespawnFromNoPowerLossWorlds = true;
+	public static boolean homesTeleportCommandEnabled = true;
+	public static boolean homesTeleportCommandEssentialsIntegration = true;
+	public static boolean homesTeleportCommandSmokeEffectEnabled = true;
+	public static float homesTeleportCommandSmokeEffectThickness = 3f;
+	public static boolean homesTeleportAllowedFromEnemyTerritory = true;
+	public static boolean homesTeleportAllowedFromDifferentWorld = true;
+	public static double homesTeleportAllowedEnemyDistance = 32.0;
+	public static boolean homesTeleportIgnoreEnemiesIfInOwnTerritory = true;
+
+	// -------------------------------------------------- //
+	// PVP SETTINGS
+	// -------------------------------------------------- //
+
+	protected static String _sectionPVPSettings = Lang.CONFIG_PVPSETTINGS_SECTION.name();
+
+	public static boolean disablePVPBetweenNeutralFactions = false;
+	public static boolean disablePVPForFactionlessPlayers = false;
+	public static boolean enablePVPAgainstFactionlessInAttackersLand = false;
+
+	public static int noPVPDamageToOthersForXSecondsAfterLogin = 3;
+
+	// -------------------------------------------------- //
+	// PEACEFUL FACTIONS
+	// -------------------------------------------------- //
+
+	protected static String _sectionPeaceful = Lang.CONFIG_PEACEFUL_SECTION.name();
+
+	public static boolean peacefulTerritoryDisablePVP = true;
+	public static boolean peacefulTerritoryDisableMonsters = false;
+	public static boolean peacefulTerritoryDisableBoom = false;
+	public static boolean peacefulMembersDisablePowerLoss = true;
+	
+	// -------------------------------------------------- //
+	// CLAIMS
+	// -------------------------------------------------- //
+
+	protected static String _sectionClaims = Lang.CONFIG_CLAIMS_SECTION.name();
+
+	public static boolean claimsCanBeOutsideBorder = false;
+	public static boolean claimsMustBeConnected = false;
+	public static boolean claimsCanBeUnconnectedIfOwnedByOtherFaction = true;
+	public static int claimsRequireMinFactionMembers = 1;
+	public static int claimedLandsMax = 0;
+	public static int lineClaimLimit = 5;
+
+	public static int maxClaimRadius = 5;
+
+	
+	public static double considerFactionsReallyOfflineAfterXMinutes = 0.0;
+
+	public static int actionDeniedPainAmount = 1;
+
+	// commands which will be prevented if the player is a member of a permanent faction
+	public static Set<String> permanentFactionMemberDenyCommands = MiscUtil.linkedHashSet();
+	
+	// -------------------------------------------------- //
+	// ECONOMY
+	// -------------------------------------------------- //
+	
+	protected static String _sectionEconomy = Lang.CONFIG_ECONOMY_SECTION.name();
+	
 	// Economy settings
 	public static boolean econEnabled = false;
 	public static String econUniverseAccount = "universe-" + UUID.randomUUID();
@@ -727,6 +841,8 @@ public class Config {
 	// INTEGRATION: WORLD GUARD
 	// -------------------------------------------------- //
 
+	protected static String _sectionWorldGuard = Lang.CONFIG_WORLDGUARD_SECTION.name();
+
 	public static boolean worldGuardChecking = false;
 	public static boolean worldGuardBuildPriority = false;
 
@@ -748,12 +864,16 @@ public class Config {
 	// INTEGRATION: DYNMAP
 	// -------------------------------------------------- //
 	
+	protected static String _sectionDynmap = Lang.CONFIG_DYNMAP_SECTION.name();
+
 	public static DynmapConfig dynmap = new DynmapConfig();
 	
 	// -------------------------------------------------- //
 	// BUFFERS
 	// -------------------------------------------------- //
 	
+	protected static String _sectionBuffers = Lang.CONFIG_BUFFERS_SECTION.name();
+
 	public static int bufferWorldBorder = 0;
 	public static int bufferFactions = 0;
 	
@@ -761,6 +881,8 @@ public class Config {
 	// STUCK
 	// -------------------------------------------------- //
 	
+	protected static String _sectionStuck = Lang.CONFIG_STUCK_SECTION.name();
+
 	public static long stuckDelay = 0;
 	public static int stuckRadius = 0;
 	
@@ -768,6 +890,8 @@ public class Config {
 	// RAIDS
 	// -------------------------------------------------- //
 	
+	protected static String _sectionRaids = Lang.CONFIG_RAIDS_SECTION.name();
+
 	public static boolean raidable = false;
 	public static boolean raidableAllowOverclaim = true;
 	public static int raidablePowerFreeze = 0;
@@ -776,19 +900,17 @@ public class Config {
 	// VAULTS
 	// -------------------------------------------------- //
 
+	protected static String _sectionVaults = Lang.CONFIG_VAULTS_SECTION.name();
+
 	public static String vaultPrefix = "faction-%s";
 	public static int defaultMaxVaults = 0;
-
-	// -------------------------------------------------- //
-	// BACKEND
-	// -------------------------------------------------- //
-
-	public static PersistType backEnd = PersistType.JSON;
-		
+	
 	// -------------------------------------------------- //
 	// MAP
 	// -------------------------------------------------- //
 
+	protected static String _sectionMap = Lang.CONFIG_MAP_SECTION.name();
+	
 	public static transient int mapHeight = 8;
 	public static transient int mapWidth = 39;
 	public static transient char[] mapKeyChrs = "\\/#$%=&^ABCDEFGHJKLMNOPQRSTUVWXYZ1234567890abcdeghjmnopqrsuvwxyz?".toCharArray();
@@ -798,6 +920,8 @@ public class Config {
 	// HELP
 	// -------------------------------------------------- //
 	
+	protected static String _sectionHelp = Lang.CONFIG_HELP_SECTION.name();
+
 	public static Boolean useOldHelp = false;
 	public static Boolean useCustomHelp = false;
 	public static Map<String, List<String>> helpPages = MiscUtil.map(
@@ -842,6 +966,8 @@ public class Config {
 	// LIST COMMAND
 	// -------------------------------------------- //
 		
+	protected static String _sectionList = Lang.CONFIG_LIST_SECTION.name();
+
 	public static List<String> showLines = Lists.newArrayList(
 		"{header}",
 		"<a>Description: <i>{description}",
@@ -864,11 +990,21 @@ public class Config {
 	// SHOW COMMAND
 	// -------------------------------------------- //
 	
+	protected static String _sectionShow = Lang.CONFIG_SHOW_SECTION.name();
+
 	public static String listHeader = "&e&m----------&r&e[ &2Faction List &9{pagenumber}&e/&9{pagecount} &e]&m----------";
 	public static String listFactionless = "<i>Factionless<i> {factionless} online";
 	public static String listEntry = "<a>{faction} <i>{online} / {members} online, <a>Land / Power / Maxpower: <i>{chunks}/{power}/{maxPower}";
 	
 	public static List<String> listExempt = Lists.newArrayList("some-faction-tag");
+	
+	// -------------------------------------------------- //
+	// BACKEND
+	// -------------------------------------------------- //
+
+	protected static String _sectionBackend = Lang.CONFIG_BACKEND_SECTION.name();
+
+	public static PersistType backEnd = PersistType.JSON;
 	
 	// -------------------------------------------- //
 	// PERSISTANCE

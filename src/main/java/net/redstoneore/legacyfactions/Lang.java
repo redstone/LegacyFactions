@@ -984,7 +984,138 @@ public enum Lang {
 	CONFIG_EMBLEMS_MINROLE("* Minimum role to set emblems."),
 	
 	CONFIG_POWER_SECTION("******************** [ POWER ] ********************"),
+	CONFIG_POWER_MAX("* The maximum power per player."),
+	CONFIG_POWER_MIN("* The minimum power per player."),
+	CONFIG_POWER_STARTING("* The amount of power a player starts with."),
+	CONFIG_POWER_PERMINUTE("* The amount of power per minute.\r\n   * With the default, players get 0.2 per minute. Which means it takes 5 minutes to recover 1 power."),
+	CONFIG_POWER_PERDEATH("* The amount of power lost per death."),
+	CONFIG_POWER_REGENOFFLINE("* Should players regen power while offline? Set to true to enable power regeneration while offline."),
+	CONFIG_POWER_OFFLINELOSS("* Should players lose power while offline?\r\n   * Set to 0 to disable. Otherwise, they will lose this amount per day while offline."),
+	CONFIG_POWER_OFFLINELOSSLIMIT("* The limit for power loss while offline. By default, it is set to 0 so they don't go negative."),
+	CONFIG_POWER_FACTIONMAX("* The maximum power per faction."),
 	
+	CONFIG_PLAYERPREFIX_SECTION("******************** [ PLAYER PREFIX ] ********************"),
+	CONFIG_PLAYERPREFIX_ADMIN("* The prefix for the admin role."),
+	CONFIG_PLAYERPREFIX_COLEADER("* The prefix for the coleader role."),
+	CONFIG_PLAYERPREFIX_MOD("* The prefix for the mod role."),
+	
+	CONFIG_FACTION_SECTION("******************** [ FACTION ] ********************"),
+	CONFIG_FACTION_DEFAULTRELATION("* The default relation of factions when they are created."),
+	CONFIG_FACTION_TAGMIN("* The minimum tag length."),
+	CONFIG_FACTION_TAGMAX("* The maximum tag length."),
+	CONFIG_FACTION_FORCEUPPER("* Should we for the faction name to be all UPPERCASE?"),
+	CONFIG_FACTION_DESCMAX("* Set the maximum description length. Set to -1 to disable."),
+	CONFIG_FACTION_DEFAULTOPEN("* Should factions default to open?"),
+	CONFIG_FACTION_MEMBERLIMIT("* Member limit for factions. Set to -1 to disable."),
+	CONFIG_FACTION_MEMBERLIMITPEACEFUL("* Member limit for peaceful factions. Defaults to previous value if disabled."),
+	CONFIG_FACTION_STARTINGID("* The default starting ID for factions. You shouldn't need to change this."),
+	CONFIG_FACTION_MAPKEY("* Should the key on the faction map. This is the faction names."),
+	CONFIG_FACTION_SHOWNEUTRAL("* Should we show neutral relation factions on the map?"),
+	CONFIG_FACTION_SHOWENEMY("* Should we show enemy relation factions on the map?"),
+	CONFIG_FACTION_ALLOWCOLOURS("* Should we allow colour codes in the faction name?"),
+	CONFIG_FACTION_ALLOWCOLOURSDESC("* Should we allow colour codes in the faction description?"),
+	CONFIG_FACTION_CANLEAVEWITHNEGATIVEPOWER("* Should players be able to leave with negative power?"),
+	CONFIG_FACTION_DISABLEPISTONS("* Should pistons be disable in faction territories?"),
+	CONFIG_FACTION_BROADCASTCHANGETAG("* Should LegacyFactions broadcast faction name tag changes?"),
+	CONFIG_FACTION_BROADCASTCHANGEDESC("* Should LegacyFactions broadcast faction description changes?"),
+	CONFIG_FACTION_PERMNOPROMOTE("* Should permanent factions auto promote a leader when the leader leaves?"),
+	CONFIG_FACTION_AUTOKICK_MIN("* The minimum role required to use the `/f autokick` command"),
+	CONFIG_FACTION_AUTOKICK_MAX("* The maximum value a faction can set their autokick to."),
+	
+	CONFIG_FLAGS_SECTION("******************** [ FLAGS ] ********************"),
+	CONFIG_FLAGS_MINROLE("* Minimum role to set flags."),
+	CONFIG_FLAGS_TOGGLEABLE("* These next few variables allow you to set which flags can be toggled by players.\r\n   * If set to false, only a player in admin bypass mode can toggle them."),
+	
+	CONFIG_DAMAGEMODIFIER_SECTION("******************** [ DAMAGE MODIFIERS ] ********************"),
+	CONFIG_DAMAGEMODIFIER_EXPLANATION("* Damage modifiers are based on a percent. 100 = 100% = the default damage (no change!).\r\n   * If you set a modifier to 120 (120%) then an additional 20% damage will be applied for that condition. \r\n   * If you set them to 80 (80%), 20% less damage will be applied."),
+	CONFIG_DAMAGEMODIFIER_PERCENTRELATIONPLAYER("* Damage from a player based on the relation to that player."),
+	CONFIG_DAMAGEMODIFIER_PERCENTRELATIONLAND("* Damage from a player based on the relation to the land we are standing in."),
+	CONFIG_DAMAGEMODIFIER_PERCENTRELATIONLANDBYMOB("* Damage from a mob based on the relation to the land we are standing in."),
+	CONFIG_DAMAGEMODIFIER_GLOBALWILDERNESS("* Damage from anything in the wilderness."),
+	CONFIG_DAMAGEMODIFIER_GLOBALSAFEZONE("* Damage from anything in the safezone."),
+	CONFIG_DAMAGEMODIFIER_GLOBALWARZONE("* Damage from anything in the warzone."),
+	
+	CONFIG_FACTIONCHAT_SECTION("******************** [ EXPANSION: FACTION CHAT ] ********************"),
+	CONFIG_FACTIONCHAT_ENABLED("* Enable FactionChat expansion."),
+	CONFIG_FACTIONCHAT_ALLIANCECHAT("* Enabled alliance chat."),
+	CONFIG_FACTIONCHAT_TRUCECHAT("* Enable truce chat."),
+	CONFIG_FACTIONCHAT_PUBLICFORMAT("* Enable formatting for public chat."),
+	CONFIG_FACTIONCHAT_FORMATS("* These are the formats you can set for each chat type."),
+	CONFIG_FACTIONCHAT_CHATPLUGINCHANNEL("* If supported, we will integrate with chat plugins and switch to their channels instead of handling it ourselves."),
+	CONFIG_FACTIONCHAT_CHATPLUGINGLOBALCHANNEL("* The global chat channel. Set to blank if you want LegacyFactions to work it out ourselves."),
+	CONFIG_FACTIONCHAT_CHATTAGENABLED("* Injected Chat Tag will cancel the Chat event and send it to players on its own, but allows for relational colours."),
+	CONFIG_FACTIONCHAT_CHATTAGRELATIONALOVERRIDE("* Enable relational override. If you want to use relational placeholders and your chat plugin doesn't support it we must cancel and handle the chat ourselves. "),
+	CONFIG_FACTIONCHAT_CHATTAGPLACEHOLDER("* Chat tag placeholder. "),
+	CONFIG_FACTIONCHAT_CHATTAGFORMATDEFAULT("* Chat Tag format. "),
+	CONFIG_FACTIONCHAT_CHATTAGFORMATFACTIONLESS("* Chat Tag format for factionless. "),
+	
+	CONFIG_FACTIONFLY_SECTION("******************** [ EXPANSION: FACTION FLY ] ********************"),
+	CONFIG_FACTIONFLY_ENABLED("* Enable FactionFly expansion."),
+	CONFIG_FACTIONFLY_ENDERPEARL("* Disable Enderpearl when factions fly is enabled "),
+	CONFIG_FACTIONFLY_CHORUSFRUIT("* Disable Chorus Fruit when factions fly is enabled "),
+	CONFIG_FACTIONFLY_MAXY("* Max fly height. Set to -1 to disable."),
+	CONFIG_FACTIONFLY_NOFALLDAMAGE("* This will make a player not obtain fall damage when fly is disabled"),
+	CONFIG_FACTIONFLY_FLOORTELEPORT("* This will make a player teleport to floor when disabled"),
+	
+	CONFIG_TASKS_SECTION("******************** [ TASKS ] ********************"),
+	CONFIG_TASKS_SAVETOFILEEVERYXMINUTES("* How frequently should we save to file."),
+	CONFIG_TASKS_AUTOLEAVEAFTERDAYSOFINACTIVITY("* After how many days should a player autoleave? "),
+	CONFIG_TASKS_AUTOLEAVEROUTINEXMINUTES("* How frequently should we run the autoleave task?"),
+	CONFIG_TASKS_AUTOLEAVEROUTINEMAXMSPERTICK("* This is used to throttle the autoleave task."),
+	CONFIG_TASKS_REMOVEWHENBANNED("* Remove player data when banned."),
+	CONFIG_TASKS_AUTOLEAVEDELETEFPLAYERDATA("* Delete player data when they autoleave?"),
+	
+	CONFIG_FORMAT_SECTION("******************** [ FORMAT ] ********************"),
+	CONFIG_FORMAT_DESC("* LegacyFactions support multiple script formats. By default, all english characters are supported.\r\n   * You can add support for any other script support that Java allows.\r\n   * See: https://github.com/redstone/LegacyFactions/wiki/Multilingual-Script-Support"),
+	
+	CONFIG_SERVERLOGGING_SECTION("******************** [ SERVER LOGGING ] ********************"),
+	
+	CONFIG_EXPLOITS_SECTION("******************** [ EXPLOITS ] ********************"),
+	
+	CONFIG_PORTALS_SECTION("******************** [ PORTALS ] ********************"),
+	
+	CONFIG_SCOREBOARD_SECTION("******************** [ SCOREBOARD ] ********************"),
+	
+	CONFIG_TERRITORYTITLES_SECTION("******************** [ TERRITORY TITLES ] ********************"),
+	
+	CONFIG_TELEPROTTOSPAWN_SECTION("******************** [ TELEPORT TO SPAWN ON LOGOUT ] ********************"),
+	
+	CONFIG_TERRITORY_SECTION("******************** [ TERRITORY ] ********************"),
+	
+	CONFIG_WARPS_SECTION("******************** [ WARPS ] ********************"),
+	
+	CONFIG_HOMES_SECTION("******************** [ HOMES ] ********************"),
+	
+	CONFIG_PVPSETTINGS_SECTION("******************** [ PVP SETTINGS ] ********************"),
+	
+	CONFIG_PEACEFUL_SECTION("******************** [ PEACEFUL FACTIONS ] ********************"),
+	
+	CONFIG_CLAIMS_SECTION("******************** [ CLAIMS ] ********************"),
+	
+	CONFIG_ECONOMY_SECTION("******************** [ ECONOMY ] ********************"),
+	
+	CONFIG_WORLDGUARD_SECTION("******************** [ WORLDGUARD ] ********************"),
+	
+	CONFIG_DYNMAP_SECTION("******************** [ DYNMAP ] ********************"),
+	
+	CONFIG_BUFFERS_SECTION("******************** [ BUFFERS ] ********************"),
+	
+	CONFIG_STUCK_SECTION("******************** [ STUCK ] ********************"),
+	
+	CONFIG_RAIDS_SECTION("******************** [ RAIDS ] ********************"),
+	
+	CONFIG_VAULTS_SECTION("******************** [ VAULTS ] ********************"),
+	
+	CONFIG_MAP_SECTION("******************** [ MAP COMMAND ] ********************"),
+	
+	CONFIG_HELP_SECTION("******************** [ HELP COMMAND ] ********************"),
+	
+	CONFIG_LIST_SECTION("******************** [ LIST COMMAND ] ********************"),
+	
+	CONFIG_SHOW_SECTION("******************** [ SHOW COMMAND ] ********************"),
+	
+	CONFIG_BACKEND_SECTION("******************** [ BACKEND ] ********************"),
+
 	;
 	
 	// -------------------------------------------------- //
