@@ -19,7 +19,7 @@ public interface BoardDeprected {
 	// -------------------------------------------------- //
 	
 	/**
-	 * Deprecated, use {@link #getIdAt(Locality)}
+	 * Deprecated, use {@link Board#getIdAt(Locality)}
 	 * @param flocation
 	 * @return
 	 */
@@ -30,7 +30,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #getFactionAt(Locality)}
+	 * Deprecated, use {@link Board#getFactionAt(Locality)}
 	 * @param flocation
 	 * @return
 	 */
@@ -41,7 +41,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #setFactionAt(Faction, Locality)}
+	 * Deprecated, use {@link Board#setFactionAt(Faction, Locality)}
 	 * @param id
 	 * @param flocation
 	 */
@@ -52,7 +52,7 @@ public interface BoardDeprected {
 	}
 
 	/**
-	 * Deprecated, use {@link #setFactionAt(Faction, Locality)}
+	 * Deprecated, use {@link Board#setFactionAt(Faction, Locality)}
 	 * @param faction
 	 * @param flocation
 	 */
@@ -62,7 +62,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #removeAt(Locality)}
+	 * Deprecated, use {@link Board#removeAt(Locality)}
 	 * @param flocation
 	 */
 	@Deprecated
@@ -72,7 +72,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #getFactionCoordCountInWorld(Faction, World)}<br>
+	 * Deprecated, use {@link Board#getFactionCoordCountInWorld(Faction, World)}<br>
 	 * For removal 10/2017
 	 * @param faction
 	 * @param worldName
@@ -85,7 +85,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #getMap(Faction, Locality, double)}<br>
+	 * Deprecated, use {@link Board#getMap(Faction, Locality, double)}<br>
 	 * For removal 10/2017
 	 * @param faction
 	 * @param flocation
@@ -109,7 +109,7 @@ public interface BoardDeprected {
 	}
 
 	/**
-	 * Deprecated, use {@link #isBorderLocation(Locality)}<br>
+	 * Deprecated, use {@link Board#isBorderLocation(Locality)}<br>
 	 * For removal 10/2017
 	 * @param flocation
 	 * @return
@@ -121,7 +121,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #isConnectedLocation(Locality, Faction)}<br>
+	 * Deprecated, use {@link Board#isConnectedLocation(Locality, Faction)}<br>
 	 * For removal 10/2017
 	 * @param flocation
 	 * @param faction
@@ -134,7 +134,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #hasFactionWithin(Locality, Faction, int)}<br>
+	 * Deprecated, use {@link Board#hasFactionWithin(Locality, Faction, int)}<br>
 	 * For removal 10/2017
 	 * @param flocation
 	 * @param faction
@@ -148,7 +148,7 @@ public interface BoardDeprected {
 	}
 	
 	/**
-	 * Deprecated, use {@link #getAll(String)}<br>
+	 * Deprecated, use {@link Board#getAll(String)}<br>
 	 * For removal 11/2017
 	 * @return	
 	 */
@@ -156,14 +156,14 @@ public interface BoardDeprected {
 	public Set<FLocation> getAllClaims(String factionId);
 
 	/**
-	 * Deprecated, use {@link #getAll(Faction)}<br>
+	 * Deprecated, use {@link Board#getAll(Faction)}<br>
 	 * For removal 11/2017
 	 */
 	@Deprecated
 	public Set<FLocation> getAllClaims(Faction faction);
 
 	/**
-	 * Deprecated, use {@link #getAll()}<br>
+	 * Deprecated, use {@link Board#getAll()}<br>
 	 * For removal 11/2017
 	 */
 	@Deprecated

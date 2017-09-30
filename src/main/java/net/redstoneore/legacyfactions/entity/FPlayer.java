@@ -428,7 +428,7 @@ public interface FPlayer extends EconomyParticipator {
 	 * Deprecated! Use {@link #attemptClaim(Faction, Locality, boolean, boolean)}<br>
 	 * To be removed after 11/2017
 	 * @param forFaction
-	 * @param location
+	 * @param flocation
 	 * @param notifyFailure
 	 * @param eventLandChange
 	 * @return
