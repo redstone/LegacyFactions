@@ -40,7 +40,8 @@ public class CmdFactionsConfig extends FCommand {
 		this.aliases.addAll(CommandAliases.cmdAliasesConfig);
 
 		this.requiredArgs.add("setting");
-		this.requiredArgs.add("value");
+		this.optionalArgs.put("[value or view/add/remove]", "view");
+		
 		this.errorOnToManyArgs = false;
 
 		this.permission = Permission.CONFIG.getNode();
@@ -78,7 +79,16 @@ public class CmdFactionsConfig extends FCommand {
 			sendMessage(Lang.COMMAND_CONFIG_NOEXIST, field);
 			return;
 		}
-
+		
+		if (!this.argIsSet(1) || this.argAsString(1).equalsIgnoreCase("view")) {
+			try {
+				this.sendMessage(fieldName + " = " + Config.class.getField(fieldName).get(this).toString());
+			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+		
 		String success;
 
 		String value = args.get(1);
