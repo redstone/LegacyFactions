@@ -57,22 +57,27 @@ public class CmdFactionsConfig extends FCommand {
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
-
-	@Override
-	public void perform() {
-		// store a lookup map of lowercase field names paired with proper capitalization field names
-		// that way, if the person using this command messes up the capitalization, we can fix that
+	
+	public void cacheProperFieldNames() {
+		// Store a lookup map of lowercase field names paired with proper capitalisation field names
+		// this way, if the person using this command messes up the capitalisation, we can fix that
 		if (properFieldNames.isEmpty()) {
 			Field[] fields = Config.class.getDeclaredFields();
 			for (int i = 0; i < fields.length; i++) {
 				properFieldNames.put(fields[i].getName().toLowerCase(), fields[i].getName());
 			}
 		}
+	}
+	
+	@Override
+	public void perform() {
+		this.cacheProperFieldNames();
 
 		String field = this.argAsString(0).toLowerCase();
 		if (field.startsWith("\"") && field.endsWith("\"")) {
 			field = field.substring(1, field.length() - 1);
 		}
+		
 		String fieldName = properFieldNames.get(field);
 
 		if (fieldName == null || fieldName.isEmpty()) {
