@@ -198,6 +198,19 @@ public class Locality implements Serializable {
 		this.chunkZ = chunkZ;
 	}
 	
+	// -------------------------------------------------- //
+	// FLOCATION DEPRECATED CONSTRUCTORS
+	// -------------------------------------------------- //
+	
+	protected Locality(String worldName, int chunkX, int chunkZ) {
+		this.localityType = Type.Chunk;
+		
+		this.worldName = worldName;
+		
+		this.chunkX = chunkX;
+		this.chunkZ = chunkZ;
+	}
+	
 	/**
 	 * only used when fields are being set manually from static {@link Locality Locality#of} methods
 	 */
@@ -245,14 +258,29 @@ public class Locality implements Serializable {
 		return this.localityType;
 	}
 	
+	public double getLocationX() {
+		return this.locationX;
+	}
+	
+	public double getLocationY() {
+		return this.locationY;
+	}
+	
+	public double getLocationZ() {
+		return this.locationZ;
+	}
+	
+	@Deprecated
 	public double X() {
 		return this.locationX;
 	}
 	
+	@Deprecated
 	public double Y() {
 		return this.locationY;
 	}
 	
+	@Deprecated
 	public double Z() {
 		return this.locationZ;
 	}
@@ -298,7 +326,19 @@ public class Locality implements Serializable {
 	}
 	
 	public World getWorld() {
+		if (this.world == null && this.worldName != null) {
+			World world = Bukkit.getWorld(this.worldName);
+			this.world = world.getUID();
+			return world;
+		}
 		return Bukkit.getWorld(this.getWorldUID());
+	}
+	
+	public String getWorldName() {
+		if (this.worldName == null) {
+			this.worldName = this.getWorld().getName();
+		}
+		return this.worldName;
 	}
 	
 	public String getCoordString() {
@@ -385,6 +425,14 @@ public class Locality implements Serializable {
 		Locality locality = this.copy();
 		locality.locationZ -= z;
 		return locality;
+	}
+	
+	public void setChunkX(int x) {
+		this.chunkX = x;
+	}
+	
+	public void setChunkZ(int z) {
+		this.chunkZ = z;
 	}
 	
 	// -------------------------------------------------- //

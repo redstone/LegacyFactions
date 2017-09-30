@@ -507,6 +507,7 @@ public abstract class MemoryFaction extends SharedFaction {
 	// Ownership of specific claims
 	// ----------------------------------------------//
 
+	@Override
 	public Map<FLocation, Set<String>> getClaimOwnership() {
 		return this.claimOwnership;
 	}

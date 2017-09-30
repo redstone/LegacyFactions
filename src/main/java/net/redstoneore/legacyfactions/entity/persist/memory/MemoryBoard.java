@@ -1,14 +1,13 @@
 package net.redstoneore.legacyfactions.entity.persist.memory;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
 import net.redstoneore.legacyfactions.*;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedBoard;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.locality.LocalityLazy;
+import net.redstoneore.legacyfactions.mixin.DebugMixin;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
 import org.bukkit.World;
@@ -19,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -30,18 +30,23 @@ import java.util.TreeMap;
  */
 public abstract class MemoryBoard extends SharedBoard {
 
-	public MemoryBoardMap flocationIds = new MemoryBoardMap();
+	// -------------------------------------------------- //
+	// FIELDS
+	// -------------------------------------------------- // 
+	
+	public MemoryBoardLocalityMap flocationIds = new MemoryBoardLocalityMap();
 	
 	// -------------------------------------------------- //
 	// GETTERS AND SETTERS
 	// -------------------------------------------------- //
 		
-	public String getIdAt(FLocation flocation) {
-		if (!flocationIds.containsKey(flocation)) {
+	@Override
+	public String getIdAt(Locality locality) {
+		if (!flocationIds.containsKey(locality)) {
 			return "0";
 		}
 		
-		return flocationIds.get(flocation);
+		return flocationIds.get(locality);
 	}
 	
 	@Override
@@ -52,19 +57,9 @@ public abstract class MemoryBoard extends SharedBoard {
 			this.removeAt(locality);
 		}
 
-		this.flocationIds.put(new FLocation(locality.getChunk()), id);
+		this.flocationIds.put(locality, id);
 	}
 	
-	@Override
-	public void setIdAt(String id, FLocation flocation) {
-		this.clearOwnershipAt(flocation);
-
-		if (id.equals("0")) {
-			this.removeAt(flocation);
-		}
-
-		this.flocationIds.put(flocation, id);
-	}
 	
 	@Override
 	public void removeAt(Locality locality) {
@@ -76,34 +71,9 @@ public abstract class MemoryBoard extends SharedBoard {
 			.forEach(warp -> warp.delete());
 		
 		this.clearOwnershipAt(locality);
-		flocationIds.remove(new FLocation(locality.getChunk()));
-	}
-	
-	@Override
-	public void removeAt(FLocation flocation) {
-		this.removeAt(Locality.of(flocation.getChunk()));
+		this.flocationIds.remove(locality);
 	}
 
-	@Override
-	public Set<FLocation> getAllClaims(String factionId) {
-		Set<FLocation> locs = new HashSet<>();
-		Iterator<Entry<FLocation, String>> iter = flocationIds.entrySet().iterator();
-		while (iter.hasNext()) {
-			Entry<FLocation, String> entry = iter.next();
-			if (entry.getValue().equals(factionId)) {
-				locs.add(entry.getKey());
-			}
-		}
-		return locs;
-	}
-
-	@Override
-	public Set<FLocation> getAllClaims() {
-		Set<FLocation> claims = new HashSet<>();
-		claims.addAll(flocationIds.keySet());
-		
-		return claims;
-	}
 	
     // ---------------------------------------------- //
 	// CLEANER
@@ -111,9 +81,9 @@ public abstract class MemoryBoard extends SharedBoard {
 
 	@Override
 	public void clean() {
-		Iterator<Entry<FLocation, String>> iter = flocationIds.entrySet().iterator();
+		Iterator<Entry<Locality, String>> iter = flocationIds.entrySet().iterator();
 		while (iter.hasNext()) {
-			Entry<FLocation, String> entry = iter.next();
+			Entry<Locality, String> entry = iter.next();
 			if (!FactionColl.get().isValidFactionId(entry.getValue())) {
 				Factions.get().log("Board cleaner removed " + entry.getValue() + " from " + entry.getKey());
 				iter.remove();
@@ -131,15 +101,15 @@ public abstract class MemoryBoard extends SharedBoard {
     // ---------------------------------------------- //
 
 	public int getFactionCoordCount(String factionId) {
-		return flocationIds.getOwnedLandCount(factionId);
+		return this.flocationIds.getOwnedLandCount(factionId);
 	}
 	
 	public int getFactionCoordCountInWorld(Faction faction, World world) {
 		String factionId = faction.getId();
 		int ret = 0;
-		Iterator<Entry<FLocation, String>> iter = flocationIds.entrySet().iterator();
+		Iterator<Entry<Locality, String>> iter = flocationIds.entrySet().iterator();
 		while (iter.hasNext()) {
-			Entry<FLocation, String> entry = iter.next();
+			Entry<Locality, String> entry = iter.next();
 			if (entry.getValue().equals(factionId) && entry.getKey().getWorld().getUID() == world.getUID()) {
 				ret += 1;
 			}
@@ -147,15 +117,33 @@ public abstract class MemoryBoard extends SharedBoard {
 		return ret;
 	}
 	
-	public void convertFrom(MemoryBoard old) {
-		this.flocationIds = old.flocationIds;
-		this.forceSave();
-		Board.instance = this;
+	@Override
+	public Set<Locality> getAll(String factionId) {
+		return this.flocationIds.entrySet().stream()
+			.filter(entry -> entry.getValue().equals(factionId))
+			.map(entry -> entry.getKey())
+			.collect(Collectors.toSet());
+	}
+
+	@Override
+	public Set<Locality> getAll(Faction faction) {
+		return this.getAll(faction.getId());		
+	}
+
+	@Override
+	public Set<Locality> getAll() {
+		return new HashSet<>(this.flocationIds.keySet());
 	}
 	
 	// -------------------------------------------------- //
 	// PERSISTANCE
 	// -------------------------------------------------- //
+
+	public void convertFrom(MemoryBoard old) {
+		this.flocationIds = old.flocationIds;
+		this.forceSave();
+		Board.instance = this;
+	}
 
 	public Map<String, Map<String, String>> dumpAsSaveFormat() {
 		Map<String, Map<String, String>> worldCoordIds = new HashMap<String, Map<String, String>>();
@@ -163,7 +151,7 @@ public abstract class MemoryBoard extends SharedBoard {
 		String worldName, coords;
 		String id;
 
-		for (Entry<FLocation, String> entry : flocationIds.entrySet()) {
+		for (Entry<Locality, String> entry : flocationIds.entrySet()) {
 			worldName = entry.getKey().getWorldName();
 			coords = entry.getKey().getCoordString();
 			id = entry.getValue();
@@ -182,65 +170,75 @@ public abstract class MemoryBoard extends SharedBoard {
 
 		String worldName;
 		String[] coords;
-		int x, z;
+		int chunkX, chunkZ;
 		String factionId;
 
 		for (Entry<String, Map<String, String>> entry : worldCoordIds.entrySet()) {
 			worldName = entry.getKey();
 			for (Entry<String, String> entry2 : entry.getValue().entrySet()) {
 				coords = entry2.getKey().trim().split("[,\\s]+");
-				x = Integer.parseInt(coords[0]);
-				z = Integer.parseInt(coords[1]);
+				chunkX = Integer.parseInt(coords[0]);
+				chunkZ = Integer.parseInt(coords[1]);
 				factionId = entry2.getValue();
-				flocationIds.put(new FLocation(worldName, x, z), factionId);
+				flocationIds.put(LocalityLazy.of(worldName, chunkX, chunkZ), factionId);
 			}
 		}
 	}
 	
-	// TODO: move out of this class into its own.
-	public class MemoryBoardMap extends HashMap<FLocation, String> {
+	// -------------------------------------------------- //
+	// DEPRECATED
+	// -------------------------------------------------- //
+	
+	@Deprecated
+	@Override
+	public void removeAt(FLocation flocation) {
+		DebugMixin.deprecatedWarning("Board#removeAt(FLocation)", "Board#removeAt(Locality)");
+		this.removeAt(Locality.of(flocation.getChunk()));
+	}
+
+	@Deprecated
+	@Override
+	public Set<FLocation> getAllClaims(String factionId) {
+		DebugMixin.deprecatedWarning("Board#getAllClaims(factionId)", "Board#getAll(factionId)");
+
+		Set<FLocation> locs = new HashSet<>();
+		Iterator<Entry<Locality, String>> iter = flocationIds.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<Locality, String> entry = iter.next();
+			if (entry.getValue().equals(factionId)) {
+				locs.add((FLocation) entry.getKey());
+			}
+		}
+		return locs;
+	}
+
+	@Deprecated
+	@Override
+	public final Set<FLocation> getAllClaims() {
+		DebugMixin.deprecatedWarning("Board#getAllClaims()", "Board#getAll()");
+
+		return this.flocationIds.keySet().stream()
+			.map(locality -> (FLocation) locality)
+			.collect(Collectors.toSet());
+	}
+	
+	@Deprecated
+	@Override
+	public void setIdAt(String id, FLocation flocation) {
+		DebugMixin.deprecatedWarning("Board#setIdAt(String, FLocation)", "Board#setIdAt(String, Locality)");
+
+		this.setIdAt(id, (Locality) flocation);
+	}
+	
+	@Deprecated
+	public class MemoryBoardMap extends MemoryBoardLocalityMap {
 		private static final long serialVersionUID = -6689617828610585368L;
-
-		Multimap<String, FLocation> factionToLandMap = HashMultimap.create();
-
-		 @Override
-		 public String put(FLocation floc, String factionId) {
-			 String previousValue = super.put(floc, factionId);
-			 if (previousValue != null) {
-				 factionToLandMap.remove(previousValue, floc);
-			 }
-
-			 factionToLandMap.put(factionId, floc);
-			 return previousValue;
-		 }
-
-		 @Override
-		 public String remove(Object key) {
-			 String result = super.remove(key);
-			 if (result != null) {
-				 FLocation floc = (FLocation) key;
-				 factionToLandMap.remove(result, floc);
-			 }
-
-			 return result;
-		 }
-
-		 @Override
-		 public void clear() {
-			 super.clear();
-			 factionToLandMap.clear();
-		 }
-
-		 public int getOwnedLandCount(String factionId) {
-			 return factionToLandMap.get(factionId).size();
-		 }
-
-		 public void removeFaction(String factionId) {
-			 Collection<FLocation> flocations = factionToLandMap.removeAll(factionId);
-			 for (FLocation floc : flocations) {
-				 super.remove(floc);
-			 }
-		 }
+		
+		@Deprecated
+		public String put(FLocation floc, String factionId) {
+			DebugMixin.deprecatedWarning("Board.MemoryBoardMap#put(FLocation, String)", "DO NOT REFERENCE THIS CLASS TYPE");
+			return super.put(floc, factionId);
+		}
 	}
 	
 }

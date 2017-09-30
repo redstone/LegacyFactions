@@ -10,13 +10,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.mixin.DebugMixin;
 import net.redstoneore.legacyfactions.util.AsciiCompass;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
@@ -26,17 +26,6 @@ public abstract class SharedBoard extends Board {
 	// ---------------------------------------------- //
 	// GET AND SET 
 	// ---------------------------------------------- //
-
-	@Override
-	public String getIdAt(Locality locality) {
-		FLocation flocation = new FLocation(locality.getWorld().getName(), locality.getChunkX(), locality.getChunkZ());
-		return this.getIdAt(flocation);
-	}
-	
-	@Override
-	public Faction getFactionAt(FLocation flocation) {
-		return FactionColl.get().getFactionById(this.getIdAt(flocation));
-	}
 	
 	@Override
 	public Faction getFactionAt(Locality locality) {
@@ -47,12 +36,7 @@ public abstract class SharedBoard extends Board {
 	public void setFactionAt(Faction faction, Locality locality) {
 		this.setIdAt(faction.getId(), locality);
 	}
-	
-	@Override
-	public void setFactionAt(Faction faction, FLocation flocation) {
-		this.setIdAt(faction.getId(), Locality.of(flocation.getChunk()));
-	}
-	
+		
 	@Override
 	public int getFactionCoordCountInWorld(Faction faction, String worldName) {
 		return this.getFactionCoordCountInWorld(faction, Bukkit.getWorld(worldName));
@@ -83,16 +67,11 @@ public abstract class SharedBoard extends Board {
 				.forEach(FactionWarp::delete);
 		}
 		
-		faction.getAllClaims().stream()
-			.filter(claim -> claim.getWorld().getUID() == world.getUID())
+		faction.getClaims().stream()
+			.filter(claim -> claim.getWorldUID() == world.getUID())
 			.forEach(claim -> this.removeAt(claim));
 	}
-	
-	@Override
-	public Set<FLocation> getAllClaims(Faction faction) {
-		return getAllClaims(faction.getId());
-	}
-	
+		
 	// ---------------------------------------------- //
 	// OWNERSHIP
 	// ---------------------------------------------- //
@@ -104,11 +83,6 @@ public abstract class SharedBoard extends Board {
 		if (faction != null && faction.isNormal()) {
 			faction.ownership().clearAt(locality);
 		}
-	}
-	
-	@Override
-	public void clearOwnershipAt(FLocation flocation) {
-		this.clearOwnershipAt(Locality.of(flocation.getChunk()));
 	}
 	
 	// ---------------------------------------------- //
@@ -124,16 +98,6 @@ public abstract class SharedBoard extends Board {
 		Locality d = locality.getRelative(0, -1);
 		return faction != this.getFactionAt(a) || faction != this.getFactionAt(b) || faction != this.getFactionAt(c) || faction != this.getFactionAt(d);
 	}
-	
-	@Override
-	public boolean isBorderLocation(FLocation flocation) {
-		Faction faction = getFactionAt(flocation);
-		FLocation a = flocation.getRelative(1, 0);
-		FLocation b = flocation.getRelative(-1, 0);
-		FLocation c = flocation.getRelative(0, 1);
-		FLocation d = flocation.getRelative(0, -1);
-		return faction != getFactionAt(a) || faction != getFactionAt(b) || faction != getFactionAt(c) || faction != getFactionAt(d);
-	}
 
 	@Override
 	public boolean isConnectedLocation(Locality locality, Faction faction) {
@@ -142,15 +106,6 @@ public abstract class SharedBoard extends Board {
 			Locality c = locality.getRelative(0, 1);
 			Locality d = locality.getRelative(0, -1);
 		return faction == this.getFactionAt(a) || faction == this.getFactionAt(b) || faction == this.getFactionAt(c) || faction == this.getFactionAt(d);
-	}
-	
-	@Override
-	public boolean isConnectedLocation(FLocation flocation, Faction faction) {
-		FLocation a = flocation.getRelative(1, 0);
-		FLocation b = flocation.getRelative(-1, 0);
-		FLocation c = flocation.getRelative(0, 1);
-		FLocation d = flocation.getRelative(0, -1);
-		return faction == getFactionAt(a) || faction == getFactionAt(b) || faction == getFactionAt(c) || faction == getFactionAt(d);
 	}
 	
 	@Override
@@ -170,12 +125,6 @@ public abstract class SharedBoard extends Board {
 			}
 		}
 		return false;
-	}
-	
-	@Override
-	@Deprecated
-	public boolean hasFactionWithin(FLocation flocation, Faction faction, int radius) {
-		return this.hasFactionWithin(Locality.of(flocation.getChunk()), faction, radius);
 	}
 	
 	// -------------------------------------------------- //
@@ -277,8 +226,40 @@ public abstract class SharedBoard extends Board {
 	}
 	
 	@Override
-	public ArrayList<String> getMap(Faction faction, FLocation flocation, double inDegrees) {
-		return this.getMap(faction, Locality.of(flocation.getChunk()), inDegrees);
+	public Set<Locality> getAll(Faction faction) {
+		return this.getAll(faction.getId());
 	}
+	// -------------------------------------------------- //
+	// DEPRECATED
+	// -------------------------------------------------- //
+	
+	@Deprecated
+	@Override
+	public Set<net.redstoneore.legacyfactions.FLocation> getAllClaims(Faction faction) {
+		DebugMixin.deprecatedWarning("Board#getAllClaims(Faction)", "Board#getAll(Faction)");
+		return this.getAll(faction).stream()
+				.map(locality -> (net.redstoneore.legacyfactions.FLocation) locality)
+				.collect(Collectors.toSet());
+	}
+	
+	@Deprecated
+	@Override
+	public Set<net.redstoneore.legacyfactions.FLocation> getAllClaims() {
+		DebugMixin.deprecatedWarning("Board#getAllClaims(Faction)", "Board#getAll(Faction)");
+		return this.getAll().stream()
+				.map(locality -> (net.redstoneore.legacyfactions.FLocation) locality)
+				.collect(Collectors.toSet());
+	}
+	
+	@Deprecated
+	@Override
+	public Set<net.redstoneore.legacyfactions.FLocation> getAllClaims(String id) {
+		DebugMixin.deprecatedWarning("Board#getAllClaims(Faction)", "Board#getAll(Faction)");
+		return this.getAll(id).stream()
+				.map(locality -> (net.redstoneore.legacyfactions.FLocation) locality)
+				.collect(Collectors.toSet());
+	}
+	
+	
 	
 }

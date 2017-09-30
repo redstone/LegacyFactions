@@ -11,7 +11,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.EconomyParticipator;
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.Role;
@@ -23,6 +22,7 @@ import net.redstoneore.legacyfactions.ownership.FactionOwnership;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.deprecated.FactionDeprecated;
 import net.redstoneore.legacyfactions.event.EventFactionsRelationshipsCapped;
@@ -134,7 +134,7 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 
 	String getAccountId();
 	
-	Set<FLocation> getAllClaims();
+	Set<Locality> getClaims();
 	
 	// -------------------------------------------------- //
 	// FLAGS

@@ -167,7 +167,7 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholderFaction("faction_claims") {
 			@Override
 			public String get(Faction faction) {
-				return String.valueOf(faction.getAllClaims().size());
+				return String.valueOf(faction.getClaims().size());
 			}
 		});
 		
@@ -209,7 +209,7 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholderFaction("faction_count_claims") {
 			@Override
 			public String get(Faction faction) {
-				return String.valueOf(faction.getAllClaims().size());
+				return String.valueOf(faction.getClaims().size());
 			}
 		});
 		
@@ -361,7 +361,7 @@ public class FactionsPlaceholders {
 		this.placeholders.add(new FactionsPlaceholder("count_claims") {
 			@Override
 			public String get(Player player) {
-				return String.valueOf(Board.get().getAllClaims().size());
+				return String.valueOf(Board.get().getAll().size());
 			}
 		});
 		

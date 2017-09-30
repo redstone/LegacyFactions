@@ -203,39 +203,6 @@ public class JSONFactionColl extends MemoryFactionColl {
 		return list;
 	}
 
-	// -------------------------------------------- //
-	// ID MANAGEMENT
-	// -------------------------------------------- //
-
-	public String getNextId() {
-		while (!isIdFree(this.nextId)) {
-			this.nextId += 1;
-		}
-		return Integer.toString(this.nextId);
-	}
-
-	public boolean isIdFree(String id) {
-		return !this.factions.containsKey(id);
-	}
-
-	public boolean isIdFree(int id) {
-		return this.isIdFree(Integer.toString(id));
-	}
-
-	protected synchronized void updateNextIdForId(int id) {
-		if (this.nextId < id) {
-			this.nextId = id + 1;
-		}
-	}
-
-	protected void updateNextIdForId(String id) {
-		try {
-			int idAsInt = Integer.parseInt(id);
-			this.updateNextIdForId(idAsInt);
-		} catch (Exception ignored) {
-		}
-	}
-
 	@Override
 	public Faction generateFactionObject() {
 		String id = getNextId();

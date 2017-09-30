@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.redstoneore.legacyfactions.EconomyParticipator;
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
@@ -39,6 +38,7 @@ import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.locality.LocalityLazy;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
@@ -132,9 +132,10 @@ public abstract class SharedFPlayer implements FPlayer {
 		this.lastFrostwalkerMessage = System.currentTimeMillis();
 	}
 	
+	@Deprecated
 	@Override
-	public FLocation getLastStoodAt() {
-		return FLocation.valueOf(this.lastStoodAtLocation.getLocation());
+	public net.redstoneore.legacyfactions.FLocation getLastStoodAt() {
+		return net.redstoneore.legacyfactions.FLocation.valueOf(this.lastStoodAtLocation.getLocation());
 	}
 	
 	@Override
@@ -147,8 +148,9 @@ public abstract class SharedFPlayer implements FPlayer {
 		return this.lastStoodAtLocation;
 	}
 
+	@Deprecated
 	@Override
-	public void setLastStoodAt(FLocation flocation) {
+	public void setLastStoodAt(net.redstoneore.legacyfactions.FLocation flocation) {
 		this.lastStoodAtLocation = Locality.of(flocation.getChunk());
 	}
 	
@@ -627,12 +629,10 @@ public abstract class SharedFPlayer implements FPlayer {
 	public boolean canClaimForFaction(Faction forFaction) {
 		return !forFaction.isWilderness() && (this.isAdminBypassing() || (forFaction == this.getFaction() && this.getRole().isAtLeast(Role.MODERATOR)) || (forFaction.isSafeZone() && Permission.MANAGE_SAFE_ZONE.has(getPlayer())) || (forFaction.isWarZone() && Permission.MANAGE_WAR_ZONE.has(getPlayer())));
 	}
-
+	
 	@Override
 	public boolean canClaimForFactionAtLocation(Faction forFaction, Location location, boolean notifyFailure) {
-		FLocation flocation = new FLocation(location);
-		
-		return canClaimForFactionAtLocation(forFaction, flocation, notifyFailure);
+		return this.canClaimForFactionAtLocation(forFaction, LocalityLazy.of(location.getWorld().getName(), location.getChunk().getX(), location.getChunk().getZ()), notifyFailure);
 	}
 	
 	@Override
@@ -784,11 +784,6 @@ public abstract class SharedFPlayer implements FPlayer {
 	}
 	
 	@Override
-	public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation flocation, boolean notifyFailure) {
-		return this.canClaimForFactionAtLocation(forFaction, Locality.of(flocation.getChunk()), notifyFailure);
-	}
-	
-	@Override
 	public boolean attemptClaim(Faction forFaction, Locality locality, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
 		return this.attemptClaim(forFaction, locality, notifyFailure, notifyFailure);
 	}
@@ -801,11 +796,6 @@ public abstract class SharedFPlayer implements FPlayer {
 	@Override
 	public boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, boolean notifySuccess) {		
 		return this.attemptClaim(forFaction, Locality.of(location), notifyFailure, notifySuccess);
-	}
-	
-	@Override
-	public boolean attemptClaim(Faction forFaction, FLocation flocation, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
-		return this.attemptClaim(forFaction, Locality.of(flocation.getChunk()), notifyFailure, notifyFailure);
 	}
 	
 	@Override

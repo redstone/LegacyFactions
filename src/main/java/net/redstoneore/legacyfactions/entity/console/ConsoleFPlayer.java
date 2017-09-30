@@ -267,4 +267,5 @@ public class ConsoleFPlayer extends SharedFPlayer {
 		
 		Bukkit.getConsoleSender().sendMessage(message);
 	}
+	
 }

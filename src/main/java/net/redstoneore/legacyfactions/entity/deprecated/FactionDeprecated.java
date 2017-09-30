@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -354,5 +355,17 @@ public interface FactionDeprecated {
 	 */
 	@Deprecated
 	boolean playerHasOwnershipRights(FPlayer fplayer, FLocation loc);
+
+	/**
+	 * Deprecated 14th of 09/2017. Use {@link Faction#ownership()}<br>
+	 * Reason: use locality<br>
+	 * For removal: 29th of 12/2017
+	 */
+	@Deprecated
+	default Set<FLocation> getAllClaims() {
+		return ((Faction)this).getClaims().stream()
+				.map(locality -> FLocation.valueOf(locality.getChunk()))
+				.collect(Collectors.toSet());
+	}
 
 }

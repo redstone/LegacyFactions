@@ -65,7 +65,7 @@ public class CmdFactionsUnclaimall extends FCommand {
 
 		Map<Locality, Faction> transactions = new HashMap<Locality, Faction>();
 		
-		this.myFaction.getAllClaims().forEach(location -> {
+		this.myFaction.getClaims().forEach(location -> {
 			transactions.put(Locality.of(location.getChunk()), FactionColl.get().getWilderness());
 		});
 		

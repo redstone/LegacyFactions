@@ -57,7 +57,7 @@ public class BStatsEngine extends IntegrationEngine {
 		metrics.addCustomChart(new Metrics.SimplePie("legacyfactions_total_claims", new Callable<String>() {
 			@Override
 			public String call() throws Exception {
-				return String.valueOf(Board.get().getAllClaims().size());
+				return String.valueOf(Board.get().getAll().size());
 			}
 		}));
 		

@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.cmd.CmdFactionsSaveAll;
-import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
