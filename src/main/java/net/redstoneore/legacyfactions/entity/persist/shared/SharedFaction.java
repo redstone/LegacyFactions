@@ -524,6 +524,11 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 		return count;
 	}
 	
+	@Override
+	public Faction getFaction() {
+		return this;
+	}
+	
 	// -------------------------------------------------- //
 	// MESSAGES
 	// -------------------------------------------------- //

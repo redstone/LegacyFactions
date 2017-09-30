@@ -103,6 +103,7 @@ public interface FPlayer extends EconomyParticipator {
 	 * Get faction this player is in
 	 * @return faction they're in, returns wilderness if none 
 	 */
+	@Override
 	Faction getFaction();
 
 	/**
