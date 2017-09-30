@@ -2,6 +2,8 @@ package net.redstoneore.legacyfactions;
 
 import org.bukkit.ChatColor;
 
+import net.redstoneore.legacyfactions.entity.Faction;
+
 /**
  * Interface given to entities have relationships 
  */
@@ -18,5 +20,7 @@ public interface RelationParticipator {
     public Relation getRelationTo(RelationParticipator that, boolean ignorePeaceful);
 
     public ChatColor getColorTo(RelationParticipator to);
+    
+    public Faction getFaction();
     
 }

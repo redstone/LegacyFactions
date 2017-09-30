@@ -19,7 +19,6 @@ import net.redstoneore.legacyfactions.integration.vault.VaultUtils;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.BukkitMixin;
 import net.redstoneore.legacyfactions.struct.LandValue;
-import net.redstoneore.legacyfactions.util.RelationUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public abstract class VaultUtilBase {
@@ -116,8 +115,8 @@ public abstract class VaultUtilBase {
 		// You can deposit to anywhere you feel like. It's your loss if you can't withdraw it again.
 		if (who == you) return true;
 		
-		Faction fWho = RelationUtil.getFaction(who);
-		Faction fYou = RelationUtil.getFaction(you);
+		Faction fWho = who.getFaction();
+		Faction fYou = you.getFaction();
 		
 		// This is a system invoker. Accept it.
 		if (fWho == null) return true;
