@@ -152,7 +152,7 @@ public enum Relation {
 	public boolean isAtLeast(Relation relation) {
 		return this.value >= relation.value;
 	}
-
+	
 	/**
 	 * Returns true if they are at most a relation. Order of enemy to member
 	 * @return true if is at most
