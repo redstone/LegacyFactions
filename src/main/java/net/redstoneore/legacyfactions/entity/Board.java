@@ -5,11 +5,11 @@ import java.util.Set;
 
 import org.bukkit.World;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.config.Config;
+import net.redstoneore.legacyfactions.entity.deprecated.BoardDeprected;
 import net.redstoneore.legacyfactions.locality.Locality;
 
-public abstract class Board {
+public abstract class Board implements BoardDeprected {
 	
 	// -------------------------------------------------- //
 	// INSTANCE
@@ -42,7 +42,28 @@ public abstract class Board {
 	 * @param locality Location.
 	 * @return the faction at the location.
 	 */
+	
 	public abstract Faction getFactionAt(Locality locality);
+	
+	/**
+	 * Get all claims for a faction by their id
+	 * @param factionId The faction id.
+	 * @return Set of claims
+	 */
+	public abstract Set<Locality> getAll(String factionId);
+
+	/**
+	 * Get all claims for a faction
+	 * @param faction The faction
+	 * @return Set of claims
+	 */
+	public abstract Set<Locality> getAll(Faction faction);
+
+	/**
+	 * Get all claims.
+	 * @return A set of all claims
+	 */
+	public abstract Set<Locality> getAll();
 	
 	/**
 	 * Set the faction id at a location.
@@ -63,26 +84,6 @@ public abstract class Board {
 	 * @param locality Location.
 	 */
 	public abstract void removeAt(Locality locality);
-	
-	/**
-	 * Get all claims for a faction by their id
-	 * @param factionId The faction id.
-	 * @return Set of claims
-	 */
-	public abstract Set<FLocation> getAllClaims(String factionId);
-
-	/**
-	 * Get all claims for a faction
-	 * @param faction The faction
-	 * @return Set of claims
-	 */
-	public abstract Set<FLocation> getAllClaims(Faction faction);
-
-	/**
-	 * Get all claims.
-	 * @return A set of all claims
-	 */
-	public abstract Set<FLocation> getAllClaims();
 
 	/**
 	 * Not to be confused with claims, ownership referring to further member-specific ownership of a claim
@@ -126,8 +127,7 @@ public abstract class Board {
 	 * @return true if the faction is within a radius of the locality.
 	 */
 	public abstract boolean hasFactionWithin(Locality locality, Faction faction, int radius);
-
-
+	
 	// -------------------------------------------------- //
 	// COUNT
 	// -------------------------------------------------- //
@@ -196,105 +196,11 @@ public abstract class Board {
 	 */
 	public abstract boolean load();
 	
+	/**
+	 * Get the persist type of Board
+	 * @return The persist type.
+	 */
 	public abstract String getPersistType();
 	
-	// -------------------------------------------------- //
-	// DEPRECATED
-	// -------------------------------------------------- //
-	
-	/**
-	 * Deprecated, use {@link #getIdAt(Locality)}
-	 * @param flocation
-	 * @return
-	 */
-	public abstract String getIdAt(FLocation flocation);
-	
-	/**
-	 * Deprecated, use {@link #getFactionAt(Locality)}
-	 * @param flocation
-	 * @return
-	 */
-	@Deprecated
-	public abstract Faction getFactionAt(FLocation flocation);
-	
-	/**
-	 * Deprecated, use {@link #setFactionAt(Faction, Locality)}
-	 * @param id
-	 * @param flocation
-	 */
-	@Deprecated
-	public abstract void setIdAt(String id, FLocation flocation);
-
-	/**
-	 * Deprecated, use {@link #setFactionAt(Faction, Locality)}
-	 * @param faction
-	 * @param flocation
-	 */
-	public abstract void setFactionAt(Faction faction, FLocation flocation);
-	
-	/**
-	 * Deprecated, use {@link #removeAt(Locality)}
-	 * @param flocation
-	 */
-	@Deprecated
-	public abstract void removeAt(FLocation flocation);
-	
-	/**
-	 * Deprecated, use {@link #getFactionCoordCountInWorld(Faction, World)}<br>
-	 * For removal 10/2017
-	 * @param faction
-	 * @param worldName
-	 * @return
-	 */
-	@Deprecated
-	public abstract int getFactionCoordCountInWorld(Faction faction, String worldName);
-	
-	/**
-	 * Deprecated, use {@link #getMap(Faction, Locality, double)}<br>
-	 * For removal 10/2017
-	 * @param faction
-	 * @param flocation
-	 * @param inDegrees
-	 * @return
-	 */
-	@Deprecated
-	public abstract ArrayList<String> getMap(Faction faction, FLocation flocation, double inDegrees);
-
-	/**
-	 * Deprecated, use {@link #clearOwnershipAt(Locality)}
-	 * @param flocation
-	 */
-	@Deprecated
-	public abstract void clearOwnershipAt(FLocation flocation);
-
-	/**
-	 * Deprecated, use {@link #isBorderLocation(Locality)}<br>
-	 * For removal 10/2017
-	 * @param flocation
-	 * @return
-	 */
-	@Deprecated
-	public abstract boolean isBorderLocation(FLocation flocation);
-	
-	/**
-	 * Deprecated, use {@link #isConnectedLocation(Locality, Faction)}<br>
-	 * For removal 10/2017
-	 * @param flocation
-	 * @param faction
-	 * @return
-	 */
-	@Deprecated
-	public abstract boolean isConnectedLocation(FLocation flocation, Faction faction);
-	
-	/**
-	 * Deprecated, use {@link #hasFactionWithin(Locality, Faction, int)}<br>
-	 * For removal 10/2017
-	 * @param flocation
-	 * @param faction
-	 * @param radius
-	 * @return
-	 */
-	@Deprecated
-	public abstract boolean hasFactionWithin(FLocation flocation, Faction faction, int radius);
 	
 }

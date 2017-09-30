@@ -13,6 +13,7 @@ import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.locality.LocalityLazy;
 import net.redstoneore.legacyfactions.util.WarmUpUtil;
 
 import java.util.List;
@@ -353,7 +354,8 @@ public interface FPlayer extends EconomyParticipator {
 	boolean canClaimForFaction(Faction forFaction);
 
 	boolean canClaimForFactionAtLocation(Faction forFaction, Location location, boolean notifyFailure);
-	boolean canClaimForFactionAtLocation(Faction forFaction, FLocation location, boolean notifyFailure);
+	
+	
 	boolean canClaimForFactionAtLocation(Faction forFaction, Locality location, boolean notifyFailure);
 	
 	boolean attemptClaim(Faction forFaction, Location location, boolean notifyFailure, boolean notifySuccess);
@@ -431,7 +433,9 @@ public interface FPlayer extends EconomyParticipator {
 	 * @return
 	 */
 	@Deprecated
-	boolean attemptClaim(Faction forFaction, FLocation location, boolean notifyFailure, EventFactionsLandChange eventLandChange);
+	default public boolean attemptClaim(Faction forFaction, FLocation flocation, boolean notifyFailure, EventFactionsLandChange eventLandChange) {
+		return this.attemptClaim(forFaction, Locality.of(flocation.getChunk()), notifyFailure, notifyFailure);
+	}
 	
 	/**
 	 * Deprecated! Use {@link #attemptClaim(Faction, Locality, boolean, boolean)}<br>
@@ -466,5 +470,10 @@ public interface FPlayer extends EconomyParticipator {
 	 */
 	@Deprecated
 	void setLastStoodAt(FLocation flocation);
+	
+	@Deprecated
+	default public boolean canClaimForFactionAtLocation(Faction forFaction, FLocation location, boolean notifyFailure) {
+		return this.canClaimForFactionAtLocation(forFaction, LocalityLazy.of(location.getWorldName(), (int)location.getX(), (int)location.getZ()), notifyFailure);
+	}	
 
 }

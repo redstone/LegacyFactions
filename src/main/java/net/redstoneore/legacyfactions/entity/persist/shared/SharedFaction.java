@@ -269,8 +269,8 @@ public abstract class SharedFaction implements Faction, EconomyParticipator {
 	}
 	
 	@Override
-	public Set<FLocation> getAllClaims() {
-		return Board.get().getAllClaims(this);
+	public Set<Locality> getClaims() {
+		return Board.get().getAll(this);
 	}
 	
 	// -------------------------------------------------- //

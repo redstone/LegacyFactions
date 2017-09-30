@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
@@ -77,26 +76,26 @@ public class MySQLBoard extends SharedBoard {
 	}
 
 	@Override
-	public Set<FLocation> getAllClaims(String factionId) {
-		Set<FLocation> claims = new HashSet<>();
+	public Set<Locality> getAll(String factionId) {
+		Set<Locality> claims = new HashSet<>();
 		
 		FactionsMySQL.get().prepare("SELECT * FROM `board` WHERE `faction` = ?")
 		.setCatched(1, factionId)
 		.execute(ExecuteType.SELECT)
 		.forEach(row -> {
-			claims.add(new FLocation(Bukkit.getWorld(UUID.fromString(row.get("world"))).getName(), Integer.valueOf(row.get("x")), Integer.valueOf(row.get("z"))));
+			claims.add(LocalityLazy.of(Bukkit.getWorld(UUID.fromString(row.get("world"))).getName(), Integer.valueOf(row.get("x")), Integer.valueOf(row.get("z"))));
 		});
 		return claims;
 	}
 
 	@Override
-	public Set<FLocation> getAllClaims() {
-		Set<FLocation> claims = new HashSet<>();
+	public Set<Locality> getAll() {
+		Set<Locality> claims = new HashSet<>();
 		
 		FactionsMySQL.get().prepare("SELECT * FROM `board`")
 			.execute(ExecuteType.SELECT)
 			.forEach(row -> {
-				claims.add(new FLocation(Bukkit.getWorld(UUID.fromString(row.get("world"))).getName(), Integer.valueOf(row.get("x")), Integer.valueOf(row.get("z"))));
+				claims.add(LocalityLazy.of(Bukkit.getWorld(UUID.fromString(row.get("world"))).getName(), Integer.valueOf(row.get("x")), Integer.valueOf(row.get("z"))));
 			});
 			
 		return claims;
@@ -104,12 +103,12 @@ public class MySQLBoard extends SharedBoard {
 
 	@Override
 	public int getFactionCoordCount(String factionId) {
-		return this.getAllClaims(factionId).size();
+		return this.getAll(factionId).size();
 	}
 
 	@Override
 	public int getFactionCoordCountInWorld(Faction faction, World world) {
-		return this.getAllClaims(faction).stream()
+		return this.getAll(faction).stream()
 			.filter(loc -> loc.getWorld().getUID() == world.getUID())
 			.collect(Collectors.counting()).intValue();
 	}
@@ -153,10 +152,10 @@ public class MySQLBoard extends SharedBoard {
 	}
 	
 	@Override
-	public String getIdAt(FLocation flocation) {
-		UUID world = flocation.getWorld().getUID();
-		int chunkX = Long.valueOf(flocation.getX()).intValue();
-		int chunkZ = Long.valueOf(flocation.getZ()).intValue();
+	public String getIdAt(Locality locality) {
+		UUID world = locality.getWorld().getUID();
+		int chunkX = locality.getChunkX();
+		int chunkZ = locality.getChunkZ();
 		
 		List<Map<String, String>> found = FactionsMySQL.get().prepare("SELECT `faction` FROM `board` WHERE `world` = ? AND `x` = ? AND `z` = ?")
 			.setCatched(1, world.toString())
@@ -171,16 +170,6 @@ public class MySQLBoard extends SharedBoard {
 		}
 			
 		return found.get(0).get("faction");
-	}
-
-	@Override
-	public void setIdAt(String id, FLocation flocation) {
-		this.setIdAt(id, LocalityLazy.of(flocation.getWorldName(), (int) flocation.getX(), (int) flocation.getZ()));
-	}
-
-	@Override
-	public void removeAt(FLocation flocation) {
-		this.removeAt(LocalityLazy.of(flocation.getWorldName(), (int) flocation.getX(), (int) flocation.getZ()));
 	}
 	
 	@Override

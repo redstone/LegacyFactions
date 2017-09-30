@@ -110,7 +110,7 @@ public class FactionsMySQL extends PersistHandler {
 			});
 			
 			MySQLBoard newBoard = (MySQLBoard) this.getBoard();
-			other.getBoard().getAllClaims().forEach(claim -> {
+			other.getBoard().getAll().forEach(claim -> {
 				newBoard.setFactionAt(Board.get().getFactionAt(claim), claim);
 			});
 			

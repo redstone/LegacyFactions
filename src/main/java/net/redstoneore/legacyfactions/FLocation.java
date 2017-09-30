@@ -2,7 +2,6 @@ package net.redstoneore.legacyfactions;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.bukkit.*;
@@ -10,26 +9,21 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.mixin.LocalityMixin;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
-
-public class FLocation implements Serializable {
+/**
+ * FLocation is an internal class at the moment used only be ownerships. It is due to be removed
+ * in the future so use {@link Locality} instead. 
+ */
+public class FLocation extends Locality implements Serializable {
 
 	// -------------------------------------------------- //
 	// STATIC FIELDS
 	// -------------------------------------------------- //
 	
 	private static final long serialVersionUID = -8292915234027387983L;
-	private static boolean worldBorderSupport;
-	
-	static {
-		worldBorderSupport = false;
-		
-		try {
-			Class.forName("org.bukkit.WorldBorder");
-			worldBorderSupport = true;
-		} catch (ClassNotFoundException e) { }
-	}
 	
 	// -------------------------------------------------- //
 	// STATIC METHODS
@@ -61,9 +55,7 @@ public class FLocation implements Serializable {
 	protected FLocation() { }
 
 	public FLocation(String worldName, int x, int z) {
-		this.worldName = worldName;
-		this.x = x;
-		this.z = z;
+		super(worldName, x, z);
 	}
 
 	public FLocation(Location location) {
@@ -91,23 +83,15 @@ public class FLocation implements Serializable {
 	// -------------------------------------------------- //
 
 	private String worldName = "world";
-	private int x = 0;
-	private int z = 0;
+	private Integer x = null;
+	private Integer z = null;
 	
 	// -------------------------------------------------- //
 	// GETTERS & SETTERS
 	// -------------------------------------------------- //
-
-	public Chunk getChunk() {
-		return this.getWorld().getChunkAt(this.x, this.z);
-	}
 	
 	public String getWorldName() {
 		return this.worldName;
-	}
-
-	public World getWorld() {
-		return Bukkit.getWorld(this.worldName);
 	}
 
 	public void setWorldName(String worldName) {
@@ -115,57 +99,64 @@ public class FLocation implements Serializable {
 	}
 
 	public long getX() {
-		return this.x;
+		return super.getChunkX();
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		super.setChunkX(x);
 	}
 
 	public long getZ() {
-		return this.z;
+		return super.getChunkZ();
 	}
 
 	public void setZ(int z) {
-		this.z = z;
+		super.setChunkZ(z);
 	}
-
-	public String getCoordString() {
-		return this.x + "," + this.z;
-	}
-
+	
 	@Override
-	public String toString() {
-		return "[" + this.getWorldName() + "," + this.getCoordString() + "]";
+	public int getChunkX() {
+		if (this.x != null) {
+			super.setChunkX(this.x);
+			this.x = null;
+		}
+		return super.getChunkX();
+	}
+	
+	public int getChunkZ() {
+		if (this.z != null) {
+			super.setChunkX(this.z);
+			this.z = null;
+		}
+		return super.getChunkX();
 	}
 
 	// -------------------------------------------------- //
 	// Block/Chunk/Region Value Transformation
 	// -------------------------------------------------- //
 
-	// bit-shifting is used because it's much faster than standard division and multiplication
-	public static int blockToChunk(int blockVal) {	// 1 chunk is 16x16 blocks
-		return blockVal >> 4;   // ">> 4" == "/ 16"
+	public static int blockToChunk(int blockVal) {
+		return LocalityMixin.blockToChunk(blockVal);
 	}
 
-	public static int blockToRegion(int blockVal) {	// 1 region is 512x512 blocks
-		return blockVal >> 9;   // ">> 9" == "/ 512"
+	public static int blockToRegion(int blockVal) {
+		return LocalityMixin.blockToRegion(blockVal);
 	}
 
-	public static int chunkToRegion(int chunkVal) {	// 1 region is 32x32 chunks
-		return chunkVal >> 5;   // ">> 5" == "/ 32"
+	public static int chunkToRegion(int chunkVal) {
+		return LocalityMixin.chunkToRegion(chunkVal);
 	}
 
 	public static int chunkToBlock(int chunkVal) {
-		return chunkVal << 4;   // "<< 4" == "* 16"
+		return LocalityMixin.chunkToBlock(chunkVal);
 	}
 
 	public static int regionToBlock(int regionVal) {
-		return regionVal << 9;   // "<< 9" == "* 512"
+		return LocalityMixin.regionToBlock(regionVal);
 	}
 
 	public static int regionToChunk(int regionVal) {
-		return regionVal << 5;   // "<< 5" == "* 32"
+		return LocalityMixin.regionToChunk(regionVal);
 	}
 
 	// -------------------------------------------------- //
@@ -187,58 +178,10 @@ public class FLocation implements Serializable {
 		double dz = that.z - this.z;
 		return dx * dx + dz * dz;
 	}
-
-	public boolean isInChunk(Location loc) {
-		if (loc == null) return false;
-		
-		Chunk chunk = loc.getChunk();
-		return loc.getWorld().getName().equalsIgnoreCase(getWorldName()) && chunk.getX() == x && chunk.getZ() == z;
-	}
-
-	/**
-	 * Checks if the chunk represented by this FLocation is outside the world border
-	 *
-	 * @param buffer the number of chunks from the border that will be treated as "outside"
-	 * @return whether this location is outside of the border
-	 */
-	public boolean isOutsideWorldBorder(int buffer) {
-		if (!worldBorderSupport) return false;
-
-		WorldBorder border = getWorld().getWorldBorder();
-		Chunk chunk = border.getCenter().getChunk();
-
-		int lim = FLocation.chunkToRegion((int) border.getSize()) - buffer;
-		int diffX = Math.abs(chunk.getX() - x);
-		int diffZ = Math.abs(chunk.getZ() - z);
-		return diffX > lim || diffZ > lim;
-	}
-
+	
 	// -------------------------------------------------- //
 	// Some Geometry
 	// -------------------------------------------------- //
-	
-	public Set<FLocation> getCircle(double radius) {
-		double radiusSquared = radius * radius;
-
-		Set<FLocation> ret = new LinkedHashSet<>();
-		if (radius <= 0) return ret;
-
-		int xfrom = (int) Math.floor(this.x - radius);
-		int xto = (int) Math.ceil(this.x + radius);
-		int zfrom = (int) Math.floor(this.z - radius);
-		int zto = (int) Math.ceil(this.z + radius);
-
-		for (int x = xfrom; x <= xto; x++) {
-			for (int z = zfrom; z <= zto; z++) {
-				FLocation potential = new FLocation(this.worldName, x, z);
-				if (this.getDistanceSquaredTo(potential) <= radiusSquared) {
-					ret.add(potential);
-				}
-			}
-		}
-
-		return ret;
-	}
 
 	public static Set<FLocation> getArea(FLocation from, FLocation to) {
 		HashSet<FLocation> result = new HashSet<>();
@@ -260,17 +203,6 @@ public class FLocation implements Serializable {
 	public int hashCode() {
 		// should be fast, with good range and few hash collisions: (x * 512) + z + worldName.hashCode
 		return (this.x << 9) + this.z + (this.worldName != null ? this.worldName.hashCode() : 0);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) return false;
-		if (obj == this) return true;
-		
-		if (!(obj instanceof FLocation)) return false;
-		
-		FLocation that = (FLocation) obj;
-		return this.x == that.x && this.z == that.z && (this.worldName == null ? that.worldName == null : this.worldName.equals(that.worldName));
 	}
 	
 }

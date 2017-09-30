@@ -9,8 +9,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.config.Config;
+import net.redstoneore.legacyfactions.locality.Locality;
 
 public abstract class FactionColl {
 	
@@ -74,7 +74,7 @@ public abstract class FactionColl {
 		List<Faction> all = new ArrayList<>();
 		
 		for (Faction faction : get().getAllFactions()) {
-			for (FLocation location : faction.getAllClaims()) {
+			for (Locality location : faction.getClaims()) {
 				if (location.getWorld() != world) continue;
 				
 				all.add(faction);

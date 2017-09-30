@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions.mixin;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.TextUtil;
+import net.redstoneore.legacyfactions.util.VisualizeUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 
 public class PlayerMixin {
@@ -524,6 +526,19 @@ public class PlayerMixin {
 			return false;
 		}
 		return true;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void showPillar(Player player, World world, int blockX, int blockZ) {
+		for (int blockY = 0; blockY < player.getLocation().getBlockY() + 30; blockY++) {
+			Location loc = new Location(world, blockX, blockY, blockZ);
+			if (loc.getBlock().getType() != Material.AIR) {
+				continue;
+			}
+			// TODO: move away from id
+			int typeId = blockY % 5 == 0 ? Material.REDSTONE_LAMP_ON.getId() : Material.STAINED_GLASS.getId();
+			VisualizeUtil.addLocation(player, loc, typeId);
+		}
 	}
 	
 }

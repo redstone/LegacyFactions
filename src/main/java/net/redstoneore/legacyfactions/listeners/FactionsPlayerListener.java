@@ -396,6 +396,8 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		Material material = block.getType();
+		
+		// TODO: move to Locality
 		FLocation loc = new FLocation(block);
 		SharedFaction otherFaction = (SharedFaction) Board.get().getFactionAt(Locality.of(block));
 

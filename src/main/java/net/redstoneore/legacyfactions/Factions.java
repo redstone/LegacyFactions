@@ -25,6 +25,7 @@ import net.redstoneore.legacyfactions.adapter.CrossColourAdapter;
 import net.redstoneore.legacyfactions.adapter.CrossEntityTypeAdapter;
 import net.redstoneore.legacyfactions.adapter.LazyLocationAdapter;
 import net.redstoneore.legacyfactions.adapter.MapFlocationSetAdapter;
+import net.redstoneore.legacyfactions.adapter.MapLocalitySetAdapter;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
@@ -57,6 +58,7 @@ import net.redstoneore.legacyfactions.listeners.FactionsEntityListener;
 import net.redstoneore.legacyfactions.listeners.FactionsExploitListener;
 import net.redstoneore.legacyfactions.listeners.FactionsPermissionGroups;
 import net.redstoneore.legacyfactions.listeners.FactionsPlayerListener;
+import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
 import net.redstoneore.legacyfactions.task.TaskManager;
@@ -386,6 +388,7 @@ public class Factions extends FactionsPluginBase {
 	public GsonBuilder getGsonBuilder() {
 		if (this.gsonBuilder == null) {
 			Type mapFLocToStringSetType = new TypeToken<Map<FLocation, Set<String>>>() { }.getType();
+			Type mapLocalityToStringSetType = new TypeToken<Map<Locality, Set<String>>>() { }.getType();
 			GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 			
 			try {
@@ -397,8 +400,10 @@ public class Factions extends FactionsPluginBase {
 			this.gsonBuilder = builder.disableHtmlEscaping().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
 					.registerTypeAdapter(LazyLocation.class, new LazyLocationAdapter())
 					.registerTypeAdapter(mapFLocToStringSetType, new MapFlocationSetAdapter())
+					.registerTypeAdapter(mapLocalityToStringSetType, new MapLocalitySetAdapter())
 					.registerTypeAdapter(CrossColour.class, new CrossColourAdapter())
 					.registerTypeAdapter(CrossEntityType.class, new CrossEntityTypeAdapter())
+					
 					;
 		}
 
