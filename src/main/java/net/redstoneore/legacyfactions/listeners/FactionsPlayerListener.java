@@ -15,7 +15,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.util.NumberConversions;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.FLocation;
+import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.Permission;
+import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.Role;
+import net.redstoneore.legacyfactions.Volatile;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;

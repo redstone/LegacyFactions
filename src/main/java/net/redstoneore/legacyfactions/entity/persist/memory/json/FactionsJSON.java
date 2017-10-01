@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.entity.persist.memory.json;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;

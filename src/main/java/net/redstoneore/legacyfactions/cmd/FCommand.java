@@ -4,7 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.callback.Callback;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;

@@ -5,7 +5,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.Lists;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;

@@ -11,7 +11,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.LandAction;
+import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
