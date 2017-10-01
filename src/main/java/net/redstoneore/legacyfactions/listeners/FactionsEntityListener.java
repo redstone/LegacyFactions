@@ -19,7 +19,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.LandAction;
+import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.Volatile;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;

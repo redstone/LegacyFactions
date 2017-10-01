@@ -5,7 +5,9 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;

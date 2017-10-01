@@ -5,7 +5,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import net.redstoneore.legacyfactions.*;
+import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
