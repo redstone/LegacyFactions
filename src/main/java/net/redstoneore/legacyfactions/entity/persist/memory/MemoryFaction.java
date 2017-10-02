@@ -345,6 +345,11 @@ public abstract class MemoryFaction extends SharedFaction {
 		}
 		return (this.home != null) ? this.home.getLocation() : null;
 	}
+	
+	@Override
+	public LazyLocation getLazyHome() {
+		return this.home;
+	}
 
 	public long getFoundedDate() {
 		if (this.foundedDate == 0) {

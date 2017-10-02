@@ -608,11 +608,16 @@ public class MySQLFaction extends SharedFaction {
 	
 	@Override
 	public Location getHome(Boolean checkValid) {
-		this.poll();
-		if (this.home == null || this.values.get("home") == "") return null;
-		return this.home.getLocation();
+		return this.getLazyHome().getLocation();
 	}
 
+	@Override
+	public LazyLocation getLazyHome() {
+		this.poll();
+		if (this.home == null || this.values.get("home") == "") return null;
+		return this.home;
+	}
+	
 	@Override
 	public long getFoundedDate() {
 		this.poll();

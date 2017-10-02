@@ -19,6 +19,7 @@ import net.redstoneore.legacyfactions.announcement.Announcements;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.ownership.FactionOwnership;
+import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsIntegration;
@@ -129,6 +130,8 @@ public interface Faction extends EconomyParticipator, FactionDeprecated {
 	Location getHome(Boolean checkValid);
 	
 	Location getHome();
+	
+	LazyLocation getLazyHome();
 	
 	void confirmValidHome();
 
