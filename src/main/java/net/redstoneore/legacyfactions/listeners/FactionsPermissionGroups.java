@@ -15,6 +15,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsChangedTerritory;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 
 public class FactionsPermissionGroups implements Listener {
 	
@@ -64,6 +65,11 @@ public class FactionsPermissionGroups implements Listener {
 	}
 	
 	public void setGroup(FPlayer fplayer, Faction factionHere) {
+		if (LocationUtil.isFactionsDisableIn(fplayer.getLastLocation().getLocation())) {
+			this.setGroup(fplayer, "");
+			return;
+		}
+		
 		if (factionHere.isSafeZone()) {
 			this.setGroup(fplayer, "legacyfactions_safezone");
 			return;
@@ -89,6 +95,8 @@ public class FactionsPermissionGroups implements Listener {
 			.forEach(group -> 
 				VaultEngine.getUtils().getPerms().playerRemoveGroup(fplayer.getPlayer(), group)
 			);
+		
+		if (groupName == null || groupName == "") return;
 		
 		if (!Lists.newArrayList(VaultEngine.getUtils().getPerms().getPlayerGroups(fplayer.getPlayer())).contains(groupName)) {
 			VaultEngine.getUtils().getPerms().playerAddGroup(fplayer.getPlayer(), groupName);

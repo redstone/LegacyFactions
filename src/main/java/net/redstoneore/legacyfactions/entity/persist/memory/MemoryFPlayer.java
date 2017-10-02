@@ -10,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsRoleChanged;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 
 import java.util.UUID;
 
@@ -287,6 +288,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	
 	@Override
 	public ChatMode getChatMode() {
+		if (LocationUtil.isFactionsDisableIn(this)) return ChatMode.PUBLIC;
 		// If we're in the wilderness or factions chat is disabled, default to public chat
 		if (this.factionId.equals("0") || !Config.expansionsFactionsChat.enabled) {
 			this.chatMode = ChatMode.PUBLIC;
@@ -305,6 +307,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 
 	@Override
 	public boolean isIgnoreAllianceChat() {
+		if (LocationUtil.isFactionsDisableIn(this)) return true;
 		return this.ignoreAllianceChat;
 	}
 	
@@ -315,6 +318,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 
 	@Override
 	public boolean isSpyingChat() {
+		if (LocationUtil.isFactionsDisableIn(this)) return false;
 		return this.spyingChat;
 	}
 
@@ -335,6 +339,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 
 	@Override
 	public boolean territoryTitlesOff() {
+		if (LocationUtil.isFactionsDisableIn(this)) return true;
 		return this.territoryTitlesOff;
 	}
 	
@@ -345,6 +350,7 @@ public abstract class MemoryFPlayer extends SharedFPlayer {
 	
 	@Override
 	public boolean showScoreboard() {
+		if (LocationUtil.isFactionsDisableIn(this)) return false;
 		return this.showScoreboard;
 	}
 

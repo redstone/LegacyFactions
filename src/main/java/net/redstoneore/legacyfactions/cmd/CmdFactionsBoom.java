@@ -60,7 +60,7 @@ public class CmdFactionsBoom extends FCommand {
 
 	@Override
 	public boolean isAvailable() {
-		return Config.enableFlags == false;
+		return Config.enableFlags == false && super.isAvailable();
 	}
 	
 	@Override

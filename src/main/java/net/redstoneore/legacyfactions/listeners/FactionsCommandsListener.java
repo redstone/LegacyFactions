@@ -26,6 +26,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 
 public class FactionsCommandsListener implements Listener {
 	
@@ -42,6 +43,8 @@ public class FactionsCommandsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		// If we're preventing this command ...
 		if (!this.preventCommand(event.getMessage(), event.getPlayer())) return;
 		
@@ -57,6 +60,8 @@ public class FactionsCommandsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		// If we're preventing this command ... 
 		if (!Factions.get().handleCommand(event.getPlayer(), event.getMessage(), false, true)) return;
 		
@@ -72,10 +77,14 @@ public class FactionsCommandsListener implements Listener {
 	
 
 	public boolean preventCommand(String fullCmd, Player player) {
+		if (LocationUtil.isFactionsDisableIn(player.getLocation())) return false;
+		
 		return preventCommand(fullCmd, player, false);
 	}
 
 	public boolean preventCommand(String fullCmd, Player player, Boolean silent) {
+		if (LocationUtil.isFactionsDisableIn(player.getLocation())) return false;
+		
 		if (((Config.territoryNeutralDenyCommands == null || Config.territoryNeutralDenyCommands.isEmpty()) &&
 			 (Config.territoryEnemyDenyCommands == null || Config.territoryEnemyDenyCommands.isEmpty()) && 
 			 (Config.permanentFactionMemberDenyCommands == null || Config.permanentFactionMemberDenyCommands.isEmpty()) && 
@@ -161,6 +170,8 @@ public class FactionsCommandsListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onTabCommand(PlayerChatTabCompleteEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		FCommand main = CmdFactions.get();
 		
 		if (event.getChatMessage().trim().contains(" ")) {

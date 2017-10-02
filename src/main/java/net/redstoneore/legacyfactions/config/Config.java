@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions.config;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,9 @@ public class Config {
 	
 	protected static String _logStatistics = Lang.CONFIG_MISC_STATISTICS.name();
 	public static boolean logStatistics = true;
+	
+	protected static String _disableFactionsInWorlds = Lang.CONFIG_MISC_DISABLEINWORLDS.name();
+	public static Set<String> disableFactionsInWorlds = new HashSet<>();
 	
 	// -------------------------------------------------- //
 	// Non-1.6 Features

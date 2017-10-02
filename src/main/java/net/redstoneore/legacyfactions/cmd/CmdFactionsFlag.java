@@ -48,7 +48,7 @@ public class CmdFactionsFlag extends FCommand {
 
 	@Override
 	public boolean isAvailable() {
-		return Config.enableFlags == true;
+		return Config.enableFlags == true && super.isAvailable();
 	}
 	
 	@Override

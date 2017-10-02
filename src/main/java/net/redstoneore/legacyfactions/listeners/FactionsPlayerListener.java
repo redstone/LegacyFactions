@@ -76,15 +76,18 @@ public class FactionsPlayerListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerPreLogin(PlayerLoginEvent event) {
+		// Do not cancel init events even if factions is disabled in this world. 
 		FPlayerColl.get(event.getPlayer());
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void initPlayer(PlayerJoinEvent event) {
+		// Do not cancel init events even if factions is disabled in this world.
 		this.initPlayer(event.getPlayer());
 	}
 
 	public void initPlayer(Player player) {
+		// Do not cancel init events even if factions is disabled in this world.
 		// Make sure that all online players do have a fplayer.
 		final FPlayer me = FPlayerColl.get(player);		
 		((SharedFPlayer)me).setName(player.getName());

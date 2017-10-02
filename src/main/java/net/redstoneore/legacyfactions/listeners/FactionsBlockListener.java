@@ -20,6 +20,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 
 public class FactionsBlockListener implements Listener {
 	
@@ -37,6 +38,8 @@ public class FactionsBlockListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerCanBuildDestroyBlock(BlockPlaceEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		if (!event.canBuild()) return;
 		
 		// special case for flint&steel, which should only be prevented by DenyUsage list
@@ -49,6 +52,8 @@ public class FactionsBlockListener implements Listener {
 		
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerCanBuildDestroyBlock(BlockBreakEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		if (PlayerMixin.canDoAction(event.getPlayer(), event.getBlock(), LandAction.DESTROY, false)) return;
 		
 		event.setCancelled(true);
@@ -56,6 +61,8 @@ public class FactionsBlockListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerCanBuildDestroyBlock(BlockDamageEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		if (!event.getInstaBreak()) return;
 		if (PlayerMixin.canDoAction(event.getPlayer(), event.getBlock(), LandAction.DESTROY, false)) return;
 		
@@ -68,6 +75,8 @@ public class FactionsBlockListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void canPistonMoveBlock(BlockPistonExtendEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		if (Config.pistonProtectionThroughDenyBuild) return;
 
 		Faction pistonFaction = Board.get().getFactionAt(Locality.of(event.getBlock()));
@@ -86,6 +95,8 @@ public class FactionsBlockListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void canPistonMoveBlock(BlockPistonRetractEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		// if not a sticky piston, retraction should be fine
 		if (!event.isSticky() || !Config.pistonProtectionThroughDenyBuild) {
 			return;
@@ -107,7 +118,7 @@ public class FactionsBlockListener implements Listener {
 		}
 
 		Faction pistonFaction = Board.get().getFactionAt(Locality.of(event.getBlock()));
-
+		
 		if (!canPistonMoveBlock(pistonFaction, targetLoc)) {
 			event.setCancelled(true);
 			return;
@@ -115,6 +126,8 @@ public class FactionsBlockListener implements Listener {
 	}
 		
 	public static boolean canPistonMoveBlock(Faction factionAtPiston, Location target) {
+		if (LocationUtil.isFactionsDisableIn(target.getWorld())) return true;
+		
 		Faction otherFaction = Board.get().getFactionAt(Locality.of(target));
 
 		if (factionAtPiston == otherFaction) return true;
@@ -152,7 +165,9 @@ public class FactionsBlockListener implements Listener {
 		if (event.getEntity() == null || event.getEntity().getType() != EntityType.PLAYER || event.getBlock() == null) {
 			return;
 		}
-
+		
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		Player player = (Player) event.getEntity();
 		Location location = event.getBlock().getLocation();
 

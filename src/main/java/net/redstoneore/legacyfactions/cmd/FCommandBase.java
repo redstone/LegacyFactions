@@ -7,6 +7,7 @@ import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 import net.redstoneore.legacyfactions.util.PermUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
@@ -140,10 +141,18 @@ public abstract class FCommandBase<T extends FactionsPluginBase> {
 	public abstract void prePerform();
 	public abstract void perform();
 	
-	// Override this if you want to change the availability of this command, returning false will make it seem invisible:
-	// - it won't show in help
-	// - it will fail if you try to use it
+	/**
+	 * Override this if you want to change the availability of this command, returning false will
+	 * make it seem invisible:<br>
+	 * - It won't show in help<br>
+	 * - It will fail if you try to use it<br>
+	 * ALWAYAS call this method or check against LocationUtil
+	 * @return true if it is available
+	 */
 	public boolean isAvailable() {
+		if (this.sender instanceof Player) {
+			return LocationUtil.isFactionsDisableIn((Player)this.sender);
+		}
 		return true;
 	}
 
