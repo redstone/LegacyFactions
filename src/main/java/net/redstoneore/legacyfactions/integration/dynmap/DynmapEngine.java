@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.AreaMarker;
@@ -34,6 +33,7 @@ import net.redstoneore.legacyfactions.integration.dynmap.util.DynmapUtil;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholderFaction;
 import net.redstoneore.legacyfactions.placeholder.FactionsPlaceholders;
+import net.redstoneore.legacyfactions.util.LazyLocation;
 
 public class DynmapEngine extends BukkitRunnable {
 
@@ -75,10 +75,10 @@ public class DynmapEngine extends BukkitRunnable {
 		
 		final Map<String, TempAreaMarker> areas = this.createAreas();
 		final Map<String, Set<String>> playerSets = createPlayersets();
+		final Map<String, TempMarker> homes = this.createHomes();
 		
 		// Go sync
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Factions.get(), () -> {
-			final Map<String, TempMarker> homes = this.createHomes();
 			
 			// Sync
 			this.dynmapApi = (DynmapAPI) Bukkit.getPluginManager().getPlugin("dynmap");
@@ -118,7 +118,7 @@ public class DynmapEngine extends BukkitRunnable {
 		if (!Config.homesEnabled) return homes;
 		
 		FactionColl.all(faction -> {
-			Location home = faction.getHome();
+			LazyLocation home = faction.getLazyHome();
 			if (home == null) return;
 						
 			if (Config.dynmap.hiddenFactions.contains(faction.getId())) return;
@@ -133,7 +133,7 @@ public class DynmapEngine extends BukkitRunnable {
 			
 			TempMarker marker = new TempMarker();
 			marker.label = ChatColor.stripColor(faction.getTag());
-			marker.world = home.getWorld().getName();
+			marker.world = home.getWorldName();
 			marker.x = home.getX();
 			marker.y = home.getY();
 			marker.z = home.getZ();
