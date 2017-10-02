@@ -116,7 +116,7 @@ public class CmdFactionsColeader extends FCommand {
 
 	@Override
 	public boolean isAvailable() {
-		return Config.enableColeaders == true;
+		return Config.enableColeaders == true && super.isAvailable();
 	}
 	
 	@Override

@@ -110,7 +110,7 @@ public class CmdFactionsEmblem extends FCommand {
 
 	@Override
 	public boolean isAvailable() {
-		return Config.emblemsEnabled == true;
+		return Config.emblemsEnabled == true && super.isAvailable();
 	}
 	
 	@Override

@@ -32,6 +32,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsPowerLoss;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossEntityType;
 
@@ -55,8 +56,11 @@ public class FactionsEntityListener implements Listener {
 	public void onEntityDeath(EntityDeathEvent event) {
 		Entity entity = event.getEntity();
 		if (!(entity instanceof Player)) return;
-
+		
 		Player player = (Player) entity;
+		
+		if (LocationUtil.isFactionsDisableIn(player)) return;
+		
 		FPlayer fplayer = FPlayerColl.get(player);
 		Faction faction = Board.get().getFactionAt(Locality.of(player.getLocation()));
 
@@ -104,6 +108,8 @@ public class FactionsEntityListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent sub = (EntityDamageByEntityEvent) event;
 			if (!this.canDamagerHurtDamagee(sub, true)) {
@@ -139,9 +145,8 @@ public class FactionsEntityListener implements Listener {
 	}
 
 	public void cancelFStuckTeleport(Player player) {
-		if (player == null) {
-			return;
-		}
+		if (player == null) return;
+		
 		UUID uuid = player.getUniqueId();
 		if (Volatile.get().stuckMap().containsKey(uuid)) {
 			FPlayerColl.get(player).sendMessage(Lang.COMMAND_STUCK_CANCELLED);
@@ -151,6 +156,8 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void blockExplosion(EntityExplodeEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		Location loc = event.getLocation();
 		Entity entity = event.getEntity();
 		
@@ -229,6 +236,8 @@ public class FactionsEntityListener implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityCombustByEntity(EntityCombustByEntityEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(event.getCombuster(), event.getEntity(), EntityDamageEvent.DamageCause.FIRE, 0d);
 		if (!this.canDamagerHurtDamagee(sub, false)) {
 			event.setCancelled(true);
@@ -240,6 +249,8 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPotionSplashEvent(PotionSplashEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		// see if the potion has a harmful effect
 		boolean badjuju = false;
 		for (PotionEffect effect : event.getPotion().getEffects()) {
@@ -290,10 +301,13 @@ public class FactionsEntityListener implements Listener {
 	}
 
 	public boolean canDamagerHurtDamagee(EntityDamageByEntityEvent sub) {
+		if (LocationUtil.isFactionsDisableIn(sub)) return true;
 		return canDamagerHurtDamagee(sub, true);
 	}
 
 	public boolean canDamagerHurtDamagee(EntityDamageByEntityEvent sub, boolean notify) {
+		if (LocationUtil.isFactionsDisableIn(sub)) return true;
+		
 		Entity damager = sub.getDamager();
 		Entity damagee = sub.getEntity();
 
@@ -461,10 +475,9 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
-		if (event.getLocation() == null) {
-			return;
-		}
-
+		if (event.getLocation() == null) return;
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		if (Config.safeZoneNerfedCreatureTypes.contains(CrossEntityType.of(event.getEntityType().name())) && Board.get().getFactionAt(Locality.of(event.getLocation())).noMonstersInTerritory()) {
 			event.setCancelled(true);
 		}
@@ -472,6 +485,8 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityTarget(EntityTargetEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		// if there is a target
 		Entity target = event.getTarget();
 		if (target == null) return;
@@ -492,6 +507,8 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPaintingBreak(HangingBreakEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event.getEntity().getLocation())) return;
+		
 		if (event.getCause() == RemoveCause.EXPLOSION) {
 			Location loc = event.getEntity().getLocation();
 			Faction faction = Board.get().getFactionAt(Locality.of(loc));
@@ -529,6 +546,8 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPaintingPlace(HangingPlaceEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event.getEntity().getLocation())) return;
+		
 		if (PlayerMixin.canDoAction((Player) event.getPlayer(), event.getEntity(), LandAction.PLACE_PAINTING, false)) return;
 
 		if (PlayerMixin.canDoAction(event.getPlayer(), event.getBlock(), LandAction.PLACE_PAINTING, false)) return;
@@ -538,6 +557,8 @@ public class FactionsEntityListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityChangeBlock(EntityChangeBlockEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		Entity entity = event.getEntity();
 
 		// for now, only interested in Enderman and Wither boss tomfoolery
@@ -568,6 +589,7 @@ public class FactionsEntityListener implements Listener {
 		if (!Config.portalsLimit) {
 			return; // Don't do anything if they don't want us to.
 		}
+		if (LocationUtil.isFactionsDisableIn(event)) return;
 
 		TravelAgent agent = event.getPortalTravelAgent();
 
@@ -592,6 +614,8 @@ public class FactionsEntityListener implements Listener {
 
 	private boolean stopEndermanBlockManipulation(Location loc) {
 		if (loc == null) return false;
+		if (LocationUtil.isFactionsDisableIn(loc)) return false;
+		
 		// quick check to see if all Enderman deny options are enabled; if so, no need to check location
 		if (Config.wildernessDenyEndermanBlocks &&
 					Config.territoryDenyEndermanBlocks &&

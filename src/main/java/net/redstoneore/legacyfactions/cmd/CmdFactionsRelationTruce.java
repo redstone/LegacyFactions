@@ -28,7 +28,7 @@ public class CmdFactionsRelationTruce extends FCommandRelation {
 	
 	@Override
 	public boolean isAvailable() {
-		return Config.enableTruces == true;
+		return Config.enableTruces == true && super.isAvailable();
 	}
 	
 }

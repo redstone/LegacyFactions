@@ -20,6 +20,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.mysql.MySQLPrepared.ExecuteType;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 
 public class MySQLFPlayer extends SharedFPlayer {
 
@@ -268,6 +269,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public boolean isMonitoringJoins() {
 		this.poll();
+		if (LocationUtil.isFactionsDisableIn(this)) return false;
 		if (this.values.get("monitorjoins") == null || this.values.get("monitorjoins") == "") {
 			this.setMonitorJoins(false);
 		}
@@ -286,6 +288,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public boolean isAdminBypassing() {
 		this.poll();
+		if (LocationUtil.isFactionsDisableIn(this)) return false;
 		if (this.values.get("adminbypassing") == null || this.values.get("adminbypassing") == "") {
 			this.setIsAdminBypassing(false);
 		}
@@ -305,6 +308,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public ChatMode getChatMode() {
 		this.poll();
+		if (LocationUtil.isFactionsDisableIn(this)) return ChatMode.PUBLIC;
 		if (this.values.get("chatmode") == null || this.values.get("chatmode") == "") {
 			this.setChatMode(ChatMode.PUBLIC);
 		}
@@ -323,6 +327,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public boolean isIgnoreAllianceChat() {
 		this.poll();
+		if (LocationUtil.isFactionsDisableIn(this)) return true;
 		return Boolean.valueOf(this.values.get("ignorealliancechat"));
 	}
 
@@ -338,6 +343,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public boolean isSpyingChat() {
 		this.poll();
+		if (LocationUtil.isFactionsDisableIn(this)) return false;
 		if (this.values.get("spyingchat") == null || this.values.get("spyingchat") == "") {
 			this.setSpyingChat(false);
 		}
@@ -356,6 +362,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public boolean showScoreboard() {
 		this.poll();
+		if (LocationUtil.isFactionsDisableIn(this)) return false;
 		return Boolean.valueOf(this.values.get("showscoreboard"));
 	}
 
@@ -473,6 +480,7 @@ public class MySQLFPlayer extends SharedFPlayer {
 	@Override
 	public boolean territoryTitlesOff() {
 		this.poll();
+		if (LocationUtil.isFactionsDisableIn(this)) return true;
 		return Boolean.valueOf(this.values.get("territorytitlesoff"));
 	}
 

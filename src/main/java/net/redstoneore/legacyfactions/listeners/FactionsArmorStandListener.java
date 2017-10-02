@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 import net.redstoneore.legacyfactions.LandAction;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
+import net.redstoneore.legacyfactions.util.LocationUtil;
 
 public class FactionsArmorStandListener implements AbstractConditionalListener {
 
@@ -24,6 +25,8 @@ public class FactionsArmorStandListener implements AbstractConditionalListener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void playerInteractEntity(PlayerInteractAtEntityEvent event) {
+		if (LocationUtil.isFactionsDisableIn(event)) return;
+		
 		Entity rightClicked = event.getRightClicked();
 		
 		if (rightClicked.getType() != EntityType.ARMOR_STAND) return;
