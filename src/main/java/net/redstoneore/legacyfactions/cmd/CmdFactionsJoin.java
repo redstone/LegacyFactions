@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
@@ -16,6 +15,7 @@ import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsChange;
 import net.redstoneore.legacyfactions.event.EventFactionsChange.ChangeReason;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsJoin extends FCommand {

@@ -9,13 +9,13 @@ import org.bukkit.OfflinePlayer;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.redstoneore.legacyfactions.EconomyParticipator;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultUtils;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.BukkitMixin;
 import net.redstoneore.legacyfactions.struct.LandValue;

@@ -4,7 +4,7 @@ import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
-import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdFactionsToggleAllianceChat extends FCommand {
 

@@ -1,6 +1,7 @@
 package net.redstoneore.legacyfactions;
 
 import net.redstoneore.legacyfactions.config.Config;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public enum Role {
 	

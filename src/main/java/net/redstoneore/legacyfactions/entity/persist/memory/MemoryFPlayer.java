@@ -1,7 +1,6 @@
 package net.redstoneore.legacyfactions.entity.persist.memory;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
@@ -10,6 +9,7 @@ import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFPlayer;
 import net.redstoneore.legacyfactions.event.EventFactionsRoleChanged;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.LocationUtil;
 
 import java.util.UUID;

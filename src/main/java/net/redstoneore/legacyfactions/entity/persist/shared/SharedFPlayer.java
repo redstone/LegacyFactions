@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 
 import net.redstoneore.legacyfactions.EconomyParticipator;
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
@@ -37,6 +36,7 @@ import net.redstoneore.legacyfactions.integration.essentials.EssentialsEngine;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardEngine;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.locality.LocalityLazy;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;

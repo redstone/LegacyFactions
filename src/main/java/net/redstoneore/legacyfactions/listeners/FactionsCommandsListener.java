@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import com.google.common.collect.Lists;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.cmd.CmdFactions;
 import net.redstoneore.legacyfactions.cmd.FCommand;
@@ -25,6 +24,7 @@ import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.util.LocationUtil;
 

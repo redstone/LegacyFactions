@@ -17,7 +17,6 @@ import org.bukkit.util.NumberConversions;
 
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.Role;
@@ -35,6 +34,7 @@ import net.redstoneore.legacyfactions.event.EventFactionsChangedTerritory;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange;
 import net.redstoneore.legacyfactions.event.EventFactionsLandChange.LandChangeCause;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.locality.Locality;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.scoreboards.FScoreboard;

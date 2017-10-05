@@ -1,8 +1,8 @@
 package net.redstoneore.legacyfactions.util;
 
 import mkremins.fanciful.FancyMessage;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

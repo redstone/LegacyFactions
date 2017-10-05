@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
-import net.redstoneore.legacyfactions.Lang;
 
 public class CmdFactionsSeeChunk extends FCommand {
 

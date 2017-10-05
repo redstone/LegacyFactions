@@ -2,6 +2,7 @@ package net.redstoneore.legacyfactions;
 
 
 import net.redstoneore.legacyfactions.entity.VaultAccount;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 /**
  * Interface given to entities are participants in economy actions.

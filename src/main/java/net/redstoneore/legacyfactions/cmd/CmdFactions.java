@@ -2,9 +2,9 @@ package net.redstoneore.legacyfactions.cmd;
 
 import java.util.Collections;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 /**
@@ -59,6 +59,7 @@ public class CmdFactions extends FCommand {
 		this.addSubCommand(CmdFactionsInvite.get());
 		this.addSubCommand(CmdFactionsJoin.get());
 		this.addSubCommand(CmdFactionsKick.get());
+		this.addSubCommand(CmdFactionsLang.get());
 		this.addSubCommand(CmdFactionsLeave.get());
 		this.addSubCommand(CmdFactionsList.get());
 		this.addSubCommand(CmdFactionsLock.get());

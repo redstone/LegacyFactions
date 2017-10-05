@@ -6,12 +6,12 @@ import org.bukkit.ChatColor;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.config.CommandAliases;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.event.EventFactionsRelation;
 import net.redstoneore.legacyfactions.event.EventFactionsRelationChange;
 import net.redstoneore.legacyfactions.event.EventFactionsRelationshipsCapped;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 
 public abstract class FCommandRelation extends FCommand {

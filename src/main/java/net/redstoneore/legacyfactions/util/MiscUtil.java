@@ -8,11 +8,11 @@ import org.bukkit.entity.EntityType;
 import com.google.gson.JsonParser;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 import java.lang.Character.UnicodeScript;
 import java.util.ArrayList;

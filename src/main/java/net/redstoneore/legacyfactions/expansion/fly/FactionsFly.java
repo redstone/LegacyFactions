@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 
 import com.google.common.collect.Lists;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.config.Config;
@@ -18,6 +17,7 @@ import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.expansion.FactionsExpansion;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.locality.Locality;
 
 public class FactionsFly extends FactionsExpansion {

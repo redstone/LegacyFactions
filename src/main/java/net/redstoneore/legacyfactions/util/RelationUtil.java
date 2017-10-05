@@ -5,11 +5,11 @@ import org.bukkit.ChatColor;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.config.Config;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 /**
  * This utility class provides methods for working with relations.

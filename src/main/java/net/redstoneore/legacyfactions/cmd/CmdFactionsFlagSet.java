@@ -2,13 +2,13 @@ package net.redstoneore.legacyfactions.cmd;
 
 import java.util.Optional;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdFactionsFlagSet extends FCommand {
 	

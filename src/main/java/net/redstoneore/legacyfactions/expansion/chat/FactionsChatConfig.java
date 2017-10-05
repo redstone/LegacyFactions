@@ -2,7 +2,7 @@ package net.redstoneore.legacyfactions.expansion.chat;
 
 import org.bukkit.ChatColor;
 
-import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class FactionsChatConfig {
 	

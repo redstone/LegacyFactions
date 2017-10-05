@@ -3,10 +3,10 @@ package net.redstoneore.legacyfactions.cmd;
 import java.util.ArrayList;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.event.EventFactionsCommandExecute;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsAutohelp extends FCommandBase<Factions> {

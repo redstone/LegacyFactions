@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 import java.util.HashMap;
 import java.util.Map;

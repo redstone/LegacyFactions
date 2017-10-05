@@ -6,10 +6,10 @@ import net.redstoneore.legacyfactions.config.Config;
 
 import org.bukkit.command.CommandSender;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdFactionsSaveAll extends FCommand {
 

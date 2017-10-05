@@ -3,9 +3,9 @@ package net.redstoneore.legacyfactions.integration.playervaults.cmd;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdSetMaxVaults extends FCommand {
 

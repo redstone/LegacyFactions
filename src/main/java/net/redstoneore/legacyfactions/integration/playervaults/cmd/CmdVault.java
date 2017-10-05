@@ -6,9 +6,9 @@ import com.drtshock.playervaults.vaultmanagement.VaultOperations;
 import com.drtshock.playervaults.vaultmanagement.VaultViewInfo;
 
 import net.redstoneore.legacyfactions.Permission;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.cmd.FCommand;
 import net.redstoneore.legacyfactions.config.Config;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
