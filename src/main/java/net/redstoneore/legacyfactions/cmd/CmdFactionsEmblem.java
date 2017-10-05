@@ -1,10 +1,10 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
 public class CmdFactionsEmblem extends FCommand {

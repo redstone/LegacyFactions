@@ -8,8 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import net.redstoneore.legacyfactions.EconomyParticipator;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 @SuppressWarnings("deprecation")

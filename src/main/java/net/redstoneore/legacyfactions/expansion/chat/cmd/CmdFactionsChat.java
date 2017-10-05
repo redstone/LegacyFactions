@@ -7,9 +7,9 @@ import net.redstoneore.legacyfactions.config.Config;
 
 import java.util.Optional;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.event.EventFactionsChatModeChange;
 import net.redstoneore.legacyfactions.expansion.chat.ChatMode;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdFactionsChat extends FCommand {
 	

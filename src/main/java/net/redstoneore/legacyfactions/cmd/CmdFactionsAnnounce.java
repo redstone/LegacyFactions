@@ -4,7 +4,7 @@ import java.util.StringJoiner;
 
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
-import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdFactionsAnnounce extends FCommand {
 	

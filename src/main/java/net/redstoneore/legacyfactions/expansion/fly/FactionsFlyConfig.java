@@ -1,6 +1,6 @@
 package net.redstoneore.legacyfactions.expansion.fly;
 
-import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class FactionsFlyConfig {
 

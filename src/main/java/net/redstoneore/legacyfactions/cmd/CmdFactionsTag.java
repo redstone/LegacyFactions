@@ -2,7 +2,6 @@ package net.redstoneore.legacyfactions.cmd;
 
 import org.bukkit.Bukkit;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
@@ -11,6 +10,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.event.EventFactionsNameChange;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 

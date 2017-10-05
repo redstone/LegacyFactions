@@ -4,7 +4,6 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import com.google.common.base.Joiner;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.config.meta.Meta;
@@ -13,6 +12,7 @@ import net.redstoneore.legacyfactions.entity.FPlayerColl;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import net.redstoneore.legacyfactions.entity.persist.PersistHandler;
 import net.redstoneore.legacyfactions.entity.persist.PersistType;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdFactionsConvert extends FCommand {
 

@@ -5,8 +5,8 @@ import java.util.Optional;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.event.EventFactionsWarpDelete;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 
 public class CmdFactionsDelwarp extends FCommand {

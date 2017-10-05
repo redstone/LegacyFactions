@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.config.meta.Meta;
 import net.redstoneore.legacyfactions.entity.Faction;
@@ -18,6 +17,7 @@ import net.redstoneore.legacyfactions.entity.persist.mysql.MySQLPrepared.Execute
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFactionColl;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFaction;
 import net.redstoneore.legacyfactions.flag.Flags;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
 public class MySQLFactionColl extends SharedFactionColl {

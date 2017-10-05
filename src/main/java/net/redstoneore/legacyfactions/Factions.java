@@ -50,6 +50,7 @@ import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsInteg
 import net.redstoneore.legacyfactions.integration.vault.VaultIntegration;
 import net.redstoneore.legacyfactions.integration.venturechat.VentureChatIntegration;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.listeners.AbstractConditionalListener;
 import net.redstoneore.legacyfactions.listeners.FactionsArmorStandListener;
 import net.redstoneore.legacyfactions.listeners.FactionsBlockListener;
@@ -182,23 +183,6 @@ public class Factions extends FactionsPluginBase {
 		
 		this.loadLibraries();
 		
-		/*
-		this.objectMapper.setVisibility(this.objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
-                .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE)
-				);
-		
-		this.msgPackobjectMapper.setVisibility(this.msgPackobjectMapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
-                .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
-		*/
-		
 		Volatile.get().provider(Provider.of("LegacyFactions", this));
 		
 		this.getDataFolder().mkdirs();
@@ -206,8 +190,11 @@ public class Factions extends FactionsPluginBase {
 		this.migrations();
 		
 		this.timeEnableStart = System.currentTimeMillis();
-						
-		Lang.reload();
+					
+		// Load meta from disk
+		Meta.get().load().save();
+		
+		Lang.reload(null);
 		
 		// Load Conf from disk
 		Config.loadSave();
@@ -220,8 +207,6 @@ public class Factions extends FactionsPluginBase {
 			CommandAliases.baseCommandAliases = Lists.newArrayList("f");
 		}
 		
-		// Load meta from disk
-		Meta.get().load().save();
 		
 		// Initialise our persist handler
 		Config.backEnd.getHandler().init();
@@ -371,6 +356,20 @@ public class Factions extends FactionsPluginBase {
 			Factions.get().log("Moving 'tags.json' -> 'tags.js'");
 		}
 		
+		// Move lang.yml to locale.yml
+		
+		Path localeOld = this.getPluginFolder().resolve("lang.yml");
+		Path localeNew = this.getPluginFolder().resolve("locale.yml");
+		
+		if (Files.exists(localeOld)) {
+			if (Files.exists(localeNew)) {
+				Files.move(localeNew, Paths.get(localeNew.toString() + ".backup"), StandardCopyOption.REPLACE_EXISTING);
+				Factions.get().log("Moving 'locale.yml' -> 'locale.yml.backup'");
+			}
+			Files.move(localeOld, localeNew, StandardCopyOption.REPLACE_EXISTING);
+			Factions.get().log("Moving 'lang.yml' -> 'locale.yml'");
+		}
+
 	}
 	
 	public Gson getGson() {

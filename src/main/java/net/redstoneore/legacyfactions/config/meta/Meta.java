@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
+import net.redstoneore.legacyfactions.lang.Langs;
 
 public class Meta {
 
@@ -65,6 +66,23 @@ public class Meta {
 	);
 	
 	public double configVersion = Config.version;
+	
+	// -------------------------------------------------- //
+	// LANGUAGE
+	// -------------------------------------------------- //
+	
+	public List<String> _lang = Lists.newArrayList(
+			"",
+			"################################  LANGUAGE  ################################",
+			"|                                                                          |",
+			"| This variable is used to determine the language to use. It should point  |", 
+			"| to an existing value in the Langs enum.                                  |", 
+			"|                                                                          |",
+			"################################  LANGUAGE  ################################",
+			""
+	);
+
+	public Langs lang = Langs.DEFAULT;
 	
 	// -------------------------------------------------- //
 	// DATABASE VERSION
@@ -128,6 +146,14 @@ public class Meta {
 	
 	public Meta load() {
 		instance = Persist.get().loadOrSaveDefault(instance, Meta.class, this.getPath());
+		
+		// This shouldn't happen, but we don't want console commands to break because of user error
+		if (instance.consoleId == null) {
+			Factions.get().warn("consoleId in the meta file was null. This shouldn't have happened!");
+			Factions.get().warn("We have automatically populated it for you.");
+			instance.consoleId = UUID.randomUUID().toString();
+		}
+		
 		return instance;
 	}
 	

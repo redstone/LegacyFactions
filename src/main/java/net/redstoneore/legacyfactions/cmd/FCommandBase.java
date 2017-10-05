@@ -2,11 +2,11 @@ package net.redstoneore.legacyfactions.cmd;
 
 import mkremins.fanciful.FancyMessage;
 import net.redstoneore.legacyfactions.FactionsPluginBase;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.integration.vault.VaultEngine;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.LocationUtil;
 import net.redstoneore.legacyfactions.util.PermUtil;
 import net.redstoneore.legacyfactions.util.TextUtil;

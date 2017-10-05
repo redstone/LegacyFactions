@@ -1,8 +1,8 @@
 package net.redstoneore.legacyfactions.util;
 
 import net.redstoneore.legacyfactions.Factions;
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class WarmUpUtil {
 

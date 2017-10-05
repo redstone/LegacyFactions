@@ -47,6 +47,7 @@ public class CommandAliases {
 	public static List<String> cmdAliasesJoin = Lists.newArrayList("join");
 	public static List<String> cmdAliasesKick = Lists.newArrayList("kick");
 	public static List<String> cmdAliasesBan = Lists.newArrayList("ban");
+	public static List<String> cmdAliasesLang = Lists.newArrayList("lang");
 	public static List<String> cmdAliasesLeave = Lists.newArrayList("leave");
 	public static List<String> cmdAliasesList = Lists.newArrayList("list", "ls");
 	public static List<String> cmdAliasesLock = Lists.newArrayList("lock");

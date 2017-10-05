@@ -3,6 +3,7 @@ package net.redstoneore.legacyfactions;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.config.Config;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 /**
  * Each faction has a relation to each other which can change how they interact.<br>

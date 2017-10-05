@@ -11,7 +11,6 @@ import java.util.UUID;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.Relation;
 import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.persist.Persist;
@@ -19,6 +18,7 @@ import net.redstoneore.legacyfactions.entity.persist.PersistType;
 import net.redstoneore.legacyfactions.expansion.chat.FactionsChatConfig;
 import net.redstoneore.legacyfactions.expansion.fly.FactionsFlyConfig;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapConfig;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.struct.LandValue;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossColour;
@@ -54,7 +54,7 @@ public class Config {
 	
 	protected static String _disableFactionsInWorlds = Lang.CONFIG_MISC_DISABLEINWORLDS.name();
 	public static Set<String> disableFactionsInWorlds = new HashSet<>();
-	
+		
 	// -------------------------------------------------- //
 	// Non-1.6 Features
 	// -------------------------------------------------- //

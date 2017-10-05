@@ -1,8 +1,8 @@
 package net.redstoneore.legacyfactions.entity.persist.memory;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.persist.shared.SharedFactionColl;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.MiscUtil;
 
 import java.util.ArrayList;

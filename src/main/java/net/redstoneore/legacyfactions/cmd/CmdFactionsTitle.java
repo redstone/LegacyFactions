@@ -10,8 +10,8 @@ import java.util.Optional;
 
 import com.google.common.collect.Lists;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.entity.FPlayer;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsTitle extends FCommand {

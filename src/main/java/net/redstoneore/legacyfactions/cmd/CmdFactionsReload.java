@@ -4,7 +4,8 @@ import net.redstoneore.legacyfactions.Factions;
 import net.redstoneore.legacyfactions.Permission;
 import net.redstoneore.legacyfactions.config.CommandAliases;
 import net.redstoneore.legacyfactions.config.Config;
-import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.config.meta.Meta;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 public class CmdFactionsReload extends FCommand {
 
@@ -44,7 +45,7 @@ public class CmdFactionsReload extends FCommand {
 		Config.load();
 		Factions.get().reloadConfig();
 		
-		Lang.reload();
+		Lang.reload(Meta.get().lang.getPath());
 		
 		long timeReload = (System.currentTimeMillis() - timeInitStart);
 

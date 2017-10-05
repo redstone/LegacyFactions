@@ -13,6 +13,7 @@ permissions:
     children:
       factions.kit.mod: true
       factions.config: true
+      factions.lang: true
       factions.lock: true
       factions.reload: true
       factions.save: true
@@ -164,6 +165,8 @@ permissions:
     description: kick a player from the faction
   factions.kick.any:
     description: kick anyone from any faction
+  factions.lang:
+    description: set locale file language
   factions.leave:
     description: leave your faction
   factions.list:

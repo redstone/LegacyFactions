@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
 
-import net.redstoneore.legacyfactions.Lang;
+import net.redstoneore.legacyfactions.lang.Lang;
 
 /**
  * An enum of available chat modes for faction chat.

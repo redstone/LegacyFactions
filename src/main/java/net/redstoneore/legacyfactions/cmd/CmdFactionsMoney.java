@@ -1,7 +1,7 @@
 package net.redstoneore.legacyfactions.cmd;
 
-import net.redstoneore.legacyfactions.Lang;
 import net.redstoneore.legacyfactions.config.CommandAliases;
+import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.TextUtil;
 
 public class CmdFactionsMoney extends FCommand {
