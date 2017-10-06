@@ -13,6 +13,7 @@ import net.redstoneore.legacyfactions.Role;
 import net.redstoneore.legacyfactions.entity.persist.memory.MemoryFaction;
 import net.redstoneore.legacyfactions.flag.Flag;
 import net.redstoneore.legacyfactions.locality.Locality;
+import net.redstoneore.legacyfactions.util.LazyLocation;
 import net.redstoneore.legacyfactions.warp.FactionWarps;
 
 import java.util.*;
@@ -104,6 +105,8 @@ public interface Faction extends EconomyParticipator {
 	boolean hasHome();
 
 	Location getHome();
+	
+	LazyLocation getLazyHome();
 
 	long getFoundedDate();
 

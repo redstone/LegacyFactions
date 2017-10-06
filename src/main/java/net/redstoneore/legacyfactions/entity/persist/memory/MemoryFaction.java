@@ -418,6 +418,10 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
 		confirmValidHome();
 		return (this.home != null) ? this.home.getLocation() : null;
 	}
+	
+	public LazyLocation getLazyHome() {
+		return this.home;
+	}
 
 	public long getFoundedDate() {
 		if (this.foundedDate == 0) {
