@@ -47,6 +47,7 @@ import net.redstoneore.legacyfactions.integration.playervaults.PlayerVaultsInteg
 import net.redstoneore.legacyfactions.integration.vault.VaultIntegration;
 import net.redstoneore.legacyfactions.integration.venturechat.VentureChatIntegration;
 import net.redstoneore.legacyfactions.integration.worldguard.WorldGuardIntegration;
+import net.redstoneore.legacyfactions.listeners.FactionsArmorStandListener;
 import net.redstoneore.legacyfactions.listeners.FactionsBlockListener;
 import net.redstoneore.legacyfactions.listeners.FactionsCommandsListener;
 import net.redstoneore.legacyfactions.listeners.FactionsEntityListener;
@@ -253,6 +254,10 @@ public class Factions extends FactionsPluginBase {
 			FactionsExploitListener.get(),
 			FactionsBlockListener.get()
 		);
+		
+		if (FactionsArmorStandListener.get().shouldEnable()) {
+			this.register(FactionsArmorStandListener.get());
+		}
 		
 		// since some other plugins execute commands directly through this command interface, provide it
 		CommandAliases.baseCommandAliases.forEach(ref ->  {
