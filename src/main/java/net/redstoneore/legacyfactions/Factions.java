@@ -42,6 +42,7 @@ import net.redstoneore.legacyfactions.expansion.Provider;
 import net.redstoneore.legacyfactions.flag.Flags;
 import net.redstoneore.legacyfactions.integration.Integrations;
 import net.redstoneore.legacyfactions.integration.bstats.BStatsIntegration;
+import net.redstoneore.legacyfactions.integration.conquer.ConquerIntegration;
 import net.redstoneore.legacyfactions.integration.dynmap.DynmapIntegration;
 import net.redstoneore.legacyfactions.integration.essentials.EssentialsIntegration;
 import net.redstoneore.legacyfactions.integration.metrics.MetricsIntegration;
@@ -243,7 +244,8 @@ public class Factions extends FactionsPluginBase {
 			BStatsIntegration.get(),
 			VentureChatIntegration.get(),
 			NovucsFactionsTopIntegration.get(),
-			DynmapIntegration.get()
+			DynmapIntegration.get(),
+			ConquerIntegration.get()
 		);
 		
 		// Sync expansions
