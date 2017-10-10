@@ -1087,17 +1087,38 @@ public enum Lang {
 	CONFIG_TASKS_AUTOLEAVEDELETEFPLAYERDATA("* Delete player data when they autoleave?"),
 	
 	CONFIG_FORMAT_SECTION("******************** [ FORMAT ] ********************"),
-	CONFIG_FORMAT_DESC("* LegacyFactions support multiple script formats. By default, all english characters are supported.\r\n   * You can add support for any other script support that Java allows.\r\n   * See: https://github.com/redstone/LegacyFactions/wiki/Multilingual-Script-Support"),
+	CONFIG_FORMAT_DESC("* LegacyFactions support multiple script formats. By default, all english characters are supported."
+			+ "\r\n   * You can add support for any other script support that Java allows."
+			+ "\r\n   * See: https://github.com/redstone/LegacyFactions/wiki/Multilingual-Script-Support"),
 	
 	CONFIG_SERVERLOGGING_SECTION("******************** [ SERVER LOGGING ] ********************"),
+	CONFIG_SERVERLOGGING_DESC("* LegacyFactions logs certain actions to the server console. You can change those here."),
 	
 	CONFIG_EXPLOITS_SECTION("******************** [ EXPLOITS ] ********************"),
+	CONFIG_EXPLOITS_OBSIDIANGENERATORS("* Should we attempt to block a certain kind of obsidian generator exploit?"),
+	CONFIG_EXPLOITS_ENDERPEARL("* Should we attempt to block a certain ender pearl clipping exploit?"),
+	CONFIG_EXPLOITS_INTERACTIONSPAM("* Should we attempt to block a certain interaction spam exploit?"),
+	CONFIG_EXPLOITS_WATERLOG("* TNT in water/lava doesn't normally destroy any surrounding blocks, which is usually desired behavior." + 
+			"\r\n   * But this optional change below provides workaround for waterwalling providing perfect protection,\n" + 
+			"\r\n   * and makes cheap (non-obsidian) TNT cannons require minor maintenance between shots."),
+	CONFIG_EXPLOITS_LIQUIDFLOW("* Should we attempt to block a certain kind of liquid flow exploit? "),
+	CONFIG_EXPLOITS_FINDEXPLOIT("* The find exploit refers to an exploit where the map is exploited."),
 	
 	CONFIG_PORTALS_SECTION("******************** [ PORTALS ] ********************"),
+	CONFIG_PORTALS_DESC("* Portals can be limited with LegacyFactions."),
 	
 	CONFIG_SCOREBOARD_SECTION("******************** [ SCOREBOARD ] ********************"),
+	CONFIG_SCOREBOARD_DESC("* LegacyFactions introduces a basic scoreboard integration that you can use."
+			+ "\r\n   * For more advanced uses you may want to look into a plugin like ScoreboardStats or Featherboard."),
+	CONFIG_SCOREBOARD_SCOREBOARDINCHAT("* On land change, should we show the scoreboard in chat?"),
+	CONFIG_SCOREBOARD_EXPIRES("* After how long (in seconds) should we revert to the normal scoreboard."),
+	CONFIG_SCOREBOARD_INFOENABLED("* Info Scoreboard: this scoreboard is for displaying the faction information."),
+	CONFIG_SCOREBOARD_DEFAULTENABLED("* Default Scoreboard: this is the scoreboard displayed by default."),
+	CONFIG_SCOREBOARD_FACTIONLESSENABLED("* Factionless Scoreboard: this is the scoreboard disaplyed by default, to players without a faction."),
 	
 	CONFIG_TERRITORYTITLES_SECTION("******************** [ TERRITORY TITLES ] ********************"),
+	CONFIG_TERRITORYTITLES_DESC("Territory titles are shown when moving between land, or"
+			+ "\r\n   * when ranks are changed (if enabled)."),
 	
 	CONFIG_TELEPROTTOSPAWN_SECTION("******************** [ TELEPORT TO SPAWN ON LOGOUT ] ********************"),
 	
@@ -1124,19 +1145,26 @@ public enum Lang {
 	CONFIG_STUCK_SECTION("******************** [ STUCK ] ********************"),
 	
 	CONFIG_RAIDS_SECTION("******************** [ RAIDS ] ********************"),
+	CONFIG_RAIDS_DESC("* A faction is determined raidable if their land count is larger than their power rounded."
+			+ "\r\n   * Raidable indicates that other factions can use items, break/place blocks, open chests, etc."),
 	
 	CONFIG_VAULTS_SECTION("******************** [ VAULTS ] ********************"),
 	
 	CONFIG_MAP_SECTION("******************** [ MAP COMMAND ] ********************"),
 	
 	CONFIG_HELP_SECTION("******************** [ HELP COMMAND ] ********************"),
+	CONFIG_HELP_DESC("* In LegacyFactions there are multiple help command modes you can pick between:"
+			+ "\r\n   * useOldHelp - This is the vanilla Factions 1.6 help."
+			+ "\r\n   * useCustomHelp - This is the custom help, you can specify the help pages yourself."
+			+ "\r\n   * default - If both options are set to false we use the new JSON help menu. This comes with buttons, and is automatically generated."),
 	
 	CONFIG_LIST_SECTION("******************** [ LIST COMMAND ] ********************"),
 	
 	CONFIG_SHOW_SECTION("******************** [ SHOW COMMAND ] ********************"),
 	
 	CONFIG_BACKEND_SECTION("******************** [ BACKEND ] ********************"),
-
+	CONFIG_BACKEND_DESC("* You shouldn't change the backend here. Instead, use the /f convert command."),
+	
 	;
 	
 	// -------------------------------------------------- //

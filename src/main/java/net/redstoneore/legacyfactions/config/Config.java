@@ -401,6 +401,8 @@ public class Config {
 	
 	protected static String _sectionServerLogging = Lang.CONFIG_SERVERLOGGING_SECTION.name();
 
+	protected static String _sectionServerLoggingDesc = Lang.CONFIG_SERVERLOGGING_DESC.name();
+
 	public static boolean logFactionCreate = true;
 	
 	public static boolean logFactionDisband = true;
@@ -427,16 +429,22 @@ public class Config {
 	
 	protected static String _sectionExploits = Lang.CONFIG_EXPLOITS_SECTION.name();
 
+	protected static String _handleExploitObsidianGenerators = Lang.CONFIG_EXPLOITS_OBSIDIANGENERATORS.name();
 	public static boolean handleExploitObsidianGenerators = true;
 	
+	protected static String _handleExploitEnderPearlClipping = Lang.CONFIG_EXPLOITS_ENDERPEARL.name();
 	public static boolean handleExploitEnderPearlClipping = true;
 	
+	protected static String _handleExploitInteractionSpam = Lang.CONFIG_EXPLOITS_INTERACTIONSPAM.name();
 	public static boolean handleExploitInteractionSpam = true;
 	
+	protected static String _handleExploitTNTWaterlog = Lang.CONFIG_EXPLOITS_WATERLOG.name();
 	public static boolean handleExploitTNTWaterlog = false;
 	
+	protected static String _handleExploitLiquidFlow = Lang.CONFIG_EXPLOITS_LIQUIDFLOW.name();
 	public static boolean handleExploitLiquidFlow = false;
 
+	protected static String _findFactionsExploitLog = Lang.CONFIG_EXPLOITS_FINDEXPLOIT.name();
 	public static boolean findFactionsExploitLog = false;
 	
 	public static long findFactionsExploitCooldownMils = 2000;
@@ -446,6 +454,8 @@ public class Config {
 	// -------------------------------------------------- //
 	
 	protected static String _sectionPortals = Lang.CONFIG_PORTALS_SECTION.name();
+
+	protected static String _sectionPortalsDesc = Lang.CONFIG_PORTALS_DESC.name();
 
 	public static boolean portalsLimit = false;
 	
@@ -457,10 +467,15 @@ public class Config {
 	
 	protected static String _sectionScoreboard = Lang.CONFIG_SCOREBOARD_SECTION.name();
 
+	protected static String _sectionScoreboardDesc = Lang.CONFIG_SCOREBOARD_DESC.name();
+
+	protected static String _scoreboardInChat = Lang.CONFIG_SCOREBOARD_SCOREBOARDINCHAT.name();
 	public static boolean scoreboardInChat = false;
 	
+	protected static String _scoreboardExpiresSecs = Lang.CONFIG_SCOREBOARD_EXPIRES.name();
 	public static long scoreboardExpiresSecs = 6;
 	
+	protected static String _scoreboardInfoEnabled = Lang.CONFIG_SCOREBOARD_INFOENABLED.name();
 	public static boolean scoreboardInfoEnabled = false;
 	
 	public static List<String> scoreboardInfo = Lists.newArrayList(
@@ -474,6 +489,8 @@ public class Config {
 		"{chunks}"
 	);
 	
+	protected static String _scoreboardDefaultEnabled = Lang.CONFIG_SCOREBOARD_DEFAULTENABLED.name();
+
 	public static boolean scoreboardDefaultEnabled = false;
 	
 	public static String scoreboardDefaultTitle = "Default Title";
@@ -491,6 +508,8 @@ public class Config {
 		"${player-balance}"
 	);
 	
+	protected static String _scoreboardFactionlessEnabled = Lang.CONFIG_SCOREBOARD_FACTIONLESSENABLED.name();
+
 	public static boolean scoreboardFactionlessEnabled = false;
 	
 	public static List<String> scoreboardFactionless = Lists.newArrayList(
@@ -504,6 +523,8 @@ public class Config {
 
 	protected static String _sectionTerritoryTitles = Lang.CONFIG_TERRITORYTITLES_SECTION.name();
 
+	protected static String _sectionTerritoryTitlesDesc = Lang.CONFIG_TERRITORYTITLES_DESC.name();
+	
 	// show territory title on land change
 	public static boolean territoryTitlesShow = true;
 	
@@ -896,6 +917,8 @@ public class Config {
 	
 	protected static String _sectionRaids = Lang.CONFIG_RAIDS_SECTION.name();
 
+	protected static String _sectionRaidsDesc = Lang.CONFIG_RAIDS_DESC.name();
+
 	public static boolean raidable = false;
 	public static boolean raidableAllowOverclaim = true;
 	public static int raidablePowerFreeze = 0;
@@ -925,6 +948,7 @@ public class Config {
 	// -------------------------------------------------- //
 	
 	protected static String _sectionHelp = Lang.CONFIG_HELP_SECTION.name();
+	protected static String _sectionHelpDesc = Lang.CONFIG_HELP_DESC.name();
 
 	public static Boolean useOldHelp = false;
 	public static Boolean useCustomHelp = false;
@@ -1007,6 +1031,7 @@ public class Config {
 	// -------------------------------------------------- //
 
 	protected static String _sectionBackend = Lang.CONFIG_BACKEND_SECTION.name();
+	protected static String _sectionBackendDesc = Lang.CONFIG_BACKEND_DESC.name();
 
 	public static PersistType backEnd = PersistType.JSON;
 	
