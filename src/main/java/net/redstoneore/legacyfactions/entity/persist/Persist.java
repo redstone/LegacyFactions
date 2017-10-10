@@ -10,6 +10,7 @@ import java.util.Random;
 import org.bukkit.ChatColor;
 
 import net.redstoneore.legacyfactions.Factions;
+import net.redstoneore.legacyfactions.config.Config;
 import net.redstoneore.legacyfactions.lang.Lang;
 import net.redstoneore.legacyfactions.util.DiscUtil;
 import net.redstoneore.legacyfactions.util.MiscUtil;
@@ -140,9 +141,11 @@ public class Persist {
 		
 		String json = Factions.get().getGson().toJson(instance);
 		
-		json = StringUtils.replaceWithFn(json, "([^ ]*)\"_([^ \\.]*)\": \"(.*)\",", ((found) -> 
-			"\r\n  /*\r\n   " + Lang.valueOf(found).toString() + "\r\n   */"
-		), 3);
+		json = StringUtils.replaceWithFn(json, "([^ ]*)\"_([^ \\.]*)\": \"(.*)\",", ((found) -> {
+			if (Config.hideConfigComments) return "";
+			
+			return "\r\n  /*\r\n   " + Lang.valueOf(found).toString() + "\r\n   */";
+		}), 3);
 		
 		return DiscUtil.writeCatch(file, json, true);
 	}

@@ -977,6 +977,7 @@ public enum Lang {
 	CONFIG_MISC_DEBUG("* Debug Mode\r\n   * If enabled, fine details will be sent to console."),
 	CONFIG_MISC_STATISTICS("* Log Statistics\r\n   * If enabled, we will log useful statistics."),
 	CONFIG_MISC_DISABLEINWORLDS("* Disable Factions in worlds\r\n   * If worlds are added here, factions commands and events won't work in these worlds."),
+	CONFIG_MISC_HIDECONFIGCOMMENTS("* If you want to hide comments (like what you are reading now!) set this to true!"),
 	
 	CONFIG_NON16_SECTION("******************** [ NON 1.6 FEATURES ] ********************"),
 	CONFIG_NON16_TRUCES("* Enable Truces\r\n   * To disable truces, set this to false."),
