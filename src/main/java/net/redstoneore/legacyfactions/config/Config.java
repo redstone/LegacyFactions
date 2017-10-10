@@ -55,6 +55,9 @@ public class Config {
 	protected static String _disableFactionsInWorlds = Lang.CONFIG_MISC_DISABLEINWORLDS.name();
 	public static Set<String> disableFactionsInWorlds = new HashSet<>();
 		
+	protected static String _hideConfigComments = Lang.CONFIG_MISC_HIDECONFIGCOMMENTS.name();
+	public static boolean hideConfigComments = false;
+	
 	// -------------------------------------------------- //
 	// Non-1.6 Features
 	// -------------------------------------------------- //
