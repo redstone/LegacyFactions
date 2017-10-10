@@ -15,6 +15,7 @@ public enum Langs {
 	EN_AU("en_au", "Australian English", "lang/en_AU.yml"),
 	EN_GB("en_gb", "British English", "lang/en_GB.yml"),
 	EN_US("en_us", "American English", "lang/en_US.yml"),
+	JA_JP("ja_jp", "Japanese", "lang/ja_JP.yml"),
 	NL_NL("nl_nl", "Dutch", "lang/nl_NL.yml"),
 	PL_PL("pl_PL", "Polish", "lang/pl_PL.yml"),
 	ZH_CN("zh_cn", "Chinese", "lang/zh_CN.yml"),
