@@ -1,19 +1,12 @@
 root:
-  AUTHOR: misc
-  RESPONSIBLE: Korikisulda
-  LANGUAGE: English
+  AUTHOR: LegacyFactions
+  LANGUAGE: English (British English)
   ENCODING: UTF-8
   LOCALE: en_GB
-  EXTENDS: en_US
+  EXTENDS: none
   REQUIRESUNICODE: 'false'
-  DEFAULT: 'false'
+  DEFAULT: 'true'
   STATE: complete
-  LOCAL:
-    AUTHOR: misc
-    RESPONSIBLE: Korikisulda
-    LANGUAGE: English
-    REGION: UK
-    STATE: complete
 COMMAND:
   CONFIG:
     COLOURSET: '" colour option set to "'
