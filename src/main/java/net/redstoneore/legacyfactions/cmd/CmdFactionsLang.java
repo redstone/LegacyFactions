@@ -47,7 +47,7 @@ public class CmdFactionsLang extends FCommand {
 		Langs lang = null;
 		
 		try {
-			lang = Langs.valueOf(this.argAsString(0));
+			lang = Langs.valueOf(this.argAsString(0).toUpperCase());
 		} catch (IllegalArgumentException e) {
 			// No enum constant
 			lang = null;
