@@ -44,7 +44,14 @@ public class CmdFactionsLang extends FCommand {
 			return;
 		}
 		
-		Langs lang = Langs.valueOf(this.argAsString(0));
+		Langs lang = null;
+		
+		try {
+			lang = Langs.valueOf(this.argAsString(0));
+		} catch (IllegalArgumentException e) {
+			// No enum constant
+			lang = null;
+		}
 		
 		if (lang == null) {
 			this.sendMessage(ChatColor.RED + "Invalid lang.");
