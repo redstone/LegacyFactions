@@ -24,6 +24,10 @@ public interface LandManager {
 	// METHODS
 	// -------------------------------------------------- //
 	
+	/**
+	 * Rebuild a chunk
+	 * @param chunk The chunk to rebuild.
+	 */
 	void rebuild(Chunk chunk);
 	
 }
