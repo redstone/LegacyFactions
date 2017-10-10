@@ -66,7 +66,7 @@ public class CmdFactionsLang extends FCommand {
 		// Clear help page cache
 		CmdFactionsHelp.get().clearHelpPageCache();
 		
-		this.sendMessage("Lang set to " + lang.name());
+		this.sendMessage("Lang set to " + lang.name() + " (state: " + Lang._STATE +"). Translation by " + Lang._AUTHOR + ".");
 	}
 
 	@Override
