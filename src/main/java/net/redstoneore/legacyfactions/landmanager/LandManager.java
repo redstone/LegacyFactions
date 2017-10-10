@@ -12,10 +12,6 @@ public interface LandManager {
 	// STATIC
 	// -------------------------------------------------- //
 	
-	public static LandManager get() {
-		return LandManagerMixin.getLandManager();
-	}
-	
 	public static List<LandManager> getLandManagers() {
 		return LandManagerMixin.getLandManagers();
 	}

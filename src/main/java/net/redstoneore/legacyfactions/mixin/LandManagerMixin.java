@@ -13,17 +13,7 @@ import net.redstoneore.legacyfactions.landmanager.LandManagerWorldEdit;
  * plugins if needed. 
  */
 public class LandManagerMixin {
-
-	private static LandManager landManagerInstance = null;
-	public static LandManager getLandManager() {
-		if (landManagerInstance == null) {
-			// If there are none, return null - maybe one will be available later?
-			if (getLandManagers().isEmpty()) return null;
-			landManagerInstance = getLandManagers().get(0);
-		}
-		
-		return landManagerInstance;
-	}
+	
 	public static List<LandManager> getLandManagers() {
 		List<LandManager> landManagers = new ArrayList<>();
 		
