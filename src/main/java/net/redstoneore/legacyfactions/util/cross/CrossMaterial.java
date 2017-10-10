@@ -553,7 +553,7 @@ public enum CrossMaterial implements Cross<CrossMaterial> {
 	
 	@Override
 	public boolean is(CrossMaterial material) {
-		return this == material;
+		return this.getMaterialId() == material.getMaterialId();
 	}
 	
 }
