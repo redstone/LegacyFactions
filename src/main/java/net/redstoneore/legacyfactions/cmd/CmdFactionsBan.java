@@ -55,13 +55,12 @@ public class CmdFactionsBan extends FCommand {
 			final String fplayerName = this.argAsString(0);
 			
 			this.argAsPlayerToMojangFPlayer(0, null, (found, exception) -> {
-				if (exception.isPresent()) {
-					fplayer.sendMessage(TextUtil.parseColor(Lang.COMMAND_BAN_NOTFOUND.toString()).replace("<player>", fplayerName));
-					return;
-				}
-				
-				if (found == null) {
-					fplayer.sendMessage(TextUtil.parseColor(Lang.COMMAND_BAN_NOTFOUND.toString()));
+				if (exception.isPresent() || found == null) {
+					Lang.COMMAND_BAN_NOTFOUND.getBuilder()
+						.parse()
+						.replace("<player>", fplayerName)
+						.sendTo(fplayer);
+					
 					return;
 				}
 				
@@ -72,7 +71,7 @@ public class CmdFactionsBan extends FCommand {
 		
 		resume(who, this.fme);
 	}
-
+	
 	private static final void resume(final FPlayer who, final FPlayer fme) {
 		// Can't ban someone of a higher rank.
 		if (who.getRole().isMoreThan(fme.getRole()) && !fme.isAdminBypassing()) {
