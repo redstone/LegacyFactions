@@ -30,12 +30,20 @@ import java.util.UUID;
 public abstract class FCommandBase<T extends FactionsPluginBase> {
 
 	// The sub-commands to this command
-	public List<FCommandBase<?>> subCommands = Lists.newArrayList();
+	private List<FCommandBase<?>> subCommands = Lists.newArrayList();
 
 	public void addSubCommand(FCommandBase<?> subCommand) {
 		subCommand.commandChain.addAll(this.commandChain);
 		subCommand.commandChain.add(this);
 		this.subCommands.add(subCommand);
+	}
+	
+	public ArrayList<FCommandBase<?>> getSubcommands() {
+		return Lists.newArrayList(this.subCommands);
+	}
+	
+	public boolean removeSubcommand(FCommandBase<?> command) { 
+		return this.subCommands.remove(command);
 	}
 
 	// The different names this commands will react to

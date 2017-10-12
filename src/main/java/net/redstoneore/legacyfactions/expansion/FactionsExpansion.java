@@ -62,7 +62,7 @@ public abstract class FactionsExpansion {
 		
 		if (this.getCommands().size() > 0) {
 			this.getCommands().forEach(command -> 
-				CmdFactions.get().subCommands.remove(command)
+				CmdFactions.get().removeSubcommand(command)
 			);
 			
 			// Clear the help page cache.

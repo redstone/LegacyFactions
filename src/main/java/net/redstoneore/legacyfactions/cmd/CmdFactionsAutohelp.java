@@ -59,7 +59,7 @@ public class CmdFactionsAutohelp extends FCommandBase<Factions> {
 
 		lines.addAll(pcmd.helpLong);
 
-		for (FCommandBase<?> scmd : pcmd.subCommands) {
+		for (FCommandBase<?> scmd : pcmd.getSubcommands()) {
 			if (scmd.visibility == CommandVisibility.VISIBLE || (scmd.visibility == CommandVisibility.SECRET && scmd.validSenderPermissions(sender, false))) {
 				lines.add(scmd.getUseageTemplate(this.commandChain, true));
 			}
