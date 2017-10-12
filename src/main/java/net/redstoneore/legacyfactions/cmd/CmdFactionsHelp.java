@@ -102,7 +102,7 @@ public class CmdFactionsHelp extends FCommand {
 			List<List<FancyMessage>> pages = new ArrayList<>();
 			List<FancyMessage> lines = new ArrayList<>();
 			
-			for (FCommandBase<?> command : CmdFactions.get().subCommands) {
+			for (FCommandBase<?> command : CmdFactions.get().getSubcommands()) {
 				if (!(sender instanceof ConsoleCommandSender) && command.permission != null && !fme.getPlayer().hasPermission(command.permission)) continue;
 				if (!command.isAvailable()) continue;
 				
