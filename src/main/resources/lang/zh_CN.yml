@@ -1,18 +1,12 @@
 root:
-  AUTHOR: misc
-  RESPONSIBLE: misc
+  AUTHOR: LK520
   LANGUAGE: Chinese
   ENCODING: UTF-8
   LOCALE: zh_CN
+  EXTENDS: none
   REQUIRESUNICODE: 'false'
   DEFAULT: 'true'
   STATE: complete
-  LOCAL:
-    AUTHOR: LK520
-    RESPONSIBLE: misc
-    LANGUAGE: 中文
-    REGION: 中国
-    STATE: 全部已翻译但不完全准确
 COMMAND:
   ERRORS:
     PLAYERNOTFOUND: <b>没有找到 "<p><name><b>" 玩家.
@@ -54,6 +48,13 @@ COMMAND:
     REQUIREDRANK: <b>你必须成为<h>%1$s<b>才能领取.
     OTHERFACTION: <b>你不能领取其他派系的领地.
     DESCRIPTION: 自动划取领地
+  AUTOKICK:
+    DESCRIPTION: 设置长期不在线玩家自动踢出时间.
+    DAYSINVALID: <b>请输入正确的天数, 天数必须少于 <amount>
+    BADRANK: <b>你必须成为 <i><rank> <b>才能设置自动踢人.
+    NOTOTHERS: <b>你不能为别人的派系设置自动踢人时间.
+    SET: <i>自动踢出时间已设置为 <days> 天.
+    CLEARED: <i>你清除了派系自动踢人时间，现在将使用系统默认的时间.
   AUTOHELP:
     HELPFOR: 命令帮助"
   BAN:
@@ -106,6 +107,7 @@ COMMAND:
     DENIED: <b>你没有权限认领.
     DESCRIPTION: 认领你脚下的区域为派系领地
     RADIUSAMOUNT: <player><i> 从 <chunk> 领取 <teal><amount> <i>半径为 <radius>的区域.
+    RADIUSMAX: <b>最大可领取区域为 <radius>
   CLAIMLINE:
     INVALIDRADIUS: <b>如果指定距离, 至少为1.
     DENIED: <b>你没有领取的权限.
@@ -155,6 +157,7 @@ COMMAND:
     BACKEND:
       RUNNING: 服务器已经在使用哪种格式了.
       INVALID: 未知格式
+      DBCREDENTIALS: 要转换为 <type> 格式，你必须提供数据库凭据.
     DESCRIPTION: 转换插件文件格式
   CREATE:
     MUSTLEAVE: <b>你需要退出你当前的派系.
@@ -198,6 +201,24 @@ COMMAND:
       NOTYOURS: <h>%1$s<i> 解散了派系 %2$s.
     HOLDINGS: <i>被解散的派系银行总计 %1$s.
     DESCRIPTION: 解散派系
+  EMBLEM:
+    LENGTHUNDERMIN: <b>你的派系代称至少为 <minimum> 个字符.
+    LENGTHOVERMAX: <b>你的派系代称最多为 <maximum> 个字符.
+    CANTOTHERS: <b>你没有权限设置其他派系的代称.
+    MINROLE: <b>你必须成为 <role> 才可以设置代称.
+    TAKEN: <b>派系代称已被使用.
+    SET: <i>已将派系代称设置为 <h><emblem><i>.
+    DESCRIPTION: 设置派系代称
+  FLAG:
+    DESCRIPTION: 管理一个派系的标签.
+  FLAGLIST:
+    DESCRIPTION: 查看派系的标签.
+  FLAGSET:
+    DESCRIPTION: 为派系设置标签.
+    INVALID: <h><flag><b> 不是一个正确的标签.
+    NOTYOURS: <b>你不能为派系设置这个标签.
+    BADRANK: <b>你必须成为 <h><role><b> 才能管理派系标签.
+    SET: <h><flag><i> 被设置为 <h><value>.
   FWARP:
     CLICKTOWARP: 点击传送地标!
     COMMANDFORMAT: <i>/f warp <地标名字>
@@ -462,7 +483,9 @@ COMMAND:
   SAFEUNCLAIMALL:
     DESCRIPTION: 取消领取所有安全区域.
     UNCLAIMED: <i>你取消领取了所有安全区域.
-    UNCLAIMEDLOG: '%1$s 取消领取了所有安全区域.'
+    UNCLAIMEDIN: <i>你取消领取了所有安全区域于世界 <world>.
+    LOG: <who> 取消领取所有区域.
+    LOGWORLD: <who> 取消领取了 <world> 世界的所有安全区域.
   SAVEALL:
     SUCCESS: <i>派系已保存!
     DESCRIPTION: 保存所有数据文件
@@ -583,8 +606,8 @@ COMMAND:
     TOUNCLAIM: 来取消领取这块土地
     FORUNCLAIM: 来取消领取这块土地
     FACTIONUNCLAIMED: '%1$s<i> 取消领取了一些区域.'
-    FACTIONUNCLAIMEDAMOUNT: <player><i> 取消领取了 <teal><amount> <i>区块在
-      半径 <radius> 内从 <chunk>
+    FACTIONUNCLAIMEDAMOUNT: <player><i> 取消领取了 <teal><amount> <i>区块在 半径 <radius> 内从
+      <chunk>
     DESCRIPTION: 取消领取一个区域
   UNCLAIMALL:
     TOUNCLAIM: 取消领取所有派系区域
@@ -598,7 +621,9 @@ COMMAND:
   WARUNCLAIMALL:
     DESCRIPTION: 取消领取所有战争区域
     SUCCESS: <i>你放弃了所有战争区域.
-    LOG: '%1$s 放弃了所有战争区域.'
+    UNCLAIMEDIN: <i>你取消领取了所有战争区域于世界 <world>.
+    LOGALL: <who> 取消领取了所有战争区域.
+    LOGWORLD: <who> 取消领取了所有战争区域于世界 <world>.
   STYLE:
     DESCRIPTION: 设置派系风格
     ARG:
@@ -660,6 +685,7 @@ GENERIC:
   DOTHAT: do that
   NOPLAYERMATCH: <b>找不到玩家 "<p>%1$s<b>".
   NOPLAYERFOUND: <b>玩家 "<p>%1$s<b>" 没有找到.
+  NOWORLDFOUND: <b>No World "<p><world><b>" could not be found.
   ARGS:
     TOOFEW: '<b>缺少参数. <i>请按照这种格式:'
     TOOMANY: '<b>参数错误 "<p>%1$s<b>". <i>像这样使用命令:'
@@ -670,7 +696,7 @@ GENERIC:
   SERVERADMIN: 一个服务器管理员
   DISABLED: 已关闭
   ENABLED: 已开启
-  INFINITY: ∞
+  INFINITY: 无限
   CONSOLEONLY: 你不能以玩家的身份运行此命令.
   PLAYERONLY: <b>这个命令只能在游戏里面的玩家执行.
   ASKYOURLEADER: '<i> 找你的管理:'
@@ -679,7 +705,6 @@ GENERIC:
   TRANSLATION:
     VERSION: '翻译: %1$s(%2$s,%3$s) 进度: %4$s'
     CONTRIBUTORS: '贡献翻译者: %1$s'
-    RESPONSIBLE: '负责翻译: %1$s'
   FACTIONTAG:
     TOOSHORT: <i>派系名称不能少于 <h>%1$s<i> 个字符.
     TOOLONG: <i>派系名称不能多于 <h>%s<i> 个字符.
@@ -732,6 +757,9 @@ ROLE:
   COLEADER: 副管理
   MODERATOR: 初级管理
   NORMAL: 普通成员
+ROLETITLES:
+  HEADER: <green>新的 <rank>
+  FOOTER: <gold><player> 晋升为 <rank>
 REGION:
   SAFEZONE: 安全区域
   WARZONE: 战争区域
@@ -785,9 +813,9 @@ PLAYER:
       PLACEPAINTING: <b>玩家 <name> 消耗生命地在领地上放置画.
       BREAKPAINTING: <b>玩家 <name> 消耗生命地在领地上破坏画.
     OWNED:
-      BUILD: '<b>消耗生命地在领地上建造, 建造者：<who>'
-      DESTROY: '<b>消耗生命地在领地上破坏, 破坏者：<who>'
-      USE: '<b>消耗生命地在领使用物品, 使用者：<who>'
+      BUILD: <b>消耗生命地在领地上建造, 建造者：<who>
+      DESTROY: <b>消耗生命地在领地上破坏, 破坏者：<who>
+      USE: <b>消耗生命地在领使用物品, 使用者：<who>
       FROSTWALK: '<b>消耗生命地在领地上使用冰霜行者, 使用者: <who>'
       PLACEPAINTING: '<b>消耗生命地在领地上放置画,放置者: <who>'
       BREAKPAINTING: '<b>消耗生命地在领地上破坏画,破坏者: <who>'
@@ -804,10 +832,8 @@ PLAYER:
       DESTROY: <b>你不能在这块领地上破坏, 它的主人是 <who>
       USE: <b>你不能在这块领地上使用这个, 它的主人是 <who>
       FROSTWALK: <b>你不能在这块领地上使用冰霜行者, 它的主人是 <who>
-      PLACEPAINTING: <b>你不能在这块领地上放置画, 它的主人是
-        <who>
-      BREAKPAINTING: <b>你不能在这块领地上破坏画, 它的主人是
-        <who>
+      PLACEPAINTING: <b>你不能在这块领地上放置画, 它的主人是 <who>
+      BREAKPAINTING: <b>你不能在这块领地上破坏画, 它的主人是 <who>
     SAFEZONE:
       BUILD: <b>你不能在安全区域建筑.
       DESTROY: <b>你不能在安全区域进行破坏.
@@ -845,13 +871,15 @@ faction-login: '&e%1$s &9登入了.'
 faction-logout: '&e%1$s &9离开了..'
 nofactions-prefix: '&6[&a4-&6]&r'
 date-format: yy/MM/d h:ma
-raidable-true: '开启'
-raidable-false: '关闭'
+raidable-true: 开启
+raidable-false: 关闭
 WARMUPS:
   NOTIFY:
     TELEPORT: '&e你将会被传送到 &d%1$s &e在 &d%2$d &e秒后.'
   ALREADY: '&c你已经在传送了.'
   CANCELLED: '&c你取消了地标传送.'
+DYNMAP:
+  TITLE: '<h>Dynmap Integration: <i>'
 EXPANSION:
   FACTIONSFLY:
     'NO':
@@ -861,3 +889,232 @@ EXPANSION:
       HERE: <b>你不能在这里飞行.
     ENABLED: <i>飞行已开启.
     DISABLED: <i>飞行已关闭.
+CONFIG:
+  MISC:
+    SECTION: '******************** [ MISC SETTINGS ] ********************'
+    DEBUG: "* Debug Mode\r\n   * If enabled, fine details will be sent to console."
+    STATISTICS: "* Log Statistics\r\n   * If enabled, we will log useful statistics."
+    DISABLEINWORLDS: "* Disable Factions in worlds\r\n   * If worlds are added here,\
+      \ factions commands and events won't work in these worlds."
+  NON16:
+    SECTION: '******************** [ NON 1.6 FEATURES ] ********************'
+    TRUCES: "* Enable Truces\r\n   * To disable truces, set this to false."
+    COLEADERS: "* Enable Coleaders\r\n   * To disable coleaders, set to false."
+    FLAGS: "* Enable Flags\r\n   * To disable flags, set to false."
+  COMMANDS:
+    SECTION: '******************** [ COMMANDS ] ********************'
+    ALLOWNOSLASH: '* Allow /f commands to be executed without the initial slash.'
+  WARMUPS:
+    SECTION: '******************** [ WARMUPS ] ********************'
+    WARP: '* How long (in seconds) the warmup for warps should be.'
+    HOME: '* How long (in seconds) the warmup for homes should be.'
+  RELATIONS:
+    SECTION: '******************** [ RELATIONS ] ********************'
+    MAX: "* Maximum amount of each relationship. NEUTRAL should not be changed if\r\
+      \n   * it is the default relationship type."
+    ENFORCED: "* Relationships require both sides to set the relationship. If you\
+      \ want certaion relationships to automatically be enforced, set it here.\r\n\
+      \   * A better way to understand this, if you set enemy to true and either has\
+      \ enemy set - then enemy will be the enforced relation."
+    COLOURS: "* Relation Colours\r\n   * The colour of each relationship."
+  TOOLTIPS:
+    SECTION: '******************** [ TOOLTIPS ] ********************'
+    TOOLTIPS: '* The tooltips for each of these can be configured using placeholders.'
+  EMBLEMS:
+    SECTION: '******************** [ EMBLEMS ] ********************'
+    ENABLED: "* Enable emblems.\r\n   * To disable emblems, set this to false."
+    MINLENGTH: "* Minimum length of emblems.\r\n   * This minimum length will be enforced,\
+      \ set to -1 to disable."
+    MAXLENGTH: "* Maximum length of emblems.\r\n   * This maximum length will be enforced,\
+      \ set to -1 to disable."
+    MINROLE: '* Minimum role to set emblems.'
+  POWER:
+    SECTION: '******************** [ POWER ] ********************'
+    MAX: '* The maximum power per player.'
+    MIN: '* The minimum power per player.'
+    STARTING: '* The amount of power a player starts with.'
+    PERMINUTE: "* The amount of power per minute.\r\n   * With the default, players\
+      \ get 0.2 per minute. Which means it takes 5 minutes to recover 1 power."
+    PERDEATH: '* The amount of power lost per death.'
+    REGENOFFLINE: '* Should players regen power while offline? Set to true to enable
+      power regeneration while offline.'
+    OFFLINELOSS: "* Should players lose power while offline?\r\n   * Set to 0 to disable.\
+      \ Otherwise, they will lose this amount per day while offline."
+    OFFLINELOSSLIMIT: '* The limit for power loss while offline. By default, it is
+      set to 0 so they don''t go negative.'
+    FACTIONMAX: '* The maximum power per faction.'
+  PLAYERPREFIX:
+    SECTION: '******************** [ PLAYER PREFIX ] ********************'
+    ADMIN: '* The prefix for the admin role.'
+    COLEADER: '* The prefix for the coleader role.'
+    MOD: '* The prefix for the mod role.'
+  FACTION:
+    SECTION: '******************** [ FACTION ] ********************'
+    DEFAULTRELATION: '* The default relation of factions when they are created.'
+    TAGMIN: '* The minimum tag length.'
+    TAGMAX: '* The maximum tag length.'
+    FORCEUPPER: '* Should we for the faction name to be all UPPERCASE?'
+    DESCMAX: '* Set the maximum description length. Set to -1 to disable.'
+    DEFAULTOPEN: '* Should factions default to open?'
+    MEMBERLIMIT: '* Member limit for factions. Set to -1 to disable.'
+    MEMBERLIMITPEACEFUL: '* Member limit for peaceful factions. Defaults to previous
+      value if disabled.'
+    STARTINGID: '* The default starting ID for factions. You shouldn''t need to change
+      this.'
+    MAPKEY: '* Should the key on the faction map. This is the faction names.'
+    SHOWNEUTRAL: '* Should we show neutral relation factions on the map?'
+    SHOWENEMY: '* Should we show enemy relation factions on the map?'
+    ALLOWCOLOURS: '* Should we allow colour codes in the faction name?'
+    ALLOWCOLOURSDESC: '* Should we allow colour codes in the faction description?'
+    CANLEAVEWITHNEGATIVEPOWER: '* Should players be able to leave with negative power?'
+    DISABLEPISTONS: '* Should pistons be disable in faction territories?'
+    BROADCASTCHANGETAG: '* Should LegacyFactions broadcast faction name tag changes?'
+    BROADCASTCHANGEDESC: '* Should LegacyFactions broadcast faction description changes?'
+    PERMNOPROMOTE: '* Should permanent factions auto promote a leader when the leader
+      leaves?'
+    AUTOKICK:
+      MIN: '* The minimum role required to use the `/f autokick` command'
+      MAX: '* The maximum value a faction can set their autokick to.'
+  FLAGS:
+    SECTION: '******************** [ FLAGS ] ********************'
+    MINROLE: '* Minimum role to set flags.'
+    TOGGLEABLE: "* These next few variables allow you to set which flags can be toggled\
+      \ by players.\r\n   * If set to false, only a player in admin bypass mode can\
+      \ toggle them."
+  DAMAGEMODIFIER:
+    SECTION: '******************** [ DAMAGE MODIFIERS ] ********************'
+    EXPLANATION: "* Damage modifiers are based on a percent. 100 = 100% = the default\
+      \ damage (no change!).\r\n   * If you set a modifier to 120 (120%) then an additional\
+      \ 20% damage will be applied for that condition. \r\n   * If you set them to\
+      \ 80 (80%), 20% less damage will be applied."
+    PERCENTRELATIONPLAYER: '* Damage from a player based on the relation to that player.'
+    PERCENTRELATIONLAND: '* Damage from a player based on the relation to the land
+      we are standing in.'
+    PERCENTRELATIONLANDBYMOB: '* Damage from a mob based on the relation to the land
+      we are standing in.'
+    GLOBALWILDERNESS: '* Damage from anything in the wilderness.'
+    GLOBALSAFEZONE: '* Damage from anything in the safezone.'
+    GLOBALWARZONE: '* Damage from anything in the warzone.'
+  FACTIONCHAT:
+    SECTION: '******************** [ EXPANSION: FACTION CHAT ] ********************'
+    ENABLED: '* Enable FactionChat expansion.'
+    ALLIANCECHAT: '* Enabled alliance chat.'
+    TRUCECHAT: '* Enable truce chat.'
+    PUBLICFORMAT: '* Enable formatting for public chat.'
+    FORMATS: '* These are the formats you can set for each chat type.'
+    CHATPLUGINCHANNEL: '* If supported, we will integrate with chat plugins and switch
+      to their channels instead of handling it ourselves.'
+    CHATPLUGINGLOBALCHANNEL: '* The global chat channel. Set to blank if you want
+      LegacyFactions to work it out ourselves.'
+    CHATTAGENABLED: '* Injected Chat Tag will cancel the Chat event and send it to
+      players on its own, but allows for relational colours.'
+    CHATTAGRELATIONALOVERRIDE: '* Enable relational override. If you want to use relational
+      placeholders and your chat plugin doesn''t support it we must cancel and handle
+      the chat ourselves. '
+    CHATTAGPLACEHOLDER: '* Chat tag placeholder. '
+    CHATTAGFORMATDEFAULT: '* Chat Tag format. '
+    CHATTAGFORMATFACTIONLESS: '* Chat Tag format for factionless. '
+  FACTIONFLY:
+    SECTION: '******************** [ EXPANSION: FACTION FLY ] ********************'
+    ENABLED: '* Enable FactionFly expansion.'
+    ENDERPEARL: '* Disable Enderpearl when factions fly is enabled '
+    CHORUSFRUIT: '* Disable Chorus Fruit when factions fly is enabled '
+    MAXY: '* Max fly height. Set to -1 to disable.'
+    NOFALLDAMAGE: '* This will make a player not obtain fall damage when fly is disabled'
+    FLOORTELEPORT: '* This will make a player teleport to floor when disabled'
+  TASKS:
+    SECTION: '******************** [ TASKS ] ********************'
+    SAVETOFILEEVERYXMINUTES: '* How frequently should we save to file.'
+    AUTOLEAVEAFTERDAYSOFINACTIVITY: '* After how many days should a player autoleave? '
+    AUTOLEAVEROUTINEXMINUTES: '* How frequently should we run the autoleave task?'
+    AUTOLEAVEROUTINEMAXMSPERTICK: '* This is used to throttle the autoleave task.'
+    REMOVEWHENBANNED: '* Remove player data when banned.'
+    AUTOLEAVEDELETEFPLAYERDATA: '* Delete player data when they autoleave?'
+  FORMAT:
+    SECTION: '******************** [ FORMAT ] ********************'
+    DESC: "* LegacyFactions support multiple script formats. By default, all english\
+      \ characters are supported.\r\n   * You can add support for any other script\
+      \ support that Java allows.\r\n   * See: https://github.com/redstone/LegacyFactions/wiki/Multilingual-Script-Support"
+  SERVERLOGGING:
+    SECTION: '******************** [ SERVER LOGGING ] ********************'
+    DESC: '* LegacyFactions logs certain actions to the server console. You can change
+      those here.'
+  EXPLOITS:
+    SECTION: '******************** [ EXPLOITS ] ********************'
+    OBSIDIANGENERATORS: '* Should we attempt to block a certain kind of obsidian generator
+      exploit?'
+    ENDERPEARL: '* Should we attempt to block a certain ender pearl clipping exploit?'
+    INTERACTIONSPAM: '* Should we attempt to block a certain interaction spam exploit?'
+    WATERLOG: "* TNT in water/lava doesn't normally destroy any surrounding blocks,\
+      \ which is usually desired behavior.\r\n   * But this optional change below\
+      \ provides workaround for waterwalling providing perfect protection,\n\r\n \
+      \  * and makes cheap (non-obsidian) TNT cannons require minor maintenance between\
+      \ shots."
+    LIQUIDFLOW: '* Should we attempt to block a certain kind of liquid flow exploit? '
+    FINDEXPLOIT: '* The find exploit refers to an exploit where the map is exploited.'
+  PORTALS:
+    SECTION: '******************** [ PORTALS ] ********************'
+    DESC: '* Portals can be limited with LegacyFactions.'
+  SCOREBOARD:
+    SECTION: '******************** [ SCOREBOARD ] ********************'
+    DESC: "* LegacyFactions introduces a basic scoreboard integration that you can\
+      \ use.\r\n   * For more advanced uses you may want to look into a plugin like\
+      \ ScoreboardStats or Featherboard."
+    SCOREBOARDINCHAT: '* On land change, should we show the scoreboard in chat?'
+    EXPIRES: '* After how long (in seconds) should we revert to the normal scoreboard.'
+    INFOENABLED: '* Info Scoreboard: this scoreboard is for displaying the faction
+      information.'
+    DEFAULTENABLED: '* Default Scoreboard: this is the scoreboard displayed by default.'
+    FACTIONLESSENABLED: '* Factionless Scoreboard: this is the scoreboard disaplyed
+      by default, to players without a faction.'
+  TERRITORYTITLES:
+    SECTION: '******************** [ TERRITORY TITLES ] ********************'
+    DESC: "Territory titles are shown when moving between land, or\r\n   * when ranks\
+      \ are changed (if enabled)."
+  TELEPROTTOSPAWN:
+    SECTION: '******************** [ TELEPORT TO SPAWN ON LOGOUT ] ********************'
+  TERRITORY:
+    SECTION: '******************** [ TERRITORY ] ********************'
+  WARPS:
+    SECTION: '******************** [ WARPS ] ********************'
+  HOMES:
+    SECTION: '******************** [ HOMES ] ********************'
+  PVPSETTINGS:
+    SECTION: '******************** [ PVP SETTINGS ] ********************'
+  PEACEFUL:
+    SECTION: '******************** [ PEACEFUL FACTIONS ] ********************'
+  CLAIMS:
+    SECTION: '******************** [ CLAIMS ] ********************'
+  ECONOMY:
+    SECTION: '******************** [ ECONOMY ] ********************'
+  WORLDGUARD:
+    SECTION: '******************** [ WORLDGUARD ] ********************'
+  DYNMAP:
+    SECTION: '******************** [ DYNMAP ] ********************'
+  BUFFERS:
+    SECTION: '******************** [ BUFFERS ] ********************'
+  STUCK:
+    SECTION: '******************** [ STUCK ] ********************'
+  RAIDS:
+    SECTION: '******************** [ RAIDS ] ********************'
+    DESC: "* A faction is determined raidable if their land count is larger than their\
+      \ power rounded.\r\n   * Raidable indicates that other factions can use items,\
+      \ break/place blocks, open chests, etc."
+  VAULTS:
+    SECTION: '******************** [ VAULTS ] ********************'
+  MAP:
+    SECTION: '******************** [ MAP COMMAND ] ********************'
+  HELP:
+    SECTION: '******************** [ HELP COMMAND ] ********************'
+    DESC: "* In LegacyFactions there are multiple help command modes you can pick\
+      \ between:\r\n   * useOldHelp - This is the vanilla Factions 1.6 help.\r\n \
+      \  * useCustomHelp - This is the custom help, you can specify the help pages\
+      \ yourself.\r\n   * default - If both options are set to false we use the new\
+      \ JSON help menu. This comes with buttons, and is automatically generated."
+  LIST:
+    SECTION: '******************** [ LIST COMMAND ] ********************'
+  SHOW:
+    SECTION: '******************** [ SHOW COMMAND ] ********************'
+  BACKEND:
+    SECTION: '******************** [ BACKEND ] ********************'
+    DESC: '* You shouldn''t change the backend here. Instead, use the /f convert command.'
