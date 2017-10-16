@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.mixin.PlayerMixin;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 
@@ -16,17 +17,21 @@ public class VisualizeUtil {
 	// STATIC FIELDS
 	// -------------------------------------------------- //
 	
-	protected static Map<UUID, Set<Location>> playerLocations = new ConcurrentHashMap<>();
+	protected static Map<String, Set<Location>> playerLocations = new ConcurrentHashMap<>();
 
 	// -------------------------------------------------- //
 	// STATIC METHODS
 	// -------------------------------------------------- //
 	
+	public static Set<Location> getPlayerLocations(FPlayer player) {
+		return getPlayerLocations(player.getId());
+	}
+	
 	public static Set<Location> getPlayerLocations(Player player) {
-		return getPlayerLocations(player.getUniqueId());
+		return getPlayerLocations(player.getUniqueId().toString());
 	}
 
-	public static Set<Location> getPlayerLocations(UUID uuid) {
+	public static Set<Location> getPlayerLocations(String uuid) {
 		Set<Location> locations = playerLocations.get(uuid);
 		if (locations == null) {
 			locations = Collections.newSetFromMap(new ConcurrentHashMap<Location, Boolean>());
@@ -83,6 +88,19 @@ public class VisualizeUtil {
 		locations.forEach(location -> {
 			Block block = location.getWorld().getBlockAt(location);
 			PlayerMixin.sendBlockChange(player, location, CrossMaterial.get(block.getType().name()).get(), block.getData());
+		});
+		
+		locations.clear();
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void clear(FPlayer fplayer) {
+		Set<Location> locations = getPlayerLocations(fplayer.getId());
+		if (locations == null) return;
+		
+		locations.forEach(location -> {
+			Block block = location.getWorld().getBlockAt(location);
+			PlayerMixin.sendBlockChange(fplayer.getPlayer(), location, CrossMaterial.get(block.getType().name()).get(), block.getData());
 		});
 		
 		locations.clear();
