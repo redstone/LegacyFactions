@@ -56,8 +56,8 @@ public class Volatile {
 	// -------------------------------------------------- //
 	
 	// Holds the next time a player can have a map shown.
-	private Map<UUID, Long> showTimes = new ConcurrentHashMap<>();
-	public Map<UUID, Long> showTimes() {
+	private Map<String, Long> showTimes = new ConcurrentHashMap<>();
+	public Map<String, Long> showTimes() {
 		return this.showTimes;
 	}
 	
