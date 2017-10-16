@@ -42,12 +42,12 @@ import net.redstoneore.legacyfactions.scoreboards.FScoreboards;
 import net.redstoneore.legacyfactions.scoreboards.FTeamWrapper;
 import net.redstoneore.legacyfactions.scoreboards.sidebar.FDefaultSidebar;
 import net.redstoneore.legacyfactions.struct.InteractAttemptSpam;
+import net.redstoneore.legacyfactions.util.MiscUtil;
 import net.redstoneore.legacyfactions.util.StringUtils;
 import net.redstoneore.legacyfactions.util.TextUtil;
 import net.redstoneore.legacyfactions.util.VisualizeUtil;
 import net.redstoneore.legacyfactions.util.cross.CrossMaterial;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class FactionsPlayerListener implements Listener {
@@ -162,50 +162,59 @@ public class FactionsPlayerListener implements Listener {
 	// -------------------------------------------------- //
 	// PLAYER MOVE
 	// -------------------------------------------------- //
-
+	
+	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPlayerMove(PlayerMoveEvent event) {
+	public void onLocationChange(PlayerTeleportEvent event) {
+		Player player = event.getPlayer();
+		FPlayer me = FPlayerColl.get(player);
+		
+		this.onLocationChange(me, event.getFrom(), event.getTo());
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onLocationChange(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		FPlayer me = FPlayerColl.get(player);
 
-		// clear visualization
-		if (event.getFrom().getBlockX() != event.getTo().getBlockX() || event.getFrom().getBlockY() != event.getTo().getBlockY() || event.getFrom().getBlockZ() != event.getTo().getBlockZ()) {
-			VisualizeUtil.clear(event.getPlayer());
-			if (me.isWarmingUp()) {
-				me.clearWarmup();
-				me.sendMessage(Lang.WARMUPS_CANCELLED);
-			}
-		}
-
-		// quick check to make sure player is moving between chunks; good performance boost
-		if (event.getFrom().getBlockX() >> 4 == event.getTo().getBlockX() >> 4 && event.getFrom().getBlockZ() >> 4 == event.getTo().getBlockZ() >> 4 && event.getFrom().getWorld() == event.getTo().getWorld()) {
-			return;
-		}
-
-		// Did we change coord?
-		Locality from = me.getLastLocation();
-		Locality to = Locality.of(event.getTo());
-
+		this.onLocationChange(me, event.getFrom(), event.getTo());
+	}
+	
+	public void onLocationChange(FPlayer me, Location locationFrom, Location locationTo) {
+		if (locationFrom.getBlockX() >> 4 == locationTo.getBlockX() >> 4 &&
+			locationFrom.getBlockZ() >> 4 == locationTo.getBlockZ() >> 4 &&
+			locationFrom.getWorld().getUID() == locationTo.getWorld().getUID()) return;
+		
+		Locality from = Locality.of(locationFrom);
+		Locality to = Locality.of(locationTo);
+		
 		if (from.equals(to)) return;
-
 		me.setLastLocation(to);
-
-		// Did we change "host"(faction)?
+		
+		VisualizeUtil.clear(me);
+		
+		if (me.isWarmingUp()) {
+			me.clearWarmup();
+			Lang.WARMUPS_CANCELLED.getBuilder()
+				.parse()
+				.sendTo(me);
+		}
+		
+		// Did we change Faction land?
 		Faction factionFrom = Board.get().getFactionAt(from);
-		Faction factionTo = Board.get().getFactionAt(Locality.of(event.getTo()));
+		Faction factionTo = Board.get().getFactionAt(to);
 		
 		// Update to new location
-
 		boolean changedFaction = (factionFrom != factionTo);
 
 		if (me.isMapAutoUpdating()) {
-			if (Volatile.get().showTimes().containsKey(player.getUniqueId()) && (Volatile.get().showTimes().get(player.getUniqueId()) > System.currentTimeMillis())) {
+			if (Volatile.get().showTimes().containsKey(me.getId()) && (Volatile.get().showTimes().get(me.getId()) > System.currentTimeMillis())) {
 				if (Config.findFactionsExploitLog) {
-					Factions.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", player.getName());
+					Factions.get().warn("%s tried to show a faction map too soon and triggered exploit blocker.", me.getName());
 				}
 			} else {
-				me.sendMessage(Board.get().getMap(me.getFaction(), Locality.of(event.getTo()), player.getLocation().getYaw()));
-				Volatile.get().showTimes().put(player.getUniqueId(), System.currentTimeMillis() + Config.findFactionsExploitCooldownMils);
+				me.sendMessage(Board.get().getMap(me.getFaction(), to, locationFrom.getYaw()));
+				Volatile.get().showTimes().put(me.getId(), System.currentTimeMillis() + Config.findFactionsExploitCooldownMils);
 			}
 		} else {
 			Faction myFaction = me.getFaction();
@@ -214,7 +223,7 @@ public class FactionsPlayerListener implements Listener {
 			if (changedFaction) {
 				me.sendFactionHereMessage(factionFrom);
 				
-				EventFactionsChangedTerritory eventChangedTerritory = new EventFactionsChangedTerritory(me, factionFrom, factionTo, me.getLastLocation(), Locality.of(event.getTo()));
+				EventFactionsChangedTerritory eventChangedTerritory = new EventFactionsChangedTerritory(me, factionFrom, factionTo, me.getLastLocation(), to);
 				Bukkit.getServer().getPluginManager().callEvent(eventChangedTerritory);
 				
 				if (Config.ownedAreasEnabled && Config.ownedMessageOnBorder && myFaction == factionTo && !ownersTo.isEmpty()) {
@@ -233,37 +242,36 @@ public class FactionsPlayerListener implements Listener {
 		}
 
 		if (me.getAutoClaimFor() != null) {
-			Map<Locality, Faction> transactions = new HashMap<>();
-
-			transactions.put(Locality.of(event.getTo()), me.getAutoClaimFor());
-		   
+			Map<Locality, Faction> transactions = MiscUtil.newMap(
+				to, me.getAutoClaimFor()
+			);
+			
 			EventFactionsLandChange landChangeEvent = new EventFactionsLandChange(me, transactions, LandChangeCause.Claim);
 			Bukkit.getServer().getPluginManager().callEvent(landChangeEvent);
 			if (landChangeEvent.isCancelled()) return;
 			
-			landChangeEvent.transactions((locality, faction) -> {
-				if ( ! me.attemptClaim(faction, locality.getLocation(), true, true)) {
-					return;
-				}
-			});
+			landChangeEvent.transactions((locality, faction) -> me.attemptClaim(faction, locality.getLocation(), true, true));
 
-			
 		} else if (me.isAutoSafeClaimEnabled()) {
-			if (!Permission.MANAGE_SAFE_ZONE.has(player)) {
+			if (!Permission.MANAGE_SAFE_ZONE.has(me)) {
 				me.setIsAutoSafeClaimEnabled(false);
 			} else {
-				if (!Board.get().getFactionAt(Locality.of(event.getTo())).isSafeZone()) {
+				if (!Board.get().getFactionAt(to).isSafeZone()) {
 					Board.get().setFactionAt(FactionColl.get().getSafeZone(), to);
-					me.sendMessage(Lang.PLAYER_SAFEAUTO);
+					Lang.PLAYER_SAFEAUTO.getBuilder()
+						.parse()
+						.sendTo(me);
 				}
 			}
 		} else if (me.isAutoWarClaimEnabled()) {
-			if (!Permission.MANAGE_WAR_ZONE.has(player)) {
+			if (!Permission.MANAGE_WAR_ZONE.has(me)) {
 				me.setIsAutoWarClaimEnabled(false);
 			} else {
-				if (!Board.get().getFactionAt(Locality.of(event.getTo())).isWarZone()) {
+				if (!Board.get().getFactionAt(to).isWarZone()) {
 					Board.get().setFactionAt(FactionColl.get().getWarZone(), to);
-					me.sendMessage(Lang.PLAYER_WARAUTO);
+					Lang.PLAYER_WARAUTO.getBuilder()
+						.parse()
+						.sendTo(me);
 				}
 			}
 		}
