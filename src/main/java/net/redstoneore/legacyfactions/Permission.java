@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.Lists;
 
+import net.redstoneore.legacyfactions.entity.FPlayer;
 import net.redstoneore.legacyfactions.util.PermUtil;
 
 /**
@@ -181,6 +182,10 @@ public enum Permission {
 
 	public boolean has(CommandSender sender) {
 		return this.has(sender, false);
+	}
+	
+	public boolean has(FPlayer fplayer) {
+		return this.has(fplayer.getPlayer(), false);
 	}
 	
 }
