@@ -1,5 +1,6 @@
 package net.redstoneore.legacyfactions.placeholder;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,12 +37,12 @@ public class FactionsPlaceholders {
 	// -------------------------------------------------- //
 	
 	public FactionsPlaceholders() {
-		this.shouldEnable("MVdWPlaceholderAPI", AdapterMVdWPlaceholderAPI.get());
-		this.shouldEnable("PlaceholderAPI", AdapterPlaceholderAPI.get());
-		this.shouldEnable("HolographicDisplays", AdapterHolographicDisplays.get());
-		this.shouldEnable("ChatEx", AdapterChatEx.get());
-		this.shouldEnable("HeroChat", AdapterHeroChat.get());
-		this.shouldEnable("Legendchat", AdapterLegendchat.get());
+		this.shouldEnable("MVdWPlaceholderAPI", AdapterMVdWPlaceholderAPI.class);
+		this.shouldEnable("PlaceholderAPI", AdapterPlaceholderAPI.class);
+		this.shouldEnable("HolographicDisplays", AdapterHolographicDisplays.class);
+		this.shouldEnable("ChatEx", AdapterChatEx.class);
+		this.shouldEnable("HeroChat", AdapterHeroChat.class);
+		this.shouldEnable("Legendchat", AdapterLegendchat.class);
 	}
 	
 	// -------------------------------------------------- //
@@ -55,10 +56,16 @@ public class FactionsPlaceholders {
 	// METHODS
 	// -------------------------------------------------- //
 	
-	public void shouldEnable(String pluginName, FactionsPlaceholdersAdapter adapter) {
+	public void shouldEnable(String pluginName, Class<? extends FactionsPlaceholdersAdapter> adapterClass) {
 		if (Bukkit.getPluginManager().isPluginEnabled(pluginName)) {
 			Factions.get().log("Adapting Placeholders to " + pluginName);
-			this.add(adapter);
+			
+			try {
+				this.add((FactionsPlaceholdersAdapter) adapterClass.getMethod("get").invoke(this));
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				Factions.get().log("Failed to adapt placeholders to " + pluginName);
+				e.printStackTrace();
+			}
 		}
 	}
 	
