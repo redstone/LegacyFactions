@@ -36,37 +36,12 @@ public class FactionsPlaceholders {
 	// -------------------------------------------------- //
 	
 	public FactionsPlaceholders() {
-		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-			Factions.get().log("Adapting Placeholders to MVdWPlaceholderAPI");
-			this.add(AdapterMVdWPlaceholderAPI.get());
-		}
-		
-		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			Factions.get().log("Adapting Placeholders to PlaceholderAPI");
-			this.add(AdapterPlaceholderAPI.get());
-		}
-		
-		if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
-			Factions.get().log("Adapting Placeholders to HolographicDisplays");
-			this.add(AdapterHolographicDisplays.get());
-		}
-		
-		if (Bukkit.getPluginManager().isPluginEnabled("ChatEx")) {
-			Factions.get().log("Adapting Placeholders to ChatEx");
-			this.add(AdapterChatEx.get());
-		}
-		
-		if (Bukkit.getPluginManager().isPluginEnabled("HeroChat")) {
-			Factions.get().log("Adapting Placeholders to HeroChat");
-			this.add(AdapterHeroChat.get());
-		}
-		
-		if (Bukkit.getPluginManager().isPluginEnabled("Legendchat")) {
-			Factions.get().log("Adapting Placeholders to Legendchat");
-			this.add(AdapterLegendchat.get());
-		}
-		
-		
+		this.shouldEnable("MVdWPlaceholderAPI", AdapterMVdWPlaceholderAPI.get());
+		this.shouldEnable("PlaceholderAPI", AdapterPlaceholderAPI.get());
+		this.shouldEnable("HolographicDisplays", AdapterHolographicDisplays.get());
+		this.shouldEnable("ChatEx", AdapterChatEx.get());
+		this.shouldEnable("HeroChat", AdapterHeroChat.get());
+		this.shouldEnable("Legendchat", AdapterLegendchat.get());
 	}
 	
 	// -------------------------------------------------- //
@@ -79,6 +54,13 @@ public class FactionsPlaceholders {
 	// -------------------------------------------------- //
 	// METHODS
 	// -------------------------------------------------- //
+	
+	public void shouldEnable(String pluginName, FactionsPlaceholdersAdapter adapter) {
+		if (Bukkit.getPluginManager().isPluginEnabled(pluginName)) {
+			Factions.get().log("Adapting Placeholders to " + pluginName);
+			this.add(adapter);
+		}
+	}
 	
 	public void add(FactionsPlaceholdersAdapter adapter) {
 		this.adapters.add(adapter);
