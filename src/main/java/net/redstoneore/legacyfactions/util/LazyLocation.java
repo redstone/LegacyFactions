@@ -134,6 +134,15 @@ public class LazyLocation implements Serializable {
 	public final double getX() {
 		return x;
 	}
+	
+	/**
+	 * Get the location X, rounded.
+	 * @param decimalPlaces
+	 * @return location X, rounded.
+	 */
+	public final double getX(int decimalPlaces) {
+		return MathUtil.roundUp(this.x, decimalPlaces);
+	}
 
 	/**
 	 * Get the location Y
@@ -142,6 +151,15 @@ public class LazyLocation implements Serializable {
 	public final double getY() {
 		return y;
 	}
+	
+	/**
+	 * Get the location Y, rounded
+	 * @param decimalPlaces
+	 * @return location Y, rounded.
+	 */
+	public final double getY(int decimalPlaces) {
+		return MathUtil.roundUp(this.y, decimalPlaces);
+	}
 
 	/**
 	 * Get the location Z
@@ -149,6 +167,15 @@ public class LazyLocation implements Serializable {
 	 */
 	public final double getZ() {
 		return z;
+	}
+	
+	/**
+	 * Get the location Z, rounded.
+	 * @param decimalPlaces
+	 * @return location Z, rounded.
+	 */
+	public final double getZ(int decimalPlaces) {
+		return MathUtil.roundUp(this.z, decimalPlaces);
 	}
 
 	/**
