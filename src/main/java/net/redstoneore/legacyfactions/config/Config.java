@@ -923,7 +923,7 @@ public class Config {
 	protected static String _sectionRaidsDesc = Lang.CONFIG_RAIDS_DESC.name();
 
 	public static boolean raidable = false;
-	public static boolean raidableAllowOverclaim = true;
+	public static boolean raidableAllowOverclaim = false;
 	public static int raidablePowerFreeze = 0;
 	
 	// -------------------------------------------------- //
