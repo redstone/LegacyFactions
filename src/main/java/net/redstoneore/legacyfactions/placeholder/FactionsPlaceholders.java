@@ -195,6 +195,27 @@ public class FactionsPlaceholders {
 			}
 		});
 		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_home_x") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getLazyHome().getX(2));
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_home_y") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getLazyHome().getY(2));
+			}
+		});
+		
+		this.placeholders.add(new FactionsPlaceholderFaction("faction_home_z") {
+			@Override
+			public String get(Faction faction) {
+				return String.valueOf(faction.getLazyHome().getZ(2));
+			}
+		});
+		
 		// PLAYER SPECIFIC PLACEHOLDERS
 		
 		this.placeholders.add(new FactionsPlaceholder("player_name") {
