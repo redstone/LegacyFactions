@@ -143,7 +143,7 @@ class User {
 		...
 
 }
-
+```
 ### Include units in variable names
 
 ```java
