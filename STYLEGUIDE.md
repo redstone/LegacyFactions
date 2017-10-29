@@ -120,7 +120,7 @@ private final volatile String value;
 
 ### Extremely short variable names should be reserved for instances like loop indices.
 
-```
+```java
 // Bad.
 //   - Field names give little insight into what fields are used for.
 class User {
@@ -288,7 +288,7 @@ Every class should be documented. Documentation for a class may range from a sin
 public class RpcTee<T> {
 	...
 }
-
+```
 ### Documenting a method
 
 A method doc should tell what the method does. Depending on the argument types, it may also be important to document input format.
@@ -534,7 +534,7 @@ long count = 100L + n;
 Delete unused code (imports, fields, parameters, methods, classes). They will only rot.
 
 #### Use general types
-
+```java
 // Bad.
 //   - Implementations of Database must match the ArrayList return type.
 //   - Changing return type to Set<User> or List<User> could break implementations and users.
@@ -547,6 +547,7 @@ interface Database {
 interface Database {
 	Iterable<User> fetchUsers(String query);
 }
+```
 
 #### Use final fields
 
