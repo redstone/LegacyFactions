@@ -61,13 +61,13 @@ public class CmdFactionsHome extends FCommand {
 			fme.sendMessage(Lang.COMMAND_HOME_DISABLED);
 			return;
 		}
-		
+
 		Faction faction = fme.getFaction();
 		String other = this.argAsString(0, null);
 		if (other != null && (Permission.HOME_ANY.has(me) || fme.isAdminBypassing())) {
 			String type = this.argAsString(1, null);
 			if (type == null) {
-				fme.sendMessage("<b>Please specify if it is a faction or player");
+				Lang.COMMAND_HOME_FACTIONORPLAYER.getBuilder().parse().sendTo(fme);
 				fme.sendMessage(this.getUseageTemplate());
 				return;
 			}
@@ -78,30 +78,30 @@ public class CmdFactionsHome extends FCommand {
 			} else if (type.startsWith("f")) {
 				faction = FactionColl.get(other);
 			} else {
-				fme.sendMessage("<b>Please specify if it is a faction or player");
+				Lang.COMMAND_HOME_FACTIONORPLAYER.getBuilder().parse().sendTo(fme);
 				fme.sendMessage(this.getUseageTemplate());
 				return;
 			}
 		}
 		
 		if (!Conf.homesTeleportCommandEnabled) {
-			fme.sendMessage(Lang.COMMAND_HOME_TELEPORTDISABLED);
+			Lang.COMMAND_HOME_TELEPORTDISABLED.getBuilder().parse().sendTo(fme);
 			return;
 		}
 
 		if (!faction.hasHome()) {
-			fme.sendMessage(Lang.COMMAND_HOME_NOHOME.toString() + (fme.getRole().getValue() < Role.MODERATOR.getValue() ? Lang.GENERIC_ASKYOURLEADER.toString() : Lang.GENERIC_YOUSHOULD.toString()));
+			fme.sendMessage(Lang.COMMAND_HOME_NOHOME.getBuilder().parse().toString() + (fme.getRole().getValue() < Role.MODERATOR.getValue() ? Lang.GENERIC_ASKYOURLEADER.getBuilder().parse().toString() : Lang.GENERIC_YOUSHOULD.getBuilder().parse().toString()));
 			fme.sendMessage(CmdFactionsSethome.get().getUseageTemplate());
 			return;
 		}
 
 		if (!Conf.homesTeleportAllowedFromEnemyTerritory && fme.isInEnemyTerritory() && !fme.isAdminBypassing()) {
-			fme.sendMessage(Lang.COMMAND_HOME_INENEMY);
+			Lang.COMMAND_HOME_INENEMY.getBuilder().parse().sendTo(fme);
 			return;
 		}
 
 		if (!Conf.homesTeleportAllowedFromDifferentWorld && me.getWorld().getUID() != faction.getHome().getWorld().getUID() && !fme.isAdminBypassing()) {
-			fme.sendMessage(Lang.COMMAND_HOME_WRONGWORLD);
+			Lang.COMMAND_HOME_WRONGWORLD.getBuilder().parse().sendTo(fme);
 			return;
 		}
 
@@ -136,7 +136,7 @@ public class CmdFactionsHome extends FCommand {
 					continue;
 				}
 
-				fme.sendMessage(Lang.COMMAND_HOME_ENEMYNEAR, String.valueOf(Conf.homesTeleportAllowedEnemyDistance));
+				Lang.COMMAND_HOME_NEARENEMY.getBuilder().parse().replace("<blocks>", String.valueOf(Conf.homesTeleportAllowedEnemyDistance)).sendTo(fme);
 				return;
 			}
 		}
