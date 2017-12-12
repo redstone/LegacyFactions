@@ -334,11 +334,12 @@ public enum Lang {
 	COMMAND_HELP_PAGES_BTN_RIGHT("[>]"),
 	
 	COMMAND_HOME_DISABLED("<b>Sorry, Faction homes are disabled on this server."),
+	COMMAND_HOME_FACTIONORPLAYER("<b>Please specify if it is a faction or player."),
 	COMMAND_HOME_TELEPORTDISABLED("<b>Sorry, the ability to teleport to Faction homes is disabled on this server."),
 	COMMAND_HOME_NOHOME("<b>Your faction does not have a home. "),
 	COMMAND_HOME_INENEMY("<b>You cannot teleport to your faction home while in the territory of an enemy faction."),
 	COMMAND_HOME_WRONGWORLD("<b>You cannot teleport to your faction home while in a different world."),
-	COMMAND_HOME_ENEMYNEAR("<b>You cannot teleport to your faction home while an enemy is within %s blocks of you."),
+	COMMAND_HOME_NEARENEMY("<b>You cannot teleport to your faction home while an enemy is within <blocks> blocks of you."),
 	COMMAND_HOME_TOTELEPORT("to teleport to your faction home"),
 	COMMAND_HOME_FORTELEPORT("for teleporting to your faction home"),
 	COMMAND_HOME_DESCRIPTION("Teleport to the faction home"),
