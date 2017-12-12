@@ -1,36 +1,40 @@
 package net.redstoneore.legacyfactions.landmanager;
 
 import org.bukkit.Chunk;
-import org.bukkit.World;
 
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.LocalWorld;
-import com.sk89q.worldedit.bukkit.BukkitUtil;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.world.World;
 
 public class LandManagerWorldEdit implements LandManager {
 	
 	@Override
-	public void rebuild(Chunk chunk) {
-        World world = chunk.getWorld();
-        
-        int minChunkX = chunk.getX() << 4;
-        int minChunkZ = chunk.getZ() << 4;
-        int maxChunkX = minChunkX + 15;
-        int maxChunkZ = minChunkZ + 15;
+	public void rebuild(Chunk chunk) {	
+		// Work out the chunk min and max positions.
+		int minChunkX = chunk.getX() << 4;
+		int minChunkZ = chunk.getZ() << 4;
+		int maxChunkX = minChunkX + 15;
+		int maxChunkZ = minChunkZ + 15;
 
-        int worldHeight = world.getMaxHeight();
+		// Fetch the world max height, as certain worlds can have different max heights set.
+		int worldMaxHeight = chunk.getWorld().getMaxHeight();
 
-        BlockVector minChunk = new BlockVector(minChunkX, 0, minChunkZ);
-        BlockVector maxChunk = new BlockVector(maxChunkX, worldHeight, maxChunkZ);
-        
-        LocalWorld localWorld = BukkitUtil.getLocalWorld(chunk.getWorld());
-        CuboidRegion region = new CuboidRegion(localWorld, minChunk, maxChunk);
-        
-        EditSession editSession = new EditSession(localWorld, -1);
-        
-        localWorld.regenerate(region, editSession);
+		// Get the block vectors.
+		BlockVector minChunk = new BlockVector(minChunkX, 0, minChunkZ);
+		BlockVector maxChunk = new BlockVector(maxChunkX, worldMaxHeight, maxChunkZ);
+		
+		// Get the WorldEdit world and region.
+		World world = new BukkitWorld(chunk.getWorld());
+		CuboidRegion region = new CuboidRegion(world, minChunk, maxChunk);
+		
+		// Open an edit session.
+		EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
+		
+		// Regenerate the region.
+		world.regenerate(region, editSession);
 	}
 	
 }
