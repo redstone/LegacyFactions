@@ -220,7 +220,7 @@ public class FactionsPlaceholders {
 			@Override
 			public String get(Player player) {
 				if (player == null) return null;
-				return String.valueOf(FPlayerColl.get(player).getRole().toNiceName());
+				return String.valueOf(FPlayerColl.get(player).getRole().getTranslation());
 			}
 		});
 		
@@ -279,7 +279,7 @@ public class FactionsPlaceholders {
 				FPlayer fplayer = FPlayerColl.get(player);
 				Faction faction = Board.get().getFactionAt(fplayer.getLastLocation());
 				
-				return fplayer.getRelationTo(faction).toNiceName();
+				return fplayer.getRelationTo(faction).getTranslation();
 			}
 		});
 		
@@ -387,7 +387,7 @@ public class FactionsPlaceholders {
 
 			@Override
 			public String get(Player one, Player two) {
-				return FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)).toNiceName();
+				return FPlayerColl.get(one).getRelationTo(FPlayerColl.get(two)).getTranslation();
 			}
 		});
 
