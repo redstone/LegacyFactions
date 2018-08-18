@@ -123,6 +123,10 @@ public class CmdFactionsHelp extends FCommand {
 					line = 0;
 				}
 			}
+
+			if (!lines.isEmpty()) {
+				pages.add(lines);
+			}
 			
 			this.helpPageCache.put(id, pages);
 		}
