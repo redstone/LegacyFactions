@@ -1,9 +1,6 @@
-Hi everyone
-Due to personal health reasons I am unable to continue working on RedstoneOre projects.
+*This project is not active.*
 
-Huge shout out to Dr Nero for a SHIT TONNE of help while I've been fairly inactive.
-
-All projects remain open source, so if anyone would like to take them over please send me a direct message so I can grant you access to the repos, or feel free to fork them - and go nuts with it! Most projects are stable enough. I may continue with these projects in the future but at the moment I'm unable too. Lets hope that no one decides to make a paid version of LegacyFaction - please keep it open source and free. Thanks, MarkehMe
+> All projects remain open source, so if anyone would like to take them over please send me a direct message so I can grant you access to the repos, or feel free to fork them - and go nuts with it! Most projects are stable enough. I may continue with these projects in the future but at the moment I'm unable too. Lets hope that no one decides to make a paid version of LegacyFaction - please keep it open source and free. Thanks, MarkehMe
 
 <img src="https://raw.githubusercontent.com/redstone/LegacyFactions/master/media/legacyfactions.png" width="500">
 
